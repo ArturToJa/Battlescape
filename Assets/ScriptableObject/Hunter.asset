@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9be28169add8944a944f2ca9bfe378, type: 3}
+  m_Name: Hunter
+  m_EditorClassIdentifier: 
+  Name: Hunter
+  Cost: 2
+  LimitFor50: 3
+  thisUnitFirstPlayer: {fileID: 1156018881627128, guid: 6cec318f864f4974395e608ec9a49114,
+    type: 2}
+  thisUnitSecondPlayer: {fileID: 1739069170303370, guid: 92dddf0b350155349a95be4f8516b638,
+    type: 2}
+  thisSprite: {fileID: 8400000, guid: 9a44b549030950b48a35642c096491b9, type: 2}
+  HumanHeroSprite: {fileID: 0}
+  ElvesHeroSprite: {fileID: 0}
+  thisBox: {fileID: 1479638275174346, guid: 73241dba7f2422e4da8e7ebd0db664b6, type: 2}
+  myUnitID: 12
+  fluffBio: Every elvish man can serve as a hunter, then the military needs him. Not
+    the best shooters between elves, but still very dangerous.
+  faction: 1

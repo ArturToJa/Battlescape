@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9be28169add8944a944f2ca9bfe378, type: 3}
+  m_Name: Knights
+  m_EditorClassIdentifier: 
+  Name: Black Knight
+  Cost: 7
+  LimitFor50: 1
+  thisUnitFirstPlayer: {fileID: 1813847350118422, guid: 0449c908546e60646a98d0e4a645c270,
+    type: 2}
+  thisUnitSecondPlayer: {fileID: 1544820286570920, guid: b71625f42711e584d96398bbc1510b6c,
+    type: 2}
+  thisSprite: {fileID: 8400000, guid: 34ded6432c6daae4cafd78786c98e45f, type: 2}
+  HumanHeroSprite: {fileID: 0}
+  ElvesHeroSprite: {fileID: 0}
+  thisBox: {fileID: 1479638275174346, guid: 73241dba7f2422e4da8e7ebd0db664b6, type: 2}
+  myUnitID: 8
+  fluffBio: Possibly the strongest cavalry unit in the world, Black Knights' only
+    weakness is their limited manpower.
+  faction: 0

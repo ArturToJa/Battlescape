@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce34b7b82e1f8174b964cf7ce63e3903, type: 3}
+  m_Name: StrongHumanArmy25
+  m_EditorClassIdentifier: 
+  Name: StrongHumanArmy25
+  Points: 25
+  Hero: {fileID: 11400000, guid: 0b60a9743df80704ca813b9bf696c85b, type: 2}
+  Units:
+  - {fileID: 11400000, guid: 01757c012a053d24c8218a0d4b199193, type: 2}
+  - {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
+  - {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
+  - {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
+  - {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
+  - {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
+  - {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
+  - {fileID: 11400000, guid: fc62d1d6b9d76c043b8a76ad52c9a077, type: 2}
+  - {fileID: 11400000, guid: 51977908d90539749a16e2aac40d68c8, type: 2}
