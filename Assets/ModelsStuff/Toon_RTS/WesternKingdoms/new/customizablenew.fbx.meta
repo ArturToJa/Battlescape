@@ -1,0 +1,383 @@
+fileFormatVersion: 2
+guid: f5cc9493d5f508c43b24d87198883a2b
+timeCreated: 1526412297
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Bip001
+    100002: Bip001 Footsteps
+    100004: Bip001 Footsteps.001
+    100006: Bip001 Footsteps.002
+    100008: Bip001 Head
+    100010: Bip001 HeadNub
+    100012: Bip001 HeadNub_end
+    100014: Bip001 L Calf
+    100016: Bip001 L Clavicle
+    100018: Bip001 L Foot
+    100020: Bip001 L Forearm
+    100022: Bip001 L Hand
+    100024: Bip001 L Hand_end
+    100026: Bip001 L Thigh
+    100028: Bip001 L Toe0
+    100030: Bip001 L Toe0Nub
+    100032: Bip001 L Toe0Nub_end
+    100034: Bip001 L UpperArm
+    100036: Bip001 Neck
+    100038: Bip001 Pelvis
+    100040: Bip001 R Calf
+    100042: Bip001 R Clavicle
+    100044: Bip001 R Foot
+    100046: Bip001 R Forearm
+    100048: Bip001 R Hand
+    100050: Bip001 R Hand_end
+    100052: Bip001 R Thigh
+    100054: Bip001 R Toe0
+    100056: Bip001 R Toe0Nub
+    100058: Bip001 R Toe0Nub_end
+    100060: Bip001 R UpperArm
+    100062: Bip001 Spine
+    100064: Bone_bag
+    100066: Bone_bag_end
+    100068: Bone_wood
+    100070: Bone_wood_end
+    100072: Camera
+    100074: //RootNode
+    100076: face 1
+    100078: face2
+    100080: face3
+    100082: Sun
+    100084: Sun.001
+    100086: Sun.002
+    100088: Sun.003
+    100090: WK_Units_Arms_A
+    100092: WK_Units_Arms_B
+    100094: WK_Units_Arms_C
+    100096: WK_Units_Arms_D
+    100098: WK_Units_axe_A
+    100100: WK_Units_axe_B
+    100102: WK_Units_bag
+    100104: WK_Units_Body_A
+    100106: WK_Units_Body_B
+    100108: WK_Units_Body_C
+    100110: WK_Units_Body_D
+    100112: WK_Units_Body_E
+    100114: WK_Units_Bow
+    100116: WK_Units_hammer_A
+    100118: WK_Units_hammer_B
+    100120: WK_Units_head_A
+    100122: WK_Units_head_B
+    100124: WK_Units_head_C
+    100126: WK_Units_head_D
+    100128: WK_Units_head_E
+    100130: WK_Units_head_F
+    100132: WK_Units_head_G
+    100134: WK_Units_head_H
+    100136: WK_Units_head_I
+    100138: WK_Units_Legs_A
+    100140: WK_Units_Legs_B
+    100142: WK_Units_Legs_C
+    100144: WK_Units_pick
+    100146: WK_Units_quiver
+    100148: WK_Units_shield_A
+    100150: WK_Units_shield_B
+    100152: WK_Units_shield_C
+    100154: WK_Units_shield_D
+    100156: WK_Units_shoulderpads_A
+    100158: WK_Units_shoulderpads_B
+    100160: WK_Units_spear
+    100162: WK_Units_staff_A
+    100164: WK_Units_staff_B
+    100166: WK_Units_staff_C
+    100168: WK_Units_sword_A
+    100170: WK_Units_sword_B
+    100172: WK_Units_wood
+    400000: Bip001
+    400002: Bip001 Footsteps
+    400004: Bip001 Footsteps.001
+    400006: Bip001 Footsteps.002
+    400008: Bip001 Head
+    400010: Bip001 HeadNub
+    400012: Bip001 HeadNub_end
+    400014: Bip001 L Calf
+    400016: Bip001 L Clavicle
+    400018: Bip001 L Foot
+    400020: Bip001 L Forearm
+    400022: Bip001 L Hand
+    400024: Bip001 L Hand_end
+    400026: Bip001 L Thigh
+    400028: Bip001 L Toe0
+    400030: Bip001 L Toe0Nub
+    400032: Bip001 L Toe0Nub_end
+    400034: Bip001 L UpperArm
+    400036: Bip001 Neck
+    400038: Bip001 Pelvis
+    400040: Bip001 R Calf
+    400042: Bip001 R Clavicle
+    400044: Bip001 R Foot
+    400046: Bip001 R Forearm
+    400048: Bip001 R Hand
+    400050: Bip001 R Hand_end
+    400052: Bip001 R Thigh
+    400054: Bip001 R Toe0
+    400056: Bip001 R Toe0Nub
+    400058: Bip001 R Toe0Nub_end
+    400060: Bip001 R UpperArm
+    400062: Bip001 Spine
+    400064: Bone_bag
+    400066: Bone_bag_end
+    400068: Bone_wood
+    400070: Bone_wood_end
+    400072: Camera
+    400074: //RootNode
+    400076: face 1
+    400078: face2
+    400080: face3
+    400082: Sun
+    400084: Sun.001
+    400086: Sun.002
+    400088: Sun.003
+    400090: WK_Units_Arms_A
+    400092: WK_Units_Arms_B
+    400094: WK_Units_Arms_C
+    400096: WK_Units_Arms_D
+    400098: WK_Units_axe_A
+    400100: WK_Units_axe_B
+    400102: WK_Units_bag
+    400104: WK_Units_Body_A
+    400106: WK_Units_Body_B
+    400108: WK_Units_Body_C
+    400110: WK_Units_Body_D
+    400112: WK_Units_Body_E
+    400114: WK_Units_Bow
+    400116: WK_Units_hammer_A
+    400118: WK_Units_hammer_B
+    400120: WK_Units_head_A
+    400122: WK_Units_head_B
+    400124: WK_Units_head_C
+    400126: WK_Units_head_D
+    400128: WK_Units_head_E
+    400130: WK_Units_head_F
+    400132: WK_Units_head_G
+    400134: WK_Units_head_H
+    400136: WK_Units_head_I
+    400138: WK_Units_Legs_A
+    400140: WK_Units_Legs_B
+    400142: WK_Units_Legs_C
+    400144: WK_Units_pick
+    400146: WK_Units_quiver
+    400148: WK_Units_shield_A
+    400150: WK_Units_shield_B
+    400152: WK_Units_shield_C
+    400154: WK_Units_shield_D
+    400156: WK_Units_shoulderpads_A
+    400158: WK_Units_shoulderpads_B
+    400160: WK_Units_spear
+    400162: WK_Units_staff_A
+    400164: WK_Units_staff_B
+    400166: WK_Units_staff_C
+    400168: WK_Units_sword_A
+    400170: WK_Units_sword_B
+    400172: WK_Units_wood
+    2000000: Camera
+    2100000: WK_Standard_Units.004
+    2100002: WK_Standard_Units
+    2100004: WK_Standard_Units.001
+    2100006: WK_Standard_Units.003
+    2300000: face 1
+    2300002: face2
+    2300004: face3
+    2300006: WK_Units_axe_A
+    2300008: WK_Units_axe_B
+    2300010: WK_Units_bag
+    2300012: WK_Units_Bow
+    2300014: WK_Units_hammer_A
+    2300016: WK_Units_hammer_B
+    2300018: WK_Units_pick
+    2300020: WK_Units_quiver
+    2300022: WK_Units_shield_A
+    2300024: WK_Units_shield_B
+    2300026: WK_Units_shield_C
+    2300028: WK_Units_shield_D
+    2300030: WK_Units_spear
+    2300032: WK_Units_staff_A
+    2300034: WK_Units_staff_B
+    2300036: WK_Units_staff_C
+    2300038: WK_Units_sword_A
+    2300040: WK_Units_sword_B
+    2300042: WK_Units_wood
+    3300000: face 1
+    3300002: face2
+    3300004: face3
+    3300006: WK_Units_axe_A
+    3300008: WK_Units_axe_B
+    3300010: WK_Units_bag
+    3300012: WK_Units_Bow
+    3300014: WK_Units_hammer_A
+    3300016: WK_Units_hammer_B
+    3300018: WK_Units_pick
+    3300020: WK_Units_quiver
+    3300022: WK_Units_shield_A
+    3300024: WK_Units_shield_B
+    3300026: WK_Units_shield_C
+    3300028: WK_Units_shield_D
+    3300030: WK_Units_spear
+    3300032: WK_Units_staff_A
+    3300034: WK_Units_staff_B
+    3300036: WK_Units_staff_C
+    3300038: WK_Units_sword_A
+    3300040: WK_Units_sword_B
+    3300042: WK_Units_wood
+    4300000: WK_Units_quiver
+    4300002: WK_Units_bag
+    4300004: WK_Units_wood
+    4300006: WK_Units_axe_B
+    4300008: WK_Units_hammer_B
+    4300010: WK_Units_sword_B
+    4300012: WK_Units_hammer_A
+    4300014: WK_Units_axe_A
+    4300016: WK_Units_pick
+    4300018: WK_Units_sword_A
+    4300020: WK_Units_spear
+    4300022: WK_Units_shield_C
+    4300024: WK_Units_shield_A
+    4300026: WK_Units_staff_B
+    4300028: WK_Units_staff_C
+    4300030: WK_Units_staff_A
+    4300032: WK_Units_shield_B
+    4300034: WK_Units_shield_D
+    4300036: WK_Units_Bow
+    4300038: face 1
+    4300040: face2
+    4300042: face3
+    4300044: WK_Units_Arms_C
+    4300046: WK_Units_Arms_B
+    4300048: WK_Units_shoulderpads_B
+    4300050: WK_Units_shoulderpads_A
+    4300052: WK_Units_Arms_D
+    4300054: WK_Units_Body_A
+    4300056: WK_Units_head_A
+    4300058: WK_Units_head_I
+    4300060: WK_Units_head_F
+    4300062: WK_Units_head_G
+    4300064: WK_Units_head_E
+    4300066: WK_Units_Body_E
+    4300068: WK_Units_Legs_A
+    4300070: WK_Units_Body_C
+    4300072: WK_Units_Legs_C
+    4300074: WK_Units_Arms_A
+    4300076: WK_Units_Legs_B
+    4300078: WK_Units_head_D
+    4300080: WK_Units_head_B
+    4300082: WK_Units_head_C
+    4300084: WK_Units_head_H
+    4300086: WK_Units_Body_B
+    4300088: WK_Units_Body_D
+    9500000: //RootNode
+    10800000: Sun
+    10800002: Sun.001
+    10800004: Sun.002
+    10800006: Sun.003
+    13700000: WK_Units_Arms_A
+    13700002: WK_Units_Arms_B
+    13700004: WK_Units_Arms_C
+    13700006: WK_Units_Arms_D
+    13700008: WK_Units_Body_A
+    13700010: WK_Units_Body_B
+    13700012: WK_Units_Body_C
+    13700014: WK_Units_Body_D
+    13700016: WK_Units_Body_E
+    13700018: WK_Units_head_A
+    13700020: WK_Units_head_B
+    13700022: WK_Units_head_C
+    13700024: WK_Units_head_D
+    13700026: WK_Units_head_E
+    13700028: WK_Units_head_F
+    13700030: WK_Units_head_G
+    13700032: WK_Units_head_H
+    13700034: WK_Units_head_I
+    13700036: WK_Units_Legs_A
+    13700038: WK_Units_Legs_B
+    13700040: WK_Units_Legs_C
+    13700042: WK_Units_shoulderpads_A
+    13700044: WK_Units_shoulderpads_B
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
