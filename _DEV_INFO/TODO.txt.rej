@@ -1,0 +1,136 @@
+diff a/_DEV_INFO/TODO.txt b/_DEV_INFO/TODO.txt	(rejected hunks)
+@@ -1,68 +0,66 @@
+-TODO w TYM paczu jeszcze:
+-BUGI:
+-- W window mode znika napis w lobbvy jeden
+-- Nie ma ikonek ile razy mozna uzyc umki
+-- wariuja ikonki pasywek jak najezdzasz opa
+-(!) - Pola staja sie w zwarciu bez powodu - nie wiem czy istnieje, najpewniej usuniety przy okazji.
+-(!) - Czasem wgl nie ma kontry mimo ze powinna - nie potrafie powt�zyc by bug sie pojawil!
+-(!) - Powiadomienai czyja jest tura wyskakiwaly bez przewrwy - nie potrafie powt�rzyc
+-(!) - Strzelcy strzelali na kompie opa w zla strone (sprawdzic jak ustawiany jest target strzalu i czy ta informacja przechodzi po RPC bo chyba nie :D) - tego nie umiem ani powt�rzyc ani rozwiazac HALP! bo tomoze byc akurat powazny problem, jesli problem jest nie tylko z wizualnym celem strzalu ale tez z FIZYCZNYM celem (co jesli atak trafily? Zada obrazenia temu w kogo leci strzala czy temu komu powinien?)
+-(!) - Serio, do chuja pana, cos jest bardzo nie tak z tymi info o szansach na dmg itd! Wyswietlily mi sieraz ujemne!
+-- Usunac "bug" niewylaczajacy skilla kt�rego nei mozna urszyc (i chyba tez zasiegu ruchgu?) przez moment (po uzyciu poprzednim, pewnei tez poz zmianie ludka itd)
+-
+-NEXT PACZ:
+-- Wprowadzic "nowa siatke"
+-- Dodac niebieskie popupy do wszystkich buff�w/ debuff�w (!)
+-- Skip fazy strzalu jesli nei ma lucznik�w - i dodac tam miejsce na sprawdzenie czy nie ma INNYCH przyczyn by faza ostrzalu nadal trwala (takich jak jakas umka w przyszlosci np :D).
+-- Dodac op�znienie, po kt�rym mozna znowu pominac faze (1/2 sekundy minimum mysle) by ktos nie przeklikal tego :DDD.
+-- Dodac tooltip w fazie wystawiania
+-- Dodac Gryfel
+-- Zmienic Lharana na 2/4 polowego - I ZNALEZC rozwiazanie wszelkich problem�w jakie to stworzy ;/
+-- Dodac pasywki do obu ras
+-    - Kamuflaz - nietargetowable dla czar�w/efekt�w (nei strzal), bonus do obrony, byc moze wyprzedzajacy kontratak czy cos?
+-    - Morale
+-- Dodac:
+-    - Umke Horsmana - Dodac homemade animacje kt�ra nie bedzie SUCC
+-
+-
+-
+-Drogie Tosterki, ttym razem wazne pytania do was.
+-
+-=> Jesli nastapi niczym nieuzasadniony 'teleport' jednostki tak, jakby nagle dostala polecenie ruchu na to pole, najpewniej w trakcie ruchu na inne pole, nattychmiast pisac od mnie z informacjami - co dokladnie kliknales, tuz zanim nastapil przeskok, i jaka byla wgl sytuacja (gra pvp/pve/via net, czyja tura, jaka faza, czy byl to zwykly ruch czy z umiejki itd). PRAWDOPODOBNIE wystepuje gdy nastepuje zmiana tury w trakcie ruchu + jakis dodatkowy czynnik (jakbym wiedzial, kiedy dokladnie, to bym nie pytal).
+-=> Czy umiejetnosc 'deszcz strzal' spowalnia znaczaco dzialanie gry? Czy jakakolwiek INNA sytuacja takze to robi?
+-=> Jesli jednostka (najpewniej Asasyn lub Fencer) poi wykonaniu ruchu zupelnie bez powodu wykona animacje ataku (mimo ze tylko sie ruszyl, nie mial atakowac) - info do mnie, jak to sie stalo, czy bylo cos nacisniete, czy byl to zwykly ruch czy jakas umiiejetnosc/QuitCombat/cokolwiek co moze okazac sie pomocne.
+-=> Jesli wyswietlanie szans na dmg zadziala blednie(nie zmieni na nowy unit, poda w oczywisty spos�b bledne wartosci obrazen (inne niz wczesniej, inne niz wynika z Twoich obliczen jesli liczysz te szanse, lub po prostu zadane obrazenia beda spoza widelek, prosze o info ;).
+-
+-Przyszlosc :)
+-- Tutorial i AI
+-- Zrobic nowy system "erergii" do umiejek
+-- Zrobic nowe UI - w tym sprawic by zmiana herka byla wlaczalnym/wylaczalnym oknem w edycji armii a nie osobnym etapem.
+-- Dodac herosom Skill trees
+-- Dodac herosom Items
+-- Dodac efekty niszczenia Destructibli, nowe rzeczy na mapie, nowa mape/y, nowe cele zwyciestwa (konkretne dla mapy).
+-
+-Sugestie Dogowe:
+-- Muzyka? Zmienic?
+-- Zmienic system ruchu na heroesowo-piatkowy - 1.5 kosztu za skos.
+-- Dodac komunikaty, czemu nie mozna strzelac (i moze dodatkowy kursor zakaz strzalu) dla sytuacji, gyd nie mozna strzelic - bo w kombacie, bo po QC, bo za daleko, bo przez BFT...
+-- W sumie - mozna to samo dla pr�by umki/ ataku nielegalnego...
+-- BONUS: Jesli ktos "spamuje" niedozwolona czynnosc - wyswietlic mu komunikat w jezyku "ej kurwa typie..." :D
+-- powiekszyc okno z Retal Buttonami tak by gracz nie m�gl przeoczyc, ze jest jego kolej (w multi - mozna dodac temu graczowi tez dzwiek wtedy)
+-- Mozna dodac w multi licznik kt�ry jak doliczy do zera to LOSOWO kontruje albo nie.
+-- Dodac potem w multi wgl timer na ture
+-- Dodac okrzyki (i jak mnie fantazja wezmie i kupie to glosy?)
+-- Dzwiek na draw.
+-- Jakas animacja w menu, cos zeby sie krecilo albo cos. Zeby bylo widac ze gra nie wisi.
+-- Fix najazdu kamery przedbitewnego i opcaj wylaczenia go w Menu
+-- Dodac r�zne grunty
+-- Moze jakos podac wartosci coveru (ile defensa za stanie za drzewem itd)?
+-- Osobna muzyka do preparation phase
+-- najazd na kazda jednostke, kt�ra wykonuje jakas akcje (atak, umiejetnosc itd)
+-- dodac info przy chowaniu sie za przeszkoda (JAK KURDE)
+-
+-BUGS for later (zbyt malo informacji by sie nimi zajac, nwm czy istnieja):
+-- Replay bug - (congratz you have won ur hero is dead)
+-- BK czasem atakuja dobry cel ale odwracajac sie do niego dupa?
+-- IG czasem moga zaczarowac puste pole (i wtedy zaczarowuja legalnajednostke - prawdopodobnie to pole mysli, ze ta jednostka na nim stoi).
+-- Chyba jest bug z wychodzeniem z kombatu - czasem uznaje gra, ze wyszlismy, mimo ze tlyko dostalismy hita albo missa i nie ruszylismy ise z miejsca, a legalnej ejst nadal tylko jedno pole.
+-- OPTIONS - po back pozostaja w nowym ustawieniu a nie cofaja sie do aktualnego
++TODO w TYM paczu jeszcze:
++BUGI:
++(!) - Pola staja sie w zwarciu bez powodu - nie wiem czy istnieje, najpewniej usuniety przy okazji.
++(!) - Czasem wgl nie ma kontry mimo ze powinna - nie potrafie powt�zyc by bug sie pojawil!
++(!) - Powiadomienai czyja jest tura wyskakiwaly bez przewrwy - nie potrafie powt�rzyc
++(!) - Strzelcy strzelali na kompie opa w zla strone (sprawdzic jak ustawiany jest target strzalu i czy ta informacja przechodzi po RPC bo chyba nie :D) - tego nie umiem ani powt�rzyc ani rozwiazac HALP! bo tomoze byc akurat powazny problem, jesli problem jest nie tylko z wizualnym celem strzalu ale tez z FIZYCZNYM celem (co jesli atak trafily? Zada obrazenia temu w kogo leci strzala czy temu komu powinien?)
++(!) - Serio, do chuja pana, cos jest bardzo nie tak z tymi info o szansach na dmg itd! Wyswietlily mi sieraz ujemne!
++
++NEXT PACZ:
++- Wprowadzic "nowa siatke"
++- Dodac niebieskie popupy do wszystkich buff�w/ debuff�w (!)
++- Skip fazy strzalu jesli nei ma lucznik�w - i dodac tam miejsce na sprawdzenie czy nie ma INNYCH przyczyn by faza ostrzalu nadal trwala (takich jak jakas umka w przyszlosci np :D).
++- Dodac op�znienie, po kt�rym mozna znowu pominac faze (1/2 sekundy minimum mysle) by ktos nie przeklikal tego :DDD.
++- Dodac tooltip w fazie wystawiania
++- Dodac Gryfel
++- Zmienic Lharana na 2/4 polowego - I ZNALEZC rozwiazanie wszelkich problem�w jakie to stworzy ;/
++- Dodac pasywki do obu ras
++    - Kamuflaz - nietargetowable dla czar�w/efekt�w (nei strzal), bonus do obrony, byc moze wyprzedzajacy kontratak czy cos?
++    - Morale
++- Dodac:
++    - Umke Horsmana - Dodac homemade animacje kt�ra nie bedzie SUCC
++
++
++
++Drogie Tosterki, ttym razem wazne pytania do was.
++
++=> Jesli nastapi niczym nieuzasadniony 'teleport' jednostki tak, jakby nagle dostala polecenie ruchu na to pole, najpewniej w trakcie ruchu na inne pole, nattychmiast pisac od mnie z informacjami - co dokladnie kliknales, tuz zanim nastapil przeskok, i jaka byla wgl sytuacja (gra pvp/pve/via net, czyja tura, jaka faza, czy byl to zwykly ruch czy z umiejki itd). PRAWDOPODOBNIE wystepuje gdy nastepuje zmiana tury w trakcie ruchu + jakis dodatkowy czynnik (jakbym wiedzial, kiedy dokladnie, to bym nie pytal).
++=> Czy umiejetnosc 'deszcz strzal' spowalnia znaczaco dzialanie gry? Czy jakakolwiek INNA sytuacja takze to robi?
++=> Jesli jednostka (najpewniej Asasyn lub Fencer) poi wykonaniu ruchu zupelnie bez powodu wykona animacje ataku (mimo ze tylko sie ruszyl, nie mial atakowac) - info do mnie, jak to sie stalo, czy bylo cos nacisniete, czy byl to zwykly ruch czy jakas umiiejetnosc/QuitCombat/cokolwiek co moze okazac sie pomocne.
++=> Jesli wyswietlanie szans na dmg zadziala blednie(nie zmieni na nowy unit, poda w oczywisty spos�b bledne wartosci obrazen (inne niz wczesniej, inne niz wynika z Twoich obliczen jesli liczysz te szanse, lub po prostu zadane obrazenia beda spoza widelek, prosze o info ;).
++
++Przyszlosc :)
++- Tutorial i AI
++- Zrobic nowy system "erergii" do umiejek
++- Zrobic nowe UI - w tym sprawic by zmiana herka byla wlaczalnym/wylaczalnym oknem w edycji armii a nie osobnym etapem.
++- Dodac herosom Skill trees
++- Dodac herosom Items
++- Dodac efekty niszczenia Destructibli, nowe rzeczy na mapie, nowa mape/y, nowe cele zwyciestwa (konkretne dla mapy).
++
++Sugestie Dogowe:
++- Muzyka? Zmienic?
++- Zmienic system ruchu na heroesowo-piatkowy - 1.5 kosztu za skos.
++- Dodac komunikaty, czemu nie mozna strzelac (i moze dodatkowy kursor zakaz strzalu) dla sytuacji, gyd nie mozna strzelic - bo w kombacie, bo po QC, bo za daleko, bo przez BFT...
++- W sumie - mozna to samo dla pr�by umki/ ataku nielegalnego...
++- BONUS: Jesli ktos "spamuje" niedozwolona czynnosc - wyswietlic mu komunikat w jezyku "ej kurwa typie..." :D
++- powiekszyc okno z Retal Buttonami tak by gracz nie m�gl przeoczyc, ze jest jego kolej (w multi - mozna dodac temu graczowi tez dzwiek wtedy)
++- Mozna dodac w multi licznik kt�ry jak doliczy do zera to LOSOWO kontruje albo nie.
++- Dodac potem w multi wgl timer na ture
++- Dodac okrzyki (i jak mnie fantazja wezmie i kupie to glosy?)
++- Dzwiek na draw.
++- Jakas animacja w menu, cos zeby sie krecilo albo cos. Zeby bylo widac ze gra nie wisi.
++- Fix najazdu kamery przedbitewnego i opcaj wylaczenia go w Menu
++- Dodac r�zne grunty
++- Moze jakos podac wartosci coveru (ile defensa za stanie za drzewem itd)?
++- Osobna muzyka do preparation phase
++- najazd na kazda jednostke, kt�ra wykonuje jakas akcje (atak, umiejetnosc itd)
++- dodac info przy chowaniu sie za przeszkoda (JAK KURDE)
++
++BUGS for later (zbyt malo informacji by sie nimi zajac, nwm czy istnieja):
++- Replay bug - (congratz you have won ur hero is dead)
++- BK czasem atakuja dobry cel ale odwracajac sie do niego dupa?
++- IG czasem moga zaczarowac puste pole (i wtedy zaczarowuja legalnajednostke - prawdopodobnie to pole mysli, ze ta jednostka na nim stoi).
++- Chyba jest bug z wychodzeniem z kombatu - czasem uznaje gra, ze wyszlismy, mimo ze tlyko dostalismy hita albo missa i nie ruszylismy ise z miejsca, a legalnej ejst nadal tylko jedno pole.
++- OPTIONS - po back pozostaja w nowym ustawieniu a nie cofaja sie do aktualnego
++
++- Usunac "bug" niewylaczajacy skilla kt�rego nei mozna urszyc (i chyba tez zasiegu ruchgu?) przez moment (po uzyciu poprzednim, pewnei tez poz zmianie ludka itd) - nawet nie wiem czy taki bug wystepuje, RACZEJ NIE

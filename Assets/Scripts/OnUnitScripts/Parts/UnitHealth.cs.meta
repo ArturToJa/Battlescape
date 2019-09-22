@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: dfc6c2134047f16468dfe2b2f5a02725
+timeCreated: 1509981483
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - HPImage: {instanceID: 0}
+  - s1: {fileID: 21300000, guid: 9f1b91e6796c4bd4fb8d17c85d3a4840, type: 3}
+  - s2: {fileID: 21300000, guid: c14197740b0553241932912aaa0af348, type: 3}
+  - s3: {fileID: 21300000, guid: 121e4ca7c35aea847a8fc78c1c96df7b, type: 3}
+  - s4: {fileID: 21300000, guid: b140a0750de255c4f9c4cd18c4045398, type: 3}
+  - s5: {fileID: 21300000, guid: a6da2b27957ab58468d0b01aecc7d73b, type: 3}
+  - s6: {fileID: 21300000, guid: d00c3013513526a4188388149826c184, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

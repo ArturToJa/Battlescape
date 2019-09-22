@@ -1,0 +1,72 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CancelUnitsDeployment : MonoBehaviour
+{
+    DropZone dz;
+    VERY_POORLY_WRITTEN_CLASS ab;
+    PhotonView photonView;
+
+    void Start()
+    {
+        dz = FindObjectOfType<DropZone>();
+        ab = FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>();
+        photonView = GetComponent<PhotonView>();
+    }
+    public void CommandCancel()
+    {
+        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        {
+            //UnitPositionKeeper.Instance.photonView.RPC("RPCDeleteAll", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);
+            photonView.RPC("RPCCancel", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);
+        }
+        else
+        {
+            Cancel(TurnManager.Instance.PlayerHavingTurn);
+        }
+        
+    }
+
+    
+    [PunRPC]
+    void RPCCancel(int ID)
+    {
+        Cancel(ID);        
+    }
+
+    void Cancel(int ID)
+    {
+        UnitScript[] AllUnits = FindObjectsOfType<UnitScript>();
+        foreach (UnitScript unit in AllUnits)
+        {
+            if (unit.PlayerID == ID && unit.isRealUnit)
+            {
+                dz.DestroyRealUnit(unit);                
+                unit.myTile.isWalkable = true;
+                unit.myTile.myUnit = null;
+                unit.DeathEvent -= unit.myTile.OnMyUnitDied;
+                if (Player.Players[ID].Type == PlayerType.Local)
+                {
+                    if (unit.unitUnit.ThisRealSprite == null)
+                    {
+                        ab.CreateUnit(unit.unitUnit.thisBox, unit.unitUnit.thisSprite, unit.unitUnit);
+                    }
+                    else
+                    {
+                        ab.CreateHero(unit.unitUnit.thisBox, unit.unitUnit.ThisRealSprite, unit.unitUnit);
+                    }
+                }
+                if (Application.isEditor)
+                {
+                    DestroyImmediate(unit.gameObject);
+                }
+                else
+                {
+                    Destroy(unit.gameObject);
+                }
+            }
+
+        }
+    }
+}

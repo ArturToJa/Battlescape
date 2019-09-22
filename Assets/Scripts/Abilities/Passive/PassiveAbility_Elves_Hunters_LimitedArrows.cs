@@ -1,0 +1,79 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
+{
+    [SerializeField] int StartingArrows;
+    [HideInInspector] public int CurrentArrows;
+    Text TextCurrentArrowsReal;
+    Text TextCurrentArrowsUnreal;
+    Ability_Neutral_SwapWeapons swapWeapons;
+
+
+    protected override void ChangableStart()
+    {
+        CurrentArrows = StartingArrows;
+        swapWeapons = GetComponent<Ability_Neutral_SwapWeapons>();
+        CombatController.Instance.AttackEvent += OnAttack;
+    }
+
+    protected override void ChangableUpdate()
+    {
+        if (TextCurrentArrowsReal == null && IconForReal != null)
+        {
+            TextCurrentArrowsReal = IconForReal.GetComponentInChildren<Text>();
+        }
+        if (TextCurrentArrowsUnreal == null && IconForUnreal != null)
+        {
+            TextCurrentArrowsUnreal = IconForUnreal.GetComponentInChildren<Text>();
+        }
+        if (TextCurrentArrowsReal != null)
+        {
+            TextCurrentArrowsReal.text = CurrentArrows.ToString();
+        }
+        if (TextCurrentArrowsUnreal != null)
+        {
+            TextCurrentArrowsUnreal.text = CurrentArrows.ToString();
+        }
+        if (CurrentArrows <= 0 && swapWeapons.CanBeSwapped)
+        {
+            StartCoroutine(SwapToMelee());
+
+        }
+    }
+
+    public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
+    {
+        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && myUnit.EnemyList.Count == 0)
+        {
+            CurrentArrows--;
+        }
+    }
+
+    IEnumerator SwapToMelee()
+    {
+        swapWeapons.CanBeSwapped = false;
+        SendLogs();
+        yield return new WaitForSeconds(2f);
+        swapWeapons.DoSwap();
+    }
+
+    void SendLogs()
+    {
+        PopupTextController.AddPopupText("No more arrows!", PopupTypes.Info);
+        Log.SpawnLog("Hunter has no more arrows!");
+
+    }
+
+    public override int GetAttack(UnitScript other)
+    {
+        return 0;
+    }
+
+    public override int GetDefence(UnitScript other)
+    {
+        return 0;
+    }
+}
