@@ -1,0 +1,14 @@
+01. roar
+02. step1
+03. step2
+04. step3
+05. step4
+06. double punch
+07. impact
+08. grunting
+09. grunting2
+10. punch heavy
+11. fall single
+12. impact and fall
+13. jump landing
+14. roar 2
