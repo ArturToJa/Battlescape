@@ -167,57 +167,7 @@ public class ArmyBuilder : MonoBehaviour
     {
         Hero = hero;
     }
-
-    /* public void Okay()
-     {
-         Debug.LogError("WOOF");
-         TurnManager.Instance.TurnCount = 0;
-         Pedestal.enabled = false;
-
-
-         SkyboxChanger.Instance.SetSkyboxTo(SkyboxChanger.Instance.realSkyboxNumber);
-         CameraController.Instance.SetCurrentViewTo(2);
-         CameraController.Instance.manualCamera = false;
-         CameraController.Instance.correctCamera = true;
-
-         DeploymentPanel.parent.gameObject.SetActive(true);
-         CreateAllUnits();
-         GetComponent<CanvasGroup>().alpha = 0f;
-         GetComponent<CanvasGroup>().blocksRaycasts = false;
-         GetComponent<CanvasGroup>().interactable = false;
-
-         foreach (Transform item in RightUnits)
-         {
-             Destroy(item.gameObject, 0.1f);
-         }
-         Hero = null;
-         currentMoney = startingMoney;
-     }*/
-
-   /* public void CreateUnit(GameObject Unit, RenderTexture _sprite, Unit _me)
-    {
-        var temp = Instantiate(Unit, DeploymentPanel);
-        temp.GetComponentInChildren<RawImage>().texture = _sprite;
-        temp.GetComponent<DragableUnitIcon>().me = _me;
-    }
-    public void CreateHero(GameObject Unit, Sprite _sprite, Unit _me)
-    {
-        var temp = Instantiate(Unit, DeploymentPanel);
-        temp.GetComponentInChildren<RawImage>().gameObject.SetActive(false);
-        temp.GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(true);
-        temp.GetComponentsInChildren<Image>()[1].sprite = _sprite;
-        temp.GetComponent<DragableUnitIcon>().me = _me;
-    }
-
-    void CreateAllUnits()
-    {
-        foreach (Unit theUnit in UnitsList)
-        {
-            CreateUnit(theUnit.thisBox, theUnit.thisSprite, theUnit);
-        }
-        CreateHero(Hero.thisBox, Hero.ThisRealSprite, Hero);
-    */
-
+    
     public void GoBackToHeroScreen()
     {
         windowSetter.currentScreen = HeroChoicer;

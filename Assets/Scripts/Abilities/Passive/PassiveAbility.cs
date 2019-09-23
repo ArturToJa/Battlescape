@@ -46,7 +46,7 @@ public abstract class PassiveAbility : MonoBehaviour
             AbilityIcon = (GameObject)Resources.Load(AbilityIconName);
             if (AbilityIcon == null)
             {
-                Debug.LogError("WOOF");
+                Debug.LogError("No ability icon");
             }
         }
         ChangableStart();

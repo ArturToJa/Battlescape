@@ -61,7 +61,6 @@ public class LevelLoader : MonoBehaviour
 
         if (IsChangingSceneType(scene, SceneManager.GetActiveScene().name) && AudioManager.Instance != null && AudioManager.Instance.currentMusic != null)
         {
-            Debug.Log("WOOF");
             AudioManager.Instance.StartCoroutine(AudioManager.Instance.SwellDown(AudioManager.Instance.currentMusic));
         }
         slider.gameObject.SetActive(true);

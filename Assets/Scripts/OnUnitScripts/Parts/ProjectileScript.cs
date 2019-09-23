@@ -74,11 +74,7 @@ public class ProjectileScript : MonoBehaviour
     {
         return CountTimeToLanding(CountArcLength(CountSimpleDistance()));
     }
-    /*private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("WOOF");
-    }*/
-
+    
     private void OnDestroy()
     {
         if (Explosion != null)

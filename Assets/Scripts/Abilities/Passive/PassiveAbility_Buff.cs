@@ -46,7 +46,6 @@ public class PassiveAbility_Buff : PassiveAbility
 
     public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
     {
-        Debug.Log("WOOF");
         // NOTE - for now "IAttack and IGotAttacked are NOT used by anyone, but i can easily imagine a new ability like this in near future!
         if (Attacker == myUnit)
         {
