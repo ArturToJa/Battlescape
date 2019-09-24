@@ -1,16 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace BattlescapeLogic
+{
+    public class PlayerTeam : MonoBehaviour
+    {
+        public PlayerTeam(int index, int numberOfPlayers)
+        {
+            Index = index;
+            Players = new List<Player>();
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+              //  Players.Add(new Player()); - ?????
+            }
+        }
 
-public class PlayerTeam : MonoBehaviour {
+        public int Index;
+        public List<Player> Players;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
+        
+        Player GetPlayerByIndex(int index)
+        {
+            return Players[index];
+        }
+    }
 }
+
