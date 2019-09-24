@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace BattlescapeLogic
+{
+    public class Unit : MonoBehaviour
+    {
+        public int Index;
 
-public class Unit : MonoBehaviour {
+        // Use this for initialization
+        void Start()
+        {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+    }
 }
+
