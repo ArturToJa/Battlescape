@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Buff
+    public class Ability
     {
-
     }
 }
