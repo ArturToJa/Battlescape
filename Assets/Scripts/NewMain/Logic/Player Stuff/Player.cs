@@ -6,41 +6,38 @@ namespace BattlescapeLogic
 {
     public class Player
     {
-        public Player(int index, PlayerColour colour, string name, Faction race, PlayerType type, PlayerTeam team)
+        public Player(int _index, PlayerColour _colour, string _playerName, Faction _race, PlayerType _type, PlayerTeam _team)
         {
-            Index = index;
-            Colour = colour;
-            Name = name;
-            Race = race;
-            Type = type;
-            Team = team;
-            PlayerScore = 0;
-            PlayerUnits = new List<Unit>();
+            index = _index;
+            colour = _colour;
+            playerName = _playerName;
+            race = _race;
+            type = _type;
+            team = _team;
+            playerScore = 0;
+            playerUnits = new List<Unit>();
         }
 
-        public readonly int Index;
-        public PlayerTeam Team { get; set; }
-        public string Name { get; set; }
-        public Faction Race { get; set; }
-        public readonly PlayerType Type;
-        public readonly PlayerColour Colour;
-        public readonly List<Unit> PlayerUnits;
-        public int PlayerScore { get; private set; }
-
-
-
+        public readonly int index;
+        public PlayerTeam team { get; set; }
+        public string playerName { get; set; }
+        public Faction race { get; set; }
+        public readonly PlayerType type;
+        public readonly PlayerColour colour;
+        public readonly List<Unit> playerUnits;
+        public int playerScore { get; private set; }
 
         void AddNewUnit(Unit newUnit)
         {
-            PlayerUnits.Add(newUnit);
+            playerUnits.Add(newUnit);
         }
         void AddPoints(int points)
         {
-            PlayerScore += points;
+            playerScore += points;
         }
         Unit GetUnitByIndex(int index)
         {
-            foreach (Unit unit in PlayerUnits)
+            foreach (Unit unit in playerUnits)
             {
                 if (unit.index == index)
                 {
