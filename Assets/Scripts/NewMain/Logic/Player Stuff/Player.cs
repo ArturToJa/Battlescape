@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Player : MonoBehaviour
+    public class Player
     {
         public Player(int index, PlayerColour colour, string name, Faction race, PlayerType type, PlayerTeam team)
         {
@@ -17,7 +17,6 @@ namespace BattlescapeLogic
             PlayerScore = 0;
             PlayerUnits = new List<Unit>();
         }
-
 
         public readonly int Index;
         public PlayerTeam Team { get; set; }
@@ -43,7 +42,7 @@ namespace BattlescapeLogic
         {
             foreach (Unit unit in PlayerUnits)
             {
-                if (unit.Index == index)
+                if (unit.index == index)
                 {
                     return unit;
                 }
