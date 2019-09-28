@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class MovementType_Flying : MovementType_Base
+    public class FlyingMovement : AbstractMovement
     {
         //how high does this creature fly?
         float flyHeight;
@@ -15,13 +15,13 @@ namespace BattlescapeLogic
         float forwardSpeed;
         float landingSpeed;
 
-        public MovementType_Flying(Unit _myUnit) : base(_myUnit)
+        public FlyingMovement() : base()
         {
-            myUnit = _myUnit;
         }
 
         public override IEnumerator MoveTo(Tile destination)
         {
+            myUnit.PlayMovementAnimation();
             //this is what can be called retarded movement, but i cannot into realistic movement as much as Poland cannot into space ;<\
             // it flies up, then forwards, then down, in straight lines. I know it is bad!
 
@@ -47,6 +47,8 @@ namespace BattlescapeLogic
                 Land();
                 yield return null;
             }
+            myUnit.StopMovementAnimation();
+            myUnit.statistics.movementPoints = 0;
         }
 
         void FlyUp()

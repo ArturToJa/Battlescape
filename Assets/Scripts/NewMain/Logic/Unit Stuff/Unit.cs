@@ -6,6 +6,7 @@ namespace BattlescapeLogic
 {
     public class Unit : MonoBehaviour
     {
+        public AbstractMovement movement { get; private set; }
         public readonly int index;
         public Player owner { get; private set; }
         public string unitName { get; private set; }
@@ -24,23 +25,18 @@ namespace BattlescapeLogic
 
         public void Move(Tile newPosition)
         {
-            PlayMovementAnimation();
+            movement.ApplyUnit(this);
             //StartCoroutine(myMovementType.Move(this));            
         }
 
-        void PlayMovementAnimation()
+        public void PlayMovementAnimation()
         {
 
         }
-        void StopMovementAnimation()
+        public void StopMovementAnimation()
         {
 
         }    
-        public void OnMovementFinished()
-        {
-            StopMovementAnimation();
-            statistics.movementPoints = 0;
-        }
     }
 }
 

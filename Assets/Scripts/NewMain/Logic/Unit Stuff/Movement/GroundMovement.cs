@@ -4,18 +4,17 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class MovementType_Ground : MovementType_Base
+    public class GroundMovement : AbstractMovement
     {
         float visualSpeed;
         //ctor
-        public MovementType_Ground(Unit _myUnit) : base(_myUnit)
+        public GroundMovement() : base()
         {
-            myUnit = _myUnit;
         }
 
         public override IEnumerator MoveTo(Tile newPosition)
         {
-            
+            myUnit.PlayMovementAnimation();
             Queue<Tile> path = Pathfinder.instance.GetPathFromTo(myUnit, newPosition);
             for (int i = 0; i < path.Count; ++i)
             {
@@ -29,7 +28,8 @@ namespace BattlescapeLogic
                 }
                 
             }
-            myUnit.OnMovementFinished();
+            myUnit.StopMovementAnimation();
+            myUnit.statistics.movementPoints = 0;
         }
 
         void VisuallyMoveTowards(Tile goal)

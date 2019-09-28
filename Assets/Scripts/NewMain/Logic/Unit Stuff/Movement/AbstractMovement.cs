@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class MovementType_Base
+    public abstract class AbstractMovement
     {
         protected Unit myUnit;
         public bool isMoving
@@ -15,9 +15,8 @@ namespace BattlescapeLogic
             }
         }
 
-        public MovementType_Base(Unit _myUnit)
+        public AbstractMovement()
         {
-            myUnit = _myUnit;
         }
 
         public abstract IEnumerator MoveTo(Tile destination);
@@ -28,6 +27,9 @@ namespace BattlescapeLogic
             myUnit.visuals.transform.LookAt(new Vector3(target.x, myUnit.visuals.transform.position.y, target.z));
         }
 
-
+        public void ApplyUnit(Unit unit)
+        {
+            myUnit = unit;
+        }
     }
 }
