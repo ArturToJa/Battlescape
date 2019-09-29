@@ -20,9 +20,9 @@ namespace BattlescapeLogic
             }
         }
 
-        int[,] Distances;
-        Tile[,] Parents;
-        bool[,] EnemyOccupations;
+        int[,] distances;
+        Tile[,] parents;
+        bool[,] enemyOccupations;
 
 
 
@@ -36,7 +36,7 @@ namespace BattlescapeLogic
             while (!tileStack.Contains(unitToMove.currentPosition))
             {
                 Tile tileOnTheStack = tileStack.Peek();
-                tileStack.Push(Parents[tileOnTheStack.position.x, tileOnTheStack.position.z]);
+                tileStack.Push(parents[tileOnTheStack.position.x, tileOnTheStack.position.z]);
             }
             Queue<Tile> path = new Queue<Tile>();
             while (tileStack.Count > 0)
@@ -51,7 +51,7 @@ namespace BattlescapeLogic
         //Currently it just calculates for whole board (not until reaching destination).
         void BFS(Unit unitToMove)
         {
-            Parents = new Tile[Map.instance.mapWidth, Map.instance.mapHeight];
+            parents = new Tile[Map.instance.mapWidth, Map.instance.mapHeight];
             SetDistancesToMinus();
             SetOccupations(unitToMove);
 
@@ -59,7 +59,7 @@ namespace BattlescapeLogic
             Tile start = unitToMove.currentPosition;
             int startX = Mathf.RoundToInt(start.transform.position.x);
             int startZ = Mathf.RoundToInt(start.transform.position.z);
-            Distances[startX, startZ] = 0;
+            distances[startX, startZ] = 0;
             queue.Enqueue(start);
 
             while (queue.Count > 0)
@@ -68,20 +68,21 @@ namespace BattlescapeLogic
                 int currentX = Mathf.RoundToInt(current.transform.position.x);
                 int currentZ = Mathf.RoundToInt(current.transform.position.z);
                 queue.Dequeue();
+                List<Tile> orderedNeighbours = OrderNeighbours(current);
                 foreach (var neighbour in current.neighbours)
                 {
                     int X = Mathf.RoundToInt(neighbour.transform.position.x);
                     int Z = Mathf.RoundToInt(neighbour.transform.position.z);
-                    if (Distances[X, Z] == -1 && !EnemyOccupations[X, Z])
+                    if (distances[X, Z] == -1 && !enemyOccupations[X, Z])
                     {
-                        Distances[X, Z] = Distances[currentX, currentZ] + 1;
-                        Parents[X, Z] = current;
+                        distances[X, Z] = distances[currentX, currentZ] + 1;
+                        parents[X, Z] = current;
                         queue.Enqueue(neighbour);
                     }
-                    else if (Distances[X, Z] == -1 && EnemyOccupations[X, Z])
+                    else if (distances[X, Z] == -1 && enemyOccupations[X, Z])
                     {
-                        Distances[X, Z] = Distances[currentX, currentZ] + 1;
-                        Parents[X, Z] = current;
+                        distances[X, Z] = distances[currentX, currentZ] + 1;
+                        parents[X, Z] = current;
                     }
                 }
             }
@@ -89,12 +90,12 @@ namespace BattlescapeLogic
         #region BFS Subfunctions
         void SetDistancesToMinus()
         {
-            Distances = new int[Map.instance.mapWidth, Map.instance.mapHeight];
+            distances = new int[Map.instance.mapWidth, Map.instance.mapHeight];
             for (int i = 0; i < Map.instance.mapWidth; i++)
             {
                 for (int j = 0; j < Map.instance.mapHeight; j++)
                 {
-                    Distances[i, j] = -1;
+                    distances[i, j] = -1;
                 }
 
             }
@@ -102,14 +103,35 @@ namespace BattlescapeLogic
         //Tile is considered Occupied, if there is an enemy on it or on its neighbour.
         void SetOccupations(Unit unitToMove)
         {
-            EnemyOccupations = new bool[Map.instance.mapWidth, Map.instance.mapHeight];
+            enemyOccupations = new bool[Map.instance.mapWidth, Map.instance.mapHeight];
             for (int i = 0; i < Map.instance.mapWidth; i++)
             {
                 for (int j = 0; j < Map.instance.mapHeight; j++)
                 {
-                    EnemyOccupations[i, j] = Map.instance.board[i, j].IsProtectedByEnemyOf(unitToMove) || Map.instance.board[i, j].IsWalkable() == false;
+                    enemyOccupations[i, j] = Map.instance.board[i, j].IsProtectedByEnemyOf(unitToMove) || Map.instance.board[i, j].IsWalkable() == false;
                 }
             }
+        }
+
+        List<Tile> OrderNeighbours(Tile tile)
+        {
+            //Basically sorts the neighbours tile in the way that the vertical/horizontal have prio over diagonal. Allows for more natural-looking paths.
+            List<Tile> returnList = new List<Tile>();
+            foreach (Tile neighbour in tile.neighbours)
+            {
+                if (neighbour.position.x == tile.position.x ||neighbour.position.z == tile.position.z)
+                {
+                    returnList.Add(neighbour);
+                }
+            }
+            foreach (Tile neighbour in tile.neighbours)
+            {
+                if (returnList.Contains(neighbour) == false)
+                {
+                    returnList.Add(neighbour);
+                }
+            }
+            return returnList;
         }
         #endregion        
     }

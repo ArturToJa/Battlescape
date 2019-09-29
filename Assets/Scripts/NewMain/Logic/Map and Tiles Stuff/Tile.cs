@@ -27,11 +27,7 @@ namespace BattlescapeLogic
         {
             get
             {
-                List<Tile> priorityList = new List<Tile>();
-                List<Tile> temporaryList = new List<Tile>();
-                //I do not remember, WHY the two lists are needed, but i THINK it was so that the pathfinder prioritizes moving horizontally or vertically over diagonal movement.
-                //That allows more 'human-acceptably' looking moves (no diagonal wiggling where straight line can be used).                
-                //For that reason, the tiles with either X or Z (i and j) value being the same (i.e. in the same row or column) have PRIORITY in getting to the list above diagonally connected tiles.
+                List<Tile> returnList = new List<Tile>();
 
                 for (int i = 0; i < Map.instance.mapWidth; i++)
                     for (int j = 0; j < Map.instance.mapHeight; j++)
@@ -39,26 +35,10 @@ namespace BattlescapeLogic
                         //next line means: all 8 neighbours, literally (and prevents OUR tile to be inside the scope), NOTE THAT unwalkable/obstacled tiles are STILL neighbours.
                         if (Mathf.Abs(i - position.x) <= 1 && Mathf.Abs(j - position.z) <= 1 && !(position.x == i && position.z == j))
                         {
-                            //What im doinng here most likely can be done by just sorting the list and then two lists are redundant. I know.
-                            //Sadly, I never attended ANY programming course so I can make a playable game but cannot sort a list. ;<
-                            //We add the "priority" tiles to the priority list first and store the rest in the temporary list
-                            if (position.x == i || position.z == j)
-                            {
-                                priorityList.Add(Map.instance.board[i, j]);
-                            }
-                            else
-                            {
-                                temporaryList.Add(Map.instance.board[i, j]);
-                            }
-
+                            returnList.Add(Map.instance.board[i, j]);
                         }
-                    }
-                //THEN we add the temporary list into the prio list and return it.
-                foreach (Tile tile in temporaryList)
-                {
-                    priorityList.Add(tile);
-                }
-                return priorityList;
+                    }                
+                return returnList;
             }
         }
 
@@ -88,7 +68,7 @@ namespace BattlescapeLogic
             }
             return false;
         }
-        
+
         //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
         bool IsTileUnderEnemyOfUnit(Tile tile, Unit unit)
         {
