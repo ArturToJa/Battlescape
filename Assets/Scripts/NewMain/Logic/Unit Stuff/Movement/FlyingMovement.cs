@@ -21,7 +21,7 @@ namespace BattlescapeLogic
 
         public override IEnumerator MoveTo(Tile destination)
         {
-            myUnit.PlayMovementAnimation();
+            PlayMovementAnimation();
             //this is what can be called retarded movement, but i cannot into realistic movement as much as Poland cannot into space ;<\
             // it flies up, then forwards, then down, in straight lines. I know it is bad!
 
@@ -47,7 +47,7 @@ namespace BattlescapeLogic
                 Land();
                 yield return null;
             }
-            myUnit.StopMovementAnimation();
+            StopMovementAnimation();
             myUnit.statistics.movementPoints = 0;
         }
 
@@ -74,6 +74,20 @@ namespace BattlescapeLogic
         bool IsAbove(Vector3 position)
         {
             return myUnit.transform.position.x == position.x && myUnit.transform.position.z == position.z;
+        }
+
+        //the Animation play/stop functions may change - we may for example get custom landing/starting animation outside of general flight animation, so we may use that
+        //(and if only some fliers get that, the rest may just use their only flying animation for both landing and starting).
+        //that is the only reason i 'copied' these functions into both types of movement instead of making them a part of the abstract base.
+
+        void PlayMovementAnimation()
+        {
+            myUnit.animator.SetBool("Walking", true);
+        }
+
+        void StopMovementAnimation()
+        {
+            myUnit.animator.SetBool("Walking", false);
         }
     }
 }

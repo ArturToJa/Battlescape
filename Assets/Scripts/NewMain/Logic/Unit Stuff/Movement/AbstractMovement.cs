@@ -31,5 +31,6 @@ namespace BattlescapeLogic
         {
             myUnit = unit;
         }
+        
     }
 }

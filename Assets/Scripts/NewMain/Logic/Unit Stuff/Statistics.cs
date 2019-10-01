@@ -4,18 +4,63 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    [System.Serializable]
     public class Statistics
     {
-        public float baseAttack { get; private set; }
+        [SerializeField] int _baseAttack;
+        public int baseAttack
+        {
+            get
+            {
+                return _baseAttack;
+            }
+            private set
+            {
+                _baseAttack = value;
+            }
+        }
         public float bonusAttack { get; set; }
-        public float baseDefence { get; private set; }
+        [SerializeField] int __baseDefence;
+        public int baseDefence
+        {
+            get
+            {
+                return __baseDefence;
+            }
+            private set
+            {
+                __baseDefence = value;
+            }
+        }
         public float bonusDefence { get; set; }
-        public float maxHealthPoints { get; private set; }
+        [SerializeField] int _maxHealthPoints;
+        public int maxHealthPoints
+        {
+            get
+            {
+                return _maxHealthPoints;
+            }
+            private set
+            {
+                _maxHealthPoints = value;
+            }
+        }
         public float healthPoints { get; set; }
-        public int maxMovementPoints { get; private set; }
+        [SerializeField] int _maxMovementPoints;
+        public int maxMovementPoints
+        {
+            get
+            {
+                return _maxMovementPoints;
+            }
+            private set
+            {
+                _maxMovementPoints = value;
+            }
+        }
         public int movementPoints { get; set; }
 
-        public Statistics(float baseAttack, float baseDefence, float maxHealthPoints, int maxMovementPoints)
+        public Statistics(int baseAttack, int baseDefence, int maxHealthPoints, int maxMovementPoints)
         {
             this.baseAttack = baseAttack;
             this.baseDefence = baseDefence;
