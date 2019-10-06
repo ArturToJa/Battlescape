@@ -60,30 +60,14 @@ namespace BattlescapeLogic
         }
         public int movementPoints { get; set; }
 
-        public Statistics(int baseAttack, int baseDefence, int maxHealthPoints, int maxMovementPoints)
+        public void NullMaxMovementPoints()
         {
-            this.baseAttack = baseAttack;
-            this.baseDefence = baseDefence;
-            this.maxHealthPoints = maxHealthPoints;
-            this.maxMovementPoints = maxMovementPoints;
-
-            this.bonusAttack = 0.0f;
-            this.bonusDefence = 0.0f;
-            this.healthPoints = this.maxHealthPoints;
-            this.movementPoints = this.maxMovementPoints;
+            _maxMovementPoints = 0;
         }
 
-        public Statistics(Statistics other)
+        public void NullBaseAttack()
         {
-            this.baseAttack = other.baseAttack;
-            this.baseDefence = other.baseDefence;
-            this.maxHealthPoints = other.maxHealthPoints;
-            this.maxMovementPoints = other.maxMovementPoints;
-
-            this.bonusAttack = other.bonusAttack;
-            this.bonusDefence = other.bonusDefence;
-            this.healthPoints = other.healthPoints;
-            this.movementPoints = other.movementPoints;
+            _baseAttack = 0;
         }
     }
 }

@@ -26,14 +26,19 @@ namespace BattlescapeLogic
 
         public void Start()
         {
-            animator = GetComponentInChildren<Animator>();            
-        }
+            animator = GetComponentInChildren<Animator>();
 
-        public void Move(Tile newPosition)
-        {
             movement = GetMovementType();
-            movement.ApplyUnit(this);
-            StartCoroutine(movement.MoveTo(newPosition));            
+            if (movement == null)
+            {
+                statistics.NullMaxMovementPoints();
+            }
+
+            attack = GetAttackType();
+            if(attack == null)
+            {
+                statistics.NullBaseAttack();
+            }
         }
 
         AbstractMovement GetMovementType()
@@ -47,12 +52,11 @@ namespace BattlescapeLogic
                     //return Flying one;
                     break;
                 default:
-                    Debug.LogError("New movement type not implemented!");
+                    //unit cannot move
                     return null;
             }
             return null;
         }
-
         BaseAttack GetAttackType()
         {
             switch (attackType)
@@ -64,16 +68,20 @@ namespace BattlescapeLogic
                 case AttackTypes.Instant:
                     return new InstantAttack(this);
                 default:
-                    Debug.LogError("New attack type not implemented!");
+                    //unit cannot attack
                     return null;
             }
         }
 
+        public void Move(Tile newPosition)
+        {
+            movement.ApplyUnit(this);
+            StartCoroutine(movement.MoveTo(newPosition));
+        }
 
         //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
         public void Attack(Unit target)
         {
-            attack = GetAttackType();
             attack.Attack(target);
         }
 
@@ -84,15 +92,15 @@ namespace BattlescapeLogic
         public void OnHit(Unit source)
         {
             //Currently (in old code system) we should check right now if damage is dealt at all - maybe the attack is a miss (and just reduces Defence).
-            int damage = DamageCalculator.instance.CalculateDamage(source, this);
+            int damage = DamageCalculator.CalculateDamage(source, this);
             if (AttackEvent != null)
             {
                 AttackEvent(source, this, damage);
             }
-            DealDamageToSelf(damage);
+            ReceiveDamage(damage);
         }
 
-        private void DealDamageToSelf(int damage)
+        private void ReceiveDamage(int damage)
         {
             statistics.healthPoints -= damage;
             //show some popup/info in the log window - i actually think we could just 'import' the old ones, they were pretty good ;) if you think they are OK we can just use them ;)
