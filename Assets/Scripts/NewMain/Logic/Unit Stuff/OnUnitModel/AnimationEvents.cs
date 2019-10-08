@@ -18,8 +18,12 @@ namespace BattlescapeLogic
        
         public void Hit()
         {
-            //I wanted this to do OnHit, but it cannot give me info WHO is attacking so maybe it is not the correct way?
-            //myUnit.OnHit()
+            myUnit.attack.OnAttackAnimation();
+        }
+
+        public void Shoot()
+        {
+            myUnit.attack.OnRangedAttackAnimation();
         }
     }
 }
