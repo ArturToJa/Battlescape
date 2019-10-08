@@ -43,19 +43,7 @@ namespace BattlescapeLogic
 
         AbstractMovement GetMovementType()
         {
-            switch (movementType)
-            {
-                case MovementTypes.Ground:
-                    //return Ground one;
-                    break;
-                case MovementTypes.Flying:
-                    //return Flying one;
-                    break;
-                default:
-                    //unit cannot move
-                    return null;
-            }
-            return null;
+            return Global.instance.movementTypes[(int)movementType];
         }
         BaseAttack GetAttackType()
         {
