@@ -86,17 +86,24 @@ namespace BattlescapeLogic
         }
 
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
-        public event Action<Unit, Unit, int> AttackEvent;       
+        //public event Action<Unit, Unit, int> AttackEvent;       
+
+        public void HitTarget(Unit target)
+        {
+            if(DamageCalculator.IsMiss(this, target))
+            {
+                // rzucamy buff na target obniżający obronę
+            }
+            else
+            {
+                int damage = DamageCalculator.CalculateBasicDamage(this, target);
+                target.OnHit(this, damage);
+            }
+        }
 
         //this should play on attacked unit when it is time it should receive DMG
-        public void OnHit(Unit source)
+        public void OnHit(Unit source, int damage)
         {
-            //Currently (in old code system) we should check right now if damage is dealt at all - maybe the attack is a miss (and just reduces Defence).
-            int damage = DamageCalculator.CalculateDamage(source, this);
-            if (AttackEvent != null)
-            {
-                AttackEvent(source, this, damage);
-            }
             ReceiveDamage(damage);
         }
 

@@ -19,7 +19,7 @@ namespace BattlescapeLogic
                 _baseAttack = value;
             }
         }
-        public float bonusAttack { get; set; }
+        public int bonusAttack { get; set; }
         [SerializeField] int __baseDefence;
         public int baseDefence
         {
@@ -32,7 +32,7 @@ namespace BattlescapeLogic
                 __baseDefence = value;
             }
         }
-        public float bonusDefence { get; set; }
+        public int bonusDefence { get; set; }
         [SerializeField] int _maxHealthPoints;
         public int maxHealthPoints
         {
@@ -45,7 +45,7 @@ namespace BattlescapeLogic
                 _maxHealthPoints = value;
             }
         }
-        public float healthPoints { get; set; }
+        public int healthPoints { get; set; }
         [SerializeField] int _maxMovementPoints;
         public int maxMovementPoints
         {
