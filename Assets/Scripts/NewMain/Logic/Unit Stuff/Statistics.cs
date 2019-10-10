@@ -7,6 +7,8 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class Statistics
     {
+        public static readonly int baseDamage = 10;
+
         [SerializeField] int _baseAttack;
         public int baseAttack
         {
