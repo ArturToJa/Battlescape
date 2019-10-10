@@ -8,28 +8,30 @@ namespace BattlescapeLogic
 {
     public class DamageCalculator
     {
-        public static readonly int diceSideNumber = 12;
-        public static readonly int baseDamage = 10;
+        public static readonly float sigmoidGrowthRate = 0.5f;
+
         public static int CalculateBasicDamage(Unit source, Unit target)
         {
-            int statisticsModifier = (target.statistics.baseDefence + target.statistics.bonusDefence) - (source.statistics.baseAttack + source.statistics.bonusAttack);
-            int averageDamage = baseDamage + statisticsModifier;
+            int averageDamage = Statistics.baseDamage + GetStatisticsDifference(source, target);
             int damageRange = averageDamage / 5;
             return UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
         }
 
         public static bool IsMiss(Unit source, Unit target)
         {
-            int statisticsModifier = (target.statistics.baseDefence + target.statistics.bonusDefence) - (source.statistics.baseAttack + source.statistics.bonusAttack);
-            int drawDiceOne = UnityEngine.Random.Range(1, diceSideNumber + 1);
-            int drawDiceTwo = UnityEngine.Random.Range(1, diceSideNumber + 1);
-            int drawDiceThree = UnityEngine.Random.Range(1, diceSideNumber + 1);
+            return UnityEngine.Random.Range(0.0f, 1.0f) > HitChance(source, target);
+        }
 
-            bool diceOneHighHit = (drawDiceOne > (diceSideNumber / 2) + statisticsModifier);
-            bool diceTwoHighHit = (drawDiceTwo > (diceSideNumber / 2) + statisticsModifier);
-            bool diceThreeHighHit = (drawDiceThree > (diceSideNumber / 2) + statisticsModifier);
+        public static float HitChance(Unit source, Unit target)
+        {
+            return Maths.Sigmoid(GetStatisticsDifference(source, target), sigmoidGrowthRate);
+        }
 
-            return !((diceOneHighHit && diceTwoHighHit) || (diceTwoHighHit && diceThreeHighHit) || (diceOneHighHit && diceThreeHighHit));
-    }
+        public static int GetStatisticsDifference(Unit source, Unit target)
+        {
+            int totalAttack = source.statistics.baseAttack + source.statistics.bonusAttack;
+            int totalDefence = target.statistics.baseDefence + target.statistics.bonusDefence;
+            return totalAttack - totalDefence;
+        }
     }
 }
