@@ -6,21 +6,25 @@ namespace BattlescapeLogic
 {
     public class Map
     {        
-        public int mapWidth;
-        public int mapHeight;
+        private static Map _instance = new Map();
 
-        static Map _instance;
+        static Map()
+        {
+        }
+        private Map()
+        {
+        }
         public static Map instance
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new Map();
-                }
                 return _instance;
             }
-        }        
+        }
+
+        public int mapWidth;
+        public int mapHeight;
+
         public Tile[,] board;
     }
 }

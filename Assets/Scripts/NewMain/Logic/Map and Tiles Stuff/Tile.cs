@@ -17,10 +17,11 @@ namespace BattlescapeLogic
     }
     public class Tile : MonoBehaviour
     {
-        //no idea if this should be private set or not... Or will we need this to be even public at all! I cannot design code well :<
-
+        // put correct width and height here
+        public static float tileWidth = 0;
+        public static float tileHeight = 0;
         public Unit myUnit { get; private set; }
-        bool hasObstacle;
+        public bool hasObstacle { get; private set; }
         public Position position;
 
         public List<Tile> neighbours
