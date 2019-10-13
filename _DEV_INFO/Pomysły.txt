@@ -1,0 +1,13 @@
+Zrobiæ atak i poruszanie siê jako Abilities, a nie jako coœ "osobnego"
+Zdolnoœci zaczn¹ siê od zdolnoœci abstrakcyjnej.
+Input powinien byæ tylko interfejsem, nie implementuje ¿adnej logiki
+
+Jak te trzy rzeczy siê ³¹cz¹:
+Input przekierowuje wszystkie klikniêcia mysz¹/klawiszy do ró¿nych UI. Jeœli to bêdzie UI zdolnoœci, uruchamia tej zdolnoœci OnClick (OnClick mo¿na nazwaæ inaczej)
+Zdolnoœæ abstrakcyjna wymusza implementacjê OnClick, która uruchamia zdolnoœæ.
+Jeœli uruchomiona zdolnoœæ jest atakiem lub poruszaniem siê, wszystko dzieje siê tak jak do tej pory.
+
+
+AbstractAbility -> OnClick() - deklaracja
+BasicMovement : AbstractAbility -> OnClick() - implementacja
+GroundMovement : BasicMovement
