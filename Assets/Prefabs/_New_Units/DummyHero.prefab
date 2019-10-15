@@ -356,9 +356,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4487057915801576}
   - component: {fileID: 54387246243456888}
-  - component: {fileID: 114173816431765564}
+  - component: {fileID: 114296547583537134}
   m_Layer: 8
-  m_Name: Green Archer
+  m_Name: DummyHero
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3138,7 +3138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 1607960078318472}
---- !u!114 &114173816431765564
+--- !u!114 &114296547583537134
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -3146,21 +3146,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1361541935773806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb061af0cfb31e044a032c612142d11f, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ee648fcbddc304282811e611eaa4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: 1
+  missilePrefab: {fileID: 0}
+  attackType: 0
   movementType: 0
-  _unitName: Basic Axator
+  _unitName: Dummy Hero
   statistics:
-    _baseAttack: 2137
-    __baseDefence: 1337
-    _maxHealthPoints: 69
-    _maxMovementPoints: 666
+    _baseAttack: 10
+    __baseDefence: 10
+    _maxHealthPoints: 100
+    _maxMovementPoints: 10
+    _baseAttackRange: 1
   abilities:
-  - _name: Coding
-    _description: Can code very well but only after thinking for a long time.
-    _energyCost: -3
+  - _name: Dummy Hero's Ability
+    _description: This is an Ability doing Ability stuff.
+    _energyCost: 1
 --- !u!114 &114524222045293342
 MonoBehaviour:
   m_ObjectHideFlags: 1
