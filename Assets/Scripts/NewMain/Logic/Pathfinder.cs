@@ -69,7 +69,7 @@ namespace BattlescapeLogic
                 int currentZ = Mathf.RoundToInt(current.transform.position.z);
                 queue.Dequeue();
                 List<Tile> orderedNeighbours = OrderNeighbours(current);
-                foreach (var neighbour in current.neighbours)
+                foreach (var neighbour in orderedNeighbours)
                 {
                     int X = Mathf.RoundToInt(neighbour.transform.position.x);
                     int Z = Mathf.RoundToInt(neighbour.transform.position.z);
