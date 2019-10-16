@@ -7,18 +7,33 @@ namespace BattlescapeLogic
     public class Missile : MonoBehaviour
     {
         static readonly float minDistance = 50;
-        public Vector3 startingPoint { get; private set; }
-        public Vector3 destinationPoint { get; private set; }
-        public float speedPerFrame { get; private set; }
-        public float maxHeight { get; private set; }
-
-        // Use this for initialization
-        void Start()
+        public Vector3 startingPoint { get; set; }
+        public Vector3 destinationPoint { get; set; }
+        [SerializeField] float _speedPerFrame;
+        public float speedPerFrame
         {
-
+            get
+            {
+                return _speedPerFrame;
+            }
+            private set
+            {
+                _speedPerFrame = value;
+            }
+        }
+        [SerializeField] float _maxHeight;
+        public float maxHeight
+        {
+            get
+            {
+                return _maxHeight;
+            }
+            private set
+            {
+                _maxHeight = value;
+            }
         }
 
-        // Update is called once per frame
         void Update()
         {
             UpdatePosition();

@@ -7,7 +7,18 @@ namespace BattlescapeLogic
 {
     public class Unit : MonoBehaviour
     {
-        [SerializeField] GameObject missilePrefab;
+        [SerializeField] GameObject _missilePrefab;
+        public GameObject missilePrefab
+        {
+            get
+            {
+                return _missilePrefab;
+            }
+            private set
+            {
+                _missilePrefab = value;
+            }
+        }
         [SerializeField] AttackTypes attackType;
         [SerializeField] MovementTypes movementType;
         public AbstractMovement movement { get; private set; }     
