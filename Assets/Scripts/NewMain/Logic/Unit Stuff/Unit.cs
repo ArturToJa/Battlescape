@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using OdinSerializer;
 using UnityEngine;
 using System;
 
+
 namespace BattlescapeLogic
 {
-    public class Unit : MonoBehaviour
+    public class Unit : SerializedMonoBehaviour
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -19,8 +21,8 @@ namespace BattlescapeLogic
                 _missilePrefab = value;
             }
         }
-        [SerializeField] AttackTypes attackType;
-        [SerializeField] MovementTypes movementType;
+        [SerializeField] public AttackTypes attackType;
+        [SerializeField] public MovementTypes movementType;
         public AbstractMovement movement { get; private set; }     
         public BaseAttack attack { get; private set; }
         //NOTE - this needs to be done some other way, this 'readonly' thing will NOT work here :)))
@@ -31,7 +33,7 @@ namespace BattlescapeLogic
         public string unitName { get; private set; }
         public Tile currentPosition { get; set; }
         public Statistics statistics;
-        public List<Ability> abilities;
+        public List<AbstractAbility> abilities;
         public List<Buff> buffs { get; private set; }      
         public GameObject visuals { get; private set; }
         public Animator animator { get; private set; }
