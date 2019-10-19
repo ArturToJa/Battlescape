@@ -3149,7 +3149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb061af0cfb31e044a032c612142d11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 0}
+  _missilePrefab: {fileID: 1279082748247048, guid: 8ea980f2981502045aacfdcab33b2a05,
+    type: 2}
   attackType: 1
   movementType: 0
   _unitName: Dummy Axator
@@ -3159,7 +3160,6 @@ MonoBehaviour:
     _maxHealthPoints: 69
     _maxMovementPoints: 3
     _baseAttackRange: 4
-  abilities: []
 --- !u!114 &114524222045293342
 MonoBehaviour:
   m_ObjectHideFlags: 1
