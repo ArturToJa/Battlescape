@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using OdinSerializer;
+//using OdinSerializer;
 using UnityEngine;
 using System;
 
 
 namespace BattlescapeLogic
 {
-    public class Unit : SerializedMonoBehaviour
+    public class Unit : MonoBehaviour //SerializedMonoBehaviour
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
