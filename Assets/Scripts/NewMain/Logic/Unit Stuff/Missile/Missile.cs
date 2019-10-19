@@ -6,9 +6,10 @@ namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
-        static readonly float minDistance = 50;
+        static readonly float minDistance = 0.5f;
         public Vector3 startingPoint { get; set; }
-        public Vector3 destinationPoint { get; set; }
+        public Unit sourceUnit { get; set; }
+        public Unit target { get; set; }
         [SerializeField] float _speedPerFrame;
         public float speedPerFrame
         {
@@ -37,10 +38,10 @@ namespace BattlescapeLogic
         void Update()
         {
             UpdatePosition();
-            if (Vector2.Distance(this.transform.position, destinationPoint) < minDistance)
+            if (Vector2.Distance(this.transform.position, target.transform.position) < minDistance)
             {
+                sourceUnit.HitTarget(target);
                 Destroy(this);
-                //SendEventThatMissleHasCompletedItsTask();
             }
         }
 
@@ -56,7 +57,7 @@ namespace BattlescapeLogic
         // i'm doin these half asleep, need heavy testing
         private void CalculateNew2DPosition(Vector3 newPosition)
         {
-            float angle = Mathf.Atan((destinationPoint.z - startingPoint.z) / (destinationPoint.x - startingPoint.x));
+            float angle = Mathf.Atan((target.transform.position.z - startingPoint.z) / (target.transform.position.x - startingPoint.x));
             newPosition.x = speedPerFrame * Mathf.Sin(angle) + this.transform.position.x;
             newPosition.z = speedPerFrame * Mathf.Cos(angle) + this.transform.position.z;
         }
@@ -65,7 +66,7 @@ namespace BattlescapeLogic
         {
             float currentDistance = Mathf.Sqrt(Mathf.Pow(newPosition.x, 2) + Mathf.Pow(newPosition.z, 2));
             float startDistance = Mathf.Sqrt(Mathf.Pow(startingPoint.x, 2) + Mathf.Pow(startingPoint.z, 2));
-            float destinationDistance = Mathf.Sqrt(Mathf.Pow(destinationPoint.x, 2) + Mathf.Pow(destinationPoint.z, 2));
+            float destinationDistance = Mathf.Sqrt(Mathf.Pow(target.transform.position.x, 2) + Mathf.Pow(target.transform.position.z, 2));
             newPosition.y = (maxHeight + startingPoint.y) * (currentDistance - startDistance) * (currentDistance - destinationDistance);
         }
 

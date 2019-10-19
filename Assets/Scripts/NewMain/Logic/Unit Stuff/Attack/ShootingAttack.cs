@@ -35,7 +35,8 @@ namespace BattlescapeLogic
             Missile missileScript = missileObject.GetComponent<Missile>();
             missileScript.startingPoint = sourceUnit.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
-            missileScript.destinationPoint = targetUnit.transform.position;
+            missileScript.sourceUnit = sourceUnit;
+            missileScript.target = targetUnit;
         }
 
         IEnumerator FlyMissile(GameObject missile, Tile target)
