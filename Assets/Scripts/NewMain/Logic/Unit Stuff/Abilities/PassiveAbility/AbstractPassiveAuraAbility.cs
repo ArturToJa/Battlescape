@@ -49,15 +49,16 @@ namespace BattlescapeLogic
                 if (Mathf.Abs(Mathf.Sqrt(Mathf.Pow(unitPosition.x, 2) + Mathf.Pow(unitPosition.z, 2)) - 
                               Mathf.Sqrt(Mathf.Pow(ownerPosition.x, 2) + Mathf.Pow(ownerPosition.z, 2))) <= range)
                 {
-                    if ((filter[(int)AbilityFilter.Self]       && unit              == owner               )  &&
-                       ((filter[(int)AbilityFilter.Hero]    /* && unit              == hero */             )  ||
-                        (filter[(int)AbilityFilter.Regular] /* && unit              != hero */             )) &&
-                       ((filter[(int)AbilityFilter.Ranged]     && unit.attackType   == AttackTypes.Ranged  )  ||
-                        (filter[(int)AbilityFilter.Melee]      && unit.attackType   == AttackTypes.Melee   )) &&
-                       ((filter[(int)AbilityFilter.Ground]     && unit.movementType == MovementTypes.Ground)  ||
-                        (filter[(int)AbilityFilter.Flying]     && unit.movementType == MovementTypes.Flying)))
+                    if ((filter[(int)AbilityFilter.Self]    &&   unit              == owner               )  &&
+                       ((filter[(int)AbilityFilter.Hero]    &&   unit.GetType().Equals(typeof(Hero))      )  ||
+                        (filter[(int)AbilityFilter.Regular] && !(unit.GetType().Equals(typeof(Hero)))     )) &&
+                       ((filter[(int)AbilityFilter.Ranged]  &&   unit.attackType   == AttackTypes.Ranged  )  ||
+                        (filter[(int)AbilityFilter.Melee]   &&   unit.attackType   == AttackTypes.Melee   )) &&
+                       ((filter[(int)AbilityFilter.Ground]  &&   unit.movementType == MovementTypes.Ground)  ||
+                        (filter[(int)AbilityFilter.Flying]  &&   unit.movementType == MovementTypes.Flying)))
                     {
                         ApplyBuffsToUnit(unit);
+                        bool vara = unit.GetType().Equals(typeof(Hero));
                     }
                 }
             }
