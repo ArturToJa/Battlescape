@@ -5,6 +5,12 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    public enum AttackTypes
+    {
+        Melee = 0,
+        Ranged = 1,
+        Instant = 2
+    }
     public class BaseAttack
     {
         public string name;

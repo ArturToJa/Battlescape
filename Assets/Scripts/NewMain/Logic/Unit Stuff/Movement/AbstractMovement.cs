@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    public enum MovementTypes
+    {
+        Ground = 0,
+        Flying = 1,
+        None = 2
+    }
     public abstract class AbstractMovement
     {
         protected Unit myUnit;
