@@ -24,7 +24,7 @@ namespace BattlescapeLogic
         [SerializeField] public AttackTypes attackType;
         [SerializeField] public MovementTypes movementType;
         public AbstractMovement movement { get; private set; }     
-        public BaseAttack attack { get; private set; }
+        public AbstractAttack attack { get; private set; }
         //NOTE - this needs to be done some other way, this 'readonly' thing will NOT work here :)))
         //Also - IDK why we need it at all
         public readonly int index;
@@ -59,12 +59,12 @@ namespace BattlescapeLogic
         {
             return Global.instance.movementTypes[(int)movementType];
         }
-        BaseAttack GetAttackType()
+        AbstractAttack GetAttackType()
         {
             switch (attackType)
             {
                 case AttackTypes.Melee:
-                    return new BaseAttack(this);
+                    return new MeleeAttack(this);
                 case AttackTypes.Ranged:
                     return new ShootingAttack(this);
                 case AttackTypes.Instant:

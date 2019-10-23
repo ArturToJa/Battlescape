@@ -2,45 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace BattlescapeLogic
 {
-    public enum AttackTypes
-    {
-        Melee = 0,
-        Ranged = 1,
-        Instant = 2
-    }
-    public class BaseAttack
-    {
-        public string name;
-        protected Unit sourceUnit;
-        protected Unit targetUnit;
 
-        public BaseAttack(Unit _myUnit)
+    public class MeleeAttack : AbstractAttack
+    {
+
+        public MeleeAttack(Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
         }
 
-        public virtual void Attack(Unit target)
+        public override void Attack(Unit target)
         {
-            //most likely:
-            targetUnit = target;
+            base.Attack(target);
             TurnTowardsTarget();
             PlayAttackAnimation();
         }
-        protected virtual void PlayAttackAnimation()
+        protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger("Attack");
         }
 
         //im aware im copying it from AbstractMovement ;/
-        protected void TurnTowardsTarget()
+        protected override void TurnTowardsTarget()
         {
             sourceUnit.visuals.transform.LookAt(new Vector3(targetUnit.transform.position.x, sourceUnit.visuals.transform.position.y, targetUnit.transform.position.z));
         }
 
-        public virtual void OnAttackAnimation()
+        public override void OnAttackAnimation()
         {
             //IDK if this needs to even be virtual because im not thinking anymore as it is very late at night when i'm coiding it.
             //Here we would calculate the damage.
@@ -50,7 +40,7 @@ namespace BattlescapeLogic
 
         // Virtual function for Ranged Attack animations
         // It does nothing for basic attack
-        public virtual void OnRangedAttackAnimation()
+        public override void OnRangedAttackAnimation()
         {
         }
     }

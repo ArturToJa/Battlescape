@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ShootingAttack : BaseAttack
+    public class ShootingAttack : AbstractAttack
     {
         //the prefab of missile shot by this unit
 
@@ -19,6 +19,7 @@ namespace BattlescapeLogic
 
         public override void Attack(Unit target)
         {
+            base.Attack(target);
             TurnTowardsTarget();
             PlayAttackAnimation();
         }

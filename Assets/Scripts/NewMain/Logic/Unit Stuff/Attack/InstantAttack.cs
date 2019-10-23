@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class InstantAttack : BaseAttack
+    public class InstantAttack : AbstractAttack
     {
         public InstantAttack(Unit _myUnit) : base(_myUnit)
         {
@@ -13,7 +13,8 @@ namespace BattlescapeLogic
 
         public override void Attack(Unit target)
         {
-            
+            base.Attack(target);
+            PlayAttackAnimation();
         }
 
         protected override void PlayAttackAnimation()
@@ -29,6 +30,10 @@ namespace BattlescapeLogic
             //Here we would calculate the damage.
             //IDK how much should be done here, and how much should be done on the unit's side (deal dmg vs get dmg)
             sourceUnit.HitTarget(targetUnit);
+        }
+
+        public override void OnRangedAttackAnimation()
+        {
         }
     }
 }
