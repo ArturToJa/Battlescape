@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class CursorController : MonoBehaviour
 {
@@ -310,14 +310,8 @@ public class CursorController : MonoBehaviour
 
     private bool IsTheTileValidForEnterCombatCursor()
     {
-        if (MouseManager.Instance.mouseoveredTile.theColor == Color.red)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        //we actually CAN assume there IS a selected unit.
+        return MouseManager.Instance.mouseoveredTile.IsProtectedByEnemyOf(MouseManager.Instance.SelectedUnit) ;       
     }
     private IEnumerator StayInCombatModeCursor(float timeInSeconds)
     {
@@ -367,7 +361,7 @@ public class CursorController : MonoBehaviour
             {
                 StartCoroutine(StayInCombatModeCursor(0.2f));
             }
-            else if (MouseManager.Instance.mouseoveredTile.theColor == Color.cyan)
+            else if (MouseManager.Instance.mouseoveredTile.neighbours.Contains(MouseManager.Instance.SelectedUnit.myTile))
             {
                 SetCursorTo(clickingQCMovementCursor, QCMovementCursor);
             }
@@ -383,7 +377,7 @@ public class CursorController : MonoBehaviour
                 StartCoroutine(StayInCombatModeCursor(0.2f));
 
             }
-            else if (MouseManager.Instance.mouseoveredTile.theColor == Color.cyan)
+            else if (Pathfinder.Instance.WouldTileBeLegal(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.GetBaseMS()))
             {
                 SetCursorTo(clickingWalkingCursor, walkingCursor);
             }

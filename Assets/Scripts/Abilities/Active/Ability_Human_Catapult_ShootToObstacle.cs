@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
+
 [RequireComponent(typeof(ShootingScript))]
 public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
 {
@@ -82,7 +84,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
         {
             if (tile.hasObstacle && ShootingScript.WouldItBePossibleToShoot(myShootingScript, this.transform.position, tile.transform.position).Key && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
             {
-                tile.TCTool.ColourTile(Color.red);
+                ColouringTool.SetColour(tile, Color.red);
             }
         }
     }

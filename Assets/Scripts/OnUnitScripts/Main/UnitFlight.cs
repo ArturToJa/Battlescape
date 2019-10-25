@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class UnitFlight : UnitMovement
 {
@@ -63,7 +64,14 @@ public class UnitFlight : UnitMovement
         List<Tile> tiles = GetPossibleDestinations();
         foreach (Tile tile in tiles)
         {
-            tile.TCTool.ColourTileFor(GetComponent<UnitScript>());
+            if (tile.IsProtectedByEnemyOf(GetComponent<UnitScript>()))
+            {
+                ColouringTool.SetColour(tile, Color.red);
+            }
+            else
+            {
+                ColouringTool.SetColour(tile, Color.green);
+            }
         }
     }
 }

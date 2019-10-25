@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class MapVisuals : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class MapVisuals : MonoBehaviour
         {
 
             Tile tile = Map.Board[Random.Range(Xborder, Map.mapWidth - Xborder), Random.Range(Zborder, Map.mapHeight - Zborder)];
-            while (tile.hasDoodad || tile.hasObstacle)
+            while (/*tile.hasDoodad ||*/ tile.hasObstacle)
             {
                 tile = Map.Board[Random.Range(Xborder, Map.mapWidth - Xborder), Random.Range(Zborder, Map.mapHeight - Zborder)];
                 if (CheckForTermination())
@@ -57,7 +58,7 @@ public class MapVisuals : MonoBehaviour
                 }
             }
             Instantiate(PseudoRandomlyChooseObject(ObjectType, objectCount, ObjectType.Count), tile.transform.position + RandomlyChangePosition(allowedOffset), Quaternion.Euler(tile.transform.rotation.x, Random.Range(0, 360), transform.rotation.z), tile.transform);
-            tile.hasDoodad = true;
+            //tile.hasDoodad = true;
         }
     }
 
@@ -124,8 +125,9 @@ public class MapVisuals : MonoBehaviour
     void HelperMakeBigTree(List<GameObject> ObstacleType, int obstacleCount, Tile tile)
     {
         GameObject tree = Instantiate(PseudoRandomlyChooseObject(ObstacleType, obstacleCount, ObstacleType.Count), tile.transform.position, Quaternion.Euler(tile.transform.rotation.x, Random.Range(0, 360), transform.rotation.z), tile.transform);
-        tile.hasObstacle = true;
-        tile.isShootable = false;
+        tile.myObstacle = tree;
+        //tile.isShootable = false;
+        //IF we want to redo the'isShootable' effect- we need to change myObstacle to a new class (Obstacle) being a component on Obstacles or sth like that!
         //we need to offset the obstacle so it can lie on 4 tiles
         tree.transform.position = new Vector3(tree.transform.position.x + 0.5f, tree.transform.position.y, tree.transform.position.z + 0.5f);
         //we need to add "fake" obstacles (and switch their renderers off obviously) on 3 neighbour tiles and set them to nonWalkable too
@@ -188,19 +190,19 @@ public class MapVisuals : MonoBehaviour
                     break;
                 }
             }
-            var temp = Instantiate(PseudoRandomlyChooseObject(ObstacleType, obstacleCount, ObstacleType.Count), tile.transform.position, Quaternion.Euler(tile.transform.rotation.x, Random.Range(0, 360), transform.rotation.z), tile.transform);
-            tile.hasObstacle = true;
+            var tree = Instantiate(PseudoRandomlyChooseObject(ObstacleType, obstacleCount, ObstacleType.Count), tile.transform.position, Quaternion.Euler(tile.transform.rotation.x, Random.Range(0, 360), transform.rotation.z), tile.transform);
+            tile.myObstacle = tree;
             switch (tileCount)
             {
 
                 case 4:
-                    tile.isShootable = false;
+                    //tile.isShootable = false;
                     //we need to offset the obstacle so it can lie on 4 tiles
-                    temp.transform.position = new Vector3(temp.transform.position.x + 0.5f, temp.transform.position.y, temp.transform.position.z + 0.5f);
+                    tree.transform.position = new Vector3(tree.transform.position.x + 0.5f, tree.transform.position.y, tree.transform.position.z + 0.5f);
                     //we need to add "fake" obstacles (and switch their renderers off obviously) on 3 neighbour tiles and set them to nonWalkable too
-                    InstantiateFakeObstacle(tile, temp, 1, 0);
-                    InstantiateFakeObstacle(tile, temp, 0, 1);
-                    InstantiateFakeObstacle(tile, temp, 1, 1);
+                    InstantiateFakeObstacle(tile, tree, 1, 0);
+                    InstantiateFakeObstacle(tile, tree, 0, 1);
+                    InstantiateFakeObstacle(tile, tree, 1, 1);
                     break;
                 default:
                     break;
@@ -233,8 +235,8 @@ public class MapVisuals : MonoBehaviour
     void InstantiateFakeObstacle(Tile tile, GameObject Obstacle, int x, int z)
     {
         Tile Neighbour = Map.Board[(int)tile.transform.position.x + x, (int)tile.transform.position.z + z];
-        Neighbour.hasObstacle = true;
-        Neighbour.isShootable = false;
+        Neighbour.myObstacle = Obstacle;
+        //Neighbour.isShootable = false;
         var additionalTree = Instantiate(Obstacle, Neighbour.transform);
         foreach (Renderer r in additionalTree.GetComponentsInChildren<Renderer>())
         {

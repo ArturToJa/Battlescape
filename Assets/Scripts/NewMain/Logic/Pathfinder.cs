@@ -51,7 +51,7 @@ namespace BattlescapeLogic
         //Currently it just calculates for whole board (not until reaching destination).
         void BFS(Unit unitToMove)
         {
-            parents = new Tile[Map.instance.mapWidth, Map.instance.mapHeight];
+            parents = new Tile[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
             SetDistancesToMinus();
             SetOccupations(unitToMove);
 
@@ -90,10 +90,10 @@ namespace BattlescapeLogic
         #region BFS Subfunctions
         void SetDistancesToMinus()
         {
-            distances = new int[Map.instance.mapWidth, Map.instance.mapHeight];
-            for (int i = 0; i < Map.instance.mapWidth; i++)
+            distances = new int[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
+            for (int i = 0; i < NewMap.instance.mapWidth; i++)
             {
-                for (int j = 0; j < Map.instance.mapHeight; j++)
+                for (int j = 0; j < NewMap.instance.mapHeight; j++)
                 {
                     distances[i, j] = -1;
                 }
@@ -103,12 +103,13 @@ namespace BattlescapeLogic
         //Tile is considered Occupied, if there is an enemy on it or on its neighbour.
         void SetOccupations(Unit unitToMove)
         {
-            enemyOccupations = new bool[Map.instance.mapWidth, Map.instance.mapHeight];
-            for (int i = 0; i < Map.instance.mapWidth; i++)
+            enemyOccupations = new bool[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
+            for (int i = 0; i < NewMap.instance.mapWidth; i++)
             {
-                for (int j = 0; j < Map.instance.mapHeight; j++)
+                for (int j = 0; j < NewMap.instance.mapHeight; j++)
                 {
-                    enemyOccupations[i, j] = Map.instance.board[i, j].IsProtectedByEnemyOf(unitToMove) || Map.instance.board[i, j].IsWalkable() == false;
+                    //enemyOccupations[i, j] = NewMap.instance.board[i, j].IsProtectedByEnemyOf(unitToMove) || NewMap.instance.board[i, j].IsWalkable() == false;
+                    //this makes SENSE, but is impossible for as long as Tile uses UnitScript not Unit as it should ;) we still use old Pathfinder so this is OK?
                 }
             }
         }

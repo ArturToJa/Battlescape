@@ -7,7 +7,7 @@ namespace BattlescapeLogic
     public class Global : MonoBehaviour
     {
         public static Global instance { get; private set; }
-        public Map map { get; private set; }
+        public NewMap map { get; private set; }
         public List<PlayerTeam> playerTeams { get; private set; }
 
         public List<AbstractMovement> movementTypes;

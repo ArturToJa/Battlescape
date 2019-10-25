@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class Ability_Human_IG_BuffAlly : Ability_Basic
 {
@@ -50,18 +50,18 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override void ColourTiles()
     {
-        foreach (Tile tile in myUnit.myTile.GetNeighbours())
+        foreach (Tile tile in myUnit.myTile.neighbours)
         {
             if (IsLegalTarget(tile))
             {
-                tile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(tile, Color.green);
             }
         }
     }
 
     bool IsLegalTarget(Tile tile)
     {       
-        return tile.myUnit != null && tile.myUnit.PlayerID == myUnit.PlayerID && myUnit.myTile.GetNeighbours().Contains(tile);
+        return tile.myUnit != null && tile.myUnit.PlayerID == myUnit.PlayerID && myUnit.myTile.neighbours.Contains(tile);
     }
 
     IEnumerator BuffAlly(UnitScript ally)

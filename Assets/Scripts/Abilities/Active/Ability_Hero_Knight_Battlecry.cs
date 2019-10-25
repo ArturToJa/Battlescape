@@ -86,7 +86,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
     {
         foreach (UnitScript ally in Helper.GetAlliesInRange(myUnit, Range))
         {
-            ally.myTile.TCTool.ColourTile(Color.green);
+            ColouringTool.SetColour(ally.myTile, Color.green);
         }
     }
 

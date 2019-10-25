@@ -29,13 +29,13 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
     protected override void Use()
     {
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         ColourTiles();
     }
 
     protected override void CancelUse()
     {
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
     }
 
 
@@ -48,7 +48,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
             MouseManager.Instance.mouseoveredTile != null &&
             MouseManager.Instance.mouseoveredTile.myUnit != null &&
             MouseManager.Instance.mouseoveredTile.myUnit.PlayerID != myUnit.PlayerID &&
-            MouseManager.Instance.mouseoveredTile.IsTileInExactRangeOf(myUnit.myTile, 2);
+            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.myTile, 2);
 
     }
 
@@ -97,7 +97,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Map.Board[x, z].IsTileInExactRangeOf(myUnit.myTile, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID && (Map.Board[x, z].myUnit.Value > 5 || Map.Board[x, z].myUnit.GetComponent<HeroScript>() != null))
+                if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.myTile, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID && (Map.Board[x, z].myUnit.Value > 5 || Map.Board[x, z].myUnit.GetComponent<HeroScript>() != null))
                 {
                     Target = Map.Board[x, z];
                     return true;
@@ -117,9 +117,9 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Map.Board[x, z].IsTileInExactRangeOf(myUnit.myTile, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID)
+                if (Helper.AreTilesInRange(myUnit.myTile, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID)
                 {
-                    Map.Board[x, z].TCTool.ColourTile(Color.red);
+                    ColouringTool.SetColour(Map.Board[x, z],Color.red);
                 }
             }
 

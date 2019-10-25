@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class AI_Base_Movement : AI_BaseClass
 {
@@ -123,7 +124,7 @@ public class AI_Base_Movement : AI_BaseClass
     public override List<Tile> GetPossibleMoves(UnitScript unit, bool isAlly)
     {
 
-        Pathfinder.Instance.BFS(unit.myTile, isAlly);
+        Pathfinder.Instance.BFS(unit);
         return new List<Tile>(Pathfinder.Instance.GetAllLegalTilesAndIfTheyAreSafe(unit.GetComponent<UnitMovement>(), true).Keys);
     }
 

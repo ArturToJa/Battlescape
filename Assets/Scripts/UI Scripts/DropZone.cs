@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class DropZone : MonoBehaviour, IDropHandler
 {
@@ -112,18 +113,7 @@ public class DropZone : MonoBehaviour, IDropHandler
     }
     bool CheckIfCorrectDropzone(Transform tile)
     {
-        if (TurnManager.Instance.PlayerToMove == 0 && tile.GetComponent<Tile>().isFirstDropzone)
-        {
-            return true;
-        }
-        if (TurnManager.Instance.PlayerToMove == 1 && tile.GetComponent<Tile>().isSecondDropzone)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return tile.GetComponent<Tile>().isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove];        
     }
     public void DestroyRealUnit(UnitScript unit)
     {

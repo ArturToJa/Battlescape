@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class ArmyBuildingEndButton : MonoBehaviour
 {
@@ -64,7 +65,13 @@ public class ArmyBuildingEndButton : MonoBehaviour
                 Text3.GetComponent<Text>().text = "Waiting for opponent...";
                 Text3.isOff = true;
 
-                Tile.areDropzonesOn = false;
+                foreach (Tile tile in Map.Board)
+                {
+                    for (int i = 0; i < tile.isDropzoneOfPlayer.Length; i++)
+                    {
+                        tile.isDropzoneOfPlayer[i] = false;
+                    }                 
+                }
             }
             else
             {

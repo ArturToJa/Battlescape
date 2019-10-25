@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 {
@@ -52,8 +53,8 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
     {
         return
             MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.IsLegalTile() &&
-            MouseManager.Instance.mouseoveredTile.IsTileInExactRangeOf(myUnit.myTile, 2) &&
+            MouseManager.Instance.mouseoveredTile.IsWalkable() &&
+            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile, myUnit.myTile, 2) &&
             IsValidJump(myUnit.myTile, MouseManager.Instance.mouseoveredTile);
         //there needs to be one more thing - the obstacle! in exact middle!
     }
@@ -103,8 +104,8 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         //yield return WaitUntil(something)
         yield return new WaitUntil(IsDoneMoving);
         GetComponent<AnimController>().SetJumping(false);
-        Destroy(lightnings);        
-        Target.OnUnitEnterTile(myUnit);
+        Destroy(lightnings);
+        Target.SetMyUnitTo(myUnit);
     }
 
 
@@ -157,12 +158,12 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         foreach (Tile tile in Tiles)
         {
             if (
-                myUnit.myTile.GetNeighbours().Contains(tile) == false &&
+                myUnit.myTile.neighbours.Contains(tile) == false &&
                 IsValidJump(tile, myUnit.myTile) &&
-                tile.IsLegalTile()
+                tile.IsWalkable()
                 )
             {
-                tile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(tile, Color.green);
             }
         }
     }

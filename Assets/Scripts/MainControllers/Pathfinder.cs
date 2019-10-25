@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Pathfinder : MonoBehaviour
 {
@@ -18,14 +19,14 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
-    public void BFS(Tile startPosition, bool isAlly)
+    public void BFS(UnitScript unit)
     {
         Parents = new Tile[Map.mapWidth, Map.mapHeight];
         SetDistancesToMinus();
-        SetOccupations(isAlly);
+        SetOccupations(unit);
 
         Queue<Tile> queue = new Queue<Tile>();
-        Tile start = startPosition;
+        Tile start = unit.myTile;
         int startX = Mathf.RoundToInt(start.transform.position.x);
         int startZ = Mathf.RoundToInt(start.transform.position.z);
         Distances[startX, startZ] = 0;
@@ -37,41 +38,33 @@ public class Pathfinder : MonoBehaviour
             int currentX = Mathf.RoundToInt(current.transform.position.x);
             int currentZ = Mathf.RoundToInt(current.transform.position.z);
             queue.Dequeue();
-            foreach (var neighbour in current.GetNeighbours())
+            foreach (var neighbour in current.neighbours)
             {
                 int X = Mathf.RoundToInt(neighbour.transform.position.x);
                 int Z = Mathf.RoundToInt(neighbour.transform.position.z);
                 if (Distances[X, Z] == -1 && !EnemyOccupations[X, Z])
                 {
-                    Distances[X, Z] = Distances[currentX, currentZ] + 1;                   
+                    Distances[X, Z] = Distances[currentX, currentZ] + 1;
                     Parents[X, Z] = current;
                     queue.Enqueue(neighbour);
                 }
                 else if (Distances[X, Z] == -1 && EnemyOccupations[X, Z])
                 {
-                    Distances[X, Z] = Distances[currentX, currentZ] + 1;                   
+                    Distances[X, Z] = Distances[currentX, currentZ] + 1;
                     Parents[X, Z] = current;
                 }
             }
         }
     }
 
-    private void SetOccupations(bool isSelectedAlly)
+    private void SetOccupations(UnitScript selectedUnit)
     {
         EnemyOccupations = new bool[Map.mapWidth, Map.mapHeight];
         for (int i = 0; i < Map.mapWidth; i++)
         {
             for (int j = 0; j < Map.mapHeight; j++)
             {
-                if (isSelectedAlly)
-                {
-                    EnemyOccupations[i, j] = Map.Board[i, j].IsOccupiedByEnemy(TurnManager.Instance.PlayerToMove) || Map.Board[i, j].isWalkable == false || Map.Board[i, j].hasObstacle;
-                }
-                else
-                {
-                    EnemyOccupations[i, j] = Map.Board[i, j].isOccupiedByPlayer[(TurnManager.Instance.PlayerToMove)] || Map.Board[i, j].isWalkable == false || Map.Board[i, j].hasObstacle;
-                }
-
+                EnemyOccupations[i, j] = Map.Board[i, j].IsProtectedByEnemyOf(selectedUnit) || Map.Board[i, j].IsWalkable() == false || Map.Board[i, j].hasObstacle;
             }
         }
     }
@@ -91,18 +84,28 @@ public class Pathfinder : MonoBehaviour
 
     public void ColourPossibleTiles(UnitMovement unit, bool notQuittingCombat)
     {
-        BFS(unit.GetComponent<UnitScript>().myTile, true);
+        BFS(unit.GetComponent<UnitScript>());
         //TileColouringTool.UncolourAllTiles();
         //Debug.LogError(unit + " " + colourRed);
         for (int i = 0; i < Map.mapWidth; i++)
             for (int j = 0; j < Map.mapHeight; j++)
-                if (Distances[i, j] <= unit.GetCurrentMoveSpeed(notQuittingCombat) && Distances[i, j] != -1)
+            {
+                if (Distances[i, j] <= unit.GetCurrentMoveSpeed(notQuittingCombat) && Distances[i, j] != -1 && Map.Board[i, j].IsWalkable())
                 {
                     if (notQuittingCombat || EnemyOccupations[i, j] == false)
                     {
-                        Map.Board[i, j].TCTool.ColourTileFor(unit.GetComponent<UnitScript>());
+                        if (Map.Board[i, j].IsProtectedByEnemyOf(unit.GetComponent<UnitScript>()))
+                        {
+                            ColouringTool.SetColour(Map.Board[i, j], Color.red);
+                        }
+                        else
+                        {
+                            ColouringTool.SetColour(Map.Board[i, j], Color.green);
+                        }
                     }
                 }
+            }
+                
     }
 
 
@@ -146,7 +149,7 @@ public class Pathfinder : MonoBehaviour
         return
                Distances[i, j] <= unit.GetCurrentMoveSpeed(!isAffectedByCombat)
             && Distances[i, j] != -1
-            && Map.Board[i, j].isWalkable == true
+            && Map.Board[i, j].IsWalkable() == true
             && Map.Board[i, j].hasObstacle == false
             && Map.Board[i, j].myUnit == null
             && Map.Board[i, j] != unit.GetComponent<UnitScript>().myTile
@@ -158,7 +161,7 @@ public class Pathfinder : MonoBehaviour
         List<Tile> theList = new List<Tile>();
         for (int i = 0; i < Map.mapWidth; i++)
             for (int j = 0; j < Map.mapHeight; j++)
-                if (WouldTileBeLegal(Map.Board[i,j], unit, speed))
+                if (WouldTileBeLegal(Map.Board[i, j], unit, speed))
                 {
                     theList.Add(Map.Board[i, j]);
                 }
@@ -168,12 +171,13 @@ public class Pathfinder : MonoBehaviour
 
     public bool WouldTileBeLegal(Tile tile, UnitScript unit, int speed)
     {
+        BFS(unit);
         int i = Mathf.RoundToInt(tile.transform.position.x);
         int j = Mathf.RoundToInt(tile.transform.position.z);
         return
                Distances[i, j] <= speed
             && Distances[i, j] != -1
-            && Map.Board[i, j].isWalkable == true
+            && Map.Board[i, j].IsWalkable() == true
             && Map.Board[i, j].hasObstacle == false
             && Map.Board[i, j].myUnit == null
             && Map.Board[i, j] != unit.GetComponent<UnitScript>().myTile;
@@ -184,21 +188,21 @@ public class Pathfinder : MonoBehaviour
     {
         return Distances[Mathf.RoundToInt(tile.transform.position.x), Mathf.RoundToInt(tile.transform.position.z)];
     }
-    public int GetDistanceFromTo(Tile start, Tile end, bool isAlly)
+    public int GetDistanceFromTo(UnitScript start, Tile end)
     {
-        BFS(start, isAlly);
+        BFS(start);
         if (end.myUnit == null)
         {
             return GetDistance(end);
         }
         else
         {
-            List<Tile> neighbours = end.GetNeighbours();
+            List<Tile> neighbours = end.neighbours;
             int[] possibleAnswers = new int[neighbours.Count];
-            
+
             for (int i = 0; i < neighbours.Count; i++)
-            {                        
-                if (neighbours[i].IsLegalTile())
+            {
+                if (neighbours[i].IsWalkable())
                 {
                     possibleAnswers[i] = GetDistance(neighbours[i]);
                 }
@@ -206,6 +210,6 @@ public class Pathfinder : MonoBehaviour
             System.Array.Sort(possibleAnswers);
             return possibleAnswers[0];
         }
-        
+
     }
 }

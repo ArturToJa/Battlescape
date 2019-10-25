@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_EmpoweredShot
 {
@@ -30,7 +31,7 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
     {
 
         Log.SpawnLog("Raven empowers his shot with 'Fireball' spell, hitting " + Target.myUnit.name + " and all it's neighbours.");
-        foreach (Tile neighbour in Target.GetNeighbours())
+        foreach (Tile neighbour in Target.neighbours)
         {
             if (neighbour.myUnit != null)
             {
@@ -47,7 +48,7 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
         Tile targeto = MouseManager.Instance.MouseoveredUnit.myTile;
         PaintObject(targeto.myUnit.gameObject, Color.red);
         colouredUnits.Add(targeto.myUnit.gameObject);
-        foreach (Tile neighbour in targeto.GetNeighbours())
+        foreach (Tile neighbour in targeto.neighbours)
         {
             if (neighbour.myUnit != null)
             {

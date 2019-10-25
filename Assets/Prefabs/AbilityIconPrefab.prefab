@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114734403479467814}
   - component: {fileID: 114949489521330812}
   - component: {fileID: 114706993258934224}
-  - component: {fileID: 114669713565136282}
+  - component: {fileID: 114619896906530754}
   m_Layer: 5
   m_Name: AbilityIconPrefab
   m_TagString: Untagged
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114669713565136282
+--- !u!114 &114619896906530754
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

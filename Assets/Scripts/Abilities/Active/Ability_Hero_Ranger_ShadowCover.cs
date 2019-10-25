@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
 {
@@ -53,9 +54,9 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         Bounds RangeBounds = new Bounds(transform.position, new Vector3(2f * Range, 5f, 2f * Range));
         foreach (Tile tile in Map.Board)
         {
-            if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.isWalkable && tile.hasObstacle == false && tile.IsOccupiedByEnemy(myUnit.PlayerID) == false)
+            if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {
-                tile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(tile, Color.green);
                 legalTiles.Add(tile);
             }
         }
@@ -103,7 +104,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         Bounds RangeBounds = new Bounds(transform.position, new Vector3(2f * Range, 5f, 2f * Range));
         foreach (Tile tile in Map.Board)
         {
-            if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.isWalkable && tile.hasObstacle == false && tile.IsOccupiedByEnemy(myUnit.PlayerID) == false)
+            if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {
                 legalTiles.Add(tile);
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class AI_Movement : AI_Base_Movement
 {
@@ -121,6 +122,8 @@ public class AI_Movement : AI_Base_Movement
 
     public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitMovement, List<Tile>> EnemyMovementRanges)
     {
+        return 0;
+        /*
         float Evaluation = 0f;
         //First, i want to introduce simple evaluation concepts. No tricks and special stuff, only very basic basics.
 
@@ -133,7 +136,7 @@ public class AI_Movement : AI_Base_Movement
         // SHOOTERS DONT want to stay next to other shooters. Obviously.
 
         // If we are NEITHER, lets try to first attack if good situation (prio on hero and shooters). Then lets try to protecc shooters and heroes. Also, bonus points for staying together (not only for real purpose, also cause it looks much more pro for player's eyes).
-        List<Tile> neighbours = tile.GetNeighbours();
+        List<Tile> neighbours = tile.neighbours;
 
         if (currentUnit.GetComponent<HeroScript>() != null)
         {
@@ -196,7 +199,7 @@ public class AI_Movement : AI_Base_Movement
 
 
 
-            if (tile.IsOccupiedByEnemy(ID))
+            /*if (tile.IsProtectedByEnemyOf(ID))
             {
                 // Here the hero is attacking an enemy. He will like it, if a) there is only one enemy b) enemy is low on HP c) enemy is shooter. He will not like it, if enemies are 3+, if they are strong and full health etc.
 
@@ -250,12 +253,12 @@ public class AI_Movement : AI_Base_Movement
 
             }
             Evaluation += penaltyForEnemiesInRange;
-            */
-            if (tile.IsOccupiedByEnemy(ID))
+            
+            if (tile.IsProtectedByEnemyOf(ID))
             {
                 // we are entering melee combat. Let's FOR NOW give it a -0.5f just for that. We just DO NOT want our shooters to enter melee combat right now.. Then maybe we will give some situations where it will be an OK move?
 
-                /*if (GameStateManager.IsGreenActive() == (VictoryLossChecker.GreenScore < VictoryLossChecker.RedScore + 5))
+                if (GameStateManager.IsGreenActive() == (VictoryLossChecker.GreenScore < VictoryLossChecker.RedScore + 5))
                 {
                     //we are heavily loosing, and maybe there is a heavily wounded enemy in there?
                 }
@@ -266,7 +269,7 @@ public class AI_Movement : AI_Base_Movement
                     {
                         //there IS an enemy hero in there AND he is heavily wounded.. We MIGHT think about getting in combat maybe?
                     }
-                }*/
+                }
 
                 Evaluation -= 5f;
             }
@@ -335,7 +338,7 @@ public class AI_Movement : AI_Base_Movement
                     }
                 }
             }
-            if (tile.IsOccupiedByEnemy(ID))
+            if (tileIsProtectedByEnemyOf(ID))
             {
                 // Here the unit is attacking an enemy. For now, he "wants to fight" the same as the Hero XD. We will fine-tune it all with a UnitAIData script which will contain all the data needed for this ;)
                 Evaluation = EvaluateCombatTile(currentUnit, tile, Evaluation);
@@ -379,12 +382,13 @@ public class AI_Movement : AI_Base_Movement
             //            Debug.Log("Right Corner's evaluation: " + Evaluation);
         }
         return Evaluation;
+    */
     }
 
     private static float EvaluateCombatTile(UnitScript currentUnit, Tile tile, float Evaluation)
     {
         int enemiesOnNextTiles = 0;
-        List<Tile> neighbours = tile.GetNeighbours();
+        List<Tile> neighbours = tile.neighbours;
         foreach (Tile t in neighbours)
         {
             if (t.myUnit != null && t.myUnit.PlayerID != currentUnit.PlayerID)
@@ -434,7 +438,7 @@ public class AI_Movement : AI_Base_Movement
             {
                 Evaluation += 0.01f;
             }
-            if (unit.PlayerID == currentUnit.PlayerID && unit.myTile.GetNeighbours().Contains(tile))
+            if (unit.PlayerID == currentUnit.PlayerID && unit.myTile.neighbours.Contains(tile))
             {
                 Evaluation += 0.2f;
             }
@@ -472,7 +476,7 @@ public class AI_Movement : AI_Base_Movement
         
         if (theTile != null)
         {
-            PathCreator.Instance.AddSteps(currentUnit.myTile,theTile);
+            //PathCreator.Instance.AddSteps(currentUnit.myTile,theTile);
             MovementSystem.Instance.SendCommandToMove(currentUnit.GetComponent<UnitMovement>());
             unitsSkippingTurn.Clear();
             Debug.Log("Chosen tile is: " + theTile);

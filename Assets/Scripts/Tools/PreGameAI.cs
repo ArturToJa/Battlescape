@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class PreGameAI
 {
@@ -42,7 +43,6 @@ public class PreGameAI
         }
 
         DropZone.Instance.CommandInstantiateUnit((int)unit.myUnitID, TurnManager.Instance.PlayerToMove, tile.transform.position);
-        tile.isWalkable = false;
     }
 
 
@@ -52,7 +52,7 @@ public class PreGameAI
         List<Tile> greatTiles = new List<Tile>();
         foreach (Tile tile in Map.Board)
         {
-            if (tile.isWalkable && tile.hasObstacle == false && ((tile.isFirstDropzone && TurnManager.Instance.PlayerToMove == 0) || tile.isSecondDropzone && TurnManager.Instance.PlayerToMove == 1))
+            if (tile.IsWalkable() && tile.hasObstacle == false && ((tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove])))
             {
                 possibleTiles.Add(tile);
                 if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
@@ -86,7 +86,7 @@ public class PreGameAI
         while (TileList.Count > 0)
         {
             chosenTile = TileList[Random.Range(0, TileList.Count)];
-            if (chosenTile.isWalkable == false || chosenTile.hasObstacle)
+            if (chosenTile.IsWalkable() == false || chosenTile.hasObstacle)
             {
                 TileList.Remove(chosenTile);
             }

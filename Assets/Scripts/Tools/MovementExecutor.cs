@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 [System.Serializable]
 public class MovementExecutor
@@ -56,7 +57,7 @@ public class MovementExecutor
         int tileX = (int)tile.x;
         int tileZ = (int)tile.z;
         Tile myTile = Map.Board[tileX, tileZ];
-        myTile.OnUnitEnterTile(unit);
+        myTile.SetMyUnitTo(unit);
     }
 
     public IEnumerator Fly(UnitFlight flier, Vector3 destination)

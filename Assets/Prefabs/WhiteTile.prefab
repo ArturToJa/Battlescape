@@ -23,8 +23,7 @@ GameObject:
   - component: {fileID: 65705260581270680}
   - component: {fileID: 23723434181882064}
   - component: {fileID: 54311779343922306}
-  - component: {fileID: 114327166940073402}
-  - component: {fileID: 114267350450405960}
+  - component: {fileID: 114599388168018822}
   m_Layer: 9
   m_Name: WhiteTile
   m_TagString: Tile
@@ -185,7 +184,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.1, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114267350450405960
+--- !u!114 &114599388168018822
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -193,30 +192,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453636298439184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e8299f935c4354c819a2c919a8bd2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBeingColoredByNormalHighlighter: 0
-  isBeingColoredByCombatHighlighter: 0
-  isGreenDropzone: 0
-  isRedDropzone: 0
-  isWalkable: 1
-  isOccupiedByGreen: 0
-  isOccupiedByRed: 0
-  map: {fileID: 0}
-  mm: {fileID: 0}
-  neighbours: []
-  isUnderEacs: 0
-  myUnit: {fileID: 0}
-  theColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &114327166940073402
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1453636298439184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47e2cdc200e3b547ade114274353f3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 11a393784ad0fbd40939373e2e5b6a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

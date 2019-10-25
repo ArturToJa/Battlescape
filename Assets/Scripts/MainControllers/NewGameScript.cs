@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class NewGameScript : MonoBehaviour
 {
@@ -42,11 +43,9 @@ public class NewGameScript : MonoBehaviour
 
         foreach (Tile tile in Map.Board)
         {
-            tile.isOccupiedByPlayer[0] = false;
-            tile.isOccupiedByPlayer[1] = false;        
-            tile.isWalkable = true;
+  
             
-            tile.myUnit = null;
+            tile.SetMyUnitTo(null);
         }
 
         foreach (KeyValuePair<Vector3, Unit> pair in PlayerOneArmy)

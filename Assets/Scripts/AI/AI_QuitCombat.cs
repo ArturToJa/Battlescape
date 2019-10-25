@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class AI_QuitCombat : AI_Base_Movement
 {
@@ -38,7 +39,7 @@ public class AI_QuitCombat : AI_Base_Movement
 
     bool HasAnyLegalTiles(UnitScript unit)
     {
-        Pathfinder.Instance.BFS(unit.myTile, true);
+        Pathfinder.Instance.BFS(unit);
         return Pathfinder.Instance.GetAllLegalTilesAndIfTheyAreSafe(unit.GetComponent<UnitMovement>(), true).Keys.Count > 0;
     }
 
@@ -86,13 +87,13 @@ public class AI_QuitCombat : AI_Base_Movement
         }
 
         // 3. if a unit could reach shooters after that!
-        Pathfinder.Instance.BFS(unit.myTile, true);
+        Pathfinder.Instance.BFS(unit);
         List<Tile> temp = Pathfinder.Instance.GetAllTilesThatWouldBeLegalIfNotInCombat(unit, unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true));
         foreach (UnitScript enemy in enemyList)
         {
             if (enemy.isRanged)
             {
-                foreach (Tile tile in enemy.myTile.GetNeighbours())
+                foreach (Tile tile in enemy.myTile.neighbours)
                 {
                     if (temp.Contains(tile))
                     {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
+using System;
 
 public static class Helper
 {
@@ -41,6 +43,16 @@ public static class Helper
             z = 0.5f * height;
         }
         t.SetPositionAndRotation(new Vector3(x, t.position.y, z), Quaternion.identity);
+    }
+
+    public static bool AreTilesInRange(Tile start, Tile end, int range)
+    {
+        return
+           (start.position.x - end.position.x == range &&
+            start.position.z - end.position.z <= range)
+            ||
+            (start.position.z - end.position.z == range &&
+            start.position.x - end.position.x <= range);
     }
 
     public static bool IsOverNonHealthBarUI()

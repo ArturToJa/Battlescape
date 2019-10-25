@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class CombatHighlighter : MonoBehaviour
 {
     [SerializeField] Color myColor;
+    List<Tile> ControlledTiles = new List<Tile>();
 
     void Update()
     {
@@ -13,7 +15,7 @@ public class CombatHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.GetComponent<Renderer>().material.color == myColor && tile.isBeingColoredByCombatHighlighter == true)
+                if (tile.GetComponent<Renderer>().material.color == myColor && ControlledTiles.Contains(tile))
                 {
                     tile.GetComponent<Renderer>().material.color = Color.white;
                 }
@@ -35,7 +37,7 @@ public class CombatHighlighter : MonoBehaviour
                 if (tile.myUnit != null && tile.myUnit.PlayerID != TurnManager.Instance.PlayerHavingTurn && tile.myUnit.EnemyList.Contains(MouseManager.Instance.SelectedUnit) == true)
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
-                    tile.isBeingColoredByCombatHighlighter = true;
+                    ControlledTiles.Add(tile);
                 }
             }
             return;
@@ -49,12 +51,12 @@ public class CombatHighlighter : MonoBehaviour
                 if (tile.myUnit != null && tile.myUnit.PlayerID != TurnManager.Instance.PlayerHavingTurn && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
-                    tile.isBeingColoredByCombatHighlighter = true;
+                    ControlledTiles.Add(tile);
                 }
                 else if (tile.myUnit == null && Input.GetKey(KeyCode.LeftControl) && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
                 {
                     tile.GetComponent<Renderer>().material.color = myColor;
-                    tile.isBeingColoredByCombatHighlighter = true;
+                    ControlledTiles.Add(tile);
                 }
             }
             return;
@@ -63,9 +65,9 @@ public class CombatHighlighter : MonoBehaviour
 
         foreach (Tile tile in Map.Board)
         {
-            if (tile.isBeingColoredByCombatHighlighter)
+            if (ControlledTiles.Contains(tile))
             {
-                tile.isBeingColoredByCombatHighlighter = false;
+                ControlledTiles.Remove(tile);
                 tile.GetComponent<Renderer>().material.color = Color.white;
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 {
@@ -104,11 +105,11 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         {
             if (tile.myUnit != null && tile.myUnit.PlayerID != myUnit.PlayerID && ShootingScript.WouldItBePossibleToShoot(this.GetComponent<ShootingScript>(), this.transform.position, tile.transform.position).Key)
             {
-                tile.TCTool.ColourTile(Color.red);
+                ColouringTool.SetColour(tile, Color.red);
             }
             else
             {
-                tile.TCTool.ColourTile(Color.white);
+                ColouringTool.SetColour(tile, Color.white);
             }
         }
     }

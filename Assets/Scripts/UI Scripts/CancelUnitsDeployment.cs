@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class CancelUnitsDeployment : MonoBehaviour
 {
@@ -42,10 +43,8 @@ public class CancelUnitsDeployment : MonoBehaviour
         {
             if (unit.PlayerID == ID && unit.isRealUnit)
             {
-                dz.DestroyRealUnit(unit);                
-                unit.myTile.isWalkable = true;
-                unit.myTile.myUnit = null;
-                unit.DeathEvent -= unit.myTile.OnMyUnitDied;
+                dz.DestroyRealUnit(unit);
+                unit.myTile.SetMyUnitTo(null);
                 if (Player.Players[ID].Type == PlayerType.Local)
                 {
                     if (unit.unitUnit.ThisRealSprite == null)

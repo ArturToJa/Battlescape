@@ -36,6 +36,7 @@ TagManager:
   - SpearInHand
   - HiddenSpear
   - Bow
+  - Grid
   layers:
   - Default
   - TransparentFX

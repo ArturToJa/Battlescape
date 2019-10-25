@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class QCManager : MonoBehaviour
 {
@@ -168,7 +169,7 @@ public class QCManager : MonoBehaviour
 
         if (unit != null && unit.CurrentHP > 0)
         {
-            PathCreator.Instance.AddSteps(unit.myTile, destination);
+            PathCreator.Instance.AddSteps(unit, destination);
             MovementSystem.Instance.SendCommandToMove(unit.GetComponent<UnitMovement>());
         }
         else

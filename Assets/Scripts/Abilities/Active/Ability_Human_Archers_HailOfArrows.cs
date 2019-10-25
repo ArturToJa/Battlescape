@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
+
 [RequireComponent(typeof(ShootingScript))]
 public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 {
@@ -21,7 +23,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
     {
         if (currentlyUsedAbility == this && (oldMouseoveredTile != MouseManager.Instance.mouseoveredTile))
         {
-            TileColouringTool.UncolourAllTiles();
+            ColouringTool.UncolourAllTiles();
             ColourTiles();
         }
         oldMouseoveredTile = MouseManager.Instance.mouseoveredTile;
@@ -66,21 +68,21 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
         if (MouseManager.Instance.mouseoveredTile.myUnit != null)
         {
-            MouseManager.Instance.mouseoveredTile.TCTool.ColourTile(Color.red);
+            ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.red);
         }
         else
         {
-            MouseManager.Instance.mouseoveredTile.TCTool.ColourTile(Color.green);
+            ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.green);
         }
-        foreach (Tile tile in MouseManager.Instance.mouseoveredTile.GetNeighbours())
+        foreach (Tile tile in MouseManager.Instance.mouseoveredTile.neighbours)
         {
             if (tile.myUnit != null)
             {
-                tile.TCTool.ColourTile(Color.red);
+                ColouringTool.SetColour(tile, Color.red);
             }
             else
             {
-                tile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(tile, Color.green);
             }
         }
 
@@ -143,7 +145,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
         {
             Debuff(Target.myUnit);
         }
-        foreach (Tile tile in Target.GetNeighbours())
+        foreach (Tile tile in Target.neighbours)
         {
             if (tile.myUnit != null)
             {

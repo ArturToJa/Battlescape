@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class PathCreator : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class PathCreator : MonoBehaviour
         Path.Clear();
         foreach (Tile tile in Map.Board)
         {
-            tile.isUnderEacs = false;
+            tile.isUnderMovementMarker = false;
         }
     }
 
@@ -50,7 +51,7 @@ public class PathCreator : MonoBehaviour
     }
 #endregion
 
-    public void AddSteps(Tile start, Tile end)
+    public void AddSteps(UnitScript start, Tile end)
     {
         ClearPath();        
         Path = GeneratePath(start, end);
@@ -62,12 +63,12 @@ public class PathCreator : MonoBehaviour
 
 #region AddSteps subfunctions
 
-    List<Tile> GeneratePath(Tile start, Tile end)
+    List<Tile> GeneratePath(UnitScript start, Tile end)
     {
-        Pathfinder.Instance.BFS(start, true);
+        Pathfinder.Instance.BFS(start);
         Stack<Tile> tileStack = new Stack<Tile>();
         tileStack.Push(end);
-        while (!tileStack.Contains(start))
+        while (!tileStack.Contains(start.myTile))
         {
             tileStack.Push(Pathfinder.Instance.Parents[Pathfinder.Instance.GetTilesX(tileStack.Peek()), Pathfinder.Instance.GetTilesZ(tileStack.Peek())]);
         }
@@ -81,7 +82,7 @@ public class PathCreator : MonoBehaviour
     void AddSingleStep(Tile step)
     {
         Instantiate(XPrefab, step.transform.position, Quaternion.identity);
-        step.isUnderEacs = true;
+        step.isUnderMovementMarker = true;
     }
 #endregion
 

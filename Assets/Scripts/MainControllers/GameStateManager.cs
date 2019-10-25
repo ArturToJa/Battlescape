@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public enum GameStates { IdleState, MoveState, AttackState, ShootingState, /*QuittingCombatState, */AnimatingState, TargettingState, RetaliationState }
 

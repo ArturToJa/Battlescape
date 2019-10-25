@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Audio;
+using BattlescapeLogic;
 
 public class MouseManager : MonoBehaviour
 {
@@ -33,7 +33,7 @@ public class MouseManager : MonoBehaviour
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
     }
     void Update()
-    {
+    {       
         if (Input.GetKeyDown(KeyCode.Tab) && GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
             SelectNextAvailableUnit();
@@ -44,7 +44,7 @@ public class MouseManager : MonoBehaviour
             if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.GetComponent<UnitMovement>().isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
             {
                 PathCreator.Instance.ClearPath();
-                TileColouringTool.UncolourAllTiles();                
+                ColouringTool.UncolourAllTiles();                
             }
             return;
         }
@@ -146,9 +146,9 @@ public class MouseManager : MonoBehaviour
             toolMouseOverer.Mouseover(mouseoveredTile.gameObject);
             if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitMovement>()))
             {
-                if (mouseoveredTile.theColor == Color.red)
+                if (mouseoveredTile.IsProtectedByEnemyOf(SelectedUnit))
                 {
-                    foreach (Tile neighbour in mouseoveredTile.GetNeighbours())
+                    foreach (Tile neighbour in mouseoveredTile.neighbours)
                     {
                         if (neighbour.myUnit != null && neighbour.myUnit.PlayerID != SelectedUnit.PlayerID)
                         {
@@ -157,7 +157,8 @@ public class MouseManager : MonoBehaviour
                         }
                     }
                 }
-                if (mouseoveredTile.theColor == Color.cyan && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
+                //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
+                else if (Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile,SelectedUnit,SelectedUnit.GetBaseMS()) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
                 {
                     foreach (UnitScript enemy in FindObjectsOfType<UnitScript>())
                     {
@@ -169,8 +170,10 @@ public class MouseManager : MonoBehaviour
 
                     }
                 }
-                if (mouseoveredTile.theColor == Color.white && mouseoveredTile != SelectedUnit.myTile)
+                // THIS MIGHT NOT WORK! :<
+                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile, SelectedUnit, SelectedUnit.GetBaseMS()) == false)
                 {
+                   
                     PathCreator.Instance.ClearPath();
                 }
             }
@@ -280,7 +283,7 @@ public class MouseManager : MonoBehaviour
 
     void ColourForSelectedUnit()
     {
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         Pathfinder.Instance.ColourPossibleTiles(SelectedUnit.GetComponent<UnitMovement>(), (SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0));
     }
 
@@ -291,7 +294,7 @@ public class MouseManager : MonoBehaviour
 
     public void Deselect()
     {
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         if (GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
             PlaySelectionSound();

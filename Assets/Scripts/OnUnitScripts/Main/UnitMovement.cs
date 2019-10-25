@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 [DisallowMultipleComponent]
 public class UnitMovement : MonoBehaviour
@@ -166,7 +167,7 @@ public class UnitMovement : MonoBehaviour
     {
         transform.position = tile.transform.position;
         UnitScript myUnit = GetComponent<UnitScript>();
-        tile.OnUnitEnterTile(myUnit);
+        tile.SetMyUnitTo(myUnit);
         Destination = tile.transform.position;      
     }
     public bool IsAbleToMove()

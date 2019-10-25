@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 [DisallowMultipleComponent]
 public class ShootingScript : MonoBehaviour
@@ -147,7 +148,8 @@ public class ShootingScript : MonoBehaviour
         {
             if (hit.collider.transform.gameObject.tag == "Tile")
             {
-                if (hit.collider.transform.gameObject.GetComponent<Tile>().isShootable == false)
+                //MIND YOU - this HAS TO BE recreated in a new way (I have an idea, how) in new code if we want to keep this mechanic!
+                if (/*hit.collider.transform.gameObject.GetComponent<Tile>().isShootable == false*/ false)
                 {
                     if (Input.GetMouseButtonDown(0) && showNoPopup == false)
                     {

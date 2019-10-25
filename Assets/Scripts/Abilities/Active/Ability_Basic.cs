@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public abstract class Ability_Basic : MonoBehaviour
 {
@@ -46,7 +46,7 @@ public abstract class Ability_Basic : MonoBehaviour
     public void BaseCancelUse()
     {
         CancelUse();
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         GameStateManager.Instance.BackToIdle();
         currentlyUsedAbility = null;
         isBeingUsed = false;
@@ -122,7 +122,7 @@ public abstract class Ability_Basic : MonoBehaviour
             UsesLeft--;
         }
         GameStateManager.Instance.BackToIdle();
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         AlreadyUsedThisTurn = true;
         currentlyUsedAbility = null;
         isBeingUsed = false;

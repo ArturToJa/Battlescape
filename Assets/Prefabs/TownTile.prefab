@@ -23,8 +23,7 @@ GameObject:
   - component: {fileID: 23400531521800152}
   - component: {fileID: 54860588991135924}
   - component: {fileID: 65426634419555610}
-  - component: {fileID: 114584926046921168}
-  - component: {fileID: 114980205385278204}
+  - component: {fileID: 114785904257687454}
   m_Layer: 9
   m_Name: TownTile
   m_TagString: Tile
@@ -299,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 543465a911d04dd4aaa7fdc40d3127fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114584926046921168
+--- !u!114 &114785904257687454
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -307,28 +306,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1088954812461174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47e2cdc200e3b547ade114274353f3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 11a393784ad0fbd40939373e2e5b6a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114980205385278204
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1088954812461174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e8299f935c4354c819a2c919a8bd2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBeingColoredByNormalHighlighter: 0
-  isBeingColoredByCombatHighlighter: 0
-  isFirstDropzone: 0
-  isSecondDropzone: 0
-  isWalkable: 1
-  hasObstacle: 0
-  hasDoodad: 0
-  isOccupiedByPlayer: 0000
-  isUnderEacs: 0
-  myUnit: {fileID: 0}
-  theColor: {r: 1, g: 1, b: 1, a: 1}

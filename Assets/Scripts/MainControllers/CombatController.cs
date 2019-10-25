@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class CombatController : MonoBehaviour
 {
@@ -144,7 +144,7 @@ public class CombatController : MonoBehaviour
     void DestroyObstacle(Tile tile)
     {
         List<GameObject> deadObjects = new List<GameObject>();
-        tile.hasObstacle = false;
+        tile.DestroyObstacle();
         for (int i = 0; i < tile.transform.childCount; i++)
         {
             if (tile.transform.GetChild(i).gameObject.tag == "Dice")
@@ -354,7 +354,7 @@ public class CombatController : MonoBehaviour
         SendCommandToAttack(Attacker, Defender, badRange, false);
         if (AOE)
         {
-            foreach (Tile tile in Defender.myTile.GetNeighbours())
+            foreach (Tile tile in Defender.myTile.neighbours)
             {
                 if (tile.myUnit != null)
                 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class DragableUnit : MonoBehaviour
 {  
@@ -16,7 +17,7 @@ public class DragableUnit : MonoBehaviour
         if (Physics.Raycast(cameraRay,out hitInfo, Mathf.Infinity,tileMask))
         {
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-            if ( ((tile.isFirstDropzone && TurnManager.Instance.PlayerToMove == 0 ) || (tile.isSecondDropzone && TurnManager.Instance.PlayerToMove == 1)) && tile.isWalkable && tile.hasObstacle == false)
+            if (tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove] && tile.IsWalkable())
             {
                 if (GameStateManager.Instance.MatchType == MatchTypes.Online)
                 {
@@ -66,11 +67,6 @@ public class DragableUnit : MonoBehaviour
         me.transform.position = tile.transform.position;
         me.transform.rotation = q;
         me.GetComponent<UnitMovement>().TeleportTo(tile);
-        if (tile.myUnit != null)
-        {
-            tile.myUnit.DeathEvent -= tile.OnMyUnitDied;
-        }
-        tile.myUnit = me.GetComponent<UnitScript>();
-        tile.myUnit.DeathEvent += tile.OnMyUnitDied;
+        tile.SetMyUnitTo(me);
     }
 }

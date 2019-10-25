@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class MovementSystem : MonoBehaviour
 {
@@ -128,7 +129,7 @@ public class MovementSystem : MonoBehaviour
             return;
         }
         Tile destination = Map.Board[endX, endZ];
-        PathCreator.Instance.AddSteps(unit.myTile, destination);
+        PathCreator.Instance.AddSteps(unit, destination);
         DoMovement(unit.GetComponent<UnitMovement>());
     }
     // NOTE - currently THIS is JUST doing NORMAL MOVEMENT. Please do not add special movments (like QC) here in ANY WAY!
@@ -148,7 +149,7 @@ public class MovementSystem : MonoBehaviour
         {
             StartCoroutine(METool.Travel());
         }
-        TileColouringTool.UncolourAllTiles();
+        ColouringTool.UncolourAllTiles();
         MovementQuestions.Instance.CheckIfAnyMoreUnitsToMove();
     }
 
@@ -168,7 +169,7 @@ public class MovementSystem : MonoBehaviour
     {        
         if (IsTimeToAddSteps(unit, oldTile, newTile))
         {
-            PathCreator.Instance.AddSteps(unit.myTile, newTile);
+            PathCreator.Instance.AddSteps(unit, newTile);
         }
     }
 

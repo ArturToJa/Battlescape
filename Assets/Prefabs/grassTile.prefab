@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 54196950320223438}
   - component: {fileID: 65499778836227648}
-  - component: {fileID: 114928493634887920}
-  - component: {fileID: 114656480672244816}
+  - component: {fileID: 114691629802791672}
+  - component: {fileID: 114501927140945952}
   m_Layer: 9
   m_Name: grassTile
   m_TagString: Tile
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 23635137504565932}
   m_Layer: 9
   m_Name: Quad
-  m_TagString: Untagged
+  m_TagString: Grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -288,7 +288,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.1, y: 0.1, z: 2.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114656480672244816
+--- !u!114 &114501927140945952
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -296,26 +296,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e8299f935c4354c819a2c919a8bd2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 525c822dffc60764a98cfbabf30a60b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBeingColoredByNormalHighlighter: 0
-  isBeingColoredByCombatHighlighter: 0
-  isBeingColoredByAbilityHighlighter: 0
-  isGreenDropzone: 0
-  isRedDropzone: 0
-  isWalkable: 1
-  hasObstacle: 0
-  hasDoodad: 0
-  isOccupiedByGreen: 0
-  isOccupiedByRed: 0
-  map: {fileID: 0}
-  mm: {fileID: 0}
-  neighbours: []
-  isUnderEacs: 0
-  myUnit: {fileID: 0}
-  isCover: 0
-  theColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &114691629802791672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a393784ad0fbd40939373e2e5b6a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114805023837190132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,16 +319,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 543465a911d04dd4aaa7fdc40d3127fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114928493634887920
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47e2cdc200e3b547ade114274353f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

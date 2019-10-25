@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Eacs : MonoBehaviour {
 
@@ -16,7 +17,7 @@ public class Eacs : MonoBehaviour {
     {
         if(other.gameObject.GetComponent<Tile>())
         {
-            other.gameObject.GetComponent<Tile>().isUnderEacs = true;
+            other.gameObject.GetComponent<Tile>().isUnderMovementMarker = true;
         }
     }
 }

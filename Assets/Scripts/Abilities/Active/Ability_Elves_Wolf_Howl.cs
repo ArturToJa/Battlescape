@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Elves_Wolf_Howl : Ability_Basic
 {
@@ -33,14 +34,14 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         {
             if (ally.unitUnit.myUnitID == UnitID.Wolf)
             {
-                ally.myTile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(ally.myTile,Color.green);
             }
         }
         foreach (UnitScript enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
         {
             if (enemy.unitUnit.myUnitID == UnitID.Wolf)
             {
-                enemy.myTile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(enemy.myTile, Color.green);                
             }
         }
     }

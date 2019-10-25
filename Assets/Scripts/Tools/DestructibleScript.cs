@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class DestructibleScript : MonoBehaviour
 {
@@ -61,8 +62,7 @@ public class DestructibleScript : MonoBehaviour
     IEnumerator DestructionRoutine()
     {
         yield return new WaitForSeconds(1f);
-        this.transform.parent.GetComponent<Tile>().isWalkable = true;
-        this.transform.parent.GetComponent<Tile>().hasObstacle = false;
+        this.transform.parent.GetComponent<Tile>().myObstacle = null;
         isDying = true;
         if (GetComponent<DropScript>() != null)
         {

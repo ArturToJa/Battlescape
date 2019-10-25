@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class FallingArrows : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class FallingArrows : MonoBehaviour
 
     public void SetTarget()
     {
-        List<Tile> myNieghbours = GetComponentInParent<Tile>().GetNeighbours();
+        List<Tile> myNieghbours = GetComponentInParent<Tile>().neighbours;
         targets = new Vector3[myNieghbours.Count];
         float currentSpreadX = Random.Range(-Spread, Spread);
         float currentSpreadZ = Random.Range(-Spread, Spread);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
 {
@@ -50,9 +51,9 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
     {
         return
             MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.isWalkable == true &&
-            MouseManager.Instance.mouseoveredTile.IsLegalTile() &&
-            MouseManager.Instance.mouseoveredTile.GetNeighbours().Contains(myUnit.myTile);
+            MouseManager.Instance.mouseoveredTile.IsWalkable() == true &&
+            MouseManager.Instance.mouseoveredTile.IsWalkable() &&
+            MouseManager.Instance.mouseoveredTile.neighbours.Contains(myUnit.myTile);
     }
 
     public override void Activate()
@@ -63,7 +64,6 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
     IEnumerator SpearBarricade()
     {
         Log.SpawnLog("Pikeman uses Spear Barricade!");
-        Target.hasObstacle = true;
         yield return null;
         FinishUsing();
         myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
@@ -78,7 +78,8 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
             a.SetTrigger("SpecialAttack");
         }
         yield return new WaitForSeconds(1f - (Positions.Length*0.1f));
-        GameObject Barricade = Instantiate(BarricadePrefab, Target.transform.position, BarricadePrefab.transform.rotation, Target.transform);        
+        GameObject Barricade = Instantiate(BarricadePrefab, Target.transform.position, BarricadePrefab.transform.rotation, Target.transform);
+        Target.myObstacle = Barricade;
         CreateVFXOn(Barricade.transform, BasicVFX.transform.rotation);
         foreach (GameObject disposable in visuals)
         {
@@ -129,11 +130,11 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
     }
     protected override void ColourTiles()
     {
-        foreach (Tile tile in myUnit.myTile.GetNeighbours())
+        foreach (Tile tile in myUnit.myTile.neighbours)
         {
-            if (tile.IsLegalTile())
+            if (tile.IsWalkable())
             {
-                tile.TCTool.ColourTile(Color.green);
+                ColouringTool.SetColour(tile, Color.green);
             }
         }
     }

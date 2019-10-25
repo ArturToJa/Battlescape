@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class UnitHighlighter : MonoBehaviour
 {
     bool toggle;
     bool isPressingControl = false;
+    List<Tile> ControlledTiles = new List<Tile>();
 
     void Update()
     {
@@ -35,9 +37,9 @@ public class UnitHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.isBeingColoredByNormalHighlighter)
+                if (ControlledTiles.Contains(tile))
                 {
-                    tile.isBeingColoredByNormalHighlighter = false;
+                    ControlledTiles.Remove(tile);
                     tile.GetComponent<Renderer>().material.color = Color.white;
                 }
             }
@@ -51,7 +53,7 @@ public class UnitHighlighter : MonoBehaviour
                     if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitMovement>()) == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
-                        tile.isBeingColoredByNormalHighlighter = true;
+                        ControlledTiles.Add(tile);
                         thereIsAUnitWhoCanMove = true;
                     }
                 }
@@ -68,7 +70,7 @@ public class UnitHighlighter : MonoBehaviour
                     if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && tile.myUnit.isRanged && tile.myUnit.GetComponent<ShootingScript>().CanShoot == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
-                        tile.isBeingColoredByNormalHighlighter = true;
+                        ControlledTiles.Add(tile);
                         thereIsAUnitWhoCanMove = true;
                     }
                 }
@@ -84,7 +86,7 @@ public class UnitHighlighter : MonoBehaviour
                     if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && tile.myUnit.hasAttacked != true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
-                        tile.isBeingColoredByNormalHighlighter = true;
+                        ControlledTiles.Add(tile);
                         thereIsAUnitWhoCanMove = true;
                     }
                 }

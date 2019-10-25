@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Map : MonoBehaviour
 {
@@ -38,21 +39,15 @@ public class Map : MonoBehaviour
     {
         foreach (Tile ct in Board)
         {
+            ct.isDropzoneOfPlayer = new bool[2];
             if (ct.transform.position.x < 3 && ct.hasObstacle == false)
             {
-                ct.isFirstDropzone = true;
-                ct.isSecondDropzone = false;
+                ct.isDropzoneOfPlayer[0] = true;
             }
             else if (ct.transform.position.x > 12 && ct.hasObstacle == false)
             {
-                ct.isFirstDropzone = false;
-                ct.isSecondDropzone = true;
-            }
-            else if ((ct.transform.position.x >= 3 && ct.transform.position.x <= 12) || ct.hasObstacle == true)
-            {
-                ct.isFirstDropzone = false;
-                ct.isSecondDropzone = false;
-            }
+                ct.isDropzoneOfPlayer[1] = true;
+            }            
         }
     }
 

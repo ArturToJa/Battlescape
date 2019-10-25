@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 [RequireComponent(typeof(UnitMovement))]
 [RequireComponent(typeof(Rigidbody))]
@@ -142,7 +143,7 @@ public class UnitScript : MonoBehaviour
             List<UnitScript> enemies = new List<UnitScript>();
             if (myTile != null)
             {
-                List<Tile> neighbours = myTile.GetNeighbours();
+                List<Tile> neighbours = myTile.neighbours;
                 foreach (Tile tile in neighbours)
                 {
                     if (tile.myUnit != null)
@@ -166,7 +167,7 @@ public class UnitScript : MonoBehaviour
             List<UnitScript> allies = new List<UnitScript>();
             if (myTile != null)
             {
-                List<Tile> neighbours = myTile.GetNeighbours();
+                List<Tile> neighbours = myTile.neighbours;
                 foreach (Tile tile in neighbours)
                 {
                     if (tile.myUnit != null)
@@ -214,8 +215,6 @@ public class UnitScript : MonoBehaviour
         int myX = Mathf.RoundToInt(transform.position.x);
         int myZ = Mathf.RoundToInt(transform.position.z);
         myTile = Map.Board[myX, myZ];
-        myTile.myUnit = this;
-        DeathEvent += myTile.OnMyUnitDied;
     }
 
     public void OnNewTurn()
@@ -269,7 +268,7 @@ public class UnitScript : MonoBehaviour
 
     bool StandsNextToDestructible(DestructibleScript target)
     {
-        return (myTile.GetNeighbours().Contains(target.transform.parent.GetComponent<Tile>()));
+        return (myTile.neighbours.Contains(target.transform.parent.GetComponent<Tile>()));
     }
 
     public void DeathSound()
@@ -343,7 +342,7 @@ public class UnitScript : MonoBehaviour
         if (CurrentHP <= 0 && isAlive)
         {
             //this needs to happen BEFORE the DeathEvent or we need to refactor trhe whole wthing into like ONE? XD
-            myTile.OnUnitExitTile();
+            myTile.SetMyUnitTo(null);
             if (DeathEvent != null)
             {
                 DeathEvent();
@@ -473,7 +472,7 @@ public class UnitScript : MonoBehaviour
         }
         else
         {
-            foreach (Tile tile in myTile.GetNeighbours())
+            foreach (Tile tile in myTile.neighbours)
             {
                 if (tile.GetComponentInChildren<Obstacle_Cover>() != null)
                 {

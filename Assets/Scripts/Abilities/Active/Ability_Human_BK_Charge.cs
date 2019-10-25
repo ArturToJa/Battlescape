@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class Ability_Human_BK_Charge : Ability_Basic
 {
@@ -46,8 +47,8 @@ public class Ability_Human_BK_Charge : Ability_Basic
     public override void Activate()
     {
         Log.SpawnLog(myUnit.name + " uses Charge!");
-        Pathfinder.Instance.BFS(myUnit.myTile, true);
-        int tileCount = Pathfinder.Instance.GetDistanceFromTo(myUnit.myTile, Target, true);
+        Pathfinder.Instance.BFS(myUnit);
+        int tileCount = Pathfinder.Instance.GetDistanceFromTo(myUnit, Target);
         StartCoroutine(Charge(tileCount));
     }
 
@@ -69,7 +70,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
             foreach (Tile tile in Map.Board)
             {
                 
-                if ((Pathfinder.Instance.GetDistanceFromTo(myUnit.myTile, tile, true) == GetComponent<UnitMovement>().GetCurrentMoveSpeed(true)) && tile.IsOccupiedByEnemy(myUnit.PlayerID) && tile.isWalkable && tile.hasObstacle == false)
+                if ((Pathfinder.Instance.GetDistanceFromTo(myUnit, tile) == GetComponent<UnitMovement>().GetCurrentMoveSpeed(true)) && tile.IsProtectedByEnemyOf(myUnit) && tile.IsWalkable() && tile.hasObstacle == false)
                 {
                     var temp = Instantiate(BonusMarker, tile.transform.position, Quaternion.identity, tile.transform);
                     BonusMarkers.Add(temp);
@@ -87,7 +88,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         CreateVFXOn(transform, transform.rotation);
         PlayAbilitySound();
         IsForcingMovementStuff = false;
-        PathCreator.Instance.AddSteps(myUnit.myTile,Target);
+        PathCreator.Instance.AddSteps(myUnit,Target);
         MovementSystem.Instance.SendCommandToMove(myUnit.GetComponent<UnitMovement>());
         while (myUnit.GetComponent<UnitMovement>().isMoving)
         {
@@ -163,7 +164,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
             int speed = myUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
             foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
             {
-                int distance = Pathfinder.Instance.GetDistanceFromTo(myUnit.myTile, enemy.myTile, true);
+                int distance = Pathfinder.Instance.GetDistanceFromTo(myUnit, enemy.myTile);
                 if ((enemy.isRanged || enemy.GetComponent<HeroScript>() != null) && distance != -1 && (distance > speed && speed < distance + 2) || speed + 2 > distance && (float)(speed + 2) / 2 < distance)
                 {
                     return true;
@@ -181,7 +182,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         if (myUnit.myTile != Target)
         {
             Log.SpawnLog(myUnit.name + " uses Charge!");
-            PathCreator.Instance.AddSteps(myUnit.myTile,Target.GetComponent<Tile>());
+            PathCreator.Instance.AddSteps(myUnit,Target.GetComponent<Tile>());
             StartCoroutine(Charge(PathCreator.Instance.Path.Count - 1));
         }
         else
@@ -196,11 +197,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
         int speed = myUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
         foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
         {
-            if (Pathfinder.Instance.GetDistanceFromTo(myUnit.myTile, enemy.myTile, true) <= speed &&(enemy.isRanged || enemy.GetComponent<HeroScript>() != null))
+            if (Pathfinder.Instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed &&(enemy.isRanged || enemy.GetComponent<HeroScript>() != null))
             {
-                foreach (Tile neighbour in enemy.myTile.GetNeighbours())
+                foreach (Tile neighbour in enemy.myTile.neighbours)
                 {
-                    if (neighbour.IsLegalTile() && Pathfinder.Instance.WouldTileBeLegal(neighbour,myUnit,speed+2))
+                    if (neighbour.IsWalkable() && Pathfinder.Instance.WouldTileBeLegal(neighbour,myUnit,speed+2))
                     {
                         return neighbour.gameObject;
                     }
@@ -209,11 +210,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
         }
         foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
         {
-            if (Pathfinder.Instance.GetDistanceFromTo(myUnit.myTile, enemy.myTile, true) <= speed)
+            if (Pathfinder.Instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed)
             {
-                foreach (Tile neighbour in enemy.myTile.GetNeighbours())
+                foreach (Tile neighbour in enemy.myTile.neighbours)
                 {
-                    if (neighbour.IsLegalTile() && Pathfinder.Instance.WouldTileBeLegal(neighbour, myUnit, speed + 2))
+                    if (neighbour.IsWalkable() && Pathfinder.Instance.WouldTileBeLegal(neighbour, myUnit, speed + 2))
                     {
                         return neighbour.gameObject;
                     }
@@ -221,9 +222,9 @@ public class Ability_Human_BK_Charge : Ability_Basic
             }
         }
         // Here we have NO targets at all.. IMO we can move just by one for no reason at all xD
-        foreach (Tile neighbour in myUnit.myTile.GetNeighbours())
+        foreach (Tile neighbour in myUnit.myTile.neighbours)
         {
-            if (neighbour.IsLegalTile())
+            if (neighbour.IsWalkable())
             {
                 Debug.Log(neighbour.name);
                 return neighbour.gameObject;

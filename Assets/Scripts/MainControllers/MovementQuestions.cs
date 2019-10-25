@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class MovementQuestions : MonoBehaviour
 {
@@ -104,7 +105,7 @@ public class MovementQuestions : MonoBehaviour
 
     bool AreTheTilesNeighbours(Tile a, Tile b)
     {
-        if (a.GetNeighbours().Contains(b))
+        if (a.neighbours.Contains(b))
         {
             return true;
         }
@@ -121,14 +122,7 @@ public class MovementQuestions : MonoBehaviour
             return true;
         }
         Tile lastTile = PathCreator.Instance.Path[PathCreator.Instance.Path.Count - 1];
-        if (lastTile.TCTool.IsTileSafeFor(lastTile, unit))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return lastTile.IsProtectedByEnemyOf(unit) == false;
     }
 
 
@@ -147,7 +141,7 @@ public class MovementQuestions : MonoBehaviour
 
     bool IsThisTileLegal(Tile tile, UnitMovement unit, bool isAffectedByCombat)
     {
-        Pathfinder.Instance.BFS(unit.GetComponent<UnitScript>().myTile, true);
+        Pathfinder.Instance.BFS(unit.GetComponent<UnitScript>());
         if (Pathfinder.Instance.GetAllLegalTilesAndIfTheyAreSafe(unit, isAffectedByCombat).ContainsKey(tile))
         {
             return true;

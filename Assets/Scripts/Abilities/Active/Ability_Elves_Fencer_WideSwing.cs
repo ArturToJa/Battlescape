@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 {
@@ -45,9 +46,9 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     void ColourPotentialTargets()
     {
-        foreach (Tile neighbour in myUnit.myTile.GetNeighbours())
+        foreach (Tile neighbour in myUnit.myTile.neighbours)
         {
-            if (neighbour.myUnit != null && MouseManager.Instance.MouseoveredUnit.myTile.GetNeighbours().Contains(neighbour))
+            if (neighbour.myUnit != null && MouseManager.Instance.MouseoveredUnit.myTile.neighbours.Contains(neighbour))
             {
                 PaintObject(neighbour.myUnit.gameObject, Color.red);
                 colouredUnits.Add(neighbour.myUnit.gameObject);
@@ -97,9 +98,9 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
         UnitScript Enemy = Target.myUnit;
         // Hit for Target
         HitForSwing(Enemy);
-        foreach (Tile neighbour in myUnit.myTile.GetNeighbours())
+        foreach (Tile neighbour in myUnit.myTile.neighbours)
         {
-            if (neighbour.myUnit != null && Enemy.myTile.GetNeighbours().Contains(neighbour))
+            if (neighbour.myUnit != null && Enemy.myTile.neighbours.Contains(neighbour))
             {
                 HitForSwing(neighbour.myUnit);
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class MarkerScript : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class MarkerScript : MonoBehaviour
     }
 
     private void Update()
-    {
-        r.enabled = !GetComponentInParent<Tile>().isUnderEacs && MouseManager.Instance.mouseoveredTile != null;
+    {        
+        r.enabled = !GetComponentInParent<Tile>().isUnderMovementMarker && MouseManager.Instance.mouseoveredTile != null;
     }
 
 }
