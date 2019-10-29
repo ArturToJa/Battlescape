@@ -33,7 +33,7 @@ namespace BattlescapeLogic
             }
         }
         public bool isUnderMovementMarker { get; set; }
-        public Position position { get; set; }        
+        public Position position { get; set; }
         public bool[] isDropzoneOfPlayer { get; set; }
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
@@ -41,7 +41,7 @@ namespace BattlescapeLogic
         public List<Tile> neighbours
         {
             get
-            {                
+            {
                 List<Tile> returnList = new List<Tile>();
 
                 for (int i = 0; i < Map.mapWidth; i++)
@@ -88,7 +88,7 @@ namespace BattlescapeLogic
             }
             return false;
         }
-        
+
         //TEMPORARY function, I think?
 
         //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
@@ -103,13 +103,12 @@ namespace BattlescapeLogic
         public void SetMyUnitTo(UnitScript unit)
         {
             myUnit = unit;
-            if (myUnit != null && myUnit.myTile != null)
+            Tile oldTile = myUnit.myTile;
+            if (unit != null && oldTile != null && oldTile != this)
             {
-                myUnit.myTile.myUnit = null;
+                oldTile.myUnit = null;
                 myUnit.myTile = this;
             }
-
-
         }
 
         public void DestroyObstacle()

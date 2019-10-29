@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
 
-public class DropZone : MonoBehaviour, IDropHandler
+public class DropZone : MonoBehaviour//, IDropHandler
 {
     public static DropZone Instance;
 
@@ -13,7 +13,7 @@ public class DropZone : MonoBehaviour, IDropHandler
     {
         Instance = this;
     }
-    public void OnDrop(PointerEventData eventData)
+    /*public void OnDrop(PointerEventData eventData)
     {
         if (!DidHitLegalTile() || DidHitUnit())
         {
@@ -31,42 +31,9 @@ public class DropZone : MonoBehaviour, IDropHandler
         }
     }
 
-    public void CommandInstantiateUnit(int UnitID, int PlayerID, Vector3 position)
-    {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
-        {
-            GetComponent<PhotonView>().RPC("RPCInstantiateUnit", PhotonTargets.All, UnitID, PlayerID, position);
-            //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
-        }
-        else
-        {
-            InstantiateUnit(UnitID, PlayerID, position);
-        }
-    }
+    
 
-    [PunRPC]
-    void RPCInstantiateUnit(int unitID, int PlayerID, Vector3 position)
-    {
-        InstantiateUnit(unitID, PlayerID, position);
-        
-    }
-
-    void InstantiateUnit(int unitID, int PlayerID, Vector3 position)
-    {
-        GameObject UnitObject = Unit.FindUnitsObjectByIntID(unitID, PlayerID);
-        GameObject InstantiatedUnit = Instantiate(UnitObject, position, UnitObject.transform.rotation);
-        Unit myUnit = InstantiatedUnit.GetComponent<UnitScript>().unitUnit;
-        InstantiatedUnit.name = myUnit.Name;
-        if (PlayerID == 0)
-        {
-            NewGameScript.PlayerOneArmy.Add(position, myUnit);
-        }
-        else
-        {
-            NewGameScript.PlayerTwoArmy.Add(position, myUnit);
-        }
-        MovementExecutor.SetTileAndUnitPair(InstantiatedUnit.GetComponent<UnitScript>(), position);
-    }
+   
 
     bool DidHitLegalTile()
     {
@@ -125,6 +92,43 @@ public class DropZone : MonoBehaviour, IDropHandler
         {
             NewGameScript.PlayerTwoArmy.Remove(unit.transform.position);
         }
+    }*/
+
+    public void CommandInstantiateUnit(int UnitID, int PlayerID, Vector3 position)
+    {
+        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        {
+            GetComponent<PhotonView>().RPC("RPCInstantiateUnit", PhotonTargets.All, UnitID, PlayerID, position);
+            //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
+        }
+        else
+        {
+            InstantiateUnit(UnitID, PlayerID, position);
+        }
+    }
+
+    [PunRPC]
+    void RPCInstantiateUnit(int unitID, int PlayerID, Vector3 position)
+    {
+        InstantiateUnit(unitID, PlayerID, position);
+
+    }
+
+    void InstantiateUnit(int unitID, int PlayerID, Vector3 position)
+    {
+        GameObject UnitObject = Unit.FindUnitsObjectByIntID(unitID, PlayerID);
+        GameObject InstantiatedUnit = Instantiate(UnitObject, position, UnitObject.transform.rotation);
+        Unit myUnit = InstantiatedUnit.GetComponent<UnitScript>().unitUnit;
+        InstantiatedUnit.name = myUnit.Name;
+        if (PlayerID == 0)
+        {
+            NewGameScript.PlayerOneArmy.Add(position, myUnit);
+        }
+        else
+        {
+            NewGameScript.PlayerTwoArmy.Add(position, myUnit);
+        }
+        MovementExecutor.SetTileAndUnitPair(InstantiatedUnit.GetComponent<UnitScript>(), position);
     }
 
     [PunRPC]

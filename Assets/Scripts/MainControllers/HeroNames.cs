@@ -57,7 +57,6 @@ public class HeroNames : MonoBehaviour
             }
         }
         string newName = null;
-
         PlayerHeroNames[heroObject.GetComponent<UnitScript>().PlayerID] = GetRandomHeroName();
         newName = PlayerHeroNames[heroObject.GetComponent<UnitScript>().PlayerID];
         heroObject.name = heroObject.GetComponent<UnitScript>().unitUnit.Name + " " + newName;

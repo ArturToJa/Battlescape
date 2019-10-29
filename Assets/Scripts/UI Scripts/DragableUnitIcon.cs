@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragableUnitIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerDownHandler
+/*public class DragableUnitIcon : MonoBehaviour//, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerDownHandler
 {
-    float delay = 0.5f;
+    /*float delay = 0.5f;
     float timeSinceClick = 0f;
     bool wasClickedThisSecond = false;
     public static GameObject objectBeingDragged;
@@ -88,4 +88,4 @@ public class DragableUnitIcon : MonoBehaviour, IDragHandler, IBeginDragHandler, 
         }
         
     }
-}
+}*/

@@ -14,15 +14,16 @@ public class VictoryLossChecker : MonoBehaviour
 
     private void Update()
     {
+        UpdateUnitLists();
         if (TurnManager.Instance.TurnCount > 0)
         {
-            UpdateUnitLists();
+
             if (TurnManager.Instance.TurnCount > 1 && TurnManager.Instance.TurnCount > TurnManager.Instance.TurnsInTheGame)
             {
                 CalculateWinner();
             }
-        }        
-            UIManager.SmoothlyTransitionActivity(WinScreen, (Player.Players[0].HasWon || Player.Players[1].HasWon), 0.2f);
+        }
+        UIManager.SmoothlyTransitionActivity(WinScreen, (Player.Players[0].HasWon || Player.Players[1].HasWon), 0.2f);
         GreenPoints.text = Player.Players[0].PlayerScore.ToString();
         RedPoints.text = Player.Players[1].PlayerScore.ToString();
     }
@@ -41,13 +42,13 @@ public class VictoryLossChecker : MonoBehaviour
             if (unit.CurrentHP > 0)
             {
                 Player.Players[unit.PlayerID].PlayerUnits.Add(unit);
-            
+
             }
         }
 
 
 
-    }    
+    }
 
     private void CalculateWinner()
     {

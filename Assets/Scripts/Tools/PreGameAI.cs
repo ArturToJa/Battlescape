@@ -8,17 +8,28 @@ public class PreGameAI
     // this class is supposed to make an army "randomly" position itself in the begining of a fight. I want it also to be an option for PLAYER's army - so that a "casual" player, who does not want to 
     // have to think about it - can also click it and not think about positioning army before the battle.
 
-    public PreGameAI(Transform DeploP)
+
+    public void RepositionUnits()
     {
-        DeploymentPanel = DeploP;
+        foreach (UnitScript unit in Player.Players[TurnManager.Instance.PlayerToMove].PlayerUnits)
+        {
+            Tile newTile = ChooseTheTile();
+            DragableUnit.SetNewPosition(unit.myTile.position.x, unit.myTile.position.z, newTile.position.x, newTile.position.z);
+        }
     }
-    Transform DeploymentPanel;
 
     public void PositionUnits()
     {
-        foreach (Transform unit in DeploymentPanel)
+        int heroID = (int)SaveLoadManager.Instance.playerArmy.heroID;
+        Position(heroID, TurnManager.Instance.PlayerToMove, ChooseTheTile());
+        foreach (UnitID integer in SaveLoadManager.Instance.playerArmy.unitIDs)
         {
-            Position(unit.GetComponent<DragableUnitIcon>().me, ChooseTheTile(unit.GetComponent<DragableUnitIcon>().me));            
+            Position((int)integer, TurnManager.Instance.PlayerToMove, ChooseTheTile());
+        }
+        /*foreach (Transform unit in DeploymentPanel)
+        {
+            
+                    
         }
         int tempInt = DeploymentPanel.transform.childCount;
         for (int i = 0; i < tempInt; i++)
@@ -31,10 +42,10 @@ public class PreGameAI
             {
                 Object.Destroy(DeploymentPanel.transform.GetChild(i).gameObject);
             }
-        }
+        }*/
     }
 
-    public void Position(Unit unit, Tile tile)
+    public void Position(int unitID, int playerID, Tile tile)
     {
 
         if (tile == null)
@@ -42,31 +53,31 @@ public class PreGameAI
             return;
         }
 
-        DropZone.Instance.CommandInstantiateUnit((int)unit.myUnitID, TurnManager.Instance.PlayerToMove, tile.transform.position);
+        DropZone.Instance.CommandInstantiateUnit(unitID, TurnManager.Instance.PlayerToMove, tile.transform.position);
     }
 
 
-    public Tile ChooseTheTile(Unit me)
+    public Tile ChooseTheTile()
     {
         List<Tile> possibleTiles = new List<Tile>();
-        List<Tile> greatTiles = new List<Tile>();
+        //List<Tile> greatTiles = new List<Tile>();
         foreach (Tile tile in Map.Board)
         {
-            if (tile.IsWalkable() && tile.hasObstacle == false && ((tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove])))
+            if (tile.IsWalkable() && ((tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove])))
             {
                 possibleTiles.Add(tile);
-                if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
+                /*if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
                 {
                     greatTiles.Add(tile);
                 }
                 else if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged == false && (tile.transform.position.x == 1 || tile.transform.position.x == 2 || tile.transform.position.x == 13 || tile.transform.position.x == 14) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
                 {
                     greatTiles.Add(tile);
-                }
+                }*/
             }
         }
         Tile chosenTile = null;
-        chosenTile = ChooseRandomTileFromList(greatTiles);
+        //chosenTile = ChooseRandomTileFromList(greatTiles);
         if (chosenTile == null)
         {
             chosenTile = ChooseRandomTileFromList(possibleTiles);
@@ -76,7 +87,7 @@ public class PreGameAI
             Debug.LogError("Too many units, couldn't put them on battlefield");
             return null;
         }
-      //  Debug.Log("tile" + chosenTile);
+        //  Debug.Log("tile" + chosenTile);
         return chosenTile;
     }
 

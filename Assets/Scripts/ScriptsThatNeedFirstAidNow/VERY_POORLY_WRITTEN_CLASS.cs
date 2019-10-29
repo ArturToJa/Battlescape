@@ -35,10 +35,12 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         CameraController.Instance.manualCamera = false;
         CameraController.Instance.correctCamera = true;
         DeploymentPanel.parent.gameObject.SetActive(true);
-        CreateAllUnits();
+        //CreateAllUnits();
+        PreGameAI temp = new PreGameAI();
+        temp.PositionUnits();
     }
 
-    public void CreateUnit(GameObject Unit, RenderTexture _sprite, Unit _me)
+    /*public void CreateUnit(GameObject Unit, RenderTexture _sprite, Unit _me)
     {
         var temp = Instantiate(Unit, DeploymentPanel);
         temp.GetComponentInChildren<RawImage>().texture = _sprite;
@@ -67,5 +69,5 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         }
         CreateHero(SaveLoadManager.Instance.hero.thisBox, SaveLoadManager.Instance.hero.ThisRealSprite, SaveLoadManager.Instance.hero);
 
-    }
+    }*/
 }

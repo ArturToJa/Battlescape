@@ -9,8 +9,7 @@ public static class ColouringTool
 
     public static void UncolourAllTiles()
     {
-        Tile[] AllTiles = Object.FindObjectsOfType<Tile>();
-        foreach (Tile tile in AllTiles)
+        foreach (Tile tile in Map.Board)
         {
             UncolourTile(tile);
         }

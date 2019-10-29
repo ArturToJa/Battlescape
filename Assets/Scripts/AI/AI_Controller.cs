@@ -62,8 +62,8 @@ public class AI_Controller : MonoBehaviour
         }
         if (TurnManager.Instance.TurnCount == 0 && GameStateManager.Instance.IsCurrentPlayerAI())
         {
-            PreGameAI tool = new PreGameAI(DeploymentPanel);
-            tool.PositionUnits();
+            //PreGameAI tool = new PreGameAI();
+            //tool.PositionUnits();
             endButton.OK();
         }
         if (VictoryLossChecker.HasGameEnded() || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || GameStateManager.Instance.IsCurrentPlayerAI() == false)
@@ -168,9 +168,12 @@ public class AI_Controller : MonoBehaviour
     }
     public void UsePreGameAIForHuman()
     {
-        FindObjectOfType<CancelUnitsDeployment>().CommandCancel();
-        var temp = new PreGameAI(DeploymentPanel);
-        temp.PositionUnits();
+        //FindObjectOfType<CancelUnitsDeployment>().CommandCancel();
+        var temp = new PreGameAI();
+        temp.RepositionUnits();
     }
+
+
+
 }
 
