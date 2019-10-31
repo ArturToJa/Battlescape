@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using BattlescapeLogic;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -18,14 +19,14 @@ public class SaveLoadManager : MonoBehaviour
     public string currentSaveName;
     public int currentSaveValue = 25;
     public Unit hero;
-    public Faction? Race;
+    public Faction Race;
     public string HeroName;
-    public Faction[] ChosenFactions = new Faction[2];
+    //public Faction[] ChosenFactions = new Faction[2];
     public bool AreBothFactionsChosen
     {
         get
         {
-            return ChosenFactions[0] != Faction.Neutral && ChosenFactions[1] != Faction.Neutral;
+            return Global.instance.playerBuilders[0].race != Faction.Neutral && Global.instance.playerBuilders[1].race != Faction.Neutral;
         }
     }
     Faction LocalFaction
@@ -34,11 +35,11 @@ public class SaveLoadManager : MonoBehaviour
         {
             if (PhotonNetwork.isMasterClient)
             {
-                return ChosenFactions[0];
+                return Global.instance.playerBuilders[0].race;
             }
             else
             {
-                return ChosenFactions[1];
+                return Global.instance.playerBuilders[1].race;
             }
         }
     }
@@ -46,8 +47,8 @@ public class SaveLoadManager : MonoBehaviour
 
     void Awake()
     {
-        ChosenFactions[0] = Faction.Neutral;
-        ChosenFactions[1] = Faction.Neutral;
+        //ChosenFactions[0] = Faction.Neutral;
+        //ChosenFactions[1] = Faction.Neutral;
         if (Instance == null)
         {
             Instance = this;
@@ -73,9 +74,10 @@ public class SaveLoadManager : MonoBehaviour
 
     void Start()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Singleplayer && Player.Players[0].Type == PlayerType.AI)
+        if (GameStateManager.Instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].Players[0].type == PlayerType.AI)
         {
-            LoadAIArmyToGame(currentSaveValue);
+            Debug.Log("WOOF");
+            LoadAIArmyToGame(Global.instance.playerBuilders[0], currentSaveValue);
         }
     }
 
@@ -188,16 +190,16 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            HeroNames.SetHeroName(TurnManager.Instance.PlayerToMove, HeroName);
+            HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, HeroName);
         }
     }
-    public void LoadAIArmyToGame(int points)
+    public void LoadAIArmyToGame(PlayerBuilder player, int points)
     {
         LoadAIArmy(points);
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
-        HeroNames.SetHeroName(TurnManager.Instance.PlayerToMove, HeroName);
-        Player.Players[1].Race = Race;
+        HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, HeroName);
+        player.race = (Faction)Race;
     }
 
     public void RecreateUnitsList()
@@ -239,9 +241,9 @@ public class SaveLoadManager : MonoBehaviour
         ArmyBuilder.Instance.UnitsList.Clear();
         ArmyBuilder.Instance.UnitsList = UnitsList;
     }
-    public Dictionary<string,string> GetSaveNames(string location)
+    public Dictionary<string, string> GetSaveNames(string location)
     {
-        Dictionary<string,string> saveNames = new Dictionary<string, string>();
+        Dictionary<string, string> saveNames = new Dictionary<string, string>();
         DirectoryInfo dir = new DirectoryInfo(location + currentSaveValue.ToString() + "points");
         if (dir.Exists == false)
         {
@@ -250,7 +252,7 @@ public class SaveLoadManager : MonoBehaviour
         FileInfo[] info = dir.GetFiles("*.lemur");
         foreach (FileInfo f in info)
         {
-            saveNames.Add(Path.GetFileNameWithoutExtension(f.FullName), Path.GetFullPath(f.FullName));            
+            saveNames.Add(Path.GetFileNameWithoutExtension(f.FullName), Path.GetFullPath(f.FullName));
         }
         return saveNames;
     }
@@ -261,18 +263,18 @@ public class SaveLoadManager : MonoBehaviour
         if (list != null)
         {
             foreach (var item in list)
-            {                
+            {
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
                 if (armyInfo.faction == null)
                 {
                     Debug.Log("deleted");
-                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");                    
+                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
                     continue;
                 }
                 if (armyInfo.faction == race)
                 {
                     return true;
-                }                
+                }
             }
         }
         return false;
@@ -300,7 +302,7 @@ public class SaveLoadManager : MonoBehaviour
             currentSaveName = null;
             hero = null;
             HeroName = null;
-            Race = null;
+            Race = Faction.Neutral;
             playerArmy = new PlayerArmy();
             UnitsList = new List<Unit>();
             FindObjectOfType<WindowSetter>().GoBack();
@@ -355,7 +357,7 @@ public class SaveLoadManager : MonoBehaviour
 
     PlayerArmy GetInsidesOfASave(string saveName)
     {
-        
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(saveName, FileMode.Open);
         PlayerArmy save = bf.Deserialize(file) as PlayerArmy;
@@ -363,42 +365,42 @@ public class SaveLoadManager : MonoBehaviour
         return save;
     }
 
-   /* string GetRaceHeroPair()
-    {
-        string name= "";
-        switch (Race)
-        {
-            case Faction.Elves:
-                name = "E";
-                break;
-            case Faction.Human:
-                name = "H";
-                break;
-            case Faction.Neutral:
-                name = "N";
-                Debug.LogWarning("This is neutral army!");
-                break;
-            default:
-                Debug.LogError("NEW RACE EXISTS, FIX IT NOW!");
-                break;
-        }
-        switch (hero.myUnitID)
-        {
-            case UnitID.Warrior:
-                name += "W";
-                break;
-            case UnitID.Ranger:
-                name += "R";
-                break;
-            case UnitID.Knight:
-                name += "K";
-                break;
-            default:
-                Debug.LogError("NEW HERO CLASS EXISTS, FIX IT NOW!");
-                break;
-        }
-        return name;
-    }*/
+    /* string GetRaceHeroPair()
+     {
+         string name= "";
+         switch (Race)
+         {
+             case Faction.Elves:
+                 name = "E";
+                 break;
+             case Faction.Human:
+                 name = "H";
+                 break;
+             case Faction.Neutral:
+                 name = "N";
+                 Debug.LogWarning("This is neutral army!");
+                 break;
+             default:
+                 Debug.LogError("NEW RACE EXISTS, FIX IT NOW!");
+                 break;
+         }
+         switch (hero.myUnitID)
+         {
+             case UnitID.Warrior:
+                 name += "W";
+                 break;
+             case UnitID.Ranger:
+                 name += "R";
+                 break;
+             case UnitID.Knight:
+                 name += "K";
+                 break;
+             default:
+                 Debug.LogError("NEW HERO CLASS EXISTS, FIX IT NOW!");
+                 break;
+         }
+         return name;
+     }*/
 
     public Sprite GetRaceSprite(Faction race)
     {
@@ -413,7 +415,7 @@ public class PlayerArmy
     public string HeroName;
     public List<UnitID> unitIDs;
     public UnitID? heroID;
-    public Faction? faction;
+    public Faction faction;
 }
 
 [System.Serializable]

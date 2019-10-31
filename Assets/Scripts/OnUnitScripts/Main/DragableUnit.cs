@@ -17,7 +17,7 @@ public class DragableUnit : MonoBehaviour
         if (Physics.Raycast(cameraRay,out hitInfo, Mathf.Infinity,tileMask))
         {
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-            if (tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove] && tile.IsWalkable())
+            if (tile.isDropzoneOfPlayer[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index] && tile.IsWalkable())
             {
                 if (GameStateManager.Instance.MatchType == MatchTypes.Online)
                 {

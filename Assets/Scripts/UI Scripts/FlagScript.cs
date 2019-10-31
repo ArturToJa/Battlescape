@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class FlagScript : MonoBehaviour
 {
@@ -20,27 +21,26 @@ public class FlagScript : MonoBehaviour
     {
         if (isEndgameFlag)
         {
-            if (VictoryLossChecker.HasGameEnded() && VictoryLossChecker.IsGameDrawn() == false)
-            {
-                if (Player.Players[0].HasWon)
+            
+                if (VictoryLossChecker.gameResult == GameResult.GreenWon)
                 {
-                    flag.sprite = Flags[(int)Player.Players[0].Colour];
-                    emblem.sprite = Emblems[(int)Player.Players[0].Race];
+                    flag.sprite = Flags[(int)Global.instance.playerTeams[0].Players[0].colour];
+                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[0].Players[0].race];
                 }
-                else
+                if(VictoryLossChecker.gameResult == GameResult.RedWon)
                 {
-                    flag.sprite = Flags[(int)Player.Players[1].Colour];
-                    emblem.sprite = Emblems[(int)Player.Players[1].Race];
+                    flag.sprite = Flags[(int)Global.instance.playerTeams[1].Players[0].colour];
+                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[1].Players[0].race];
                 }
-            }
-            UIManager.SmoothlyTransitionActivity(gameObject, VictoryLossChecker.HasGameEnded() && VictoryLossChecker.IsGameDrawn() == false, 0.01f);
+            
+            UIManager.SmoothlyTransitionActivity(gameObject, VictoryLossChecker.IsGameOver && VictoryLossChecker.gameResult != GameResult.Draw, 0.01f);
         }
         else
         {
-            if (Player.Players.ContainsKey(TurnManager.Instance.PlayerToMove))
+            if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0] != null)
             {                
-                flag.sprite = Flags[(int)Player.Players[TurnManager.Instance.PlayerToMove].Colour];
-                emblem.sprite = Emblems[(int)Player.Players[TurnManager.Instance.PlayerToMove].Race];
+                flag.sprite = Flags[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].colour];
+                emblem.sprite = Emblems[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].race];
             }
             
         }

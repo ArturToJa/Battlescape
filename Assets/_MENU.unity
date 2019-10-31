@@ -21887,7 +21887,6 @@ MonoBehaviour:
   currentSaveValue: 25
   hero: {fileID: 0}
   HeroName: 
-  ChosenFactions: 0000000000000000
 --- !u!4 &1859684904
 Transform:
   m_ObjectHideFlags: 0
@@ -22132,8 +22131,9 @@ GameObject:
   - component: {fileID: 1883127333}
   - component: {fileID: 1883127332}
   - component: {fileID: 1883127334}
+  - component: {fileID: 1883127335}
   m_Layer: 0
-  m_Name: HolyObjectGSM
+  m_Name: Global
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22193,6 +22193,17 @@ MonoBehaviour:
   instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &1883127335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1883127331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ab3a35c4905f64e9e984fd8c0bdeb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1892118281
 GameObject:
   m_ObjectHideFlags: 0

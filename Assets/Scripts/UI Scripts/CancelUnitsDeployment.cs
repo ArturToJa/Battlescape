@@ -45,7 +45,7 @@ public class CancelUnitsDeployment : MonoBehaviour
             {
                 dz.DestroyRealUnit(unit);
                 unit.myTile.SetMyUnitTo(null);
-                if (Player.Players[ID].Type == PlayerType.Local)
+                if (Player.Players[ID].type == PlayerType.Local)
                 {
                     if (unit.unitUnit.ThisRealSprite == null)
                     {

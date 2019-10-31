@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class EndGameText : MonoBehaviour
 {
     void Update()
     {
-        if (VictoryLossChecker.HasGameEnded() == false)
+        if (VictoryLossChecker.IsGameOver == false)
         {
             return;
         }
-        if (VictoryLossChecker.IsGameDrawn())
+        if (VictoryLossChecker.gameResult == GameResult.Draw)
         {
             DrawText();
         }
@@ -20,54 +21,36 @@ public class EndGameText : MonoBehaviour
             switch (GameStateManager.Instance.MatchType)
             {
                 case MatchTypes.Online:
-                    for (int i = 0; i < Player.Players.Count; i++)
+                    if ((VictoryLossChecker.gameResult == GameResult.GreenWon && Global.instance.playerTeams[0].Players[0].type == PlayerType.Local) ||(VictoryLossChecker.gameResult == GameResult.RedWon && Global.instance.playerTeams[1].Players[0].type == PlayerType.Local))
                     {
-                        if (Player.Players[i].Type == PlayerType.Local)
-                        {
-                            if (Player.Players[i].HasWon)
-                            {
-                                WinText(i);
-                            }
-                            else
-                            {
-                                LoseText(i);
-                            }
-                        }
+                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
+                    }
+                    else
+                    {
+                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
                     }
                     break;
-                    
+
                 case MatchTypes.HotSeat:
-                    for (int i = 0; i < Player.Players.Count; i++)
+                    if ((VictoryLossChecker.gameResult == GameResult.GreenWon && TurnManager.Instance.PlayerToMove == 0) ||(VictoryLossChecker.gameResult == GameResult.RedWon && TurnManager.Instance.PlayerToMove == 1))
                     {
-                        if (TurnManager.Instance.PlayerToMove == i)
-                        {
-                            if (Player.Players[i].HasWon)
-                            {
-                                WinText(i);
-                            }
-                            else
-                            {
-                                LoseText(i);
-                            }
-                        }
+                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
                     }
+                    else
+                    {
+                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
+                    }                    
                         break;
                 case MatchTypes.Singleplayer:
-                    for (int i = 0; i < Player.Players.Count; i++)
+                    if ((VictoryLossChecker.gameResult == GameResult.GreenWon && Global.instance.playerTeams[0].Players[0].type == PlayerType.Local) || (VictoryLossChecker.gameResult == GameResult.RedWon && Global.instance.playerTeams[1].Players[0].type == PlayerType.Local))
                     {
-                        if (Player.Players[i].Type == PlayerType.Local)
-                        {
-                            if (Player.Players[i].HasWon)
-                            {
-                                WinText(i);
-                            }
-                            else
-                            {
-                                LoseText(i);
-                            }
-                        }
+                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
                     }
-                        break;
+                    else
+                    {
+                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]);
+                    }
+                    break;
                 default:
                     break;
             }            
@@ -82,7 +65,7 @@ public class EndGameText : MonoBehaviour
             //note that if it is a draw and one hero is dead, both heroes have to be dead!
             GetComponent<Text>().text += "All Heroes are dead!";
         }
-        else if (Player.Players[0].PlayerUnits.Count == 0 && Player.Players[1].PlayerUnits.Count == 0)
+        else if (Global.instance.playerTeams[0].Players[0].playerUnits.Count == 0 && Global.instance.playerTeams[1].Players[0].playerUnits.Count == 0)
         {
             GetComponent<Text>().text += "What a bloodbath!";
         }
@@ -92,9 +75,9 @@ public class EndGameText : MonoBehaviour
         }
     }
 
-    void WinText(int i)
+    void WinText(Player player)
     {
-        GetComponent<Text>().text = "Congratulations, " + Player.Players[i].Colour.ToString() + "! You have won!";
+        GetComponent<Text>().text = "Congratulations, " + player.playerName.ToString() + "! You have won!";
         if (VictoryLossChecker.isAHeroDead)
         {
             GetComponent<Text>().text += "\n" + "Enemy Hero is dead!";
@@ -111,9 +94,9 @@ public class EndGameText : MonoBehaviour
         }
     }
 
-    void LoseText(int i)
+    void LoseText(Player player)
     {
-        GetComponent<Text>().text = "You have lost, " + Player.Players[i].Colour.ToString() + "!";
+        GetComponent<Text>().text = "You have lost, " + player.playerName.ToString() + "!";
         if (VictoryLossChecker.isAHeroDead)
         {
             GetComponent<Text>().text += "\n" + "Your Hero is dead!";

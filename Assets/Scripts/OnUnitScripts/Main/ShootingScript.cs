@@ -129,7 +129,7 @@ public class ShootingScript : MonoBehaviour
                   && IsTargetInRange(target.transform.position)
                   && CanShoot
                   && GameStateManager.Instance.GameState == GameStates.ShootingState
-                  && theUnit.PlayerID == TurnManager.Instance.PlayerHavingTurn
+                  && theUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index
                   && IsInLineOfSight(transform.position, target.transform.position, isCursor)
                );
     }
@@ -149,14 +149,14 @@ public class ShootingScript : MonoBehaviour
             if (hit.collider.transform.gameObject.tag == "Tile")
             {
                 //MIND YOU - this HAS TO BE recreated in a new way (I have an idea, how) in new code if we want to keep this mechanic!
-                if (/*hit.collider.transform.gameObject.GetComponent<Tile>().isShootable == false*/ false)
-                {
-                    if (Input.GetMouseButtonDown(0) && showNoPopup == false)
-                    {
-                        PopupTextController.AddPopupText("Can not shoot through this obstacle!", PopupTypes.Info);
-                    }
-                    return false;
-                }
+                //if (/*hit.collider.transform.gameObject.GetComponent<Tile>().isShootable == false*/ false)
+                //{
+                //    if (Input.GetMouseButtonDown(0) && showNoPopup == false)
+                //    {
+                //        PopupTextController.AddPopupText("Can not shoot through this obstacle!", PopupTypes.Info);
+                //    }
+                //    return false;
+                //}
                 
             }
         }

@@ -8,11 +8,11 @@ namespace BattlescapeLogic
     {
         public PlayerTeam(int index, int numberOfPlayers)
         {
-            Index = index;
+            this.index = index;
             Players = new List<Player>(numberOfPlayers);
         }
 
-        public int Index;
+        public int index;
         public List<Player> Players;
 
         Player GetPlayerByIndex(int index)
@@ -20,7 +20,7 @@ namespace BattlescapeLogic
             return Players[index];
         }
 
-        void AddNewPlayer(Player player)
+        public void AddNewPlayer(Player player)
         {
             Players.Add(player);
         }

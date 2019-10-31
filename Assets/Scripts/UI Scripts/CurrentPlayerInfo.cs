@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class CurrentPlayerInfo : MonoBehaviour
 {
@@ -14,9 +15,9 @@ public class CurrentPlayerInfo : MonoBehaviour
         {
             return;
         }
-        if (Player.Players.ContainsKey(TurnManager.Instance.PlayerHavingTurn))
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn] != null &&Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0] != null)
         {
-            CurrentPlayer.text = Player.Players[TurnManager.Instance.PlayerHavingTurn].Colour.ToString() + "'s Turn.";
+            CurrentPlayer.text = Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerName.ToString() + "'s Turn.";
         }
     }
 }

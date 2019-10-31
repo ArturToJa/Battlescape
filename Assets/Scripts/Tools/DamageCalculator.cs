@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
+
 [System.Serializable]
 public class DamageCalculator
 {
@@ -52,7 +54,7 @@ public class DamageCalculator
         bool isShot = attacker.isRanged && (GameStateManager.Instance.GameState != GameStates.RetaliationState && GameStateManager.Instance.GameState != GameStates.AttackState) == false;
 
         bool didDie = target.DealDamage(damage, hits > 0, isPoisoned, isShot);
-        if (target.CanCurrentlyRetaliate && target.CurrentHP > 0 && Retaliatable && Player.IsPlayerLocal(target.PlayerID))
+        if (target.CanCurrentlyRetaliate && target.CurrentHP > 0 && Retaliatable && Global.instance.playerTeams[target.PlayerID].Players[0].type == PlayerType.Local)
         {
             GameStateManager.Instance.StartRetaliationChoice();
         }

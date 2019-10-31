@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class TurnManager : MonoBehaviour
 {
@@ -19,14 +20,14 @@ public class TurnManager : MonoBehaviour
     [SerializeField] TurnNumberText text1;
     [SerializeField] CurrentPlayerInfo text2;
 
-    
+
     PhotonView photonView;
     public static TurnManager Instance { get; private set; }
     [Header("Important")]
     public int TurnsInTheGame = 10;
     [Header("Nonsense")]
     public bool isEndgameTrue = false;
-    public int PlayerHavingTurn = 0;
+    public int PlayerHavingTurn;
     public int PlayerToMove
     {
         get
@@ -40,15 +41,7 @@ public class TurnManager : MonoBehaviour
                 return PlayerHavingTurn;
             }
         }
-    }
-    public int OpponentOfActivePlayer
-    {
-        get
-        {
-            return Mathf.Abs(PlayerToMove - 1);
-        }
-
-    }
+    }    
     public int TurnCount;
     public Button Next;
     public GameObject nexxt;
@@ -75,7 +68,7 @@ public class TurnManager : MonoBehaviour
         CurrentPhase = TurnPhases.None;
         TurnCount = -1;
 
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online && Player.Players[1].Type == PlayerType.Local)
+        if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[1].Players[0].type == PlayerType.Local)
         {
             // we are in an online game, AND we are not a host (precisely: second (red) player is the local player) so we should set CurrentPlayer stuff to 1 ;)
             PlayerHavingTurn = 1;
@@ -91,7 +84,7 @@ public class TurnManager : MonoBehaviour
 
     void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.End) && (Player.Players[PlayerHavingTurn].Type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
+        if (Input.GetKeyDown(KeyCode.End) && (Global.instance.playerTeams[PlayerHavingTurn].Players[0].type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
         {
             if (CurrentPhase == TurnPhases.Movement || CurrentPhase == TurnPhases.Shooting)
             {
@@ -106,7 +99,7 @@ public class TurnManager : MonoBehaviour
 
     void SetButtons()
     {
-    
+
         if (TurnCount > 10 && isEndgameTrue == false)
         {
             isEndgameTrue = true;
@@ -192,7 +185,7 @@ public class TurnManager : MonoBehaviour
         {
             turnSource.Play();
             TurnCount++;
-            if ( TurnCount > 16)
+            if (TurnCount > 16)
             {
                 PopupTextController.AddPopupText("Time is up!", PopupTypes.Stats);
             }
@@ -284,7 +277,7 @@ public class TurnManager : MonoBehaviour
             SetNextPhase(didAI);
         }
     }
-    
+
     [PunRPC]
     void RPCNextPhase(bool didAI)
     {
@@ -315,7 +308,7 @@ public class TurnManager : MonoBehaviour
 
     public void SwitchPlayerHavingTurn()
     {
-        PlayerHavingTurn = Mathf.Abs(PlayerHavingTurn - 1);
+        PlayerHavingTurn = Mathf.Abs(PlayerHavingTurn-1);
     }
 
     [PunRPC]
@@ -324,7 +317,7 @@ public class TurnManager : MonoBehaviour
         PlayerCountOfEndPreGame++;
         if (IsTimeToEndPreGame())
         {
-            PlayerHavingTurn = 1;
+            SwitchPlayerHavingTurn();
             SetNewTurn(true);
         }
     }

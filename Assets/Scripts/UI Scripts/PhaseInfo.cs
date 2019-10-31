@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI;using BattlescapeLogic;
 
 public class PhaseInfo : MonoBehaviour {
 
@@ -16,7 +16,7 @@ public class PhaseInfo : MonoBehaviour {
         }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Enemy)
         {
-            PhaseInfoText.text = Player.Players[Player.Players[ TurnManager.Instance.PlayerHavingTurn].Opponent].Colour.ToString() + "'s Responding!";
+            PhaseInfoText.text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0]).playerName.ToString() + "'s Responding!";
         }
         else
         {

@@ -3,36 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
+
+public enum GameResult { Unfinished, GreenWon, RedWon, Draw }
 
 public class VictoryLossChecker : MonoBehaviour
 {
+    public static GameResult gameResult { get; set; }
+    public static bool IsGameOver
+    {
+        get
+        {
+            return
+                gameResult == GameResult.GreenWon ||
+                gameResult == GameResult.Draw ||
+                gameResult == GameResult.RedWon;
+        }
+    }
     [SerializeField] GameObject WinScreen;
     public static bool isAHeroDead = false;
     [SerializeField] Text GreenPoints;
     [SerializeField] Text RedPoints;
 
-
+    void Start()
+    {
+        gameResult = GameResult.Unfinished;    
+    }
     private void Update()
     {
-        UpdateUnitLists();
+        //UpdateUnitLists();
         if (TurnManager.Instance.TurnCount > 0)
         {
-
+            GreenPoints.text = Global.instance.playerTeams[0].Players[0].playerScore.ToString();
+            RedPoints.text = Global.instance.playerTeams[1].Players[0].playerScore.ToString();
             if (TurnManager.Instance.TurnCount > 1 && TurnManager.Instance.TurnCount > TurnManager.Instance.TurnsInTheGame)
             {
                 CalculateWinner();
             }
         }
-        UIManager.SmoothlyTransitionActivity(WinScreen, (Player.Players[0].HasWon || Player.Players[1].HasWon), 0.2f);
-        GreenPoints.text = Player.Players[0].PlayerScore.ToString();
-        RedPoints.text = Player.Players[1].PlayerScore.ToString();
+        UIManager.SmoothlyTransitionActivity(WinScreen, IsGameOver, 0.2f);
+        
     }
 
-    static void UpdateUnitLists()
+    /*static void UpdateUnitLists()
     {
-
-        Player.Players[0].PlayerUnits.Clear();
-        Player.Players[1].PlayerUnits.Clear();
+        Global.instance.playerTeams[0].Players[0].playerUnits.Clear();
+        Global.instance.playerTeams[1].Players[0].playerUnits.Clear();
         foreach (UnitScript unit in FindObjectsOfType<UnitScript>())
         {
             if (unit.isRealUnit == false)
@@ -41,67 +57,42 @@ public class VictoryLossChecker : MonoBehaviour
             }
             if (unit.CurrentHP > 0)
             {
-                Player.Players[unit.PlayerID].PlayerUnits.Add(unit);
+                Global.instance.playerTeams[unit.PlayerID].Players[0].playerUnits.Add(unit);
 
             }
         }
 
 
 
-    }
+    }*/
 
     private void CalculateWinner()
     {
-        if (Player.Players[0].PlayerScore > Player.Players[1].PlayerScore)
+        if (Global.instance.playerTeams[0].Players[0].playerScore > Global.instance.playerTeams[1].Players[0].playerScore)
         {
-            Player.Players[0].HasWon = true;
+            gameResult = GameResult.GreenWon;
         }
-        if (Player.Players[1].PlayerScore > Player.Players[0].PlayerScore)
+        else if (Global.instance.playerTeams[0].Players[0].playerScore < Global.instance.playerTeams[1].Players[0].playerScore)
         {
-            Player.Players[1].HasWon = true;
+            gameResult = GameResult.RedWon;
         }
-        if (Player.Players[0].PlayerScore == Player.Players[1].PlayerScore)
+        else
         {
-            Player.Players[0].HasWon = true;
-            Player.Players[1].HasWon = true;
-        }
+            gameResult = GameResult.Draw;
+        }        
     }
 
     public static List<UnitScript> GetMyUnitList()
     {
-        UpdateUnitLists();
-        return Player.Players[TurnManager.Instance.PlayerToMove].PlayerUnits;
+        return Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].playerUnits;
     }
     public static List<UnitScript> GetEnemyUnitList()
     {
-        UpdateUnitLists();
-        return Player.Players[TurnManager.Instance.OpponentOfActivePlayer].PlayerUnits;
-    }
-
-    public static bool HasGameEnded()
-    {
-        if (Player.Players.ContainsKey(0) == false || Player.Players.ContainsKey(1) == false)
-        {
-            return false;
-        }
-        return Player.Players[0].HasWon || Player.Players[1].HasWon;
-    }
-
-    public static bool IsGameDrawn()
-    {
-        return Player.Players[0].HasWon && Player.Players[1].HasWon;
-    }
+        return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]).playerUnits;
+    }    
 
     public static void Clear()
     {
-        isAHeroDead = false;
-        Player one = Player.Players[0];
-        Player two = Player.Players[1];
-        PlayerType type = one.Type;
-        PlayerColour colour = one.Colour;
-        Player.Players[0] = new Player(type, colour);
-        type = two.Type;
-        colour = two.Colour;
-        Player.Players[1] = new Player(type, colour);
+        isAHeroDead = false;        
     }
 }

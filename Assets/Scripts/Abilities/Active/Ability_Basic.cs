@@ -90,7 +90,7 @@ public abstract class Ability_Basic : MonoBehaviour
             IsUsableNow() &&
             (UsesLeft > 0 || LimitedUses == false) &&
             myEnergy.IsEnoughEnergyFor(this) &&
-            TurnManager.Instance.PlayerHavingTurn == myUnit.PlayerID &&
+            Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index == myUnit.PlayerID &&
             AlreadyUsedThisTurn == false &&
             GameStateManager.Instance.IsItPreGame() == false &&
             LegalInPhases.Contains(TurnManager.Instance.CurrentPhase) &&

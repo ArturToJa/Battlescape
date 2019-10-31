@@ -11,5 +11,5 @@ public class AIArmy : ScriptableObject
     public int Points;
     public Unit Hero;
     public List<Unit> Units;
-    public Faction faction;
+    public BattlescapeLogic.Faction faction;
 }

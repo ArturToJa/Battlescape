@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class HeroNames : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class HeroNames : MonoBehaviour
 
     public static string GetHeroName()
     {
-        return PlayerHeroNames[TurnManager.Instance.PlayerToMove];
+        return PlayerHeroNames[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index];
     }
 
     public static string GetRandomHeroName()
@@ -51,7 +52,7 @@ public class HeroNames : MonoBehaviour
         GameObject heroObject = null;
         foreach (HeroScript hero in FindObjectsOfType<HeroScript>())
         {
-            if (Player.Players[hero.GetComponent<UnitScript>().PlayerID].Type == PlayerType.AI)
+            if (Global.instance.playerTeams[hero.GetComponent<UnitScript>().PlayerID].Players[0].type == PlayerType.AI)
             {
                 heroObject = hero.gameObject;
             }

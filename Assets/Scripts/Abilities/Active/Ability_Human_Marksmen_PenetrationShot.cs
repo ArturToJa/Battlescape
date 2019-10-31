@@ -85,7 +85,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         GameStateManager.Instance.Animate();
         yield return new WaitForSeconds(1.5f);
         GameStateManager.Instance.EndAnimation();
-        if (Player.Players[TurnManager.Instance.PlayerToMove].Type != PlayerType.Network)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type != PlayerType.Network)
         {
             // We cannot send this through network if we are just doing this ONLY because enemy used it in online game - cause he will also send this command and we will shoot 2 times).
             PerformPenetratingShot(target);

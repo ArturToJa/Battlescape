@@ -1139,7 +1139,7 @@
              <param name="encrypt">Encrypt request before sending. Depends on IsEncryptionAvailable.</param>
              <returns>If operation could be enqueued for sending</returns>
         </member>
-        <member name="M:ExitGames.Client.Photon.PhotonPeer.RegisterType(System.Type,System.Byte,ExitGames.Client.Photon.SerializeMethod,ExitGames.Client.Photon.DeserializeMethod)">
+        <member name="M:ExitGames.Client.Photon.PhotonPeer.RegisterType(System.type,System.Byte,ExitGames.Client.Photon.SerializeMethod,ExitGames.Client.Photon.DeserializeMethod)">
              <summary>
              Registers new types/classes for de/serialization and the fitting methods to call for this type.
              </summary>

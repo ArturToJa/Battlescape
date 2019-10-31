@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 [CreateAssetMenu(fileName = "New Unit", menuName = "Unit")]
 [System.Serializable]

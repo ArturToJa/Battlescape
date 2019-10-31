@@ -13,8 +13,6 @@ public class AI_Controller : MonoBehaviour
 
     [HideInInspector]
     public AI_BaseClass[] PlayerAIs;
-    [HideInInspector]
-    public static bool[] isPlayerAI = new bool[2];
 
     [Header("ValuesForAI")]    
     public float ChooseFromTopPercent = 90f;
@@ -40,9 +38,8 @@ public class AI_Controller : MonoBehaviour
         PlayerAIs = new AI_BaseClass[2];
 
         for (int i = 0; i < PlayerAIs.Length; i++)
-        {
-            isPlayerAI[i] = Player.Players[i].Type == PlayerType.AI;
-            if (isPlayerAI[i])
+        {            
+            if (Global.instance.playerTeams[i].Players[0].type == PlayerType.AI)
             {
                 PlayerAIs[i] = new AI_BaseClass(i);
             }
@@ -66,7 +63,7 @@ public class AI_Controller : MonoBehaviour
             //tool.PositionUnits();
             endButton.OK();
         }
-        if (VictoryLossChecker.HasGameEnded() || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || GameStateManager.Instance.IsCurrentPlayerAI() == false)
+        if (VictoryLossChecker.IsGameOver || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
             return;
         }
@@ -105,7 +102,7 @@ public class AI_Controller : MonoBehaviour
         {
             return false;
         }       
-        if (PlayerAIs[ID] != null && TurnManager.Instance.PlayerToMove == ID)
+        if (PlayerAIs[ID] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index == ID)
         {
             return true;
         }
@@ -152,7 +149,7 @@ public class AI_Controller : MonoBehaviour
     }
     bool IsCurrentTurnHuman()
     {
-        return PlayerAIs[TurnManager.Instance.PlayerHavingTurn] == null;
+        return PlayerAIs[Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index] == null;
     }
 
     public void ClearAIs()

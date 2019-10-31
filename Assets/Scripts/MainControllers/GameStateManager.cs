@@ -170,12 +170,26 @@ public class GameStateManager : MonoBehaviour
 
     public bool IsCurrentPlayerAI()
     {
-        return (AI_Controller.isPlayerAI[TurnManager.Instance.PlayerToMove]);
+        if (Global.instance.playerBuilders[TurnManager.Instance.PlayerToMove] != null)
+        {
+            return Global.instance.playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.AI;
+        }
+        else
+        {
+            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.AI);
+        }
     }
 
     public bool IsCurrentPlayerLocal()
     {
-        return Player.Players[TurnManager.Instance.PlayerToMove].Type == PlayerType.Local;
+        if (Global.instance.playerBuilders[TurnManager.Instance.PlayerToMove] != null)
+        {
+            return Global.instance.playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.Local;
+        }
+        else
+        {
+            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.Local);
+        }
     }
 
     public static void NextPhase()

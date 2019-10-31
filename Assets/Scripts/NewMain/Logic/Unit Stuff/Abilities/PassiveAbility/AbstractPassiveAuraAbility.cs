@@ -42,7 +42,7 @@ namespace BattlescapeLogic
 
         private void ApplyAuraForUnit(Player player)
         {
-            foreach (Unit unit in player.playerUnits)
+            /*foreach (Unit unit in player.playerUnits)
             {
                 Position unitPosition = unit.currentPosition.position;
                 Position ownerPosition = owner.currentPosition.position;
@@ -61,7 +61,7 @@ namespace BattlescapeLogic
                         bool vara = unit.GetType().Equals(typeof(Hero));
                     }
                 }
-            }
+            }*/
         }
 
         

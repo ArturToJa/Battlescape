@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class MainMenu : MonoBehaviour
 {
@@ -141,17 +142,22 @@ public class MainMenu : MonoBehaviour
             NoArmyPopupWindow.SetActive(true);
             return;
         }
-        if (isGreenAI && singlePlayer)
+        if (singlePlayer)
         {
-            Player.Players[0] = new Player(PlayerType.AI, PlayerColour.Green);
-            Player.Players[1] = new Player(PlayerType.Local, PlayerColour.Red);
-        }
-        if (isGreenAI == false && singlePlayer)
-        {
-            Player.Players[0] = new Player(PlayerType.Local, PlayerColour.Green);
-            Player.Players[1] = new Player(PlayerType.AI, PlayerColour.Red);
-        }
-        if (singlePlayer == false)
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].index = 0;
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].colour = PlayerColour.Green;
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].playerName = "Green Player";
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].race = Faction.Neutral;
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].type = (PlayerType)System.Convert.ToInt32(isGreenAI);
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].team = Global.instance.playerTeams[System.Convert.ToInt32(!isGreenAI)];
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].index = 0;
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].colour = PlayerColour.Red;
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].playerName = "Red Player";
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].race = Faction.Neutral;
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].type = (PlayerType)System.Convert.ToInt32(!isGreenAI);
+            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI)].team = Global.instance.playerTeams[System.Convert.ToInt32(isGreenAI)];
+        }        
+        else
         {
             Debug.LogError("are you sure?");
         }
@@ -185,8 +191,18 @@ public class MainMenu : MonoBehaviour
             NoArmyPopupWindow.SetActive(true);
             return;
         }
-        Player.Players[0] = new Player(PlayerType.Local, PlayerColour.Green);
-        Player.Players[1] = new Player(PlayerType.Local, PlayerColour.Red);
+        Global.instance.playerBuilders[0].index = 0;
+        Global.instance.playerBuilders[0].colour = PlayerColour.Green;
+        Global.instance.playerBuilders[0].playerName = "Green Player";
+        Global.instance.playerBuilders[0].race = Faction.Neutral;
+        Global.instance.playerBuilders[0].type = PlayerType.Local;
+        Global.instance.playerBuilders[0].team = Global.instance.playerTeams[0];
+        Global.instance.playerBuilders[1].index = 0;
+        Global.instance.playerBuilders[1].colour = PlayerColour.Red;
+        Global.instance.playerBuilders[1].playerName = "Red Player";
+        Global.instance.playerBuilders[1].race = Faction.Neutral;
+        Global.instance.playerBuilders[1].type = PlayerType.Local;
+        Global.instance.playerBuilders[1].team = Global.instance.playerTeams[1];
         if (MultiPlayerthe25toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 25;
@@ -231,8 +247,18 @@ public class MainMenu : MonoBehaviour
         }
         MyNetworkManager.Instance.Connect();
         GameStateManager.Instance.MatchType = MatchTypes.Online;
-        Player.Players[0] = new Player(PlayerType.Network, PlayerColour.Green);
-        Player.Players[1] = new Player(PlayerType.Network, PlayerColour.Red);
+        Global.instance.playerBuilders[0].index = 0;
+        Global.instance.playerBuilders[0].colour = PlayerColour.Green;
+        Global.instance.playerBuilders[0].playerName = "Green Player";
+        Global.instance.playerBuilders[0].race = Faction.Neutral;
+        Global.instance.playerBuilders[0].type = PlayerType.Network;
+        Global.instance.playerBuilders[0].team = Global.instance.playerTeams[0];
+        Global.instance.playerBuilders[1].index = 0;
+        Global.instance.playerBuilders[1].colour = PlayerColour.Red;
+        Global.instance.playerBuilders[1].playerName = "Red Player";
+        Global.instance.playerBuilders[1].race = Faction.Neutral;
+        Global.instance.playerBuilders[1].type = PlayerType.Network;
+        Global.instance.playerBuilders[1].team = Global.instance.playerTeams[1];
 
 
 

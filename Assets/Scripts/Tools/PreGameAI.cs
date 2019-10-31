@@ -11,7 +11,7 @@ public class PreGameAI
 
     public void RepositionUnits()
     {
-        foreach (UnitScript unit in Player.Players[TurnManager.Instance.PlayerToMove].PlayerUnits)
+        foreach (UnitScript unit in Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].playerUnits)
         {
             Tile newTile = ChooseTheTile();
             DragableUnit.SetNewPosition(unit.myTile.position.x, unit.myTile.position.z, newTile.position.x, newTile.position.z);
@@ -21,10 +21,10 @@ public class PreGameAI
     public void PositionUnits()
     {
         int heroID = (int)SaveLoadManager.Instance.playerArmy.heroID;
-        Position(heroID, TurnManager.Instance.PlayerToMove, ChooseTheTile());
+        Position(heroID, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, ChooseTheTile());
         foreach (UnitID integer in SaveLoadManager.Instance.playerArmy.unitIDs)
         {
-            Position((int)integer, TurnManager.Instance.PlayerToMove, ChooseTheTile());
+            Position((int)integer, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, ChooseTheTile());
         }
         /*foreach (Transform unit in DeploymentPanel)
         {
@@ -52,8 +52,7 @@ public class PreGameAI
         {
             return;
         }
-
-        DropZone.Instance.CommandInstantiateUnit(unitID, TurnManager.Instance.PlayerToMove, tile.transform.position);
+        DropZone.Instance.CommandInstantiateUnit(unitID, playerID, tile.transform.position);
     }
 
 
@@ -63,7 +62,7 @@ public class PreGameAI
         //List<Tile> greatTiles = new List<Tile>();
         foreach (Tile tile in Map.Board)
         {
-            if (tile.IsWalkable() && ((tile.isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove])))
+            if (tile.IsWalkable() && ((tile.isDropzoneOfPlayer[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index])))
             {
                 possibleTiles.Add(tile);
                 /*if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)

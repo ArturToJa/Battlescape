@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class PhaseSwitcher : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class PhaseSwitcher : MonoBehaviour
 
     bool CanAnyoneElseMove()
     {
-        foreach (UnitScript ally in Player.Players[TurnManager.Instance.PlayerHavingTurn].PlayerUnits)
+        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerUnits)
         {
             if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()))
             {

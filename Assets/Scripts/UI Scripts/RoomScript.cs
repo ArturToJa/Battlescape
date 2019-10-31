@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class RoomScript : MonoBehaviour
 {
@@ -82,13 +83,12 @@ public class RoomScript : MonoBehaviour
         //this function sets playertypes, so tells us who is "mylocalplayer" ;) If we are the MasterClient, then we are player 0 (so players[0] is Local) and if not then we are player 1. 
         if (PhotonNetwork.isMasterClient)
         {
-            Player.Players[0].Type = PlayerType.Local;
-            Player.Players[1].Type = PlayerType.Network;
+            Global.instance.playerBuilders[0].type = PlayerType.Local;
+
         }
         else
         {
-            Player.Players[0].Type = PlayerType.Network;
-            Player.Players[1].Type = PlayerType.Local;        
+            Global.instance.playerBuilders[1].type = PlayerType.Local;
         }
     }
 

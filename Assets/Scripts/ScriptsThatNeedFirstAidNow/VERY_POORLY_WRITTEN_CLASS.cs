@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 {
@@ -12,9 +12,51 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 
     public void Okay()
     {
-        Player.Players[TurnManager.Instance.PlayerHavingTurn].Race = SaveLoadManager.Instance.Race;
+        int ID = -1;
+        switch (GameStateManager.Instance.MatchType)
+        {
+            case MatchTypes.Online:
+                if (PhotonNetwork.isMasterClient)
+                {
+                    ID = 0;
+                }
+                else
+                {
+                    ID = 1;
+                }
+                break;
+            case MatchTypes.HotSeat:
+
+                for (int i = 0; i < Global.instance.playerBuilders.Length; i++)
+                {
+                    if (Global.instance.playerBuilders[i] != null)
+                    {
+                        ID = Global.instance.playerBuilders[i].team.index;
+                        break;
+                    }
+                }
+                break;
+            case MatchTypes.Singleplayer:
+                for (int i = 0; i < Global.instance.playerBuilders.Length; i++)
+                {
+                    if (Global.instance.playerBuilders[i] != null)
+                    {
+                        ID = Global.instance.playerBuilders[i].index;
+                    }
+                }
+                break;
+            case MatchTypes.None:
+                break;
+            default:
+                break;
+        }
+        PlayerBuilder currentPlayerBuilder = Global.instance.playerBuilders[ID];
+        Debug.Log(ID);
+        Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(new Player(currentPlayerBuilder));
+        Global.instance.playerBuilders[ID] = null;
+        Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].race = (Faction)SaveLoadManager.Instance.Race;
         TurnManager.Instance.TurnCount = 0;
-        if (TurnManager.Instance.PlayerHavingTurn == 1)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index == 1)
         {
             if (SkyboxChanger.Instance.isSkyboxRandom)
             {
@@ -38,6 +80,8 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         //CreateAllUnits();
         PreGameAI temp = new PreGameAI();
         temp.PositionUnits();
+        
+
     }
 
     /*public void CreateUnit(GameObject Unit, RenderTexture _sprite, Unit _me)

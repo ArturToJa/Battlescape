@@ -18,7 +18,7 @@ public class HealthBarCloser : MonoBehaviour
     {
         foreach (Transform go in transform)
         {
-            go.gameObject.SetActive(TurnManager.Instance.TurnCount != 0 && !VictoryLossChecker.HasGameEnded());         
+            go.gameObject.SetActive(TurnManager.Instance.TurnCount != 0 && !VictoryLossChecker.IsGameOver);         
         }
 
 

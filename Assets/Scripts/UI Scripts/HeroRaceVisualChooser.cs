@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class HeroRaceVisualChooser : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class HeroRaceVisualChooser : MonoBehaviour
         {
             ID = 1;
         }
-        switch (Player.Players[ID].Race)
+        switch (Global.instance.playerTeams[ID].Players[0].race)
         {
             case Faction.Human:
                 GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(0).GetComponent<Animator>();

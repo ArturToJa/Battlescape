@@ -359,11 +359,18 @@ public class UnitScript : MonoBehaviour
             MouseManager.Instance.Deselect();
         }
 
-        Player.Players[OpponentID].PlayerScore += Value;
+        Global.instance.playerTeams[OpponentID].Players[0].AddPoints(Value);
 
         if (GetComponent<HeroScript>() != null)
         {
-            Player.Players[OpponentID].HasWon = true;
+            if (OpponentID == 0)
+            {
+                VictoryLossChecker.gameResult = GameResult.GreenWon;
+            }
+            else
+            {
+                VictoryLossChecker.gameResult = GameResult.RedWon;
+            }
             VictoryLossChecker.isAHeroDead = true;
         }
         GetComponentInChildren<AnimController>().AnimateDeath();

@@ -50,7 +50,7 @@ public class MouseManager : MonoBehaviour
         }
         else if (GameStateManager.Instance.GameState != GameStates.TargettingState && (isMouseOverUI && SelectedUnit != null && SelectedUnit.GetComponent<UnitMovement>().isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && mouseoveredTile != null && TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitMovement>())))
         {
-            if (GameStateManager.Instance.MatchType == MatchTypes.Online && Player.IsPlayerLocal(TurnManager.Instance.PlayerToMove) == false)
+            if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.Local)
             {
                 // we are in an Online match and its the other dudes turn, so no point in showing BFS
             }
@@ -107,11 +107,11 @@ public class MouseManager : MonoBehaviour
         switch (GameStateManager.Instance.MatchType)
         {
             case MatchTypes.Online:
-                return Player.Players[selectableUnit.PlayerID].Type == PlayerType.Local;
+                return Global.instance.playerTeams[selectableUnit.PlayerID].Players[0].type == PlayerType.Local;
             case MatchTypes.HotSeat:
-                return selectableUnit.PlayerID == TurnManager.Instance.PlayerToMove;
+                return selectableUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index;
             case MatchTypes.Singleplayer:
-                return Player.Players[selectableUnit.PlayerID].Type == PlayerType.Local;
+                return Global.instance.playerTeams[selectableUnit.PlayerID].Players[0].type == PlayerType.Local;
             default:
                 Debug.Log("New type of MatchType exists and it isn't taken into consdieation here!");
                 return false;
@@ -247,7 +247,7 @@ public class MouseManager : MonoBehaviour
                 switch (GameStateManager.Instance.MatchType)
                 {
                     case MatchTypes.Online:
-                        if (Player.Players[TurnManager.Instance.PlayerToMove].Type == PlayerType.Local)
+                        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.Local)
                         {
                             ColourForSelectedUnit();
                         }

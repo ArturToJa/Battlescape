@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using BattlescapeLogic;
 
 public class UnitHealth : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Player.IsPlayerLocal(unit.thisUnit.PlayerID))
+                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].Players[0].type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }
@@ -87,7 +88,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Player.IsPlayerLocal(unit.thisUnit.PlayerID))
+                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].Players[0].type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }

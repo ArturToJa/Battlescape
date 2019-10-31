@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System;
 using UnityEngine.SceneManagement;
+using BattlescapeLogic;
 
 public class AudioManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class AudioManager : MonoBehaviour
     // does it work?
     void Awake()
     {
-        if ( PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1)
+        if (PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1)
         {
             isAudioMute = true;
         }
@@ -66,11 +67,11 @@ public class AudioManager : MonoBehaviour
         {
             PlayRandomClipOfType(SoundType.Menu);
         }
-        if ((GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && isPlayingGameOverMusic == false && VictoryLossChecker.HasGameEnded()))
+        if ((GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && isPlayingGameOverMusic == false && VictoryLossChecker.IsGameOver))
         {
             PlayCorrectEndgameClip();
         }
-        else if (VictoryLossChecker.HasGameEnded() == false && GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && (currentMusic == null || currentMusic.isPlaying == false))
+        else if (VictoryLossChecker.IsGameOver == false && GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && (currentMusic == null || currentMusic.isPlaying == false))
         {
             PlayRandomClipOfType(SoundType.Game);
             currentSongTime = 0f;
@@ -85,27 +86,27 @@ public class AudioManager : MonoBehaviour
 
     private void PlayCorrectEndgameClip()
     {
-        foreach (Player player in Player.Players.Values)
+
+        if ((Global.instance.playerTeams[0].Players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.GreenWon) || (Global.instance.playerTeams[1].Players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.RedWon))
         {
-            if (player.Type == PlayerType.AI && player.HasWon)
-            {
-                PlayEndGameMusic(SoundType.Loose);
-                return;
-            }
+            PlayEndGameMusic(SoundType.Loose);
+            return;
         }
-        
-        if (Player.Players[0].Type == PlayerType.AI || Player.Players[1].Type == PlayerType.AI)
+
+
+
+        if (Global.instance.playerTeams[0].Players[0].type == PlayerType.AI || Global.instance.playerTeams[1].Players[0].type == PlayerType.AI)
         {
             PlayEndGameMusic(SoundType.Win);
         }
         else
         {
-            if (VictoryLossChecker.IsGameDrawn())
+            if (VictoryLossChecker.gameResult == GameResult.Draw)
             {
                 PlayEndGameMusic(SoundType.Loose);
                 // draw - in the future change this to a new track
             }
-            else if (Player.Players[TurnManager.Instance.PlayerHavingTurn].HasWon)
+            else if ((TurnManager.Instance.PlayerHavingTurn == 0 && VictoryLossChecker.gameResult == GameResult.GreenWon) || (TurnManager.Instance.PlayerHavingTurn == 1 && VictoryLossChecker.gameResult == GameResult.RedWon))
             {
                 PlayEndGameMusic(SoundType.Win);
             }
@@ -177,7 +178,7 @@ public class AudioManager : MonoBehaviour
         {
             sound.oldSource.volume = maxVolume;
         }
-        
+
     }
     public IEnumerator SwellDown(AudioSource source)
     {

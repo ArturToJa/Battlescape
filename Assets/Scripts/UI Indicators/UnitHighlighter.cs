@@ -50,7 +50,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitMovement>()) == true)
+                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitMovement>()) == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);
@@ -67,7 +67,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && tile.myUnit.isRanged && tile.myUnit.GetComponent<ShootingScript>().CanShoot == true)
+                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index && tile.myUnit.isRanged && tile.myUnit.GetComponent<ShootingScript>().CanShoot == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);
@@ -83,7 +83,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == TurnManager.Instance.PlayerToMove && tile.myUnit.hasAttacked != true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
+                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index && tile.myUnit.hasAttacked != true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);

@@ -22,7 +22,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         CameraController.Instance.SetCurrentViewTo(0);
         CombatController.Instance.MakeAIWait(3f);
         this.transform.parent.parent.gameObject.SetActive(false);        
-        if (TurnManager.Instance.PlayerToMove == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
         {
             TurnManager.Instance.TurnCount = -1;
             //  Pedestal.enabled = true;
@@ -41,10 +41,10 @@ public class ArmyBuildingEndButton : MonoBehaviour
                     Destroy(child.gameObject);
                 }
             }
-            if (Player.Players[1].Type == PlayerType.AI)
+            if (Global.instance.playerBuilders[1].type == PlayerType.AI)
             {
-                SaveLoadManager.Instance.LoadAIArmyToGame(SaveLoadManager.Instance.currentSaveValue);
-                Player.Players[1].Race = SaveLoadManager.Instance.Race;
+                SaveLoadManager.Instance.LoadAIArmyToGame(Global.instance.playerBuilders[1], SaveLoadManager.Instance.currentSaveValue);
+                Global.instance.playerBuilders[1].race = (Faction)SaveLoadManager.Instance.Race;
             }
             else
             {
@@ -59,7 +59,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             if (GameStateManager.Instance.MatchType == MatchTypes.Online)
             {
                 var Text1 = FindObjectOfType<CurrentPlayerInfo>();
-                Text1.GetComponent<Text>().text = Player.Players[Mathf.Abs(TurnManager.Instance.PlayerHavingTurn - 1)].Colour.ToString() + "'s turn";
+                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0]).playerName.ToString() + "'s turn";
                 Text1.isOff = true;
                 var Text3 = FindObjectOfType<TurnNumberText>();
                 Text3.GetComponent<Text>().text = "Waiting for opponent...";

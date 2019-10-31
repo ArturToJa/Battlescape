@@ -4,18 +4,24 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    public enum PlayerType { Local, AI, Network }
+
+    public enum PlayerColour { Green, Red }
+
+    public enum Faction { Human, Elves, Neutral }
+
     public class Player
     {
-        public Player(int _index, PlayerColour _colour, string _playerName, Faction _race, PlayerType _type, PlayerTeam _team)
+        public Player(PlayerBuilder builder)
         {
-            index = _index;
-            colour = _colour;
-            playerName = _playerName;
-            race = _race;
-            type = _type;
-            team = _team;
+            index = builder.index;
+            colour = builder.colour;
+            playerName = builder.playerName;
+            race = builder.race;
+            type = builder.type;
+            team = builder.team;
             playerScore = 0;
-            playerUnits = new List<Unit>();
+            playerUnits = builder.playerUnits;
         }
 
         public readonly int index;
@@ -24,29 +30,32 @@ namespace BattlescapeLogic
         public Faction race { get; set; }
         public readonly PlayerType type;
         public readonly PlayerColour colour;
-        public readonly List<Unit> playerUnits;
+        public readonly List<UnitScript> playerUnits;
         public int playerScore { get; private set; }
 
-        void AddNewUnit(Unit newUnit)
+        void AddNewUnit(UnitScript newUnit)
         {
             playerUnits.Add(newUnit);
         }
-        void AddPoints(int points)
+        public void AddPoints(int points)
         {
             playerScore += points;
         }
         Unit GetUnitByIndex(int index)
         {
-            foreach (Unit unit in playerUnits)
+            foreach (UnitScript unit in playerUnits)
             {
-                if (unit.index == index)
+                /*if (unit.index == index)
                 {
                     return unit;
-                }
+                }*/
             }
             Debug.LogError("NO UNIT FOUND!");
             return null;
         }
     }
 }
+
+
+
 
