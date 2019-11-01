@@ -16,7 +16,7 @@ public class PhaseInfo : MonoBehaviour {
         }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Enemy)
         {
-            PhaseInfoText.text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0]).playerName.ToString() + "'s Responding!";
+            PhaseInfoText.text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]).playerName.ToString() + "'s Responding!";
         }
         else
         {

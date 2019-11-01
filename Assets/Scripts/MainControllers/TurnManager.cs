@@ -68,7 +68,7 @@ public class TurnManager : MonoBehaviour
         CurrentPhase = TurnPhases.None;
         TurnCount = -1;
 
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[1].Players[0].type == PlayerType.Local)
+        if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[1].players[0].type == PlayerType.Local)
         {
             // we are in an online game, AND we are not a host (precisely: second (red) player is the local player) so we should set CurrentPlayer stuff to 1 ;)
             PlayerHavingTurn = 1;
@@ -84,7 +84,7 @@ public class TurnManager : MonoBehaviour
 
     void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.End) && (Global.instance.playerTeams[PlayerHavingTurn].Players[0].type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
+        if (Input.GetKeyDown(KeyCode.End) && (Global.instance.playerTeams[PlayerHavingTurn].players[0].type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
         {
             if (CurrentPhase == TurnPhases.Movement || CurrentPhase == TurnPhases.Shooting)
             {

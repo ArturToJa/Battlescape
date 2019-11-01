@@ -176,7 +176,7 @@ public class GameStateManager : MonoBehaviour
         }
         else
         {
-            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.AI);
+            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.AI);
         }
     }
 
@@ -188,7 +188,7 @@ public class GameStateManager : MonoBehaviour
         }
         else
         {
-            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].type == PlayerType.Local);
+            return (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local);
         }
     }
 

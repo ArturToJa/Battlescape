@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
     private void PlayCorrectEndgameClip()
     {
 
-        if ((Global.instance.playerTeams[0].Players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.GreenWon) || (Global.instance.playerTeams[1].Players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.RedWon))
+        if ((Global.instance.playerTeams[0].players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.GreenWon) || (Global.instance.playerTeams[1].players[0].type == PlayerType.AI && VictoryLossChecker.gameResult == GameResult.RedWon))
         {
             PlayEndGameMusic(SoundType.Loose);
             return;
@@ -95,7 +95,7 @@ public class AudioManager : MonoBehaviour
 
 
 
-        if (Global.instance.playerTeams[0].Players[0].type == PlayerType.AI || Global.instance.playerTeams[1].Players[0].type == PlayerType.AI)
+        if (Global.instance.playerTeams[0].players[0].type == PlayerType.AI || Global.instance.playerTeams[1].players[0].type == PlayerType.AI)
         {
             PlayEndGameMusic(SoundType.Win);
         }

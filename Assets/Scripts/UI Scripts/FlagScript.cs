@@ -24,23 +24,23 @@ public class FlagScript : MonoBehaviour
             
                 if (VictoryLossChecker.gameResult == GameResult.GreenWon)
                 {
-                    flag.sprite = Flags[(int)Global.instance.playerTeams[0].Players[0].colour];
-                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[0].Players[0].race];
+                    flag.sprite = Flags[(int)Global.instance.playerTeams[0].players[0].colour];
+                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[0].players[0].race];
                 }
                 if(VictoryLossChecker.gameResult == GameResult.RedWon)
                 {
-                    flag.sprite = Flags[(int)Global.instance.playerTeams[1].Players[0].colour];
-                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[1].Players[0].race];
+                    flag.sprite = Flags[(int)Global.instance.playerTeams[1].players[0].colour];
+                    emblem.sprite = Emblems[(int)Global.instance.playerTeams[1].players[0].race];
                 }
             
             UIManager.SmoothlyTransitionActivity(gameObject, VictoryLossChecker.IsGameOver && VictoryLossChecker.gameResult != GameResult.Draw, 0.01f);
         }
         else
         {
-            if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0] != null)
+            if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0] != null)
             {                
-                flag.sprite = Flags[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].colour];
-                emblem.sprite = Emblems[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].race];
+                flag.sprite = Flags[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].colour];
+                emblem.sprite = Emblems[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].race];
             }
             
         }

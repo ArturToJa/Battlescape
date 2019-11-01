@@ -215,7 +215,7 @@ public class CursorController : MonoBehaviour
             {
                 SetCursorTo(clickingAttackCursor, attackCursor);
             }
-            else if (MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>().PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index)
+            else if (MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>().PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index)
             {
                 SetCursorTo(clickingSelectionCursor, selectionCursor);
             }
@@ -343,7 +343,7 @@ public class CursorController : MonoBehaviour
 
     private void CheckWhatUnitAreWeOver(Texture2D clickingAlly, Texture2D ally, Texture2D clickingEnemy, Texture2D enemy)
     {
-        if (MouseManager.Instance.MouseoveredUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index)
+        if (MouseManager.Instance.MouseoveredUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index)
         {
             SetCursorTo(clickingAlly, ally);
         }

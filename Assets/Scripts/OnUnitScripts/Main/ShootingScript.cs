@@ -129,7 +129,7 @@ public class ShootingScript : MonoBehaviour
                   && IsTargetInRange(target.transform.position)
                   && CanShoot
                   && GameStateManager.Instance.GameState == GameStates.ShootingState
-                  && theUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index
+                  && theUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index
                   && IsInLineOfSight(transform.position, target.transform.position, isCursor)
                );
     }

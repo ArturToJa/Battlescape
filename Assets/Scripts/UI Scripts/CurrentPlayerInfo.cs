@@ -15,9 +15,9 @@ public class CurrentPlayerInfo : MonoBehaviour
         {
             return;
         }
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn] != null &&Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0] != null)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn] != null &&Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] != null)
         {
-            CurrentPlayer.text = Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerName.ToString() + "'s Turn.";
+            CurrentPlayer.text = Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerName.ToString() + "'s Turn.";
         }
     }
 }

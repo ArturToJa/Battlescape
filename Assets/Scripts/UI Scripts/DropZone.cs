@@ -119,7 +119,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
         GameObject UnitObject = Unit.FindUnitsObjectByIntID(unitID, PlayerID);
         GameObject InstantiatedUnit = Instantiate(UnitObject, position, UnitObject.transform.rotation);
         Unit myUnit = InstantiatedUnit.GetComponent<UnitScript>().unitUnit;
-        Global.instance.playerTeams[PlayerID].Players[0].playerUnits.Add(InstantiatedUnit.GetComponent<UnitScript>());
+        Global.instance.playerTeams[PlayerID].players[0].playerUnits.Add(InstantiatedUnit.GetComponent<UnitScript>());
         InstantiatedUnit.name = myUnit.Name;
         if (PlayerID == 0)
         {

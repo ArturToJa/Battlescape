@@ -28,7 +28,7 @@ public class HeroNames : MonoBehaviour
 
     public static string GetHeroName()
     {
-        return PlayerHeroNames[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index];
+        return PlayerHeroNames[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index];
     }
 
     public static string GetRandomHeroName()
@@ -52,7 +52,7 @@ public class HeroNames : MonoBehaviour
         GameObject heroObject = null;
         foreach (HeroScript hero in FindObjectsOfType<HeroScript>())
         {
-            if (Global.instance.playerTeams[hero.GetComponent<UnitScript>().PlayerID].Players[0].type == PlayerType.AI)
+            if (Global.instance.playerTeams[hero.GetComponent<UnitScript>().PlayerID].players[0].type == PlayerType.AI)
             {
                 heroObject = hero.gameObject;
             }

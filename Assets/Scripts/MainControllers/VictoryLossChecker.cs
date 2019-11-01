@@ -34,8 +34,8 @@ public class VictoryLossChecker : MonoBehaviour
         //UpdateUnitLists();
         if (TurnManager.Instance.TurnCount > 0)
         {
-            GreenPoints.text = Global.instance.playerTeams[0].Players[0].playerScore.ToString();
-            RedPoints.text = Global.instance.playerTeams[1].Players[0].playerScore.ToString();
+            GreenPoints.text = Global.instance.playerTeams[0].players[0].playerScore.ToString();
+            RedPoints.text = Global.instance.playerTeams[1].players[0].playerScore.ToString();
             if (TurnManager.Instance.TurnCount > 1 && TurnManager.Instance.TurnCount > TurnManager.Instance.TurnsInTheGame)
             {
                 CalculateWinner();
@@ -47,8 +47,8 @@ public class VictoryLossChecker : MonoBehaviour
 
     /*static void UpdateUnitLists()
     {
-        Global.instance.playerTeams[0].Players[0].playerUnits.Clear();
-        Global.instance.playerTeams[1].Players[0].playerUnits.Clear();
+        Global.instance.playerTeams[0].players[0].playerUnits.Clear();
+        Global.instance.playerTeams[1].players[0].playerUnits.Clear();
         foreach (UnitScript unit in FindObjectsOfType<UnitScript>())
         {
             if (unit.isRealUnit == false)
@@ -57,7 +57,7 @@ public class VictoryLossChecker : MonoBehaviour
             }
             if (unit.CurrentHP > 0)
             {
-                Global.instance.playerTeams[unit.PlayerID].Players[0].playerUnits.Add(unit);
+                Global.instance.playerTeams[unit.PlayerID].players[0].playerUnits.Add(unit);
 
             }
         }
@@ -68,11 +68,11 @@ public class VictoryLossChecker : MonoBehaviour
 
     private void CalculateWinner()
     {
-        if (Global.instance.playerTeams[0].Players[0].playerScore > Global.instance.playerTeams[1].Players[0].playerScore)
+        if (Global.instance.playerTeams[0].players[0].playerScore > Global.instance.playerTeams[1].players[0].playerScore)
         {
             gameResult = GameResult.GreenWon;
         }
-        else if (Global.instance.playerTeams[0].Players[0].playerScore < Global.instance.playerTeams[1].Players[0].playerScore)
+        else if (Global.instance.playerTeams[0].players[0].playerScore < Global.instance.playerTeams[1].players[0].playerScore)
         {
             gameResult = GameResult.RedWon;
         }
@@ -84,11 +84,11 @@ public class VictoryLossChecker : MonoBehaviour
 
     public static List<UnitScript> GetMyUnitList()
     {
-        return Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].playerUnits;
+        return Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits;
     }
     public static List<UnitScript> GetEnemyUnitList()
     {
-        return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0]).playerUnits;
+        return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]).playerUnits;
     }    
 
     public static void Clear()

@@ -54,7 +54,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].Players[0].type == PlayerType.Local)
+                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].players[0].type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }
@@ -88,7 +88,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].Players[0].type == PlayerType.Local)
+                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].players[0].type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }

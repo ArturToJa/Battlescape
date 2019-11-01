@@ -39,7 +39,7 @@ public class AI_Controller : MonoBehaviour
 
         for (int i = 0; i < PlayerAIs.Length; i++)
         {            
-            if (Global.instance.playerTeams[i].Players[0].type == PlayerType.AI)
+            if (Global.instance.playerTeams[i].players[0].type == PlayerType.AI)
             {
                 PlayerAIs[i] = new AI_BaseClass(i);
             }
@@ -102,7 +102,7 @@ public class AI_Controller : MonoBehaviour
         {
             return false;
         }       
-        if (PlayerAIs[ID] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index == ID)
+        if (PlayerAIs[ID] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == ID)
         {
             return true;
         }
@@ -149,7 +149,7 @@ public class AI_Controller : MonoBehaviour
     }
     bool IsCurrentTurnHuman()
     {
-        return PlayerAIs[Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index] == null;
+        return PlayerAIs[Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index] == null;
     }
 
     public void ClearAIs()

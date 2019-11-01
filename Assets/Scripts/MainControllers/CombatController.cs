@@ -256,7 +256,7 @@ public class CombatController : MonoBehaviour
     {
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
         {
-            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerUnits)
+            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
             {
                 if (ally.hasAttacked == false && ally.CheckIfIsInCombat())
                 {
@@ -268,7 +268,7 @@ public class CombatController : MonoBehaviour
         }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
         {
-            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerUnits)
+            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
             {
                 if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<ShootingScript>().CanShoot)
                 {

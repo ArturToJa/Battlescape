@@ -30,7 +30,7 @@ namespace BattlescapeLogic
 
         private void ApplyAuraForPlayers(PlayerTeam playerTeam)
         {
-            foreach (Player player in playerTeam.Players)
+            foreach (Player player in playerTeam.players)
             {
                 if ((filter[(int)AbilityFilter.SelfPlayer]  && owner.owner == player) ||
                     (filter[(int)AbilityFilter.OtherPlayer] && owner.owner != player))

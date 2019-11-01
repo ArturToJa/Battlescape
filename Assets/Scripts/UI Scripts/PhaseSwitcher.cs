@@ -37,7 +37,7 @@ public class PhaseSwitcher : MonoBehaviour
 
     bool CanAnyoneElseMove()
     {
-        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerUnits)
+        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
             if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()))
             {

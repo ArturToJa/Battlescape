@@ -74,7 +74,7 @@ public class SaveLoadManager : MonoBehaviour
 
     void Start()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].Players[0].type == PlayerType.AI)
+        if (GameStateManager.Instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
         {
             Debug.Log("WOOF");
             LoadAIArmyToGame(Global.instance.playerBuilders[0], currentSaveValue);
@@ -190,7 +190,7 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, HeroName);
+            HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, HeroName);
         }
     }
     public void LoadAIArmyToGame(PlayerBuilder player, int points)
@@ -198,7 +198,7 @@ public class SaveLoadManager : MonoBehaviour
         LoadAIArmy(points);
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
-        HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index, HeroName);
+        HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, HeroName);
         player.race = (Faction)Race;
     }
 

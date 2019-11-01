@@ -18,7 +18,7 @@ public class HeroRaceVisualChooser : MonoBehaviour
         {
             ID = 1;
         }
-        switch (Global.instance.playerTeams[ID].Players[0].race)
+        switch (Global.instance.playerTeams[ID].players[0].race)
         {
             case Faction.Human:
                 GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(0).GetComponent<Animator>();

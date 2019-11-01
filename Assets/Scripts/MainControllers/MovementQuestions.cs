@@ -21,7 +21,7 @@ public class MovementQuestions : MonoBehaviour
  
     public void CheckIfAnyMoreUnitsToMove()
     {
-        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].playerUnits)
+        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
             if (CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()))
             {
@@ -86,7 +86,7 @@ public class MovementQuestions : MonoBehaviour
 
     bool IsItTimeToMove(UnitScript unit)
     {
-        if (unit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index &&
+        if (unit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index &&
             (TurnManager.Instance.CurrentPhase == TurnPhases.Movement) || Ability_Basic.IsForcingMovementStuff)
         {
             return true;

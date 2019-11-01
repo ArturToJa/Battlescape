@@ -26,8 +26,8 @@ public class AI_BaseClass
     {
         LastThreeSelectedUnits = new List<UnitScript>();
         this.ID = ID;
-        allyList = Global.instance.playerTeams[ID].Players[0].playerUnits;
-        enemyList = Global.instance.GetNextPlayer(Global.instance.playerTeams[ID].Players[0]).playerUnits;
+        allyList = Global.instance.playerTeams[ID].players[0].playerUnits;
+        enemyList = Global.instance.GetNextPlayer(Global.instance.playerTeams[ID].players[0]).playerUnits;
     }
 
     public void DoAI()

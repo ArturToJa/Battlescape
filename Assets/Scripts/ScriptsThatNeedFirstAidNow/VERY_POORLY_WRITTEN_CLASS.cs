@@ -54,9 +54,9 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         Debug.Log(ID);
         Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(new Player(currentPlayerBuilder));
         Global.instance.playerBuilders[ID] = null;
-        Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].race = (Faction)SaveLoadManager.Instance.Race;
+        Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].race = (Faction)SaveLoadManager.Instance.Race;
         TurnManager.Instance.TurnCount = 0;
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index == 1)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index == 1)
         {
             if (SkyboxChanger.Instance.isSkyboxRandom)
             {

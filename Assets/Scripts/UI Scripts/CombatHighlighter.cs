@@ -34,7 +34,7 @@ public class CombatHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index && tile.myUnit.EnemyList.Contains(MouseManager.Instance.SelectedUnit) == true)
+                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && tile.myUnit.EnemyList.Contains(MouseManager.Instance.SelectedUnit) == true)
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
                     ControlledTiles.Add(tile);
@@ -48,7 +48,7 @@ public class CombatHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0].team.index && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
+                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
                     ControlledTiles.Add(tile);

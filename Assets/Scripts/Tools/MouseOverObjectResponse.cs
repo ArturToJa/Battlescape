@@ -20,7 +20,7 @@ public class MouseOverObjectResponse
                 switch (GameStateManager.Instance.MatchType)
                 {
                     case MatchTypes.Online:
-                        if (Global.instance.playerTeams[Object.GetComponent<UnitScript>().PlayerID].Players[0].type == PlayerType.Local)
+                        if (Global.instance.playerTeams[Object.GetComponent<UnitScript>().PlayerID].players[0].type == PlayerType.Local)
                         {
                             PaintObject(Object, Color.green);
                         }
@@ -30,7 +30,7 @@ public class MouseOverObjectResponse
                         }
                         break;
                     case MatchTypes.HotSeat:
-                        if (Object.GetComponent<UnitScript>().PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index)
+                        if (Object.GetComponent<UnitScript>().PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index)
                         {
                             PaintObject(Object, Color.green);
                         }
@@ -40,7 +40,7 @@ public class MouseOverObjectResponse
                         }
                         break;
                     case MatchTypes.Singleplayer:
-                        if (Global.instance.playerTeams[Object.GetComponent<UnitScript>().PlayerID].Players[0].type == PlayerType.Local)
+                        if (Global.instance.playerTeams[Object.GetComponent<UnitScript>().PlayerID].players[0].type == PlayerType.Local)
                         {
                             PaintObject(Object, Color.green);
                         }

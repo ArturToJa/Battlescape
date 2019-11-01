@@ -22,7 +22,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         CameraController.Instance.SetCurrentViewTo(0);
         CombatController.Instance.MakeAIWait(3f);
         this.transform.parent.parent.gameObject.SetActive(false);        
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].Players[0].team.index == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
         {
             TurnManager.Instance.TurnCount = -1;
             //  Pedestal.enabled = true;
@@ -59,7 +59,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             if (GameStateManager.Instance.MatchType == MatchTypes.Online)
             {
                 var Text1 = FindObjectOfType<CurrentPlayerInfo>();
-                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].Players[0]).playerName.ToString() + "'s turn";
+                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]).playerName.ToString() + "'s turn";
                 Text1.isOff = true;
                 var Text3 = FindObjectOfType<TurnNumberText>();
                 Text3.GetComponent<Text>().text = "Waiting for opponent...";
