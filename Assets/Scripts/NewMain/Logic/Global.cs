@@ -41,22 +41,25 @@ namespace BattlescapeLogic
 
         public Player GetNextPlayer(Player player)
         {
-            if (playerTeams.Count > player.team.index && playerTeams[player.team.index] != null && playerTeams[player.team.index].Players.Count > player.index && playerTeams[player.team.index].Players[player.index] != null)
+            if (playerTeams.Count > player.team.index && 
+                playerTeams[player.team.index] != null && 
+                playerTeams[player.team.index].players.Count > player.index && 
+                playerTeams[player.team.index].players[player.index] != null)
             {
-                if (playerTeams[player.team.index].Players.Count - 1 > player.index)
+                if (playerTeams[player.team.index].players.Count - 1 > player.index)
                 //meaning 'there are NEXT players in this team - I assume currently players move first inside of one team, might be false!
                 {
-                    return player.team.Players[player.index + 1];
+                    return player.team.players[player.index + 1];
                 }
                 else if (playerTeams.Count - 1 > player.team.index)
                 //meaning 'there is a NEXT team - same assumption as before
                 {
-                    return playerTeams[player.team.index + 1].Players[0];
+                    return playerTeams[player.team.index + 1].players[0];
                 }
                 else
                 {
                     //there are NO 'next' teams and players, so its time for player 0 of team 0!
-                    return playerTeams[0].Players[0];
+                    return playerTeams[0].players[0];
                 }
             }
             else

@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : MonoBehaviour //SerializedMonoBehaviour
+    public class Unit : MonoBehaviour, INewTurn //SerializedMonoBehaviour
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -55,6 +55,20 @@ namespace BattlescapeLogic
             }
         }
 
+        public void OnNewTurn()
+        {
+            statistics.movementPoints = statistics.maxMovementPoints;
+            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
+            foreach(Buff buff in buffs)
+            {
+                //buff.OnNewTurn();
+            }
+
+            foreach(AbstractAbility ability in abilities)
+            {
+                ability.OnNewTurn();
+            }
+        }
         AbstractMovement GetMovementType()
         {
             return Global.instance.movementTypes[(int)movementType];

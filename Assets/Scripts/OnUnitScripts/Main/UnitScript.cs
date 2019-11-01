@@ -359,7 +359,7 @@ public class UnitScript : MonoBehaviour
             MouseManager.Instance.Deselect();
         }
 
-        Global.instance.playerTeams[OpponentID].Players[0].AddPoints(Value);
+        Global.instance.playerTeams[OpponentID].players[0].AddPoints(Value);
 
         if (GetComponent<HeroScript>() != null)
         {

@@ -4,25 +4,33 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class PlayerTeam
+    public class PlayerTeam : INewTurn
     {
         public PlayerTeam(int index, int numberOfPlayers)
         {
             this.index = index;
-            Players = new List<Player>(numberOfPlayers);
+            players = new List<Player>(numberOfPlayers);
         }
 
         public int index;
-        public List<Player> Players;
+        public List<Player> players;
 
         Player GetPlayerByIndex(int index)
         {
-            return Players[index];
+            return players[index];
         }
 
         public void AddNewPlayer(Player player)
         {
-            Players.Add(player);
+            players.Add(player);
+        }
+
+        public void OnNewTurn()
+        {
+            foreach(Player player in players)
+            {
+                player.OnNewTurn();
+            }
         }
     }
 }

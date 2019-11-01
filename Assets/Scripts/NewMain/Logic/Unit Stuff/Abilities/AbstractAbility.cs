@@ -30,7 +30,7 @@ namespace BattlescapeLogic
         Flying
     };
 
-    public abstract class AbstractAbility
+    public abstract class AbstractAbility : INewTurn
     {
         public string name { get; protected set; }
         public string description { get; protected set; }

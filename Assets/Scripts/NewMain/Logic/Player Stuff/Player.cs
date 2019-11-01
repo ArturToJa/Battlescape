@@ -10,7 +10,7 @@ namespace BattlescapeLogic
 
     public enum Faction { Human, Elves, Neutral }
 
-    public class Player
+    public class Player : INewTurn
     {
         public Player(PlayerBuilder builder)
         {
@@ -41,7 +41,7 @@ namespace BattlescapeLogic
         {
             playerScore += points;
         }
-        Unit GetUnitByIndex(int index)
+        public Unit GetUnitByIndex(int index)
         {
             foreach (UnitScript unit in playerUnits)
             {
@@ -52,6 +52,14 @@ namespace BattlescapeLogic
             }
             Debug.LogError("NO UNIT FOUND!");
             return null;
+        }
+
+        public void OnNewTurn()
+        {
+            foreach(UnitScript unit in playerUnits)
+            {
+                //unit.OnNewTurn();
+            }
         }
     }
 }
