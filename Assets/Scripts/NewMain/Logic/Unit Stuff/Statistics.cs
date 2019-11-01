@@ -75,6 +75,19 @@ namespace BattlescapeLogic
         }
         public int bonusAttackRange { get; set; }
 
+        [SerializeField] int _maxNumberOfAttacks = 1;
+        public int maxNumberOfAttacks
+        {
+            get
+            {
+                return _maxNumberOfAttacks;
+            }
+            private set
+            {
+                _maxNumberOfAttacks = value;
+            }
+        }
+        public int numberOfAttacks { get; set; }
 
         public void NullMaxMovementPoints()
         {

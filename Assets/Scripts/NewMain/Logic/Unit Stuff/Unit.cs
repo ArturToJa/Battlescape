@@ -77,14 +77,31 @@ namespace BattlescapeLogic
 
         public void Move(Tile newPosition)
         {
-            movement.ApplyUnit(this);
-            StartCoroutine(movement.MoveTo(newPosition));
+            if(CanStillMove())
+            {
+                movement.ApplyUnit(this);
+                StartCoroutine(movement.MoveTo(newPosition));
+            }
         }
 
         //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
         public void Attack(Unit target)
         {
-            attack.Attack(target);
+            if(CanStillAttack())
+            {
+                statistics.numberOfAttacks--;
+                attack.Attack(target);
+            }
+        }
+
+        public bool CanStillAttack()
+        {
+            return (statistics.numberOfAttacks > 0);
+        }
+
+        public bool CanStillMove()
+        {
+            return (statistics.movementPoints > 0);
         }
 
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
