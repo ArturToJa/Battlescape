@@ -30,7 +30,7 @@ public class CombatHighlighter : MonoBehaviour
             return;
         }
 
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.CheckIfIsInCombat() == true && MouseManager.Instance.SelectedUnit.hasAttacked == false && MouseManager.Instance.SelectedUnit.CanAttack)
+        if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.CheckIfIsInCombat() == true && MouseManager.Instance.SelectedUnit.CanStillAttack() == true && MouseManager.Instance.SelectedUnit.CanAttack)
         {
             foreach (Tile tile in Map.Board)
             {
@@ -48,12 +48,12 @@ public class CombatHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
+                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
                     ControlledTiles.Add(tile);
                 }
-                else if (tile.myUnit == null && Input.GetKey(KeyCode.LeftControl) && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>(), MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
+                else if (tile.myUnit == null && Input.GetKey(KeyCode.LeftControl) && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
                 {
                     tile.GetComponent<Renderer>().material.color = myColor;
                     ControlledTiles.Add(tile);

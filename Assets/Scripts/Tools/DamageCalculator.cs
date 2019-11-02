@@ -54,7 +54,7 @@ public class DamageCalculator
         bool isShot = attacker.isRanged && (GameStateManager.Instance.GameState != GameStates.RetaliationState && GameStateManager.Instance.GameState != GameStates.AttackState) == false;
 
         bool didDie = target.DealDamage(damage, hits > 0, isPoisoned, isShot);
-        if (target.CanCurrentlyRetaliate && target.CurrentHP > 0 && Retaliatable && Global.instance.playerTeams[target.PlayerID].players[0].type == PlayerType.Local)
+        if (target.CanCurrentlyRetaliate && target.statistics.healthPoints > 0 && Retaliatable && Global.instance.playerTeams[target.PlayerID].players[0].type == PlayerType.Local)
         {
             GameStateManager.Instance.StartRetaliationChoice();
         }
@@ -91,7 +91,7 @@ public class DamageCalculator
         {
             return GetDmgWithProbability(attacker, defender);
             //return GetDmgAtRandom(attacker, defender);
-            //return attacker.CurrentDamage + attacker.CurrentAttack - defender.CurrentDefence;
+            //return attacker.CurrentDamage + attacker.statistics.currentAttack - defender.statistics.GetCurrentDefence();
         }
     }
 
@@ -107,7 +107,7 @@ public class DamageCalculator
             if (hits >= 2)
             {
                 return GetDmgAtRandom(attacker, defender);
-               // return attacker.CurrentDamage + attacker.CurrentAttack - defender.CurrentDefence;
+               // return attacker.CurrentDamage + attacker.statistics.currentAttack - defender.statistics.GetCurrentDefence();
             }
         }
         return 0;
@@ -117,7 +117,7 @@ public class DamageCalculator
     /* THIS IS OLD VERSION
     public int GetDmgWithProbability(UnitScript attacker, UnitScript defender)
     {
-        int baseDmg = attacker.CurrentDamage + attacker.CurrentAttack - defender.CurrentDefence;
+        int baseDmg = attacker.CurrentDamage + attacker.statistics.currentAttack - defender.statistics.GetCurrentDefence();
         int a = baseDmg / 5;
         int iterations = 0;
         int sum = (1 + a) / 2 * a;
@@ -155,7 +155,7 @@ public class DamageCalculator
 
     public int GetDmgWithProbability(UnitScript attacker, UnitScript defender)
     {
-        int baseDmg = attacker.CurrentDamage + attacker.CurrentAttack - defender.CurrentDefence;
+        int baseDmg = Statistics.baseDamage + attacker.statistics.GetCurrentAttack() - defender.statistics.GetCurrentDefence();
 
         int minDmg = GetMiniDmg(attacker, defender);
 
@@ -207,17 +207,17 @@ public class DamageCalculator
 
     public int GetBaseDmg(UnitScript Attacker, UnitScript Defender)
     {
-        int Attack = Attacker.CurrentAttack;
+        int Attack = Attacker.statistics.GetCurrentAttack();
         foreach (PassiveAbility passive in Attacker.GetComponents<PassiveAbility>())
         {
             Attack += passive.GetAttack(Defender);
         }
-        int Defence = Defender.CurrentDefence;
+        int Defence = Defender.statistics.GetCurrentDefence();
         foreach (PassiveAbility passive in Defender.GetComponents<PassiveAbility>())
         {
             Defence += passive.GetDefence(Attacker);
         }
-        return Attacker.CurrentDamage + Attack - Defence;
+        return Statistics.baseDamage + Attack - Defence;
     }
 
     bool CheckIfDamageBlocked(UnitScript attacker, UnitScript defender)
@@ -233,8 +233,8 @@ public class DamageCalculator
     public int CalculateTreshold(UnitScript attacker, UnitScript defender)
     {
         int Treshold = diceFaceNumber / 2 + 1;
-        Treshold -= attacker.CurrentAttack;
-        Treshold += defender.CurrentDefence;
+        Treshold -= attacker.statistics.GetCurrentAttack();
+        Treshold += defender.statistics.GetCurrentDefence();
 
         foreach (PassiveAbility passive in attacker.GetComponents<PassiveAbility>())
         {
@@ -249,12 +249,12 @@ public class DamageCalculator
 
     public int CalculateDiceNumber(UnitScript attacker, UnitScript defender, bool badRangeShooting)
     {
-        int diceNumber = attacker.DiceNumber;
-        /*if (attacker.CurrentHP * 2 <= attacker.MaxHP)
+        int diceNumber = 3;
+        /*if (attacker.statistics.healthPoints * 2 <= attacker.statistics.maxHealthPoints)
         {
             diceNumber--;
         }
-        if (defender.CurrentHP * 2 <= defender.MaxHP)
+        if (defender.statistics.healthPoints * 2 <= defender.statistics.maxHealthPoints)
         {
             diceNumber++;
         }*/

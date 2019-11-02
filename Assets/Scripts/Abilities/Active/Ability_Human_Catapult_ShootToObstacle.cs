@@ -50,7 +50,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
 
     protected override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && MouseManager.Instance.mouseoveredTile.hasObstacle == true && ShootingScript.WouldItBePossibleToShoot(this.GetComponent<ShootingScript>(), this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key && Helper.FindChildWithTag(MouseManager.Instance.mouseoveredTile.gameObject, "Dice") != null;
+        return MouseManager.Instance.mouseoveredTile != null && MouseManager.Instance.mouseoveredTile.hasObstacle == true && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key && Helper.FindChildWithTag(MouseManager.Instance.mouseoveredTile.gameObject, "Dice") != null;
     }
 
    
@@ -58,8 +58,8 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
     IEnumerator ShootToObstacle()
     {
         Log.SpawnLog("Catapult shoots at an obstacle, destroying it completely!");
-        myUnit.GetComponent<ShootingScript>().hasAlreadyShot = true;
-        myUnit.GetComponent<ShootingScript>().myTarget = Target.transform.position;
+        myUnit.statistics.numberOfAttacks = 0;
+        myShootingScript.myTarget = Target.transform.position;
         GameObject objecto = null;
         foreach (Transform item in Target.transform)
         {
@@ -82,7 +82,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
     {
         foreach (Tile tile in Map.Board)
         {
-            if (tile.hasObstacle && ShootingScript.WouldItBePossibleToShoot(myShootingScript, this.transform.position, tile.transform.position).Key && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
+            if (tile.hasObstacle && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position).Key && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
             {
                 ColouringTool.SetColour(tile, Color.red);
             }

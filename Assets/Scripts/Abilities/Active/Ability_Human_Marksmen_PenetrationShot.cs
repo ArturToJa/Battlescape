@@ -6,13 +6,11 @@ using BattlescapeLogic;
 public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 {
     [SerializeField] int RangeModifier;
-    ShootingScript myShootingScript;
     UIHitChanceInformation hitInfo;
 
     protected override void OnStart()
     {
         hitInfo = FindObjectOfType<UIHitChanceInformation>();
-        myShootingScript = GetComponent<ShootingScript>();
     }
 
     protected override void OnUpdate()
@@ -23,7 +21,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
             {
                 if (hitInfo.IsNewTargetToCalculate())
                 {
-                    hitInfo.ChangeUnitsStatsBy(-Mathf.CeilToInt(0.5f * MouseManager.Instance.MouseoveredUnit.CurrentDefence));
+                    hitInfo.ChangeUnitsStatsBy(-Mathf.CeilToInt(0.5f * MouseManager.Instance.MouseoveredUnit.statistics.GetCurrentDefence()));
                     hitInfo.ShowNewInformation();
                 }
             }
@@ -38,13 +36,13 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     protected override void CancelUse()
     {
-        myShootingScript.currShootingRange -= RangeModifier;
+        myUnit.statistics.bonusAttackRange -= RangeModifier;
         hitInfo.ChangeUnitsStatsBy(0);
     }
 
     protected override void Use()
     {
-        myShootingScript.currShootingRange += RangeModifier;
+        myUnit.statistics.bonusAttackRange += RangeModifier;
     }
 
     protected override void SetTarget()
@@ -59,19 +57,19 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     protected override bool ActivationRequirements()
     {
-        return ((MouseManager.Instance.MouseoveredUnit != null) && ShootingScript.WouldItBePossibleToShoot(myShootingScript, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position).Key);
+        return ((MouseManager.Instance.MouseoveredUnit != null) && ShootingScript.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position).Key);
     }
 
 
     void PerformPenetratingShot(UnitScript target)
     {
-        int oldDef = target.CurrentDefence;
-        target.CurrentDefence = target.CurrentDefence - Mathf.CeilToInt(0.5f * target.CurrentDefence);
-        myShootingScript.hasAlreadyShot = true;
+        //int oldDef = target.statistics.GetCurrentDefence();
+        //target.statistics.defence = target.statistics.GetCurrentDefence() - Mathf.CeilToInt(0.5f * target.statistics.GetCurrentDefence());
+        myUnit.statistics.numberOfAttacks = 0;
         CombatController.Instance.AttackTarget = target;
         CombatController.Instance.Shoot(myUnit, target, false,false);
-        target.CurrentDefence = oldDef;
-        myShootingScript.currShootingRange -= RangeModifier;
+        //target.statistics.GetCurrentDefence() = oldDef;
+        myUnit.statistics.bonusAttackRange -= RangeModifier;
         GameStateManager.Instance.BackToIdle();
     }
 
@@ -80,7 +78,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         yield return null;
         FinishUsing();
         Log.SpawnLog(myUnit.name + " shoots a Penetrating Shot at " + target.name + ", temporarily decreasing " + target.name + "'s defence by half");
-        myShootingScript.hasAlreadyShot = true;
+        myUnit.statistics.numberOfAttacks = 0;
         DoArtisticStuff();
         GameStateManager.Instance.Animate();
         yield return new WaitForSeconds(1.5f);
@@ -103,7 +101,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     {
         foreach (Tile tile in Map.Board)
         {
-            if (tile.myUnit != null && tile.myUnit.PlayerID != myUnit.PlayerID && ShootingScript.WouldItBePossibleToShoot(this.GetComponent<ShootingScript>(), this.transform.position, tile.transform.position).Key)
+            if (tile.myUnit != null && tile.myUnit.PlayerID != myUnit.PlayerID && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position).Key)
             {
                 ColouringTool.SetColour(tile, Color.red);
             }
@@ -119,14 +117,14 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        List<UnitScript> targets = ShootingScript.PossibleTargets(myShootingScript, transform.position);
-        if (targets.Count > 0 && myUnit.CurrentHP == 1)
+        List<UnitScript> targets = ShootingScript.PossibleTargets(myUnit, transform.position);
+        if (targets.Count > 0 && myUnit.statistics.healthPoints == 1)
         {
             return true;
         }
         foreach (UnitScript enemy in targets)
         {
-            if (enemy.CurrentDefence >= 4)
+            if (enemy.statistics.GetCurrentDefence() >= 4)
             {
                 return true;
             }
@@ -141,7 +139,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     public override GameObject AI_ChooseTarget()
     {
-        List<UnitScript> targets = ShootingScript.PossibleTargets(myShootingScript, transform.position);
+        List<UnitScript> targets = ShootingScript.PossibleTargets(myUnit, transform.position);
         int startingDefence = 10;
         while (true)
         {
@@ -153,7 +151,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
             }
             foreach (UnitScript unit in targets)
             {
-                if (unit.CurrentDefence >= startingDefence)
+                if (unit.statistics.GetCurrentDefence() >= startingDefence)
                 {
                     return unit.gameObject;
                 }

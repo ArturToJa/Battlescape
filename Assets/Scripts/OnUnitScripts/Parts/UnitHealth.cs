@@ -35,13 +35,13 @@ public class UnitHealth : MonoBehaviour
 
     void UpdateText()
     {
-        amount.text = thisUnit.CurrentHP + "/" + thisUnit.MaxHP;
+        amount.text = thisUnit.statistics.healthPoints + "/" + thisUnit.statistics.maxHealthPoints;
     }
 
     void FillTheBar()
     {
         float velocity = 0;
-        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisUnit.CurrentHP / (float)thisUnit.MaxHP), ref velocity, barAnimationTime);
+        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisUnit.statistics.healthPoints / (float)thisUnit.statistics.maxHealthPoints), ref velocity, barAnimationTime);
     }
    public static void SetColour()
     {

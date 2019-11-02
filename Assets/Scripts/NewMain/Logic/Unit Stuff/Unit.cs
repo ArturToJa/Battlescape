@@ -57,7 +57,7 @@ namespace BattlescapeLogic
 
         public void OnNewTurn()
         {
-            statistics.movementPoints = statistics.maxMovementPoints;
+            statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
             foreach(Buff buff in buffs)
             {

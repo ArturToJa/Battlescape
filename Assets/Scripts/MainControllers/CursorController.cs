@@ -211,7 +211,7 @@ public class CursorController : MonoBehaviour
 
         if (MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit != null)
         {
-            if (MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && !MouseManager.Instance.SelectedUnit.hasAttacked && MouseManager.Instance.SelectedUnit.CanAttack)
+            if (MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack)
             {
                 SetCursorTo(clickingAttackCursor, attackCursor);
             }
@@ -377,7 +377,7 @@ public class CursorController : MonoBehaviour
                 StartCoroutine(StayInCombatModeCursor(0.2f));
 
             }
-            else if (Pathfinder.Instance.WouldTileBeLegal(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.GetBaseMS()))
+            else if (Pathfinder.Instance.WouldTileBeLegal(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.statistics.GetCurrentMaxMovementPoints()))
             {
                 SetCursorTo(clickingWalkingCursor, walkingCursor);
             }

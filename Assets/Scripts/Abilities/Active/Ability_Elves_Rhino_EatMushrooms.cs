@@ -72,7 +72,7 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
         PlayAbilitySound();
         Destroy(Target.GetComponentInChildren<RhinoFood>().gameObject, 0.1f);        
         GetComponent<AnimController>().SetEating(true);
-        myUnit.Heal(healValue,false);
+        myUnit.statistics.healthPoints += healValue;
         IsForcingMovementStuff = false;
         yield return new WaitForSeconds(3f);
         GetComponent<AnimController>().SetEating(false);

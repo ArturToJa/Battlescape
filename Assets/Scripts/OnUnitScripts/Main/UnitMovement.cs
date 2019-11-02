@@ -19,9 +19,6 @@ public class UnitMovement : MonoBehaviour
 
     public bool CanMove = true;    
 
-    int CurrMoveSpeed;
-    [SerializeField] int baseMoveSpeed;
-
 
     [HideInInspector] public bool isMoving;
 
@@ -32,7 +29,6 @@ public class UnitMovement : MonoBehaviour
         CombatController.Instance.AttackEvent += OnAttack;
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
         stepSource = gameObject.AddComponent<AudioSource>();
-        CurrMoveSpeed = baseMoveSpeed;
         Destination = transform.position;
         VISUAL_MOVEMENT_SPEED = visualMovementSpeed * PlayerPrefs.GetFloat("moveSpeedAnimation");
 
@@ -88,27 +84,13 @@ public class UnitMovement : MonoBehaviour
     {
         if (needRealValue ||(GetComponent<UnitScript>().EnemyList == null || GetComponent<UnitScript>().EnemyList.Count == 0))
         {
-            return CurrMoveSpeed;
+            return myUnitScript.statistics.movementPoints;
         }
         else
         {
             return 1;
         }
-    }
-
-    public void IncrimentMoveSpeedBy(int speed)
-    {
-        CurrMoveSpeed += speed;
-    }
-    
-
-   /* private void CheckIfCanMove()
-    {
-        if (this.GetComponent<UnitScript>().CheckIfIsInCombat())
-        {
-            canMove = false;
-        }
-    }*/
+    }    
 
     public bool HasStoppedMoving()
     {
@@ -156,11 +138,6 @@ public class UnitMovement : MonoBehaviour
         }
         myBody.Rotate(new Vector3(0, rotate, 0));
 
-    }
-
-    public int GetBaseMS()
-    {
-        return baseMoveSpeed;
     }
 
     public void TeleportTo(Tile tile)

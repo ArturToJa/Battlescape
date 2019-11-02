@@ -158,7 +158,7 @@ public class UIHitChanceInformation : MonoBehaviour
             //we, the local player, are the active player during retaliation. Therefore we NEED to have the window open.
             UIManager.SmoothlyTransitionActivity(transform.parent.gameObject, true, 0.1f);
         }
-        else if (MouseManager.Instance.SelectedUnit != null && (GameStateManager.Instance.GameState == GameStates.AttackState && !MouseManager.Instance.SelectedUnit.hasAttacked && MouseManager.Instance.SelectedUnit.CanAttack || GameStateManager.Instance.GameState == GameStates.ShootingState && MouseManager.Instance.SelectedUnit.isRanged && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>().CanShoot) && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.PlayerID != MouseManager.Instance.MouseoveredUnit.PlayerID)
+        else if (MouseManager.Instance.SelectedUnit != null && (GameStateManager.Instance.GameState == GameStates.AttackState && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack || GameStateManager.Instance.GameState == GameStates.ShootingState && MouseManager.Instance.SelectedUnit.isRanged && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>().CanShoot) && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.PlayerID != MouseManager.Instance.MouseoveredUnit.PlayerID)
         {
             // we have a selected unit, it can attack/shoot NOW and we are over a mouseovered enemy. Therefore we imply we are a local active player ;).
             UIManager.SmoothlyTransitionActivity(transform.parent.gameObject, true, 0.1f);
@@ -176,11 +176,11 @@ public class UIHitChanceInformation : MonoBehaviour
 
     void SetUnitStats()
     {
-        hc.Defender.CurrentDefence += defendersDefenceBonus;
+        hc.Defender.statistics.bonusDefence += defendersDefenceBonus;
     }
 
     void UndoUnitStats()
     {
-        hc.Defender.CurrentDefence -= defendersDefenceBonus;
+        hc.Defender.statistics.bonusDefence -= defendersDefenceBonus;
     }
 }

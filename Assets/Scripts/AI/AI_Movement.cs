@@ -6,11 +6,9 @@ using BattlescapeLogic;
 public class AI_Movement : AI_Base_Movement
 {
     static List<UnitScript> unitsSkippingTurn;
-    AI_Shooting ShootingAITool;
 
     public AI_Movement(int ID) : base(ID)
     {
-        ShootingAITool = new AI_Shooting(ID);
         base.CallTheConstructor(ID);
         if (unitsSkippingTurn == null)
         {
@@ -83,7 +81,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<HeroScript>() != null && ally.CurrentHP > 0)
+            if (ally.GetComponent<HeroScript>() != null && ally.statistics.healthPoints > 0)
             {
                 temp.Add(ally);
             }
@@ -97,7 +95,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() == null && ally.GetComponent<HeroScript>() == null && ally.CurrentHP > 0)
+            if (ally.GetComponent<ShootingScript>() == null && ally.GetComponent<HeroScript>() == null && ally.statistics.healthPoints > 0)
             {
                 temp.Add(ally);
             }
@@ -111,7 +109,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && ally.CurrentHP > 0)
+            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && ally.statistics.healthPoints > 0)
             {
                 temp.Add(ally);
             }
@@ -277,11 +275,11 @@ public class AI_Movement : AI_Base_Movement
             //NOW LETS find the best shooting target possible! And give some value to it XD?
             float GoodBoiBonus = 0f;
             float NoTargetButGoodTileForFutureBonus = 0f;
-            UnitScript bestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().currShootingRange);
+            UnitScript bestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange());
             if (bestTarget != null)
             {
                 // so if the best target is not null, so it is possible to shoot at SOMEONE from the Tile being evaluated, then..
-                if (ShootingScript.WouldItBePossibleToShoot(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().currShootingRange).transform.position).Value == true)
+                if (ShootingScript.WouldItBePossibleToShoot(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange()).transform.position).Value == true)
                 {
                     // if it is in "bad range"
                     var temp = 0.25f + 0.5f * ShootingAITool.EvaluateAsATarget(currentUnit, bestTarget.myTile);
@@ -307,7 +305,7 @@ public class AI_Movement : AI_Base_Movement
                 }
 
                 // and finally here we want to get to shooting range in 2 turns. Is it good - idk, but it "feels" right xD
-                UnitScript NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().currShootingRange + currentUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false));
+                UnitScript NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange() + currentUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false));
                 if (NextTurnBestTarget != null)
                 {
                     // we do not care if it is bad range cause we are a dumb AI
@@ -394,18 +392,18 @@ public class AI_Movement : AI_Base_Movement
             if (t.myUnit != null && t.myUnit.PlayerID != currentUnit.PlayerID)
             {
                 enemiesOnNextTiles++;
-                if (t.myUnit.CurrentHP <= 2 && t.myUnit.CurrentHP < currentUnit.CurrentHP)
+                if (t.myUnit.statistics.healthPoints <= 2 && t.myUnit.statistics.healthPoints < currentUnit.statistics.healthPoints)
                 {
                     Evaluation += 0.2f;
                     // Debug.Log("Evaluation of the tile: " + tile + " got increased by: 0.15f because of weaker enemy on the tile: " + t);
-                    if (t.myUnit.CurrentDefence < currentUnit.CurrentAttack)
+                    if (t.myUnit.statistics.GetCurrentDefence() < currentUnit.statistics.GetCurrentAttack())
                     {
                         Evaluation += 0.1f;
                         //     Debug.Log("Even more increase - defennce lower than attacker's attack");
                     }
                 }
 
-                if (t.myUnit.CurrentHP >= 4 || t.myUnit.CurrentHP > currentUnit.CurrentHP + 1 || t.myUnit.CurrentAttack > currentUnit.CurrentDefence)
+                if (t.myUnit.statistics.healthPoints >= 4 || t.myUnit.statistics.healthPoints > currentUnit.statistics.healthPoints + 1 || t.myUnit.statistics.GetCurrentAttack() > currentUnit.statistics.GetCurrentDefence())
                 {
                     Evaluation -= 0.1f;
                     // Debug.Log("Evaluation of the tile: " + tile + " decreased by 0.2f because of strong enemy: " + t.myUnit + " on tile " + t);
@@ -451,13 +449,13 @@ public class AI_Movement : AI_Base_Movement
     {
         // here we need to find a formula for how much an enemy is "scary" for us.
         float value = 0f;
-        if (currentUnit.CurrentDefence < enemy.CurrentAttack)
+        if (currentUnit.statistics.GetCurrentDefence() < enemy.statistics.GetCurrentAttack())
         {
-            value += enemy.CurrentAttack - currentUnit.CurrentDefence;
+            value += enemy.statistics.GetCurrentAttack() - currentUnit.statistics.GetCurrentDefence();
         }
-        if (currentUnit.CurrentHP < currentUnit.MaxHP)
+        if (currentUnit.statistics.healthPoints < currentUnit.statistics.maxHealthPoints)
         {
-            value = value + 0.25f * value * (currentUnit.MaxHP - currentUnit.CurrentHP);
+            value = value + 0.25f * value * (currentUnit.statistics.maxHealthPoints - currentUnit.statistics.healthPoints);
         }
         if (currentUnit.isRanged)
         {

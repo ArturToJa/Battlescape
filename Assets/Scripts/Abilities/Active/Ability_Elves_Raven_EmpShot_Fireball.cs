@@ -35,8 +35,8 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
         {
             if (neighbour.myUnit != null)
             {
-                neighbour.myUnit.DealDamage(Damage + myUnit.CurrentAttack - neighbour.myUnit.CurrentDefence, true, false, true);
-                PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.CurrentAttack - neighbour.myUnit.CurrentDefence), PopupTypes.Damage);
+                neighbour.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence(), true, false, true);
+                PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
             }
         }
         yield return null;

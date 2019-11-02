@@ -7,7 +7,6 @@ using BattlescapeLogic;
 [RequireComponent(typeof(ShootingScript))]
 public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 {
-    ShootingScript myShootingScript;
     [SerializeField] int RangeModifier;
     Tile oldMouseoveredTile;
     [SerializeField] Vector3[] positions;
@@ -16,7 +15,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     protected override void OnStart()
     {
-        myShootingScript = myUnit.GetComponent<ShootingScript>();
+        return;
     }
 
     protected override void OnUpdate()
@@ -35,12 +34,12 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     protected override void Use()
     {
-        myShootingScript.currShootingRange += RangeModifier;
+        myUnit.statistics.bonusAttackRange += RangeModifier;
     }
 
     protected override void CancelUse()
     {
-        myShootingScript.currShootingRange -= RangeModifier;
+        myUnit.statistics.bonusAttackRange -= RangeModifier;
     }
 
     protected override bool IsUsableNow()
@@ -61,7 +60,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
             return;
         }
 
-        if (ShootingScript.WouldItBePossibleToShoot(myShootingScript, transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key == false)
+        if (ShootingScript.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key == false)
         {
             return;
         }
@@ -139,8 +138,8 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     void HOA_Logic()
     {
-        myShootingScript.currShootingRange -= RangeModifier;
-        myShootingScript.hasAlreadyShot = true;
+        myUnit.statistics.bonusAttackRange -= RangeModifier;
+        myUnit.statistics.numberOfAttacks = 0;
         if (Target.myUnit != null)
         {
             Debuff(Target.myUnit);
@@ -162,7 +161,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     protected override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && ShootingScript.WouldItBePossibleToShoot(this.GetComponent<ShootingScript>(), this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key;
+        return MouseManager.Instance.mouseoveredTile != null && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key;
     }
 
     ///////////////////////////////

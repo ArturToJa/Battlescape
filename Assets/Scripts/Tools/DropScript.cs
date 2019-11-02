@@ -32,7 +32,7 @@ public class DropScript : MonoBehaviour
                 case 1:
                     if (unit.isRanged)
                     {
-                        unit.GetComponent<ShootingScript>().currShootingRange += 1;
+                        unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
                         PopupTextController.CreatePopupText("+1 Range", unit.transform, PopupTypes.Info);
                         break;
                     }
@@ -46,7 +46,7 @@ public class DropScript : MonoBehaviour
                     if (unit.isRanged && unit.GetComponent<ShootingScript>().shortDistance)
                     {
                         unit.GetComponent<ShootingScript>().shortDistance = false;
-                        unit.GetComponent<ShootingScript>().currShootingRange += 1;
+                        unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
                         PopupTextController.CreatePopupText("Long Range!", unit.transform, PopupTypes.Info);
                         break;
                     }
@@ -82,7 +82,7 @@ public class DropScript : MonoBehaviour
                     }
                     if (unit.isRanged)
                     {
-                        unit.GetComponent<ShootingScript>().currShootingRange += 1;
+                        unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
                         if (unit.GetComponent<ShootingScript>().shortDistance)
                         {
                             unit.GetComponent<ShootingScript>().shortDistance = false;

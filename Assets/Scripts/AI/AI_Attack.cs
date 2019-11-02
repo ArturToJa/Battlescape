@@ -15,7 +15,7 @@ public class AI_Attack : AI_Base_Attack
     {
         Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(allyList);
         UnitScript firstUnit = myUnitsToMove.Peek();
-        while (firstUnit.CheckIfIsInCombat() == false || firstUnit.hasAttacked == true)
+        while (firstUnit.CheckIfIsInCombat() == false || firstUnit.CanStillAttack() == false)
         {
             myUnitsToMove.Dequeue();
             if (myUnitsToMove.Count == 0)
@@ -39,12 +39,12 @@ public class AI_Attack : AI_Base_Attack
         if (theTile != null)
         {
             CombatController.Instance.AttackTarget = theTile.myUnit.GetComponent<UnitScript>();
-            currentUnit.hasAttacked = true;
+            currentUnit.statistics.numberOfAttacks = 0;
             CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.AttackTarget, false, !currentUnit.isStoppingRetaliation);
         }
         else
         {
-            currentUnit.hasAttacked = true;
+            currentUnit.statistics.numberOfAttacks = 0;
         }
         
     }
@@ -54,7 +54,7 @@ public class AI_Attack : AI_Base_Attack
         List<Tile> enemiesInCombat = new List<Tile>();
         foreach (UnitScript enemy in currentUnit.EnemyList)
         {
-            if (enemy.CurrentHP>0)
+            if (enemy.statistics.healthPoints>0)
             {
                 enemiesInCombat.Add(enemy.myTile);
             }
@@ -78,7 +78,7 @@ public class AI_Attack : AI_Base_Attack
         }
 
         // 2.
-        Evaluation += target.Value * 0.1f;
+        Evaluation += target.statistics.cost * 0.1f;
         if (target.GetComponent<HeroScript>() != null)
         {
             Evaluation += 0.75f;

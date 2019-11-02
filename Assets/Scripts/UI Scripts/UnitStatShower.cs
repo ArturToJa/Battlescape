@@ -15,10 +15,10 @@ public class UnitStatShower : MonoBehaviour
 
     public void UpdateInfos()
     {
-        attackSpot.text = currUnit.GetBaseAttack().ToString();
-        defenceSpot.text = currUnit.GetBaseDefence().ToString();
-        healthSpot.text = currUnit.MaxHP.ToString();
-        moveSpeedSpot.text = currUnit.GetBaseMS().ToString();
+        attackSpot.text = currUnit.statistics.GetCurrentAttack().ToString();
+        defenceSpot.text = currUnit.statistics.GetCurrentDefence().ToString();
+        healthSpot.text = currUnit.statistics.maxHealthPoints.ToString();
+        moveSpeedSpot.text = currUnit.statistics.GetCurrentMaxMovementPoints().ToString();
         fluffBio.text = currUnit.unitUnit.fluffBio;
     }
 }

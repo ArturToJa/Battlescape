@@ -9,21 +9,17 @@ public class ShootingScript : MonoBehaviour
     UnitScript theUnit;
 
     [HideInInspector]
-    public int currShootingRange;
-    public int baseShootingRange;
-    [HideInInspector]
     public int currMinimalRange;
     public int baseMinimalRange;
     public bool shortDistance;
     public bool AOEAttack;
-    public bool hasAlreadyShot = false;
 
     public bool CanShoot
     {
         get
         {
             return
-                hasAlreadyShot == false &&
+                theUnit.CanStillAttack() == true &&
                 theUnit.IsFrozen == false;
         }
     }
@@ -68,9 +64,7 @@ public class ShootingScript : MonoBehaviour
     private void Start()
     {
         CurrentProjectile = Projectile;
-        TurnManager.Instance.NewTurnEvent += OnNewTurn;
         currMinimalRange = baseMinimalRange;
-        currShootingRange = baseShootingRange;
         theUnit = this.GetComponent<UnitScript>();
         hitShotSource = gameObject.AddComponent<AudioSource>();
         shootSource = gameObject.AddComponent<AudioSource>();
@@ -83,10 +77,6 @@ public class ShootingScript : MonoBehaviour
         }
     }
 
-    public void OnNewTurn()
-    {
-        hasAlreadyShot = false;
-    }
 
     private bool WeDontUseAbilityRightNow()
     {
@@ -98,7 +88,7 @@ public class ShootingScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             CombatController.Instance.Shoot(theUnit, MouseManager.Instance.MouseoveredUnit, CheckBadRange(MouseManager.Instance.MouseoveredUnit.gameObject), AOEAttack);
-            hasAlreadyShot = true;
+            theUnit.statistics.numberOfAttacks = 0;
         }
     }
 
@@ -110,7 +100,7 @@ public class ShootingScript : MonoBehaviour
         }
         else
         {
-            Bounds Range = new Bounds(this.transform.position, new Vector3(currShootingRange + 0.25f, 5, currShootingRange + 0.25f));
+            Bounds Range = new Bounds(this.transform.position, new Vector3(theUnit.statistics.GetCurrentAttackRange() + 0.25f, 5, theUnit.statistics.GetCurrentAttackRange() + 0.25f));
             return !(Range.Contains(target.transform.position));
         }
     }
@@ -165,7 +155,7 @@ public class ShootingScript : MonoBehaviour
 
     public bool IsTargetInRange(Vector3 target)
     {
-        Bounds maxiRange = new Bounds(this.transform.position, new Vector3(2 * currShootingRange + 0.25f, 5, 2 * currShootingRange + 0.25f));
+        Bounds maxiRange = new Bounds(this.transform.position, new Vector3(2 * theUnit.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * theUnit.statistics.GetCurrentAttackRange() + 0.25f));
         if (currMinimalRange > 0)
         {
             Bounds miniRange = new Bounds(this.transform.position, new Vector3(2 * currMinimalRange + 0.25f, 5, 2 * currMinimalRange + 0.25f));
@@ -178,40 +168,41 @@ public class ShootingScript : MonoBehaviour
 
     }
 
-    public static KeyValuePair<bool, bool> WouldItBePossibleToShoot(ShootingScript shooter, Vector3 start, Vector3 target)
+    public static KeyValuePair<bool, bool> WouldItBePossibleToShoot(UnitScript shooter, Vector3 start, Vector3 target)
     {
 
-        Bounds FullRange = new Bounds(start, new Vector3(2 * shooter.currShootingRange + 0.25f, 5, 2 * shooter.currShootingRange + 0.25f));
-        Bounds BadRange = new Bounds(start, new Vector3(shooter.currShootingRange + 0.25f, 5, shooter.currShootingRange + 0.25f));
+        Bounds FullRange = new Bounds(start, new Vector3(2 * shooter.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * shooter.statistics.GetCurrentAttackRange() + 0.25f));
+        //Bounds BadRange = new Bounds(start, new Vector3(shooter.statistics.GetCurrentAttackRange() + 0.25f, 5, shooter.statistics.GetCurrentAttackRange() + 0.25f));
         bool key = false;
-        if (shooter.currMinimalRange > 0)
+        if (shooter.statistics.minimalAttackRange > 0)
         {
-            Bounds miniRange = new Bounds(start, new Vector3(2 * shooter.currMinimalRange + 0.25f, 5, 2 * shooter.currMinimalRange + 0.25f));
+            Bounds miniRange = new Bounds(start, new Vector3(2 * shooter.statistics.minimalAttackRange + 0.25f, 5, 2 * shooter.statistics.minimalAttackRange + 0.25f));
             key = miniRange.Contains(target) == false && FullRange.Contains(target) && IsInLineOfSight(start, target, true);
         }
         else
         {
             key = FullRange.Contains(target) && IsInLineOfSight(start, target, true);
         }
-        bool value;
-        if (shooter.shortDistance)
-        {
-            value = (BadRange.Contains(target) == false);
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = false;
+        //if (shooter.shortDistance)
+        //{
+        //    value = (BadRange.Contains(target) == false);
+        //}
+        //THIS above should somehow become a thing!
+        //else
+        //{
+        //    value = false;
+        //}
         return new KeyValuePair<bool, bool>(key, value);
     }
 
-    public static List<UnitScript> PossibleTargets(ShootingScript shooter, Vector3 start)
+    public static List<UnitScript> PossibleTargets(UnitScript shooter, Vector3 start)
     {
-        Bounds Range = new Bounds(start, new Vector3(2 * shooter.currShootingRange + 0.25f, 5, 2 * shooter.currShootingRange + 0.25f));
+        Bounds Range = new Bounds(start, new Vector3(2 * shooter.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * shooter.statistics.GetCurrentAttackRange() + 0.25f));
         Bounds miniRange = new Bounds(start, Vector3.zero);
-        if (shooter.currMinimalRange > 0)
+        if (shooter.statistics.minimalAttackRange > 0)
         {
-            miniRange = new Bounds(start, new Vector3(2 * shooter.currMinimalRange + 0.25f, 5, 2 * shooter.currMinimalRange + 0.25f));
+            miniRange = new Bounds(start, new Vector3(2 * shooter.statistics.minimalAttackRange + 0.25f, 5, 2 * shooter.statistics.minimalAttackRange + 0.25f));
         }
         List<UnitScript> targets = new List<UnitScript>();
         foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())

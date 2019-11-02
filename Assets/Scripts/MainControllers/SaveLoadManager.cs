@@ -47,6 +47,7 @@ public class SaveLoadManager : MonoBehaviour
 
     void Awake()
     {
+        Race = Faction.Neutral;
         //ChosenFactions[0] = Faction.Neutral;
         //ChosenFactions[1] = Faction.Neutral;
         if (Instance == null)
@@ -111,7 +112,7 @@ public class SaveLoadManager : MonoBehaviour
     public void CopyDataToSave()
     {
         playerArmy = new PlayerArmy();
-        if (Race != null)
+        if (Race != Faction.Neutral)
         {
             playerArmy.faction = Race;
         }
@@ -265,7 +266,7 @@ public class SaveLoadManager : MonoBehaviour
             foreach (var item in list)
             {
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.faction == null)
+                if (armyInfo.faction == Faction.Neutral)
                 {
                     Debug.Log("deleted");
                     File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
@@ -335,7 +336,7 @@ public class SaveLoadManager : MonoBehaviour
                 temp.GetComponent<SaveLoadButton>().isDeletable = true;
                 temp.GetComponentInChildren<Text>().text = item.Key;
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.faction == null)
+                if (armyInfo.faction == Faction.Neutral)
                 {
                     Debug.Log("deleted");
                     File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");

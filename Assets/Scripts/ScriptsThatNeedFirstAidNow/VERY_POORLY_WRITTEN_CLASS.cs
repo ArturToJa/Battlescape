@@ -51,7 +51,6 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
                 break;
         }
         PlayerBuilder currentPlayerBuilder = Global.instance.playerBuilders[ID];
-        Debug.Log(ID);
         Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(new Player(currentPlayerBuilder));
         Global.instance.playerBuilders[ID] = null;
         Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].race = (Faction)SaveLoadManager.Instance.Race;

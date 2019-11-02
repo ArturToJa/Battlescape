@@ -107,16 +107,16 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
         }
         // for mutual neighbours.
         // add debuff
-        PassiveAbility_Buff.AddBuff(gameObject, 2, 0, -myUnit.CurrentDefence, 0, 0, true, "FencerDebuff", null, 0, false, true, false);
-        myUnit.hasAttacked = true;
+        PassiveAbility_Buff.AddBuff(gameObject, 2, 0, -myUnit.statistics.GetCurrentDefence(), 0, 0, true, "FencerDebuff", null, 0, false, true, false);
+        myUnit.statistics.numberOfAttacks = 0;
         yield return null;
         FinishUsing();
     }
 
     void HitForSwing(UnitScript target)
     {
-        target.DealDamage(Damage - target.CurrentDefence, true, false, false);
-        PopupTextController.AddParalelPopupText("-" + (Damage - target.CurrentDefence), PopupTypes.Damage);
+        target.DealDamage(Damage - target.statistics.GetCurrentDefence(), true, false, false);
+        PopupTextController.AddParalelPopupText("-" + (Damage - target.statistics.GetCurrentDefence()), PopupTypes.Damage);
     }
 
 

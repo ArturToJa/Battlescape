@@ -83,7 +83,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && tile.myUnit.hasAttacked != true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
+                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && tile.myUnit.CanStillAttack() == true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);

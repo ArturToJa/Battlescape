@@ -103,12 +103,16 @@ namespace BattlescapeLogic
         public void SetMyUnitTo(UnitScript unit)
         {
             myUnit = unit;
-            Tile oldTile = myUnit.myTile;
-            if (unit != null && oldTile != null && oldTile != this)
+            Tile oldTile = null;
+            if (unit != null)
             {
-                oldTile.myUnit = null;
-                myUnit.myTile = this;
-            }
+                 oldTile = myUnit.myTile;
+                if (oldTile != null && oldTile != this)
+                {
+                    oldTile.myUnit = null;
+                    myUnit.myTile = this;
+                }
+            }                        
         }
 
         public void DestroyObstacle()

@@ -55,7 +55,7 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
             MouseManager.Instance.mouseoveredTile != null &&
             MouseManager.Instance.mouseoveredTile.myUnit != null &&
             MouseManager.Instance.mouseoveredTile.myUnit.PlayerID != myUnit.PlayerID &&
-            ShootingScript.WouldItBePossibleToShoot(this.GetComponent<ShootingScript>(), this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key;
+            ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key;
     }
 
     public override void Activate()
@@ -71,11 +71,11 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
         myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         myShooter.CurrentProjectile = Projectile;
         myUnit.GetComponent<AnimController>().Cast();
-        Target.myUnit.DealDamage(Damage + myUnit.CurrentAttack - Target.myUnit.CurrentDefence, true, false, true);
-        myShooter.hasAlreadyShot = true;
+        Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, true);
+        myUnit.statistics.numberOfAttacks = 0;
         
         myShooter.myTarget = Target.myUnit.transform.position;
-        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.CurrentAttack - Target.myUnit.CurrentDefence), PopupTypes.Damage);        
+        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);        
      }    
 
 

@@ -39,7 +39,7 @@ public class PassiveAbility_Buff : PassiveAbility
     {
         if (BuffDuration <= 0 && alreadyRemovedBuff == false)
         {
-            UndoBuff();           
+            UndoBuff();
         }
 
     }
@@ -86,10 +86,10 @@ public class PassiveAbility_Buff : PassiveAbility
     public void DoBuff()
     {
         myUnit = GetComponentInParent<UnitScript>();
-        myUnit.CurrentAttack += AttackBuffValue;
-        myUnit.CurrentDefence += DefenceBuffValue;
+        myUnit.statistics.bonusAttack += AttackBuffValue;
+        myUnit.statistics.bonusDefence += DefenceBuffValue;
         myUnit.QuitCombatPercent += QuitCombatChanceBuffValue;
-        myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(MovementBuffValue);
+        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(MovementBuffValue);
         myUnit.DoesRetaliate = CanRetal;
         if (IsFrozen)
         {
@@ -97,16 +97,16 @@ public class PassiveAbility_Buff : PassiveAbility
         }
     }
 
-    
+
 
     public void TemporarilyUndooBuff()
     {
         myUnit = GetComponentInParent<UnitScript>();
         myUnit.IsFrozen = false;
-        myUnit.CurrentAttack -= AttackBuffValue;
-        myUnit.CurrentDefence -= DefenceBuffValue;
+        myUnit.statistics.bonusAttack -= AttackBuffValue;
+        myUnit.statistics.bonusDefence -= DefenceBuffValue;
         myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
         myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
     }
 
@@ -114,10 +114,10 @@ public class PassiveAbility_Buff : PassiveAbility
     {
         myUnit = GetComponentInParent<UnitScript>();
         myUnit.IsFrozen = false;
-        myUnit.CurrentAttack -= AttackBuffValue;
-        myUnit.CurrentDefence -= DefenceBuffValue;
+        myUnit.statistics.bonusAttack -= AttackBuffValue;
+        myUnit.statistics.bonusDefence -= DefenceBuffValue;
         myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
         myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
         alreadyRemovedBuff = true;
         if (vfx != null)
@@ -160,8 +160,8 @@ public class PassiveAbility_Buff : PassiveAbility
         theBuff.CanRetal = canRetal;
         theBuff.IsRemovedByGettingHit = doesGettingHitRemove;
         theBuff.DoBuff();
-        theBuff.StartCoroutine(theBuff.DoBuffVFX(theBuff, delayForVFX,target, vfx));
-        
+        theBuff.StartCoroutine(theBuff.DoBuffVFX(theBuff, delayForVFX, target, vfx));
+
     }
 
     IEnumerator DoBuffVFX(PassiveAbility_Buff theBuff, float delay, GameObject target, GameObject vfx)

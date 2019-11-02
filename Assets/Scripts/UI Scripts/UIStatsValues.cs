@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class UIStatsValues : MonoBehaviour
 {
     [SerializeField] bool RealOne;
-    [SerializeField] int Attack;
-    [SerializeField] int Defence;
-    [SerializeField] int Movement;
-    [SerializeField] int Health;
-    [SerializeField] int ShootingRange;
-    [SerializeField] int Value;
-    [SerializeField] int PoisonCounters;
+    //[SerializeField] int Attack;
+    //[SerializeField] int Defence;
+    //[SerializeField] int Movement;
+    //[SerializeField] int Health;
+    //[SerializeField] int AttackRange;
+    //[SerializeField] int Value;
+    //[SerializeField] int PoisonCounters;
     UnitScript unit;
 
     [SerializeField] Text attackText;
@@ -21,7 +21,7 @@ public class UIStatsValues : MonoBehaviour
     [SerializeField] Text healthText;
     [SerializeField] Text shootingRangeText;
     [SerializeField] Text valueText;
-    [SerializeField] Text poisonCountersText;
+    //[SerializeField] Text poisonCountersText;
 
     void Update()
     {
@@ -56,80 +56,58 @@ public class UIStatsValues : MonoBehaviour
 
 
 
-        Attack = unit.CurrentAttack;
-        Defence = unit.CurrentDefence;
-        Health = unit.CurrentHP;
-        PoisonCounters = unit.PoisonCounter;
-        SetColourDependingOnSize(Attack, unit.GetBaseAttack(), attackText);
-        SetColourDependingOnSize(Defence, unit.GetBaseDefence(), defenceText);
-        SetColourDependingOnSize(Movement, unit.GetBaseMS(), movementText);
-        SetColourDependingOnSize(Health, unit.MaxHP, healthText);
-        if (unit.GetComponent<ShootingScript>() != null)
-        {
-            ShootingRange = unit.GetComponent<ShootingScript>().currShootingRange;
-        }
-        else
-            ShootingRange = 0;
+        //Attack = unit.statistics.baseAttack + ;
+        //Defence = unit.statistics.GetCurrentDefence();
+        //Health = unit.statistics.healthPoints;
+        //Movement = unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
+        //AttackRange = unit.statistics.GetCurrentAttackRange();
+        //Value = unit.statistics.cost;
+        //PoisonCounters = unit.PoisonCounter;
+   
         
-        Value = unit.Value;
-        Movement = unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false);
+        
         return true;
 
     }
 
     void AdjustTextValues()
     {
-        attackText.text = Attack.ToString();
-        defenceText.text = Defence.ToString();
-        movementText.text = Movement.ToString();
-        healthText.text = Health.ToString();
-        if (ShootingRange > 0)
-        {
-            shootingRangeText.transform.parent.parent.gameObject.SetActive(true);
-            shootingRangeText.text = ShootingRange.ToString();
-        }
-        else
-        {
-            shootingRangeText.transform.parent.parent.gameObject.SetActive(false);
-        }
-        if (Value > 0)
+        SetValuesAndColours(unit.statistics.bonusAttack, unit.statistics.baseAttack, attackText);
+        SetValuesAndColours(unit.statistics.bonusDefence, unit.statistics.baseDefence, defenceText);
+        SetValuesAndColours(unit.statistics.bonusMaxMovementPoints, unit.statistics.baseMaxMovementPoints, movementText);
+        SetValuesAndColours(unit.statistics.bonusAttackRange, unit.statistics.baseAttackRange, shootingRangeText);
+        healthText.text = unit.statistics.healthPoints.ToString();                
+        if (unit.statistics.cost > 0)
         {
             valueText.transform.parent.parent.gameObject.SetActive(true);
-            valueText.text = Value.ToString();
+            valueText.text = unit.statistics.cost.ToString();
         }
         else
         {
             valueText.transform.parent.parent.gameObject.SetActive(false);
         }
-        
-        if (PoisonCounters > 0)
-        {
-            poisonCountersText.transform.parent.parent.gameObject.SetActive(true);
-            poisonCountersText.text = PoisonCounters.ToString();
-        }
-        else
-        {
-            poisonCountersText.transform.parent.parent.gameObject.SetActive(false);
-        }
+
+        //if (PoisonCounters > 0)
+        //{
+        //    poisonCountersText.transform.parent.parent.gameObject.SetActive(true);
+        //    poisonCountersText.text = PoisonCounters.ToString();
+        //}
+        //else
+        //{
+        //    poisonCountersText.transform.parent.parent.gameObject.SetActive(false);
+        //}
     }
 
-    void ChangeTextColourTo(Text text, Color colour)
+    void SetValuesAndColours(int bonusValue, int baseValue, Text t)
     {
-        text.color = colour;
-    }
-    void SetColourDependingOnSize(int currValue, int baseValue, Text t)
-    {
-        if (currValue < baseValue)
+        t.text = baseValue.ToString();
+        if (bonusValue > 0)
         {
-            ChangeTextColourTo(t, Color.red);
+            t.text += "<size=15> + </size><color=green>" + bonusValue + "</color>";
         }
-        if (currValue == baseValue)
+        if (bonusValue < 0)
         {
-            ChangeTextColourTo(t, Color.white);
-        }
-        if (currValue > baseValue)
-        {
-            ChangeTextColourTo(t, Color.green);
-        }
+            t.text += "<size=15> - </size><color=red>" + bonusValue + "</color>";
+        }        
     }
 }

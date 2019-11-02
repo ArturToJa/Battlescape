@@ -23,17 +23,17 @@ public class Item
     {
         if (inUse)
         {
-            Owner.CurrentAttack += AttackBonus;
-            Owner.CurrentDefence += DefenceBonus;
-            Owner.CurrentDamage += DamageBonus;
-            Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(SpeedBonus);
+            Owner.statistics.bonusAttack += AttackBonus;
+            Owner.statistics.bonusDefence += DefenceBonus;
+            //Owner.CurrentDamage += DamageBonus;
+            //Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(SpeedBonus);
         }
         else
         {
-            Owner.CurrentAttack -= AttackBonus;
-            Owner.CurrentDefence -= DefenceBonus;
-            Owner.CurrentDamage -= DamageBonus;
-            Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-SpeedBonus);
+            Owner.statistics.bonusAttack -= AttackBonus;
+            Owner.statistics.bonusDefence -= DefenceBonus;
+            //Owner.CurrentDamage -= DamageBonus;
+            //Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-SpeedBonus);
 
         }
     }

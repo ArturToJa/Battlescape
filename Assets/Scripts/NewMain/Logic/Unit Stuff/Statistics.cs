@@ -9,6 +9,19 @@ namespace BattlescapeLogic
     {
         public static readonly int baseDamage = 10;
 
+        [SerializeField] int _cost;
+        public int cost
+        {
+            get
+            {
+                return _cost;
+            }
+            set
+            {
+                _cost = value;
+            }
+        }
+
         [SerializeField] int _baseAttack;
         public int baseAttack
         {
@@ -21,17 +34,18 @@ namespace BattlescapeLogic
                 _baseAttack = value;
             }
         }
-        public int bonusAttack { get; set; }
-        [SerializeField] int __baseDefence;
+        public int bonusAttack;
+
+        [SerializeField] int _baseDefence;
         public int baseDefence
         {
             get
             {
-                return __baseDefence;
+                return _baseDefence;
             }
             private set
             {
-                __baseDefence = value;
+                _baseDefence = value;
             }
         }
         public int bonusDefence { get; set; }
@@ -48,18 +62,19 @@ namespace BattlescapeLogic
             }
         }
         public int healthPoints { get; set; }
-        [SerializeField] int _maxMovementPoints;
-        public int maxMovementPoints
+        [SerializeField] int _baseMaxMovementPoints;
+        public int baseMaxMovementPoints
         {
             get
             {
-                return _maxMovementPoints;
+                return _baseMaxMovementPoints;
             }
             private set
             {
-                _maxMovementPoints = value;
+                _baseMaxMovementPoints = value;
             }
         }
+        public int bonusMaxMovementPoints { get; set; }
         public int movementPoints { get; set; }
         [SerializeField] int _baseAttackRange = 1;
         public int baseAttackRange
@@ -74,6 +89,19 @@ namespace BattlescapeLogic
             }
         }
         public int bonusAttackRange { get; set; }
+
+        [SerializeField] int _minimalAttackRange = 0;
+        public int minimalAttackRange
+        {
+            get
+            {
+                return _minimalAttackRange;
+            }
+            private set
+            {
+                _minimalAttackRange = value;
+            }
+        }
 
         [SerializeField] int _maxNumberOfAttacks = 1;
         public int maxNumberOfAttacks
@@ -91,12 +119,31 @@ namespace BattlescapeLogic
 
         public void NullMaxMovementPoints()
         {
-            _maxMovementPoints = 0;
+            _baseMaxMovementPoints = 0;
         }
 
         public void NullBaseAttack()
         {
             _baseAttack = 0;
         }
+
+        public int GetCurrentAttack()
+        {
+            return baseAttack + bonusAttack;
+        }
+        public int GetCurrentDefence()
+        {
+            return baseDefence + bonusDefence;
+        }
+        public int GetCurrentAttackRange()
+        {
+            return baseAttackRange + bonusAttackRange;
+        }
+        public int GetCurrentMaxMovementPoints()
+        {
+            return baseMaxMovementPoints + bonusMaxMovementPoints;
+        }
+
+
     }
 }

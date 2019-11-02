@@ -73,7 +73,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        return (myUnit.EnemyList.Count >= 2) || (myUnit.EnemyList.Count == 1 && myUnit.CurrentHP == 1);
+        return (myUnit.EnemyList.Count >= 2) || (myUnit.EnemyList.Count == 1 && myUnit.statistics.healthPoints == 1);
     }
 
     public override void AI_Activate(GameObject Target)

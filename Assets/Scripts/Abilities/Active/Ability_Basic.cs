@@ -98,7 +98,7 @@ public abstract class Ability_Basic : MonoBehaviour
             (!UnavailableInCombat || (UnavailableInCombat && !myUnit.CheckIfIsInCombat())) &&
             (!RequiresCanMove || (RequiresCanMove && myUnit.GetComponent<UnitMovement>().CanMove)) &&
             (!RequiresShootingAbility ||(RequiresShootingAbility && myUnit.GetComponent<ShootingScript>().IsAbleToShoot())) &&
-            (!IsAttack || (IsAttack && myUnit.hasAttacked == false) );
+            (!IsAttack || (IsAttack && myUnit.CanStillAttack() == true) );
 
     }
     public abstract bool AI_IsGoodToUseNow();

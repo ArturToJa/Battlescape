@@ -100,7 +100,7 @@ public class MouseManager : MonoBehaviour
         {
             return false;
         }
-        if (selectableUnit.CurrentHP <=0)
+        if (selectableUnit.statistics.healthPoints <=0)
         {
             return false;
         }
@@ -158,11 +158,11 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
-                else if (Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile,SelectedUnit,SelectedUnit.GetBaseMS()) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
+                else if (Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile,SelectedUnit,SelectedUnit.statistics.GetCurrentMaxMovementPoints()) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
                 {
                     foreach (UnitScript enemy in FindObjectsOfType<UnitScript>())
                     {
-                        if (ShootingScript.WouldItBePossibleToShoot(SelectedUnit.GetComponent<ShootingScript>(), mouseoveredTile.transform.position, enemy.transform.position).Key && enemy.PlayerID != SelectedUnit.PlayerID)
+                        if (ShootingScript.WouldItBePossibleToShoot(SelectedUnit, mouseoveredTile.transform.position, enemy.transform.position).Key && enemy.PlayerID != SelectedUnit.PlayerID)
                         {
                             toolMouseOverer.PaintObject(enemy.gameObject, Color.red);
                             coloredUnits.Add(enemy);
@@ -171,7 +171,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 // THIS MIGHT NOT WORK! :<
-                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile, SelectedUnit, SelectedUnit.GetBaseMS()) == false)
+                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile, SelectedUnit, SelectedUnit.statistics.GetCurrentMaxMovementPoints()) == false)
                 {
                    
                     PathCreator.Instance.ClearPath();

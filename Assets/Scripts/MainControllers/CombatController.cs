@@ -67,12 +67,12 @@ public class CombatController : MonoBehaviour
         {
             return;
         }
-        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && !MouseManager.Instance.SelectedUnit.hasAttacked && MouseManager.Instance.SelectedUnit.CanAttack)
+        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack)
         {
             SendCommandToAttack(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, false, !MouseManager.Instance.SelectedUnit.isStoppingRetaliation && MouseManager.Instance.MouseoveredUnit.DoesRetaliate);
-            MouseManager.Instance.SelectedUnit.hasAttacked = true;
+            MouseManager.Instance.SelectedUnit.statistics.numberOfAttacks = 0;
         }
-        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>()) && !MouseManager.Instance.SelectedUnit.hasAttacked && MouseManager.Instance.SelectedUnit.CanAttack == false)
+        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>()) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack == false)
         {
             PopupTextController.AddPopupText("This unit cannot attack!", PopupTypes.Info);
         }
@@ -109,8 +109,8 @@ public class CombatController : MonoBehaviour
         Debug.Log("Melee attacking obstacle - debugging fencer bug");
         Attacker.GetComponent<UnitMovement>().LookAtTheTarget(target.transform.position, Attacker.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         Attacker.GetComponentInChildren<AnimController>().AnimateAttack();
-        target.GetDamaged(Attacker.CurrentAttack + 1);
-        Attacker.hasAttacked = true;
+        target.GetDamaged(Attacker.statistics.GetCurrentAttack() + 1);
+        Attacker.statistics.numberOfAttacks = 0;
         CheckIfLastAttacker();
         target.GetComponentInChildren<ObjectHP>().SwitchTrigger();
     }
@@ -258,7 +258,7 @@ public class CombatController : MonoBehaviour
         {
             foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
             {
-                if (ally.hasAttacked == false && ally.CheckIfIsInCombat())
+                if (ally.CanStillAttack() == true && ally.CheckIfIsInCombat())
                 {
                     return false;
                 }
@@ -481,7 +481,7 @@ public class CombatController : MonoBehaviour
     void ReduceDefence(int posX, int posZ, int value)
     {
         UnitScript target = Map.Board[posX, posZ].myUnit;
-        target.CurrentDefence -= value;
-        target.DefenceReduction += value;
+        target.statistics.bonusDefence -= value;
+        //target.DefenceReduction += value;
     }
 }

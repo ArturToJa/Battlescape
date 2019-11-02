@@ -46,47 +46,7 @@ public class UnitScript : MonoBehaviour
     bool isAlive = true;
 
 
-    [Header("Statistics")]
-    [SerializeField]
-    int _maxHP;
-    public int MaxHP
-    {
-        get
-        {
-            return _maxHP;
-        }
-    }
-    public int CurrentHP { get; private set; }
-    public int DiceNumber;
-    [SerializeField] int BaseDamage = 10;
-    public int CurrentDamage { get; set; }
-    [SerializeField] int Attack;
-    int _currAttack;
-    public int CurrentAttack
-    {
-        get
-        {
-            if (GetComponent<ShootingScript>() != null && CheckIfIsInCombat() && GetComponent<ShootingScript>().doesNotLoseAttackInCombat == false)
-            {
-                return 0;
-            }
-            else
-            {
-                return _currAttack;
-            }
-
-        }
-        set
-        {
-            _currAttack = value;
-        }
-
-    }
-    [SerializeField] int Defence;
-    public int CurrentDefence { get; set; }
-    public int DefenceReduction { get; set; }
-
-    public int Value;
+    public Statistics statistics;
 
     public int baseQuitCombatPercent = 50;
     public int QuitCombatPercent { get; set; }
@@ -124,7 +84,11 @@ public class UnitScript : MonoBehaviour
 
     [HideInInspector] public bool isQuittingCombat = false;
     [HideInInspector] public bool hasJustArrivedToCombat = false;
-    [HideInInspector] public bool hasAttacked = false;
+    public bool CanStillAttack()
+    {
+        return (statistics.numberOfAttacks > 0);
+    }
+
     [HideInInspector] public bool HasRetaliatedThisTurn = false;
     public bool CanCurrentlyRetaliate
     {
@@ -194,6 +158,8 @@ public class UnitScript : MonoBehaviour
 
     void Start()
     {
+        statistics.healthPoints = statistics.maxHealthPoints;
+        statistics.movementPoints = statistics.baseMaxMovementPoints;
         if (isRealUnit)
         {
             TurnManager.Instance.NewTurnEvent += OnNewTurn;
@@ -202,10 +168,6 @@ public class UnitScript : MonoBehaviour
         deathSource = gameObject.AddComponent<AudioSource>();
         hitSource = gameObject.AddComponent<AudioSource>();
         swingSource = gameObject.AddComponent<AudioSource>();
-        CurrentHP = MaxHP;
-        CurrentAttack = Attack;
-        CurrentDefence = Defence;
-        CurrentDamage = BaseDamage;
         QuitCombatPercent = baseQuitCombatPercent;
         DoesRetaliate = DoesRetalByDefault;
         if (isRealUnit == false)
@@ -223,21 +185,16 @@ public class UnitScript : MonoBehaviour
         {
             return;
         }
-
-        hasAttacked = false;
+        statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();        
+        statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
         hasJustArrivedToCombat = false;
         HasRetaliatedThisTurn = false;
 
-        if (!CheckIfIsInCombat())
-        {
-            RegenerateDefenceOutOfCombat();
+        //if (!CheckIfIsInCombat())
+        //{
+        //    RegenerateDefenceOutOfCombat();
+        //}
         }
-
-        if (PoisonCounter > 0)
-        {
-            PoisonEffect();
-        }
-    }
 
     void SetName()
     {
@@ -246,7 +203,6 @@ public class UnitScript : MonoBehaviour
         {
             this.gameObject.name += " " + HeroNames.PlayerHeroNames[PlayerID];
         }
-
     }
 
     void Update()
@@ -313,7 +269,7 @@ public class UnitScript : MonoBehaviour
         {
             PopupTextController.AddPopupText("Cannot destroy objects while in combat!", PopupTypes.Info);
         }
-        return (StandsNextToDestructible(target) && hasAttacked == false && CheckIfIsInCombat() == false && TurnManager.Instance.CurrentPhase == TurnPhases.Attack);
+        return (StandsNextToDestructible(target) && CanStillAttack() == true && CheckIfIsInCombat() == false && TurnManager.Instance.CurrentPhase == TurnPhases.Attack);
     }
 
     public bool CheckIfIsInCombat()
@@ -339,7 +295,7 @@ public class UnitScript : MonoBehaviour
     public event Action DeathEvent;
     void CheckIfIsAlive()
     {
-        if (CurrentHP <= 0 && isAlive)
+        if (statistics.healthPoints <= 0 && isAlive)
         {
             //this needs to happen BEFORE the DeathEvent or we need to refactor trhe whole wthing into like ONE? XD
             myTile.SetMyUnitTo(null);
@@ -359,7 +315,7 @@ public class UnitScript : MonoBehaviour
             MouseManager.Instance.Deselect();
         }
 
-        Global.instance.playerTeams[OpponentID].players[0].AddPoints(Value);
+        Global.instance.playerTeams[OpponentID].players[0].AddPoints(statistics.cost);
 
         if (GetComponent<HeroScript>() != null)
         {
@@ -382,69 +338,34 @@ public class UnitScript : MonoBehaviour
     public bool DealDamage(int damage, bool gotHit, bool isPoisoned, bool isShot)
     {
 
-        CurrentHP -= damage;
+        statistics.healthPoints -= damage;
         if (gotHit)
         {
             if (!isShot)
             {
                 GetComponentInChildren<AnimController>().AnimateWound();
-            }
-            if (isPoisoned)
-            {
-                GetPoisoned(1);
-            }
+            }           
         }
         if (damage > 0)
         {
-            CurrentDefence += DefenceReduction;
-            DefenceReduction = 0;
+            //add buff here. 
         }
-        return CurrentHP <= 0;
-    }
+        return statistics.healthPoints <= 0;
+    }   
 
-    public void Heal(int value, bool canOverheal)
+    // This will be re-done with buffs. No need to keep it in old code, as its not key for the game to work, and can be done easily in new code.
+    /*public void RegenerateDefenceOutOfCombat()
     {
-        //maybe in the future ill need to do stuffo n every heal idk better safe than sorry
-        CurrentHP += value;
-        if (CurrentHP > MaxHP && canOverheal == false)
+        if (statistics.GetCurrentDefence() < Defence && DefenceReduction > 0)
         {
-            CurrentHP = MaxHP;
-        }
-    }
-
-    public void RegenerateDefenceOutOfCombat()
-    {
-        if (CurrentDefence < Defence && DefenceReduction > 0)
-        {
-            CurrentDefence++;
+            statistics.GetCurrentDefence()++;
             DefenceReduction--;
             PopupTextController.AddPopupText("Regenerate!", PopupTypes.Stats);
             Log.SpawnLog(name + " regenerates 1 point of defence.");
         }
-    }
+    }*/
 
-    public void GetPoisoned(int value)
-    {
-        PoisonCounter += value;
-        PopupTextController.AddPopupText("Poison!!", PopupTypes.Info);
-        Log.SpawnLog(name + " gets poisoned!");
-    }
-
-    public void PoisonEffect()
-    {
-        GetComponentInChildren<AnimController>().AnimateWound();
-        PopupTextController.AddPopupText("Poison!!", PopupTypes.Info);
-        Log.SpawnLog("Poison affects " + name + "!");
-        if (PoisonCounter >= 4)
-        {
-            CurrentHP--;
-            Log.SpawnLog(name + " gets 1 point of damage from poison!");
-        }
-
-        CurrentDefence--;
-        PoisonCounter--;
-    }
-
+    //HERE there was some poison code, but poison NEVER existed in PC-version of the game anyway. The Undead or any other 'poisonous 'units will come one day, but not now. ;)
     public int HowMuchShelteredFrom(Vector3 danger)
     {
         int shelter = 0;
@@ -490,18 +411,7 @@ public class UnitScript : MonoBehaviour
         return list;
     }
 
-    public int GetBaseAttack()
-    {
-        return Attack;
-    }
-    public int GetBaseDefence()
-    {
-        return Defence;
-    }
-    public int GetBaseMS()
-    {
-        return GetComponent<UnitMovement>().GetBaseMS();
-    }
+       
     public void BlockHitsForTurns(int turns)
     {
         StartCoroutine(BlockHitsForTurnsCoroutine(turns));

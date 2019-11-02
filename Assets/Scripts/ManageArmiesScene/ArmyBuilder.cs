@@ -58,7 +58,7 @@ public class ArmyBuilder : MonoBehaviour
         {
             GoBackToHeroScreen();
         }
-        FactionOK.SetActive(SaveLoadManager.Instance.Race != null);
+        FactionOK.SetActive(SaveLoadManager.Instance.Race != Faction.Neutral);
         if (ABScreen.activeSelf)
         {
             foreach (Transform unitButton in LeftUnits)

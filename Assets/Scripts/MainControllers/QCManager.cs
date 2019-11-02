@@ -76,7 +76,7 @@ public class QCManager : MonoBehaviour
 
             if (QCUnit.GetComponent<ShootingScript>() != null)
             {
-                QCUnit.GetComponent<ShootingScript>().hasAlreadyShot = true;
+                QCUnit.statistics.numberOfAttacks = 0;
             }
             uMovement.CanMove = true;
             FinalTile = null;
@@ -130,7 +130,7 @@ public class QCManager : MonoBehaviour
             {
                 CombatController.Instance.SendCommandToAttack(enemy, quittingUnit, false, false);
                 yield return new WaitForSeconds(2f);
-                if (quittingUnit.CurrentHP <= 0)
+                if (quittingUnit.statistics.healthPoints <= 0)
                 {
                     break;
                 }
@@ -153,7 +153,7 @@ public class QCManager : MonoBehaviour
             }
         }
         IsTimeForBackstabs = false;
-        CommandFinishQuitCombat(quittingUnit.CurrentHP <= 0);
+        CommandFinishQuitCombat(quittingUnit.statistics.healthPoints <= 0);
     }
 
     public void QCForAI(Tile destination)
@@ -167,7 +167,7 @@ public class QCManager : MonoBehaviour
         StartCoroutine(CheckForBackstabsInCoroutine());
         yield return new WaitForSeconds(1f);
 
-        if (unit != null && unit.CurrentHP > 0)
+        if (unit != null && unit.statistics.healthPoints > 0)
         {
             PathCreator.Instance.AddSteps(unit, destination);
             MovementSystem.Instance.SendCommandToMove(unit.GetComponent<UnitMovement>());

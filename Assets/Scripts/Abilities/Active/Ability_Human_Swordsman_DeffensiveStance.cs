@@ -60,7 +60,7 @@ public class Ability_Human_Swordsman_DeffensiveStance : Ability_Basic
         yield return null;
         FinishUsing();
         myMovement.CanMove = false;
-        myUnit.hasAttacked = true;
+        myUnit.statistics.numberOfAttacks = 0;
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
         GetComponent<AnimController>().Cast();        

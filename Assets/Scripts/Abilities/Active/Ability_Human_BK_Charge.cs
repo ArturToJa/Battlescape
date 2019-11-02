@@ -30,13 +30,13 @@ public class Ability_Human_BK_Charge : Ability_Basic
 
     protected override void CancelUse()
     {
-        GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MSBuffValue);
+        //myUnit.statistics.maxMovementPoints -=MSBuffValue;
         DestroyMarkers();
     }
 
     protected override void Use()
     {
-        GetComponent<UnitMovement>().IncrimentMoveSpeedBy(MSBuffValue);
+        //myUnit.statistics.maxMovementPoints -=MSBuffValue;
         IsForcingMovementStuff = true;
     }
     protected override void SetTarget()
@@ -55,8 +55,8 @@ public class Ability_Human_BK_Charge : Ability_Basic
     protected override bool ActivationRequirements()
     {
         return (
-            MouseManager.Instance.mouseoveredTile != null && 
-            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile, true) && 
+            MouseManager.Instance.mouseoveredTile != null &&
+            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile, true) &&
             EventSystem.current.IsPointerOverGameObject() == false
             );
     }
@@ -69,7 +69,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
             alreadyAddedMarkers = true;
             foreach (Tile tile in Map.Board)
             {
-                
+
                 if ((Pathfinder.Instance.GetDistanceFromTo(myUnit, tile) == GetComponent<UnitMovement>().GetCurrentMoveSpeed(true)) && tile.IsProtectedByEnemyOf(myUnit) && tile.IsWalkable() && tile.hasObstacle == false)
                 {
                     var temp = Instantiate(BonusMarker, tile.transform.position, Quaternion.identity, tile.transform);
@@ -77,7 +77,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
                 }
             }
         }
-        
+
     }
 
     IEnumerator Charge(int tileCount)
@@ -88,7 +88,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         CreateVFXOn(transform, transform.rotation);
         PlayAbilitySound();
         IsForcingMovementStuff = false;
-        PathCreator.Instance.AddSteps(myUnit,Target);
+        PathCreator.Instance.AddSteps(myUnit, Target);
         MovementSystem.Instance.SendCommandToMove(myUnit.GetComponent<UnitMovement>());
         while (myUnit.GetComponent<UnitMovement>().isMoving)
         {
@@ -150,8 +150,8 @@ public class Ability_Human_BK_Charge : Ability_Basic
         IsForcingMovementStuff = false;
     }
 
-    
-  ///////////////// AI segment
+
+    ///////////////// AI segment
 
     public override bool AI_IsGoodToUseNow()
     {
@@ -159,7 +159,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         {
             return true;
         }
-        if (TurnManager.Instance.TurnCount >= 9 || myUnit.CurrentHP == 1)
+        if (TurnManager.Instance.TurnCount >= 9 || myUnit.statistics.healthPoints == 1)
         {
             int speed = myUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
             foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
@@ -171,18 +171,18 @@ public class Ability_Human_BK_Charge : Ability_Basic
                 }
             }
         }
-        
+
         return false;
     }
 
     public override void AI_Activate(GameObject Target)
     {
-        
-        
+
+
         if (myUnit.myTile != Target)
         {
             Log.SpawnLog(myUnit.name + " uses Charge!");
-            PathCreator.Instance.AddSteps(myUnit,Target.GetComponent<Tile>());
+            PathCreator.Instance.AddSteps(myUnit, Target.GetComponent<Tile>());
             StartCoroutine(Charge(PathCreator.Instance.Path.Count - 1));
         }
         else
@@ -197,11 +197,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
         int speed = myUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
         foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
         {
-            if (Pathfinder.Instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed &&(enemy.isRanged || enemy.GetComponent<HeroScript>() != null))
+            if (Pathfinder.Instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed && (enemy.isRanged || enemy.GetComponent<HeroScript>() != null))
             {
                 foreach (Tile neighbour in enemy.myTile.neighbours)
                 {
-                    if (neighbour.IsWalkable() && Pathfinder.Instance.WouldTileBeLegal(neighbour,myUnit,speed+2))
+                    if (neighbour.IsWalkable() && Pathfinder.Instance.WouldTileBeLegal(neighbour, myUnit, speed + 2))
                     {
                         return neighbour.gameObject;
                     }

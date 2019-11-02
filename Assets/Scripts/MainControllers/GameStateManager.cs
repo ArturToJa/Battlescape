@@ -215,7 +215,7 @@ public class GameStateManager : MonoBehaviour
         }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
         {
-            return unit.CheckIfIsInCombat() && unit.hasAttacked == false && unit.CanAttack;
+            return unit.CheckIfIsInCombat() && unit.CanStillAttack() == true && unit.CanAttack;
         }
         else return false;
     }

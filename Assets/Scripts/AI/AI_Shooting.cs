@@ -17,7 +17,6 @@ public class AI_Shooting : AI_Base_Attack
         // 2. Want to hit guys, who will give him more points
         // 3. Want to hit guys, who he has bigger chance to actually damage.
 
-        ShootingScript shooter = currentUnit.GetComponent<ShootingScript>();
         UnitScript target = targetTile.myUnit;
         float Evaluation = 0f;
 //        Debug.Log("Evaluating a shot by: " + currentUnit + " at: " + target);
@@ -25,7 +24,7 @@ public class AI_Shooting : AI_Base_Attack
         Evaluation += HowDangerousThisEnemyIs(target);
 
         // 2.
-        Evaluation += target.Value* 0.1f;
+        Evaluation += target.statistics.cost* 0.1f;
         if (target.GetComponent<HeroScript>() != null)
         {
             Evaluation += 0.5f;
@@ -35,17 +34,17 @@ public class AI_Shooting : AI_Base_Attack
         // NOTE - this might want to get changed to "AI Value" when we add AIData scripts for units.
 
         // 3.
-        float temp = ChancesToHit(currentUnit, shooter, target);
+        float temp = ChancesToHit(currentUnit, target);
         Evaluation += temp;
        // Debug.Log("Evaluation increased by: " + temp + " for chances to hit");
         return Evaluation;
     }
 
-    float ChancesToHit(UnitScript currentUnit, ShootingScript shooter, UnitScript target)
+    float ChancesToHit(UnitScript currentUnit, UnitScript target)
     {
         float EvaluationIncrease = 0f;
         HitChancer hc = new HitChancer(currentUnit, target, 100);
-        bool badRange = ShootingScript.WouldItBePossibleToShoot(shooter, shooter.transform.position, target.transform.position).Value;
+        bool badRange = ShootingScript.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, target.transform.position).Value;
         // above the Value not the Key of possible to shoot at is important. It is missleading yet correct.        
         float damageChance = 100 - hc.MissChance(badRange);
         // im NOT sure if line above is correct, i had to change it after changing the combat system, it might be crap.
@@ -57,7 +56,7 @@ public class AI_Shooting : AI_Base_Attack
     float HowDangerousThisEnemyIs(UnitScript enemy)
     {
         float EvaluationIncrease = 0f;
-        EvaluationIncrease += enemy.CurrentAttack * 0.1f * (enemy.CurrentHP / enemy.MaxHP);
+        EvaluationIncrease += enemy.statistics.GetCurrentAttack() * 0.1f * (enemy.statistics.healthPoints / enemy.statistics.maxHealthPoints);
 //        Debug.Log("Evaluation increase against: " + enemy + " for his dangerousness is: " + EvaluationIncrease);
         return EvaluationIncrease;
     }
@@ -93,12 +92,12 @@ public class AI_Shooting : AI_Base_Attack
         {
             Debug.Log("Chosen tile is: " + target.Key);
             CombatController.Instance.AttackTarget = target.Key.myUnit.GetComponent<UnitScript>();
-            currentUnit.GetComponent<ShootingScript>().hasAlreadyShot = true;
+            currentUnit.statistics.numberOfAttacks = 0;
             CombatController.Instance.Shoot(currentUnit, CombatController.Instance.AttackTarget, currentUnit.GetComponent<ShootingScript>().CheckBadRange(target.Key.gameObject),currentUnit.GetComponent<ShootingScript>().AOEAttack);
         }
         else
         {
-            currentUnit.GetComponent<ShootingScript>().hasAlreadyShot = true;
+            currentUnit.statistics.numberOfAttacks = 0;
         }
     }
 
@@ -107,8 +106,8 @@ public class AI_Shooting : AI_Base_Attack
         List<Tile> enemiesInRange = new List<Tile>();
         foreach (UnitScript enemy in enemyList)
         {
-            bool isInRange = ShootingScript.WouldItBePossibleToShoot(currentUnit.GetComponent<ShootingScript>(), currentUnit.transform.position, enemy.transform.position).Key;
-            if (enemy.PlayerID != this.ID && isInRange && enemy.CurrentHP > 0)
+            bool isInRange = ShootingScript.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position).Key;
+            if (enemy.PlayerID != this.ID && isInRange && enemy.statistics.healthPoints > 0)
             {
                 enemiesInRange.Add(enemy.myTile);
             }

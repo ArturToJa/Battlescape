@@ -1176,12 +1176,16 @@ MonoBehaviour:
   unitType: 5
   unitUnit: {fileID: 11400000, guid: 3e1ebced60d6c704dadc645d398b55dc, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 3
-  Defence: 5
-  Value: 6
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 40
   isColossal: 1
   isRanged: 0
@@ -1197,7 +1201,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -1332,7 +1335,6 @@ MonoBehaviour:
     loop: 0
     soundType: 6
   CanMove: 1
-  baseMoveSpeed: 5
   isMoving: 0
 --- !u!54 &26007208
 Rigidbody:
@@ -4716,7 +4718,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: 0
 --- !u!222 &97399388
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5312,7 +5314,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &110831978
 MonoBehaviour:
@@ -6965,12 +6967,16 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: fc62d1d6b9d76c043b8a76ad52c9a077, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 5
-  Defence: 3
-  Value: 6
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -6986,7 +6992,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -7009,7 +7014,6 @@ MonoBehaviour:
   visualMovementSpeed: 4
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &137499617
 Rigidbody:
@@ -12917,7 +12921,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &271768331
 MonoBehaviour:
@@ -13371,7 +13375,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &276420462
 MonoBehaviour:
@@ -13890,8 +13894,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &291452338
 MonoBehaviour:
@@ -13916,7 +13920,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -20021,7 +20025,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1, y: -1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &411159925
 MonoBehaviour:
@@ -20233,8 +20237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &415344375
 MonoBehaviour:
@@ -22333,8 +22337,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &466669541
 MonoBehaviour:
@@ -22359,7 +22363,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -23054,7 +23058,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 28, y: 28}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &483392781
 MonoBehaviour:
@@ -28275,12 +28279,16 @@ MonoBehaviour:
   unitType: 0
   unitUnit: {fileID: 11400000, guid: 0b60a9743df80704ca813b9bf696c85b, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 5
-  Defence: 5
-  Value: 0
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -28296,7 +28304,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -28319,7 +28326,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &580815363
 Rigidbody:
@@ -29198,20 +29204,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RealOne: 0
-  Attack: 0
-  Defence: 0
-  Movement: 0
-  Health: 0
-  ShootingRange: 0
-  Value: 0
-  PoisonCounters: 0
   attackText: {fileID: 97781055}
   defenceText: {fileID: 1382319725}
   movementText: {fileID: 1099731400}
   healthText: {fileID: 723716519}
   shootingRangeText: {fileID: 1612765335}
   valueText: {fileID: 1472377527}
-  poisonCountersText: {fileID: 1776206372}
 --- !u!114 &595998284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32660,8 +32658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &679972526
 MonoBehaviour:
@@ -34770,8 +34768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &716353383
 MonoBehaviour:
@@ -35781,12 +35779,16 @@ MonoBehaviour:
   unitType: 3
   unitUnit: {fileID: 11400000, guid: 51977908d90539749a16e2aac40d68c8, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 2
-  Defence: 4
-  Value: 4
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -35802,7 +35804,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -35825,7 +35826,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &736961213
 Rigidbody:
@@ -38601,8 +38601,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &781170654
 MonoBehaviour:
@@ -38627,7 +38627,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -39104,7 +39104,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790943354
 MonoBehaviour:
@@ -45883,7 +45883,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &955445889
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45899,10 +45899,10 @@ RectTransform:
   m_Father: {fileID: 1668975846}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -68, y: -80}
+  m_SizeDelta: {x: 64, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &957084323
 GameObject:
@@ -46363,12 +46363,16 @@ MonoBehaviour:
   unitType: 3
   unitUnit: {fileID: 11400000, guid: 01757c012a053d24c8218a0d4b199193, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 4
-  Defence: 6
-  Value: 7
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -46384,7 +46388,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -46407,7 +46410,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &969271304
 Rigidbody:
@@ -47682,8 +47684,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &993525928
 MonoBehaviour:
@@ -47708,7 +47710,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -48836,7 +48838,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: 0
 --- !u!1 &1024224571
 GameObject:
   m_ObjectHideFlags: 0
@@ -49498,8 +49500,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1048258119
 MonoBehaviour:
@@ -49524,7 +49526,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -52210,8 +52212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1121119154
 MonoBehaviour:
@@ -55696,8 +55698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1176350829
 MonoBehaviour:
@@ -58528,7 +58530,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 25, y: 25}
+  m_SizeDelta: {x: 31.25, y: 31.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1234073745
 MonoBehaviour:
@@ -65482,12 +65484,16 @@ MonoBehaviour:
   unitType: 1
   unitUnit: {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 1
-  Defence: 1
-  Value: 1
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -65503,7 +65509,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -65526,7 +65531,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &1384245026
 Rigidbody:
@@ -66376,7 +66380,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1400243507
 MonoBehaviour:
@@ -68791,7 +68795,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1458703822
 MonoBehaviour:
@@ -69989,8 +69993,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 55, y: -15}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1484559729
 MonoBehaviour:
@@ -73264,12 +73268,16 @@ MonoBehaviour:
   unitType: 3
   unitUnit: {fileID: 11400000, guid: 77845958783044e4283e09f6f9da1a2d, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 5
-  Defence: 5
-  Value: 7
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 90
   isColossal: 0
   isRanged: 0
@@ -73285,7 +73293,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -73434,7 +73441,6 @@ MonoBehaviour:
     loop: 0
     soundType: 0
   CanMove: 1
-  baseMoveSpeed: 4
   isMoving: 0
 --- !u!54 &1550445351
 Rigidbody:
@@ -74648,7 +74654,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1, y: 0}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1578845262
 MonoBehaviour:
@@ -75693,12 +75699,16 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: bfc24fda6e1d45344b1ff68fc618e4b8, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 5
-  Defence: 4
-  Value: 7
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 0
@@ -75714,7 +75724,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -75737,7 +75746,6 @@ MonoBehaviour:
   visualMovementSpeed: 4
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &1591123536
 Rigidbody:
@@ -75971,13 +75979,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 6
   currMinimalRange: 0
   baseMinimalRange: 0
   shortDistance: 1
   AOEAttack: 0
-  hasAlreadyShot: 0
   Projectile: {fileID: 1879587708424968, guid: 7233fac35de66b942a150deaf38a813c, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 15
@@ -76105,12 +76110,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: 7250e6d349ec0b54c977f11b0cf5d60f, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 5
-  Defence: 3
-  Value: 8
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 45
   isColossal: 0
   isRanged: 1
@@ -76126,7 +76135,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -76261,7 +76269,6 @@ MonoBehaviour:
     loop: 0
     soundType: 6
   CanMove: 1
-  baseMoveSpeed: 5
   isMoving: 0
 --- !u!54 &1592680009
 Rigidbody:
@@ -76752,13 +76759,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 0
   currMinimalRange: 0
   baseMinimalRange: 0
   shortDistance: 0
   AOEAttack: 0
-  hasAlreadyShot: 0
   Projectile: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 50
@@ -76816,12 +76820,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 3
-  Defence: 6
-  Value: 5
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 1
@@ -76837,7 +76845,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -76860,7 +76867,6 @@ MonoBehaviour:
   visualMovementSpeed: 1
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &1610410280
 Rigidbody:
@@ -79169,13 +79175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 6
   currMinimalRange: 0
   baseMinimalRange: 0
   shortDistance: 1
   AOEAttack: 0
-  hasAlreadyShot: 0
   Projectile: {fileID: 1879587708424968, guid: f034dc33eec5ad74bbc05884ffd185be, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 15
@@ -79303,12 +79306,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: 752c8580e4f85d746991347046eb91ed, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 2
-  Defence: 2
-  Value: 3
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 33
   isColossal: 0
   isRanged: 1
@@ -79324,7 +79331,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -79459,7 +79465,6 @@ MonoBehaviour:
     loop: 0
     soundType: 6
   CanMove: 1
-  baseMoveSpeed: 5
   isMoving: 0
 --- !u!54 &1664394443
 Rigidbody:
@@ -79608,7 +79613,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 100, y: 65}
+  m_AnchoredPosition: {x: 101.5, y: 75.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1668975847
@@ -79623,20 +79628,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RealOne: 1
-  Attack: 0
-  Defence: 0
-  Movement: 0
-  Health: 0
-  ShootingRange: 0
-  Value: 0
-  PoisonCounters: 0
   attackText: {fileID: 1048258119}
   defenceText: {fileID: 2087581035}
   movementText: {fileID: 781170654}
   healthText: {fileID: 291452338}
   shootingRangeText: {fileID: 466669541}
   valueText: {fileID: 993525928}
-  poisonCountersText: {fileID: 1557988724}
 --- !u!114 &1668975848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79656,7 +79653,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 64, y: 32}
+  m_CellSize: {x: 80, y: 40}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 3
@@ -80094,12 +80091,16 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: 524b818e6e8acfa4ca2e4ffb015d1a28, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 4
-  Defence: 3
-  Value: 4
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 66
   isColossal: 0
   isRanged: 0
@@ -80115,7 +80116,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -80257,7 +80257,6 @@ MonoBehaviour:
     loop: 0
     soundType: 6
   CanMove: 1
-  baseMoveSpeed: 6
   isMoving: 0
 --- !u!54 &1678662824
 Rigidbody:
@@ -91904,12 +91903,16 @@ MonoBehaviour:
   unitType: 5
   unitUnit: {fileID: 11400000, guid: 7de0bb9762f0fb64f8b33ddca1be7604, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 3
-  Defence: 1
-  Value: 3
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 40
   isColossal: 0
   isRanged: 0
@@ -91925,7 +91928,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -92060,7 +92062,6 @@ MonoBehaviour:
     loop: 0
     soundType: 6
   CanMove: 1
-  baseMoveSpeed: 5
   isMoving: 0
 --- !u!54 &1932129026
 Rigidbody:
@@ -92982,7 +92983,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 15, y: -15}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1943048177
 MonoBehaviour:
@@ -93384,13 +93385,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 0
   currMinimalRange: 0
   baseMinimalRange: 0
   shortDistance: 1
   AOEAttack: 0
-  hasAlreadyShot: 0
   Projectile: {fileID: 1879587708424968, guid: f034dc33eec5ad74bbc05884ffd185be, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 20
@@ -93448,12 +93446,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: bb4783336671e1f4c9c1e21349743d19, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 3
-  Defence: 1
-  Value: 3
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 1
@@ -93469,7 +93471,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -93492,7 +93493,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &1946950862
 Rigidbody:
@@ -95951,7 +95951,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2005410495
 MonoBehaviour:
@@ -98623,13 +98623,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 0
   currMinimalRange: 0
   baseMinimalRange: 0
   shortDistance: 0
   AOEAttack: 0
-  hasAlreadyShot: 0
   Projectile: {fileID: 1879587708424968, guid: f034dc33eec5ad74bbc05884ffd185be, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 20
@@ -98687,12 +98684,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: 0e7be5d700835254299bf7b68628feee, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 4
-  Defence: 3
-  Value: 8
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 50
   isColossal: 0
   isRanged: 1
@@ -98708,7 +98709,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -98731,7 +98731,6 @@ MonoBehaviour:
   visualMovementSpeed: 2
   StepSounds: []
   CanMove: 1
-  baseMoveSpeed: 0
   isMoving: 0
 --- !u!54 &2063613932
 Rigidbody:
@@ -100067,8 +100066,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1}
-  m_SizeDelta: {x: 32, y: 32}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2087581035
 MonoBehaviour:
@@ -100093,7 +100092,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 1e677dd8796f6f24dbd70a66382dd6df, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -102341,12 +102340,16 @@ MonoBehaviour:
   unitType: 3
   unitUnit: {fileID: 11400000, guid: db58d52a58f478d4a98ee02bf575caab, type: 2}
   isRealUnit: 0
-  _maxHP: 0
-  DiceNumber: 0
-  BaseDamage: 10
-  Attack: 3
-  Defence: 3
-  Value: 4
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    bonusAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 90
   isColossal: 0
   isRanged: 0
@@ -102362,7 +102365,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -102511,7 +102513,6 @@ MonoBehaviour:
     loop: 0
     soundType: 0
   CanMove: 1
-  baseMoveSpeed: 4
   isMoving: 0
 --- !u!54 &2139222886
 Rigidbody:

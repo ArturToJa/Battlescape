@@ -75,7 +75,7 @@ public class AI_QuitCombat : AI_Base_Movement
             int bigGuys = 0;
             foreach (UnitScript enemy in unit.EnemyList)
             {
-                if (enemy.isRanged == false && (enemy.CurrentAttack>unit.CurrentDefence || enemy.CurrentHP >= unit.CurrentHP + 2))
+                if (enemy.isRanged == false && (enemy.statistics.GetCurrentAttack()>unit.statistics.GetCurrentDefence() || enemy.statistics.healthPoints >= unit.statistics.healthPoints + 2))
                 {
                     bigGuys++;
                 }

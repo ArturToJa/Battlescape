@@ -55,7 +55,7 @@ public class VictoryLossChecker : MonoBehaviour
             {
                 continue;
             }
-            if (unit.CurrentHP > 0)
+            if (unit.statistics.healthPoints > 0)
             {
                 Global.instance.playerTeams[unit.PlayerID].players[0].playerUnits.Add(unit);
 

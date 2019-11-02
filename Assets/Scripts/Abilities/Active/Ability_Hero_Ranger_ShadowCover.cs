@@ -76,7 +76,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        return ((myUnit.EnemyList.Count >= 2) || (myUnit.CurrentHP == 1 && myUnit.EnemyList.Count > 0)); 
+        return ((myUnit.EnemyList.Count >= 2) || (myUnit.statistics.healthPoints == 1 && myUnit.EnemyList.Count > 0)); 
     }
 
     public override void AI_Activate(GameObject Target)
