@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 {
     [SerializeField] int healValue;
-    UnitMovement myMovement;
 
     protected override void OnStart()
     {
-        myMovement = myUnit.GetComponent<UnitMovement>();
+        return;
     }
 
     protected override void OnUpdate()
@@ -39,7 +39,14 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
     protected override void ColourTiles()
     {
-        Pathfinder.Instance.ColourPossibleTiles(myMovement, true);
+       List<Tile> legalTiles = Pathfinder.instance.GetAllLegalTilesFor(myUnit);
+        foreach (var tile in legalTiles)
+        {
+            if (HasTileFood(tile))
+            {
+                ColouringTool.SetColour(tile, Color.cyan);
+            }
+        }
     }
 
 
@@ -50,8 +57,8 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
     {
         return
             MouseManager.Instance.mouseoveredTile != null &&
-            Pathfinder.Instance.WouldTileBeLegal(MouseManager.Instance.mouseoveredTile, myUnit, myMovement.GetCurrentMoveSpeed(false)) &&
-            MouseManager.Instance.mouseoveredTile.GetComponentInChildren<RhinoFood>() != null;
+            Pathfinder.instance.IsTileLegalForUnit(MouseManager.Instance.mouseoveredTile, myUnit) &&
+            HasTileFood(MouseManager.Instance.mouseoveredTile);
     }
 
     public override void Activate()
@@ -66,11 +73,11 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
         RhinoFood.SetAllActiveTo(false);
         Log.SpawnLog(myUnit.name + " eats a mushroom, gaining " + healValue + " health back");
-        MovementSystem.Instance.DoMovement(myMovement);
+        MovementSystem.Instance.DoMovement(myUnit,Target);
         yield return new WaitUntil(EndedMovement);
         CreateVFXOn(transform, BasicVFX.transform.rotation);
         PlayAbilitySound();
-        Destroy(Target.GetComponentInChildren<RhinoFood>().gameObject, 0.1f);        
+        Destroy(Target.GetComponentInChildren<RhinoFood>().gameObject, 0.1f);
         GetComponent<AnimController>().SetEating(true);
         myUnit.statistics.healthPoints += healValue;
         IsForcingMovementStuff = false;
@@ -78,16 +85,15 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
         GetComponent<AnimController>().SetEating(false);
     }
 
-    
-   bool EndedMovement()
-    {
-        return
-            myMovement.isMoving == false;
-    }
-    
 
-   
-   
+    bool EndedMovement()
+    {
+        return myUnit.newMovement.isMoving == false;
+    }
+
+
+
+
     protected override void SetTarget()
     {
         Target = MouseManager.Instance.mouseoveredTile;
@@ -111,6 +117,11 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
     public override bool AI_IsGoodToUseNow()
     {
         throw new System.NotImplementedException();
+    }
+
+    bool HasTileFood(Tile tile)
+    {
+        return tile.GetComponentInChildren<RhinoFood>() != null;
     }
 
 }

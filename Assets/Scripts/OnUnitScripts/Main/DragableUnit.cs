@@ -66,7 +66,8 @@ public class DragableUnit : MonoBehaviour
         Quaternion q = me.transform.rotation;
         me.transform.position = tile.transform.position;
         me.transform.rotation = q;
-        me.GetComponent<UnitMovement>().TeleportTo(tile);
+        tile.SetMyUnitTo(me);
+        me.myTile = tile;
         tile.SetMyUnitTo(me);
     }
 }

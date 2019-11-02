@@ -12,7 +12,6 @@ public class AnimController : MonoBehaviour
 
     public Animator MyAnimator;
     UnitScript US;
-    UnitMovement UM;
     [SerializeField] GameObject sword;
     [HideInInspector] public bool isHit;
 
@@ -23,7 +22,6 @@ public class AnimController : MonoBehaviour
             MyAnimator = GetComponentInChildren<Animator>();
         }
         US = GetComponent<UnitScript>();
-        UM = GetComponent<UnitMovement>();
         if (US.isRealUnit)
         {
             CombatController.Instance.AttackEvent += OnAttack;
@@ -49,7 +47,7 @@ public class AnimController : MonoBehaviour
         if (US.isRealUnit)
         {
             SetInCombat(US.CheckIfIsInCombat());
-            AnimateWalking(UM.isMoving);
+            //AnimateWalking(US.newMovement.isMoving);
         }
         if (isHit)
         {

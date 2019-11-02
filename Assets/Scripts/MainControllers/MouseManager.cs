@@ -33,7 +33,7 @@ public class MouseManager : MonoBehaviour
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
     }
     void Update()
-    {       
+    {
         if (Input.GetKeyDown(KeyCode.Tab) && GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
             SelectNextAvailableUnit();
@@ -41,14 +41,14 @@ public class MouseManager : MonoBehaviour
         if (Helper.IsOverNonHealthBarUI())
         {
             isMouseOverUI = true;
-            if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.GetComponent<UnitMovement>().isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
+            if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.newMovement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
             {
-                PathCreator.Instance.ClearPath();
-                ColouringTool.UncolourAllTiles();                
+                //PathCreator.Instance.ClearPath();
+                ColouringTool.UncolourAllTiles();
             }
             return;
         }
-        else if (GameStateManager.Instance.GameState != GameStates.TargettingState && (isMouseOverUI && SelectedUnit != null && SelectedUnit.GetComponent<UnitMovement>().isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && mouseoveredTile != null && TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitMovement>())))
+        else if (GameStateManager.Instance.GameState != GameStates.TargettingState && (isMouseOverUI && SelectedUnit != null && SelectedUnit.newMovement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && mouseoveredTile != null && TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitScript>())))
         {
             if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local)
             {
@@ -58,7 +58,11 @@ public class MouseManager : MonoBehaviour
             {
                 //So we just turned from UI back to the board - time to recolour stuff!
                 isMouseOverUI = false;
-                Pathfinder.Instance.ColourPossibleTiles(SelectedUnit.GetComponent<UnitMovement>(), (SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0));
+                if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
+                {
+                    ColouringTool.ColourLegalTilesFor(SelectedUnit);
+                }
+
             }
         }
         TileRay();
@@ -100,7 +104,7 @@ public class MouseManager : MonoBehaviour
         {
             return false;
         }
-        if (selectableUnit.statistics.healthPoints <=0)
+        if (selectableUnit.statistics.healthPoints <= 0)
         {
             return false;
         }
@@ -133,7 +137,7 @@ public class MouseManager : MonoBehaviour
         }
         if (mouseOveredObject.tag == "Tile")
         {
-            Tile oldTile = mouseoveredTile;
+            //Tile oldTile = mouseoveredTile;
             if (mouseoveredTile != null)
             {
                 UnMouseover(mouseoveredTile.gameObject);
@@ -144,7 +148,7 @@ public class MouseManager : MonoBehaviour
             }
             mouseoveredTile = mouseOveredObject.GetComponent<Tile>();
             toolMouseOverer.Mouseover(mouseoveredTile.gameObject);
-            if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitMovement>()))
+            if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitScript>()))
             {
                 if (mouseoveredTile.IsProtectedByEnemyOf(SelectedUnit))
                 {
@@ -158,7 +162,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
-                else if (Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile,SelectedUnit,SelectedUnit.statistics.GetCurrentMaxMovementPoints()) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
+                else if (Pathfinder.instance.IsTileLegalForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
                 {
                     foreach (UnitScript enemy in FindObjectsOfType<UnitScript>())
                     {
@@ -171,14 +175,14 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 // THIS MIGHT NOT WORK! :<
-                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.Instance.WouldTileBeLegal(mouseoveredTile, SelectedUnit, SelectedUnit.statistics.GetCurrentMaxMovementPoints()) == false)
+                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.instance.IsTileLegalForUnit(mouseoveredTile, SelectedUnit) == false)
                 {
-                   
-                    PathCreator.Instance.ClearPath();
+
+                    //PathCreator.Instance.ClearPath();
                 }
             }
 
-            MovementSystem.Instance.CheckForAddingSteps(SelectedUnit, oldTile, mouseoveredTile);
+            //MovementSystem.Instance.CheckForAddingSteps(SelectedUnit, oldTile, mouseoveredTile);
 
         }
         if (mouseOveredObject.layer == 11)
@@ -189,7 +193,7 @@ public class MouseManager : MonoBehaviour
         }
 
 
-    }    
+    }
 
     private void UnMouseover(GameObject gameObject)
     {
@@ -223,7 +227,7 @@ public class MouseManager : MonoBehaviour
         {
             FindObjectOfType<CameraController>().SetCamToU(unit);
         }
-        PathCreator.Instance.ClearPath();
+        //PathCreator.Instance.ClearPath();
         UnitSelector toolUnitSelector = new UnitSelector();
         if (SelectedUnit != null)
         {
@@ -235,40 +239,10 @@ public class MouseManager : MonoBehaviour
         }
         toolUnitSelector.SelectUnit(unit);
         SelectedUnit = unit;
-        UnitMovement unitMovement = SelectedUnit.GetComponent<UnitMovement>();
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(unitMovement))
+        UnitScript UnitScript = SelectedUnit.GetComponent<UnitScript>();
+        if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(UnitScript))
         {
-            if (unitMovement is UnitFlight)
-            {
-                (unitMovement as UnitFlight).ColourPossibleDestinations();
-            }
-            else
-            {
-                switch (GameStateManager.Instance.MatchType)
-                {
-                    case MatchTypes.Online:
-                        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local)
-                        {
-                            ColourForSelectedUnit();
-                        }
-                        break;
-                    case MatchTypes.HotSeat:
-                        ColourForSelectedUnit();
-                        break;
-                    case MatchTypes.Singleplayer:
-                        if (GameStateManager.Instance.IsCurrentPlayerAI())
-                        {
-                            DoBFSyStuffForAI();
-                        }
-                        else
-                        {
-                            ColourForSelectedUnit();
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
+            ColourForSelectedUnit();
         }
         if (GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
@@ -283,14 +257,13 @@ public class MouseManager : MonoBehaviour
 
     void ColourForSelectedUnit()
     {
-        ColouringTool.UncolourAllTiles();
-        Pathfinder.Instance.ColourPossibleTiles(SelectedUnit.GetComponent<UnitMovement>(), (SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0));
-    }
 
-    void DoBFSyStuffForAI()
-    {
-        Pathfinder.Instance.ColourPossibleTiles(SelectedUnit.GetComponent<UnitMovement>(), (SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0));
-    }
+        ColouringTool.UncolourAllTiles();
+        if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
+        {
+            ColouringTool.ColourLegalTilesFor(SelectedUnit);
+        }
+    }    
 
     public void Deselect()
     {
@@ -299,7 +272,7 @@ public class MouseManager : MonoBehaviour
         {
             PlaySelectionSound();
         }
-        PathCreator.Instance.ClearPath();
+        //PathCreator.Instance.ClearPath();
         UnitSelector toolUnitSelector = new UnitSelector();
         toolUnitSelector.DeselectUnit();
         SelectedUnit = null;
@@ -317,9 +290,9 @@ public class MouseManager : MonoBehaviour
         else if (mouseoveredTile != null)
         {
             UnMouseover(mouseoveredTile.gameObject);
-            if (SelectedUnit != null && SelectedUnit.GetComponent<UnitMovement>().isMoving == false)
+            if (SelectedUnit != null && SelectedUnit.newMovement.isMoving == false)
             {
-                PathCreator.Instance.ClearPath();
+                //PathCreator.Instance.ClearPath();
             }
         }
     }

@@ -38,7 +38,7 @@ public class DropScript : MonoBehaviour
                     }
                     else
                     {
-                        unit.GetComponent<UnitMovement>().currMoveSpeed += 1;
+                        unit.GetComponent<UnitScript>().currMoveSpeed += 1;
                         PopupTextController.CreatePopupText("+1 Movement", unit.transform, PopupTypes.Info);
                         break;
                     }
@@ -73,7 +73,7 @@ public class DropScript : MonoBehaviour
                     }
                     break;
                 case 3:
-                    unit.GetComponent<UnitMovement>().currMoveSpeed += 1;
+                    unit.GetComponent<UnitScript>().currMoveSpeed += 1;
                     unit.CurrAttack += 1;
                     unit.CurrDefence += 1;
                     if (unit.currentHP < unit.maxHP)

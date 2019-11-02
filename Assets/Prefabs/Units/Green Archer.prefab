@@ -209,7 +209,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4400944915288994}
   - component: {fileID: 54074174301626054}
-  - component: {fileID: 114030515551254368}
   - component: {fileID: 114257574758605286}
   - component: {fileID: 114093739691993742}
   - component: {fileID: 114605208683214940}
@@ -1696,7 +1695,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209196775048540}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1705,7 +1704,7 @@ Transform:
   - {fileID: 4482955982250408}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4457335601803970
 Transform:
   m_ObjectHideFlags: 1
@@ -1725,7 +1724,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1965194973671714}
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: -0.5}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
@@ -1755,7 +1754,7 @@ Transform:
   - {fileID: 4302837511939922}
   m_Father: {fileID: 4400944915288994}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 180, y: -90, z: 90}
+  m_LocalEulerAnglesHint: {x: 180, y: -90, z: 180}
 --- !u!4 &4514188351476868
 Transform:
   m_ObjectHideFlags: 1
@@ -3113,58 +3112,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114030515551254368
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1209196775048540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
-  StepSounds:
-  - name: Grass01
-    clip: {fileID: 8300000, guid: dc1c91200366f1f4289270a21853e623, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: Grass02
-    clip: {fileID: 8300000, guid: d37d265f4b8521f479e26e78cd3d19d1, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: Grass03
-    clip: {fileID: 8300000, guid: 8572e5626f358d04e90805298aab397e, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: Grass04
-    clip: {fileID: 8300000, guid: ca39da47501ce4c4297b419c5d7cd727, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: Grass05
-    clip: {fileID: 0}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  isMoving: 0
 --- !u!114 &114031242583046818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3304,6 +3251,7 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: bb4783336671e1f4c9c1e21349743d19, type: 2}
   isRealUnit: 1
+  animator: {fileID: 0}
   statistics:
     _cost: 3
     _baseAttack: 3
@@ -3410,6 +3358,42 @@ MonoBehaviour:
     oldSource: {fileID: 0}
     loop: 0
     soundType: 0
+  StepSounds:
+  - name: 
+    clip: {fileID: 8300000, guid: dc1c91200366f1f4289270a21853e623, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: d37d265f4b8521f479e26e78cd3d19d1, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 8572e5626f358d04e90805298aab397e, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: ca39da47501ce4c4297b419c5d7cd727, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: c3507ed7d0f5b834c9bd41d105ea863d, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
 --- !u!114 &114268654061878624
 MonoBehaviour:
   m_ObjectHideFlags: 1

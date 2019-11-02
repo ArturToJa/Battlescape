@@ -66,22 +66,22 @@ public class QCManager : MonoBehaviour
 
     void FinishQC(bool didDie, int unitX, int unitZ)
     {
-        if (didDie == false)
-        {
-            UnitScript QCUnit = Map.Board[unitX, unitZ].myUnit;
-            QCUnit.isQuittingCombat = true;
-            UnitMovement uMovement = QCUnit.GetComponent<UnitMovement>();
-            uMovement.CanMove = true;
-            MovementSystem.Instance.DoMovement(uMovement);
+        //if (didDie == false)
+        //{
+        //    UnitScript QCUnit = Map.Board[unitX, unitZ].myUnit;
+        //    QCUnit.isQuittingCombat = true;
+        //    UnitScript uMovement = QCUnit.GetComponent<UnitScript>();
+        //    uMovement.CanMove = true;
+        //    MovementSystem.Instance.DoMovement(uMovement);
 
-            if (QCUnit.GetComponent<ShootingScript>() != null)
-            {
-                QCUnit.statistics.numberOfAttacks = 0;
-            }
-            uMovement.CanMove = true;
-            FinalTile = null;
-        }
-        PlayerChoosesWhetherToQC = false;
+        //    if (QCUnit.GetComponent<ShootingScript>() != null)
+        //    {
+        //        QCUnit.statistics.numberOfAttacks = 0;
+        //    }
+        //    uMovement.CanMove = true;
+        //    FinalTile = null;
+        //}
+        //PlayerChoosesWhetherToQC = false;
         
     }
 
@@ -114,7 +114,7 @@ public class QCManager : MonoBehaviour
     void Cancel()
     {
         PlayerChoosesWhetherToQC = false;
-        PathCreator.Instance.ClearPath();
+       // PathCreator.Instance.ClearPath();
     }
 
     IEnumerator CheckForBackstabsInCoroutine()
@@ -169,8 +169,8 @@ public class QCManager : MonoBehaviour
 
         if (unit != null && unit.statistics.healthPoints > 0)
         {
-            PathCreator.Instance.AddSteps(unit, destination);
-            MovementSystem.Instance.SendCommandToMove(unit.GetComponent<UnitMovement>());
+            //PathCreator.Instance.AddSteps(unit, destination);
+            MovementSystem.Instance.SendCommandToMove(unit,destination);
         }
         else
         {

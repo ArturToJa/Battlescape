@@ -1911,7 +1911,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4175379744387274}
   - component: {fileID: 54827099394885428}
-  - component: {fileID: 114733447781260158}
   - component: {fileID: 114023462938483244}
   - component: {fileID: 114988318051289948}
   - component: {fileID: 114993317387410186}
@@ -7534,6 +7533,7 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: ecc6537be845b3f4c8a965dff37f0c9d, type: 2}
   isRealUnit: 1
+  animator: {fileID: 0}
   statistics:
     _cost: 0
     _baseAttack: 4
@@ -7650,6 +7650,35 @@ MonoBehaviour:
   - name: 
     clip: {fileID: 8300000, guid: a0b3230bce72a5c459bf3ed25afce96a, type: 3}
     volume: 0.2
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  StepSounds:
+  - name: 
+    clip: {fileID: 8300000, guid: c392a0e65ead28246a83b9f4b5c90db9, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 550bc28ebb7f8554dbab493b2eed43d1, type: 3}
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
@@ -8010,51 +8039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b969d1347b7f68b479f073f637f1730f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114733447781260158
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1558311465513662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 550bc28ebb7f8554dbab493b2eed43d1, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: c392a0e65ead28246a83b9f4b5c90db9, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  isMoving: 0
 --- !u!114 &114857679741701466
 MonoBehaviour:
   m_ObjectHideFlags: 1

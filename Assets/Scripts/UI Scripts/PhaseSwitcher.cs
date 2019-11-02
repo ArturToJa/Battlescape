@@ -39,7 +39,7 @@ public class PhaseSwitcher : MonoBehaviour
     {
         foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
-            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()))
+            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()))
             {
                 return true;
             }

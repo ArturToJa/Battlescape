@@ -66,7 +66,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
         Log.SpawnLog("Pikeman uses Spear Barricade!");
         yield return null;
         FinishUsing();
-        myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
+        //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         myUnit.GetComponent<AnimController>().SpecialAttack();
         List<GameObject> visuals = new List<GameObject>();
         foreach (Vector3 position in Positions)

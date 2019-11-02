@@ -107,7 +107,7 @@ public class CombatController : MonoBehaviour
     void MeleeAttackObstacle(UnitScript Attacker, DestructibleScript target)
     {
         Debug.Log("Melee attacking obstacle - debugging fencer bug");
-        Attacker.GetComponent<UnitMovement>().LookAtTheTarget(target.transform.position, Attacker.GetComponentInChildren<BodyTrigger>().RotationInAttack);
+        //Attacker.LookAtTheTarget(target.transform.position, Attacker.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         Attacker.GetComponentInChildren<AnimController>().AnimateAttack();
         target.GetDamaged(Attacker.statistics.GetCurrentAttack() + 1);
         Attacker.statistics.numberOfAttacks = 0;

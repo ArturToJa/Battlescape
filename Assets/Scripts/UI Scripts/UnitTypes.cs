@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class UnitTypes : MonoBehaviour
 {
@@ -146,7 +147,7 @@ public class UnitTypes : MonoBehaviour
 
     private void CheckForFlying()
     {
-        Flying.SetActive(myUnit.GetComponent<UnitMovement>() is UnitFlight);
+        Flying.SetActive(myUnit.newMovement is FlyingMovement);
     }
 
     private void CheckForPoisonous()

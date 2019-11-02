@@ -2559,7 +2559,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4293967001642808}
   - component: {fileID: 54708441127448392}
-  - component: {fileID: 114798995983558674}
   - component: {fileID: 114361764706505616}
   - component: {fileID: 114318937212586802}
   - component: {fileID: 114696527402229300}
@@ -7845,12 +7844,13 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: ecc6537be845b3f4c8a965dff37f0c9d, type: 2}
   isRealUnit: 1
+  animator: {fileID: 0}
   statistics:
     _cost: 0
     _baseAttack: 4
     _baseDefence: 6
     _maxHealthPoints: 40
-    _maxMovementPoints: 8
+    _baseMaxMovementPoints: 0
     _baseAttackRange: 1
     _minimalAttackRange: 0
     _maxNumberOfAttacks: 1
@@ -7961,6 +7961,35 @@ MonoBehaviour:
   - name: 
     clip: {fileID: 8300000, guid: a0b3230bce72a5c459bf3ed25afce96a, type: 3}
     volume: 0.2
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  StepSounds:
+  - name: 
+    clip: {fileID: 8300000, guid: c392a0e65ead28246a83b9f4b5c90db9, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  - name: 
+    clip: {fileID: 8300000, guid: 550bc28ebb7f8554dbab493b2eed43d1, type: 3}
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
@@ -8079,51 +8108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 1309940100763824}
---- !u!114 &114798995983558674
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1782873848425998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 550bc28ebb7f8554dbab493b2eed43d1, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: c392a0e65ead28246a83b9f4b5c90db9, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  isMoving: 0
 --- !u!135 &135436812138002460
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -6,7 +6,7 @@ namespace BattlescapeLogic
 {
     public class GroundMovement : AbstractMovement
     {
-        float visualSpeed;
+        float visualSpeed = 1f;
         //ctor
         public GroundMovement() : base()
         {
@@ -20,7 +20,7 @@ namespace BattlescapeLogic
             {
                 Tile temporaryGoal = path.Dequeue();
                 //I am aware, that for now we are still just turning into a direction in one frame. If we ever want it any other way, it needs a bit of work to set it otherwise so im not doing it now :D.                
-                myUnit.currentPosition = temporaryGoal;
+                myUnit.myTile = temporaryGoal;
                 while (isMoving)
                 {
                     VisuallyMoveTowards(temporaryGoal);
@@ -29,7 +29,7 @@ namespace BattlescapeLogic
 
             }
             StopMovementAnimation();
-            myUnit.statistics.movementPoints = 0;
+            myUnit.statistics.movementPoints -=path.Count-1;
         }
 
         void PlayMovementAnimation()

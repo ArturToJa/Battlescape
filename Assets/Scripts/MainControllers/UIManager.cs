@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
                     &&
                         (
                         ability.IsUsableNowBase()
-                        && MouseManager.Instance.SelectedUnit.GetComponent<UnitMovement>().isMoving == false
+                        && MouseManager.Instance.SelectedUnit.newMovement.isMoving== false
                         );
             }
         }

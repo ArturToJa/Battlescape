@@ -28,7 +28,7 @@ public class MovementSoundTool : MonoBehaviour
 
     void Step()
     {
-        this.transform.root.GetComponent<UnitMovement>().Step();
+        this.transform.root.GetComponent<UnitScript>().PlayRandomStep();
     }
 
     void Hit()

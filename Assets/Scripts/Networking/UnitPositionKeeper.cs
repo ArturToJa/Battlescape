@@ -148,7 +148,7 @@ public class UnitPositionKeeper : MonoBehaviour
                     Tile newTile = Map.Board[i, j];
                     unit.myTile = newTile;
                     newTile.myUnit = unit;
-                    unit.GetComponent<UnitMovement>().SetDestination(newTile.transform.position);
+                    unit.GetComponent<UnitScript>().SetDestination(newTile.transform.position);
                     unit.transform.position = newTile.transform.position;
                 }
                 else

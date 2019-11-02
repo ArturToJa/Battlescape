@@ -89,7 +89,7 @@ public class PassiveAbility_Buff : PassiveAbility
         myUnit.statistics.bonusAttack += AttackBuffValue;
         myUnit.statistics.bonusDefence += DefenceBuffValue;
         myUnit.QuitCombatPercent += QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(MovementBuffValue);
+        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(MovementBuffValue);
         myUnit.DoesRetaliate = CanRetal;
         if (IsFrozen)
         {
@@ -106,7 +106,7 @@ public class PassiveAbility_Buff : PassiveAbility
         myUnit.statistics.bonusAttack -= AttackBuffValue;
         myUnit.statistics.bonusDefence -= DefenceBuffValue;
         myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-MovementBuffValue);
         myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
     }
 
@@ -117,7 +117,7 @@ public class PassiveAbility_Buff : PassiveAbility
         myUnit.statistics.bonusAttack -= AttackBuffValue;
         myUnit.statistics.bonusDefence -= DefenceBuffValue;
         myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-MovementBuffValue);
         myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
         alreadyRemovedBuff = true;
         if (vfx != null)

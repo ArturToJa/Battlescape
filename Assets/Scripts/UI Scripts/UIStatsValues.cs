@@ -59,7 +59,7 @@ public class UIStatsValues : MonoBehaviour
         //Attack = unit.statistics.baseAttack + ;
         //Defence = unit.statistics.GetCurrentDefence();
         //Health = unit.statistics.healthPoints;
-        //Movement = unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true);
+        //Movement = unit.GetComponent<UnitScript>().GetCurrentMoveSpeed(true);
         //AttackRange = unit.statistics.GetCurrentAttackRange();
         //Value = unit.statistics.cost;
         //PoisonCounters = unit.PoisonCounter;

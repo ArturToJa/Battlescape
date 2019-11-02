@@ -12,12 +12,12 @@ namespace BattlescapeLogic
     }
     public abstract class AbstractMovement
     {
-        protected Unit myUnit;
+        protected UnitScript myUnit;
         public bool isMoving
         {
             get
-            {
-                return Vector3.Distance(myUnit.transform.position, myUnit.currentPosition.transform.position) < 0.001f;
+            {                                                
+                return myUnit != null && myUnit.myTile != null && Vector3.Distance(myUnit.transform.position, myUnit.myTile.transform.position) > 0.001f;
             }
         }
 
@@ -29,11 +29,13 @@ namespace BattlescapeLogic
 
         protected void TurnTowards(Vector3 target)
         {
+            Vector3 vector3 = new Vector3(target.x, myUnit.visuals.transform.position.y, target.z);
+            myUnit.transform.LookAt(vector3);
             //the following line does it in, i believe, one frame. If not, then forget what i said in comments in this file :D 
-            myUnit.visuals.transform.LookAt(new Vector3(target.x, myUnit.visuals.transform.position.y, target.z));
+            myUnit.visuals.transform.LookAt(vector3);
         }
 
-        public void ApplyUnit(Unit unit)
+        public void ApplyUnit(UnitScript unit)
         {
             myUnit = unit;
         }

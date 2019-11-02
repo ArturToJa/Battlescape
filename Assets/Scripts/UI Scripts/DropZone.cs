@@ -129,7 +129,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
         {
             NewGameScript.PlayerTwoArmy.Add(position, myUnit);
         }
-        MovementExecutor.SetTileAndUnitPair(InstantiatedUnit.GetComponent<UnitScript>(), position);
+        Map.Board[(int)position.x, (int)position.z].SetMyUnitTo(InstantiatedUnit.GetComponent<UnitScript>());
     }
 
     [PunRPC]

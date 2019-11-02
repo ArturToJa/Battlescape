@@ -207,7 +207,7 @@ public class GameStateManager : MonoBehaviour
     {
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
         {
-            return unit.GetComponent<UnitMovement>().CanMove;
+            return unit.statistics.movementPoints>0;
         }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
         {

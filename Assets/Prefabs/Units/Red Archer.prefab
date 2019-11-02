@@ -971,7 +971,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4138417602875430}
   - component: {fileID: 54613951278745784}
-  - component: {fileID: 114348344610433106}
   - component: {fileID: 114285242269119230}
   - component: {fileID: 114875514157311822}
   - component: {fileID: 114216388850758820}
@@ -3171,12 +3170,13 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: bb4783336671e1f4c9c1e21349743d19, type: 2}
   isRealUnit: 1
+  animator: {fileID: 0}
   statistics:
     _cost: 3
     _baseAttack: 3
     _baseDefence: 1
     _maxHealthPoints: 35
-    _maxMovementPoints: 3
+    _baseMaxMovementPoints: 0
     _baseAttackRange: 5
     _minimalAttackRange: 0
     _maxNumberOfAttacks: 1
@@ -3277,58 +3277,42 @@ MonoBehaviour:
     oldSource: {fileID: 0}
     loop: 0
     soundType: 0
---- !u!114 &114348344610433106
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1758619125639662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
   StepSounds:
-  - name: Grass01
+  - name: 
     clip: {fileID: 8300000, guid: dc1c91200366f1f4289270a21853e623, type: 3}
-    volume: 0.2
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
     soundType: 6
-  - name: Grass02
+  - name: 
     clip: {fileID: 8300000, guid: d37d265f4b8521f479e26e78cd3d19d1, type: 3}
-    volume: 0.2
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
     soundType: 6
-  - name: Grass03
+  - name: 
     clip: {fileID: 8300000, guid: 8572e5626f358d04e90805298aab397e, type: 3}
-    volume: 0.2
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
     soundType: 6
-  - name: Grass04
+  - name: 
     clip: {fileID: 8300000, guid: ca39da47501ce4c4297b419c5d7cd727, type: 3}
-    volume: 0.2
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
     soundType: 6
-  - name: Grass05
-    clip: {fileID: 0}
-    volume: 0.2
+  - name: 
+    clip: {fileID: 8300000, guid: c3507ed7d0f5b834c9bd41d105ea863d, type: 3}
+    volume: 0.3
     pitch: 1
     oldSource: {fileID: 0}
     loop: 0
     soundType: 6
-  CanMove: 1
-  isMoving: 0
 --- !u!114 &114516274555034236
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -59,7 +59,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
     IEnumerator Throw()
     {
-        myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, 60);
+        //myUnit.LookAtTheTarget(Target.transform.position, 60);
         GetComponent<AnimController>().Cast();
         /* var temp = Instantiate(Dagger, daggerSpawn.position, Dagger.transform.rotation);
          temp.GetComponent<ProjectileScript>().Target = Target.transform.position;*/
