@@ -50,7 +50,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitMovement>()) == true)
+                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitScript>()) == true)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);

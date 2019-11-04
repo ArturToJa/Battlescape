@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-[RequireComponent(typeof(UnitMovement))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AnimController))]
 [DisallowMultipleComponent]
@@ -45,8 +44,10 @@ public class UnitScript : MonoBehaviour
     public bool isRealUnit;
     bool isAlive = true;
 
-
+    public Animator animator;
     public Statistics statistics;
+    public AbstractMovement newMovement { get; private set; }
+    public GameObject visuals {get; set;}
 
     public int baseQuitCombatPercent = 50;
     public int QuitCombatPercent { get; set; }
@@ -87,6 +88,10 @@ public class UnitScript : MonoBehaviour
     public bool CanStillAttack()
     {
         return (statistics.numberOfAttacks > 0);
+    }
+    public bool CanStillMove()
+    {
+        return statistics.movementPoints > 0;
     }
 
     [HideInInspector] public bool HasRetaliatedThisTurn = false;
@@ -156,6 +161,9 @@ public class UnitScript : MonoBehaviour
     public Sound[] deathSounds;
     AudioSource deathSource;
 
+    public Sound[] StepSounds;
+    AudioSource stepSource;
+
     void Start()
     {
         statistics.healthPoints = statistics.maxHealthPoints;
@@ -168,6 +176,7 @@ public class UnitScript : MonoBehaviour
         deathSource = gameObject.AddComponent<AudioSource>();
         hitSource = gameObject.AddComponent<AudioSource>();
         swingSource = gameObject.AddComponent<AudioSource>();
+        stepSource = gameObject.AddComponent<AudioSource>();
         QuitCombatPercent = baseQuitCombatPercent;
         DoesRetaliate = DoesRetalByDefault;
         if (isRealUnit == false)
@@ -177,6 +186,8 @@ public class UnitScript : MonoBehaviour
         int myX = Mathf.RoundToInt(transform.position.x);
         int myZ = Mathf.RoundToInt(transform.position.z);
         myTile = Map.Board[myX, myZ];
+        visuals = Helper.FindChildWithTag(gameObject, "Body");
+        newMovement = Global.instance.movementTypes[(int)MovementTypes.Ground];       
     }
 
     public void OnNewTurn()
@@ -258,6 +269,14 @@ public class UnitScript : MonoBehaviour
     {
         Sound s = SwingSounds[UnityEngine.Random.Range(0, SwingSounds.Length)];
         s.oldSource = swingSource;
+        s.oldSource.clip = s.clip;
+        s.oldSource.volume = s.volume;
+        s.oldSource.Play();
+    }
+    public void PlayRandomStep()
+    {
+        Sound s = StepSounds[UnityEngine.Random.Range(0, StepSounds.Length)];
+        s.oldSource = stepSource;
         s.oldSource.clip = s.clip;
         s.oldSource.volume = s.volume;
         s.oldSource.Play();
@@ -431,6 +450,19 @@ public class UnitScript : MonoBehaviour
             yield return null;
         }
         BlocksHits = false;
+    }
+
+    public void Move(Tile newPosition)
+    {
+        if (CanStillMove())
+        {
+            newMovement.ApplyUnit(this);
+            StartCoroutine(newMovement.MoveTo(newPosition));
+        }
+        else
+        {
+            Debug.LogError("why moving when cannot move?");
+        }
     }
 }
 

@@ -108,7 +108,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
     {
         Instantiate(LightningFrame, Target.transform.position, LightningFrame.transform.rotation, Target.transform);
         GameObject visual = Helper.FindChildWithTag(gameObject, "Body");
-        myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
+        //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         myUnit.GetComponent<AnimController>().MyAnimator.SetTrigger("ShootOnce");
         List<GameObject> visuals = new List<GameObject>();
         foreach (Vector3 position in positions)

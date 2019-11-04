@@ -686,7 +686,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4968594482411552}
   - component: {fileID: 54980771770382550}
-  - component: {fileID: 114124879954043824}
   - component: {fileID: 114740468071782176}
   - component: {fileID: 114675393387526074}
   - component: {fileID: 114225319711117410}
@@ -1508,52 +1507,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114124879954043824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1917654207508074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 1
-  myBody: {fileID: 0}
-  visualMovementSpeed: 5
-  StepSounds:
-  - name: WolfStep1
-    clip: {fileID: 8300000, guid: 9ccfadde9afcb9a4f93cb3e82fd00a1d, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: WolfStep2
-    clip: {fileID: 8300000, guid: 272efc50b8960424795d0d4c309b2508, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: WolfStep3
-    clip: {fileID: 8300000, guid: ee426f2e5e117b142970008b30e102dd, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: WolfStep4
-    clip: {fileID: 8300000, guid: e23a4512bfa53414ab25afab444d4d7a, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  baseMoveSpeed: 5
-  isMoving: 0
 --- !u!114 &114205296849450830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1657,7 +1610,7 @@ MonoBehaviour:
     clip: {fileID: 0}
     volume: 0
     pitch: 0
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   BasicVFX: {fileID: 1225801320690946, guid: 2a0691e7753367d4fa248618f3869511, type: 2}
@@ -1678,28 +1631,28 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6ded39745800e4c4f94c42576cd70f10, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: Howl 2
     clip: {fileID: 8300000, guid: cf5b94fc1112e4274b7335fb9d9efadc, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: Howl 3
     clip: {fileID: 8300000, guid: e44deb666777245bea1204a469c366a1, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: Howl 4
     clip: {fileID: 8300000, guid: 375aed82ed19c42ff8e216be9f8cfbcf, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   BuffVFX: {fileID: 1527392767269130, guid: 1e9314efffaff5d4e81435ef2608eb9c, type: 2}
@@ -1937,12 +1890,16 @@ MonoBehaviour:
   unitType: 5
   unitUnit: {fileID: 11400000, guid: 7de0bb9762f0fb64f8b33ddca1be7604, type: 2}
   isRealUnit: 1
-  _maxHP: 35
-  DiceNumber: 3
-  BaseDamage: 10
-  Attack: 3
-  Defence: 2
-  Value: 3
+  animator: {fileID: 0}
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 33
   isColossal: 0
   isRanged: 0
@@ -1958,7 +1915,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -1966,7 +1922,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7d52b50c1e05a944fb62ffda730e6a5a, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   SwingSounds: []
@@ -1975,37 +1931,38 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 34da85c2af1a611468ec1f1c46f71c25, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: d5f94085f358a0b4f872d3c8e99ed1ad, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: ee52b4c9707cc4647a8cd8e55182a5e6, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: cd7f22f402cab7a45a3161ac4f32d77a, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: 59e77df4f01f8464890bd52d5a4b501e, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
+  StepSounds: []
 --- !u!114 &114820037140541078
 MonoBehaviour:
   m_ObjectHideFlags: 1

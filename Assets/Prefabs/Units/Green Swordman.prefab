@@ -701,7 +701,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4134650950944588}
   - component: {fileID: 54804312891197300}
-  - component: {fileID: 114282518084121614}
   - component: {fileID: 114451212409137742}
   - component: {fileID: 114857146088816916}
   - component: {fileID: 114822441648167620}
@@ -3159,59 +3158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429181357bc3c3f42b14246e13f7e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114282518084121614
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1548971882347118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: 78a3cd9db7d0f6c43b6b917161acd68a, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 9b3dd4cdefed75c4e896cab55cfe21f3, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 77942207242e9354a8e66a9ef4f4f0d5, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 417df2d2c5b5a0544ac92be76696df7a, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: cc5abf2ec9f90734c939822b75c3f3ce, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  CanMove: 1
-  baseMoveSpeed: 3
-  isMoving: 0
 --- !u!114 &114317642864635388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3233,7 +3179,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ecbbef71d9786ad43be202bc59cb70d6, type: 3}
     volume: 0.3
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   BasicVFX: {fileID: 1003680110655624, guid: b606b25bf44ca9641920d818bad3f026, type: 2}
@@ -3376,12 +3322,16 @@ MonoBehaviour:
   unitType: 1
   unitUnit: {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
   isRealUnit: 1
-  _maxHP: 50
-  DiceNumber: 3
-  BaseDamage: 10
-  Attack: 0
-  Defence: 1
-  Value: 2
+  animator: {fileID: 0}
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 8
   isColossal: 0
   isRanged: 0
@@ -3397,7 +3347,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -3405,56 +3354,56 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1cbea69ffad026c448fbdf47f4d34f3b, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: d5b16a0c44ad6dc45a168cfd6e9bef82, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: c0d2632d7c7cd8f4b8de221b412dc07a, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 89371f48456c92445b358a10deedd6b4, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 204714c2c1cc4164eb3385de295cb08c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: d1256636b10306449b7a8bf6f5295a0c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 36ba22c9b31890b48b185a2d3ff1504c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 72290ae1f8166324797e737ba08b56de, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   SwingSounds:
@@ -3462,21 +3411,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 4f9dab83cd88d5f4687b9fac1797d1d0, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 52b3b4b266cf79741b455a1c1cb7b9a6, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   deathSounds:
@@ -3484,37 +3433,38 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 575594f8a1a4f1a43ab29916c3101af9, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 64f8fa366b57a0244b2a4733c20f7241, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 8f3cd6a54d4bb184b9a0639b222a618a, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: e336f0e40d2e1b845983f500439fddc4, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: a0b3230bce72a5c459bf3ed25afce96a, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
+  StepSounds: []
 --- !u!114 &114612767472018652
 MonoBehaviour:
   m_ObjectHideFlags: 1

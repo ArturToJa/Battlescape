@@ -20,7 +20,7 @@ public class AI_QuitCombat : AI_Base_Movement
     {
         Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(allyList);
         UnitScript firstUnit = myUnitsToMove.Peek();
-        while (firstUnit.CheckIfIsInCombat() == false || unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.GetComponent<UnitMovement>().CanMove == false || firstUnit.hasJustArrivedToCombat || HasAnyLegalTiles(firstUnit) == false)
+        while (firstUnit.CheckIfIsInCombat() == false || unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.statistics.movementPoints <= 0|| firstUnit.hasJustArrivedToCombat || HasAnyLegalTiles(firstUnit) == false)
         {
             myUnitsToMove.Dequeue();
             if (myUnitsToMove.Count == 0)
@@ -39,11 +39,10 @@ public class AI_QuitCombat : AI_Base_Movement
 
     bool HasAnyLegalTiles(UnitScript unit)
     {
-        Pathfinder.Instance.BFS(unit);
-        return Pathfinder.Instance.GetAllLegalTilesAndIfTheyAreSafe(unit.GetComponent<UnitMovement>(), true).Keys.Count > 0;
+        return Pathfinder.instance.GetAllLegalTilesFor(unit).Count > 0;
     }
 
-    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitMovement, List<Tile>> EnemyMovementRange)
+    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemyMovementRange)
     {
         // we want to evaluate if a tile is a proper "end" tile for a unit to QC into
         float Evaluation = 0f;
@@ -87,21 +86,20 @@ public class AI_QuitCombat : AI_Base_Movement
         }
 
         // 3. if a unit could reach shooters after that!
-        Pathfinder.Instance.BFS(unit);
-        List<Tile> temp = Pathfinder.Instance.GetAllTilesThatWouldBeLegalIfNotInCombat(unit, unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(true));
-        foreach (UnitScript enemy in enemyList)
-        {
-            if (enemy.isRanged)
-            {
-                foreach (Tile tile in enemy.myTile.neighbours)
-                {
-                    if (temp.Contains(tile))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
+        //List<Tile> temp = Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(unit, unit.GetComponent<UnitScript>().GetCurrentMoveSpeed(true));
+        //foreach (UnitScript enemy in enemyList)
+        //{
+        //    if (enemy.isRanged)
+        //    {
+        //        foreach (Tile tile in enemy.myTile.neighbours)
+        //        {
+        //            if (temp.Contains(tile))
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //}
 
         return false;
     }

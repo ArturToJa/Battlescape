@@ -26,14 +26,14 @@ public class Item
             Owner.statistics.bonusAttack += AttackBonus;
             Owner.statistics.bonusDefence += DefenceBonus;
             //Owner.CurrentDamage += DamageBonus;
-            //Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(SpeedBonus);
+            //Owner.GetComponent<UnitScript>().IncrimentMoveSpeedBy(SpeedBonus);
         }
         else
         {
             Owner.statistics.bonusAttack -= AttackBonus;
             Owner.statistics.bonusDefence -= DefenceBonus;
             //Owner.CurrentDamage -= DamageBonus;
-            //Owner.GetComponent<UnitMovement>().IncrimentMoveSpeedBy(-SpeedBonus);
+            //Owner.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-SpeedBonus);
 
         }
     }

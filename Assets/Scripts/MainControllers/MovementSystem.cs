@@ -23,9 +23,9 @@ public class MovementSystem : MonoBehaviour
 
     void Update()
     {
-        if (IsMovementInput() && IsPathNotEmpty() && IsMovementLegal()) // note it is a question about legality of movement to CURRENT MOUSE LOCATION, not IN GENERAL.
+        if (IsMovementInput() && IsMovementLegal()) // note it is a question about legality of movement to CURRENT MOUSE LOCATION, not IN GENERAL.
         {
-            SendCommandToMove(MouseManager.Instance.SelectedUnit.GetComponent<UnitMovement>());
+            SendCommandToMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile);
         }
     }
 
@@ -38,40 +38,24 @@ public class MovementSystem : MonoBehaviour
     {
         return            
             IsTileMouseovered() &&
-            IsLegalTimeToMove() &&
             IsThereLegalUnitToMove() &&
             IsNotDuringQuittingCombat() &&
             IsCurrentPlayerLocalHuman();
     }
 
-    #region IsMovementLegal Subfunctions
-
-    bool IsPathNotEmpty()
-    {
-        return PathCreator.Instance.Path.Count > 0;
-    }
+    #region IsMovementLegal Subfunctions   
 
     bool IsTileMouseovered()
     {
         return MouseManager.Instance.mouseoveredTile != null;
-    }
-
-    bool IsLegalTimeToMove()
-    {
-        return (Ability_Basic.IsForcingMovementStuff || IsNormalMovementTime());
-    }
-
-    bool IsNormalMovementTime()
-    {
-        return TurnManager.Instance.CurrentPhase == TurnPhases.Movement && GameStateManager.Instance.GameState != GameStates.TargettingState;
-    }
+    }    
 
     bool IsThereLegalUnitToMove()
     {
         return
             MouseManager.Instance.SelectedUnit != null &&
-            MouseManager.Instance.SelectedUnit.GetComponent<UnitMovement>().isMoving == false &&
-            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile, !Ability_Basic.IsForcingMovementStuff);
+            MouseManager.Instance.SelectedUnit.newMovement.isMoving == false &&
+            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile);
     }
 
     bool IsNotDuringQuittingCombat()
@@ -91,11 +75,10 @@ public class MovementSystem : MonoBehaviour
     /// Used to either perform movement in offline modes or send an RPC in online mode.
     /// </summary>
     /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
-    public void SendCommandToMove(UnitMovement unit)
-    {
+    public void SendCommandToMove(UnitScript unit, Tile target)
+    {        
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
-            Tile target = GetFinalTile();
             int startX = Mathf.RoundToInt(unit.transform.position.x);
             int startZ = Mathf.RoundToInt(unit.transform.position.z);
             int endX = Mathf.RoundToInt(target.transform.position.x);
@@ -111,7 +94,7 @@ public class MovementSystem : MonoBehaviour
         }
         else
         {
-            DoMovement(unit);
+            DoMovement(unit,target);
         }
     }
 
@@ -128,55 +111,14 @@ public class MovementSystem : MonoBehaviour
             Log.SpawnLog("NO UNIT TO MOVE!");
             return;
         }
-        Tile destination = Map.Board[endX, endZ];
-        PathCreator.Instance.AddSteps(unit, destination);
-        DoMovement(unit.GetComponent<UnitMovement>());
+        Tile destination = Map.Board[endX, endZ];        
+        DoMovement(unit,destination);
     }
     // NOTE - currently THIS is JUST doing NORMAL MOVEMENT. Please do not add special movments (like QC) here in ANY WAY!
     // ALSO - use THIS instead of SendCommand, if its already in a command, obviously.
-    public void DoMovement(UnitMovement unit)
+    public void DoMovement(UnitScript unit,Tile tile)
     {
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
-        {
-            GameStateManager.Instance.Animate();
-        }
-        MovementExecutor METool = new MovementExecutor(unit, PathCreator.Instance.GetMovementPath());
-        if (unit is UnitFlight)
-        {
-            StartCoroutine(METool.Fly((unit as UnitFlight), PathCreator.Instance.Path[PathCreator.Instance.Path.Count - 1].transform.position));
-        }
-        else
-        {
-            StartCoroutine(METool.Travel());
-        }
-        ColouringTool.UncolourAllTiles();
-        MovementQuestions.Instance.CheckIfAnyMoreUnitsToMove();
-    }
-
-    Tile GetFinalTile()
-    {
-        if (QCManager.Instance.PlayerChoosesWhetherToQC)
-        {
-            return QCManager.Instance.FinalTile;
-        }
-        else
-        {
-            return PathCreator.Instance.Path[PathCreator.Instance.Path.Count - 1];
-        }
-    }
-
-    public void CheckForAddingSteps(UnitScript unit, Tile oldTile, Tile newTile)
-    {        
-        if (IsTimeToAddSteps(unit, oldTile, newTile))
-        {
-            PathCreator.Instance.AddSteps(unit, newTile);
-        }
-    }
-
-    bool IsTimeToAddSteps(UnitScript unit, Tile oldTile, Tile newTile)
-    {
-        return                       
-            IsMovementLegal() &&
-            oldTile != newTile;
-    }
+        unit.newMovement.ApplyUnit(unit);
+        unit.Move(tile);
+    }   
 }

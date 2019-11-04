@@ -22,7 +22,7 @@ public class AI_Base_Movement : AI_BaseClass
         EvaluatedTiles = new Dictionary<Tile, float>();
         int temp = 0;
         int direction = FindDirectionOfEnemies(currentUnit);
-        Dictionary<UnitMovement, List<Tile>> EMR = GetAllEnemyMoves();
+        Dictionary<UnitScript, List<Tile>> EMR = GetAllEnemyMoves();
 
         foreach (var tile in possibleMoves)
         {
@@ -115,7 +115,7 @@ public class AI_Base_Movement : AI_BaseClass
         }
     }
 
-    public virtual float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitMovement, List<Tile>> EnemiesMovementRanges)
+    public virtual float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemiesMovementRanges)
     {
         // THIS has to be overriden!
         return Random.Range(-1f, 1f);
@@ -123,18 +123,16 @@ public class AI_Base_Movement : AI_BaseClass
 
     public override List<Tile> GetPossibleMoves(UnitScript unit, bool isAlly)
     {
-
-        Pathfinder.Instance.BFS(unit);
-        return new List<Tile>(Pathfinder.Instance.GetAllLegalTilesAndIfTheyAreSafe(unit.GetComponent<UnitMovement>(), true).Keys);
+        return new List<Tile>(Pathfinder.instance.GetAllLegalTilesFor(unit));
     }
 
-    public Dictionary<UnitMovement, List<Tile>> GetAllEnemyMoves()
+    public Dictionary<UnitScript, List<Tile>> GetAllEnemyMoves()
     {
-        Dictionary<UnitMovement, List<Tile>> AllEnemyMovesDictionary = new Dictionary<UnitMovement, List<Tile>>();
+        Dictionary<UnitScript, List<Tile>> AllEnemyMovesDictionary = new Dictionary<UnitScript, List<Tile>>();
         foreach (UnitScript enemy in enemyList)
         {
             List<Tile> tilesInDanger = GetPossibleMoves(enemy, false);
-            AllEnemyMovesDictionary.Add(enemy.GetComponent<UnitMovement>(), tilesInDanger);
+            AllEnemyMovesDictionary.Add(enemy,tilesInDanger);
         }
         return AllEnemyMovesDictionary;
     }

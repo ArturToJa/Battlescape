@@ -22,18 +22,63 @@ namespace BattlescapeLogic
 
         int[,] distances;
         Tile[,] parents;
-        bool[,] enemyOccupations;
+        bool[,] enemyProtection;
+        
+        //These are for us to always know if we BFSed from this tile standing in this position
+        //So that we only BFS if we have new unit or unit moved.
+        UnitScript lastUnit;
+        Tile lastTile;
 
+        bool HaveToBFSFor(UnitScript unitToMove)
+        {
+            return (lastUnit == unitToMove && lastTile == unitToMove.myTile) == false;
+        }
 
+        //Some old ability wants this ;D
+        public int GetDistanceFromTo(UnitScript unit, Tile tile)
+        {
+            int distance = distances[tile.position.x, tile.position.z];
+            BFS(unit);
+            if (distance == -1)
+            {
+                //THIS should never occur I THINK but maybe will.
+                Debug.LogWarning("Not sure if legal");
+                return 9999;
+            }
+            return distance;
+        }
+        
+        
 
-        //Using newly created "Tile" class just because there will anyway be a need for a new Tile class definitely ;) the old one is messy af...
-        //Also - new Map class just for what old Map.Board[x,z] did.
-        public Queue<Tile> GetPathFromTo(Unit unitToMove, Tile finalTile)
+        //This function gives the list of possible tiles a Unit could get to.
+        public List<Tile> GetAllLegalTilesFor(UnitScript unitToMove)
+        {
+            List<Tile> returnList = new List<Tile>();
+            // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
+            //Also it has to BFS there as it is also used elsewhere;
+            BFS(unitToMove);
+            foreach (Tile tile in Map.Board)
+            {
+                if (IsLegalTileForUnit(tile, unitToMove))
+                {
+                    returnList.Add(tile);
+                }
+            }
+            return returnList;
+        }
+
+        public bool IsLegalTileForUnit(Tile tile, UnitScript unit)
+        {
+            BFS(unit);
+            return distances[tile.position.x, tile.position.z] <= unit.statistics.movementPoints && distances[tile.position.x, tile.position.z] > 0;
+        }
+
+        public Queue<Tile> GetPathFromTo(UnitScript unitToMove, Tile finalTile)
         {
             BFS(unitToMove);
             Stack<Tile> tileStack = new Stack<Tile>();
             tileStack.Push(finalTile);
-            while (!tileStack.Contains(unitToMove.currentPosition))
+            while (!tileStack.Contains(unitToMove.myTile))
             {
                 Tile tileOnTheStack = tileStack.Peek();
                 tileStack.Push(parents[tileOnTheStack.position.x, tileOnTheStack.position.z]);
@@ -49,40 +94,42 @@ namespace BattlescapeLogic
 
         //This function populates Distances and Parents arrays with data, using BFS algorithm.
         //Currently it just calculates for whole board (not until reaching destination).
-        void BFS(Unit unitToMove)
+        void BFS(UnitScript unitToMove)
         {
-            parents = new Tile[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
+            //THIS first part is just for optimization
+            if (HaveToBFSFor(unitToMove) == false)
+            {
+                return;
+            }
+            else
+            {
+                lastTile = unitToMove.myTile;
+                lastUnit = unitToMove;
+            }
+            parents = new Tile[Map.mapWidth, Map.mapHeight];
             SetDistancesToMinus();
             SetOccupations(unitToMove);
 
             Queue<Tile> queue = new Queue<Tile>();
-            Tile start = unitToMove.currentPosition;
-            int startX = Mathf.RoundToInt(start.transform.position.x);
-            int startZ = Mathf.RoundToInt(start.transform.position.z);
-            distances[startX, startZ] = 0;
+            Tile start = unitToMove.myTile;
+            distances[start.position.x, start.position.z] = 0;
             queue.Enqueue(start);
 
             while (queue.Count > 0)
             {
                 Tile current = queue.Peek();
-                int currentX = Mathf.RoundToInt(current.transform.position.x);
-                int currentZ = Mathf.RoundToInt(current.transform.position.z);
                 queue.Dequeue();
                 List<Tile> orderedNeighbours = OrderNeighbours(current);
                 foreach (var neighbour in orderedNeighbours)
-                {
-                    int X = Mathf.RoundToInt(neighbour.transform.position.x);
-                    int Z = Mathf.RoundToInt(neighbour.transform.position.z);
-                    if (distances[X, Z] == -1 && !enemyOccupations[X, Z])
+                {                    
+                    if (distances[neighbour.position.x, neighbour.position.z] == -1 && neighbour.IsWalkable())
                     {
-                        distances[X, Z] = distances[currentX, currentZ] + 1;
-                        parents[X, Z] = current;
-                        queue.Enqueue(neighbour);
-                    }
-                    else if (distances[X, Z] == -1 && enemyOccupations[X, Z])
-                    {
-                        distances[X, Z] = distances[currentX, currentZ] + 1;
-                        parents[X, Z] = current;
+                        distances[neighbour.position.x, neighbour.position.z] = distances[current.position.x, current.position.z] + 1;
+                        parents[neighbour.position.x, neighbour.position.z] = current;
+                        if (!enemyProtection[neighbour.position.x, neighbour.position.z])
+                        {
+                            queue.Enqueue(neighbour);
+                        }
                     }
                 }
             }
@@ -90,26 +137,25 @@ namespace BattlescapeLogic
         #region BFS Subfunctions
         void SetDistancesToMinus()
         {
-            distances = new int[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
-            for (int i = 0; i < NewMap.instance.mapWidth; i++)
+            distances = new int[Map.mapWidth, Map.mapHeight];
+            for (int i = 0; i < Map.mapWidth; i++)
             {
-                for (int j = 0; j < NewMap.instance.mapHeight; j++)
+                for (int j = 0; j < Map.mapHeight; j++)
                 {
                     distances[i, j] = -1;
                 }
 
             }
         }
-        //Tile is considered Occupied, if there is an enemy on it or on its neighbour.
-        void SetOccupations(Unit unitToMove)
+        //Tile is considered Occupied, if there is an enemy on its neighbour.
+        void SetOccupations(UnitScript unitToMove)
         {
-            enemyOccupations = new bool[NewMap.instance.mapWidth, NewMap.instance.mapHeight];
-            for (int i = 0; i < NewMap.instance.mapWidth; i++)
+            enemyProtection = new bool[Map.mapWidth, Map.mapHeight];
+            for (int i = 0; i < Map.mapWidth; i++)
             {
-                for (int j = 0; j < NewMap.instance.mapHeight; j++)
+                for (int j = 0; j < Map.mapHeight; j++)
                 {
-                    //enemyOccupations[i, j] = NewMap.instance.board[i, j].IsProtectedByEnemyOf(unitToMove) || NewMap.instance.board[i, j].IsWalkable() == false;
-                    //this makes SENSE, but is impossible for as long as Tile uses UnitScript not Unit as it should ;) we still use old Pathfinder so this is OK?
+                    enemyProtection[i, j] = Map.Board[i, j].IsProtectedByEnemyOf(unitToMove);
                 }
             }
         }
@@ -120,7 +166,7 @@ namespace BattlescapeLogic
             List<Tile> returnList = new List<Tile>();
             foreach (Tile neighbour in tile.neighbours)
             {
-                if (neighbour.position.x == tile.position.x ||neighbour.position.z == tile.position.z)
+                if (neighbour.position.x == tile.position.x || neighbour.position.z == tile.position.z)
                 {
                     returnList.Add(neighbour);
                 }

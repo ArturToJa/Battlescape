@@ -68,7 +68,7 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
                 variant.UsesLeft--;
             }
         }
-        myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
+        //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         myShooter.CurrentProjectile = Projectile;
         myUnit.GetComponent<AnimController>().Cast();
         Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, true);

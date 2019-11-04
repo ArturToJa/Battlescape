@@ -5,11 +5,9 @@ using BattlescapeLogic;
 
 public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 {
-    UnitMovement myMovement;
-
     protected override void OnStart()
     {
-        myMovement = myUnit.GetComponent<UnitMovement>();
+        return;
     }
 
     protected override void OnUpdate()
@@ -97,7 +95,7 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         PlayAbilitySound();
         GameObject lightnings = CreateVFXOn(transform, BasicVFX.transform.rotation);
         GetComponent<AnimController>().SetJumping(true);
-        myMovement.SetDestination(Target.transform.position);
+        MovementSystem.Instance.DoMovement(myUnit, Target);
         yield return null;
         FinishUsing();
         // some future
@@ -111,18 +109,8 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 
     bool IsDoneMoving()
     {
-        return Vector3.Distance(myMovement.GetDestination(), transform.position) < 0.1f;
+        return myUnit.newMovement.isMoving == false;
     }
-
-
-
-
-
-
-
-
-
-
 
     public override void AI_Activate(GameObject Target)
     {

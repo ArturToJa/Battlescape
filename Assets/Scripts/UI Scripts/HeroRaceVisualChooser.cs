@@ -18,24 +18,12 @@ public class HeroRaceVisualChooser : MonoBehaviour
         {
             ID = 1;
         }
-        switch (Global.instance.playerTeams[ID].players[0].race)
-        {
-            case Faction.Human:
-                GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(0).GetComponent<Animator>();
-                GetComponentInParent<UnitMovement>().myBody = transform.GetChild(0);                
-                transform.GetChild(0).gameObject.SetActive(true);
-                break;
-            case Faction.Elves:
-                GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(1).GetComponent<Animator>();
-                GetComponentInParent<UnitMovement>().myBody = transform.GetChild(1);
-                transform.GetChild(1).gameObject.SetActive(true);
-                break;
-            case Faction.Neutral:
-                Debug.LogError("This hero is neutral and should probably not be: " + transform.root.position);
-                break;
-            default:
-                break;
-        }
+        int raceNumber = (int)Global.instance.playerTeams[ID].players[0].race;
+        UnitScript myUnit = GetComponentInParent<UnitScript>();
+        GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(raceNumber).GetComponent<Animator>();
+        myUnit.visuals = transform.GetChild(raceNumber).gameObject;
+        transform.GetChild(raceNumber).gameObject.SetActive(true);
+        myUnit.animator = myUnit.visuals.GetComponent<Animator>();
         HeroScript hs = GetComponentInParent<HeroScript>();
         if (hs == null)
         {

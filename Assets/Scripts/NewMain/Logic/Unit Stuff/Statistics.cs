@@ -34,7 +34,7 @@ namespace BattlescapeLogic
                 _baseAttack = value;
             }
         }
-        public int bonusAttack;
+        public int bonusAttack { get; set; }
 
         [SerializeField] int _baseDefence;
         public int baseDefence

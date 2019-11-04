@@ -37,4 +37,21 @@ public static class ColouringTool
         tile.StopAllCoroutines();
         tile.GetComponent<Renderer>().material.color = Color.white;
     }
+
+    public static void ColourLegalTilesFor(UnitScript unit)
+    {
+        UncolourAllTiles();
+        var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
+        foreach (Tile tile in temp)
+        {
+            if (tile.IsProtectedByEnemyOf(unit))
+            {
+                SetColour(tile, Color.red);
+            }
+            else
+            {
+                SetColour(tile, Color.cyan);
+            }            
+        }
+    }
 }

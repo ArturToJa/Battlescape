@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class Ability_Elves_Rider_SwiftMove : Ability_Basic
 {
-    UnitMovement myUnitMovement;
-
+    int previousMovementPoints;
     protected override void OnStart()
     {
-        myUnitMovement = myUnit.GetComponent<UnitMovement>();
+        return;
     }
 
     protected override void OnUpdate()
@@ -29,14 +29,15 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
     {
         IsForcingMovementStuff = true;
         // myUnit.isQuittingCombat = true;
-        myUnitMovement.CanMove = true;
+        previousMovementPoints = myUnit.statistics.movementPoints;
+        myUnit.statistics.movementPoints = myUnit.statistics.GetCurrentMaxMovementPoints();
     }
 
     protected override void CancelUse()
     {
         IsForcingMovementStuff = false;
         //myUnit.isQuittingCombat = false;
-        myUnitMovement.CanMove = false;
+        myUnit.statistics.movementPoints = previousMovementPoints;
     }
 
 
@@ -46,8 +47,8 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
     {
         return (
            MouseManager.Instance.mouseoveredTile != null &&
-           MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile, false)&&
-           /*Pathfinder.Instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myUnitMovement.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
+           MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile) &&
+           /*Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myUnitScript.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
            EventSystem.current.IsPointerOverGameObject() == false
            );
     }
@@ -64,11 +65,11 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
         //myUnit.isQuittingCombat = false;
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
-        MovementSystem.Instance.DoMovement(myUnitMovement);
+        MovementSystem.Instance.DoMovement(myUnit, Target);
         yield return null;
         FinishUsing();
     }
-    
+
 
 
 
@@ -92,7 +93,7 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
 
     protected override void ColourTiles()
     {
-        Pathfinder.Instance.ColourPossibleTiles(myUnitMovement, true);
+        ColouringTool.ColourLegalTilesFor(myUnit);
     }
 
 

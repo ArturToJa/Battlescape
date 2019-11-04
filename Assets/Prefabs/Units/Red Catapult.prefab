@@ -323,7 +323,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4181359235404580}
   - component: {fileID: 54887488492204676}
-  - component: {fileID: 114478244985533804}
   - component: {fileID: 114971417957702142}
   - component: {fileID: 114534114074495830}
   - component: {fileID: 114712129867328340}
@@ -847,13 +846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currShootingRange: 0
-  baseShootingRange: 9
   currMinimalRange: 0
   baseMinimalRange: 4
   shortDistance: 0
   AOEAttack: 1
-  hasAlreadyShot: 0
   Projectile: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d, type: 2}
   CurrentProjectile: {fileID: 0}
   PROJECTILE_SPEED: 20
@@ -865,7 +861,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 9297b1de99f3a5e41b2ef5d6bf762f95, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   HitShotSounds:
@@ -873,7 +869,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: abd12f8c9ea58214fb8ea59340e3e22e, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   myTarget: {x: 0, y: 0, z: 0}
@@ -892,52 +888,6 @@ MonoBehaviour:
   AttackModifierVersusUnitType: 0
   DefenceModifierVersusUnitType: 0
   HasIcon: 1
---- !u!114 &114478244985533804
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1948970113830292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 1
-  myBody: {fileID: 0}
-  visualMovementSpeed: 1
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: b8c69705803d02c47a503339e005212a, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: ad51a88595a1046438a6afd8ccf7df78, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: b30aabfe0bd12ce44af23ae77a0323c9, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 121958d4857f1ff43aced42a132c641b, type: 3}
-    volume: 0.5
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  baseMoveSpeed: 1
-  isMoving: 0
 --- !u!114 &114508427653592604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -984,7 +934,7 @@ MonoBehaviour:
     clip: {fileID: 0}
     volume: 0
     pitch: 0
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   BasicVFX: {fileID: 0}
@@ -1213,12 +1163,16 @@ MonoBehaviour:
   unitType: 2
   unitUnit: {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
   isRealUnit: 1
-  _maxHP: 25
-  DiceNumber: 3
-  BaseDamage: 5
-  Attack: 4
-  Defence: 0
-  Value: 6
+  animator: {fileID: 0}
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 10
   isColossal: 0
   isRanged: 1
@@ -1234,7 +1188,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds: []
@@ -1244,9 +1197,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b3fa81f10c06c304a9f6723f412ac6cb, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
+  StepSounds: []
 --- !u!114 &114976918003101124
 MonoBehaviour:
   m_ObjectHideFlags: 1

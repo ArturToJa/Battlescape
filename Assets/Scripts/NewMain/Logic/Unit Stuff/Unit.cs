@@ -23,7 +23,7 @@ namespace BattlescapeLogic
         }
         [SerializeField] public AttackTypes attackType;
         [SerializeField] public MovementTypes movementType;
-        public AbstractMovement movement { get; private set; }     
+        public AbstractMovement movement { get; private set; }
         public AbstractAttack attack { get; private set; }
         //NOTE - this needs to be done some other way, this 'readonly' thing will NOT work here :)))
         //Also - IDK why we need it at all
@@ -34,14 +34,14 @@ namespace BattlescapeLogic
         public Tile currentPosition { get; set; }
         public Statistics statistics;
         public List<AbstractAbility> abilities;
-        public List<Buff> buffs { get; private set; }      
+        public List<Buff> buffs { get; private set; }
         public GameObject visuals { get; private set; }
         public Animator animator { get; private set; }
 
         public void Start()
         {
             animator = GetComponentInChildren<Animator>();
-
+            visuals = Helper.FindChildWithTag(gameObject, "Body");
             movement = GetMovementType();
             if (movement == null)
             {
@@ -49,7 +49,7 @@ namespace BattlescapeLogic
             }
 
             attack = GetAttackType();
-            if(attack == null)
+            if (attack == null)
             {
                 statistics.NullBaseAttack();
             }
@@ -59,12 +59,12 @@ namespace BattlescapeLogic
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
-            foreach(Buff buff in buffs)
+            foreach (Buff buff in buffs)
             {
                 //buff.OnNewTurn();
             }
 
-            foreach(AbstractAbility ability in abilities)
+            foreach (AbstractAbility ability in abilities)
             {
                 ability.OnNewTurn();
             }
@@ -91,9 +91,9 @@ namespace BattlescapeLogic
 
         public void Move(Tile newPosition)
         {
-            if(CanStillMove())
+            if (CanStillMove())
             {
-                movement.ApplyUnit(this);
+                //movement.ApplyUnit(this);
                 StartCoroutine(movement.MoveTo(newPosition));
             }
         }
@@ -101,7 +101,7 @@ namespace BattlescapeLogic
         //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
         public void Attack(Unit target)
         {
-            if(CanStillAttack())
+            if (CanStillAttack())
             {
                 statistics.numberOfAttacks--;
                 attack.Attack(target);
@@ -115,7 +115,7 @@ namespace BattlescapeLogic
 
         public bool CanStillMove()
         {
-            return (statistics.movementPoints > 0);
+            return (CanStillMove());
         }
 
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
@@ -123,7 +123,7 @@ namespace BattlescapeLogic
 
         public void HitTarget(Unit target)
         {
-            if(DamageCalculator.IsMiss(this, target))
+            if (DamageCalculator.IsMiss(this, target))
             {
                 // rzucamy buff na target obniżający obronę
             }
@@ -170,7 +170,7 @@ namespace BattlescapeLogic
             //whatever else we need to do on death, i guess?
             //definitely a log to log window
         }
-            
+
     }
 }
 

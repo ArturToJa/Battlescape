@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Ability_Human_Swordsman_DeffensiveStance : Ability_Basic
 {
-
-    UnitMovement myMovement;
     [SerializeField] GameObject vfx;
 
     protected override void OnStart()
     {
-        myMovement = myUnit.GetComponent<UnitMovement>();
         Target = myUnit.myTile;
     }
 
@@ -59,7 +56,7 @@ public class Ability_Human_Swordsman_DeffensiveStance : Ability_Basic
     {
         yield return null;
         FinishUsing();
-        myMovement.CanMove = false;
+        myUnit.statistics.movementPoints = 0;
         myUnit.statistics.numberOfAttacks = 0;
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);

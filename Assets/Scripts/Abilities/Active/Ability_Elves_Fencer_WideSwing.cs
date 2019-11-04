@@ -91,7 +91,7 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
     IEnumerator WideSwing()
     {
         CreateVFXOn(transform, BasicVFX.transform.rotation);
-        myUnit.GetComponent<UnitMovement>().LookAtTheTarget(Target.transform.position, 0/*myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack*/);
+        //myUnit.LookAtTheTarget(Target.transform.position, 0/*myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack*/);
         GetComponent<AnimController>().SpecialAttack();
         Log.SpawnLog("Fencer uses Wide Swing, swinging his blade recklessly around him");
         //LOGIC

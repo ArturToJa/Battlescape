@@ -27,7 +27,7 @@ public class AI_Movement : AI_Base_Movement
 
         Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(GetUnitsWithPriority());
         UnitScript firstUnit = myUnitsToMove.Peek();
-        while (unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.GetComponent<UnitMovement>().CanMove == false)
+        while (unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.statistics.movementPoints > 0 == false)
         {
             myUnitsToMove.Dequeue();
             if (myUnitsToMove.Count == 0)
@@ -50,14 +50,14 @@ public class AI_Movement : AI_Base_Movement
     {
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>())== true && unitsSkippingTurn.Contains(ally) == false)
+            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllShooters();
             }
         }
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()) == true && unitsSkippingTurn.Contains(ally) == false)
+            if (ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllMelee();
             }
@@ -66,7 +66,7 @@ public class AI_Movement : AI_Base_Movement
 
         foreach (UnitScript ally in allyList)
         {
-            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitMovement>()) == true && unitsSkippingTurn.Contains(ally) == false)
+            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllHeroes();
             }
@@ -118,7 +118,7 @@ public class AI_Movement : AI_Base_Movement
         return temp;
     }
 
-    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitMovement, List<Tile>> EnemyMovementRanges)
+    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemyMovementRanges)
     {
         return 0;
         /*
@@ -305,7 +305,7 @@ public class AI_Movement : AI_Base_Movement
                 }
 
                 // and finally here we want to get to shooting range in 2 turns. Is it good - idk, but it "feels" right xD
-                UnitScript NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange() + currentUnit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false));
+                UnitScript NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange() + currentUnit.GetComponent<UnitScript>().GetCurrentMoveSpeed(false));
                 if (NextTurnBestTarget != null)
                 {
                     // we do not care if it is bad range cause we are a dumb AI
@@ -426,13 +426,13 @@ public class AI_Movement : AI_Base_Movement
                 }
             }
         }
-        foreach (UnitScript  unit in Object.FindObjectsOfType<UnitScript>())
+        foreach (UnitScript unit in Object.FindObjectsOfType<UnitScript>())
         {
             if (unit.isRealUnit == false)
             {
                 continue;
             }
-            if (unit.PlayerID == currentUnit.PlayerID&& Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false) + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.GetComponent<UnitMovement>().GetCurrentMoveSpeed(false) + 1)
+            if (unit.PlayerID == currentUnit.PlayerID && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
             {
                 Evaluation += 0.01f;
             }
@@ -471,11 +471,11 @@ public class AI_Movement : AI_Base_Movement
     {
         AI_Controller.tilesAreEvaluated = false;
         Tile theTile = target.Key;
-        
+
         if (theTile != null)
         {
             //PathCreator.Instance.AddSteps(currentUnit.myTile,theTile);
-            MovementSystem.Instance.SendCommandToMove(currentUnit.GetComponent<UnitMovement>());
+            MovementSystem.Instance.SendCommandToMove(currentUnit, theTile);
             unitsSkippingTurn.Clear();
             Debug.Log("Chosen tile is: " + theTile);
         }
@@ -484,7 +484,7 @@ public class AI_Movement : AI_Base_Movement
             Debug.Log("No tile available.");
             unitsSkippingTurn.Add(currentUnit);
         }
-    }   
+    }
 
     bool IsDefendingAllyIfStandingHere(Vector3 tile, Vector3 ally, int direction)
     {

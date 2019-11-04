@@ -35,7 +35,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4352412524050644}
   - component: {fileID: 54773558810952462}
-  - component: {fileID: 114409595791281106}
   - component: {fileID: 114334107427375760}
   - component: {fileID: 114271598070582424}
   - component: {fileID: 114201566962761058}
@@ -3797,7 +3796,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 24a8cea1b9142ab499b5fa86a6c41cdc, type: 3}
     volume: 0.3
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   BasicVFX: {fileID: 1586852818490906, guid: 1b8ccc1ea86159d4f9b0fb5d6e16e2e2, type: 2}
@@ -3879,12 +3878,16 @@ MonoBehaviour:
   unitType: 4
   unitUnit: {fileID: 11400000, guid: fc62d1d6b9d76c043b8a76ad52c9a077, type: 2}
   isRealUnit: 1
-  _maxHP: 40
-  DiceNumber: 3
-  BaseDamage: 10
-  Attack: 5
-  Defence: 3
-  Value: 4
+  animator: {fileID: 0}
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 20
   isColossal: 0
   isRanged: 0
@@ -3900,7 +3903,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -3908,56 +3910,56 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1cbea69ffad026c448fbdf47f4d34f3b, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: d5b16a0c44ad6dc45a168cfd6e9bef82, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: c0d2632d7c7cd8f4b8de221b412dc07a, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 89371f48456c92445b358a10deedd6b4, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 204714c2c1cc4164eb3385de295cb08c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: d1256636b10306449b7a8bf6f5295a0c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 36ba22c9b31890b48b185a2d3ff1504c, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 72290ae1f8166324797e737ba08b56de, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   SwingSounds:
@@ -3965,21 +3967,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 4f9dab83cd88d5f4687b9fac1797d1d0, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 52b3b4b266cf79741b455a1c1cb7b9a6, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   deathSounds:
@@ -3987,83 +3989,38 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 98f33dc4cd9607246b72c1bd1bddef60, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 4145651232ead634ab4185705dcef66f, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: f0a4c76ab9bea0a4fa662a1172b4c8b9, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 485afde4d0a1b68458d251f6c212aba7, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 9fbb20a27dd0a0e46ae50c2cb236f94c, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
---- !u!114 &114409595791281106
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1013183403861480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 4
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: 550bc28ebb7f8554dbab493b2eed43d1, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: 
-    clip: {fileID: 8300000, guid: c392a0e65ead28246a83b9f4b5c90db9, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
-  CanMove: 1
-  baseMoveSpeed: 8
-  isMoving: 0
+  StepSounds: []
 --- !u!114 &114554087416155660
 MonoBehaviour:
   m_ObjectHideFlags: 1

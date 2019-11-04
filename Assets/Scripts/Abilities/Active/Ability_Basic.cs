@@ -81,8 +81,8 @@ public abstract class Ability_Basic : MonoBehaviour
     public abstract void Activate();
     protected abstract bool ActivationRequirements();
     /// <summary>
-     /// Note that this function should be empty unles really needed otherwise (all functionality should be somehow in base unlkess it is really hard/unpractical/single-time-only-very-special-condition
-     /// </summary>
+    /// Note that this function should be empty unles really needed otherwise (all functionality should be somehow in base unlkess it is really hard/unpractical/single-time-only-very-special-condition
+    /// </summary>
     protected abstract bool IsUsableNow();
     public bool IsUsableNowBase()
     {
@@ -96,9 +96,9 @@ public abstract class Ability_Basic : MonoBehaviour
             LegalInPhases.Contains(TurnManager.Instance.CurrentPhase) &&
             (!OnlyInCombat || (OnlyInCombat && myUnit.CheckIfIsInCombat())) &&
             (!UnavailableInCombat || (UnavailableInCombat && !myUnit.CheckIfIsInCombat())) &&
-            (!RequiresCanMove || (RequiresCanMove && myUnit.GetComponent<UnitMovement>().CanMove)) &&
-            (!RequiresShootingAbility ||(RequiresShootingAbility && myUnit.GetComponent<ShootingScript>().IsAbleToShoot())) &&
-            (!IsAttack || (IsAttack && myUnit.CanStillAttack() == true) );
+            (!RequiresCanMove || (RequiresCanMove && myUnit.CanStillMove())) &&
+            (!RequiresShootingAbility || (RequiresShootingAbility && myUnit.GetComponent<ShootingScript>().IsAbleToShoot())) &&
+            (!IsAttack || (IsAttack && myUnit.CanStillAttack() == true));
 
     }
     public abstract bool AI_IsGoodToUseNow();
@@ -146,7 +146,7 @@ public abstract class Ability_Basic : MonoBehaviour
             MyObject.GetComponentInChildren<AbilityIconScript>().EnergyText.text = "- " + EnergyCost.ToString();
             if (LimitedUses)
             {
-                MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "x " + UsesLeft.ToString();                              
+                MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "x " + UsesLeft.ToString();
             }
             else
             {

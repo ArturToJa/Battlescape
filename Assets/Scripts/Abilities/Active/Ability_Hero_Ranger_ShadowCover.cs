@@ -67,9 +67,11 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         Log.SpawnLog(myUnit.name + " uses Shadow Cover, leaving combat safely!");        
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
-        
-        GetComponent<UnitMovement>().TeleportTo(tile);
-        GetComponent<UnitMovement>().CanMove = false;
+
+        //myUnit.newMovement = Global.instance.movementTypes[(int)MovementTypes.Teleportation]
+        //myUnit.newMovement.ApplyUnit(myUnit);
+        //myUnit.newMovement.MoveTo(tile);
+        myUnit.statistics.movementPoints = 0;
         yield return null;
         FinishUsing();
     }

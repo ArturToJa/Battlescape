@@ -895,7 +895,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4398128982934996}
   - component: {fileID: 54964605021868928}
-  - component: {fileID: 114953323209237544}
   - component: {fileID: 114865667233958786}
   - component: {fileID: 114437033650191928}
   - component: {fileID: 114064349143872984}
@@ -3261,7 +3260,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 73a40e71957a2c94ca8076c4e4818524, type: 3}
     volume: 0.25
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   BasicVFX: {fileID: 1604655146465802, guid: d2463d4579775ef4a8d7b4becd723d99, type: 2}
@@ -3445,12 +3444,16 @@ MonoBehaviour:
   unitType: 3
   unitUnit: {fileID: 11400000, guid: 01757c012a053d24c8218a0d4b199193, type: 2}
   isRealUnit: 1
-  _maxHP: 30
-  DiceNumber: 3
-  BaseDamage: 10
-  Attack: 4
-  Defence: 6
-  Value: 7
+  animator: {fileID: 0}
+  statistics:
+    _cost: 0
+    _baseAttack: 0
+    _baseDefence: 0
+    _maxHealthPoints: 0
+    _baseMaxMovementPoints: 0
+    _baseAttackRange: 1
+    _minimalAttackRange: 0
+    _maxNumberOfAttacks: 1
   baseQuitCombatPercent: 65
   isColossal: 0
   isRanged: 0
@@ -3466,7 +3469,6 @@ MonoBehaviour:
   myTile: {fileID: 0}
   isQuittingCombat: 0
   hasJustArrivedToCombat: 0
-  hasAttacked: 0
   HasRetaliatedThisTurn: 0
   IsFrozen: 0
   HitSounds:
@@ -3474,21 +3476,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8091b8b16c3c8eb42ab3ce54abd8b670, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: 8ba4fdf66594842489d31da15d72c4b9, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   - name: 
     clip: {fileID: 8300000, guid: c8cc8ca7e4f674f4196c02429fe47895, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 0
   SwingSounds:
@@ -3496,21 +3498,21 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d637b89f4cbc5044d9cbe633ffbeab73, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 89998cf45320f974ea4c9a4fcb2e668b, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: a799170ede84b5d4ca6d3eef0b75d310, type: 3}
     volume: 0.1
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   deathSounds:
@@ -3518,37 +3520,38 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 575594f8a1a4f1a43ab29916c3101af9, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 64f8fa366b57a0244b2a4733c20f7241, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: 8f3cd6a54d4bb184b9a0639b222a618a, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: e336f0e40d2e1b845983f500439fddc4, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
   - name: 
     clip: {fileID: 8300000, guid: a0b3230bce72a5c459bf3ed25afce96a, type: 3}
     volume: 0.2
     pitch: 1
-    source: {fileID: 0}
+    oldSource: {fileID: 0}
     loop: 0
     soundType: 6
+  StepSounds: []
 --- !u!114 &114885961371401802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3588,59 +3591,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114953323209237544
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1785577915421682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  myBody: {fileID: 0}
-  visualMovementSpeed: 2
-  StepSounds:
-  - name: 
-    clip: {fileID: 8300000, guid: 78a3cd9db7d0f6c43b6b917161acd68a, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 9b3dd4cdefed75c4e896cab55cfe21f3, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 77942207242e9354a8e66a9ef4f4f0d5, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: 417df2d2c5b5a0544ac92be76696df7a, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: 
-    clip: {fileID: 8300000, guid: cc5abf2ec9f90734c939822b75c3f3ce, type: 3}
-    volume: 0.2
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 0
-  CanMove: 1
-  baseMoveSpeed: 4
-  isMoving: 0
 --- !u!135 &135664487951658422
 SphereCollider:
   m_ObjectHideFlags: 1

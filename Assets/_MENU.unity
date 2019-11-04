@@ -21864,6 +21864,7 @@ MonoBehaviour:
   playerArmy:
     HeroName: 
     unitIDs: 
+    faction: 0
   allPossibleUnits:
   - {fileID: 11400000, guid: bb4783336671e1f4c9c1e21349743d19, type: 2}
   - {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
@@ -21886,6 +21887,7 @@ MonoBehaviour:
   currentSaveName: 
   currentSaveValue: 25
   hero: {fileID: 0}
+  Race: 0
   HeroName: 
 --- !u!4 &1859684904
 Transform:
