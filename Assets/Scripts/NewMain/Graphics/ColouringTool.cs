@@ -3,55 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-public static class ColouringTool
+namespace BattlescapeGraphics
 {
-    static float speed = 2.0f;       
-
-    public static void UncolourAllTiles()
+    public static class ColouringTool
     {
-        foreach (Tile tile in Map.Board)
+        static float speed = 2.0f;
+
+        public static void UncolourAllTiles()
         {
-            UncolourTile(tile);
-        }
-
-    }
-
-    public static void SetColour(MonoBehaviour target, Color colour)
-    {
-        target.StartCoroutine(SetColourRoutine(target.gameObject, colour));
-    }
-
-    static IEnumerator SetColourRoutine(GameObject target, Color colour)
-    {
-        Renderer renderer = target.GetComponent<Renderer>();
-        while (renderer.material.color != colour)
-        {
-            float t = speed * Time.deltaTime;
-            renderer.material.color = Color.Lerp(renderer.material.color, colour, t);
-            yield return null;
-        }
-    }
-
-    static void UncolourTile(Tile tile)
-    {
-        tile.StopAllCoroutines();
-        tile.GetComponent<Renderer>().material.color = Color.white;
-    }
-
-    public static void ColourLegalTilesFor(UnitScript unit)
-    {
-        UncolourAllTiles();
-        var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
-        foreach (Tile tile in temp)
-        {
-            if (tile.IsProtectedByEnemyOf(unit))
+            foreach (Tile tile in Map.Board)
             {
-                SetColour(tile, Color.red);
+                UncolourTile(tile);
             }
-            else
+
+        }
+
+        public static void SetColour(MonoBehaviour target, Color colour)
+        {
+            target.StartCoroutine(SetColourRoutine(target.gameObject, colour));
+        }
+
+        static IEnumerator SetColourRoutine(GameObject target, Color colour)
+        {
+            Renderer renderer = target.GetComponent<Renderer>();
+            while (renderer.material.color != colour)
             {
-                SetColour(tile, Color.cyan);
-            }            
+                float t = speed * Time.deltaTime;
+                renderer.material.color = Color.Lerp(renderer.material.color, colour, t);
+                yield return null;
+            }
+        }
+
+        static void UncolourTile(Tile tile)
+        {
+            tile.StopAllCoroutines();
+            tile.GetComponent<Renderer>().material.color = Color.white;
+        }
+
+        public static void ColourLegalTilesFor(UnitScript unit)
+        {
+            UncolourAllTiles();
+            var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
+            foreach (Tile tile in temp)
+            {
+                if (tile.IsProtectedByEnemyOf(unit))
+                {
+                    SetColour(tile, Color.red);
+                }
+                else
+                {
+                    SetColour(tile, Color.cyan);
+                }
+            }
         }
     }
 }

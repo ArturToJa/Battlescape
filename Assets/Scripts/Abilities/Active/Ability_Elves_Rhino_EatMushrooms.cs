@@ -44,7 +44,7 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
         {
             if (HasTileFood(tile))
             {
-                ColouringTool.SetColour(tile, Color.cyan);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.cyan);
             }
         }
     }

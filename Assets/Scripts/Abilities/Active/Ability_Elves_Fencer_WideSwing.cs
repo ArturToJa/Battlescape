@@ -41,7 +41,7 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     protected override void CancelUse()
     {
-        /* TileColouringTool.UncolourAllTiles();*/
+        /* TileBattlescapeGraphics.ColouringTool.UncolourAllTiles();*/
     }
 
     void ColourPotentialTargets()

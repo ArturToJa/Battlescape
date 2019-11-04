@@ -29,13 +29,13 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
     protected override void Use()
     {
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         ColourTiles();
     }
 
     protected override void CancelUse()
     {
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
     }
 
 
@@ -119,7 +119,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
             {
                 if (Helper.AreTilesInRange(myUnit.myTile, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID)
                 {
-                    ColouringTool.SetColour(Map.Board[x, z],Color.red);
+                    BattlescapeGraphics.ColouringTool.SetColour(Map.Board[x, z],Color.red);
                 }
             }
 

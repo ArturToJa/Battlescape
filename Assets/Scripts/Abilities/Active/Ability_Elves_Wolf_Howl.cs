@@ -25,7 +25,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     }
     public override void OnHover()
     {
-        //TileColouringTool.UncolourAllTiles();
+        //TileBattlescapeGraphics.ColouringTool.UncolourAllTiles();
         ColourTiles();
     }
     protected override void ColourTiles()
@@ -34,14 +34,14 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         {
             if (ally.unitUnit.myUnitID == UnitID.Wolf)
             {
-                ColouringTool.SetColour(ally.myTile,Color.green);
+                BattlescapeGraphics.ColouringTool.SetColour(ally.myTile,Color.green);
             }
         }
         foreach (UnitScript enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
         {
             if (enemy.unitUnit.myUnitID == UnitID.Wolf)
             {
-                ColouringTool.SetColour(enemy.myTile, Color.green);                
+                BattlescapeGraphics.ColouringTool.SetColour(enemy.myTile, Color.green);                
             }
         }
     }

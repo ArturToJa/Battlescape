@@ -93,7 +93,7 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
 
     protected override void ColourTiles()
     {
-        ColouringTool.ColourLegalTilesFor(myUnit);
+        BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(myUnit);
     }
 
 

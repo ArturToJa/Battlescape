@@ -44,7 +44,7 @@ public class MouseManager : MonoBehaviour
             if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.newMovement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
             {
                 //PathCreator.Instance.ClearPath();
-                ColouringTool.UncolourAllTiles();
+                BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             }
             return;
         }
@@ -60,7 +60,7 @@ public class MouseManager : MonoBehaviour
                 isMouseOverUI = false;
                 if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
                 {
-                    ColouringTool.ColourLegalTilesFor(SelectedUnit);
+                    BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
                 }
 
             }
@@ -258,16 +258,16 @@ public class MouseManager : MonoBehaviour
     void ColourForSelectedUnit()
     {
 
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
         {
-            ColouringTool.ColourLegalTilesFor(SelectedUnit);
+            BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
         }
     }    
 
     public void Deselect()
     {
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         if (GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
             PlaySelectionSound();

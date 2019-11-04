@@ -292,7 +292,7 @@ public class TurnManager : MonoBehaviour
         }
         if (CurrentPhase == TurnPhases.Movement)
         {
-            ColouringTool.UncolourAllTiles();
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             PopupTextController.AddPopupText("Next Phase!", PopupTypes.Info);
             Log.SpawnLog("Shooting phase begins.");
             //PathCreator.Instance.ClearPath();

@@ -134,7 +134,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
         {
             if (tile.IsWalkable())
             {
-                ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
             }
         }
     }

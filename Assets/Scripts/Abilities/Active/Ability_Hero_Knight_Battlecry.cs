@@ -78,7 +78,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
     }
     public override void OnHover()
     {
-        //TileColouringTool.UncolourAllTiles();
+        //TileBattlescapeGraphics.ColouringTool.UncolourAllTiles();
         ColourTiles();
     }
 
@@ -86,7 +86,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
     {
         foreach (UnitScript ally in Helper.GetAlliesInRange(myUnit, Range))
         {
-            ColouringTool.SetColour(ally.myTile, Color.green);
+            BattlescapeGraphics.ColouringTool.SetColour(ally.myTile, Color.green);
         }
     }
 

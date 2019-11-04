@@ -103,11 +103,11 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         {
             if (tile.myUnit != null && tile.myUnit.PlayerID != myUnit.PlayerID && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position).Key)
             {
-                ColouringTool.SetColour(tile, Color.red);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
             }
             else
             {
-                ColouringTool.SetColour(tile, Color.white);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.white);
             }
         }
     }

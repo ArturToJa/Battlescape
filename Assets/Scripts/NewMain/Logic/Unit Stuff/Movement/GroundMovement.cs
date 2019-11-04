@@ -15,7 +15,7 @@ namespace BattlescapeLogic
         public override IEnumerator MoveTo(Tile newPosition)
         {           
             Queue<Tile> path = Pathfinder.instance.GetPathFromTo(myUnit, newPosition);
-            ColouringTool.UncolourAllTiles();
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             PlayMovementAnimation();
             int tileCount = path.Count;
             for (int i = 0; i < tileCount; ++i)
@@ -34,7 +34,7 @@ namespace BattlescapeLogic
             }
             StopMovementAnimation();
             myUnit.statistics.movementPoints -= tileCount - 1;
-            ColouringTool.ColourLegalTilesFor(myUnit);
+            BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(myUnit);
 
 
         }

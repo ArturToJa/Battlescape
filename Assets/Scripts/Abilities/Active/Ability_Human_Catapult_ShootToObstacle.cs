@@ -84,7 +84,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
         {
             if (tile.hasObstacle && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position).Key && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
             {
-                ColouringTool.SetColour(tile, Color.red);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
             }
         }
     }

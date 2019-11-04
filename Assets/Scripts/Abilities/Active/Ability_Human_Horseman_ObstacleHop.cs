@@ -151,7 +151,7 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
                 tile.IsWalkable()
                 )
             {
-                ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
             }
         }
     }

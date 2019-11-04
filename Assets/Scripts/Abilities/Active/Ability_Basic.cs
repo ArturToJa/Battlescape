@@ -46,7 +46,7 @@ public abstract class Ability_Basic : MonoBehaviour
     public void BaseCancelUse()
     {
         CancelUse();
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         GameStateManager.Instance.BackToIdle();
         currentlyUsedAbility = null;
         isBeingUsed = false;
@@ -122,7 +122,7 @@ public abstract class Ability_Basic : MonoBehaviour
             UsesLeft--;
         }
         GameStateManager.Instance.BackToIdle();
-        ColouringTool.UncolourAllTiles();
+        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         AlreadyUsedThisTurn = true;
         currentlyUsedAbility = null;
         isBeingUsed = false;

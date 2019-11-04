@@ -22,7 +22,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
     {
         if (currentlyUsedAbility == this && (oldMouseoveredTile != MouseManager.Instance.mouseoveredTile))
         {
-            ColouringTool.UncolourAllTiles();
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             ColourTiles();
         }
         oldMouseoveredTile = MouseManager.Instance.mouseoveredTile;
@@ -67,21 +67,21 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
         if (MouseManager.Instance.mouseoveredTile.myUnit != null)
         {
-            ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.red);
+            BattlescapeGraphics.ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.red);
         }
         else
         {
-            ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.green);
+            BattlescapeGraphics.ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.green);
         }
         foreach (Tile tile in MouseManager.Instance.mouseoveredTile.neighbours)
         {
             if (tile.myUnit != null)
             {
-                ColouringTool.SetColour(tile, Color.red);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
             }
             else
             {
-                ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
             }
         }
 
