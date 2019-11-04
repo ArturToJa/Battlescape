@@ -104,7 +104,7 @@ public class MouseManager : MonoBehaviour
         {
             return false;
         }
-        if (selectableUnit.statistics.healthPoints <= 0)
+        if (selectableUnit.IsAlive() == false)
         {
             return false;
         }

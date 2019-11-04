@@ -54,7 +54,7 @@ public class DamageCalculator
         bool isShot = attacker.isRanged && (GameStateManager.Instance.GameState != GameStates.RetaliationState && GameStateManager.Instance.GameState != GameStates.AttackState) == false;
 
         bool didDie = target.DealDamage(damage, hits > 0, isPoisoned, isShot);
-        if (target.CanCurrentlyRetaliate && target.statistics.healthPoints > 0 && Retaliatable && Global.instance.playerTeams[target.PlayerID].players[0].type == PlayerType.Local)
+        if (target.CanCurrentlyRetaliate && target.IsAlive() && Retaliatable && Global.instance.playerTeams[target.PlayerID].players[0].type == PlayerType.Local)
         {
             GameStateManager.Instance.StartRetaliationChoice();
         }

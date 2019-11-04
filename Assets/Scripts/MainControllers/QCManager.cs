@@ -130,7 +130,7 @@ public class QCManager : MonoBehaviour
             {
                 CombatController.Instance.SendCommandToAttack(enemy, quittingUnit, false, false);
                 yield return new WaitForSeconds(2f);
-                if (quittingUnit.statistics.healthPoints <= 0)
+                if (quittingUnit.IsAlive() == false)
                 {
                     break;
                 }
@@ -153,7 +153,7 @@ public class QCManager : MonoBehaviour
             }
         }
         IsTimeForBackstabs = false;
-        CommandFinishQuitCombat(quittingUnit.statistics.healthPoints <= 0);
+        CommandFinishQuitCombat(quittingUnit.IsAlive() == false);
     }
 
     public void QCForAI(Tile destination)
@@ -167,7 +167,7 @@ public class QCManager : MonoBehaviour
         StartCoroutine(CheckForBackstabsInCoroutine());
         yield return new WaitForSeconds(1f);
 
-        if (unit != null && unit.statistics.healthPoints > 0)
+        if (unit != null && unit.IsAlive())
         {
             //PathCreator.Instance.AddSteps(unit, destination);
             MovementSystem.Instance.SendCommandToMove(unit,destination);

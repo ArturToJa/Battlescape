@@ -54,7 +54,7 @@ public class AI_Attack : AI_Base_Attack
         List<Tile> enemiesInCombat = new List<Tile>();
         foreach (UnitScript enemy in currentUnit.EnemyList)
         {
-            if (enemy.statistics.healthPoints>0)
+            if (enemy.IsAlive())
             {
                 enemiesInCombat.Add(enemy.myTile);
             }

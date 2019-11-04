@@ -81,7 +81,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<HeroScript>() != null && ally.statistics.healthPoints > 0)
+            if (ally.GetComponent<HeroScript>() != null && ally.IsAlive())
             {
                 temp.Add(ally);
             }
@@ -95,7 +95,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() == null && ally.GetComponent<HeroScript>() == null && ally.statistics.healthPoints > 0)
+            if (ally.GetComponent<ShootingScript>() == null && ally.GetComponent<HeroScript>() == null && ally.IsAlive())
             {
                 temp.Add(ally);
             }
@@ -109,7 +109,7 @@ public class AI_Movement : AI_Base_Movement
         List<UnitScript> temp = new List<UnitScript>();
         foreach (UnitScript ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && ally.statistics.healthPoints > 0)
+            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && ally.IsAlive())
             {
                 temp.Add(ally);
             }

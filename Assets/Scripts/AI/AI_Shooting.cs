@@ -107,7 +107,7 @@ public class AI_Shooting : AI_Base_Attack
         foreach (UnitScript enemy in enemyList)
         {
             bool isInRange = ShootingScript.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position).Key;
-            if (enemy.PlayerID != this.ID && isInRange && enemy.statistics.healthPoints > 0)
+            if (enemy.PlayerID != this.ID && isInRange && enemy.IsAlive())
             {
                 enemiesInRange.Add(enemy.myTile);
             }

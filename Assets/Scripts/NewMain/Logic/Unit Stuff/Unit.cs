@@ -89,6 +89,21 @@ namespace BattlescapeLogic
             }
         }
 
+        public bool IsAlive()
+        {
+            return (statistics.healthPoints > 0);
+        }
+
+        public bool CanStillAttack()
+        {
+            return (statistics.numberOfAttacks > 0);
+        }
+
+        public bool CanStillMove()
+        {
+            return (CanStillMove());
+        }
+
         public void Move(Tile newPosition)
         {
             if (CanStillMove())
@@ -108,15 +123,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public bool CanStillAttack()
-        {
-            return (statistics.numberOfAttacks > 0);
-        }
-
-        public bool CanStillMove()
-        {
-            return (CanStillMove());
-        }
+        
 
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
@@ -144,7 +151,7 @@ namespace BattlescapeLogic
         {
             statistics.healthPoints -= damage;
             //show some popup/info in the log window - i actually think we could just 'import' the old ones, they were pretty good ;) if you think they are OK we can just use them ;)
-            if (statistics.healthPoints > 0)
+            if (IsAlive())
             {
                 PlayWoundAnimation();
             }

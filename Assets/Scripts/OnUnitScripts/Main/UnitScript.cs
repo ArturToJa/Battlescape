@@ -42,7 +42,6 @@ public class UnitScript : MonoBehaviour
     public UnitType unitType;
     public Unit unitUnit;
     public bool isRealUnit;
-    bool isAlive = true;
 
     public Animator animator;
     public Statistics statistics;
@@ -220,10 +219,7 @@ public class UnitScript : MonoBehaviour
     {
         if (isRealUnit)
         {
-            CheckIfIsAlive();
-
             CheckIfIsInCombat();
-
         }
         if (myTile != null && isNameSet == false)
         {
@@ -311,24 +307,19 @@ public class UnitScript : MonoBehaviour
         }
 
     }
-    public event Action DeathEvent;
-    void CheckIfIsAlive()
-    {
-        if (statistics.healthPoints <= 0 && isAlive)
-        {
-            //this needs to happen BEFORE the DeathEvent or we need to refactor trhe whole wthing into like ONE? XD
-            myTile.SetMyUnitTo(null);
-            if (DeathEvent != null)
-            {
-                DeathEvent();
-            }
-            StartCoroutine(DeathCoroutine());
 
+    public void Die()
+    {
+        myTile.SetMyUnitTo(null);
+        if (DeathEvent != null)
+        {
+            DeathEvent();
         }
+        StartCoroutine(DeathCoroutine());
     }
+    public event Action DeathEvent;    
     IEnumerator DeathCoroutine()
     {
-        isAlive = false;
         if (MouseManager.Instance.SelectedUnit == this)
         {
             MouseManager.Instance.Deselect();
@@ -369,7 +360,11 @@ public class UnitScript : MonoBehaviour
         {
             //add buff here. 
         }
-        return statistics.healthPoints <= 0;
+        if (IsAlive() == false)
+        {
+            Die();
+        }
+        return IsAlive() == false;
     }   
 
     // This will be re-done with buffs. No need to keep it in old code, as its not key for the game to work, and can be done easily in new code.
@@ -463,6 +458,11 @@ public class UnitScript : MonoBehaviour
         {
             Debug.LogError("why moving when cannot move?");
         }
+    }
+
+    public bool IsAlive()
+    {
+        return statistics.healthPoints > 0;
     }
 }
 
