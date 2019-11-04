@@ -57,7 +57,7 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
     {
         return
             MouseManager.Instance.mouseoveredTile != null &&
-            Pathfinder.instance.IsTileLegalForUnit(MouseManager.Instance.mouseoveredTile, myUnit) &&
+            Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, myUnit) &&
             HasTileFood(MouseManager.Instance.mouseoveredTile);
     }
 

@@ -34,7 +34,7 @@ public class MovementQuestions : MonoBehaviour
     public bool CanMove(UnitScript unit, Tile target)
     {
         if (
-            Pathfinder.instance.IsTileLegalForUnit(MouseManager.Instance.mouseoveredTile, unit) &&
+            Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, unit) &&
             IsItTimeToMove(unit) &&
             CanUnitMoveAtAll(unit.GetComponent<UnitScript>())
            )

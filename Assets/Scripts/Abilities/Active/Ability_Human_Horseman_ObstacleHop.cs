@@ -95,7 +95,7 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         PlayAbilitySound();
         GameObject lightnings = CreateVFXOn(transform, BasicVFX.transform.rotation);
         GetComponent<AnimController>().SetJumping(true);
-        myUnit.Move(Target);
+        MovementSystem.Instance.DoMovement(myUnit, Target);
         yield return null;
         FinishUsing();
         // some future

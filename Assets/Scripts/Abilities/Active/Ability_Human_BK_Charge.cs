@@ -88,7 +88,8 @@ public class Ability_Human_BK_Charge : Ability_Basic
         PlayAbilitySound();
         IsForcingMovementStuff = false;
         //PathCreator.Instance.AddSteps(myUnit, Target);
-        MovementSystem.Instance.SendCommandToMove(myUnit, Target);
+        //MovementSystem.Instance.SendCommandToMove(myUnit, Target);
+        //^ no idea, if this should call SendCommandToMove or just DoMovement!
         while (myUnit.newMovement.isMoving)
         {
             yield return null;

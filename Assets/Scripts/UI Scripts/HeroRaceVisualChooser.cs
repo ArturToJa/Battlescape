@@ -19,9 +19,11 @@ public class HeroRaceVisualChooser : MonoBehaviour
             ID = 1;
         }
         int raceNumber = (int)Global.instance.playerTeams[ID].players[0].race;
+        UnitScript myUnit = GetComponentInParent<UnitScript>();
         GetComponentInParent<AnimController>().MyAnimator = transform.GetChild(raceNumber).GetComponent<Animator>();
-        GetComponentInParent<UnitScript>().visuals = transform.GetChild(raceNumber).gameObject;
-        transform.GetChild(raceNumber).gameObject.SetActive(true);        
+        myUnit.visuals = transform.GetChild(raceNumber).gameObject;
+        transform.GetChild(raceNumber).gameObject.SetActive(true);
+        myUnit.animator = myUnit.visuals.GetComponent<Animator>();
         HeroScript hs = GetComponentInParent<HeroScript>();
         if (hs == null)
         {

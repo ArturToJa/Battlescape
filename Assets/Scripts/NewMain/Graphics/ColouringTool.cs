@@ -40,7 +40,9 @@ public static class ColouringTool
 
     public static void ColourLegalTilesFor(UnitScript unit)
     {
-        foreach (Tile tile in Pathfinder.instance.GetAllLegalTilesFor(unit))
+        UncolourAllTiles();
+        var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
+        foreach (Tile tile in temp)
         {
             if (tile.IsProtectedByEnemyOf(unit))
             {

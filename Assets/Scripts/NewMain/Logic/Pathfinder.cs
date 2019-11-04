@@ -22,31 +22,44 @@ namespace BattlescapeLogic
 
         int[,] distances;
         Tile[,] parents;
-        bool[,] enemyOccupations;
+        bool[,] enemyProtection;
+        
+        //These are for us to always know if we BFSed from this tile standing in this position
+        //So that we only BFS if we have new unit or unit moved.
+        UnitScript lastUnit;
+        Tile lastTile;
 
+        bool HaveToBFSFor(UnitScript unitToMove)
+        {
+            return (lastUnit == unitToMove && lastTile == unitToMove.myTile) == false;
+        }
 
         //Some old ability wants this ;D
         public int GetDistanceFromTo(UnitScript unit, Tile tile)
         {
+            int distance = distances[tile.position.x, tile.position.z];
             BFS(unit);
-            return distances[tile.position.x, tile.position.z];
+            if (distance == -1)
+            {
+                //THIS should never occur I THINK but maybe will.
+                Debug.LogWarning("Not sure if legal");
+                return 9999;
+            }
+            return distance;
         }
-
-        //IDK if we gonna use this code, MAYBE im just adding old bad code to new code, I hope im not ;<
-        public bool IsTileLegalForUnit(Tile tile, UnitScript unit)
-        {
-            BFS(unit);
-            return distances[tile.position.x, tile.position.z] <= unit.statistics.movementPoints;
-        }
+        
+        
 
         //This function gives the list of possible tiles a Unit could get to.
         public List<Tile> GetAllLegalTilesFor(UnitScript unitToMove)
         {
             List<Tile> returnList = new List<Tile>();
+            // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
+            //Also it has to BFS there as it is also used elsewhere;
             BFS(unitToMove);
             foreach (Tile tile in Map.Board)
             {
-                if (distances[tile.position.x, tile.position.z] <= unitToMove.statistics.movementPoints)
+                if (IsLegalTileForUnit(tile, unitToMove))
                 {
                     returnList.Add(tile);
                 }
@@ -54,8 +67,12 @@ namespace BattlescapeLogic
             return returnList;
         }
 
-        //Using newly created "Tile" class just because there will anyway be a need for a new Tile class definitely ;) the old one is messy af...
-        //Also - new Map class just for what old Map.Board[x,z] did.
+        public bool IsLegalTileForUnit(Tile tile, UnitScript unit)
+        {
+            BFS(unit);
+            return distances[tile.position.x, tile.position.z] <= unit.statistics.movementPoints && distances[tile.position.x, tile.position.z] > 0;
+        }
+
         public Queue<Tile> GetPathFromTo(UnitScript unitToMove, Tile finalTile)
         {
             BFS(unitToMove);
@@ -79,38 +96,40 @@ namespace BattlescapeLogic
         //Currently it just calculates for whole board (not until reaching destination).
         void BFS(UnitScript unitToMove)
         {
+            //THIS first part is just for optimization
+            if (HaveToBFSFor(unitToMove) == false)
+            {
+                return;
+            }
+            else
+            {
+                lastTile = unitToMove.myTile;
+                lastUnit = unitToMove;
+            }
             parents = new Tile[Map.mapWidth, Map.mapHeight];
             SetDistancesToMinus();
             SetOccupations(unitToMove);
 
             Queue<Tile> queue = new Queue<Tile>();
             Tile start = unitToMove.myTile;
-            int startX = Mathf.RoundToInt(start.transform.position.x);
-            int startZ = Mathf.RoundToInt(start.transform.position.z);
-            distances[startX, startZ] = 0;
+            distances[start.position.x, start.position.z] = 0;
             queue.Enqueue(start);
 
             while (queue.Count > 0)
             {
                 Tile current = queue.Peek();
-                int currentX = Mathf.RoundToInt(current.transform.position.x);
-                int currentZ = Mathf.RoundToInt(current.transform.position.z);
                 queue.Dequeue();
                 List<Tile> orderedNeighbours = OrderNeighbours(current);
                 foreach (var neighbour in orderedNeighbours)
-                {
-                    int X = Mathf.RoundToInt(neighbour.transform.position.x);
-                    int Z = Mathf.RoundToInt(neighbour.transform.position.z);
-                    if (distances[X, Z] == -1 && !enemyOccupations[X, Z])
+                {                    
+                    if (distances[neighbour.position.x, neighbour.position.z] == -1 && neighbour.IsWalkable())
                     {
-                        distances[X, Z] = distances[currentX, currentZ] + 1;
-                        parents[X, Z] = current;
-                        queue.Enqueue(neighbour);
-                    }
-                    else if (distances[X, Z] == -1 && enemyOccupations[X, Z])
-                    {
-                        distances[X, Z] = distances[currentX, currentZ] + 1;
-                        parents[X, Z] = current;
+                        distances[neighbour.position.x, neighbour.position.z] = distances[current.position.x, current.position.z] + 1;
+                        parents[neighbour.position.x, neighbour.position.z] = current;
+                        if (!enemyProtection[neighbour.position.x, neighbour.position.z])
+                        {
+                            queue.Enqueue(neighbour);
+                        }
                     }
                 }
             }
@@ -128,16 +147,15 @@ namespace BattlescapeLogic
 
             }
         }
-        //Tile is considered Occupied, if there is an enemy on it or on its neighbour.
+        //Tile is considered Occupied, if there is an enemy on its neighbour.
         void SetOccupations(UnitScript unitToMove)
         {
-            enemyOccupations = new bool[Map.mapWidth, Map.mapHeight];
+            enemyProtection = new bool[Map.mapWidth, Map.mapHeight];
             for (int i = 0; i < Map.mapWidth; i++)
             {
                 for (int j = 0; j < Map.mapHeight; j++)
                 {
-                    //enemyOccupations[i, j] = Map.board[i, j].IsProtectedByEnemyOf(unitToMove) || Map.board[i, j].IsWalkable() == false;
-                    //this makes SENSE, but is impossible for as long as Tile uses UnitScript not Unit as it should ;) we still use old Pathfinder so this is OK?
+                    enemyProtection[i, j] = Map.Board[i, j].IsProtectedByEnemyOf(unitToMove);
                 }
             }
         }

@@ -16,8 +16,8 @@ namespace BattlescapeLogic
         public bool isMoving
         {
             get
-            {                                                
-                return myUnit != null && myUnit.myTile != null && Vector3.Distance(myUnit.transform.position, myUnit.myTile.transform.position) > 0.001f;
+            {                
+                return myUnit != null && myUnit.myTile != null && Vector3.Distance(myUnit.transform.position, myUnit.myTile.transform.position) > 0.0001f;
             }
         }
 

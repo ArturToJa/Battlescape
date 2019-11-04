@@ -146,7 +146,7 @@ public class MouseManager : MonoBehaviour
             {
                 toolMouseOverer.ClearMouseover(mouseoveredTile.gameObject);
             }
-            mouseoveredTile = mouseOveredObject.GetComponent<Tile>();
+            mouseoveredTile = mouseOveredObject.GetComponent<Tile>();    
             toolMouseOverer.Mouseover(mouseoveredTile.gameObject);
             if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitScript>()))
             {
@@ -162,7 +162,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
-                else if (Pathfinder.instance.IsTileLegalForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
+                else if (Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
                 {
                     foreach (UnitScript enemy in FindObjectsOfType<UnitScript>())
                     {
@@ -175,7 +175,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 // THIS MIGHT NOT WORK! :<
-                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.instance.IsTileLegalForUnit(mouseoveredTile, SelectedUnit) == false)
+                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) == false)
                 {
 
                     //PathCreator.Instance.ClearPath();
@@ -286,6 +286,7 @@ public class MouseManager : MonoBehaviour
         if (Physics.Raycast(tileRay, out tileInfo, Mathf.Infinity, tileMask))
         {
             Mouseover(tileInfo.transform.gameObject);
+            
         }
         else if (mouseoveredTile != null)
         {

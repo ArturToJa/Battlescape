@@ -76,7 +76,7 @@ public class MovementSystem : MonoBehaviour
     /// </summary>
     /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
     public void SendCommandToMove(UnitScript unit, Tile target)
-    {
+    {        
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
             int startX = Mathf.RoundToInt(unit.transform.position.x);

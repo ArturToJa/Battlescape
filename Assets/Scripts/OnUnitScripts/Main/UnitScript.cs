@@ -187,8 +187,7 @@ public class UnitScript : MonoBehaviour
         int myZ = Mathf.RoundToInt(transform.position.z);
         myTile = Map.Board[myX, myZ];
         visuals = Helper.FindChildWithTag(gameObject, "Body");
-        newMovement = Global.instance.movementTypes[(int)MovementTypes.Ground];
-        animator = GetComponentInChildren<Animator>();
+        newMovement = Global.instance.movementTypes[(int)MovementTypes.Ground];       
     }
 
     public void OnNewTurn()

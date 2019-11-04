@@ -236,6 +236,10 @@ public class CombatController : MonoBehaviour
 
     public void Attack(UnitScript Attacker, UnitScript Defender, bool retaliatable, int damage, int hits)
     {
+        //this is juct copy/pasted from NewMovement system but i didnt knwo if i can make it public there (TurnTowards function).
+        Vector3 vector3 = new Vector3(Defender.transform.position.x, Attacker.visuals.transform.position.y, Defender.transform.position.z);
+        Attacker.transform.LookAt(vector3);
+        Attacker.visuals.transform.LookAt(vector3);
         if (Attacker.GetComponent<ShootingScript>() != null)
         {
             Attacker.GetComponent<ShootingScript>().myTarget = Defender.transform.position;

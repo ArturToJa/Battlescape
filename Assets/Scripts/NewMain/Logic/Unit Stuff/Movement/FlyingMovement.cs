@@ -48,6 +48,7 @@ namespace BattlescapeLogic
                 yield return null;
             }
             StopMovementAnimation();
+            //HERE we need to pathfind, actually, to get distance etc.
             myUnit.statistics.movementPoints = 0;
         }
 

@@ -377,7 +377,7 @@ public class CursorController : MonoBehaviour
                 StartCoroutine(StayInCombatModeCursor(0.2f));
 
             }
-            else if (Pathfinder.instance.IsTileLegalForUnit(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit))
+            else if (Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit))
             {
                 SetCursorTo(clickingWalkingCursor, walkingCursor);
             }
