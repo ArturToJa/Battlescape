@@ -239,7 +239,7 @@ public class CursorController : MonoBehaviour
             return;
         }
 
-        if (MouseManager.Instance.MouseoveredUnit != null)
+        if (MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit.IsAlive())
         {
             CheckWhatUnitAreWeOver(clickingSelectionCursor, selectionCursor, clickingBlockedCursor, blockedCursor);
         }

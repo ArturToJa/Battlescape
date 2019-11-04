@@ -17,6 +17,10 @@ public class MouseOverObjectResponse
         switch (Object.tag)
         {
             case "Unit":
+                if (Object.GetComponent<UnitScript>().IsAlive() == false)
+                {
+                    return;
+                }
                 switch (GameStateManager.Instance.MatchType)
                 {
                     case MatchTypes.Online:

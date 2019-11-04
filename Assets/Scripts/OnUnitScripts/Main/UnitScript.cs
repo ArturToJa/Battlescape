@@ -308,6 +308,8 @@ public class UnitScript : MonoBehaviour
 
     }
 
+    public event Action DeathEvent;
+
     public void Die()
     {
         myTile.SetMyUnitTo(null);
@@ -315,18 +317,23 @@ public class UnitScript : MonoBehaviour
         {
             DeathEvent();
         }
-        StartCoroutine(DeathCoroutine());
-    }
-    public event Action DeathEvent;    
-    IEnumerator DeathCoroutine()
-    {
         if (MouseManager.Instance.SelectedUnit == this)
         {
             MouseManager.Instance.Deselect();
         }
+        AddPointsToEnemy();
+        CheckIfGameOver();
+        GetComponentInChildren<AnimController>().AnimateDeath();
+        GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+    }
 
+    private void AddPointsToEnemy()
+    {
         Global.instance.playerTeams[OpponentID].players[0].AddPoints(statistics.cost);
+    }    
 
+    private void CheckIfGameOver()
+    {
         if (GetComponent<HeroScript>() != null)
         {
             if (OpponentID == 0)
@@ -339,12 +346,8 @@ public class UnitScript : MonoBehaviour
             }
             VictoryLossChecker.isAHeroDead = true;
         }
-        GetComponentInChildren<AnimController>().AnimateDeath();
-        yield return new WaitForSeconds(3f);
-        transform.position = new Vector3(100, 100, 100);
-        gameObject.SetActive(false);
-
     }
+
     public bool DealDamage(int damage, bool gotHit, bool isPoisoned, bool isShot)
     {
 
