@@ -101,7 +101,7 @@ namespace BattlescapeLogic
 
         public bool CanStillMove()
         {
-            return (CanStillMove());
+            return (statistics.movementPoints > 0);
         }
 
         public void Move(Tile newPosition)
@@ -173,6 +173,28 @@ namespace BattlescapeLogic
 
         public void Die()
         {
+            currentPosition.SetMyUnitTo(null);
+            if (MouseManager.Instance.SelectedUnit == this)
+            {
+                MouseManager.Instance.Deselect();
+            }
+            //We need to know who killed us OR much earlier check for it, as we need to give points to THE player who killed us - for now, obviously, the only enemy we have.
+            if (this is Hero)
+            {
+                //lose game
+                //for now:
+                if (owner == Global.instance.playerTeams[0].players[0])
+                {
+                    //we, Green player, lost
+                    VictoryLossChecker.gameResult = GameResult.GreenWon;
+                }
+                else
+                {
+                    VictoryLossChecker.gameResult = GameResult.RedWon;
+                }
+            };
+            GetComponentInChildren<AnimController>().AnimateDeath();
+            GetComponentInChildren<Canvas>().gameObject.SetActive(false);
             PlayDeathAnimation();
             //whatever else we need to do on death, i guess?
             //definitely a log to log window
