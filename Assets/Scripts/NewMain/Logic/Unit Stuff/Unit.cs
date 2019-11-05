@@ -144,10 +144,10 @@ namespace BattlescapeLogic
         //this should play on attacked unit when it is time it should receive DMG
         public void OnHit(Unit source, int damage)
         {
-            ReceiveDamage(damage);
+            ReceiveDamage(source, damage);
         }
 
-        private void ReceiveDamage(int damage)
+        private void ReceiveDamage(Unit source, int damage)
         {
             statistics.healthPoints -= damage;
             //show some popup/info in the log window - i actually think we could just 'import' the old ones, they were pretty good ;) if you think they are OK we can just use them ;)
@@ -157,7 +157,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                Die();
+                Die(source);
             }
         }
 
@@ -171,14 +171,14 @@ namespace BattlescapeLogic
             animator.SetTrigger("Death");
         }
 
-        public void Die()
+        public void Die(Unit killer)
         {
             currentPosition.SetMyUnitTo(null);
             if (MouseManager.Instance.SelectedUnit == this)
             {
                 MouseManager.Instance.Deselect();
             }
-            //We need to know who killed us OR much earlier check for it, as we need to give points to THE player who killed us - for now, obviously, the only enemy we have.
+            killer.owner.AddPoints(statistics.cost);
             if (this is Hero)
             {
                 //lose game
@@ -194,12 +194,16 @@ namespace BattlescapeLogic
                 }
             };
             GetComponentInChildren<AnimController>().AnimateDeath();
-            GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+            HideHealthUI();
             PlayDeathAnimation();
             //whatever else we need to do on death, i guess?
             //definitely a log to log window
         }
 
+        private void HideHealthUI()
+        {
+            GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        }
     }
 }
 
