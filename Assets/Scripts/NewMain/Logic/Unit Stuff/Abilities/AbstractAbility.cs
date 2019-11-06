@@ -30,13 +30,16 @@ namespace BattlescapeLogic
         Flying
     };
 
-    public abstract class AbstractAbility : INewTurn
+    public abstract class AbstractAbility : NewTurn
     {
         public string name { get; protected set; }
         public string description { get; protected set; }
         public Unit owner { get; protected set; }
         public List<bool> filter { get; protected set; }
 
-        public abstract void OnNewTurn();
+        public override void OnNewTurn()
+        {
+
+        }
     }
 }

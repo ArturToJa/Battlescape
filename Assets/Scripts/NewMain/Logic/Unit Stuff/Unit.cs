@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : MonoBehaviour, INewTurn //SerializedMonoBehaviour
+    public class Unit : NewTurnMonoBehaviour
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -38,8 +38,9 @@ namespace BattlescapeLogic
         public GameObject visuals { get; private set; }
         public Animator animator { get; private set; }
 
-        public void Start()
+        public override void Start()
         {
+            base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
             movement = GetMovementType();
@@ -55,7 +56,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnNewTurn()
+        public override void OnNewTurn()
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
@@ -196,6 +197,7 @@ namespace BattlescapeLogic
             GetComponentInChildren<AnimController>().AnimateDeath();
             HideHealthUI();
             PlayDeathAnimation();
+            OnDestruction();
             //whatever else we need to do on death, i guess?
             //definitely a log to log window
         }

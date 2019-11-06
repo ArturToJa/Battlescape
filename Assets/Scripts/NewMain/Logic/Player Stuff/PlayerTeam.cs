@@ -24,13 +24,5 @@ namespace BattlescapeLogic
         {
             players.Add(player);
         }
-
-        public void OnNewTurn()
-        {
-            foreach(Player player in players)
-            {
-                player.OnNewTurn();
-            }
-        }
     }
 }

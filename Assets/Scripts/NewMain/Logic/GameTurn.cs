@@ -6,6 +6,19 @@ namespace BattlescapeLogic
 {
     public class GameTurn
     {
+        public LinkedList<INewTurn> newTurnObjects;
+
+        public static GameTurn instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        private GameTurn()
+        {
+
+        }
         public void OnClick()
         {
             NewTurn();
@@ -13,9 +26,9 @@ namespace BattlescapeLogic
 
         private void NewTurn()
         {
-            foreach(PlayerTeam team in Global.instance.playerTeams)
+            foreach(INewTurn turnObject in newTurnObjects)
             {
-                team.OnNewTurn();
+                turnObject.OnNewTurn();
             }
         }
     }

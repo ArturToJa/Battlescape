@@ -53,14 +53,6 @@ namespace BattlescapeLogic
             Debug.LogError("NO UNIT FOUND!");
             return null;
         }
-
-        public void OnNewTurn()
-        {
-            foreach(UnitScript unit in playerUnits)
-            {
-                //unit.OnNewTurn();
-            }
-        }
     }
 }
 
