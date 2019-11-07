@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class PlayerTeam : INewTurn
+    public class PlayerTeam
     {
         public PlayerTeam(int index, int numberOfPlayers)
         {

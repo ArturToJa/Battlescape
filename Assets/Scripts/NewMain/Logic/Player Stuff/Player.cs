@@ -10,7 +10,7 @@ namespace BattlescapeLogic
 
     public enum Faction { Human, Elves, Neutral }
 
-    public class Player : INewTurn
+    public class Player
     {
         public Player(PlayerBuilder builder)
         {
