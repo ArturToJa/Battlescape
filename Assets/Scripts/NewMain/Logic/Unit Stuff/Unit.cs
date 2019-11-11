@@ -45,7 +45,7 @@ namespace BattlescapeLogic
         public UnitSounds unitSounds;
         public Statistics statistics;
         public List<AbstractAbility> abilities;
-        public List<Buff> buffs { get; private set; }
+        public List<AbstractBuff> buffs { get; private set; }
         public GameObject visuals { get; private set; }
         public Animator animator { get; private set; }
    
@@ -75,7 +75,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             animator = GetComponentInChildren<Animator>();

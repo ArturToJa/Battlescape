@@ -109,7 +109,9 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114214503476732784
+==== BASE ====
+--- !u!114 &114363511298862152
+==== BASE ====
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

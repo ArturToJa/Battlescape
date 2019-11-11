@@ -9,16 +9,13 @@ namespace BattlescapeLogic
         void OnCreation();
         void OnDestruction();
     }
-    public class NewTurn : INewTurn
+    public abstract class NewTurn : INewTurn
     {
         public NewTurn()
         {
             OnCreation();
         }
-        public virtual void OnNewTurn()
-        {
-
-        }
+        public abstract void OnNewTurn();
 
         public virtual void OnCreation()
         {
@@ -31,12 +28,9 @@ namespace BattlescapeLogic
         }
     }
 
-    public class NewTurnMonoBehaviour : MonoBehaviour, INewTurn
+    public abstract class NewTurnMonoBehaviour : MonoBehaviour, INewTurn
     {
-        public virtual void OnNewTurn()
-        {
-
-        }
+        public abstract void OnNewTurn();
 
         public virtual void OnCreation()
         {
@@ -48,7 +42,7 @@ namespace BattlescapeLogic
             GameTurn.instance.newTurnObjects.Remove(GameTurn.instance.newTurnObjects.Find(this));
         }
 
-        public virtual void Start()
+        protected virtual void Start()
         {
             OnCreation();
         }

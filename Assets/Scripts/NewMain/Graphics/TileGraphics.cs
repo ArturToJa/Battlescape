@@ -14,7 +14,8 @@ namespace BattlescapeGraphics
         {
             myTile = GetComponentInParent<Tile>();
             grid = Helper.FindChildWithTag(gameObject, "Grid");
-            grid.SetActive(false);
+            if(grid)
+                grid.SetActive(false);
         }
 
 
