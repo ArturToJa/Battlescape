@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class UIHitChanceInformation : MonoBehaviour
 {
 
     int defendersDefenceBonus;
     Text theText;
-    HitChancer hc;
-    UnitScript neededTarget;
-    UnitScript currentTarget;
-    UnitScript Attacker;
+    Unit neededTarget;
+    Unit currentTarget;
+    Unit Attacker;
 
     void Awake()
     {
@@ -35,15 +35,14 @@ public class UIHitChanceInformation : MonoBehaviour
         }
         SetTargetAndAttacker();
         CheckIfIAmNeeded();
-        CreateAHitChancer();
     }
 
     void SetTargetAndAttacker()
     {
         if (GameStateManager.Instance.GameState == GameStates.RetaliationState)
         {
-            Attacker = CombatController.Instance.AttackTarget;
-            neededTarget = CombatController.Instance.AttackingUnit;
+            Attacker = CombatController.Instance.attackTarget;
+            neededTarget = CombatController.Instance.attackingUnit;
         }
         else
         {
@@ -76,7 +75,7 @@ public class UIHitChanceInformation : MonoBehaviour
         }
         if (neededTarget != currentTarget)
         {
-            if ((neededTarget != null) && (neededTarget.PlayerID != Attacker.PlayerID))
+            if ((neededTarget != null) && (neededTarget.owner != Attacker.owner))
             {
                 return true;
             }
@@ -106,49 +105,24 @@ public class UIHitChanceInformation : MonoBehaviour
         return (GameStateManager.Instance.IsCurrentPlayerAI() == false && GameStateManager.Instance.GameState != GameStates.IdleState && GameStateManager.Instance.GameState != GameStates.AnimatingState && !(TurnManager.Instance.CurrentPhase == TurnPhases.Movement && GameStateManager.Instance.GameState != GameStates.TargettingState));
     }
 
-    private void CreateAHitChancer()
-    {
-        if (GameStateManager.Instance.GameState == GameStates.RetaliationState)
-        {
-            hc = new HitChancer(CombatController.Instance.AttackTarget, CombatController.Instance.AttackingUnit, 5000);
-        }
-        else
-        {
-            hc = new HitChancer(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, 5000);
-        }
-    }
-
     public void ShowNewInformation()
     {
-        bool badRange;
-        if (GameStateManager.Instance.GameState == GameStates.ShootingState)
-        {
-            badRange = (MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>() != null && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>().CheckBadRange(MouseManager.Instance.MouseoveredUnit.gameObject));
-        }
-        else
-        {
-            badRange = false;
-        }
-        SetUnitStats();
-        float missChance = hc.MissChance(badRange);
-        float hitChance = hc.HitNoDamageChance(badRange);
-        //float avgDmg = hc.AverageDamage(badRange);
-        theText.text = "Chances for:";
-        theText.text += "\n" + "Miss (reducing Defence): " + (missChance + hitChance).ToString() + "%";
-        //theText.text += "\n" + "Hit (no Damage): " + hitChance.ToString() + "%";
-        theText.text += "\n" + "Hit (dealing Damage): " + (100 - missChance - hitChance).ToString() + "%";
-        int[] MinMax = hc.GetMinMaxDmg();
-        theText.text += "\n" + "\n" + "Damage if hit: " + (MinMax[0]).ToString() + " - " + (MinMax[1]).ToString();
-        UndoUnitStats();
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-        {
-            int shelter = MouseManager.Instance.MouseoveredUnit.HowMuchShelteredFrom(MouseManager.Instance.SelectedUnit.transform.position);
-            if (shelter > 0)
-            {
-                theText.text += "\n" + "Target's shelter increases his defence by: " + shelter.ToString();
-            }
-        }
         currentTarget = neededTarget;
+        SetUnitStats();
+        float hitChance = DamageCalculator.HitChance(Attacker, currentTarget);
+        theText.text = "Chances for:";
+        theText.text += "\n" + "Miss (reducing Defence): " + ((1-hitChance) * 100).ToString() + "%";
+        theText.text += "\n" + "Hit (dealing Damage): " + (hitChance * 100).ToString() + "%";
+        int avgDmg = Statistics.baseDamage + DamageCalculator.GetStatisticsDifference(Attacker, currentTarget);
+        int dmgRange = avgDmg / 5;
+        theText.text += "\n" + "\n" + "Damage if hit: " + (avgDmg - dmgRange).ToString() + " - " + (avgDmg + dmgRange).ToString();
+        UndoUnitStats();
+
+        int shelter = CombatController.Instance.HowMuchShelteredFrom(MouseManager.Instance.MouseoveredUnit, MouseManager.Instance.SelectedUnit.transform.position);
+        if (shelter > 0)
+        {
+            theText.text += "\n" + "Target's shelter increases his defence by: " + shelter.ToString();
+        }
     }
 
     private void CheckIfIAmNeeded()
@@ -158,7 +132,7 @@ public class UIHitChanceInformation : MonoBehaviour
             //we, the local player, are the active player during retaliation. Therefore we NEED to have the window open.
             UIManager.SmoothlyTransitionActivity(transform.parent.gameObject, true, 0.1f);
         }
-        else if (MouseManager.Instance.SelectedUnit != null && (GameStateManager.Instance.GameState == GameStates.AttackState && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack || GameStateManager.Instance.GameState == GameStates.ShootingState && MouseManager.Instance.SelectedUnit.isRanged && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>().CanShoot) && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.PlayerID != MouseManager.Instance.MouseoveredUnit.PlayerID)
+        else if (MouseManager.Instance.SelectedUnit != null && (GameStateManager.Instance.GameState == GameStates.AttackState && MouseManager.Instance.SelectedUnit.CanStillAttack() || GameStateManager.Instance.GameState == GameStates.AttackState && MouseManager.Instance.SelectedUnit.IsRanged() && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.IsInCombat() == false) && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.owner != MouseManager.Instance.MouseoveredUnit.owner)
         {
             // we have a selected unit, it can attack/shoot NOW and we are over a mouseovered enemy. Therefore we imply we are a local active player ;).
             UIManager.SmoothlyTransitionActivity(transform.parent.gameObject, true, 0.1f);
@@ -175,12 +149,12 @@ public class UIHitChanceInformation : MonoBehaviour
     }
 
     void SetUnitStats()
-    {
-        hc.Defender.statistics.bonusDefence += defendersDefenceBonus;
+    {  
+        currentTarget.statistics.bonusDefence += defendersDefenceBonus;
     }
 
     void UndoUnitStats()
     {
-        hc.Defender.statistics.bonusDefence -= defendersDefenceBonus;
+        currentTarget.statistics.bonusDefence -= defendersDefenceBonus;
     }
 }

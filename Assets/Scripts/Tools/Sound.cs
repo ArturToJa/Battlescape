@@ -16,7 +16,7 @@ public class Sound
     //DEPRECATED
     public AudioSource oldSource;
 
-    public LinkedList<AudioSource> audioSources;
+    public LinkedList<AudioSource> audioSources = new LinkedList<AudioSource>();
     public bool loop;
     public SoundType soundType;
 

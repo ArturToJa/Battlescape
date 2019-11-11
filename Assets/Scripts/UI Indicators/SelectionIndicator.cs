@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class SelectionIndicator : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class SelectionIndicator : MonoBehaviour
         if (MouseManager.Instance.SelectedUnit != null)
         {
             this.transform.position = MouseManager.Instance.SelectedUnit.transform.position;
-            if (MouseManager.Instance.SelectedUnit.GetComponent<HeroScript>() != null)
+            if (MouseManager.Instance.SelectedUnit is Hero)
             {
                 this.transform.position = MouseManager.Instance.SelectedUnit.transform.position +new Vector3(0, 0.01f, 0);
                 GetComponentInChildren<Image>().sprite = hero;

@@ -8,7 +8,7 @@ public class ShowAbilitiesUI : MonoBehaviour
 {
     public bool RealOne;
     public bool IsManagementScene;
-    public UnitScript Unit { get; private set; }
+    public BattlescapeLogic.Unit Unit { get; private set; }
     
     /*[SerializeField] Image theVSSprite;
     [SerializeField] GameObject VSObject;*/
@@ -46,7 +46,7 @@ public class ShowAbilitiesUI : MonoBehaviour
             {
                 return;
             }
-            Unit = MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>();
+            Unit = MouseManager.Instance.MouseoveredUnit.GetComponent<BattlescapeLogic.Unit>();
         }
     }
 

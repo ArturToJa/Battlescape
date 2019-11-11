@@ -4,41 +4,65 @@ using UnityEngine;
 
 public class GraphicsManager
 {
-    Color GetObjectColor(GameObject target)
+
+    static GraphicsManager _instance;
+    public static GraphicsManager instance
     {
-        Renderer renderer = target.GetComponent<Renderer>();
-        if(renderer)
-            return renderer.material.color;
-        Debug.LogError(target.name + "object does not have renderer");
-        return new Color(0.0f,0.0f,0.0f,0.0f);
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new GraphicsManager();
+            }
+            return _instance;
+        }
     }
-    void SetObjectColor(GameObject target, Color color)
+    public Color GetObjectColor(GameObject target)
     {
         Renderer renderer = target.GetComponent<Renderer>();
         if (renderer)
+        {
+            return renderer.material.color;
+        }
+        Debug.LogError(target.name + "object does not have renderer");
+        return new Color(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+    public void SetObjectColor(GameObject target, Color color)
+    {
+        Renderer renderer = target.GetComponent<Renderer>();
+        if (renderer != null)
+        {
             renderer.material.color = color;
+        }
         Debug.LogError(target.name + "object does not have renderer");
         return;
     }
 
-    float GetObjectAnimationSpeed(GameObject target)
+    public float GetObjectAnimationSpeed(GameObject target)
     {
         Animator animator = target.GetComponent<Animator>();
-        if (animator)
+        if (animator != null)
+        {
             return animator.speed;
+        }
         Debug.LogError(target.name + "object does not have animator");
         return 1.0f;
     }
-    void SetObjectAnimationSpeed(GameObject target, float speed)
+    public void SetObjectAnimationSpeed(GameObject target, float speed)
     {
         Animator animator = target.GetComponent<Animator>();
-        if(animator)
+        if (animator != null)
+        {
             animator.speed = speed;
-        Debug.LogError(target.name + "object does not have animator");
+        }
+        else
+        {
+            Debug.LogError(target.name + " object does not have animator");
+        }
         return;
     }
 
-    void ResetObjectAnimationSpeed(GameObject target)
+    public void ResetObjectAnimationSpeed(GameObject target)
     {
         SetObjectAnimationSpeed(target, 1.0f);
     }

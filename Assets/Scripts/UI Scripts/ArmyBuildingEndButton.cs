@@ -21,7 +21,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
     {
         CameraController.Instance.SetCurrentViewTo(0);
         CombatController.Instance.MakeAIWait(3f);
-        this.transform.parent.parent.gameObject.SetActive(false);        
+        this.transform.parent.parent.gameObject.SetActive(false);
         if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
         {
             TurnManager.Instance.TurnCount = -1;
@@ -65,19 +65,15 @@ public class ArmyBuildingEndButton : MonoBehaviour
                 Text3.GetComponent<Text>().text = "Waiting for opponent...";
                 Text3.isOff = true;
 
-                foreach (Tile tile in Map.Board)
-                {
-                    for (int i = 0; i < tile.isDropzoneOfPlayer.Length; i++)
-                    {
-                        tile.isDropzoneOfPlayer[i] = false;
-                    }                 
-                }
+                //foreach (Tile tile in Map.Board)
+                //{
+                //    tile.DropzoneOfPlayer = null;
+                //}
             }
             else
             {
                 TurnManager.Instance.NewTurn(true);
             }
-            HeroNames.SetAIHeroesNameDifferent();
             foreach (Tile tile in FindObjectsOfType<Tile>())
             {
                 tile.GetComponent<Renderer>().material.color = Color.white;

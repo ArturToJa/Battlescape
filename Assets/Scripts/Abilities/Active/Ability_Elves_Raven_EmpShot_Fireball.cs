@@ -5,12 +5,12 @@ using BattlescapeLogic;
 
 public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_EmpoweredShot
 {
-    UnitScript previousMousovered;
+    BattlescapeLogic.Unit previousMousovered;
     List<GameObject> colouredUnits = new List<GameObject>();
 
     protected override void OnUpdate()
     {
-        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.PlayerID != myUnit.PlayerID)
+        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
         {
             previousMousovered = MouseManager.Instance.MouseoveredUnit;
             ColourPotentialTargets();
@@ -35,7 +35,7 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
         {
             if (neighbour.myUnit != null)
             {
-                neighbour.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence(), true, false, true);
+                //neighbour.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence(), true, false, true);
                 PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
             }
         }
@@ -45,7 +45,7 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
 
     void ColourPotentialTargets()
     {
-        Tile targeto = MouseManager.Instance.MouseoveredUnit.myTile;
+        Tile targeto = MouseManager.Instance.MouseoveredUnit.currentPosition;
         PaintObject(targeto.myUnit.gameObject, Color.red);
         colouredUnits.Add(targeto.myUnit.gameObject);
         foreach (Tile neighbour in targeto.neighbours)

@@ -7,7 +7,7 @@ public class UnitPositionKeeper : MonoBehaviour
     public static UnitPositionKeeper Instance;
     [HideInInspector]
     public PhotonView photonView;
-    public Dictionary<int, UnitScript> UnitsInGame = new Dictionary<int, UnitScript>();
+    public Dictionary<int, BattlescapeLogic.Unit> UnitsInGame = new Dictionary<int, BattlescapeLogic.Unit>();
     int maxID = 0;
     //these are units with their unique integerIDs, they will be checked by multiuplayer if they are positioned where they should!
 
@@ -46,29 +46,29 @@ public class UnitPositionKeeper : MonoBehaviour
     [PunRPC]
     public void RPCAddUnit(int x, int z)
     {
-        UnitScript unit = Map.Board[x, z].myUnit;
+        BattlescapeLogic.Unit unit = Map.Board[x, z].myUnit;
         AddUnit(unit, x, z);
         Debug.Log(UnitsInGame.Count);
     }
 
-    void AddUnit(UnitScript unit, int x, int z)
+    void AddUnit(BattlescapeLogic.Unit unit, int x, int z)
     {
         maxID++;
         UnitsInGame.Add(maxID, unit);
         UnitPositions[x,z] = maxID;
     }
 
-    UnitScript FindUnit(int x, int z)
+    BattlescapeLogic.Unit FindUnit(int x, int z)
     {
         int unitID = UnitPositions[x, z];
-        UnitScript unit = UnitsInGame[unitID];
+        BattlescapeLogic.Unit unit = UnitsInGame[unitID];
         return unit;
     }
 
     [PunRPC]
     public void RPCDeleteUnit(int x, int z)
     {
-        UnitScript unit = Map.Board[x, z].myUnit;
+        BattlescapeLogic.Unit unit = Map.Board[x, z].myUnit;
         Debug.Log(unit);
         DeleteUnit(unit);
         
@@ -90,7 +90,7 @@ public class UnitPositionKeeper : MonoBehaviour
         }
     }
 
-    void DeleteUnit(UnitScript unit)
+    void DeleteUnit(BattlescapeLogic.Unit unit)
     {
         int x = Mathf.RoundToInt(unit.transform.position.x);
         int z = Mathf.RoundToInt(unit.transform.position.z);
@@ -101,12 +101,12 @@ public class UnitPositionKeeper : MonoBehaviour
     [PunRPC]
     void RPCMoveUnit(int startX, int startZ, int endX, int endZ)
     {
-        UnitScript unit = Map.Board[startX, startZ].myUnit;
+        BattlescapeLogic.Unit unit = Map.Board[startX, startZ].myUnit;
         Log.SpawnLog(startX + ", " + startZ);
         MoveUnit(unit, endX, endZ);
     }
 
-    public void MoveUnit(UnitScript unit, int x, int z)
+    public void MoveUnit(BattlescapeLogic.Unit unit, int x, int z)
     {
         DeleteUnit(unit);
         AddUnit(unit, x, z);
@@ -114,7 +114,7 @@ public class UnitPositionKeeper : MonoBehaviour
 
 
     //this function wants FACTUAL IN-GAMEdata to be fed and it checks them with THIS CLASS as "true" data.
-    bool IsCorrectlyPositioned(UnitScript unit)
+    bool IsCorrectlyPositioned(BattlescapeLogic.Unit unit)
     {
         int x = Mathf.RoundToInt(unit.transform.position.x);
         int z = Mathf.RoundToInt(unit.transform.position.z);
@@ -140,15 +140,15 @@ public class UnitPositionKeeper : MonoBehaviour
             {
                 if (UnitPositions[i,j] != 0)
                 {
-                    UnitScript unit = UnitsInGame[UnitPositions[i, j]];
-                    if (unit.myTile != null)
+                    BattlescapeLogic.Unit unit = UnitsInGame[UnitPositions[i, j]];
+                    if (unit.currentPosition != null)
                     {
-                        unit.myTile.myUnit = null;
+                        unit.currentPosition.myUnit = null;
                     }
                     Tile newTile = Map.Board[i, j];
-                    unit.myTile = newTile;
+                    unit.currentPosition = newTile;
                     newTile.myUnit = unit;
-                    unit.GetComponent<UnitScript>().SetDestination(newTile.transform.position);
+                    unit.GetComponent<BattlescapeLogic.Unit>().SetDestination(newTile.transform.position);
                     unit.transform.position = newTile.transform.position;
                 }
                 else
@@ -159,7 +159,7 @@ public class UnitPositionKeeper : MonoBehaviour
                         Debug.Log(tile.myUnit);
                         //SO - Unitpositions[i,j] is ZERO (tile shall be empty) but tile HAS a unit, BUT this unit is not on the list - therefore it should be destroyed (it died, but nobody cared).
                         // It can be seen, that if UPos[i,j] == 0, then either unit is dead (this case), OR unit is on a wrong square (and then the first case will finally find it)
-                        UnitScript unit = tile.myUnit;
+                        BattlescapeLogic.Unit unit = tile.myUnit;
                         tile.myUnit = null;
                         Destroy(unit.gameObject);
                     }

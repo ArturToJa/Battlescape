@@ -88,7 +88,7 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
     bool EndedMovement()
     {
-        return myUnit.newMovement.isMoving == false;
+        return myUnit.movement.isMoving == false;
     }
 
 

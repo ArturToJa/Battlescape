@@ -7,8 +7,8 @@ public class ShowActiveAbilities : MonoBehaviour
 {
     [SerializeField] UnitStatShower USS;
     [SerializeField] bool ManagementScene;
-    UnitScript myUnit;
-    UnitScript myPrevUnit;
+    BattlescapeLogic.Unit myUnit;
+    BattlescapeLogic.Unit myPrevUnit;
     [SerializeField] GameObject ActiveAbilityPrefab;
 
     void Update()
@@ -24,7 +24,7 @@ public class ShowActiveAbilities : MonoBehaviour
         myPrevUnit = myUnit;
     }
 
-    UnitScript SetCurrentUnit()
+    BattlescapeLogic.Unit SetCurrentUnit()
     {
         if (ManagementScene)
         {

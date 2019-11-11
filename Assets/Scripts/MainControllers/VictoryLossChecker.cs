@@ -49,7 +49,7 @@ public class VictoryLossChecker : MonoBehaviour
     {
         Global.instance.playerTeams[0].players[0].playerUnits.Clear();
         Global.instance.playerTeams[1].players[0].playerUnits.Clear();
-        foreach (UnitScript unit in FindObjectsOfType<UnitScript>())
+        foreach (BattlescapeLogic.Unit unit in FindObjectsOfType<BattlescapeLogic.Unit>())
         {
             if (unit.isRealUnit == false)
             {
@@ -82,11 +82,11 @@ public class VictoryLossChecker : MonoBehaviour
         }        
     }
 
-    public static List<UnitScript> GetMyUnitList()
+    public static List<BattlescapeLogic.Unit> GetMyUnitList()
     {
         return Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits;
     }
-    public static List<UnitScript> GetEnemyUnitList()
+    public static List<BattlescapeLogic.Unit> GetEnemyUnitList()
     {
         return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]).playerUnits;
     }    

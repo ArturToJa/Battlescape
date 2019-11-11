@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-[RequireComponent(typeof(ShootingScript))]
 public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 {
     [SerializeField] int RangeModifier;
@@ -60,7 +59,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
             return;
         }
 
-        if (ShootingScript.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key == false)
+        if (CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.mouseoveredTile.transform.position) == false)
         {
             return;
         }
@@ -153,15 +152,15 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
         }
     }
 
-    void Debuff(UnitScript target)
+    void Debuff(BattlescapeLogic.Unit target)
     {
         Log.SpawnLog(target.name + " gets hit by arrows, receiving a -1 Defence penalty");
-        PassiveAbility_Buff.AddBuff(target.gameObject, 2, 0, -1, 0, 100, true, "HailOfArrowsDebuff", BasicVFX, 0, false, true, false);
+        PassiveAbility_Buff.AddBuff(target.gameObject, 2, 0, -1, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "HailOfArrowsDebuff", BasicVFX, 0, false, true, false);
     }
 
     protected override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position).Key;
+        return MouseManager.Instance.mouseoveredTile != null && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
     }
 
     ///////////////////////////////

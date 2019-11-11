@@ -24,22 +24,15 @@ public class PhaseSwitcher : MonoBehaviour
         }
         else if (CombatController.CheckIfLastAttacker())
         {
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-            {
-                TurnManager.Instance.NextPhase(false);
-            }
-            else
-            {
-                TurnManager.Instance.NewTurn(true);
-            }
+            TurnManager.Instance.NewTurn(true);
         }
     }
 
     bool CanAnyoneElseMove()
     {
-        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
+        foreach (BattlescapeLogic.Unit ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
-            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()))
+            if (ally.CanStillMove())
             {
                 return true;
             }

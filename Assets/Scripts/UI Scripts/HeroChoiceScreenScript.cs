@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class HeroChoiceScreenScript : MonoBehaviour
 {
@@ -9,18 +9,18 @@ public class HeroChoiceScreenScript : MonoBehaviour
     [SerializeField] GameObject OKButton;
     [SerializeField] GameObject ArmyBuildingScreen;
     public bool amIActive = true;
-    WindowSetter windowSetter; 
+    WindowSetter windowSetter;
 
     private void Start()
     {
-        windowSetter = FindObjectOfType<WindowSetter>();        
+        windowSetter = FindObjectOfType<WindowSetter>();
     }
 
     private void Update()
     {
         OKButton.SetActive(ArmyBuilder.Instance.IsHero());
         UIManager.SmoothlyTransitionActivity(this.gameObject, amIActive, 0.1f);
-        
+
     }
 
     public void Okay()
@@ -29,52 +29,46 @@ public class HeroChoiceScreenScript : MonoBehaviour
         amIActive = false;
         StartCoroutine(ABFadeIn());
         chosenHero.theHero = null;
-        ArmyBuilder.Instance.LoadArmy(FindUnitsByID(SaveLoadManager.Instance.playerArmy.unitIDs));
+        ArmyBuilder.Instance.LoadArmy(GetUnitsFromCreators(SaveLoadManager.Instance.playerArmy.unitIndecies));
 
     }
 
-    List<Unit> FindUnitsByID(List<UnitID> IDs)
+    List<Unit> GetUnitsFromCreators(List<int> unitCreators)
     {
         List<Unit> returnList = new List<Unit>();
-        foreach (UnitID ID in IDs)
-        {
-            foreach (Unit unit in SaveLoadManager.Instance.allPossibleUnits)
-            {
-                if (unit.myUnitID == ID)
-                {
-                    returnList.Add(unit);
-                }
-            }
-        }
+        foreach (int unitCreator in unitCreators)
+        {            
+            returnList.Add(SaveLoadManager.Instance.GetUnitCreatorFromIndex(unitCreator).prefab.GetComponent<Unit>());
+        }    
         return returnList;
     }
 
-    public void NextPlayer()
-    {
-        amIActive = true;
-    }
+public void NextPlayer()
+{
+    amIActive = true;
+}
 
-    public IEnumerator ABFadeIn()
+public IEnumerator ABFadeIn()
+{
+    if (ArmyBuildingScreen.activeSelf == false)
     {
-        if (ArmyBuildingScreen.activeSelf == false)
-        {
-            ArmyBuildingScreen.SetActive(true);
-        }
-        while (ArmyBuildingScreen.GetComponent<CanvasGroup>().alpha < 1f)
-        {
-            UIManager.SmoothlyTransitionActivity(ArmyBuildingScreen, true, 0.01f);
-            yield return null;
-        }
+        ArmyBuildingScreen.SetActive(true);
     }
+    while (ArmyBuildingScreen.GetComponent<CanvasGroup>().alpha < 1f)
+    {
+        UIManager.SmoothlyTransitionActivity(ArmyBuildingScreen, true, 0.01f);
+        yield return null;
+    }
+}
 
-    public void LoadHero(Unit hero)
+public void LoadHero(int heroIndex)
+{
+    foreach (var item in FindObjectsOfType<ClickableHeroUIScript>())
     {
-        foreach (var item in FindObjectsOfType<ClickableHeroUIScript>())
+        if (item.myHero.index == heroIndex)
         {
-            if (item.myHero == hero)
-            {
-                item.TaskOnClick();
-            }
+            item.TaskOnClick();
         }
     }
+}
 }

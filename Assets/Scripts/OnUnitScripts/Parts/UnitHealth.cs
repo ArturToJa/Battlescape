@@ -10,7 +10,7 @@ public class UnitHealth : MonoBehaviour
     public Sprite Background;
     public Sprite RedFill;
     public Sprite GreenFill;
-    UnitScript thisUnit;
+    BattlescapeLogic.Unit thisUnit;
     [SerializeField] Image fillOfABar;
     [SerializeField] TextMeshProUGUI amount;
     [SerializeField] float barAnimationTime = 0.1f;
@@ -27,7 +27,7 @@ public class UnitHealth : MonoBehaviour
 
     void SetStuff()
     {
-        thisUnit = this.transform.root.GetComponent<UnitScript>();
+        thisUnit = this.transform.root.GetComponent<BattlescapeLogic.Unit>();
         fillOfABar = GetComponentsInChildren<Image>()[1];
         amount = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = Background;
@@ -54,7 +54,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].players[0].type == PlayerType.Local)
+                    if (unit.thisUnit.owner.type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }
@@ -71,7 +71,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (TurnManager.Instance.PlayerToMove == unit.thisUnit.PlayerID)
+                    if (TurnManager.Instance.PlayerToMove == unit.thisUnit.owner.team.index)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }
@@ -88,7 +88,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (Global.instance.playerTeams[unit.thisUnit.PlayerID].players[0].type == PlayerType.Local)
+                    if (unit.thisUnit.owner.type == PlayerType.Local)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }

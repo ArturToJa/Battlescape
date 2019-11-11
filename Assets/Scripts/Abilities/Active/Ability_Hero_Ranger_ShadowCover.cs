@@ -14,13 +14,13 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
     }
 
     protected override void OnUpdate()
-    {        
+    {
         return;
     }
 
     protected override bool IsUsableNow()
     {
-        return myUnit.hasJustArrivedToCombat == false;
+        return myUnit.statistics.movementPoints > 0;
     }
 
     protected override void CancelUse()
@@ -40,7 +40,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
 
     public override void Activate()
     {
-       StartCoroutine(ShadowCover(Target));
+        StartCoroutine(ShadowCover(Target));
     }
 
     protected override bool ActivationRequirements()
@@ -60,17 +60,17 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
                 legalTiles.Add(tile);
             }
         }
-    }    
+    }
 
     IEnumerator ShadowCover(Tile tile)
     {
-        Log.SpawnLog(myUnit.name + " uses Shadow Cover, leaving combat safely!");        
+        Log.SpawnLog(myUnit.name + " uses Shadow Cover, leaving combat safely!");
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
 
-        //myUnit.newMovement = Global.instance.movementTypes[(int)MovementTypes.Teleportation]
-        //myUnit.newMovement.ApplyUnit(myUnit);
-        //myUnit.newMovement.MoveTo(tile);
+        //myUnit.movement = Global.instance.movementTypes[(int)MovementTypes.Teleportation]
+        //myUnit.movement.ApplyUnit(myUnit);
+        //myUnit.movement.MoveTo(tile);
         myUnit.statistics.movementPoints = 0;
         yield return null;
         FinishUsing();
@@ -78,7 +78,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        return ((myUnit.EnemyList.Count >= 2) || (myUnit.statistics.healthPoints == 1 && myUnit.EnemyList.Count > 0)); 
+        return /*((myUnit.EnemyList.Count >= 2) || (myUnit.statistics.healthPoints == 1 && myUnit.EnemyList.Count > 0))*/false;
     }
 
     public override void AI_Activate(GameObject Target)
@@ -91,13 +91,13 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         // I admit this is some HORRIBLE code down there. Maybe i should have just made this random, since my AI code is in general SICKly bad.. It should just generally work as follows in final version (as it does now):
         // Just take the normal movement AI and make it find the best move from legal tiles for this ability.
 
-        AI_Movement TemporaryMovementAI = new AI_Movement(myUnit.PlayerID);
+        AI_Movement TemporaryMovementAI = new AI_Movement(myUnit.owner.index);
         var dictionary = new Dictionary<Tile, float>();
         foreach (Tile tile in AI_GetTheLegalMoves())
         {
-            dictionary.Add(tile,TemporaryMovementAI.EvaluateTile(myUnit, tile, TemporaryMovementAI.FindDirectionOfEnemies(myUnit), TemporaryMovementAI.GetAllEnemyMoves()));
+            dictionary.Add(tile, TemporaryMovementAI.EvaluateTile(myUnit, tile, TemporaryMovementAI.FindDirectionOfEnemies(myUnit), TemporaryMovementAI.GetAllEnemyMoves()));
         }
-        return TemporaryMovementAI.GetTheMove(myUnit,dictionary).Key.gameObject;
+        return TemporaryMovementAI.GetTheMove(myUnit, dictionary).Key.gameObject;
     }
 
     List<Tile> AI_GetTheLegalMoves()

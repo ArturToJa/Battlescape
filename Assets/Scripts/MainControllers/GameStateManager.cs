@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public enum GameStates { IdleState, MoveState, AttackState, ShootingState, /*QuittingCombatState, */AnimatingState, TargettingState, RetaliationState }
+public enum GameStates { IdleState, MoveState, AttackState, /*QuittingCombatState, */AnimatingState, TargettingState, RetaliationState }
 
 public enum MatchTypes { Online, HotSeat, Singleplayer, None }
 
@@ -56,10 +56,6 @@ public class GameStateManager : MonoBehaviour
         {
             GameState = GameStates.IdleState;
         }
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && GameState == GameStates.IdleState && MouseManager.Instance.SelectedUnit != null)
-        {
-            GameState = GameStates.ShootingState;
-        }
     }    
 
     public void SetState(AbilityStyle style)
@@ -73,7 +69,7 @@ public class GameStateManager : MonoBehaviour
                 GameState = GameStates.MoveState;
                 break;
             case AbilityStyle.Shot:
-                GameState = GameStates.ShootingState;
+                GameState = GameStates.AttackState;
                 break;
             case AbilityStyle.Attack:
                 GameState = GameStates.AttackState;
@@ -154,8 +150,6 @@ public class GameStateManager : MonoBehaviour
                 return true;
             case GameStates.AttackState:
                 return true;
-            case GameStates.ShootingState:
-                return true;
             case GameStates.AnimatingState:
                 return false;
             case GameStates.TargettingState:
@@ -203,19 +197,15 @@ public class GameStateManager : MonoBehaviour
             TurnManager.Instance.NextPhase(true);
         }
     }
-    public bool CanUnitActInThisPhase(UnitScript unit)
+    public bool CanUnitActInThisPhase(BattlescapeLogic.Unit unit)
     {
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
         {
             return unit.CanStillMove();
         }
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-        {
-            return unit.GetComponent<ShootingScript>() != null && unit.GetComponent<ShootingScript>().CanShoot;
-        }
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
         {
-            return unit.CheckIfIsInCombat() && unit.CanStillAttack() == true && unit.CanAttack;
+            return (unit.IsRanged() ||unit.IsInCombat()) && unit.CanStillAttack() == true && unit.attack != null;
         }
         else return false;
     }

@@ -12,7 +12,7 @@ public class UnitSelector
 
     
   
-    public void SelectUnit(UnitScript unit)
+    public void SelectUnit(BattlescapeLogic.Unit unit)
     {
         Starting();
         UnitSelectionIndicator.transform.position = unit.transform.position;

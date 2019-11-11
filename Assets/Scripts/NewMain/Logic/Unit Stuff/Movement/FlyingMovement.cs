@@ -9,11 +9,9 @@ namespace BattlescapeLogic
     public class FlyingMovement : AbstractMovement
     {
         //how high does this creature fly?
-        float flyHeight;
+        float flyHeight = 3f;
         //IDK if we need 3 different speeds but maybe because of animation we might idk really i dont yet have a single flying unit
-        float risingSpeed;
-        float forwardSpeed;
-        float landingSpeed;
+
 
         public FlyingMovement() : base()
         {
@@ -54,17 +52,17 @@ namespace BattlescapeLogic
 
         void FlyUp()
         {
-            myUnit.transform.position += Vector3.up * risingSpeed * Time.deltaTime;
+            myUnit.transform.position += Vector3.up * visualSpeed * Time.deltaTime;
         }
 
         void FlyForward()
         {
-            myUnit.transform.position += myUnit.transform.position += myUnit.transform.forward * forwardSpeed * Time.deltaTime;
+            myUnit.transform.position += myUnit.transform.position += myUnit.transform.forward * visualSpeed * Time.deltaTime;
         }
 
         void Land()
         {
-            myUnit.transform.position += Vector3.down * landingSpeed * Time.deltaTime;
+            myUnit.transform.position += Vector3.down * visualSpeed * Time.deltaTime;
             //we cannot allow the unit to get LOWER than zero obviously
             if (myUnit.transform.position.y < 0)
             {

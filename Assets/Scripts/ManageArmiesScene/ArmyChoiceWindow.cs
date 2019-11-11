@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System;
+using BattlescapeLogic;
 
 public class ArmyChoiceWindow : MonoBehaviour
 {
@@ -45,7 +43,7 @@ public class ArmyChoiceWindow : MonoBehaviour
         SaveLoadManager.Instance.LoadPlayerArmy();
         SaveLoadManager.Instance.RecreateUnitsList();
         HeroChoicer.SetActive(true);
-        HeroChoicer.GetComponent<HeroChoiceScreenScript>().LoadHero(Unit.FindUnitByID(SaveLoadManager.Instance.playerArmy.heroID));
+        HeroChoicer.GetComponent<HeroChoiceScreenScript>().LoadHero(SaveLoadManager.Instance.playerArmy.heroIndex);
         //HeroNames.SetHeroName(TurnManager.Instance.PlayerToMove);
         StartCoroutine(CloseWindow(gameObject));
         foreach (Transform child in ArmyBuilder.Instance.HeroesChoice.transform)

@@ -48,7 +48,7 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
         return (
            MouseManager.Instance.mouseoveredTile != null &&
            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile) &&
-           /*Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myUnitScript.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
+           /*Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myBattlescapeLogic.Unit.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
            EventSystem.current.IsPointerOverGameObject() == false
            );
     }

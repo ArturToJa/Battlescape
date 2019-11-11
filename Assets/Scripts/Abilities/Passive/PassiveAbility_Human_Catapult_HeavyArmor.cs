@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PassiveAbility_Human_Catapult_HeavyArmor : PassiveAbility
 {
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
         if (AttackModifierVersusUnitType != 0)
         {
@@ -14,9 +14,9 @@ public class PassiveAbility_Human_Catapult_HeavyArmor : PassiveAbility
         return AttackModifierVersusUnitType;
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
-        if (other.isRanged && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
+        if (other.IsRanged() && other.currentPosition.neighbours.Contains(myUnit.currentPosition) == false)
         {
             return DefenceModifierVersusUnitType;
         }

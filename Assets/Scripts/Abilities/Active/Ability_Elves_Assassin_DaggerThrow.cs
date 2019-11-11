@@ -47,8 +47,8 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         return
             MouseManager.Instance.mouseoveredTile != null &&
             MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit.PlayerID != myUnit.PlayerID &&
-            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.myTile, 2);
+            MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
+            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.currentPosition, 2);
 
     }
 
@@ -64,8 +64,8 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         /* var temp = Instantiate(Dagger, daggerSpawn.position, Dagger.transform.rotation);
          temp.GetComponent<ProjectileScript>().Target = Target.transform.position;*/
         //LaunchDagger(Target.transform.position, speed);
-        Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, false);
-        PassiveAbility_Buff.AddBuff(Target.myUnit.gameObject, 2, 0, -2, -2, -100, false, "AssassinDebuff", vfx, 0, false, true, false);
+        //Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, false);
+        PassiveAbility_Buff.AddBuff(Target.myUnit.gameObject, 2, 0, -2, -2, Target.myUnit.statistics.currentMaxNumberOfRetaliations, "AssassinDebuff", vfx, 0, false, true, false);
         PopupTextController.AddParalelPopupText("-" + (Damage - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
         Log.SpawnLog("Assassin throws a deadly dagger at " + Target.myUnit.name + ", dealing " + (Damage - Target.myUnit.statistics.GetCurrentDefence()) + " damage.");
         
@@ -97,7 +97,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.myTile, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID && (Map.Board[x, z].myUnit.statistics.cost > 5 || Map.Board[x, z].myUnit.GetComponent<HeroScript>() != null))
+                if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.currentPosition, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner && (Map.Board[x, z].myUnit.statistics.cost > 5 || Map.Board[x, z].myUnit is BattlescapeLogic.Hero))
                 {
                     Target = Map.Board[x, z];
                     return true;
@@ -117,7 +117,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Helper.AreTilesInRange(myUnit.myTile, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.PlayerID != myUnit.PlayerID)
+                if (Helper.AreTilesInRange(myUnit.currentPosition, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner)
                 {
                     BattlescapeGraphics.ColouringTool.SetColour(Map.Board[x, z],Color.red);
                 }
@@ -134,8 +134,8 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         projectile.transform.Rotate(Vector3.left, 45, Space.Self);
         projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * speed;
         //shooter.lastShotProjectile = projectile.GetComponent<ProjectileScript>();
-        projectile.GetComponent<ProjectileScript>().speed = speed;
-        projectile.GetComponent<ProjectileScript>().Target = target;
+        //projectile.GetComponent<ProjectileScript>().speed = speed;
+        //projectile.GetComponent<ProjectileScript>().Target = target;
         //        projectile.GetComponent<ProjectileScript>().myShooter = shooter;
     }
 

@@ -60,7 +60,7 @@ public class FallingArrows : MonoBehaviour
        // transform.GetChild(0).GetComponent<ProjectileScript>().HitSound = Thunders[Random.Range(0, Thunders.Length)];
         if (GetComponentInParent<Tile>().myUnit != null)
         {
-            transform.GetChild(0).GetComponent<ProjectileScript>().Target = GetComponentInParent<Tile>().myUnit.transform.position;
+//            transform.GetChild(0).GetComponent<ProjectileScript>().Target = GetComponentInParent<Tile>().myUnit.transform.position;
         }
         for (int i = 1; i < ArrowCount; i++)
         {
@@ -74,7 +74,7 @@ public class FallingArrows : MonoBehaviour
            // transform.GetChild(i).GetComponent<ProjectileScript>().HitSound = Thunders[Random.Range(0, Thunders.Length)];                       
             if (myNieghbours[targetToFallTo].myUnit != null)
             {
-                transform.GetChild(i).GetComponent<ProjectileScript>().Target = myNieghbours[targetToFallTo].myUnit.transform.position;
+               // transform.GetChild(i).GetComponent<ProjectileScript>().Target = myNieghbours[targetToFallTo].myUnit.transform.position;
             }
         }
     }   

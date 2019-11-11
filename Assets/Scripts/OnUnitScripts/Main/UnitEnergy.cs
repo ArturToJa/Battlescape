@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitEnergy : MonoBehaviour
 {
-    UnitScript me;
+    BattlescapeLogic.Unit me;
     public int MaxEnergy { get; private set; }
     int StartingEnergy;
     int EnergyPerTurn = 15;
@@ -14,17 +14,17 @@ public class UnitEnergy : MonoBehaviour
     {
         MaxEnergy = 100;
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
-        me = GetComponent<UnitScript>();
+        me = GetComponent<BattlescapeLogic.Unit>();
         StartingEnergy = (int)(0.5f * MaxEnergy+0.5f);
         CurrentEnergy = StartingEnergy;
     }
 
     void OnNewTurn()
     {
-        if (TurnManager.Instance.TurnCount > 2 && TurnManager.Instance.PlayerHavingTurn == me.PlayerID)
+        if (TurnManager.Instance.TurnCount > 2 && TurnManager.Instance.PlayerHavingTurn == me.owner.team.index)
         {
             CurrentEnergy += EnergyPerTurn;
-            if (me.CheckIfIsInCombat() == false)
+            if (me.IsInCombat() == false)
             {
                 CurrentEnergy += EnergyPerTurn;
             }

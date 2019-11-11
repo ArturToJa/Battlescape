@@ -15,9 +15,9 @@ using UnityEngine.EventSystems;
 
     private void Start()
     {
-        if (GetComponent<UnitScript>() != null)
+        if (GetComponent<BattlescapeLogic.Unit>() != null)
         {
-            me = GetComponent<UnitScript>().unitUnit;
+            me = GetComponent<BattlescapeLogic.Unit>().unitUnit;
         }
     }
 

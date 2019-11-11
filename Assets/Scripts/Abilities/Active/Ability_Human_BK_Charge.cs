@@ -62,7 +62,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
 
     protected override void ColourTiles()
     {
-        //Pathfinder.instance.ColourPossibleTiles(GetComponent<UnitScript>(), true);
+        //Pathfinder.instance.ColourPossibleTiles(GetComponent<BattlescapeLogic.Unit>(), true);
         if (alreadyAddedMarkers == false)
         {
             alreadyAddedMarkers = true;
@@ -90,7 +90,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         //PathCreator.Instance.AddSteps(myUnit, Target);
         //MovementSystem.Instance.SendCommandToMove(myUnit, Target);
         //^ no idea, if this should call SendCommandToMove or just DoMovement!
-        while (myUnit.newMovement.isMoving)
+        while (myUnit.movement.isMoving)
         {
             yield return null;
         }
@@ -100,16 +100,16 @@ public class Ability_Human_BK_Charge : Ability_Basic
 
     void CheckForBonus(int tileCount)
     {
-        if (tileCount == myUnit.statistics.movementPoints && myUnit.CheckIfIsInCombat())
+        if (tileCount == myUnit.statistics.movementPoints && myUnit.IsInCombat())
         {
-            PassiveAbility_Buff.AddBuff(myUnit.gameObject, 1, AttackBuff, 0, 0, 0, true, "BKBuff", null, 0, false, false, false);
+            PassiveAbility_Buff.AddBuff(myUnit.gameObject, 1, AttackBuff, 0, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "BKBuff", null, 0, false, false, false);
             Log.SpawnLog(myUnit.name + " gets charging bonus!");
         }
     }
 
     void CheckForAttack(int tileCount)
     {
-        if ((float)tileCount >= myUnit.statistics.movementPoints * 0.5f && myUnit.CheckIfIsInCombat())
+        if ((float)tileCount >= myUnit.statistics.movementPoints * 0.5f && myUnit.IsInCombat())
         {
             Attack();
         }
@@ -117,20 +117,20 @@ public class Ability_Human_BK_Charge : Ability_Basic
 
     void Attack()
     {
-        int RandomEnemy = Random.Range(0, myUnit.EnemyList.Count);
-        CombatController.Instance.AttackTarget = myUnit.EnemyList[RandomEnemy];
-        Log.SpawnLog(myUnit.name + " attack(s) " + CombatController.Instance.AttackTarget.name + " while charging!");
-        // Notice that all of this is networked so we dont want to send the attack over network from BOTH computers, so ill send it just from the computer on which the player is LOCAL 
-        // (i dont even think i care which one computer does it tho tbh). But this fraze will work in Single/HS too.
-        if (GameStateManager.Instance.IsCurrentPlayerLocal() || GameStateManager.Instance.IsCurrentPlayerAI())
-        {
-            CombatController.Instance.SendCommandToAttack(myUnit, CombatController.Instance.AttackTarget, false, false);
-        }
+        ////int RandomEnemy = Random.Range(0, myUnit.EnemyList.Count);
+        ////CombatController.Instance.attackTarget = myUnit.EnemyList[RandomEnemy];
+        //Log.SpawnLog(myUnit.name + " attack(s) " + CombatController.Instance.attackTarget.name + " while charging!");
+        //// Notice that all of this is networked so we dont want to send the attack over network from BOTH computers, so ill send it just from the computer on which the player is LOCAL 
+        //// (i dont even think i care which one computer does it tho tbh). But this fraze will work in Single/HS too.
+        //if (GameStateManager.Instance.IsCurrentPlayerLocal() || GameStateManager.Instance.IsCurrentPlayerAI())
+        //{
+        //    CombatController.Instance.SendCommandToAttack(myUnit, CombatController.Instance.attackTarget, false);
+        //}
 
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
-        {
-            CombatController.Instance.MakeAIWait(3f);
-        }
+        //if (GameStateManager.Instance.IsCurrentPlayerAI())
+        //{
+        //    CombatController.Instance.MakeAIWait(3f);
+        //}
     }
 
     void DestroyMarkers()
@@ -162,10 +162,10 @@ public class Ability_Human_BK_Charge : Ability_Basic
         if (TurnManager.Instance.TurnCount >= 9 || myUnit.statistics.healthPoints == 1)
         {
             int speed = myUnit.statistics.movementPoints;
-            foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
+            foreach (BattlescapeLogic.Unit enemy in VictoryLossChecker.GetEnemyUnitList())
             {
-                int distance = Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.myTile);
-                if ((enemy.isRanged || enemy.GetComponent<HeroScript>() != null) && distance != -1 && (distance > speed && speed < distance + 2) || speed + 2 > distance && (float)(speed + 2) / 2 < distance)
+                int distance = Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.currentPosition);
+                if ((enemy.IsRanged() || enemy is Hero) && distance != -1 && (distance > speed && speed < distance + 2) || speed + 2 > distance && (float)(speed + 2) / 2 < distance)
                 {
                     return true;
                 }
@@ -179,7 +179,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
     {
 
 
-        if (myUnit.myTile != Target)
+        if (myUnit.currentPosition != Target)
         {
             Log.SpawnLog(myUnit.name + " uses Charge!");
             //PathCreator.Instance.AddSteps(myUnit, Target.GetComponent<Tile>());
@@ -195,11 +195,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
     public override GameObject AI_ChooseTarget()
     {
         int speed = myUnit.statistics.movementPoints;
-        foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
+        foreach (BattlescapeLogic.Unit enemy in VictoryLossChecker.GetEnemyUnitList())
         {
-            if (Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed && (enemy.isRanged || enemy.GetComponent<HeroScript>() != null))
+            if (Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.currentPosition) <= speed && (enemy.IsRanged() || enemy is Hero))
             {
-                foreach (Tile neighbour in enemy.myTile.neighbours)
+                foreach (Tile neighbour in enemy.currentPosition.neighbours)
                 {
                     //if (neighbour.IsWalkable() && Pathfinder.instance.WouldTileBeLegal(neighbour, myUnit, speed + 2))
                     //{
@@ -208,11 +208,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
                 }
             }
         }
-        foreach (UnitScript enemy in VictoryLossChecker.GetEnemyUnitList())
+        foreach (BattlescapeLogic.Unit enemy in VictoryLossChecker.GetEnemyUnitList())
         {
-            if (Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.myTile) <= speed)
+            if (Pathfinder.instance.GetDistanceFromTo(myUnit, enemy.currentPosition) <= speed)
             {
-                foreach (Tile neighbour in enemy.myTile.neighbours)
+                foreach (Tile neighbour in enemy.currentPosition.neighbours)
                 {
                     //if (neighbour.IsWalkable() && Pathfinder.instance.WouldTileBeLegal(neighbour, myUnit, speed + 2))
                     //{
@@ -222,7 +222,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
             }
         }
         // Here we have NO targets at all.. IMO we can move just by one for no reason at all xD
-        foreach (Tile neighbour in myUnit.myTile.neighbours)
+        foreach (Tile neighbour in myUnit.currentPosition.neighbours)
         {
             if (neighbour.IsWalkable())
             {
@@ -230,7 +230,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
                 return neighbour.gameObject;
             }
         }
-        Debug.Log(myUnit.myTile.name);
-        return myUnit.myTile.gameObject;
+        Debug.Log(myUnit.currentPosition.name);
+        return myUnit.currentPosition.gameObject;
     }
 }

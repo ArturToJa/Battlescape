@@ -44,9 +44,9 @@ public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
         }
     }
 
-    public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
+    public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
-        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && myUnit.EnemyList.Count == 0)
+        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
         {
             CurrentArrows--;
         }
@@ -67,12 +67,12 @@ public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
 
     }
 
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
         return 0;
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
         return 0;
     }

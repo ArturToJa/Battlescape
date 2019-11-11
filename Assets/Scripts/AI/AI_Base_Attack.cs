@@ -11,7 +11,7 @@ public class AI_Base_Attack : AI_BaseClass
         base.CallTheConstructor(ID);
     }
 
-    public override IEnumerator EvaluatePossibleMoves(UnitScript currentUnit, List<Tile> possibleMoves)
+    public override IEnumerator EvaluatePossibleMoves(BattlescapeLogic.Unit currentUnit, List<Tile> possibleMoves)
     {
         AI_Controller.isEvaluatingTiles = true;
         EvaluatedTiles = new Dictionary<Tile, float>();
@@ -26,12 +26,12 @@ public class AI_Base_Attack : AI_BaseClass
         AI_Controller.tilesAreEvaluated = true;
     }
 
-    public virtual float EvaluateAsATarget(UnitScript currentUnit, Tile tile)
+    public virtual float EvaluateAsATarget(BattlescapeLogic.Unit currentUnit, Tile tile)
     {
-        return EvaluateAsATarget(currentUnit, currentUnit.myTile,tile);
+        return EvaluateAsATarget(currentUnit, currentUnit.currentPosition,tile);
     }
 
-    public virtual float EvaluateAsATarget(UnitScript currentUnit, Tile startingTile, Tile enemyTile)
+    public virtual float EvaluateAsATarget(BattlescapeLogic.Unit currentUnit, Tile startingTile, Tile enemyTile)
     {
         Debug.LogError("Bad one got called?");
         //HERE we DONT want to do stuff!

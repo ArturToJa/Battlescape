@@ -21,9 +21,9 @@ public class MovementQuestions : MonoBehaviour
 
     public void CheckIfAnyMoreUnitsToMove()
     {
-        foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
+        foreach (BattlescapeLogic.Unit ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
-            if (CanUnitMoveAtAll(ally.GetComponent<UnitScript>()))
+            if (ally.CanStillMove())
             {
                 return;
             }
@@ -31,12 +31,12 @@ public class MovementQuestions : MonoBehaviour
         PopupTextController.AddPopupText("No more units to move!", PopupTypes.Info);
     }
 
-    public bool CanMove(UnitScript unit, Tile target)
+    public bool CanMove(BattlescapeLogic.Unit unit, Tile target)
     {
         if (
             Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, unit) &&
             IsItTimeToMove(unit) &&
-            CanUnitMoveAtAll(unit.GetComponent<UnitScript>())
+            unit.CanStillMove()
            )
         {
             return true;
@@ -45,16 +45,16 @@ public class MovementQuestions : MonoBehaviour
         {
             /* Debug.Log("Legal: " + IsThisTileLegal(target, unit isAffectedByCombat));
              Debug.Log("TimeToMove: " + IsItTimeToMove(unit));
-             Debug.Log("HaveMovement: " + CanUnitMoveAtAll(unit.GetComponent<UnitScript>()));
+             Debug.Log("HaveMovement: " + CanUnitMoveAtAll(unit.GetComponent<BattlescapeLogic.Unit>()));
              Debug.Log("LastTIleIsSafe: " + IsTheLastTileSafe());
              Debug.Log("UnitNotInCombat: " + !unit.CheckIfIsInCombat());*/
             return false;
         }
     }
 
-    bool IsItTimeToMove(UnitScript unit)
+    bool IsItTimeToMove(BattlescapeLogic.Unit unit)
     {
-        if (unit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index &&
+        if (unit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0] &&
             (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && GameStateManager.Instance.GameState != GameStates.TargettingState) || Ability_Basic.IsForcingMovementStuff)
         {
             return true;
@@ -63,11 +63,5 @@ public class MovementQuestions : MonoBehaviour
         {
             return false;
         }
-    }
-
-    public bool CanUnitMoveAtAll(UnitScript unit)
-    {
-
-        return (unit.CanStillMove() && unit.GetComponent<UnitScript>().IsFrozen == false);
-    }   
+    }    
 }

@@ -11,14 +11,15 @@ public class UnitStatShower : MonoBehaviour
     [SerializeField] Text moveSpeedSpot;
     [SerializeField] Text fluffBio;
 
-    public UnitScript currUnit;
+    public BattlescapeLogic.Unit currUnit;
 
     public void UpdateInfos()
     {
+        Debug.Log(currUnit);
         attackSpot.text = currUnit.statistics.GetCurrentAttack().ToString();
         defenceSpot.text = currUnit.statistics.GetCurrentDefence().ToString();
         healthSpot.text = currUnit.statistics.maxHealthPoints.ToString();
         moveSpeedSpot.text = currUnit.statistics.GetCurrentMaxMovementPoints().ToString();
-        fluffBio.text = currUnit.unitUnit.fluffBio;
+        fluffBio.text = currUnit.fluffText;
     }
 }

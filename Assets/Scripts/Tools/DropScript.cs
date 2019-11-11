@@ -5,14 +5,14 @@ using UnityEngine;
 public class DropScript : MonoBehaviour
 {
     [SerializeField] int dropValue;
-    UnitScript unit;
+    BattlescapeLogic.Unit unit;
 
 
     public void Drop()
     {
       /*  return;
         unit = MouseManager.Instance.SelectedUnit;
-        if (unit.GetComponent<HeroScript>() != null)
+        if (unitis Hero)
         {
             if (unit.isGreen)
             {
@@ -30,7 +30,7 @@ public class DropScript : MonoBehaviour
             switch (dropValue)
             {
                 case 1:
-                    if (unit.isRanged)
+                    if (unit.IsRanged())
                     {
                         unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
                         PopupTextController.CreatePopupText("+1 Range", unit.transform, PopupTypes.Info);
@@ -38,12 +38,12 @@ public class DropScript : MonoBehaviour
                     }
                     else
                     {
-                        unit.GetComponent<UnitScript>().currMoveSpeed += 1;
+                        unit.GetComponent<BattlescapeLogic.Unit>().currMoveSpeed += 1;
                         PopupTextController.CreatePopupText("+1 Movement", unit.transform, PopupTypes.Info);
                         break;
                     }
                 case 2:
-                    if (unit.isRanged && unit.GetComponent<ShootingScript>().shortDistance)
+                    if (unit.IsRanged() && unit.GetComponent<ShootingScript>().shortDistance)
                     {
                         unit.GetComponent<ShootingScript>().shortDistance = false;
                         unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
@@ -73,14 +73,14 @@ public class DropScript : MonoBehaviour
                     }
                     break;
                 case 3:
-                    unit.GetComponent<UnitScript>().currMoveSpeed += 1;
+                    unit.GetComponent<BattlescapeLogic.Unit>().currMoveSpeed += 1;
                     unit.CurrAttack += 1;
                     unit.CurrDefence += 1;
                     if (unit.currentHP < unit.maxHP)
                     {
                         unit.DealDamage(-1, false, false, false);
                     }
-                    if (unit.isRanged)
+                    if (unit.IsRanged())
                     {
                         unit.GetComponent<ShootingScript>().statistics.GetCurrentAttackRange() += 1;
                         if (unit.GetComponent<ShootingScript>().shortDistance)

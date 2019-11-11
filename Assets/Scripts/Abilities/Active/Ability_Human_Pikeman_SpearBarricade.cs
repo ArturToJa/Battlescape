@@ -53,7 +53,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
             MouseManager.Instance.mouseoveredTile != null &&
             MouseManager.Instance.mouseoveredTile.IsWalkable() == true &&
             MouseManager.Instance.mouseoveredTile.IsWalkable() &&
-            MouseManager.Instance.mouseoveredTile.neighbours.Contains(myUnit.myTile);
+            MouseManager.Instance.mouseoveredTile.neighbours.Contains(myUnit.currentPosition);
     }
 
     public override void Activate()
@@ -130,7 +130,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
     }
     protected override void ColourTiles()
     {
-        foreach (Tile tile in myUnit.myTile.neighbours)
+        foreach (Tile tile in myUnit.currentPosition.neighbours)
         {
             if (tile.IsWalkable())
             {

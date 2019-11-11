@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;using BattlescapeLogic;
+using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class PhaseInfo : MonoBehaviour {
 
@@ -23,10 +24,6 @@ public class PhaseInfo : MonoBehaviour {
             if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
             {
                 PhaseInfoText.text = "Movement Phase";
-            }
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-            {
-                PhaseInfoText.text = "Shooting Phase";
             }
             if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
             {

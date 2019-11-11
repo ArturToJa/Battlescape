@@ -110,9 +110,9 @@ public class AI_Controller : MonoBehaviour
         return false;
     }
 
-    public void EvaluateTiles(AI_BaseClass ai, UnitScript currentUnit, List<Tile> possibleMoves)
+    public void EvaluateTiles(AI_BaseClass ai, BattlescapeLogic.Unit currentUnit, List<Tile> possibleMoves)
     {
-        Debug.Log("Evaluation for: " + currentUnit + "on tile: " + currentUnit.myTile);
+        Debug.Log("Evaluation for: " + currentUnit + "on tile: " + currentUnit.currentPosition);
         StartCoroutine(ai.EvaluatePossibleMoves(currentUnit, possibleMoves));
     }
 
@@ -130,11 +130,11 @@ public class AI_Controller : MonoBehaviour
             return;
         }
 
-        if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState) && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-        {
-            PlayerAIs[ID] = new AI_Shooting(ID);
-            return;
-        }
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState) && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
+        //{
+        //    PlayerAIs[ID] = new AI_Shooting(ID);
+        //    return;
+        //}
 
         if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.MoveState) && TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
         {

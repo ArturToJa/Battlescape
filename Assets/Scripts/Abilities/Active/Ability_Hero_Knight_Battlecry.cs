@@ -9,7 +9,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
     [SerializeField] GameObject VFXOnBuffedAllies;
     protected override void OnStart()
     {
-        Target = myUnit.myTile;
+        Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -59,7 +59,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
         Log.SpawnLog(myUnit.name + " uses Battlecry, increasing nearby allies' attack and removing all negative effects.");
 
 
-        foreach (UnitScript ally in Helper.GetAlliesInRange(myUnit, Range))
+        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
         {
             StartCoroutine(PassiveAbility_Buff_BattlecryBuff.AddMyBuff(myUnit, ally, VFXOnBuffedAllies, RingOfBuff, 1.5f));
         }
@@ -84,9 +84,9 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     protected override void ColourTiles()
     {
-        foreach (UnitScript ally in Helper.GetAlliesInRange(myUnit, Range))
+        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
         {
-            BattlescapeGraphics.ColouringTool.SetColour(ally.myTile, Color.green);
+            BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition, Color.green);
         }
     }
 
@@ -101,7 +101,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     public override GameObject AI_ChooseTarget()
     {
-        return myUnit.myTile.gameObject;
+        return myUnit.currentPosition.gameObject;
     }
 
     public override bool AI_IsGoodToUseNow()

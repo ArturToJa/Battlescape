@@ -6,13 +6,18 @@ namespace BattlescapeLogic
 {
     public class GameTurn
     {
-        public LinkedList<INewTurn> newTurnObjects;
+        public LinkedList<INewTurn> newTurnObjects = new LinkedList<INewTurn>();
 
+        static GameTurn _instance;
         public static GameTurn instance
         {
             get
             {
-                return instance;
+                if (_instance == null)
+                {
+                    _instance = new GameTurn();
+                }                
+                return _instance;
             }
         }
         private GameTurn()

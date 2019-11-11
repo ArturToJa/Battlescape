@@ -17,13 +17,13 @@ namespace BattlescapeLogic
     }
 
     //WE USE THIS! This is our TILE! Old "TILE" is no longer a thing!
-    //Temporarily(!) uses UnitScript, not Unit. :< NEEDS CHANGING ASAP!
+    //Temporarily(!) uses BattlescapeLogic.Unit, not Unit. :< NEEDS CHANGING ASAP!
     public class Tile : MonoBehaviour
     {
         // put correct width and height here
         public static float tileWidth = 0;
         public static float tileHeight = 0;
-        public UnitScript myUnit { get; private set; }
+        public BattlescapeLogic.Unit myUnit { get; private set; }
         public GameObject myObstacle { get; set; }
         public bool hasObstacle
         {
@@ -32,9 +32,10 @@ namespace BattlescapeLogic
                 return myObstacle != null;
             }
         }
+        //this is not used as we, for some strange reason, dont show movement path!
         public bool isUnderMovementMarker { get; set; }
         public Position position { get; set; }
-        public bool[] isDropzoneOfPlayer { get; set; }
+        public int DropzoneOfPlayer { get; set; }
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
 
@@ -73,7 +74,7 @@ namespace BattlescapeLogic
 
         // This means 'Is this tile or a neighbour under enemy unit?'. It matters for movement (you cannot walk through tiles protected by enemy).
         // I just 'invented' the term 'protected' for that, I used 'occupied' earlier but it was VERY misleading.
-        public bool IsProtectedByEnemyOf(UnitScript unit)
+        public bool IsProtectedByEnemyOf(BattlescapeLogic.Unit unit)
         {
             if (IsTileUnderEnemyOfUnit(this, unit))
             {
@@ -92,27 +93,27 @@ namespace BattlescapeLogic
         //TEMPORARY function, I think?
 
         //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
-        bool IsTileUnderEnemyOfUnit(Tile tile, UnitScript unit)
+        bool IsTileUnderEnemyOfUnit(Tile tile, BattlescapeLogic.Unit unit)
         {
-            return tile.myUnit != null && tile.myUnit.PlayerID != unit.PlayerID;
+            return tile.myUnit != null && tile.myUnit.owner != unit.owner;
             //return tile.myUnit != null && tile.myUnit.owner.team != unit.owner.team;
             //^ this is correct for Unit;
         }
 
         //IDK how we want to do that but currently we do not deal with setting Units/Tiles in pairs AT ALL - we have no way to set those.
-        public void SetMyUnitTo(UnitScript unit)
+        public void SetMyUnitTo(BattlescapeLogic.Unit unit)
         {
             myUnit = unit;
             Tile oldTile = null;
             if (unit != null)
             {
-                 oldTile = myUnit.myTile;
+                oldTile = myUnit.currentPosition;
+                myUnit.currentPosition = this;
                 if (oldTile != null && oldTile != this)
                 {
                     oldTile.myUnit = null;
-                    myUnit.myTile = this;
                 }
-            }                        
+            }
         }
 
         public void DestroyObstacle()

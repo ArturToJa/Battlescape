@@ -11,7 +11,7 @@ public class CombatHighlighter : MonoBehaviour
     void Update()
     {
         ToggleHighlight();
-        if (Input.GetKeyUp(KeyCode.LeftControl) && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
+        if (Input.GetKeyUp(KeyCode.LeftControl) && TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
         {
             foreach (Tile tile in Map.Board)
             {
@@ -30,38 +30,18 @@ public class CombatHighlighter : MonoBehaviour
             return;
         }
 
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.CheckIfIsInCombat() == true && MouseManager.Instance.SelectedUnit.CanStillAttack() == true && MouseManager.Instance.SelectedUnit.CanAttack)
+        if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.IsInCombat() == true && MouseManager.Instance.SelectedUnit.CanStillAttack() == true)
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && tile.myUnit.EnemyList.Contains(MouseManager.Instance.SelectedUnit) == true)
+                if (tile.myUnit != null && tile.myUnit.owner != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] && tile.myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.SelectedUnit.currentPosition) == true && CombatController.Instance.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position))
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
                     ControlledTiles.Add(tile);
                 }
             }
             return;
-        }
-
-
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.isRanged == true && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>().CanShoot == true)
-        {
-            foreach (Tile tile in Map.Board)
-            {
-                if (tile.myUnit != null && tile.myUnit.PlayerID != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
-                {
-                    tile.GetComponent<Renderer>().material.color = Color.red;
-                    ControlledTiles.Add(tile);
-                }
-                else if (tile.myUnit == null && Input.GetKey(KeyCode.LeftControl) && ShootingScript.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position).Key)
-                {
-                    tile.GetComponent<Renderer>().material.color = myColor;
-                    ControlledTiles.Add(tile);
-                }
-            }
-            return;
-        }
-
+        }       
 
         foreach (Tile tile in Map.Board)
         {

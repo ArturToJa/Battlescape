@@ -12,7 +12,7 @@ public class DisabledMove : MonoBehaviour
         if (MouseManager.Instance.SelectedUnit != null)
         {
 
-            if (MovementQuestions.Instance.CanUnitMoveAtAll(MouseManager.Instance.SelectedUnit.GetComponent<UnitScript>()) == false)
+            if (MouseManager.Instance.SelectedUnit.CanStillMove() == false)
             {
                 MoveButton.interactable = false;
                 MoveButton.GetComponentInChildren<Text>().text = "Already moved.";

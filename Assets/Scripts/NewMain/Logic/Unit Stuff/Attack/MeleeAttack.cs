@@ -17,7 +17,7 @@ namespace BattlescapeLogic
         {
             base.Attack(target);
             TurnTowardsTarget();
-            PlayAttackAnimation();
+            PlayAttackAnimation();            
         }
         protected override void PlayAttackAnimation()
         {

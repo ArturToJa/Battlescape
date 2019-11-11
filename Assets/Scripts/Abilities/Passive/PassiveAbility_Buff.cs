@@ -9,13 +9,12 @@ public class PassiveAbility_Buff : PassiveAbility
     public int AttackBuffValue = 0;
     public int DefenceBuffValue = 0;
     public int MovementBuffValue = 0;
-    public int QuitCombatChanceBuffValue = 0;
     bool alreadyRemovedBuff = false;
     protected GameObject vfx;
     public bool IsFrozen = false;
     public bool isNegative;
-    public UnitScript watchForAttacksBy;
-    public bool CanRetal;
+    public BattlescapeLogic.Unit watchForAttacksBy;
+    public int numberOfRetaliations;
     public bool IsRemovedByGettingHit;
     //this is ONLY for BattleCry for now, its generally "unit that if it attacks something will change to this buff"
 
@@ -23,7 +22,6 @@ public class PassiveAbility_Buff : PassiveAbility
     {
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
         CombatController.Instance.AttackEvent += OnAttack;
-        myUnit.DeathEvent += OnGotDestroyed;
     }
 
     public void OnGotDestroyed()
@@ -31,7 +29,6 @@ public class PassiveAbility_Buff : PassiveAbility
         Debug.Log("Destrroyed");
         TurnManager.Instance.NewTurnEvent -= OnNewTurn;
         CombatController.Instance.AttackEvent -= OnAttack;
-        myUnit.DeathEvent -= OnGotDestroyed;
     }
 
 
@@ -44,29 +41,29 @@ public class PassiveAbility_Buff : PassiveAbility
 
     }
 
-    public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
+    public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
         // NOTE - for now "IAttack and IGotAttacked are NOT used by anyone, but i can easily imagine a new ability like this in near future!
         if (Attacker == myUnit)
         {
-            OnIAttack(damage);
+            OnIAttack();
         }
         if (Defender == myUnit)
         {
-            OnIGotAttacked(damage);
+            OnIGotAttacked();
         }
         if (Attacker == watchForAttacksBy)
         {
-            OnMasterAttacked(damage);
+            OnMasterAttacked();
         }
     }
 
-    protected virtual void OnIAttack(int damage)
+    protected virtual void OnIAttack()
     {
         //nothing! Note - nobody cares for this one YET
     }
 
-    protected virtual void OnIGotAttacked(int damage)
+    protected virtual void OnIGotAttacked()
     {
         if (IsRemovedByGettingHit && alreadyRemovedBuff == false)
         {
@@ -74,7 +71,7 @@ public class PassiveAbility_Buff : PassiveAbility
         }
     }
 
-    protected virtual void OnMasterAttacked(int damage)
+    protected virtual void OnMasterAttacked()
     {
         //in fact this is the oNLY one used currently - but not by every buff but only by Battlecry, so NOTHING again ;)
     }
@@ -85,15 +82,14 @@ public class PassiveAbility_Buff : PassiveAbility
 
     public void DoBuff()
     {
-        myUnit = GetComponentInParent<UnitScript>();
+        myUnit = GetComponentInParent<BattlescapeLogic.Unit>();
         myUnit.statistics.bonusAttack += AttackBuffValue;
         myUnit.statistics.bonusDefence += DefenceBuffValue;
-        myUnit.QuitCombatPercent += QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(MovementBuffValue);
-        myUnit.DoesRetaliate = CanRetal;
+        //myUnit.GetComponent<BattlescapeLogic.Unit>().IncrimentMoveSpeedBy(MovementBuffValue);
+        myUnit.statistics.currentMaxNumberOfRetaliations = numberOfRetaliations;
         if (IsFrozen)
         {
-            myUnit.IsFrozen = true;
+            //myUnit.IsFrozen = true;
         }
     }
 
@@ -101,24 +97,22 @@ public class PassiveAbility_Buff : PassiveAbility
 
     public void TemporarilyUndooBuff()
     {
-        myUnit = GetComponentInParent<UnitScript>();
-        myUnit.IsFrozen = false;
+        myUnit = GetComponentInParent<BattlescapeLogic.Unit>();
+        //myUnit.IsFrozen = false;
         myUnit.statistics.bonusAttack -= AttackBuffValue;
         myUnit.statistics.bonusDefence -= DefenceBuffValue;
-        myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-MovementBuffValue);
-        myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
+        //myUnit.GetComponent<BattlescapeLogic.Unit>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        myUnit.statistics.currentMaxNumberOfRetaliations = myUnit.statistics.defaultMaxNumberOfRetaliations;
     }
 
     public void UndoBuff()
     {
-        myUnit = GetComponentInParent<UnitScript>();
-        myUnit.IsFrozen = false;
+        myUnit = GetComponentInParent<BattlescapeLogic.Unit>();
+        //myUnit.IsFrozen = false;
         myUnit.statistics.bonusAttack -= AttackBuffValue;
         myUnit.statistics.bonusDefence -= DefenceBuffValue;
-        myUnit.QuitCombatPercent -= QuitCombatChanceBuffValue;
-        //myUnit.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-MovementBuffValue);
-        myUnit.DoesRetaliate = myUnit.DoesRetalByDefault;
+        //myUnit.GetComponent<BattlescapeLogic.Unit>().IncrimentMoveSpeedBy(-MovementBuffValue);
+        myUnit.statistics.currentMaxNumberOfRetaliations = myUnit.statistics.defaultMaxNumberOfRetaliations;
         alreadyRemovedBuff = true;
         if (vfx != null)
         {
@@ -141,7 +135,7 @@ public class PassiveAbility_Buff : PassiveAbility
         }
     }
 
-    public static void AddBuff(GameObject target, int Time, int Attack, int Defence, int MS, int QCP, bool canRetal, string buffIconName, GameObject vfx, float delayForVFX, bool _IsFrozen, bool _IsNegative, bool doesGettingHitRemove)
+    public static void AddBuff(GameObject target, int Time, int Attack, int Defence, int MS, int retalCount, string buffIconName, GameObject vfx, float delayForVFX, bool _IsFrozen, bool _IsNegative, bool doesGettingHitRemove)
     {
 
         PassiveAbility_Buff theBuff = target.AddComponent<PassiveAbility_Buff>();
@@ -153,11 +147,10 @@ public class PassiveAbility_Buff : PassiveAbility
         theBuff.AttackBuffValue = Attack;
         theBuff.DefenceBuffValue = Defence;
         theBuff.MovementBuffValue = MS;
-        theBuff.QuitCombatChanceBuffValue = QCP;
         theBuff.BuffDuration = Time;
         theBuff.IsFrozen = _IsFrozen;
         theBuff.isNegative = _IsNegative;
-        theBuff.CanRetal = canRetal;
+        theBuff.numberOfRetaliations = retalCount;
         theBuff.IsRemovedByGettingHit = doesGettingHitRemove;
         theBuff.DoBuff();
         theBuff.StartCoroutine(theBuff.DoBuffVFX(theBuff, delayForVFX, target, vfx));
@@ -189,12 +182,12 @@ public class PassiveAbility_Buff : PassiveAbility
         theBuff.DoBuff();
     }*/
 
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
         return 0;
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
         return 0;
     }

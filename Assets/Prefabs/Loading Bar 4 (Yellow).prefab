@@ -8,11 +8,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 22483982}
-  - component: {fileID: 11406760}
   - component: {fileID: 22224690}
   - component: {fileID: 11472650}
-  - component: {fileID: 11466658}
-  - component: {fileID: 11410944}
   m_Layer: 5
   m_Name: Loading Bar 4 (Yellow)
   m_TagString: Untagged
@@ -82,44 +79,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11406760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 117418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd280fd303380f4da4375a123e4759a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Type: 0
-  m_TargetImage: {fileID: 11406424}
-  m_TargetTransform: {fileID: 0}
-  m_FillSizing: 0
-  m_FillDirection: 0
-  m_MinWidth: 0
-  m_MaxWidth: 100
-  m_MinHeight: 0
-  m_MaxHeight: 100
-  m_FillAmount: 1
-  m_Steps: 0
-  onChange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.UIProgressBar+ChangeEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &11410944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 117418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa96f6c0a28c06f4da5801444a432c24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11418758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,23 +112,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: LOADING...
---- !u!114 &11466658
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 117418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ebbf9ae710a0204683fc9ff6a5b3dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bar: {fileID: 11406760}
-  Duration: 5
-  Easing: 13
-  m_Text: {fileID: 0}
-  m_TextVariant: 0
-  m_TextValue: 100
 --- !u!114 &11472650
 MonoBehaviour:
   m_ObjectHideFlags: 1

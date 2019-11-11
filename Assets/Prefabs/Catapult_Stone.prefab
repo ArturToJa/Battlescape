@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4026907287837196}
   - component: {fileID: 54423870136676784}
-  - component: {fileID: 114973565151065280}
   m_Layer: 0
   m_Name: Catapult_Stone
   m_TagString: Projectile
@@ -143,19 +142,3 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 603d8728d37b0fa428b3a23b153fb670, type: 3}
---- !u!114 &114973565151065280
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000357107973312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52bbbfcd0f96bac408a70f8e2a2de4a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isNormalProjectile: 1
-  Target: {fileID: 0}
-  speed: 0
-  time: 0
-  myShooter: {fileID: 0}

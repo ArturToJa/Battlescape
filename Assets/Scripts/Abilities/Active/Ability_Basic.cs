@@ -9,7 +9,7 @@ public abstract class Ability_Basic : MonoBehaviour
     public static bool IsForcingMovementStuff = false;
     //this static bool is for abilities that allow movement and want the game to behave as if we were in normal movement phase
     public Tile Target { get; set; }
-    protected UnitScript myUnit;
+    protected BattlescapeLogic.Unit myUnit;
     public bool AlreadyUsedThisTurn { get; set; }
     public string Name;
     public string TooltipInfo;
@@ -90,14 +90,14 @@ public abstract class Ability_Basic : MonoBehaviour
             IsUsableNow() &&
             (UsesLeft > 0 || LimitedUses == false) &&
             myEnergy.IsEnoughEnergyFor(this) &&
-            Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index == myUnit.PlayerID &&
+            Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] == myUnit.owner &&
             AlreadyUsedThisTurn == false &&
             GameStateManager.Instance.IsItPreGame() == false &&
             LegalInPhases.Contains(TurnManager.Instance.CurrentPhase) &&
-            (!OnlyInCombat || (OnlyInCombat && myUnit.CheckIfIsInCombat())) &&
-            (!UnavailableInCombat || (UnavailableInCombat && !myUnit.CheckIfIsInCombat())) &&
+            (!OnlyInCombat || (OnlyInCombat && myUnit.IsInCombat())) &&
+            (!UnavailableInCombat || (UnavailableInCombat && !myUnit.IsInCombat())) &&
             (!RequiresCanMove || (RequiresCanMove && myUnit.CanStillMove())) &&
-            (!RequiresShootingAbility || (RequiresShootingAbility && myUnit.GetComponent<ShootingScript>().IsAbleToShoot())) &&
+            (!RequiresShootingAbility || (RequiresShootingAbility && myUnit.CanStillAttack() && myUnit.IsInCombat() == false)) &&
             (!IsAttack || (IsAttack && myUnit.CanStillAttack() == true));
 
     }
@@ -133,7 +133,7 @@ public abstract class Ability_Basic : MonoBehaviour
 
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
         UsesLeft = UsesPerBattle;
-        myUnit = GetComponent<UnitScript>();
+        myUnit = GetComponent<BattlescapeLogic.Unit>();
         myEnergy = GetComponent<UnitEnergy>();
         AbilitySource = gameObject.AddComponent<AudioSource>();
         OnStart();

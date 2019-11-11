@@ -26,16 +26,16 @@ namespace BattlescapeLogic
         
         //These are for us to always know if we BFSed from this tile standing in this position
         //So that we only BFS if we have new unit or unit moved.
-        UnitScript lastUnit;
+        BattlescapeLogic.Unit lastUnit;
         Tile lastTile;
 
-        bool HaveToBFSFor(UnitScript unitToMove)
+        bool HaveToBFSFor(BattlescapeLogic.Unit unitToMove)
         {
-            return (lastUnit == unitToMove && lastTile == unitToMove.myTile) == false;
+            return (lastUnit == unitToMove && lastTile == unitToMove.currentPosition) == false;
         }
 
         //Some old ability wants this ;D
-        public int GetDistanceFromTo(UnitScript unit, Tile tile)
+        public int GetDistanceFromTo(BattlescapeLogic.Unit unit, Tile tile)
         {
             int distance = distances[tile.position.x, tile.position.z];
             BFS(unit);
@@ -51,7 +51,7 @@ namespace BattlescapeLogic
         
 
         //This function gives the list of possible tiles a Unit could get to.
-        public List<Tile> GetAllLegalTilesFor(UnitScript unitToMove)
+        public List<Tile> GetAllLegalTilesFor(BattlescapeLogic.Unit unitToMove)
         {
             List<Tile> returnList = new List<Tile>();
             // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
@@ -67,18 +67,18 @@ namespace BattlescapeLogic
             return returnList;
         }
 
-        public bool IsLegalTileForUnit(Tile tile, UnitScript unit)
+        public bool IsLegalTileForUnit(Tile tile, BattlescapeLogic.Unit unit)
         {
             BFS(unit);
             return distances[tile.position.x, tile.position.z] <= unit.statistics.movementPoints && distances[tile.position.x, tile.position.z] > 0;
         }
 
-        public Queue<Tile> GetPathFromTo(UnitScript unitToMove, Tile finalTile)
+        public Queue<Tile> GetPathFromTo(BattlescapeLogic.Unit unitToMove, Tile finalTile)
         {
             BFS(unitToMove);
             Stack<Tile> tileStack = new Stack<Tile>();
             tileStack.Push(finalTile);
-            while (!tileStack.Contains(unitToMove.myTile))
+            while (!tileStack.Contains(unitToMove.currentPosition))
             {
                 Tile tileOnTheStack = tileStack.Peek();
                 tileStack.Push(parents[tileOnTheStack.position.x, tileOnTheStack.position.z]);
@@ -94,7 +94,7 @@ namespace BattlescapeLogic
 
         //This function populates Distances and Parents arrays with data, using BFS algorithm.
         //Currently it just calculates for whole board (not until reaching destination).
-        void BFS(UnitScript unitToMove)
+        void BFS(BattlescapeLogic.Unit unitToMove)
         {
             //THIS first part is just for optimization
             if (HaveToBFSFor(unitToMove) == false)
@@ -103,7 +103,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                lastTile = unitToMove.myTile;
+                lastTile = unitToMove.currentPosition;
                 lastUnit = unitToMove;
             }
             parents = new Tile[Map.mapWidth, Map.mapHeight];
@@ -111,7 +111,7 @@ namespace BattlescapeLogic
             SetOccupations(unitToMove);
 
             Queue<Tile> queue = new Queue<Tile>();
-            Tile start = unitToMove.myTile;
+            Tile start = unitToMove.currentPosition;
             distances[start.position.x, start.position.z] = 0;
             queue.Enqueue(start);
 
@@ -148,7 +148,7 @@ namespace BattlescapeLogic
             }
         }
         //Tile is considered Occupied, if there is an enemy on its neighbour.
-        void SetOccupations(UnitScript unitToMove)
+        void SetOccupations(BattlescapeLogic.Unit unitToMove)
         {
             enemyProtection = new bool[Map.mapWidth, Map.mapHeight];
             for (int i = 0; i < Map.mapWidth; i++)

@@ -40,26 +40,5 @@ public class HeroNames : MonoBehaviour
             name = List[Random.Range(0, List.Count)];
         }
         return name;
-    }
-
-    public static void SetAIHeroesNameDifferent()
-    {
-        if (GameStateManager.Instance.MatchType != MatchTypes.Singleplayer)
-        {
-            // we have no AI so both players used same name, sorry, it stays lol.
-            return;
-        }
-        GameObject heroObject = null;
-        foreach (HeroScript hero in FindObjectsOfType<HeroScript>())
-        {
-            if (Global.instance.playerTeams[hero.GetComponent<UnitScript>().PlayerID].players[0].type == PlayerType.AI)
-            {
-                heroObject = hero.gameObject;
-            }
-        }
-        string newName = null;
-        PlayerHeroNames[heroObject.GetComponent<UnitScript>().PlayerID] = GetRandomHeroName();
-        newName = PlayerHeroNames[heroObject.GetComponent<UnitScript>().PlayerID];
-        heroObject.name = heroObject.GetComponent<UnitScript>().unitUnit.Name + " " + newName;
-    }
+    }    
 }

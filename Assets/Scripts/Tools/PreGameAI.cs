@@ -11,20 +11,19 @@ public class PreGameAI
 
     public void RepositionUnits()
     {
-        foreach (UnitScript unit in Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits)
+        foreach (BattlescapeLogic.Unit unit in Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits)
         {
             Tile newTile = ChooseTheTile();
-            DragableUnit.SetNewPosition(unit.myTile.position.x, unit.myTile.position.z, newTile.position.x, newTile.position.z);
+            DragableUnit.SetNewPosition(unit.currentPosition.position.x, unit.currentPosition.position.z, newTile.position.x, newTile.position.z);
         }
     }
 
     public void PositionUnits()
     {
-        int heroID = (int)SaveLoadManager.Instance.playerArmy.heroID;
-        Position(heroID, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
-        foreach (UnitID integer in SaveLoadManager.Instance.playerArmy.unitIDs)
+        Position(SaveLoadManager.Instance.playerArmy.heroIndex, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
+        foreach (int index in SaveLoadManager.Instance.playerArmy.unitIndecies)
         {
-            Position((int)integer, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
+            Position(index, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
         }
         /*foreach (Transform unit in DeploymentPanel)
         {
@@ -45,14 +44,14 @@ public class PreGameAI
         }*/
     }
 
-    public void Position(int unitID, int playerID, Tile tile)
+    public void Position(int index, int playerID, Tile tile)
     {
 
         if (tile == null)
         {
             return;
         }
-        DropZone.Instance.CommandInstantiateUnit(unitID, playerID, tile.transform.position);
+        DropZone.Instance.CommandInstantiateUnit(index, playerID, tile.transform.position);
     }
 
 
@@ -62,14 +61,14 @@ public class PreGameAI
         //List<Tile> greatTiles = new List<Tile>();
         foreach (Tile tile in Map.Board)
         {
-            if (tile.IsWalkable() && ((tile.isDropzoneOfPlayer[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index])))
+            if (tile.IsWalkable() && (tile.DropzoneOfPlayer == TurnManager.Instance.PlayerToMove))
             {
                 possibleTiles.Add(tile);
-                /*if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
+                /*if (me.thisUnitFirstPlayer.GetComponent<BattlescapeLogic.Unit>().IsRanged() && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
                 {
                     greatTiles.Add(tile);
                 }
-                else if (me.thisUnitFirstPlayer.GetComponent<UnitScript>().isRanged == false && (tile.transform.position.x == 1 || tile.transform.position.x == 2 || tile.transform.position.x == 13 || tile.transform.position.x == 14) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
+                else if (me.thisUnitFirstPlayer.GetComponent<BattlescapeLogic.Unit>().IsRanged() == false && (tile.transform.position.x == 1 || tile.transform.position.x == 2 || tile.transform.position.x == 13 || tile.transform.position.x == 14) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
                 {
                     greatTiles.Add(tile);
                 }*/

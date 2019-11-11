@@ -9,7 +9,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
     // This ability should NOT have cancel use - it should happen imidiately
     protected override void OnStart()
     {
-        Target = myUnit.myTile;
+        Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -60,7 +60,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
 
     void DoLogic()
     {
-        myUnit.BlockHitsForTurns(2);
+        //myUnit.BlockHitsForTurns(2);
     }
 
     void DoArtisticStuff()
@@ -68,12 +68,12 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
         GetComponent<AnimController>().Cast();
         PlayAbilitySound();
         CreateVFXOn(transform, transform.rotation);
-        PassiveAbility_Buff.AddBuff(gameObject, 2, 0, 0, 0, 0, true, "WarriorWallBuff", vfx, 3f, false, false, false);
+        PassiveAbility_Buff.AddBuff(gameObject, 2, 0, 0, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "WarriorWallBuff", vfx, 3f, false, false, false);
     }
 
     public override bool AI_IsGoodToUseNow()
     {
-        return (myUnit.EnemyList.Count >= 2) || (myUnit.EnemyList.Count == 1 && myUnit.statistics.healthPoints == 1);
+        return /*(myUnit.EnemyList.Count >= 2) || (myUnit.EnemyList.Count == 1 && myUnit.statistics.healthPoints == 1)*/false;
     }
 
     public override void AI_Activate(GameObject Target)

@@ -53,7 +53,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4379109747162112}
   - component: {fileID: 54811431147536508}
-  - component: {fileID: 114555151128836844}
   m_Layer: 0
   m_Name: Raven_Arrow
   m_TagString: Projectile
@@ -172,19 +171,3 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 432dd2b7c2581c744a40ca43b1307c17, type: 3}
---- !u!114 &114555151128836844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879587708424968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52bbbfcd0f96bac408a70f8e2a2de4a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isNormalProjectile: 1
-  Target: {x: 0, y: 0, z: 0}
-  speed: 0
-  time: 0
-  myShooter: {fileID: 0}

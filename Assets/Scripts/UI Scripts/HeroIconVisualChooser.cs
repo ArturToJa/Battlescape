@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroIconVisualChooser : MonoBehaviour {
+public class HeroIconVisualChooser : MonoBehaviour
+{   
+    void Update()
+    {
+        if (SaveLoadManager.Instance.Race != BattlescapeLogic.Faction.Neutral)
+        {
+            SetCorrectVisual();
+        }
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void SetCorrectVisual()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        transform.GetChild((int)SaveLoadManager.Instance.Race).gameObject.SetActive(true);
+    }
 }

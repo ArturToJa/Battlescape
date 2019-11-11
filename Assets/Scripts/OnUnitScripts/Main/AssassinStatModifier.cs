@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class AssassinStatModifier : PassiveAbility
 {
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
         if (IsActive(other))
         {
@@ -18,7 +19,7 @@ public class AssassinStatModifier : PassiveAbility
 
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
         if (DefenceModifierVersusUnitType!= 0)
         {
@@ -37,16 +38,16 @@ public class AssassinStatModifier : PassiveAbility
         return;
     }
 
-    bool IsActive(UnitScript other)
+    bool IsActive(Unit other)
     {
-        if (other.GetComponent<HeroScript>() != null)
+        if (other is Hero)
         {
             return true;
         }
-        if (other.isColossal)
-        {
-            return true;
-        }
+        //if (other.isColossal)
+        //{
+        //    return true;
+        //}
         if (QCManager.Instance.IsTimeForBackstabs)
         {
             return true;

@@ -9,7 +9,7 @@ public class QCManager : MonoBehaviour
 
     // ATTENTION!!!!!!!!!!!!!!!!!!
 
-        //Currently its IMPOSSIBLE (!) to get QCWindow if you are NOT in Movement Phase. If any ability wants to make QC with attacks etc, it needs to either change this rule or trick it into thinking that we are in movement phase or bypass the window alltogether.
+    //Currently its IMPOSSIBLE (!) to get QCWindow if you are NOT in Movement Phase. If any ability wants to make QC with attacks etc, it needs to either change this rule or trick it into thinking that we are in movement phase or bypass the window alltogether.
 
     public Tile FinalTile;
     public static QCManager Instance { get; private set; }
@@ -19,7 +19,7 @@ public class QCManager : MonoBehaviour
     public bool IsTimeForBackstabs = false;
     // ^ THIS is for player to not change "path" during mouse movements done while QC window is on
     PhotonView photonView;
-    UnitScript quittingUnit;
+    BattlescapeLogic.Unit quittingUnit;
 
     void Start()
     {
@@ -45,9 +45,9 @@ public class QCManager : MonoBehaviour
         {
             Log.SpawnLog("BUG! line 39 QCManager!");
             return;
-        }                
-        int unitX = Mathf.RoundToInt(quittingUnit.myTile.transform.position.x);
-        int unitZ = Mathf.RoundToInt(quittingUnit.myTile.transform.position.z);        
+        }
+        int unitX = Mathf.RoundToInt(quittingUnit.currentPosition.transform.position.x);
+        int unitZ = Mathf.RoundToInt(quittingUnit.currentPosition.transform.position.z);
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
             photonView.RPC("RPCFinishQC", PhotonTargets.All, didDie, unitX, unitZ);
@@ -57,7 +57,7 @@ public class QCManager : MonoBehaviour
             FinishQC(didDie, unitX, unitZ);
         }
     }
-    
+
     [PunRPC]
     void RPCFinishQC(bool didDie, int unitX, int unitZ)
     {
@@ -68,13 +68,13 @@ public class QCManager : MonoBehaviour
     {
         //if (didDie == false)
         //{
-        //    UnitScript QCUnit = Map.Board[unitX, unitZ].myUnit;
+        //    BattlescapeLogic.Unit QCUnit = Map.Board[unitX, unitZ].myUnit;
         //    QCUnit.isQuittingCombat = true;
-        //    UnitScript uMovement = QCUnit.GetComponent<UnitScript>();
+        //    BattlescapeLogic.Unit uMovement = QCUnit.GetComponent<BattlescapeLogic.Unit>();
         //    uMovement.CanMove = true;
         //    MovementSystem.Instance.DoMovement(uMovement);
 
-        //    if (QCUnit.GetComponent<ShootingScript>() != null)
+        //    if (QCUnit.IsRanged())
         //    {
         //        QCUnit.statistics.numberOfAttacks = 0;
         //    }
@@ -82,7 +82,7 @@ public class QCManager : MonoBehaviour
         //    FinalTile = null;
         //}
         //PlayerChoosesWhetherToQC = false;
-        
+
     }
 
     public void AcceptQC()
@@ -114,39 +114,32 @@ public class QCManager : MonoBehaviour
     void Cancel()
     {
         PlayerChoosesWhetherToQC = false;
-       // PathCreator.Instance.ClearPath();
+        // PathCreator.Instance.ClearPath();
     }
 
     IEnumerator CheckForBackstabsInCoroutine()
     {
         IsTimeForBackstabs = true;
         quittingUnit = MouseManager.Instance.SelectedUnit;
-        List<UnitScript> enemies = quittingUnit.EnemyList;
+
+        List<BattlescapeLogic.Unit> enemies = new List<BattlescapeLogic.Unit>();
+        foreach (Tile tile in quittingUnit.currentPosition.neighbours)
+        {
+            if (tile.myUnit != null && tile.myUnit.owner.team != quittingUnit.owner.team)
+            {
+                enemies.Add(tile.myUnit);
+            }
+        }
         for (int i = 0; i < enemies.Count; i++)
         {
-            UnitScript enemy = enemies[i];
-            int roll = UnityEngine.Random.Range(0, 100);
-            if (quittingUnit.QuitCombatPercent < roll)
+            BattlescapeLogic.Unit enemy = enemies[i];
+            CombatController.Instance.SendCommandToAttack(enemy, quittingUnit);
+            yield return new WaitForSeconds(2f);
+            if (quittingUnit.IsAlive() == false)
             {
-                CombatController.Instance.SendCommandToAttack(enemy, quittingUnit, false, false);
-                yield return new WaitForSeconds(2f);
-                if (quittingUnit.IsAlive() == false)
-                {
-                    break;
-                }
+                break;
             }
-            else
-            {
-                PopupTextController.AddPopupText("Miss!", PopupTypes.Info);
-                if (GameStateManager.Instance.MatchType == MatchTypes.Online)
-                {
-                    Log.NetworkSpawnLog(quittingUnit.name + " escaped from combat succesfully!");
-                }
-                else
-                {
-                    Log.SpawnLog(quittingUnit.name + " escaped from combat succesfully!");
-                }
-            }
+
             if (quittingUnit == null)
             {
                 yield return null;
@@ -163,14 +156,14 @@ public class QCManager : MonoBehaviour
 
     private IEnumerator QCAIRoutine(Tile destination)
     {
-        UnitScript unit = MouseManager.Instance.SelectedUnit;
+        BattlescapeLogic.Unit unit = MouseManager.Instance.SelectedUnit;
         StartCoroutine(CheckForBackstabsInCoroutine());
         yield return new WaitForSeconds(1f);
 
         if (unit != null && unit.IsAlive())
         {
             //PathCreator.Instance.AddSteps(unit, destination);
-            MovementSystem.Instance.SendCommandToMove(unit,destination);
+            MovementSystem.Instance.SendCommandToMove(unit, destination);
         }
         else
         {

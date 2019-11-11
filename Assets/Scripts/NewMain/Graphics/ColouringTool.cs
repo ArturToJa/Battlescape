@@ -40,7 +40,7 @@ namespace BattlescapeGraphics
             tile.GetComponent<Renderer>().material.color = Color.white;
         }
 
-        public static void ColourLegalTilesFor(UnitScript unit)
+        public static void ColourLegalTilesFor(Unit unit)
         {
             UncolourAllTiles();
             var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);

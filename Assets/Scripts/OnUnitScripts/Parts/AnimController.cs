@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class AnimController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class AnimController : MonoBehaviour
 
 
     public Animator MyAnimator;
-    UnitScript US;
+    BattlescapeLogic.Unit myUnit;
     [SerializeField] GameObject sword;
     [HideInInspector] public bool isHit;
 
@@ -21,11 +22,8 @@ public class AnimController : MonoBehaviour
         {
             MyAnimator = GetComponentInChildren<Animator>();
         }
-        US = GetComponent<UnitScript>();
-        if (US.isRealUnit)
-        {
-            CombatController.Instance.AttackEvent += OnAttack;
-        }
+        myUnit = GetComponent<BattlescapeLogic.Unit>();
+        CombatController.Instance.AttackEvent += OnAttack;
         foreach (Transform child in GetComponentsInChildren<Transform>())
         {
             if (child.tag == "Sword")
@@ -41,27 +39,24 @@ public class AnimController : MonoBehaviour
         }
     }
 
-    
+
     private void Update()
     {
-        if (US.isRealUnit)
-        {
-            SetInCombat(US.CheckIfIsInCombat());
-            //AnimateWalking(US.newMovement.isMoving);
-        }
+        SetInCombat(myUnit.IsInCombat());
+        //AnimateWalking(US.movement.isMoving);
         if (isHit)
         {
             isHit = false;
             AnimateWound();
         }
     }
-    public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
+    public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
-        if (Attacker != US)
+        if (Attacker != myUnit)
         {
             return;
         }
-        if (TurnManager.Instance.CurrentPhase != TurnPhases.Shooting)
+        if (Attacker.IsRanged())
         {
             if (sword != null)
             {
@@ -93,7 +88,7 @@ public class AnimController : MonoBehaviour
 
     public void AnimateAttack()
     {
-        MyAnimator.SetTrigger("Attack");        
+        MyAnimator.SetTrigger("Attack");
     }
     public void SetJumping(bool b)
     {
@@ -137,20 +132,18 @@ public class AnimController : MonoBehaviour
 
     public IEnumerator ShowSword()
     {
-        if (this.GetComponent<HeroScript>() != null)
+        if (myUnit is Hero)
         {
-            HeroScript hero = this.GetComponent<HeroScript>();
-            hero.ToggleWeapon(hero.secondaryWeaponInHand, hero.secondaryWeaponHidden);
+            //myUnit.ToggleWeapon(hero.secondaryWeaponInHand, hero.secondaryWeaponHidden);
         }
         else
         {
             sword.SetActive(true);
         }
         yield return new WaitForSeconds(0.8f);
-        if (this.GetComponent<HeroScript>() != null)
+        if (myUnit is Hero)
         {
-            HeroScript hero = this.GetComponent<HeroScript>();
-            hero.ToggleWeapon(hero.secondaryWeaponHidden, hero.secondaryWeaponInHand);
+            //myUnit.ToggleWeapon(hero.secondaryWeaponHidden, hero.secondaryWeaponInHand);
         }
         else
         {

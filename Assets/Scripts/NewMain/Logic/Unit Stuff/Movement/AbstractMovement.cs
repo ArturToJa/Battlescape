@@ -12,13 +12,19 @@ namespace BattlescapeLogic
     }
     public abstract class AbstractMovement
     {
-        protected UnitScript myUnit;
+        protected Unit myUnit;
+        protected float visualSpeed;
+        protected Tile finalTile;        
+
+
+        //This is ONLY about finishing the WHOLE movement!
         public bool isMoving
         {
             get
-            {                
-                return myUnit != null && myUnit.myTile != null && Vector3.Distance(myUnit.transform.position, myUnit.myTile.transform.position) > 0.0001f;
+            {
+                return myUnit != null && myUnit.currentPosition != null && finalTile != null && myUnit.currentPosition != finalTile;
             }
+            
         }
 
         public AbstractMovement()
@@ -35,8 +41,8 @@ namespace BattlescapeLogic
             myUnit.visuals.transform.LookAt(vector3);
         }
 
-        public void ApplyUnit(UnitScript unit)
-        {
+        public void ApplyUnit(Unit unit)
+        {            
             myUnit = unit;
         }
         

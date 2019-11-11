@@ -13,7 +13,7 @@ public class UIStatsValues : MonoBehaviour
     //[SerializeField] int AttackRange;
     //[SerializeField] int Value;
     //[SerializeField] int PoisonCounters;
-    UnitScript unit;
+    BattlescapeLogic.Unit unit;
 
     [SerializeField] Text attackText;
     [SerializeField] Text defenceText;
@@ -59,7 +59,7 @@ public class UIStatsValues : MonoBehaviour
         //Attack = unit.statistics.baseAttack + ;
         //Defence = unit.statistics.GetCurrentDefence();
         //Health = unit.statistics.healthPoints;
-        //Movement = unit.GetComponent<UnitScript>().GetCurrentMoveSpeed(true);
+        //Movement = unit.GetComponent<BattlescapeLogic.Unit>().GetCurrentMoveSpeed(true);
         //AttackRange = unit.statistics.GetCurrentAttackRange();
         //Value = unit.statistics.cost;
         //PoisonCounters = unit.PoisonCounter;

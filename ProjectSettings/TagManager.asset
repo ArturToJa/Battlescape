@@ -37,6 +37,7 @@ TagManager:
   - HiddenSpear
   - Bow
   - Grid
+  - Coloured
   layers:
   - Default
   - TransparentFX

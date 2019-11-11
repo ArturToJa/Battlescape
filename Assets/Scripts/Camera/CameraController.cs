@@ -216,7 +216,7 @@ public static CameraController Instance { get; private set; }
     }
 
     //we use this one, the basic one, in selecting unit. It is cool clean and makes camera just go towards a unit for a moment (1f second currently).
-    IEnumerator SetCameraToUnit(UnitScript unit)
+    IEnumerator SetCameraToUnit(BattlescapeLogic.Unit unit)
     {
         manualCamera = false;
         float time = 0f;
@@ -231,7 +231,7 @@ public static CameraController Instance { get; private set; }
 
     }
     // this one will be used for following a unit as long as the "condition" for continuing the loop is met - like "follow unit untill it ends its movement".
-    IEnumerator SetCameraToUnit(UnitScript unit, bool condition)
+    IEnumerator SetCameraToUnit(BattlescapeLogic.Unit unit, bool condition)
     {
         manualCamera = false;
         while (condition)
@@ -250,7 +250,7 @@ public static CameraController Instance { get; private set; }
     }*/
     /*Vector3.Distance(transform.position, unit.transform.position + new Vector3(0, startector.y, -3)) > 0.2f*/
 
-    public void SetCamToU(UnitScript unit, bool condition)
+    public void SetCamToU(BattlescapeLogic.Unit unit, bool condition)
     {
         if (routine != null)
         {
@@ -258,7 +258,7 @@ public static CameraController Instance { get; private set; }
         }
        routine = StartCoroutine(SetCameraToUnit(unit,condition));
     }
-    public void SetCamToU(UnitScript unit)
+    public void SetCamToU(BattlescapeLogic.Unit unit)
     {
         if (routine != null)
         {

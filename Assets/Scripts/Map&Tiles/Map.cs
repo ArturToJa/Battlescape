@@ -12,6 +12,8 @@ public class Map : MonoBehaviour
     public static int mapWidth = 16;
     MapVisuals mapVisuals;
     public static Tile[,] Board;
+    //TOTALLY TEMPORARY THING hardcoded cause im lazy
+    public static Vector3 MapMiddle = new Vector3(7.5f, 0, 4.5f);    
     void Start()
     {
         SetBasicStuff();        
@@ -37,17 +39,20 @@ public class Map : MonoBehaviour
 
     protected virtual void AddDropzones()
     {
-        foreach (Tile ct in Board)
+        foreach (Tile tile in Board)
         {
-            ct.isDropzoneOfPlayer = new bool[2];
-            if (ct.transform.position.x < 3 && ct.hasObstacle == false)
+            if (tile.transform.position.x < 3 && tile.hasObstacle == false)
             {
-                ct.isDropzoneOfPlayer[0] = true;
+                tile.DropzoneOfPlayer = 0;
             }
-            else if (ct.transform.position.x > 12 && ct.hasObstacle == false)
+            else if (tile.transform.position.x > 12 && tile.hasObstacle == false)
             {
-                ct.isDropzoneOfPlayer[1] = true;
-            }            
+                tile.DropzoneOfPlayer = 1;
+            }
+            else
+            {
+                tile.DropzoneOfPlayer = -1;
+            }
         }
     }
 

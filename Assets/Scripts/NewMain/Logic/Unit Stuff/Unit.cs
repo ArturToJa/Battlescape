@@ -28,21 +28,60 @@ namespace BattlescapeLogic
         //NOTE - this needs to be done some other way, this 'readonly' thing will NOT work here :)))
         //Also - IDK why we need it at all
         public readonly int index;
-        public Player owner { get; private set; }
+        public Player owner { get; set; }
         [SerializeField] string _unitName;
-        public string unitName { get; private set; }
+        public string unitName
+        {
+            get
+            {
+                return _unitName;
+            }
+            private set
+            {
+                _unitName = value;
+            }
+        }
         public Tile currentPosition { get; set; }
+        public UnitSounds unitSounds;
         public Statistics statistics;
         public List<AbstractAbility> abilities;
         public List<Buff> buffs { get; private set; }
         public GameObject visuals { get; private set; }
         public Animator animator { get; private set; }
+   
+        [SerializeField] string _fluffText;
+        public string fluffText
+        {
+            get
+            {
+                return _fluffText;
+            }
+            private set
+            {
+                _fluffText = value;
+            }
+        }
+
+        [SerializeField] Faction _race;
+        public Faction race
+        {
+            get
+            {
+                return _race;
+            }
+            private set
+            {
+                _race = value;
+            }
+        }
 
         public override void Start()
         {
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
+            buffs = new List<Buff>();
+            abilities = new List<AbstractAbility>();
             movement = GetMovementType();
             if (movement == null)
             {
@@ -53,13 +92,30 @@ namespace BattlescapeLogic
             if (attack == null)
             {
                 statistics.NullBaseAttack();
+                statistics.NullMaxNumberOfAttacks();
             }
+            statistics.healthPoints = statistics.maxHealthPoints;
+            statistics.currentEnergy = Statistics.maxEnergy / 2;
+            FaceMiddleOfMap();
+        }
+
+        public void FaceMiddleOfMap()
+        {
+            Vector3 mapMiddle = new Vector3(Map.MapMiddle.x, visuals.transform.position.y, Map.MapMiddle.z);
+            transform.LookAt(mapMiddle);
+            visuals.transform.LookAt(mapMiddle);
         }
 
         public override void OnNewTurn()
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
+            statistics.numberOfRetaliations = statistics.currentMaxNumberOfRetaliations;
+            statistics.currentEnergy += statistics.energyRegen;
+            if (statistics.currentEnergy >= Statistics.maxEnergy)
+            {
+                statistics.currentEnergy = Statistics.maxEnergy;
+            }
             foreach (Buff buff in buffs)
             {
                 //buff.OnNewTurn();
@@ -95,6 +151,16 @@ namespace BattlescapeLogic
             return (statistics.healthPoints > 0);
         }
 
+        public bool IsInCombat()
+        {
+            return currentPosition.IsProtectedByEnemyOf(this);
+        }
+
+        public bool IsRanged()
+        {
+            return attack is ShootingAttack;
+        }
+
         public bool CanStillAttack()
         {
             return (statistics.numberOfAttacks > 0);
@@ -109,7 +175,7 @@ namespace BattlescapeLogic
         {
             if (CanStillMove())
             {
-                //movement.ApplyUnit(this);
+                movement.ApplyUnit(this);
                 StartCoroutine(movement.MoveTo(newPosition));
             }
         }
@@ -124,7 +190,7 @@ namespace BattlescapeLogic
             }
         }
 
-        
+
 
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
@@ -172,7 +238,7 @@ namespace BattlescapeLogic
             animator.SetTrigger("Death");
         }
 
-        public void Die(Unit killer)
+        public virtual void Die(Unit killer)
         {
             currentPosition.SetMyUnitTo(null);
             if (MouseManager.Instance.SelectedUnit == this)
@@ -180,21 +246,6 @@ namespace BattlescapeLogic
                 MouseManager.Instance.Deselect();
             }
             killer.owner.AddPoints(statistics.cost);
-            if (this is Hero)
-            {
-                //lose game
-                //for now:
-                if (owner == Global.instance.playerTeams[0].players[0])
-                {
-                    //we, Green player, lost
-                    VictoryLossChecker.gameResult = GameResult.GreenWon;
-                }
-                else
-                {
-                    VictoryLossChecker.gameResult = GameResult.RedWon;
-                }
-            };
-            GetComponentInChildren<AnimController>().AnimateDeath();
             HideHealthUI();
             PlayDeathAnimation();
             OnDestruction();

@@ -5,18 +5,18 @@ using BattlescapeLogic;
 
 public class AI_Movement : AI_Base_Movement
 {
-    static List<UnitScript> unitsSkippingTurn;
+    static List<BattlescapeLogic.Unit> unitsSkippingTurn;
 
     public AI_Movement(int ID) : base(ID)
     {
         base.CallTheConstructor(ID);
         if (unitsSkippingTurn == null)
         {
-            unitsSkippingTurn = new List<UnitScript>();
+            unitsSkippingTurn = new List<BattlescapeLogic.Unit>();
         }
     }
 
-    protected override Queue<UnitScript> GetPossibleUnits()
+    protected override Queue<BattlescapeLogic.Unit> GetPossibleUnits()
     {
 
         if (GetUnitsWithPriority() == null)
@@ -25,8 +25,8 @@ public class AI_Movement : AI_Base_Movement
             return null;
         }
 
-        Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(GetUnitsWithPriority());
-        UnitScript firstUnit = myUnitsToMove.Peek();
+        Queue<BattlescapeLogic.Unit> myUnitsToMove = new Queue<BattlescapeLogic.Unit>(GetUnitsWithPriority());
+        BattlescapeLogic.Unit firstUnit = myUnitsToMove.Peek();
         while (unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.statistics.movementPoints > 0 == false)
         {
             myUnitsToMove.Dequeue();
@@ -46,27 +46,27 @@ public class AI_Movement : AI_Base_Movement
         return myUnitsToMove;
     }
 
-    List<UnitScript> GetUnitsWithPriority()
+    List<Unit> GetUnitsWithPriority()
     {
-        foreach (UnitScript ally in allyList)
+        foreach (Unit ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
+            if (ally.IsRanged() && ((ally is Hero) == false) && ally.CanStillMove() && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllShooters();
             }
         }
-        foreach (UnitScript ally in allyList)
+        foreach (Unit ally in allyList)
         {
-            if (ally.GetComponent<HeroScript>() == null && MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
+            if (((ally is Hero) == false) && ally.CanStillMove() && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllMelee();
             }
 
         }
 
-        foreach (UnitScript ally in allyList)
+        foreach (Unit ally in allyList)
         {
-            if (MovementQuestions.Instance.CanUnitMoveAtAll(ally.GetComponent<UnitScript>()) == true && unitsSkippingTurn.Contains(ally) == false)
+            if (ally.CanStillMove() && unitsSkippingTurn.Contains(ally) == false)
             {
                 return GetAllHeroes();
             }
@@ -76,12 +76,12 @@ public class AI_Movement : AI_Base_Movement
         return null;
     }
 
-    List<UnitScript> GetAllHeroes()
+    List<Unit> GetAllHeroes()
     {
-        List<UnitScript> temp = new List<UnitScript>();
-        foreach (UnitScript ally in allyList)
+        List<BattlescapeLogic.Unit> temp = new List<BattlescapeLogic.Unit>();
+        foreach (BattlescapeLogic.Unit ally in allyList)
         {
-            if (ally.GetComponent<HeroScript>() != null && ally.IsAlive())
+            if (ally is Hero && ally.IsAlive())
             {
                 temp.Add(ally);
             }
@@ -90,12 +90,12 @@ public class AI_Movement : AI_Base_Movement
         return temp;
     }
 
-    List<UnitScript> GetAllMelee()
+    List<BattlescapeLogic.Unit> GetAllMelee()
     {
-        List<UnitScript> temp = new List<UnitScript>();
-        foreach (UnitScript ally in allyList)
+        List<BattlescapeLogic.Unit> temp = new List<BattlescapeLogic.Unit>();
+        foreach (BattlescapeLogic.Unit ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() == null && ally.GetComponent<HeroScript>() == null && ally.IsAlive())
+            if (ally.IsRanged() == false && ((ally is Hero) == false) && ally.IsAlive())
             {
                 temp.Add(ally);
             }
@@ -104,12 +104,12 @@ public class AI_Movement : AI_Base_Movement
         return temp;
     }
 
-    List<UnitScript> GetAllShooters()
+    List<BattlescapeLogic.Unit> GetAllShooters()
     {
-        List<UnitScript> temp = new List<UnitScript>();
-        foreach (UnitScript ally in allyList)
+        List<BattlescapeLogic.Unit> temp = new List<BattlescapeLogic.Unit>();
+        foreach (BattlescapeLogic.Unit ally in allyList)
         {
-            if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<HeroScript>() == null && ally.IsAlive())
+            if (ally.IsRanged() && ((ally is Hero) == false) && ally.IsAlive())
             {
                 temp.Add(ally);
             }
@@ -118,7 +118,7 @@ public class AI_Movement : AI_Base_Movement
         return temp;
     }
 
-    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemyMovementRanges)
+    public override float EvaluateTile(BattlescapeLogic.Unit currentUnit, Tile tile, int enemiesDirection, Dictionary<BattlescapeLogic.Unit, List<Tile>> EnemyMovementRanges)
     {
         return 0;
         /*
@@ -136,7 +136,7 @@ public class AI_Movement : AI_Base_Movement
         // If we are NEITHER, lets try to first attack if good situation (prio on hero and shooters). Then lets try to protecc shooters and heroes. Also, bonus points for staying together (not only for real purpose, also cause it looks much more pro for player's eyes).
         List<Tile> neighbours = tile.neighbours;
 
-        if (currentUnit.GetComponent<HeroScript>() != null)
+        if (currentUnitis Hero)
         {
             // we ARE a hero.
             // 1. stay close to friends
@@ -146,25 +146,25 @@ public class AI_Movement : AI_Base_Movement
 
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.PlayerID == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
                 {
                     // there is an ally on next tile. Give like +0.1f for it.
                     Evaluation += 0.1f;
                     //  Debug.Log("I: " + i + " Tile: " + tile.transform.position.x + " " + tile.transform.position.z + " Added 0.1 for ally on tile: " + tile.neighbours[i]);
-                    if (neighbours[i].myUnit.isRanged && IsDefendingAllyIfStandingHere(tile.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
+                    if (neighbours[i].myUnit.IsRanged() && IsDefendingAllyIfStandingHere(tile.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
                     {
                         //   Debug.Log("Added 0.1 for shooter: " + tile.neighbours[i].myUnit);
                         Evaluation += 0.2f;
-                        foreach (UnitScript uniterino in neighbours[i].myUnit.AllyList)
+                        foreach (BattlescapeLogic.Unit uniterino in neighbours[i].myUnit.AllyList)
                         {
-                            if (uniterino.isRanged == false && IsDefendingAllyIfStandingHere(uniterino.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
+                            if (uniterino.IsRanged() == false && IsDefendingAllyIfStandingHere(uniterino.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
                             {
                                 // someone already defends this unit, lets deduct like 0.05f for it..
                                 Evaluation -= 0.05f;
                             }
                         }
                     }
-                    else if (neighbours[i].myUnit.isRanged == false && IsDefendingAllyIfStandingHere(neighbours[i].myUnit.transform.position, tile.transform.position, enemiesDirection))
+                    else if (neighbours[i].myUnit.IsRanged() == false && IsDefendingAllyIfStandingHere(neighbours[i].myUnit.transform.position, tile.transform.position, enemiesDirection))
                     {
                         Evaluation += 0.1f;
                     }
@@ -179,7 +179,7 @@ public class AI_Movement : AI_Base_Movement
             {
                 if (enemy.Value.Contains(tile))
                 {
-                    float hate = CheckHowMuchIHateToBeAttackedByThisUnit(currentUnit, enemy.Key.GetComponent<UnitScript>());
+                    float hate = CheckHowMuchIHateToBeAttackedByThisUnit(currentUnit, enemy.Key.GetComponent<BattlescapeLogic.Unit>());
                     Evaluation -= hate;
                     if (hate > 0)
                     {
@@ -205,7 +205,7 @@ public class AI_Movement : AI_Base_Movement
             }
 
         }
-        else if (currentUnit.GetComponent<ShootingScript>() != null)
+        else if (currentUnit.IsRanged())
         {
             // we ARE shooter.
             // 1. we DONT want to stay close to other shooters
@@ -215,7 +215,7 @@ public class AI_Movement : AI_Base_Movement
             float penaltyForNearbyShooters = 0;
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.PlayerID == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit && neighbours[i].myUnit.isRanged)
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit && neighbours[i].myUnit.IsRanged())
                 {
                     // there is an allied SHOOTER on next tile. Give like -0.2f for it. We do not really like this type of positions.
                     penaltyForNearbyShooters -= 0.4f;
@@ -240,7 +240,7 @@ public class AI_Movement : AI_Base_Movement
                 {
                     if (enemy.Value.Contains(tile))
                     {
-                        float hate = CheckHowMuchIHateToBeAttackedByThisUnit(currentUnit, enemy.Key.GetComponent<UnitScript>());
+                        float hate = CheckHowMuchIHateToBeAttackedByThisUnit(currentUnit, enemy.Key.GetComponent<BattlescapeLogic.Unit>());
                         penaltyForEnemiesInRange -= hate;
                         if (hate > 0)
                         {
@@ -263,7 +263,7 @@ public class AI_Movement : AI_Base_Movement
 
                 foreach (ClickableTile clit in tile.neighbours)
                 {
-                    if (clit.myUnit!= null && clit.myUnit.GetComponent<HeroScript>() != null && clit.myUnit.isGreen != GameStateManager.IsGreenActive())
+                    if (clit.myUnit!= null && clit.myUnitis Hero && clit.myUnit.isGreen != GameStateManager.IsGreenActive())
                     {
                         //there IS an enemy hero in there AND he is heavily wounded.. We MIGHT think about getting in combat maybe?
                     }
@@ -275,21 +275,21 @@ public class AI_Movement : AI_Base_Movement
             //NOW LETS find the best shooting target possible! And give some value to it XD?
             float GoodBoiBonus = 0f;
             float NoTargetButGoodTileForFutureBonus = 0f;
-            UnitScript bestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange());
+            BattlescapeLogic.Unit bestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange());
             if (bestTarget != null)
             {
                 // so if the best target is not null, so it is possible to shoot at SOMEONE from the Tile being evaluated, then..
-                if (ShootingScript.WouldItBePossibleToShoot(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange()).transform.position).Value == true)
+                if (CombatController.Instance.WouldItBePossibleToShoot(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange()).transform.position).Value == true)
                 {
                     // if it is in "bad range"
-                    var temp = 0.25f + 0.5f * ShootingAITool.EvaluateAsATarget(currentUnit, bestTarget.myTile);
+                    var temp = 0.25f + 0.5f * ShootingAITool.EvaluateAsATarget(currentUnit, bestTarget.currentPosition);
                     // Debug.Log("We just incremented our evaluation for tile: " + tile + " by " + temp + "for this target in bad range: " + bestTarget);
                     GoodBoiBonus += temp;
                 }
                 else
                 {
                     // it is not "bad range"
-                    var temp = 0.7f + ShootingAITool.EvaluateAsATarget(currentUnit, bestTarget.myTile);
+                    var temp = 0.7f + ShootingAITool.EvaluateAsATarget(currentUnit, bestTarget.currentPosition);
                     // Debug.Log("We just incremented our evaluation for tile: " + tile + " by " + temp + "for this target in good range: " + bestTarget);
                     GoodBoiBonus += temp;
                 }
@@ -305,11 +305,11 @@ public class AI_Movement : AI_Base_Movement
                 }
 
                 // and finally here we want to get to shooting range in 2 turns. Is it good - idk, but it "feels" right xD
-                UnitScript NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange() + currentUnit.GetComponent<UnitScript>().GetCurrentMoveSpeed(false));
+                BattlescapeLogic.Unit NextTurnBestTarget = ShootingAITool.FindBestTarget(currentUnit.GetComponent<ShootingScript>(), tile.transform.position, currentUnit.GetComponent<ShootingScript>().theUnit.statistics.GetCurrentAttackRange() + currentUnit.GetComponent<BattlescapeLogic.Unit>().GetCurrentMoveSpeed(false));
                 if (NextTurnBestTarget != null)
                 {
                     // we do not care if it is bad range cause we are a dumb AI
-                    var temp = 0.25f + 0.25f * ShootingAITool.EvaluateAsATarget(currentUnit, NextTurnBestTarget.myTile);
+                    var temp = 0.25f + 0.25f * ShootingAITool.EvaluateAsATarget(currentUnit, NextTurnBestTarget.currentPosition);
                     // Debug.Log("We just incremented our evaluation for tile: " + tile + " by " + temp + "for this target in next turn range: " + bestTarget);
                     NoTargetButGoodTileForFutureBonus += temp;
                 }
@@ -330,7 +330,7 @@ public class AI_Movement : AI_Base_Movement
                 // we are checking the QC.
                 foreach (var enemy in currentUnit.EnemyList)
                 {
-                    if (enemy.isRanged)
+                    if (enemy.IsRanged())
                     {
                         Evaluation -= 10f;
                     }
@@ -343,18 +343,18 @@ public class AI_Movement : AI_Base_Movement
             }
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.PlayerID == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
                 {
                     // there is an ally on next tile. Give like +0.01f for it.
                     Evaluation += 0.01f;
                     //  Debug.Log("I: " + i + " Tile: " + tile.transform.position.x + " " + tile.transform.position.z + " Added 0.01 for ally on tile: " + tile.neighbours[i]);
-                    if (neighbours[i].myUnit.isRanged && IsDefendingAllyIfStandingHere(tile.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
+                    if (neighbours[i].myUnit.IsRanged() && IsDefendingAllyIfStandingHere(tile.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
                     {
                         //   Debug.Log("Added 0.1 for shooter: " + tile.neighbours[i].myUnit);
                         Evaluation += 0.2f;
-                        foreach (UnitScript uniterino in neighbours[i].myUnit.AllyList)
+                        foreach (BattlescapeLogic.Unit uniterino in neighbours[i].myUnit.AllyList)
                         {
-                            if (uniterino.isRanged == false && uniterino.GetComponent<HeroScript>() == null && IsDefendingAllyIfStandingHere(uniterino.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
+                            if (uniterino.IsRanged() == false && uniterino.GetComponent<HeroScript>() == null && IsDefendingAllyIfStandingHere(uniterino.transform.position, neighbours[i].myUnit.transform.position, enemiesDirection))
                             {
                                 // someone already defends this unit, lets deduct like 0.01f for it..
                                 Evaluation -= 0.01f;
@@ -383,13 +383,13 @@ public class AI_Movement : AI_Base_Movement
     */
     }
 
-    private static float EvaluateCombatTile(UnitScript currentUnit, Tile tile, float Evaluation)
+    private static float EvaluateCombatTile(BattlescapeLogic.Unit currentUnit, Tile tile, float Evaluation)
     {
         int enemiesOnNextTiles = 0;
         List<Tile> neighbours = tile.neighbours;
         foreach (Tile t in neighbours)
         {
-            if (t.myUnit != null && t.myUnit.PlayerID != currentUnit.PlayerID)
+            if (t.myUnit != null && t.myUnit.owner != currentUnit.owner)
             {
                 enemiesOnNextTiles++;
                 if (t.myUnit.statistics.healthPoints <= 2 && t.myUnit.statistics.healthPoints < currentUnit.statistics.healthPoints)
@@ -408,7 +408,7 @@ public class AI_Movement : AI_Base_Movement
                     Evaluation -= 0.1f;
                     // Debug.Log("Evaluation of the tile: " + tile + " decreased by 0.2f because of strong enemy: " + t.myUnit + " on tile " + t);
                 }
-                if (t.myUnit.isRanged)
+                if (t.myUnit.IsRanged())
                 {
                     Evaluation += 0.3f;
                     //  Debug.Log("Evaluation of the tile: " + tile + " got increased by: 0.25f because of shooter on the tile: " + t);
@@ -426,17 +426,13 @@ public class AI_Movement : AI_Base_Movement
                 }
             }
         }
-        foreach (UnitScript unit in Object.FindObjectsOfType<UnitScript>())
-        {
-            if (unit.isRealUnit == false)
-            {
-                continue;
-            }
-            if (unit.PlayerID == currentUnit.PlayerID && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
+        foreach (BattlescapeLogic.Unit unit in Object.FindObjectsOfType<BattlescapeLogic.Unit>())
+        {            
+            if (unit.owner == currentUnit.owner && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
             {
                 Evaluation += 0.01f;
             }
-            if (unit.PlayerID == currentUnit.PlayerID && unit.myTile.neighbours.Contains(tile))
+            if (unit.owner == currentUnit.owner && unit.currentPosition.neighbours.Contains(tile))
             {
                 Evaluation += 0.2f;
             }
@@ -445,7 +441,7 @@ public class AI_Movement : AI_Base_Movement
         return Evaluation;
     }
 
-    float CheckHowMuchIHateToBeAttackedByThisUnit(UnitScript currentUnit, UnitScript enemy)
+    float CheckHowMuchIHateToBeAttackedByThisUnit(BattlescapeLogic.Unit currentUnit, BattlescapeLogic.Unit enemy)
     {
         // here we need to find a formula for how much an enemy is "scary" for us.
         float value = 0f;
@@ -457,7 +453,7 @@ public class AI_Movement : AI_Base_Movement
         {
             value = value + 0.25f * value * (currentUnit.statistics.maxHealthPoints - currentUnit.statistics.healthPoints);
         }
-        if (currentUnit.isRanged)
+        if (currentUnit.IsRanged())
         {
             value += 0.01f;
             value = value * 1.2f;
@@ -467,14 +463,14 @@ public class AI_Movement : AI_Base_Movement
         return 0.1f * value;
     }
 
-    protected override void PerformTheAction(UnitScript currentUnit, KeyValuePair<Tile, float> target)
+    protected override void PerformTheAction(BattlescapeLogic.Unit currentUnit, KeyValuePair<Tile, float> target)
     {
         AI_Controller.tilesAreEvaluated = false;
         Tile theTile = target.Key;
 
         if (theTile != null)
         {
-            //PathCreator.Instance.AddSteps(currentUnit.myTile,theTile);
+            //PathCreator.Instance.AddSteps(currentUnit.currentPosition,theTile);
             MovementSystem.Instance.SendCommandToMove(currentUnit, theTile);
             unitsSkippingTurn.Clear();
             Debug.Log("Chosen tile is: " + theTile);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 
 public class UIManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject MovementPanel;
     [SerializeField] GameObject selectedUnitStats;
     [SerializeField] Text unitName;
-    UnitScript unitWeShowStatsOf;
+    BattlescapeLogic.Unit unitWeShowStatsOf;
     public GameObject AbilitiesPanel;
     public GameObject AbilityPrefab;
     [SerializeField] GameObject CancelAbilityButton;
@@ -38,12 +39,12 @@ public class UIManager : MonoBehaviour
         SetUnitName();
         UpdateAbilitiesEnabled();
         if (MouseManager.Instance.SelectedUnit != null)
-        {  
+        {
             FillTheBar();
         }
     }
 
-    public static void UpdateAbilitiesPanel(GameObject Panel, GameObject Prefab, UnitScript Unit)
+    public static void UpdateAbilitiesPanel(GameObject Panel, GameObject Prefab, BattlescapeLogic.Unit Unit)
     {
         RemoveChildrenOf(Panel.transform);
         foreach (Ability_Basic ability in Unit.GetComponents<Ability_Basic>())
@@ -66,13 +67,7 @@ public class UIManager : MonoBehaviour
         {
             if (ability.MyObject != null)
             {
-                ability.MyObject.GetComponentInChildren<Button>().interactable =
-                    MouseManager.Instance.SelectedUnit.IsFrozen == false
-                    &&
-                        (
-                        ability.IsUsableNowBase()
-                        && MouseManager.Instance.SelectedUnit.newMovement.isMoving== false
-                        );
+                ability.MyObject.GetComponentInChildren<Button>().interactable = (ability.IsUsableNowBase() && MouseManager.Instance.SelectedUnit.movement.isMoving == false);
             }
         }
         SmoothlyTransitionActivity(CancelAbilityButton, Ability_Basic.currentlyUsedAbility != null, 0.1f);
@@ -170,10 +165,9 @@ public class UIManager : MonoBehaviour
 
     void FillTheBar()
     {
-        UnitEnergy unit = MouseManager.Instance.SelectedUnit.GetComponent<UnitEnergy>();
-        EnergyBar.SetActive(unit.MaxEnergy > 0);
+        Unit unit = MouseManager.Instance.SelectedUnit;
         float velocity = 0;
-        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.CurrentEnergy / (float)unit.MaxEnergy), ref velocity, barAnimationTime);
-        amount.text = "Energy: " + unit.CurrentEnergy.ToString() + "/" + unit.MaxEnergy.ToString();
+        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.currentEnergy / (float)Statistics.maxEnergy), ref velocity, barAnimationTime);
+        amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString();
     }
 }

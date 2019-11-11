@@ -14753,7 +14753,6 @@ MonoBehaviour:
   Undead: {fileID: 349374213}
   Poisonous: {fileID: 739763442}
   Flying: {fileID: 2097656523}
-  ShortRange: {fileID: 1195466529}
   CannotAttack: {fileID: 1223345538}
   StopRetaliation: {fileID: 1813817420}
   NoMeleePenalty: {fileID: 1785516307}
@@ -25254,7 +25253,6 @@ GameObject:
   - component: {fileID: 1573434271}
   - component: {fileID: 1573434273}
   - component: {fileID: 1573434272}
-  - component: {fileID: 1573434274}
   m_Layer: 5
   m_Name: Text1
   m_TagString: Untagged
@@ -25323,18 +25321,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1573434270}
---- !u!114 &1573434274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1573434270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28169a1c4f56faf47b31c122a84bcd48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisText: {fileID: 1573434272}
 --- !u!1 &1578845260
 GameObject:
   m_ObjectHideFlags: 0
@@ -29468,7 +29454,6 @@ MonoBehaviour:
   Undead: {fileID: 1849806549}
   Poisonous: {fileID: 975606731}
   Flying: {fileID: 792606019}
-  ShortRange: {fileID: 445941917}
   CannotAttack: {fileID: 1054224652}
   StopRetaliation: {fileID: 222254178}
   NoMeleePenalty: {fileID: 295080922}
@@ -33268,10 +33253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fab902025e1ad164886903ac052e8748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackTarget: {fileID: 0}
-  AttackingUnit: {fileID: 0}
-  DiceFaceNumber: 12
-  DamageForRandomization: 5
+  attackingUnit: {fileID: 0}
+  attackTarget: {fileID: 0}
 --- !u!95 &2077352919
 Animator:
   serializedVersion: 3

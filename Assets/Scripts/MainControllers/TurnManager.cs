@@ -86,7 +86,7 @@ public class TurnManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.End) && (Global.instance.playerTeams[PlayerHavingTurn].players[0].type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
         {
-            if (CurrentPhase == TurnPhases.Movement || CurrentPhase == TurnPhases.Shooting)
+            if (CurrentPhase == TurnPhases.Movement)
             {
                 NextPhase(false);
             }
@@ -105,7 +105,7 @@ public class TurnManager : MonoBehaviour
             isEndgameTrue = true;
         }
 
-        if ((CurrentPhase == TurnPhases.Movement || CurrentPhase == TurnPhases.Shooting) && TurnCount > 0)
+        if ((CurrentPhase == TurnPhases.Movement) && TurnCount > 0)
         {
             nexxt.SetActive(true);
 
@@ -168,7 +168,7 @@ public class TurnManager : MonoBehaviour
     public event Action NewTurnEvent;
 
     public void SetNewTurn(bool isRealGame)
-    {
+    {        
         if (NewTurnEvent != null)
         {
             NewTurnEvent();
@@ -183,6 +183,7 @@ public class TurnManager : MonoBehaviour
         }
         if (isRealGame)
         {
+            GameTurn.instance.OnClick();
             turnSource.Play();
             TurnCount++;
             if (TurnCount > 16)
@@ -231,17 +232,7 @@ public class TurnManager : MonoBehaviour
         {
             Debug.Log("Movement phase beggins.");
         }
-    }
-
-    public void ShootingPhase()
-    {
-        CurrentPhase = TurnPhases.Shooting;
-        MouseManager.Instance.Deselect();
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
-        {
-            Debug.Log("Shooting phase beggins.");
-        }
-    }
+    }    
 
     public void AttackPhase()
     {
@@ -294,16 +285,10 @@ public class TurnManager : MonoBehaviour
         {
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             PopupTextController.AddPopupText("Next Phase!", PopupTypes.Info);
-            Log.SpawnLog("Shooting phase begins.");
-            //PathCreator.Instance.ClearPath();
-            ShootingPhase();
-        }
-        else if (CurrentPhase == TurnPhases.Shooting)
-        {
-            PopupTextController.AddPopupText("Next Phase!", PopupTypes.Info);
             Log.SpawnLog("Attack phase begins.");
+            //PathCreator.Instance.ClearPath();
             AttackPhase();
-        }
+        }        
     }
 
     public void SwitchPlayerHavingTurn()
@@ -336,5 +321,5 @@ public class TurnManager : MonoBehaviour
 
 public enum TurnPhases
 {
-    None, Movement, Shooting, Attack, Enemy
+    None, Movement, Attack, Enemy
 }

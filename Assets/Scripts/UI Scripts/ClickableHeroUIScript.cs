@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using BattlescapeLogic;
 
 public class ClickableHeroUIScript : MonoBehaviour
 {
 
     [SerializeField] ChosenHero CH;
     [SerializeField] ArmyBuilder ab;
-    public Unit myHero;
+    public UnitCreator myHero;
     public List<Sprite> BasicSprites;
     public List<Sprite> HighlightSprites;
 

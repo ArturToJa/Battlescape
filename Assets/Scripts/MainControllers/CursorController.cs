@@ -72,7 +72,7 @@ public class CursorController : MonoBehaviour
         {
             return;
         }
-        if (GameStateManager.Instance.GameState != GameStates.ShootingState)
+        if (GameStateManager.Instance.GameState != GameStates.AttackState)
         {
             return;
         }
@@ -80,25 +80,17 @@ public class CursorController : MonoBehaviour
         {
             return;
         }
-        if (MouseManager.Instance.SelectedUnit.isRanged)
-        {
-            ShootingScript shooter = MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>();
+        if (MouseManager.Instance.SelectedUnit.IsRanged())
+        {            
             if (MouseManager.Instance.MouseoveredUnit != null)
             {
-                if (MouseManager.Instance.MouseoveredUnit.PlayerID == MouseManager.Instance.SelectedUnit.PlayerID)
+                if (MouseManager.Instance.MouseoveredUnit.owner == MouseManager.Instance.SelectedUnit.owner)
                 {
                     SetCursorTo(clickingSelectionCursor, selectionCursor);
                 }
-                else if (shooter.PossibleToShootAt(MouseManager.Instance.MouseoveredUnit, true) && shooter.CanShoot)
+                else if (CombatController.Instance.PossibleToShootAt(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, true))
                 {
-                    if (shooter.CheckBadRange(MouseManager.Instance.MouseoveredUnit.gameObject))
-                    {
-                        SetCursorTo(clickingBadRangeShootingCursor, badRangeShootingCursor);
-                    }
-                    else
-                    {
-                        SetCursorTo(clickingShootingCursor, shootingCursor);
-                    }
+                    SetCursorTo(clickingShootingCursor, shootingCursor);
                 }
                 else
                 {
@@ -113,27 +105,7 @@ public class CursorController : MonoBehaviour
             {
                 SetCursorTo(clickingDefaultCursor, defaultCursor);
             }
-        }
-        else if (MouseManager.Instance.MouseoveredUnit != null)
-        {
-
-            if (MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>().PlayerID == MouseManager.Instance.SelectedUnit.PlayerID)
-            {
-                SetCursorTo(clickingSelectionCursor, selectionCursor);
-            }
-            else
-            {
-                SetCursorTo(clickingBlockedCursor, blockedCursor);
-            }
-        }
-        else if (MouseManager.Instance.IsMousoveredTile())
-        {
-            SetCursorTo(clickingBlockedCursor, blockedCursor);
-        }
-        else
-        {
-            SetCursorTo(clickingDefaultCursor, defaultCursor);
-        }
+        }        
     }
 
     private void CheckForRetaliationState()
@@ -203,19 +175,19 @@ public class CursorController : MonoBehaviour
             return;
         }
 
-        if (MouseManager.Instance.mouseoveredDestructible != null && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.CanAttackDestructible(MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>(), false))
-        {
-            SetCursorTo(clickingAttackCursor, attackCursor);
-            return;
-        }
+        //if (MouseManager.Instance.mouseoveredDestructible != null && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.CanAttackDestructible(MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>(), false))
+        //{
+        //    SetCursorTo(clickingAttackCursor, attackCursor);
+        //    return;
+        //}
 
         if (MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit != null)
         {
-            if (MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack)
+            if (MouseManager.Instance.SelectedUnit.currentPosition.neighbours.Contains(MouseManager.Instance.MouseoveredUnit.currentPosition) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.attack != null)
             {
                 SetCursorTo(clickingAttackCursor, attackCursor);
             }
-            else if (MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>().PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index)
+            else if (MouseManager.Instance.MouseoveredUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0])
             {
                 SetCursorTo(clickingSelectionCursor, selectionCursor);
             }
@@ -311,7 +283,7 @@ public class CursorController : MonoBehaviour
     private bool IsTheTileValidForEnterCombatCursor()
     {
         //we actually CAN assume there IS a selected unit.
-        return MouseManager.Instance.mouseoveredTile.IsProtectedByEnemyOf(MouseManager.Instance.SelectedUnit) ;       
+        return MouseManager.Instance.mouseoveredTile.IsProtectedByEnemyOf(MouseManager.Instance.SelectedUnit);
     }
     private IEnumerator StayInCombatModeCursor(float timeInSeconds)
     {
@@ -343,7 +315,7 @@ public class CursorController : MonoBehaviour
 
     private void CheckWhatUnitAreWeOver(Texture2D clickingAlly, Texture2D ally, Texture2D clickingEnemy, Texture2D enemy)
     {
-        if (MouseManager.Instance.MouseoveredUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index)
+        if (MouseManager.Instance.MouseoveredUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0])
         {
             SetCursorTo(clickingAlly, ally);
         }
@@ -355,13 +327,13 @@ public class CursorController : MonoBehaviour
 
     private void CheckWhatTileAreWeOver()
     {
-        if (MouseManager.Instance.SelectedUnit.CheckIfIsInCombat())
+        if (MouseManager.Instance.SelectedUnit.IsInCombat())
         {
             if (IsTheTileValidForEnterCombatCursor())
             {
                 StartCoroutine(StayInCombatModeCursor(0.2f));
             }
-            else if (MouseManager.Instance.mouseoveredTile.neighbours.Contains(MouseManager.Instance.SelectedUnit.myTile))
+            else if (MouseManager.Instance.mouseoveredTile.neighbours.Contains(MouseManager.Instance.SelectedUnit.currentPosition))
             {
                 SetCursorTo(clickingQCMovementCursor, QCMovementCursor);
             }

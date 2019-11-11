@@ -13,15 +13,15 @@ public class SaveLoadManager : MonoBehaviour
     public static SaveLoadManager Instance { get; private set; }
     [SerializeField] GameObject SavePrefab;
     [SerializeField] Transform DeploymentPanel;
-    public List<Unit> UnitsList;
+    public List<UnitCreator> UnitsList;
     public PlayerArmy playerArmy;
-    public List<Unit> allPossibleUnits;
     public string currentSaveName;
     public int currentSaveValue = 25;
-    public Unit hero;
+    public UnitCreator hero;
     public Faction Race;
     public string HeroName;
     //public Faction[] ChosenFactions = new Faction[2];
+    public List<UnitCreator> allUnitCreators;
     public bool AreBothFactionsChosen
     {
         get
@@ -69,7 +69,7 @@ public class SaveLoadManager : MonoBehaviour
 
 
         playerArmy = new PlayerArmy();
-        UnitsList = new List<Unit>();
+        UnitsList = new List<UnitCreator>();
 
     }
 
@@ -125,19 +125,19 @@ public class SaveLoadManager : MonoBehaviour
             playerArmy.HeroName = HeroNames.GetRandomHeroName();
             HeroName = playerArmy.HeroName;
         }
-        if (ArmyBuilder.Instance != null && ArmyBuilder.Instance.Hero != null)
+        if (ArmyBuilder.Instance != null && ArmyBuilder.Instance.heroCreator != null)
         {
-            playerArmy.heroID = ArmyBuilder.Instance.Hero.myUnitID;
+            playerArmy.heroIndex = ArmyBuilder.Instance.heroCreator.index;
         }
         else
         {
-            playerArmy.heroID = null;
+            playerArmy.heroIndex = -1;
         }
 
-        playerArmy.unitIDs = new List<UnitID>();
-        foreach (Unit u in UnitsList)
+        playerArmy.unitIndecies = new List<int>();
+        foreach (UnitCreator unitCreator in UnitsList)
         {
-            playerArmy.unitIDs.Add(u.myUnitID);
+            playerArmy.unitIndecies.Add(unitCreator.index);
         }
     }
     public void LoadPlayerArmy()
@@ -206,42 +206,37 @@ public class SaveLoadManager : MonoBehaviour
     public void RecreateUnitsList()
     {
         UnitsList.Clear();
-        foreach (UnitID ID in playerArmy.unitIDs)
+        foreach (int index in playerArmy.unitIndecies)
         {
-            foreach (Unit unit in allPossibleUnits)
-            {
-                if (unit.myUnitID == ID)
-                {
-                    UnitsList.Add(unit);
-                    break;
-                }
-            }
+            UnitsList.Add(GetUnitCreatorFromIndex(index));
         }
-
-        foreach (Unit unit in allPossibleUnits)
+        if (playerArmy.heroIndex == -1)
         {
-            if (unit.myUnitID == playerArmy.heroID)
-            {
-                if (ArmyBuilder.Instance != null)
-                {
-                    ArmyBuilder.Instance.Hero = unit;
-                }
-                hero = unit;
-                break;
-            }
+            Debug.LogError("EmptyArmy!");
+            return;
         }
-
-
+        hero = GetUnitCreatorFromIndex(playerArmy.heroIndex);
+        if (ArmyBuilder.Instance != null)
+        {
+            ArmyBuilder.Instance.heroCreator = hero;
+        }
         HeroName = playerArmy.HeroName;
         Race = playerArmy.faction;
     }
 
-
-    void UpdateArmyBuilderForLoad()
+    public UnitCreator GetUnitCreatorFromIndex(int index)
     {
-        ArmyBuilder.Instance.UnitsList.Clear();
-        ArmyBuilder.Instance.UnitsList = UnitsList;
+        foreach (UnitCreator unitCreator in allUnitCreators)
+        {
+            if (unitCreator.index == index)
+            {
+                return unitCreator;
+            }
+        }
+        Debug.LogError("No unitcreators of set index in the all-list!");
+        return null;
     }
+    
     public Dictionary<string, string> GetSaveNames(string location)
     {
         Dictionary<string, string> saveNames = new Dictionary<string, string>();
@@ -305,7 +300,7 @@ public class SaveLoadManager : MonoBehaviour
             HeroName = null;
             Race = Faction.Neutral;
             playerArmy = new PlayerArmy();
-            UnitsList = new List<Unit>();
+            UnitsList = new List<UnitCreator>();
             FindObjectOfType<WindowSetter>().GoBack();
         }
     }
@@ -414,17 +409,11 @@ public class SaveLoadManager : MonoBehaviour
 public class PlayerArmy
 {
     public string HeroName;
-    public List<UnitID> unitIDs;
-    public UnitID? heroID;
+    public List<int> unitIndecies;
+    public int heroIndex;
     public Faction faction;
 }
 
-[System.Serializable]
-public enum UnitID
-{
-    // Rhino is Llha'ran. XD.
-    Warrior, Ranger, Knight, Swordman, Archer, Pikeman, Horseman, Catapult, Knights, IG, Marksman, Wolf, Hunter, Rhino, Raven, Fencers, Riders, Assassins
-}
 [System.Serializable]
 public struct LemurVector2
 {

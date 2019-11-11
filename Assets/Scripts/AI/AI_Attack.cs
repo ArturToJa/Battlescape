@@ -11,11 +11,11 @@ public class AI_Attack : AI_Base_Attack
         base.CallTheConstructor(ID);
     }
 
-    protected override Queue<UnitScript> GetPossibleUnits()
+    protected override Queue<BattlescapeLogic.Unit> GetPossibleUnits()
     {
-        Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(allyList);
-        UnitScript firstUnit = myUnitsToMove.Peek();
-        while (firstUnit.CheckIfIsInCombat() == false || firstUnit.CanStillAttack() == false)
+        Queue<BattlescapeLogic.Unit> myUnitsToMove = new Queue<BattlescapeLogic.Unit>(allyList);
+        BattlescapeLogic.Unit firstUnit = myUnitsToMove.Peek();
+        while (firstUnit.IsInCombat() == false || firstUnit.CanStillAttack() == false)
         {
             myUnitsToMove.Dequeue();
             if (myUnitsToMove.Count == 0)
@@ -32,15 +32,15 @@ public class AI_Attack : AI_Base_Attack
         return myUnitsToMove;
     }
 
-    protected override void PerformTheAction(UnitScript currentUnit, KeyValuePair<Tile, float> target)
+    protected override void PerformTheAction(BattlescapeLogic.Unit currentUnit, KeyValuePair<Tile, float> target)
     {
         Tile theTile = target.Key;
         AI_Controller.tilesAreEvaluated = false;
         if (theTile != null)
         {
-            CombatController.Instance.AttackTarget = theTile.myUnit.GetComponent<UnitScript>();
+            CombatController.Instance.attackTarget = theTile.myUnit.GetComponent<BattlescapeLogic.Unit>();
             currentUnit.statistics.numberOfAttacks = 0;
-            CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.AttackTarget, false, !currentUnit.isStoppingRetaliation);
+            CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.attackTarget);
         }
         else
         {
@@ -49,37 +49,37 @@ public class AI_Attack : AI_Base_Attack
         
     }
 
-    public override List<Tile> GetPossibleMoves(UnitScript currentUnit, bool isAlly)
+    public override List<Tile> GetPossibleMoves(BattlescapeLogic.Unit currentUnit, bool isAlly)
     {
         List<Tile> enemiesInCombat = new List<Tile>();
-        foreach (UnitScript enemy in currentUnit.EnemyList)
+        foreach (Tile tile in currentUnit.currentPosition.neighbours)
         {
-            if (enemy.IsAlive())
+            if (tile.myUnit != null && tile.myUnit.owner != currentUnit.owner)
             {
-                enemiesInCombat.Add(enemy.myTile);
+                enemiesInCombat.Add(tile);
             }
         }
         return enemiesInCombat;
     }
-    public override float EvaluateAsATarget(UnitScript currentUnit, Tile startingTile, Tile enemyTile)
+    public override float EvaluateAsATarget(BattlescapeLogic.Unit currentUnit, Tile startingTile, Tile enemyTile)
     {
         // here our unit makes a decision of where to attack at. He will:
         // 1. Want to prio units who cannot counterattack
         // 2. Want to hit guys, who will give him more points
         // 3. Want to hit guys, who he has bigger chance to actually damage.
 
-        UnitScript target = enemyTile.myUnit;
+        BattlescapeLogic.Unit target = enemyTile.myUnit;
         float Evaluation = 0f;
         //        Debug.Log("Evaluating a shot by: " + currentUnit + " at: " + target);
         // 1.
-        if (target.CanCurrentlyRetaliate == false)
+        if (target.statistics.numberOfRetaliations == 0)
         {
             Evaluation += 0.2f;
         }
 
         // 2.
         Evaluation += target.statistics.cost * 0.1f;
-        if (target.GetComponent<HeroScript>() != null)
+        if (target is Hero)
         {
             Evaluation += 0.75f;
             // Thats just my ruff estimate of "value" of a hero here, lol.
@@ -93,11 +93,10 @@ public class AI_Attack : AI_Base_Attack
         // Debug.Log("Evaluation increased by: " + temp + " for chances to hit");
         return Evaluation;
     }
-    float ChancesToHit(UnitScript currentUnit,UnitScript target)
+    float ChancesToHit(BattlescapeLogic.Unit currentUnit,BattlescapeLogic.Unit target)
     {
         float EvaluationIncrease = 0f;
-        HitChancer hc = new HitChancer(currentUnit, target, 100);  
-         float damageChance = 100 - hc.MissChance(false);
+        float damageChance = 100; // - DamageCalculator.MissChance(currentUnit, target);
         // im NOT sure if line above is correct, i had to change it after changing the combat system, it might be crap.
         float temp = damageChance * 0.01f;
         EvaluationIncrease += temp;

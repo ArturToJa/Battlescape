@@ -12,7 +12,7 @@ public class SelectedUnitSwitcheroo : MonoBehaviour
         Units = new List<GameObject>();
         foreach (Transform item in this.transform)
         {
-            if (item.GetComponent<UnitScript>() != null)
+            if (item.tag == "Unit")
             {
                 Units.Add(item.gameObject);
             }

@@ -16,13 +16,13 @@ public class AI_Base_Movement : AI_BaseClass
         base.CallTheConstructor(ID);
     }
 
-    public override IEnumerator EvaluatePossibleMoves(UnitScript currentUnit, List<Tile> possibleMoves)
+    public override IEnumerator EvaluatePossibleMoves(BattlescapeLogic.Unit currentUnit, List<Tile> possibleMoves)
     {
         AI_Controller.isEvaluatingTiles = true;
         EvaluatedTiles = new Dictionary<Tile, float>();
         int temp = 0;
         int direction = FindDirectionOfEnemies(currentUnit);
-        Dictionary<UnitScript, List<Tile>> EMR = GetAllEnemyMoves();
+        Dictionary<BattlescapeLogic.Unit, List<Tile>> EMR = GetAllEnemyMoves();
 
         foreach (var tile in possibleMoves)
         {
@@ -38,13 +38,13 @@ public class AI_Base_Movement : AI_BaseClass
 
     }
 
-    public int FindDirectionOfEnemies(UnitScript currentUnit)
+    public int FindDirectionOfEnemies(BattlescapeLogic.Unit currentUnit)
     {
         int N = 0;
         int W = 0;
         int S = 0;
         int E = 0;
-        foreach (UnitScript enemy in enemyList)
+        foreach (BattlescapeLogic.Unit enemy in enemyList)
         {
             if (enemy.transform.position.x < currentUnit.transform.position.x)
             {
@@ -115,21 +115,21 @@ public class AI_Base_Movement : AI_BaseClass
         }
     }
 
-    public virtual float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemiesMovementRanges)
+    public virtual float EvaluateTile(BattlescapeLogic.Unit currentUnit, Tile tile, int enemiesDirection, Dictionary<BattlescapeLogic.Unit, List<Tile>> EnemiesMovementRanges)
     {
         // THIS has to be overriden!
         return Random.Range(-1f, 1f);
     }
 
-    public override List<Tile> GetPossibleMoves(UnitScript unit, bool isAlly)
+    public override List<Tile> GetPossibleMoves(BattlescapeLogic.Unit unit, bool isAlly)
     {
         return new List<Tile>(Pathfinder.instance.GetAllLegalTilesFor(unit));
     }
 
-    public Dictionary<UnitScript, List<Tile>> GetAllEnemyMoves()
+    public Dictionary<BattlescapeLogic.Unit, List<Tile>> GetAllEnemyMoves()
     {
-        Dictionary<UnitScript, List<Tile>> AllEnemyMovesDictionary = new Dictionary<UnitScript, List<Tile>>();
-        foreach (UnitScript enemy in enemyList)
+        Dictionary<BattlescapeLogic.Unit, List<Tile>> AllEnemyMovesDictionary = new Dictionary<BattlescapeLogic.Unit, List<Tile>>();
+        foreach (BattlescapeLogic.Unit enemy in enemyList)
         {
             List<Tile> tilesInDanger = GetPossibleMoves(enemy, false);
             AllEnemyMovesDictionary.Add(enemy,tilesInDanger);

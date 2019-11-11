@@ -13,14 +13,14 @@ public abstract class PassiveAbility : MonoBehaviour
     protected GameObject IconForReal;
     ShowAbilitiesUI UnrealTooltip;
     protected GameObject IconForUnreal;
-    protected UnitScript myUnit;
+    protected BattlescapeLogic.Unit myUnit;
     [Header("Modyfier Values")]
     public int AttackModifierVersusUnitType;
     public int DefenceModifierVersusUnitType;
     public bool HasIcon;
 
-    public abstract int GetAttack(UnitScript other);
-    public abstract int GetDefence(UnitScript other);
+    public abstract int GetAttack(BattlescapeLogic.Unit other);
+    public abstract int GetDefence(BattlescapeLogic.Unit other);
 
     void AssignTooltips()
     {
@@ -39,7 +39,7 @@ public abstract class PassiveAbility : MonoBehaviour
     }
     public void Start()
     {
-        myUnit = this.GetComponent<UnitScript>();
+        myUnit = this.GetComponent<BattlescapeLogic.Unit>();
         AssignTooltips();
         if (AbilityIconName != string.Empty && HasIcon)
         {

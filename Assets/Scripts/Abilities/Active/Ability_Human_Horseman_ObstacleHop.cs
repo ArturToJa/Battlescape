@@ -52,8 +52,8 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         return
             MouseManager.Instance.mouseoveredTile != null &&
             MouseManager.Instance.mouseoveredTile.IsWalkable() &&
-            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile, myUnit.myTile, 2) &&
-            IsValidJump(myUnit.myTile, MouseManager.Instance.mouseoveredTile);
+            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile, myUnit.currentPosition, 2) &&
+            IsValidJump(myUnit.currentPosition, MouseManager.Instance.mouseoveredTile);
         //there needs to be one more thing - the obstacle! in exact middle!
     }
 
@@ -109,7 +109,7 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 
     bool IsDoneMoving()
     {
-        return myUnit.newMovement.isMoving == false;
+        return myUnit.movement.isMoving == false;
     }
 
     public override void AI_Activate(GameObject Target)
@@ -142,12 +142,12 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 
     protected override void ColourTiles()
     {
-        var Tiles = Helper.GetTilesInRangeOf(myUnit.myTile, 2);
+        var Tiles = Helper.GetTilesInRangeOf(myUnit.currentPosition, 2);
         foreach (Tile tile in Tiles)
         {
             if (
-                myUnit.myTile.neighbours.Contains(tile) == false &&
-                IsValidJump(tile, myUnit.myTile) &&
+                myUnit.currentPosition.neighbours.Contains(tile) == false &&
+                IsValidJump(tile, myUnit.currentPosition) &&
                 tile.IsWalkable()
                 )
             {

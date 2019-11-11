@@ -9,12 +9,12 @@ public class MouseManager : MonoBehaviour
     public static MouseManager Instance { get; private set; }
     //This is supposed to be ONLY a selection and highlighting tool. NOT a godobject nr.1
 
-    public UnitScript SelectedUnit { get; private set; }
-    public UnitScript MouseoveredUnit;
+    public Unit SelectedUnit { get; private set; }
+    public Unit MouseoveredUnit;
     public Tile mouseoveredTile;
     public GameObject mouseoveredDestructible;
     public Sound selectionSound;
-    List<UnitScript> coloredUnits;
+    List<Unit> coloredUnits;
     bool isMouseOverUI;
 
     void Start()
@@ -23,7 +23,7 @@ public class MouseManager : MonoBehaviour
         {
             Instance = this;
         }
-        coloredUnits = new List<UnitScript>();
+        coloredUnits = new List<Unit>();
         AudioSource selectionAudioSource = gameObject.AddComponent<AudioSource>();
         selectionSound.oldSource = selectionAudioSource;
         selectionSound.oldSource.clip = selectionSound.clip;
@@ -41,14 +41,14 @@ public class MouseManager : MonoBehaviour
         if (Helper.IsOverNonHealthBarUI())
         {
             isMouseOverUI = true;
-            if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.newMovement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
+            if (AbilityIconScript.IsAnyAbilityHovered == false && SelectedUnit != null && SelectedUnit.movement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && GameStateManager.Instance.GameState != GameStates.TargettingState)
             {
                 //PathCreator.Instance.ClearPath();
                 BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             }
             return;
         }
-        else if (GameStateManager.Instance.GameState != GameStates.TargettingState && (isMouseOverUI && SelectedUnit != null && SelectedUnit.newMovement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && mouseoveredTile != null && TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitScript>())))
+        else if (GameStateManager.Instance.GameState != GameStates.TargettingState && (isMouseOverUI && SelectedUnit != null && SelectedUnit.movement.isMoving == false && QCManager.Instance.PlayerChoosesWhetherToQC == false && mouseoveredTile != null && TurnManager.Instance.CurrentPhase == TurnPhases.Movement && SelectedUnit.CanStillMove()))
         {
             if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local)
             {
@@ -58,7 +58,7 @@ public class MouseManager : MonoBehaviour
             {
                 //So we just turned from UI back to the board - time to recolour stuff!
                 isMouseOverUI = false;
-                if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
+                if (SelectedUnit.IsInCombat() == false && SelectedUnit.movement.isMoving == false)
                 {
                     BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
                 }
@@ -80,7 +80,7 @@ public class MouseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F) && Application.isEditor)
         {
-            SelectedUnit.DealDamage(10, true, false, false);
+            SelectedUnit.OnHit(SelectedUnit, 100);
         }
     }
 
@@ -98,7 +98,7 @@ public class MouseManager : MonoBehaviour
 
 
 
-    private bool CanSelect(UnitScript selectableUnit)
+    private bool CanSelect(Unit selectableUnit)
     {
         if (GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.GameState == GameStates.RetaliationState || GameStateManager.Instance.GameState == GameStates.TargettingState)
         {
@@ -111,11 +111,11 @@ public class MouseManager : MonoBehaviour
         switch (GameStateManager.Instance.MatchType)
         {
             case MatchTypes.Online:
-                return Global.instance.playerTeams[selectableUnit.PlayerID].players[0].type == PlayerType.Local;
+                return selectableUnit.owner.type == PlayerType.Local;
             case MatchTypes.HotSeat:
-                return selectableUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index;
+                return selectableUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0];
             case MatchTypes.Singleplayer:
-                return Global.instance.playerTeams[selectableUnit.PlayerID].players[0].type == PlayerType.Local;
+                return selectableUnit.owner.type == PlayerType.Local;
             default:
                 Debug.Log("New type of MatchType exists and it isn't taken into consdieation here!");
                 return false;
@@ -132,7 +132,7 @@ public class MouseManager : MonoBehaviour
             {
                 toolMouseOverer.ClearMouseover(MouseoveredUnit.gameObject);
             }
-            MouseoveredUnit = mouseOveredObject.GetComponent<UnitScript>();
+            MouseoveredUnit = mouseOveredObject.GetComponent<Unit>();
             toolMouseOverer.Mouseover(MouseoveredUnit.gameObject);
         }
         if (mouseOveredObject.tag == "Tile")
@@ -148,13 +148,13 @@ public class MouseManager : MonoBehaviour
             }
             mouseoveredTile = mouseOveredObject.GetComponent<Tile>();    
             toolMouseOverer.Mouseover(mouseoveredTile.gameObject);
-            if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && MovementQuestions.Instance.CanUnitMoveAtAll(SelectedUnit.GetComponent<UnitScript>()))
+            if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && SelectedUnit.CanStillMove())
             {
                 if (mouseoveredTile.IsProtectedByEnemyOf(SelectedUnit))
                 {
                     foreach (Tile neighbour in mouseoveredTile.neighbours)
                     {
-                        if (neighbour.myUnit != null && neighbour.myUnit.PlayerID != SelectedUnit.PlayerID)
+                        if (neighbour.myUnit != null && neighbour.myUnit.owner != SelectedUnit.owner)
                         {
                             toolMouseOverer.PaintObject(neighbour.myUnit.gameObject, Color.red);
                             coloredUnits.Add(neighbour.myUnit);
@@ -162,11 +162,11 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
-                else if (Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.isRanged && SelectedUnit.GetComponent<ShootingScript>().CanShoot)
+                else if (Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.IsRanged() && SelectedUnit.CanStillAttack() && SelectedUnit.IsInCombat() != false)
                 {
-                    foreach (UnitScript enemy in FindObjectsOfType<UnitScript>())
+                    foreach (Unit enemy in FindObjectsOfType<Unit>())
                     {
-                        if (ShootingScript.WouldItBePossibleToShoot(SelectedUnit, mouseoveredTile.transform.position, enemy.transform.position).Key && enemy.PlayerID != SelectedUnit.PlayerID)
+                        if (CombatController.Instance.WouldItBePossibleToShoot(SelectedUnit, mouseoveredTile.transform.position, enemy.transform.position) && enemy.owner != SelectedUnit.owner)
                         {
                             toolMouseOverer.PaintObject(enemy.gameObject, Color.red);
                             coloredUnits.Add(enemy);
@@ -175,7 +175,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 // THIS MIGHT NOT WORK! :<
-                else if (mouseoveredTile != SelectedUnit.myTile && Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) == false)
+                else if (mouseoveredTile != SelectedUnit.currentPosition && Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) == false)
                 {
 
                     //PathCreator.Instance.ClearPath();
@@ -205,7 +205,7 @@ public class MouseManager : MonoBehaviour
         }
         if (gameObject.tag == "Tile")
         {
-            foreach (UnitScript unit in coloredUnits)
+            foreach (Unit unit in coloredUnits)
             {
                 toolMouseOverer.PaintObject(unit.gameObject, Color.white);
             }
@@ -221,7 +221,7 @@ public class MouseManager : MonoBehaviour
 
     }
 
-    public void SelectAUnit(UnitScript unit, bool changeCamera)
+    public void SelectAUnit(Unit unit, bool changeCamera)
     {
         if (changeCamera)
         {
@@ -239,8 +239,7 @@ public class MouseManager : MonoBehaviour
         }
         toolUnitSelector.SelectUnit(unit);
         SelectedUnit = unit;
-        UnitScript UnitScript = SelectedUnit.GetComponent<UnitScript>();
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && MovementQuestions.Instance.CanUnitMoveAtAll(UnitScript))
+        if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && SelectedUnit.CanStillMove())
         {
             ColourForSelectedUnit();
         }
@@ -259,7 +258,7 @@ public class MouseManager : MonoBehaviour
     {
 
         BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-        if ((SelectedUnit.EnemyList == null) || (SelectedUnit.EnemyList.Count == 0))
+        if ((SelectedUnit.IsInCombat() == false))
         {
             BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
         }
@@ -291,7 +290,7 @@ public class MouseManager : MonoBehaviour
         else if (mouseoveredTile != null)
         {
             UnMouseover(mouseoveredTile.gameObject);
-            if (SelectedUnit != null && SelectedUnit.newMovement.isMoving == false)
+            if (SelectedUnit != null && SelectedUnit.movement.isMoving == false)
             {
                 //PathCreator.Instance.ClearPath();
             }
@@ -352,9 +351,9 @@ public class MouseManager : MonoBehaviour
     void SelectNextAvailableUnit()
     {
 
-        List<UnitScript> AllUnits = new List<UnitScript>(VictoryLossChecker.GetMyUnitList());
-        List<UnitScript> PossibleUnits = new List<UnitScript>();
-        foreach (UnitScript unit in AllUnits)
+        List<Unit> AllUnits = new List<Unit>(VictoryLossChecker.GetMyUnitList());
+        List<Unit> PossibleUnits = new List<Unit>();
+        foreach (Unit unit in AllUnits)
         {
             if (GameStateManager.Instance.CanUnitActInThisPhase(unit))
             {

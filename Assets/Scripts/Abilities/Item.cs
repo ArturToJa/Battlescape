@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Item
 {
-    public UnitScript Owner;
+    public BattlescapeLogic.Unit Owner;
     public GameObject ItemHidden;
     public GameObject ItemInUse;
     public int AttackBonus;
@@ -26,14 +26,14 @@ public class Item
             Owner.statistics.bonusAttack += AttackBonus;
             Owner.statistics.bonusDefence += DefenceBonus;
             //Owner.CurrentDamage += DamageBonus;
-            //Owner.GetComponent<UnitScript>().IncrimentMoveSpeedBy(SpeedBonus);
+            //Owner.GetComponent<BattlescapeLogic.Unit>().IncrimentMoveSpeedBy(SpeedBonus);
         }
         else
         {
             Owner.statistics.bonusAttack -= AttackBonus;
             Owner.statistics.bonusDefence -= DefenceBonus;
             //Owner.CurrentDamage -= DamageBonus;
-            //Owner.GetComponent<UnitScript>().IncrimentMoveSpeedBy(-SpeedBonus);
+            //Owner.GetComponent<BattlescapeLogic.Unit>().IncrimentMoveSpeedBy(-SpeedBonus);
 
         }
     }
@@ -41,5 +41,5 @@ public class Item
 [System.Serializable]
 public class Weapon:Item
 {
-    public bool IsRanged;        
+    public BattlescapeLogic.AttackTypes attackType;        
 }

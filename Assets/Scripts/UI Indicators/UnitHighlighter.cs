@@ -50,7 +50,7 @@ public class UnitHighlighter : MonoBehaviour
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && MovementQuestions.Instance.CanUnitMoveAtAll(tile.myUnit.GetComponent<UnitScript>()) == true)
+                    if (tile.myUnit != null && tile.myUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0] && tile.myUnit.CanStillMove())
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);
@@ -61,29 +61,16 @@ public class UnitHighlighter : MonoBehaviour
                 {
                     PopupTextController.AddPopupText("No more units can move!", PopupTypes.Info);
                 }
-            }
-
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && (GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState))
-            {
-                foreach (Tile tile in Map.Board)
-                {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && tile.myUnit.isRanged && tile.myUnit.GetComponent<ShootingScript>().CanShoot == true)
-                    {
-                        tile.GetComponent<Renderer>().material.color = Color.green;
-                        ControlledTiles.Add(tile);
-                        thereIsAUnitWhoCanMove = true;
-                    }
-                }
-                if (thereIsAUnitWhoCanMove == false && isPressingControl == false && TurnManager.Instance.TurnCount > 0)
-                {
-                    PopupTextController.AddPopupText("No more units can shoot!", PopupTypes.Info);
-                }
-            }
+            }            
             else if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack && (GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.AttackState))
             {
                 foreach (Tile tile in Map.Board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.PlayerID == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index && tile.myUnit.CanStillAttack() == true && tile.myUnit.CanAttack && tile.myUnit.CheckIfIsInCombat() == true)
+                    if 
+                        (tile.myUnit != null 
+                        && tile.myUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]
+                        && tile.myUnit.CanStillAttack() == true 
+                        && tile.myUnit.attack != null)
                     {
                         tile.GetComponent<Renderer>().material.color = Color.green;
                         ControlledTiles.Add(tile);

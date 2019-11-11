@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class UnitButtonScript : MonoBehaviour
 {
 
-    public Unit thisUnit;
-    bool isSpecial;
+    public UnitCreator unitCreator;
+    Unit myUnit;
     Text theName;
     Text value;
     Text limit;
@@ -22,21 +23,12 @@ public class UnitButtonScript : MonoBehaviour
             limit.fontSize = 20;
             theName = GetComponentsInChildren<Text>()[0];
             value = GetComponentsInChildren<Text>()[1];
-            theName.text = thisUnit.Name;
-            isSpecial = thisUnit.thisUnitFirstPlayer.GetComponent<UnitScript>().isSpecial;
+            myUnit = unitCreator.prefab.GetComponent<Unit>();
+            theName.text = myUnit.unitName;
             this.GetComponent<Button>().onClick.AddListener(() => SetPressedButton());
-            if (isSpecial)
-            {
-                limit.color = Color.yellow;
-                theName.color = Color.yellow;
-                value.color = Color.yellow;
-            }
-            else
-            {
-                limit.color = Color.white;
-                theName.color = Color.white;
-                value.color = Color.white;
-            }
+            limit.color = Color.white;
+            theName.color = Color.white;
+            value.color = Color.white;
         }
 
     }
@@ -45,12 +37,12 @@ public class UnitButtonScript : MonoBehaviour
     {
         if (isVisual)
         {
-            value.text = thisUnit.Cost.ToString();
+            value.text = myUnit.statistics.cost.ToString();
 
 
             if (this.transform.parent.parent.name == "PossibleUnits")
             {
-                limit.text = thisUnit.LimitFor50.ToString();
+                limit.text = myUnit.statistics.limit.ToString();
             }
             else
             {

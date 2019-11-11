@@ -12,10 +12,10 @@ public class AI_BaseClass
     
     protected int ID;
     protected Dictionary<Tile, float> EvaluatedTiles;
-    public List<UnitScript> enemyList;
-    public List<UnitScript> allyList;
+    public List<BattlescapeLogic.Unit> enemyList;
+    public List<BattlescapeLogic.Unit> allyList;
 
-    List<UnitScript> LastThreeSelectedUnits;
+    List<BattlescapeLogic.Unit> LastThreeSelectedUnits;
 
     public AI_BaseClass(int ID)
     {
@@ -24,7 +24,7 @@ public class AI_BaseClass
 
     protected void CallTheConstructor(int ID)
     {
-        LastThreeSelectedUnits = new List<UnitScript>();
+        LastThreeSelectedUnits = new List<BattlescapeLogic.Unit>();
         this.ID = ID;
         allyList = Global.instance.playerTeams[ID].players[0].playerUnits;
         enemyList = Global.instance.GetNextPlayer(Global.instance.playerTeams[ID].players[0]).playerUnits;
@@ -34,10 +34,10 @@ public class AI_BaseClass
     {
         
         //First, find who can we move! AND if nobody, then we pass turn
-        Queue<UnitScript> unitsToMove = GetPossibleUnits();
+        Queue<BattlescapeLogic.Unit> unitsToMove = GetPossibleUnits();
         if (unitsToMove != null && unitsToMove.Count > 0)
         {
-            UnitScript currentUnit = unitsToMove.Dequeue();
+            BattlescapeLogic.Unit currentUnit = unitsToMove.Dequeue();
             if (IsInInfiniteLoop(currentUnit))
             {
                 PopupTextController.AddPopupText("Bug appeared! Tell Dogo about it!", PopupTypes.Info);
@@ -89,7 +89,7 @@ public class AI_BaseClass
         }
     }
 
-    bool CheckIfGoodToUseAbility(UnitScript currentUnit)
+    bool CheckIfGoodToUseAbility(BattlescapeLogic.Unit currentUnit)
     {
         foreach (Ability_Basic ability in currentUnit.GetComponents<Ability_Basic>())
         {
@@ -102,10 +102,10 @@ public class AI_BaseClass
         return false;
     }
 
-    bool IsInInfiniteLoop(UnitScript unit)
+    bool IsInInfiniteLoop(BattlescapeLogic.Unit unit)
     {
         int count = 0;
-        foreach (UnitScript u in LastThreeSelectedUnits)
+        foreach (BattlescapeLogic.Unit u in LastThreeSelectedUnits)
         {
             if (unit = u)
             {
@@ -115,27 +115,27 @@ public class AI_BaseClass
         return (count == 3);
     }
 
-    public virtual List<Tile> GetPossibleMoves(UnitScript currentUnit, bool isAlly)
+    public virtual List<Tile> GetPossibleMoves(BattlescapeLogic.Unit currentUnit, bool isAlly)
     {
         return null;
     }
 
-    public virtual IEnumerator EvaluatePossibleMoves(UnitScript currentUnit, List<Tile> possibleMoves)
+    public virtual IEnumerator EvaluatePossibleMoves(BattlescapeLogic.Unit currentUnit, List<Tile> possibleMoves)
     {
         yield return null;
     }
 
-    protected virtual void PerformTheAction(UnitScript currentUnit, KeyValuePair<Tile, float> target)
+    protected virtual void PerformTheAction(BattlescapeLogic.Unit currentUnit, KeyValuePair<Tile, float> target)
     {
         return;
     }
 
-    protected virtual Queue<UnitScript> GetPossibleUnits()
+    protected virtual Queue<BattlescapeLogic.Unit> GetPossibleUnits()
     {
         return null;
     }
 
-    public KeyValuePair<Tile, float> GetTheMove(UnitScript currentUnit, Dictionary<Tile, float> allPossibleOptionsEvaluated)
+    public KeyValuePair<Tile, float> GetTheMove(BattlescapeLogic.Unit currentUnit, Dictionary<Tile, float> allPossibleOptionsEvaluated)
     {
         List<Tile> ThingsToRandomlyPickFrom = new List<Tile>();
         float highestValue = -Mathf.Infinity;

@@ -16,7 +16,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     protected override void OnStart()
     {
         HowlSource = gameObject.AddComponent<AudioSource>();
-        Target = myUnit.myTile;
+        Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -30,19 +30,19 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     }
     protected override void ColourTiles()
     {
-        foreach (UnitScript ally in Helper.GetAlliesInRange(myUnit, RangeBetweenWolves))
+        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, RangeBetweenWolves))
         {
-            if (ally.unitUnit.myUnitID == UnitID.Wolf)
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(ally.myTile,Color.green);
-            }
+            //if (ally.unitUnit.myUnitID == UnitID.Wolf)
+            //{
+            //    BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition,Color.green);
+            //}
         }
-        foreach (UnitScript enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
+        foreach (BattlescapeLogic.Unit enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
         {
-            if (enemy.unitUnit.myUnitID == UnitID.Wolf)
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(enemy.myTile, Color.green);                
-            }
+            //if (enemy.unitUnit.myUnitID == UnitID.Wolf)
+            //{
+            //    BattlescapeGraphics.ColouringTool.SetColour(enemy.currentPosition, Color.green);                
+            //}
         }
     }
 
@@ -80,12 +80,12 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         foreach (Tile tile in Map.Board)
         {
             if (
-                (Mathf.Abs(tile.transform.position.x - myUnit.myTile.transform.position.x) <= RangeBetweenWolves)
+                (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
                 &&
-                (Mathf.Abs(tile.transform.position.z - myUnit.myTile.transform.position.z) <= RangeBetweenWolves)
-                && tile != myUnit.myTile
+                (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
+                && tile != myUnit.currentPosition
                 && tile.myUnit != null
-                && tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
+               // && tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
                 && CheckIfNoHowlYetOn(tile.myUnit)
                 )
             {
@@ -97,7 +97,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
 
     }
 
-    bool CheckIfNoHowlYetOn(UnitScript unit)
+    bool CheckIfNoHowlYetOn(BattlescapeLogic.Unit unit)
     {
         foreach (PassiveAbility_Buff buff in unit.GetComponents<PassiveAbility_Buff>())
         {
@@ -113,12 +113,12 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         GetComponent<AnimController>().Cast();
     }
 
-    IEnumerator DoOtherWolfStuff(UnitScript wolf)
+    IEnumerator DoOtherWolfStuff(BattlescapeLogic.Unit wolf)
     {
 
         Log.SpawnLog("Nearby wolf gets affected by a powerfull Howl!");
         wolf.GetComponent<AnimController>().Cast();
-        PassiveAbility_Buff.AddBuff(wolf.gameObject, Duration, AttackBuff, DefenceBuff, 0, wolf.baseQuitCombatPercent, true, "WolfBuff", BuffVFX, 0, false, false, false);
+        //PassiveAbility_Buff.AddBuff(wolf.gameObject, Duration, AttackBuff, DefenceBuff, 0, wolf.baseQuitCombatPercent, true, "WolfBuff", BuffVFX, 0, false, false, false);
         GameObject vfx1 = CreateVFXOn(wolf.transform, BasicVFX.transform.rotation);
         yield return new WaitForSeconds(6);
 
@@ -150,13 +150,13 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         foreach (Tile tile in Map.Board)
         {
             if (
-                (Mathf.Abs(tile.transform.position.x - myUnit.myTile.transform.position.x) <= RangeBetweenWolves)
+                (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
                 &&
-                (Mathf.Abs(tile.transform.position.z - myUnit.myTile.transform.position.z) <= RangeBetweenWolves)
-                && tile != myUnit.myTile
+                (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
+                && tile != myUnit.currentPosition
                 && tile.myUnit != null
-                && tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
-                && tile.myUnit.PlayerID == myUnit.PlayerID
+                //&& tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
+                && tile.myUnit.owner == myUnit.owner
                 )
             {
                 wolfCount++;

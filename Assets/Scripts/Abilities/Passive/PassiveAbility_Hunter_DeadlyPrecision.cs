@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PassiveAbility_Hunter_DeadlyPrecision : PassiveAbility
 {
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
         return 0;
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
         return 0;
     }

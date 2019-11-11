@@ -5,18 +5,18 @@ using UnityEngine;
 public class ArrowIconsDisplay : MonoBehaviour
 {
     [SerializeField] GameObject ArrowPrefab;
-    UnitScript myUnit;
+    BattlescapeLogic.Unit myUnit;
 
     void Start()
     {
-        myUnit = GetComponentInParent<UnitScript>();
+        myUnit = GetComponentInParent<BattlescapeLogic.Unit>();
         CombatController.Instance.AttackEvent += OnAttack;
     }
 
 
-    public void OnAttack(UnitScript Attacker, UnitScript Defender, int damage)
+    public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
-        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting && myUnit.EnemyList.Count == 0)
+        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
         {
             if (Application.isEditor)
             {

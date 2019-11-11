@@ -10,14 +10,14 @@ public class AI_Shooting : AI_Base_Attack
         base.CallTheConstructor(ID);
     }
 
-    public override float EvaluateAsATarget(UnitScript currentUnit, Tile startingTile, Tile targetTile)
+    public override float EvaluateAsATarget(BattlescapeLogic.Unit currentUnit, Tile startingTile, Tile targetTile)
     {
         // here our shooter makes a decision of where to shoot at. He will:
         // 1. Want to hit guys with high "danger" to our units.
         // 2. Want to hit guys, who will give him more points
         // 3. Want to hit guys, who he has bigger chance to actually damage.
 
-        UnitScript target = targetTile.myUnit;
+        BattlescapeLogic.Unit target = targetTile.myUnit;
         float Evaluation = 0f;
 //        Debug.Log("Evaluating a shot by: " + currentUnit + " at: " + target);
         // 1.
@@ -25,7 +25,7 @@ public class AI_Shooting : AI_Base_Attack
 
         // 2.
         Evaluation += target.statistics.cost* 0.1f;
-        if (target.GetComponent<HeroScript>() != null)
+        if (target is Hero)
         {
             Evaluation += 0.5f;
             // Thats just my ruff estimate of "value" of a hero here, lol.
@@ -40,20 +40,18 @@ public class AI_Shooting : AI_Base_Attack
         return Evaluation;
     }
 
-    float ChancesToHit(UnitScript currentUnit, UnitScript target)
+    float ChancesToHit(BattlescapeLogic.Unit currentUnit, BattlescapeLogic.Unit target)
     {
         float EvaluationIncrease = 0f;
-        HitChancer hc = new HitChancer(currentUnit, target, 100);
-        bool badRange = ShootingScript.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, target.transform.position).Value;
         // above the Value not the Key of possible to shoot at is important. It is missleading yet correct.        
-        float damageChance = 100 - hc.MissChance(badRange);
+        float damageChance = 100; //- DamageCalculator.MissChance(currentUnit, target);
         // im NOT sure if line above is correct, i had to change it after changing the combat system, it might be crap.
         float temp = damageChance * 0.015f;
         EvaluationIncrease += temp;
         return EvaluationIncrease;
     }
 
-    float HowDangerousThisEnemyIs(UnitScript enemy)
+    float HowDangerousThisEnemyIs(BattlescapeLogic.Unit enemy)
     {
         float EvaluationIncrease = 0f;
         EvaluationIncrease += enemy.statistics.GetCurrentAttack() * 0.1f * (enemy.statistics.healthPoints / enemy.statistics.maxHealthPoints);
@@ -61,12 +59,11 @@ public class AI_Shooting : AI_Base_Attack
         return EvaluationIncrease;
     }
 
-    protected override Queue<UnitScript> GetPossibleUnits()
+    protected override Queue<BattlescapeLogic.Unit> GetPossibleUnits()
     {        
-        Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(allyList);
-        UnitScript firstUnit = myUnitsToMove.Peek();
-        ShootingScript shooter = firstUnit.GetComponent<ShootingScript>();
-        while (shooter == null || shooter.CanShoot == false || firstUnit.CheckIfIsInCombat() == true)
+        Queue<BattlescapeLogic.Unit> myUnitsToMove = new Queue<BattlescapeLogic.Unit>(allyList);
+        BattlescapeLogic.Unit shooter = myUnitsToMove.Peek();        
+        while (shooter == null || shooter.CanStillAttack() == false || shooter.IsInCombat())
         {
             myUnitsToMove.Dequeue();
            
@@ -77,23 +74,22 @@ public class AI_Shooting : AI_Base_Attack
             }
             else
             {
-                firstUnit = myUnitsToMove.Peek();
-                shooter = firstUnit.GetComponent<ShootingScript>();
+                shooter = myUnitsToMove.Peek();
             }
 
         }
         return myUnitsToMove;
     }
 
-    protected override void PerformTheAction(UnitScript currentUnit, KeyValuePair<Tile, float> target)
+    protected override void PerformTheAction(BattlescapeLogic.Unit currentUnit, KeyValuePair<Tile, float> target)
     {
         AI_Controller.tilesAreEvaluated = false;
         if (target.Key != null)
         {
             Debug.Log("Chosen tile is: " + target.Key);
-            CombatController.Instance.AttackTarget = target.Key.myUnit.GetComponent<UnitScript>();
+            CombatController.Instance.attackTarget = target.Key.myUnit.GetComponent<BattlescapeLogic.Unit>();
             currentUnit.statistics.numberOfAttacks = 0;
-            CombatController.Instance.Shoot(currentUnit, CombatController.Instance.AttackTarget, currentUnit.GetComponent<ShootingScript>().CheckBadRange(target.Key.gameObject),currentUnit.GetComponent<ShootingScript>().AOEAttack);
+            CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.attackTarget);
         }
         else
         {
@@ -101,35 +97,35 @@ public class AI_Shooting : AI_Base_Attack
         }
     }
 
-    public override List<Tile> GetPossibleMoves(UnitScript currentUnit, bool isAlly)
+    public override List<Tile> GetPossibleMoves(BattlescapeLogic.Unit currentUnit, bool isAlly)
     {
         List<Tile> enemiesInRange = new List<Tile>();
-        foreach (UnitScript enemy in enemyList)
+        foreach (BattlescapeLogic.Unit enemy in enemyList)
         {
-            bool isInRange = ShootingScript.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position).Key;
-            if (enemy.PlayerID != this.ID && isInRange && enemy.IsAlive())
+            bool isInRange = CombatController.Instance.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position);
+            if (enemy.owner.index != this.ID && isInRange && enemy.IsAlive())
             {
-                enemiesInRange.Add(enemy.myTile);
+                enemiesInRange.Add(enemy.currentPosition);
             }
         }
         return enemiesInRange;
     }
 
-    public  UnitScript FindBestTarget(ShootingScript shooter, Vector3 startingPosition, int range)
+    public  BattlescapeLogic.Unit FindBestTarget(BattlescapeLogic.Unit shooter, Vector3 startingPosition, int range)
     {
         // we want to get THE BEST target XD. Which for now means:
         // 1. Get all enemies we, from the tile, could shoot at as a Dictionary of units and floats.
         // 2. For each of them calculate their value (we will use it once again as shooting evaluation)
         // 3. Return the best one xD.
 
-        Dictionary<UnitScript, float> TargetsEvaluated = new Dictionary<UnitScript, float>();
-        List<UnitScript> AllEnemies = VictoryLossChecker.GetEnemyUnitList();
+        Dictionary<BattlescapeLogic.Unit, float> TargetsEvaluated = new Dictionary<BattlescapeLogic.Unit, float>();
+        List<BattlescapeLogic.Unit> AllEnemies = VictoryLossChecker.GetEnemyUnitList();
         Bounds Range = new Bounds(startingPosition, new Vector3(2 * range + 0.25f, 5, 2 * range + 0.25f));
         foreach (var enemy in AllEnemies)
         {            
             if (Range.Contains(enemy.transform.position))
             {
-                TargetsEvaluated.Add(enemy, EvaluateAsATarget(shooter.GetComponent<UnitScript>(), enemy.myTile));
+                TargetsEvaluated.Add(enemy, EvaluateAsATarget(shooter, enemy.currentPosition));
             }
         }
 
@@ -140,7 +136,7 @@ public class AI_Shooting : AI_Base_Attack
         else
         {
             float highestValue = -Mathf.Infinity;
-            UnitScript choice = null;
+            BattlescapeLogic.Unit choice = null;
             foreach (var item in TargetsEvaluated)
             {
                 if (item.Value > highestValue)

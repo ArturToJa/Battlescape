@@ -9,17 +9,16 @@ public class HeroPedestalSwitcher : MonoBehaviour, IPointerEnterHandler
     SelectedUnitSwitcheroo sus;
     [SerializeField] GameObject PedestalUnit;
     [SerializeField] Text heroTypeSpot;
-    [SerializeField] UnitScript myUnit;
 
     void Start()
     {
         sus = FindObjectOfType<SelectedUnitSwitcheroo>();
-        myUnit = PedestalUnit.GetComponent<UnitScript>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log(PedestalUnit);
         sus.SetActiveUnitTo(PedestalUnit);
-        heroTypeSpot.text = myUnit.unitUnit.Name;
+        heroTypeSpot.text = PedestalUnit.name;
     }
 }

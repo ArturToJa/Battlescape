@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace BattlescapeLogic
     public class Statistics
     {
         public static readonly int baseDamage = 10;
+        public static readonly int maxEnergy = 100;
 
         [SerializeField] int _cost;
         public int cost
@@ -19,6 +21,19 @@ namespace BattlescapeLogic
             set
             {
                 _cost = value;
+            }
+        }
+
+        [SerializeField] int _limit;
+        public int limit
+        {
+            get
+            {
+                return _limit;
+            }
+            private set
+            {
+                _limit = value;
             }
         }
 
@@ -77,6 +92,12 @@ namespace BattlescapeLogic
         public int bonusMaxMovementPoints { get; set; }
         public int movementPoints { get; set; }
         [SerializeField] int _baseAttackRange = 1;
+
+        public void NullMaxNumberOfAttacks()
+        {
+            maxNumberOfAttacks = 0;
+        }
+
         public int baseAttackRange
         {
             get
@@ -116,6 +137,38 @@ namespace BattlescapeLogic
             }
         }
         public int numberOfAttacks { get; set; }
+
+        [SerializeField] int _defaultMaxNumberOfRetaliations;
+
+        public int defaultMaxNumberOfRetaliations
+        {
+            get
+            {
+                return _defaultMaxNumberOfRetaliations;
+            }
+            private set
+            {
+                _defaultMaxNumberOfRetaliations = value;
+            }
+        }
+
+        public int currentMaxNumberOfRetaliations { get; set; }
+
+        public int numberOfRetaliations { get; set; }   
+
+        public int currentEnergy { get; set; }
+        [SerializeField] int _energyRegen;
+        public int energyRegen
+        {
+            get
+            {
+                return _energyRegen;
+            }
+            private set
+            {
+                _energyRegen = value;
+            }
+        }
 
         public void NullMaxMovementPoints()
         {

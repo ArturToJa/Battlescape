@@ -13,10 +13,6 @@ public class NextPhaseTextScript : MonoBehaviour
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
         {
             NextPhaseText.text = "Next Phase";
-        }
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-        {
-            NextPhaseText.text = "Next Phase";
-        }
+        }        
     }
 }

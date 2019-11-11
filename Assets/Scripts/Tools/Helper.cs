@@ -113,14 +113,14 @@ public static class Helper
     }
 
     /// <summary>
-    /// Returns all UnitScripts of the SAME Player in range of 'range' from 'unit'. Note that 'unit' is not included!
+    /// Returns all BattlescapeLogic.Units of the SAME Player in range of 'range' from 'unit'. Note that 'unit' is not included!
     /// </summary>
-    public static List<UnitScript> GetAlliesInRange(UnitScript unit, int range)
+    public static List<BattlescapeLogic.Unit> GetAlliesInRange(BattlescapeLogic.Unit unit, int range)
     {
-        List<UnitScript> AlliesInRange = new List<UnitScript>();
-        foreach (Tile tile in GetTilesInRangeOf(unit.myTile, range))
+        List<BattlescapeLogic.Unit> AlliesInRange = new List<BattlescapeLogic.Unit>();
+        foreach (Tile tile in GetTilesInRangeOf(unit.currentPosition, range))
         {
-            if (tile.myUnit != null && tile.myUnit.PlayerID == unit.PlayerID)
+            if (tile.myUnit != null && tile.myUnit.owner.team == unit.owner.team)
             {
                 AlliesInRange.Add(tile.myUnit);
             }
@@ -129,14 +129,14 @@ public static class Helper
     }
 
     /// <summary>
-    /// Returns all UnitScripts of the OTHER Player in range of 'range' from 'unit'.
+    /// Returns all BattlescapeLogic.Units of the OTHER Player in range of 'range' from 'unit'.
     /// </summary>
-    public static List<UnitScript> GetEnemiesInRange(UnitScript unit, int range)
+    public static List<BattlescapeLogic.Unit> GetEnemiesInRange(BattlescapeLogic.Unit unit, int range)
     {
-        List<UnitScript> EnemiesInRange = new List<UnitScript>();
-        foreach (Tile tile in GetTilesInRangeOf(unit.myTile, range))
+        List<BattlescapeLogic.Unit> EnemiesInRange = new List<BattlescapeLogic.Unit>();
+        foreach (Tile tile in GetTilesInRangeOf(unit.currentPosition, range))
         {
-            if (tile.myUnit != null && tile.myUnit.PlayerID != unit.PlayerID)
+            if (tile.myUnit != null && tile.myUnit.owner.team != unit.owner.team)
             {
                 EnemiesInRange.Add(tile.myUnit);
             }

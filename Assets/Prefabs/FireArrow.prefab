@@ -222,7 +222,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4295721621285084}
   - component: {fileID: 54143938418528216}
-  - component: {fileID: 114070265990784610}
   m_Layer: 0
   m_Name: FireArrow
   m_TagString: Projectile
@@ -580,31 +579,6 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &114070265990784610
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1974170570447174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52bbbfcd0f96bac408a70f8e2a2de4a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isNormalProjectile: 1
-  Target: {x: 0, y: 0, z: 0}
-  speed: 0
-  time: 0
-  myShooter: {fileID: 0}
-  Explosion: {fileID: 1340500999522602, guid: ca6419d98d67b364c898e6bf78d5a6a2, type: 2}
-  HitSound:
-    name: FireEmpShotSound
-    clip: {fileID: 8300000, guid: 3e6d726316de16841b5765cccf774d7d, type: 3}
-    volume: 0.3
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-    soundType: 6
 --- !u!198 &198125698604554930
 ParticleSystem:
   m_ObjectHideFlags: 1

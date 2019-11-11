@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,10 +31,10 @@ namespace BattlescapeLogic
         public Faction race { get; set; }
         public readonly PlayerType type;
         public readonly PlayerColour colour;
-        public readonly List<UnitScript> playerUnits;
+        public readonly List<BattlescapeLogic.Unit> playerUnits;
         public int playerScore { get; private set; }
 
-        void AddNewUnit(UnitScript newUnit)
+        void AddNewUnit(BattlescapeLogic.Unit newUnit)
         {
             playerUnits.Add(newUnit);
         }
@@ -43,7 +44,7 @@ namespace BattlescapeLogic
         }
         public Unit GetUnitByIndex(int index)
         {
-            foreach (UnitScript unit in playerUnits)
+            foreach (BattlescapeLogic.Unit unit in playerUnits)
             {
                 /*if (unit.index == index)
                 {
@@ -52,6 +53,12 @@ namespace BattlescapeLogic
             }
             Debug.LogError("NO UNIT FOUND!");
             return null;
+        }
+
+        public void AddUnit(Unit myUnit)
+        {
+            playerUnits.Add(myUnit);
+            myUnit.owner = this;
         }
     }
 }

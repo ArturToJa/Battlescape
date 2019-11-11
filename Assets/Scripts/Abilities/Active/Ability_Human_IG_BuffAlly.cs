@@ -19,7 +19,14 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override bool IsUsableNow()
     {
-        return myUnit.AllyList.Count > 0;
+        foreach (Tile tile in myUnit.currentPosition.neighbours)
+        {
+            if (tile.myUnit != null && tile.myUnit.owner == myUnit.owner)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected override void CancelUse()
@@ -50,7 +57,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override void ColourTiles()
     {
-        foreach (Tile tile in myUnit.myTile.neighbours)
+        foreach (Tile tile in myUnit.currentPosition.neighbours)
         {
             if (IsLegalTarget(tile))
             {
@@ -61,16 +68,16 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     bool IsLegalTarget(Tile tile)
     {       
-        return tile.myUnit != null && tile.myUnit.PlayerID == myUnit.PlayerID && myUnit.myTile.neighbours.Contains(tile);
+        return tile.myUnit != null && tile.myUnit.owner == myUnit.owner && myUnit.currentPosition.neighbours.Contains(tile);
     }
 
-    IEnumerator BuffAlly(UnitScript ally)
+    IEnumerator BuffAlly(BattlescapeLogic.Unit ally)
     {
         Log.SpawnLog(myUnit.name + " empowers " + ally.name + ", giving a +2 bonus to Attack and Defence till next turn");
         PlayAbilitySound();
         GameObject vfx1 = CreateVFXOn(ally.transform, BasicVFX.transform.rotation);
         GetComponent<AnimController>().Cast();
-        PassiveAbility_Buff.AddBuff(ally.gameObject, 2, 2, 2, 0, 100, true, "IGBuff", BuffVFX, 0, false, false, false);
+        PassiveAbility_Buff.AddBuff(ally.gameObject, 2, 2, 2, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "IGBuff", BuffVFX, 0, false, false, false);
         yield return null;
         FinishUsing();
         yield return new WaitForSeconds(15);
@@ -91,18 +98,18 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
     public override bool AI_IsGoodToUseNow()
     {
         // this ability is good enough for now that i want to use it every turn if possible cause why not
-        return myUnit.AllyList.Count > 0;
+        return IsUsableNow();
     }
 
     public override void AI_Activate(GameObject Target)
     {
         AlreadyUsedThisTurn = true;
-        StartCoroutine(BuffAlly(Target.GetComponent<UnitScript>()));
+        StartCoroutine(BuffAlly(Target.GetComponent<BattlescapeLogic.Unit>()));
     }
 
     public override GameObject AI_ChooseTarget()
     {
         // no idea really, on what criteria this AI should choose correct unit - but maybe You, dear reader, will know any better ;/ For now Random will do.
-        return myUnit.AllyList[Random.Range(0, myUnit.AllyList.Count)].gameObject;
+        return /*myUnit.AllyList[Random.Range(0, myUnit.AllyList.Count)].gameObject*/null;
     }
 }

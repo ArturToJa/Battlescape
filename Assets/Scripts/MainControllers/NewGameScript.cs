@@ -6,16 +6,16 @@ using BattlescapeLogic;
 public class NewGameScript : MonoBehaviour
 {
 
-    public static Dictionary<Vector3, Unit> PlayerOneArmy = new Dictionary<Vector3, Unit>();
-    public static Dictionary<Vector3, Unit> PlayerTwoArmy = new Dictionary<Vector3, Unit>();
+    public static Dictionary<Vector3, BattlescapeLogic.Unit> PlayerOneArmy = new Dictionary<Vector3, BattlescapeLogic.Unit>();
+    public static Dictionary<Vector3, BattlescapeLogic.Unit> PlayerTwoArmy = new Dictionary<Vector3, BattlescapeLogic.Unit>();
     SkyboxChanger skybox;
     [SerializeField] GameObject WinScreen;
 
     void Start()
     {
         skybox = FindObjectOfType<SkyboxChanger>();
-        PlayerOneArmy = new Dictionary<Vector3, Unit>();
-        PlayerTwoArmy = new Dictionary<Vector3, Unit>();
+        PlayerOneArmy = new Dictionary<Vector3, BattlescapeLogic.Unit>();
+        PlayerTwoArmy = new Dictionary<Vector3, BattlescapeLogic.Unit>();
 }
 
     public void ReplayTheSameGame()
@@ -31,7 +31,7 @@ public class NewGameScript : MonoBehaviour
         TurnManager.Instance.MovementPhase();
         VictoryLossChecker.Clear();
         skybox.SetSkyboxToRandom();
-        foreach (UnitScript unit in FindObjectsOfType<UnitScript>())
+        foreach (BattlescapeLogic.Unit unit in FindObjectsOfType<BattlescapeLogic.Unit>())
         {
             if (Application.isEditor)
             {
@@ -48,13 +48,13 @@ public class NewGameScript : MonoBehaviour
             tile.SetMyUnitTo(null);
         }
 
-        foreach (KeyValuePair<Vector3, Unit> pair in PlayerOneArmy)
+        foreach (KeyValuePair<Vector3, BattlescapeLogic.Unit> pair in PlayerOneArmy)
         {
-            Instantiate(pair.Value.thisUnitFirstPlayer, pair.Key, pair.Value.thisUnitFirstPlayer.transform.rotation);
+            Instantiate(pair.Value.gameObject, pair.Key, pair.Value.gameObject.transform.rotation);
         }
-        foreach (KeyValuePair<Vector3, Unit> pair in PlayerTwoArmy)
+        foreach (KeyValuePair<Vector3, BattlescapeLogic.Unit> pair in PlayerTwoArmy)
         {
-            Instantiate(pair.Value.thisUnitSecondPlayer, pair.Key, pair.Value.thisUnitFirstPlayer.transform.rotation);
+            Instantiate(pair.Value.gameObject, pair.Key, pair.Value.gameObject.transform.rotation);
         }
     }
 }

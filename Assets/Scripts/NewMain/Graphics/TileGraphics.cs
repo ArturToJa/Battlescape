@@ -20,14 +20,19 @@ namespace BattlescapeGraphics
 
         void Update()
         {
-            if (TurnManager.Instance.TurnCount == 0 && myTile.isDropzoneOfPlayer[0])
+            if (TurnManager.Instance.TurnCount == 0)
             {
-                GetComponent<Renderer>().material.color = Color.green;
+                if (myTile.DropzoneOfPlayer == 0)
+                {
+                    GetComponent<Renderer>().material.color = Color.green;
+                }
+                else if (myTile.DropzoneOfPlayer == 1)
+                {
+                    GetComponent<Renderer>().material.color = Color.red;
+                }
+
             }
-            else if (TurnManager.Instance.TurnCount == 0 && myTile.isDropzoneOfPlayer[1])
-            {
-                GetComponent<Renderer>().material.color = Color.red;
-            }
+
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 grid.SetActive(!grid.activeSelf);

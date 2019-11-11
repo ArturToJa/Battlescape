@@ -9,12 +9,8 @@ public class CombatController : MonoBehaviour
     PhotonView photonView;
     public static CombatController Instance { get; private set; }
     int waitRoutines = 0;
-    public UnitScript AttackTarget;
-    public UnitScript AttackingUnit;
-    //public int TresholdKicker = 4;
-    public int DiceFaceNumber = 12;
-    public int DamageForRandomization = 5;
-
+    public BattlescapeLogic.Unit attackingUnit;
+    public BattlescapeLogic.Unit attackTarget;
 
     void Start()
     {
@@ -28,28 +24,7 @@ public class CombatController : MonoBehaviour
 
     void Update()
     {
-        ///////////////////////////////////////test
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            var temp = new DamageCalculator();
-            UnitScript Attacker = MouseManager.Instance.SelectedUnit;
-            UnitScript Defender = MouseManager.Instance.MouseoveredUnit;
-            for (int i = 0; i < 1000; i++)
-            {
-                Debug.Log(temp.GetDmgWithProbability(Attacker, Defender));
-
-            }
-        }
-
-
-
-
         CheckForInput();
-        /* if (Input.GetKeyDown(KeyCode.W))
-         {
-             Debug.LogError(GameStateManager.Instance.GameState);
-             Debug.LogError(GameStateManager.IsGreenActive());
-         }*/
     }
 
     public void OnNewTurn()
@@ -67,44 +42,111 @@ public class CombatController : MonoBehaviour
         {
             return;
         }
-        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack)
+        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.currentPosition.neighbours.Contains(MouseManager.Instance.MouseoveredUnit.currentPosition) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.attack != null)
         {
-            SendCommandToAttack(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, false, !MouseManager.Instance.SelectedUnit.isStoppingRetaliation && MouseManager.Instance.MouseoveredUnit.DoesRetaliate);
-            MouseManager.Instance.SelectedUnit.statistics.numberOfAttacks = 0;
+            SendCommandToAttack(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit);
+            MouseManager.Instance.SelectedUnit.statistics.numberOfAttacks-- ;
         }
-        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.EnemyList.Contains(MouseManager.Instance.MouseoveredUnit.GetComponent<UnitScript>()) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.CanAttack == false)
+        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.SelectedUnit.currentPosition.neighbours.Contains(MouseManager.Instance.MouseoveredUnit.currentPosition) && MouseManager.Instance.SelectedUnit.CanStillAttack() && MouseManager.Instance.SelectedUnit.attack != null)
         {
             PopupTextController.AddPopupText("This unit cannot attack!", PopupTypes.Info);
         }
-        //THIS below is just for testing and allows to shoot with Z key. XD. Its just for quick testing if a shot works ;) REAL shooting exists inside ShootingScript currently apparently
-        /*if (MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.SelectedUnit.GetComponent<ShootingScript>() != null && Input.GetKeyDown(KeyCode.Z) && MouseManager.Instance.MouseoveredUnit != null && Application.isEditor)
+        if (Input.GetMouseButtonDown(0) && PossibleToShootAt(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, false) && WeDontUseAbilityRightNow())
         {
-            Shoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit, false);
-        }*/
-        if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.mouseoveredDestructible != null && MouseManager.Instance.SelectedUnit.CanAttackDestructible(MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>(), true))
-        {
-            if (GameStateManager.Instance.MatchType == MatchTypes.Online)
-            {
-                photonView.RPC
-                    (
-                    "RPCMeleeAttackObstacle",
-                    PhotonTargets.All,
-                    Mathf.RoundToInt(MouseManager.Instance.SelectedUnit.transform.position.x),
-                    Mathf.RoundToInt(MouseManager.Instance.SelectedUnit.transform.position.z),
-                    Mathf.RoundToInt(MouseManager.Instance.mouseoveredDestructible.transform.position.x),
-                    Mathf.RoundToInt(MouseManager.Instance.mouseoveredDestructible.transform.position.z)
-                   );
-
-            }
-            else
-            {
-                MeleeAttackObstacle(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>());
-            }
-
+            SendCommandToAttack(MouseManager.Instance.SelectedUnit, MouseManager.Instance.MouseoveredUnit);
+            MouseManager.Instance.SelectedUnit.statistics.numberOfAttacks = 0;
         }
+        //if (GameStateManager.Instance.GameState == GameStates.AttackState && Input.GetMouseButtonDown(0) && MouseManager.Instance.SelectedUnit != null && MouseManager.Instance.mouseoveredDestructible != null && MouseManager.Instance.SelectedUnit.CanAttackDestructible(MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>(), true))
+        //{
+        //    if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        //    {
+        //        photonView.RPC
+        //            (
+        //            "RPCMeleeAttackObstacle",
+        //            PhotonTargets.All,
+        //            Mathf.RoundToInt(MouseManager.Instance.SelectedUnit.transform.position.x),
+        //            Mathf.RoundToInt(MouseManager.Instance.SelectedUnit.transform.position.z),
+        //            Mathf.RoundToInt(MouseManager.Instance.mouseoveredDestructible.transform.position.x),
+        //            Mathf.RoundToInt(MouseManager.Instance.mouseoveredDestructible.transform.position.z)
+        //           );
+
+        //    }
+        //    else
+        //    {
+        //        MeleeAttackObstacle(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredDestructible.GetComponent<DestructibleScript>());
+        //    }
+
+        //}
     }
 
-    void MeleeAttackObstacle(UnitScript Attacker, DestructibleScript target)
+    bool WeDontUseAbilityRightNow()
+    {
+        return (Ability_Basic.currentlyUsedAbility == null || (Ability_Basic.currentlyUsedAbility != null && Ability_Basic.currentlyUsedAbility.gameObject != this.gameObject));
+    }
+
+    public bool PossibleToShootAt(Unit shooter, Unit target, bool isCursor)
+    {
+        if (Application.isEditor && Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift))
+        {
+            Debug.Log(!shooter.IsInCombat() + "," + target != null + "," + WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, target.transform.position) + "," + shooter.CanStillAttack());
+        }
+        return (
+                  MouseManager.Instance.SelectedUnit != null
+                  && MouseManager.Instance.SelectedUnit == shooter
+                  && !shooter.IsInCombat()
+                  && target != null
+                  && target.owner != MouseManager.Instance.SelectedUnit.owner
+                  && WouldItBePossibleToShoot(shooter, shooter.transform.position, target.transform.position)
+                  && shooter.CanStillAttack()
+                  //&& shooter.attack is ShootingAttack
+                  && GameStateManager.Instance.GameState == GameStates.AttackState
+                  && shooter.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]
+                  && IsInLineOfSight(transform.position, target.transform.position, isCursor)
+               );
+    }
+
+    public bool IsInLineOfSight(Vector3 start, Vector3 target, bool showNoPopup)
+    {
+        Vector3 startPos = start  /*+Vector3.up * 0.01f*/;
+        Vector3 endPos = target  /*+Vector3.up * 0.01f*/;
+        Vector3 direction = endPos - startPos;
+        foreach (RaycastHit hit in Physics.RaycastAll(startPos, direction, Vector3.Distance(startPos, endPos) + 0.01f))
+        {
+            if (hit.collider.transform.gameObject.tag == "Tile")
+            {
+                //MIND YOU - this HAS TO BE recreated in a new way (I have an idea, how) in new code if we want to keep this mechanic!
+                //if (/*hit.collider.transform.gameObject.GetComponent<Tile>().isShootable == false*/ false)
+                //{
+                //    if (Input.GetMouseButtonDown(0) && showNoPopup == false)
+                //    {
+                //        PopupTextController.AddPopupText("Can not shoot through this obstacle!", PopupTypes.Info);
+                //    }
+                //    return false;
+                //}
+
+            }
+        }
+        return true;
+    }
+
+    public bool WouldItBePossibleToShoot(BattlescapeLogic.Unit shooter, Vector3 start, Vector3 target)
+    {
+
+        Bounds FullRange = new Bounds(start, new Vector3(2 * shooter.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * shooter.statistics.GetCurrentAttackRange() + 0.25f));
+        if (shooter.statistics.minimalAttackRange > 0)
+        {
+            Bounds miniRange = new Bounds(start, new Vector3(2 * shooter.statistics.minimalAttackRange + 0.25f, 5, 2 * shooter.statistics.minimalAttackRange + 0.25f));
+            return miniRange.Contains(target) == false && FullRange.Contains(target) && IsInLineOfSight(start, target, true);
+        }
+        else
+        {
+            return FullRange.Contains(target) && IsInLineOfSight(start, target, true);
+        }
+
+    }
+
+
+    void MeleeAttackObstacle(BattlescapeLogic.Unit Attacker, DestructibleScript target)
     {
         Debug.Log("Melee attacking obstacle - debugging fencer bug");
         //Attacker.LookAtTheTarget(target.transform.position, Attacker.GetComponentInChildren<BodyTrigger>().RotationInAttack);
@@ -118,28 +160,28 @@ public class CombatController : MonoBehaviour
     [PunRPC]
     void RPCMeleeAttackObstacle(int unitX, int unitZ, int targetX, int targetZ)
     {
-        UnitScript Attacker = Map.Board[unitX, unitZ].myUnit;
+        BattlescapeLogic.Unit Attacker = Map.Board[unitX, unitZ].myUnit;
         DestructibleScript target = Map.Board[targetX, targetZ].GetComponentInChildren<DestructibleScript>();
         MeleeAttackObstacle(Attacker, target);
     }
 
-    public IEnumerator ShootToObstacle(ShootingScript shooter, Vector3 target)
-    {
+    //public IEnumerator ShootToObstacle(BattlescapeLogic.Unit shooter, Vector3 target)
+    //{
 
-        SendCommandToLaunchProjectile(shooter, target);        
+    //    SendCommandToLaunchProjectile(shooter, target);        
 
-        yield return new WaitForSeconds((Vector3.Distance(target, shooter.ProjectileLauncher.position) * Mathf.PI) / (2 * Mathf.Sqrt(2)) / shooter.PROJECTILE_SPEED);
-        DestroyObstacle(Map.Board[Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.z)]);
-        if (Application.isEditor)
-        {
-            DestroyImmediate(shooter.lastShotProjectile.gameObject);
-        }
-        else
-        {
-            Destroy(shooter.lastShotProjectile.gameObject);
-        }
+    //    yield return new WaitForSeconds((Vector3.Distance(target, shooter.ProjectileLauncher.position) * Mathf.PI) / (2 * Mathf.Sqrt(2)) / shooter.PROJECTILE_SPEED);
+    //    DestroyObstacle(Map.Board[Mathf.RoundToInt(target.x), Mathf.RoundToInt(target.z)]);
+    //    if (Application.isEditor)
+    //    {
+    //        DestroyImmediate(shooter.lastShotProjectile.gameObject);
+    //    }
+    //    else
+    //    {
+    //        Destroy(shooter.lastShotProjectile.gameObject);
+    //    }
 
-    }
+    //}
 
     void DestroyObstacle(Tile tile)
     {
@@ -175,7 +217,7 @@ public class CombatController : MonoBehaviour
         {
             foreach (var item in target.GetComponentsInChildren<Renderer>())
             {
-                
+
                 Color temp = item.material.color;
                 temp.a = Mathf.Lerp(temp.a, -1, 0.5f * Time.deltaTime);
                 item.material.color = temp;
@@ -194,10 +236,8 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void SendCommandToAttack(UnitScript Attacker, UnitScript Defender, bool badRangeShooting, bool retaliatable)
+    public void SendCommandToAttack(Unit Attacker, Unit Defender)
     {
-        int hits;
-        int damage = CalculateDamage(Attacker, Defender, badRangeShooting, out hits);
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
             photonView.RPC(
@@ -205,54 +245,38 @@ public class CombatController : MonoBehaviour
                 Mathf.RoundToInt(Attacker.transform.position.x),
                 Mathf.RoundToInt(Attacker.transform.position.z),
                 Mathf.RoundToInt(Defender.transform.position.x),
-                Mathf.RoundToInt(Defender.transform.position.z),
-                retaliatable,
-                damage, hits
-                );
+                Mathf.RoundToInt(Defender.transform.position.z));
         }
         else
         {
-            Attack(Attacker, Defender, retaliatable, damage, hits);
+            Attack(Attacker, Defender);
         }
 
     }
 
-    int CalculateDamage(UnitScript Attacker, UnitScript Defender, bool badRangeShooting, out int hits)
-    {
-        DamageCalculator dc = new DamageCalculator();
-        hits = dc.GetHits(Attacker, Defender, badRangeShooting);
-        return dc.CalculateAmountOfDamage(Attacker, Defender, badRangeShooting,hits);
-    }
-
     [PunRPC]
-    void RPCAttack(int AttackerX, int AttackerZ, int DefenderX, int DefenderZ, bool retaliatable, int damage, int hits)
+    void RPCAttack(int AttackerX, int AttackerZ, int DefenderX, int DefenderZ)
     {
-        UnitScript Attacker = Map.Board[AttackerX, AttackerZ].myUnit;
-        UnitScript Defender = Map.Board[DefenderX, DefenderZ].myUnit;
-        Attack(Attacker, Defender, retaliatable, damage, hits);
+        Unit Attacker = Map.Board[AttackerX, AttackerZ].myUnit;
+        Unit Defender = Map.Board[DefenderX, DefenderZ].myUnit;
+        Attack(Attacker, Defender);
     }
 
-    public event Action<UnitScript, UnitScript, int> AttackEvent;
+    public event Action<Unit, Unit> AttackEvent;
 
-    public void Attack(UnitScript Attacker, UnitScript Defender, bool retaliatable, int damage, int hits)
+    public void Attack(Unit Attacker, Unit Defender)
     {
         //this is juct copy/pasted from NewMovement system but i didnt knwo if i can make it public there (TurnTowards function).
         Vector3 vector3 = new Vector3(Defender.transform.position.x, Attacker.visuals.transform.position.y, Defender.transform.position.z);
         Attacker.transform.LookAt(vector3);
         Attacker.visuals.transform.LookAt(vector3);
-        if (Attacker.GetComponent<ShootingScript>() != null)
-        {
-            Attacker.GetComponent<ShootingScript>().myTarget = Defender.transform.position;
-            // this is mostly done HERE for melee attacks of Ravens...
-        }
         if (AttackEvent != null)
         {
-            AttackEvent(Attacker, Defender, damage);
+            AttackEvent(Attacker, Defender);
         }
-        AttackingUnit = Attacker;
-        AttackTarget = Defender;
-        DamageCalculator dc = new DamageCalculator();
-        dc.DealDamage(Attacker, Defender, damage, Attacker.isPoisonous, retaliatable, hits);
+        attackingUnit = Attacker;
+        attackTarget = Defender;
+        Attacker.Attack(Defender);
         CheckIfLastAttacker();
     }
 
@@ -260,26 +284,14 @@ public class CombatController : MonoBehaviour
     {
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
         {
-            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
+            foreach (BattlescapeLogic.Unit ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
             {
-                if (ally.CanStillAttack() == true && ally.CheckIfIsInCombat())
+                if (ally.CanStillAttack() == true)
                 {
                     return false;
                 }
             }
             PopupTextController.AddPopupText("No more units can attack!", PopupTypes.Info);
-            return true;
-        }
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
-        {
-            foreach (UnitScript ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
-            {
-                if (ally.GetComponent<ShootingScript>() != null && ally.GetComponent<ShootingScript>().CanShoot)
-                {
-                    return false;
-                }
-            }
-            PopupTextController.AddPopupText("No more units can shoot!", PopupTypes.Info);
             return true;
         }
         return false;
@@ -288,7 +300,7 @@ public class CombatController : MonoBehaviour
     public void SendCommandToRetaliate()
     {
         //note this Attack command is already networked therefore it does not need to be networked a second time inside this command we gonna send here
-        SendCommandToAttack(AttackTarget, AttackingUnit, false, false);
+        SendCommandToAttack(attackTarget, attackingUnit);
         //note also that AttackTarget is now the guy who retaliates, and AttackingUnit is getting hit.
 
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
@@ -309,8 +321,8 @@ public class CombatController : MonoBehaviour
 
     public void Retaliate()
     {
-        Log.SpawnLog(AttackingUnit.name + " strikes back!");
-        AttackingUnit.HasRetaliatedThisTurn = true;
+        Log.SpawnLog(attackingUnit.name + " strikes back!");
+        attackingUnit.statistics.numberOfRetaliations--;
         GameStateManager.Instance.FinishRetaliation();
         MakeAIWait(1f);
     }
@@ -349,96 +361,8 @@ public class CombatController : MonoBehaviour
     public void DoNotRetaliate()
     {
         GameStateManager.Instance.FinishRetaliation();
-        AttackTarget = null;
-    }
-
-    public void Shoot(UnitScript Attacker, UnitScript Defender, bool badRange, bool AOE)
-    {
-
-        SendCommandToAttack(Attacker, Defender, badRange, false);
-        if (AOE)
-        {
-            foreach (Tile tile in Defender.myTile.neighbours)
-            {
-                if (tile.myUnit != null)
-                {
-                    SendCommandToAttack(Attacker, tile.myUnit, badRange, false);
-                }
-            }
-        }
-        SendCommandToLaunchProjectile(Attacker.GetComponent<ShootingScript>(), Defender.transform.position);
-    }
-
-    public void SendCommandToLaunchProjectile(ShootingScript shooter, Vector3 enemy)
-    {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
-        {
-            photonView.RPC(
-                "RPCLaunchProjectile", PhotonTargets.All,
-                Mathf.RoundToInt(shooter.transform.position.x),
-                Mathf.RoundToInt(shooter.transform.position.z),
-                Mathf.RoundToInt(enemy.x),
-                Mathf.RoundToInt(enemy.z)
-                );
-        }
-        else
-        {
-            LaunchProjectile(shooter, enemy);
-        }
-    }
-
-    public void LaunchProjectile(ShootingScript shooter, Vector3 enemy)
-    {
-        shooter.GetComponentInChildren<AnimController>().Shoot();
-    }
-    /*public void LaunchProjectile(ShootingScript shooter, Vector3 enemy, GameObject projectile, int shots)
-    {
-        StartCoroutine(LaunchProjectileRoutine(shooter, enemy, projectile, shots));
-    }*/
-
-    [PunRPC]
-    void RPCLaunchProjectile(int shooterX, int shooterZ, int targetX, int targetZ)
-    {
-        ShootingScript shooter = Map.Board[shooterX, shooterZ].myUnit.GetComponent<ShootingScript>();
-        Vector3 target = new Vector3(targetX, 0, targetZ);
-        LaunchProjectile(shooter, target);
-    }
-
-   /* void LaunchProjectileRoutine(ShootingScript shooter, Vector3 target)
-    {
-        
-    }*/
-
-    public void DoShot(ShootingScript shooter, Vector3 target, GameObject _PROJECTILE)
-    {
-        GameObject projectile = Instantiate(_PROJECTILE) as GameObject;
-        projectile.transform.position = shooter.ProjectileLauncher.position;
-        projectile.transform.LookAt(target + new Vector3(0, 0.5f, 0));
-        projectile.transform.Rotate(Vector3.left, 45, Space.Self);
-        projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * shooter.PROJECTILE_SPEED;
-        shooter.lastShotProjectile = projectile.GetComponent<ProjectileScript>();
-        projectile.GetComponent<ProjectileScript>().speed = shooter.PROJECTILE_SPEED;
-        projectile.GetComponent<ProjectileScript>().Target = target;
-        projectile.GetComponent<ProjectileScript>().myShooter = shooter;
-    }
-   /* IEnumerator LaunchProjectileRoutine(ShootingScript shooter, Vector3 target, GameObject _projectile, int shots)
-    {
-        shooter.GetComponentInChildren<AnimController>().Shoot();
-        yield return new WaitForSeconds(shooter.DELAY);
-        for (int i = 0; i < shots; i++)
-        {
-            GameObject projectile = Instantiate(_projectile) as GameObject;
-            projectile.transform.position = shooter.ProjectileLauncher.position;
-            projectile.transform.LookAt(target + new Vector3(0, 0.5f, 0));
-            projectile.transform.Rotate(Vector3.left, 45, Space.Self);
-            projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * shooter.PROJECTILE_SPEED;
-            shooter.lastShotProjectile = projectile.GetComponent<ProjectileScript>();
-            projectile.GetComponent<ProjectileScript>().speed = shooter.PROJECTILE_SPEED;
-            projectile.GetComponent<ProjectileScript>().Target = target;
-            projectile.GetComponent<ProjectileScript>().myShooter = shooter;
-            yield return new WaitForSeconds(shooter.TIME_BETWEEN_SHOTS);
-        }
-    }*/
+        attackTarget = null;
+    }    
 
     public void MakeAIWait(float time)
     {
@@ -457,7 +381,7 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void SendCommandToReduceDefence(UnitScript target, int value)
+    public void SendCommandToReduceDefence(BattlescapeLogic.Unit target, int value)
     {
         int posX = Mathf.RoundToInt(target.transform.position.x);
         int posZ = Mathf.RoundToInt(target.transform.position.z);
@@ -465,14 +389,14 @@ public class CombatController : MonoBehaviour
         {
             photonView.RPC(
                 "RPCReduceDefence", PhotonTargets.All,
-                posX, 
-                posZ, 
+                posX,
+                posZ,
                 value
                 );
         }
         else
         {
-            ReduceDefence(posX,posZ,value);
+            ReduceDefence(posX, posZ, value);
         }
     }
 
@@ -480,12 +404,49 @@ public class CombatController : MonoBehaviour
     [PunRPC]
     void RPCReduceDefence(int posX, int posZ, int value)
     {
-        ReduceDefence(posX, posZ, value);   
+        ReduceDefence(posX, posZ, value);
     }
     void ReduceDefence(int posX, int posZ, int value)
     {
-        UnitScript target = Map.Board[posX, posZ].myUnit;
+        BattlescapeLogic.Unit target = Map.Board[posX, posZ].myUnit;
         target.statistics.bonusDefence -= value;
         //target.DefenceReduction += value;
+    }
+
+    public int HowMuchShelteredFrom(BattlescapeLogic.Unit unit, Vector3 danger)
+    {
+        int shelter = 0;
+        if (unit.IsInCombat())
+        {
+            return 0;
+        }
+        if (GetCoversOf(unit) == null)
+        {
+            return 0;
+        }
+        Vector3 endPos = transform.position + Vector3.up * 0.25f;
+        Vector3 startPos = danger + Vector3.up * 0.25f;
+        Vector3 direction = endPos - startPos;
+        foreach (RaycastHit hit in Physics.RaycastAll(startPos, direction, Vector3.Distance(startPos, endPos) + 0.01f))
+        {
+            if (hit.collider.GetComponent<Obstacle_Cover>() && GetCoversOf(unit).Contains(hit.collider.GetComponent<Obstacle_Cover>()))
+            {
+                shelter += hit.collider.GetComponent<Obstacle_Cover>().CoverValue;
+            }
+        }
+        return shelter;
+    }
+    List<Obstacle_Cover> GetCoversOf(BattlescapeLogic.Unit unit)
+    {
+        List<Obstacle_Cover> list = new List<Obstacle_Cover>();
+
+        foreach (Tile tile in unit.currentPosition.neighbours)
+        {
+            if (tile.GetComponentInChildren<Obstacle_Cover>() != null)
+            {
+                list.Add(tile.GetComponentInChildren<Obstacle_Cover>());
+            }
+        }
+        return list;
     }
 }

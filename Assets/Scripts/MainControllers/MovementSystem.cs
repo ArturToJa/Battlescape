@@ -54,7 +54,7 @@ public class MovementSystem : MonoBehaviour
     {
         return
             MouseManager.Instance.SelectedUnit != null &&
-            MouseManager.Instance.SelectedUnit.newMovement.isMoving == false &&
+            MouseManager.Instance.SelectedUnit.movement.isMoving == false &&
             MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile);
     }
 
@@ -75,7 +75,7 @@ public class MovementSystem : MonoBehaviour
     /// Used to either perform movement in offline modes or send an RPC in online mode.
     /// </summary>
     /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
-    public void SendCommandToMove(UnitScript unit, Tile target)
+    public void SendCommandToMove(BattlescapeLogic.Unit unit, Tile target)
     {        
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
@@ -104,7 +104,7 @@ public class MovementSystem : MonoBehaviour
     void RPCDoMovement(int startX, int startZ, int endX, int endZ)
     {
         Tile startTile = Map.Board[startX, startZ];
-        UnitScript unit = startTile.myUnit;
+        BattlescapeLogic.Unit unit = startTile.myUnit;
         if (unit == null)
         {
             Debug.LogError("NoUnit!");
@@ -116,9 +116,9 @@ public class MovementSystem : MonoBehaviour
     }
     // NOTE - currently THIS is JUST doing NORMAL MOVEMENT. Please do not add special movments (like QC) here in ANY WAY!
     // ALSO - use THIS instead of SendCommand, if its already in a command, obviously.
-    public void DoMovement(UnitScript unit,Tile tile)
+    public void DoMovement(BattlescapeLogic.Unit unit,Tile tile)
     {
-        unit.newMovement.ApplyUnit(unit);
+        unit.movement.ApplyUnit(unit);
         unit.Move(tile);
     }   
 }

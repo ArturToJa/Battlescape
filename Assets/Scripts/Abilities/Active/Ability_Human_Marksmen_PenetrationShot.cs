@@ -57,23 +57,23 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     protected override bool ActivationRequirements()
     {
-        return ((MouseManager.Instance.MouseoveredUnit != null) && ShootingScript.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position).Key);
+        return ((MouseManager.Instance.MouseoveredUnit != null) && CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position));
     }
 
 
-    void PerformPenetratingShot(UnitScript target)
+    void PerformPenetratingShot(BattlescapeLogic.Unit target)
     {
         //int oldDef = target.statistics.GetCurrentDefence();
         //target.statistics.defence = target.statistics.GetCurrentDefence() - Mathf.CeilToInt(0.5f * target.statistics.GetCurrentDefence());
         myUnit.statistics.numberOfAttacks = 0;
-        CombatController.Instance.AttackTarget = target;
-        CombatController.Instance.Shoot(myUnit, target, false,false);
+        CombatController.Instance.attackTarget = target;
+        CombatController.Instance.Attack(myUnit, target);
         //target.statistics.GetCurrentDefence() = oldDef;
         myUnit.statistics.bonusAttackRange -= RangeModifier;
         GameStateManager.Instance.BackToIdle();
     }
 
-    IEnumerator ActivateThisAbility(UnitScript target)
+    IEnumerator ActivateThisAbility(BattlescapeLogic.Unit target)
     {
         yield return null;
         FinishUsing();
@@ -101,7 +101,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     {
         foreach (Tile tile in Map.Board)
         {
-            if (tile.myUnit != null && tile.myUnit.PlayerID != myUnit.PlayerID && ShootingScript.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position).Key)
+            if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
             {
                 BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
             }
@@ -114,15 +114,16 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
 
     // AI Segment
-
+    //not working cause who cares
+    // really, NOT WORKING cause i deleted stuff from here xD.
     public override bool AI_IsGoodToUseNow()
     {
-        List<UnitScript> targets = ShootingScript.PossibleTargets(myUnit, transform.position);
+        List<BattlescapeLogic.Unit> targets = new List<BattlescapeLogic.Unit>();
         if (targets.Count > 0 && myUnit.statistics.healthPoints == 1)
         {
             return true;
         }
-        foreach (UnitScript enemy in targets)
+        foreach (BattlescapeLogic.Unit enemy in targets)
         {
             if (enemy.statistics.GetCurrentDefence() >= 4)
             {
@@ -134,12 +135,12 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     public override void AI_Activate(GameObject Target)
     {
-        StartCoroutine(ActivateThisAbility(Target.GetComponent<UnitScript>()));
+        StartCoroutine(ActivateThisAbility(Target.GetComponent<BattlescapeLogic.Unit>()));
     }
 
     public override GameObject AI_ChooseTarget()
     {
-        List<UnitScript> targets = ShootingScript.PossibleTargets(myUnit, transform.position);
+        List<BattlescapeLogic.Unit> targets = new List<BattlescapeLogic.Unit>();
         int startingDefence = 10;
         while (true)
         {
@@ -149,7 +150,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
                 Log.SpawnLog("AI of Marksman went boom. Tell Dogo about it.");
                 return null;
             }
-            foreach (UnitScript unit in targets)
+            foreach (BattlescapeLogic.Unit unit in targets)
             {
                 if (unit.statistics.GetCurrentDefence() >= startingDefence)
                 {

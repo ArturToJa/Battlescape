@@ -38,13 +38,13 @@ public class CancelUnitsDeployment : MonoBehaviour
 
     void Cancel(int ID)
     {
-        UnitScript[] AllUnits = FindObjectsOfType<UnitScript>();
-        foreach (UnitScript unit in AllUnits)
+        BattlescapeLogic.Unit[] AllUnits = FindObjectsOfType<BattlescapeLogic.Unit>();
+        foreach (BattlescapeLogic.Unit unit in AllUnits)
         {
             if (unit.PlayerID == ID && unit.isRealUnit)
             {
                 dz.DestroyRealUnit(unit);
-                unit.myTile.SetMyUnitTo(null);
+                unit.currentPosition.SetMyUnitTo(null);
                 if (Player.players[ID].type == PlayerType.Local)
                 {
                     if (unit.unitUnit.ThisRealSprite == null)

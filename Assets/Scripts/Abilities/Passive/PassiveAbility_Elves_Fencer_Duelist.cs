@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class PassiveAbility_Elves_Fencer_Duelist : PassiveAbility
 {
-    public override int GetAttack(UnitScript other)
+    public override int GetAttack(BattlescapeLogic.Unit other)
     {
-        if (myUnit.EnemyList.Count == 1)
+        if (HasOneEnemy())
         {
             return AttackModifierVersusUnitType;
         }
@@ -16,9 +17,9 @@ public class PassiveAbility_Elves_Fencer_Duelist : PassiveAbility
         }
     }
 
-    public override int GetDefence(UnitScript other)
+    public override int GetDefence(BattlescapeLogic.Unit other)
     {
-        if (myUnit.EnemyList.Count == 1)
+        if (HasOneEnemy())
         {
             return DefenceModifierVersusUnitType;
         }
@@ -35,14 +36,27 @@ public class PassiveAbility_Elves_Fencer_Duelist : PassiveAbility
 
     protected override void ChangableUpdate()
     {
-        if (myUnit.EnemyList.Count == 1)
+        if (HasOneEnemy())
         {
-            myUnit.isStoppingRetaliation = true;
+            //myUnit.isStoppingRetaliation = true;
         }
         else
         {
-            myUnit.isStoppingRetaliation = false;
+            //myUnit.isStoppingRetaliation = false;
         }
+    }
+
+    bool HasOneEnemy()
+    {
+        int count = 0;
+        foreach (Tile tile in myUnit.currentPosition.neighbours)
+        {
+            if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner)
+            {
+                count++;
+            }
+        }
+        return count == 1;
     }
     
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PassiveAbility_Buff_BattlecryBuff : PassiveAbility_Buff
 {
-    public static IEnumerator AddMyBuff(UnitScript me, UnitScript ally, GameObject vfxTemporary, GameObject vfxPermanent, float timeDelay)
+    public static IEnumerator AddMyBuff(BattlescapeLogic.Unit me, BattlescapeLogic.Unit ally, GameObject vfxTemporary, GameObject vfxPermanent, float timeDelay)
     {
         PassiveAbility_Buff_BattlecryBuff theBuff = ally.gameObject.AddComponent<PassiveAbility_Buff_BattlecryBuff>();
 
@@ -13,7 +13,6 @@ public class PassiveAbility_Buff_BattlecryBuff : PassiveAbility_Buff
         theBuff.AttackBuffValue = 1;
         theBuff.DefenceBuffValue = 0;
         theBuff.MovementBuffValue = 0;
-        theBuff.QuitCombatChanceBuffValue = 0;
         theBuff.BuffDuration = 2;
         theBuff.IsFrozen = false;
         theBuff.isNegative = false;
@@ -38,22 +37,17 @@ public class PassiveAbility_Buff_BattlecryBuff : PassiveAbility_Buff
         if (vfxPermanent != null)
         {
             theBuff.vfx = Instantiate(vfxPermanent, ally.gameObject.transform.position, vfxPermanent.transform.rotation, ally.gameObject.transform);
-        }
-
-        
-        
-        
-
+        }        
     }
 
-    protected override void OnMasterAttacked(int damage)
+    protected override void OnMasterAttacked()
     {
-        if (damage > 0)
-        {
-            Log.SpawnLog(myUnit.name + " got inspired by his Knight's spectaculat attack on an enemy, gaining additional +1 Attack until his next turn!");
-            TemporarilyUndooBuff();
-            AttackBuffValue = 2;
-            DoBuff();
-        }
+        //if (damage > 0)
+        //{
+        //    Log.SpawnLog(myUnit.name + " got inspired by his Knight's spectaculat attack on an enemy, gaining additional +1 Attack until his next turn!");
+        //    TemporarilyUndooBuff();
+        //    AttackBuffValue = 2;
+        //    DoBuff();
+        //}
     }    
 }

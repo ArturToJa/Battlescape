@@ -5,22 +5,22 @@ using BattlescapeLogic;
 
 public class AI_QuitCombat : AI_Base_Movement
 {
-    static List<UnitScript> unitsSkippingTurn;
+    static List<BattlescapeLogic.Unit> unitsSkippingTurn;
 
     public AI_QuitCombat(int ID) : base(ID)
     {
         base.CallTheConstructor(ID);
         if (unitsSkippingTurn == null)
         {
-            unitsSkippingTurn = new List<UnitScript>();
+            unitsSkippingTurn = new List<BattlescapeLogic.Unit>();
         }
     }
 
-    protected override Queue<UnitScript> GetPossibleUnits()
+    protected override Queue<BattlescapeLogic.Unit> GetPossibleUnits()
     {
-        Queue<UnitScript> myUnitsToMove = new Queue<UnitScript>(allyList);
-        UnitScript firstUnit = myUnitsToMove.Peek();
-        while (firstUnit.CheckIfIsInCombat() == false || unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.statistics.movementPoints <= 0|| firstUnit.hasJustArrivedToCombat || HasAnyLegalTiles(firstUnit) == false)
+        Queue<BattlescapeLogic.Unit> myUnitsToMove = new Queue<BattlescapeLogic.Unit>(allyList);
+        BattlescapeLogic.Unit firstUnit = myUnitsToMove.Peek();
+        while (firstUnit.IsInCombat() == false || unitsSkippingTurn.Contains(firstUnit) == true || firstUnit.statistics.movementPoints <= 0|| HasAnyLegalTiles(firstUnit) == false)
         {
             myUnitsToMove.Dequeue();
             if (myUnitsToMove.Count == 0)
@@ -37,12 +37,12 @@ public class AI_QuitCombat : AI_Base_Movement
         return myUnitsToMove;
     }
 
-    bool HasAnyLegalTiles(UnitScript unit)
+    bool HasAnyLegalTiles(BattlescapeLogic.Unit unit)
     {
         return Pathfinder.instance.GetAllLegalTilesFor(unit).Count > 0;
     }
 
-    public override float EvaluateTile(UnitScript currentUnit, Tile tile, int enemiesDirection, Dictionary<UnitScript, List<Tile>> EnemyMovementRange)
+    public override float EvaluateTile(BattlescapeLogic.Unit currentUnit, Tile tile, int enemiesDirection, Dictionary<BattlescapeLogic.Unit, List<Tile>> EnemyMovementRange)
     {
         // we want to evaluate if a tile is a proper "end" tile for a unit to QC into
         float Evaluation = 0f;
@@ -60,38 +60,38 @@ public class AI_QuitCombat : AI_Base_Movement
         return Evaluation;
     }
 
-    private bool DoesUnitWantToQC(UnitScript unit)
+    private bool DoesUnitWantToQC(BattlescapeLogic.Unit unit)
     {
         // ok so when does a unit want to QC?
         // 1. if unit is a shooter - always (?)
-        if (unit.isRanged)
+        if (unit.IsRanged())
         {
             return true;
         }
         // 2. if a unit is a hero - if there are too strong opponents in fight with him (2 really big guys)
-        if (unit.GetComponent<HeroScript>() && unit.EnemyList.Count>1)
-        {
-            int bigGuys = 0;
-            foreach (UnitScript enemy in unit.EnemyList)
-            {
-                if (enemy.isRanged == false && (enemy.statistics.GetCurrentAttack()>unit.statistics.GetCurrentDefence() || enemy.statistics.healthPoints >= unit.statistics.healthPoints + 2))
-                {
-                    bigGuys++;
-                }
-            }
-            if (bigGuys >= 2)
-            {
-                return true;
-            }
-        }
+        //if (unit.GetComponent<HeroScript>() && unit.EnemyList.Count>1)
+        //{
+        //    int bigGuys = 0;
+        //    foreach (BattlescapeLogic.Unit enemy in unit.EnemyList)
+        //    {
+        //        if (enemy.IsRanged() == false && (enemy.statistics.GetCurrentAttack()>unit.statistics.GetCurrentDefence() || enemy.statistics.healthPoints >= unit.statistics.healthPoints + 2))
+        //        {
+        //            bigGuys++;
+        //        }
+        //    }
+        //    if (bigGuys >= 2)
+        //    {
+        //        return true;
+        //    }
+        //}
 
         // 3. if a unit could reach shooters after that!
-        //List<Tile> temp = Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(unit, unit.GetComponent<UnitScript>().GetCurrentMoveSpeed(true));
-        //foreach (UnitScript enemy in enemyList)
+        //List<Tile> temp = Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(unit, unit.GetComponent<BattlescapeLogic.Unit>().GetCurrentMoveSpeed(true));
+        //foreach (BattlescapeLogic.Unit enemy in enemyList)
         //{
-        //    if (enemy.isRanged)
+        //    if (enemy.IsRanged())
         //    {
-        //        foreach (Tile tile in enemy.myTile.neighbours)
+        //        foreach (Tile tile in enemy.currentPosition.neighbours)
         //        {
         //            if (temp.Contains(tile))
         //            {
@@ -104,7 +104,7 @@ public class AI_QuitCombat : AI_Base_Movement
         return false;
     }
 
-    protected override void PerformTheAction(UnitScript currentUnit, KeyValuePair<Tile, float> target)
+    protected override void PerformTheAction(BattlescapeLogic.Unit currentUnit, KeyValuePair<Tile, float> target)
     {
         AI_Controller.tilesAreEvaluated = false;
         if (target.Key != null && target.Value > -Mathf.Infinity)

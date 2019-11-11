@@ -17,7 +17,7 @@ public class DragableUnit : MonoBehaviour
         if (Physics.Raycast(cameraRay,out hitInfo, Mathf.Infinity,tileMask))
         {
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-            if (tile.isDropzoneOfPlayer[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index] && tile.IsWalkable())
+            if ((tile.DropzoneOfPlayer == TurnManager.Instance.PlayerToMove) && tile.IsWalkable())
             {
                 if (GameStateManager.Instance.MatchType == MatchTypes.Online)
                 {
@@ -42,15 +42,14 @@ public class DragableUnit : MonoBehaviour
     {       
         Vector3 oldPos = Map.Board[startPosX, startPosZ].transform.position;
         Vector3 newPos = Map.Board[endPosX, endPosZ].transform.position;
-        Unit unit = Map.Board[startPosX, startPosZ].myUnit.unitUnit;
-        UnitScript me = Map.Board[startPosX, startPosZ].myUnit;
-        if (me.PlayerID == 0)
+        BattlescapeLogic.Unit me = Map.Board[startPosX, startPosZ].myUnit;
+        if (me.owner.team.index == 0)
         {
             if (NewGameScript.PlayerOneArmy.ContainsKey(oldPos))
             {
                 NewGameScript.PlayerOneArmy.Remove(oldPos);
             }            
-            NewGameScript.PlayerOneArmy.Add(newPos, unit);
+            NewGameScript.PlayerOneArmy.Add(newPos, me);
         }
         else
         {
@@ -58,7 +57,7 @@ public class DragableUnit : MonoBehaviour
             {
                 NewGameScript.PlayerTwoArmy.Remove(oldPos);
             }
-            NewGameScript.PlayerTwoArmy.Add(newPos, unit);
+            NewGameScript.PlayerTwoArmy.Add(newPos, me);
         }
 
         Tile tile = Map.Board[endPosX, endPosZ];
@@ -67,7 +66,8 @@ public class DragableUnit : MonoBehaviour
         me.transform.position = tile.transform.position;
         me.transform.rotation = q;
         tile.SetMyUnitTo(me);
-        me.myTile = tile;
+        me.currentPosition = tile;
         tile.SetMyUnitTo(me);
+        me.FaceMiddleOfMap();
     }
 }
