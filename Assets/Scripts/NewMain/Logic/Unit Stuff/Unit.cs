@@ -80,7 +80,7 @@ namespace BattlescapeLogic
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
-            buffs = new List<Buff>();
+            buffs = new List<AbstractBuff>();
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
             if (movement == null)
@@ -115,15 +115,6 @@ namespace BattlescapeLogic
             if (statistics.currentEnergy >= Statistics.maxEnergy)
             {
                 statistics.currentEnergy = Statistics.maxEnergy;
-            }
-            foreach (Buff buff in buffs)
-            {
-                //buff.OnNewTurn();
-            }
-
-            foreach (AbstractAbility ability in abilities)
-            {
-                ability.OnNewTurn();
             }
         }
         AbstractMovement GetMovementType()
