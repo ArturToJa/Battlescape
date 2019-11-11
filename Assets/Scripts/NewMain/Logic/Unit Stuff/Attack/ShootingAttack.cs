@@ -32,9 +32,9 @@ namespace BattlescapeLogic
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
         void SpawnMissile(Tile target)
         {
-            GameObject missileObject = GameObject.Instantiate(sourceUnit.missilePrefab);
+            GameObject missileObject = GameObject.Instantiate(sourceUnit.missilePrefab, sourceUnit.transform.position, sourceUnit.transform.rotation);
             Missile missileScript = missileObject.GetComponent<Missile>();
-            missileScript.startingPoint = sourceUnit.transform.position;
+            missileScript.startingPoint = missileScript.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missileScript.sourceUnit = sourceUnit;
             missileScript.target = targetUnit;

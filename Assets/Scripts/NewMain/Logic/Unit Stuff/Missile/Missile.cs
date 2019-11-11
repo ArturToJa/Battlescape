@@ -6,7 +6,7 @@ namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
-        static readonly float minDistance = 0.5f;
+        static readonly float minDistance = 0.1f;
         public Vector3 startingPoint { get; set; }
         public Unit sourceUnit { get; set; }
         public Unit target { get; set; }
@@ -47,35 +47,38 @@ namespace BattlescapeLogic
 
         private void UpdatePosition()
         {
-            Vector3 newPosition = this.transform.position;
-            CalculateNew2DPosition(newPosition);
-            CalculateNewHeight(newPosition);
-            CalculateNewPitch(newPosition);
-            this.transform.position = newPosition;
+            
+            float distanceDelta = CalculateNew2DPosition();
+            float heightDelta = CalculateNewHeight();
+            //CalculateNewPitch(distanceDelta, heightDelta);
         }
 
         // i'm doin these half asleep, need heavy testing
-        private void CalculateNew2DPosition(Vector3 newPosition)
+        private float CalculateNew2DPosition(/*Vector3 newPosition*/)
         {
-            float angle = Mathf.Atan((target.transform.position.z - startingPoint.z) / (target.transform.position.x - startingPoint.x));
-            newPosition.x = speedPerFrame * Mathf.Sin(angle) + this.transform.position.x;
-            newPosition.z = speedPerFrame * Mathf.Cos(angle) + this.transform.position.z;
+            float distanceToMove = speedPerFrame * Time.deltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, target.transform.position, distanceToMove);
+            return distanceToMove;
         }
 
-        private void CalculateNewHeight(Vector3 newPosition)
-        {
-            float currentDistance = Mathf.Sqrt(Mathf.Pow(newPosition.x, 2) + Mathf.Pow(newPosition.z, 2));
-            float startDistance = Mathf.Sqrt(Mathf.Pow(startingPoint.x, 2) + Mathf.Pow(startingPoint.z, 2));
-            float destinationDistance = Mathf.Sqrt(Mathf.Pow(target.transform.position.x, 2) + Mathf.Pow(target.transform.position.z, 2));
-            newPosition.y = (maxHeight + startingPoint.y) * (currentDistance - startDistance) * (currentDistance - destinationDistance);
-        }
-
-        private void CalculateNewPitch(Vector3 newPosition)
+        private float CalculateNewHeight()
         {
             float currentDistance = Mathf.Sqrt(Mathf.Pow(this.transform.position.x, 2) + Mathf.Pow(this.transform.position.z, 2));
-            float newDistance = Mathf.Sqrt(Mathf.Pow(newPosition.x, 2) + Mathf.Pow(newPosition.z, 2));
-            float angle = Mathf.Atan((this.transform.position.y - newPosition.y) / (newDistance - currentDistance));
-            Maths.SetObjectLocalPitch(this.gameObject, angle);
+            float startDistance = Mathf.Sqrt(Mathf.Pow(startingPoint.x, 2) + Mathf.Pow(startingPoint.z, 2));
+            float destinationDistance = Mathf.Sqrt(Mathf.Pow(target.transform.position.x, 2) + Mathf.Pow(target.transform.position.z, 2));
+            float newHeight = (-1.0f) * (maxHeight + startingPoint.y) * (currentDistance - startDistance) * (currentDistance - destinationDistance);
+            float oldHeight = this.transform.position.y;
+            this.transform.position = new Vector3(this.transform.position.x, newHeight, this.transform.position.z);
+            return newHeight - oldHeight;
+        }
+
+        private void CalculateNewPitch(float distanceDelta, float heightDelta)
+        {
+            //Debug.Log("Before: " + this.transform.eulerAngles);
+            float angle = Mathf.Atan2(heightDelta, distanceDelta);
+            Debug.Log("Angle: " + angle * Mathf.Rad2Deg);
+            Maths.SetObjectPitch(this.gameObject, angle * Mathf.Rad2Deg);
+            //Debug.Log("After: " + this.transform.eulerAngles);
         }
     }
 }

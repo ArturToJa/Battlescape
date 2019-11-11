@@ -13,19 +13,22 @@ namespace BattlescapeLogic
 
 
         // these methods need testing
-        public static void SetObjectLocalYaw(GameObject gameObject, float angle)
+        public static void SetObjectYaw(GameObject gameObject, float angle)
         {
-            gameObject.transform.localRotation *= Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+            // gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+            Quaternion rotation = new Quaternion();
+            rotation.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, angle - gameObject.transform.eulerAngles.z);
+            gameObject.transform.rotation = rotation;
         }
 
-        public static void SetObjectLocalPitch(GameObject gameObject, float angle)
+        public static void SetObjectPitch(GameObject gameObject, float angle)
         {
-            gameObject.transform.localRotation *= Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
+            gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
         }
 
-        public static void SetObjectLocalRoll(GameObject gameObject, float angle)
+        public static void SetObjectRoll(GameObject gameObject, float angle)
         {
-            gameObject.transform.localRotation *= Quaternion.AngleAxis(angle, new Vector3(1, 0, 0));
+            gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(1, 0, 0));
         }
     }
 }
