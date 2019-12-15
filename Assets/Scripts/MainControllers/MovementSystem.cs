@@ -36,11 +36,17 @@ public class MovementSystem : MonoBehaviour
     }
     bool IsMovementLegal()
     {
-        return            
+        return
             IsTileMouseovered() &&
+            IsUnitMouseovered() == false &&
             IsThereLegalUnitToMove() &&
             IsNotDuringQuittingCombat() &&
             IsCurrentPlayerLocalHuman();
+    }
+
+    private bool IsUnitMouseovered()
+    {
+        return MouseManager.Instance.MouseoveredUnit != null;
     }
 
     #region IsMovementLegal Subfunctions   

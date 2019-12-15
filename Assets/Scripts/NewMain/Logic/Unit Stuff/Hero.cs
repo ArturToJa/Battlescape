@@ -25,14 +25,15 @@ namespace BattlescapeLogic
 
             //lose game
             //for now:
+            VictoryLossChecker.isAnyHeroDead = true;
             if (owner == Global.instance.playerTeams[0].players[0])
             {
                 //we, Green player, lost
-                VictoryLossChecker.gameResult = GameResult.GreenWon;
+                VictoryLossChecker.gameResult = GameResult.RedWon;
             }
             else
             {
-                VictoryLossChecker.gameResult = GameResult.RedWon;
+                VictoryLossChecker.gameResult = GameResult.GreenWon;
             }
 
         }

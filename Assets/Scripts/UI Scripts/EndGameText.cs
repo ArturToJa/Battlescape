@@ -60,7 +60,7 @@ public class EndGameText : MonoBehaviour
     void DrawText()
     {
         GetComponent<Text>().text = "This battle ended in a draw! ";
-        if (VictoryLossChecker.isAHeroDead)
+        if (VictoryLossChecker.isAnyHeroDead)
         {
             //note that if it is a draw and one hero is dead, both heroes have to be dead!
             GetComponent<Text>().text += "All Heroes are dead!";
@@ -78,7 +78,7 @@ public class EndGameText : MonoBehaviour
     void WinText(Player player)
     {
         GetComponent<Text>().text = "Congratulations, " + player.playerName.ToString() + "! You have won!";
-        if (VictoryLossChecker.isAHeroDead)
+        if (VictoryLossChecker.isAnyHeroDead)
         {
             GetComponent<Text>().text += "\n" + "Enemy Hero is dead!";
         }
@@ -97,7 +97,7 @@ public class EndGameText : MonoBehaviour
     void LoseText(Player player)
     {
         GetComponent<Text>().text = "You have lost, " + player.playerName.ToString() + "!";
-        if (VictoryLossChecker.isAHeroDead)
+        if (VictoryLossChecker.isAnyHeroDead)
         {
             GetComponent<Text>().text += "\n" + "Your Hero is dead!";
         }

@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114608254406367336}
   - component: {fileID: 114562131478885718}
   - component: {fileID: 114580500508975460}
-  - component: {fileID: 114856309837742844}
+  - component: {fileID: 114147999962314354}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -82,6 +82,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114147999962314354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651261313338776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114148748165430060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -250,17 +261,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: ShitArmy
---- !u!114 &114856309837742844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651261313338776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222065950267469882
 CanvasRenderer:
   m_ObjectHideFlags: 1

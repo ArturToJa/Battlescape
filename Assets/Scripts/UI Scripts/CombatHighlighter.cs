@@ -34,7 +34,7 @@ public class CombatHighlighter : MonoBehaviour
         {
             foreach (Tile tile in Map.Board)
             {
-                if (tile.myUnit != null && tile.myUnit.owner != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] && tile.myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.SelectedUnit.currentPosition) == true && CombatController.Instance.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position))
+                if (tile.myUnit != null && tile.myUnit.owner != Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] && (tile.myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.SelectedUnit.currentPosition) == true || CombatController.Instance.WouldItBePossibleToShoot(MouseManager.Instance.SelectedUnit, MouseManager.Instance.SelectedUnit.transform.position, tile.transform.position)))
                 {
                     tile.GetComponent<Renderer>().material.color = Color.red;
                     ControlledTiles.Add(tile);

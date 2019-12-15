@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -212,6 +213,10 @@ public class MainMenu : MonoBehaviour
         {
             SaveLoadManager.Instance.currentSaveValue = 50;
             SetStartingPoints(50);
+        }
+        if (GameSceneName == null)
+        {
+            GameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
         }
         FindObjectOfType<LevelLoader>().CommandLoadScene(GameSceneName);
     }

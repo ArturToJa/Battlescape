@@ -11,6 +11,13 @@ namespace BattlescapeLogic
         public MeleeAttack(Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
+            if (_myUnit.meleeWeaponVisual != null)
+            {
+                if (_myUnit.meleeWeaponVisual != null)
+                {
+                    _myUnit.meleeWeaponVisual.SetActive(true);
+                }
+            }
         }
 
         public override void Attack(Unit target)

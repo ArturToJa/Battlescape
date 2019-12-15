@@ -284,18 +284,7 @@ public class CursorController : MonoBehaviour
     {
         //we actually CAN assume there IS a selected unit.
         return MouseManager.Instance.mouseoveredTile.IsProtectedByEnemyOf(MouseManager.Instance.SelectedUnit);
-    }
-    private IEnumerator StayInCombatModeCursor(float timeInSeconds)
-    {
-        float startTime = Time.time;
-        while (Time.time - startTime < timeInSeconds)
-        {
-            skipSettingCursor = true;
-            SetCursorTo(clickingEnterCombatCursor, enterCombatCursor);
-            yield return null;
-        }
-        skipSettingCursor = false;
-    }
+    }    
 
     public void SetCursorToInfo()
     {
@@ -325,13 +314,13 @@ public class CursorController : MonoBehaviour
         }
     }
 
-    private void CheckWhatTileAreWeOver()
+    void CheckWhatTileAreWeOver()
     {
         if (MouseManager.Instance.SelectedUnit.IsInCombat())
         {
             if (IsTheTileValidForEnterCombatCursor())
             {
-                StartCoroutine(StayInCombatModeCursor(0.2f));
+                SetCursorTo(clickingBlockedCursor, blockedCursor);
             }
             else if (MouseManager.Instance.mouseoveredTile.neighbours.Contains(MouseManager.Instance.SelectedUnit.currentPosition))
             {
@@ -343,15 +332,17 @@ public class CursorController : MonoBehaviour
             }
         }
         else
-        {
-            if (IsTheTileValidForEnterCombatCursor())
-            {
-                StartCoroutine(StayInCombatModeCursor(0.2f));
-
-            }
-            else if (Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit))
-            {
-                SetCursorTo(clickingWalkingCursor, walkingCursor);
+        {            
+            if (Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, MouseManager.Instance.SelectedUnit))
+            {                
+                if (IsTheTileValidForEnterCombatCursor())
+                {
+                    SetCursorTo(clickingEnterCombatCursor, enterCombatCursor);
+                }
+                else
+                {
+                    SetCursorTo(clickingWalkingCursor, walkingCursor);
+                }
             }
             else
             {

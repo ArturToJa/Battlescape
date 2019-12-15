@@ -30,6 +30,7 @@ namespace BattlescapeLogic
                     myUnit.transform.position = Vector3.MoveTowards(myUnit.transform.position, temporaryGoal.transform.position,visualSpeed * Time.deltaTime);
                     yield return null;
                 }
+                myUnit.OnMove(myUnit.currentPosition, temporaryGoal);
                 temporaryGoal.SetMyUnitTo(myUnit);
             }
             StopMovementAnimation();
