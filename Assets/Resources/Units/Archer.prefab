@@ -3189,7 +3189,7 @@ MonoBehaviour:
       soundType: 6
     _hitSound:
       name: ArcherWoundSound
-      clip: {fileID: 8300000, guid: b381c657b4360a74f87c6e036795f95f, type: 3}
+      clip: {fileID: 8300000, guid: c8cc8ca7e4f674f4196c02429fe47895, type: 3}
       volume: 0.3
       pitch: 1
       oldSource: {fileID: 0}
@@ -3205,7 +3205,7 @@ MonoBehaviour:
       soundType: 6
     _attackSound:
       name: ArcherAttackSound
-      clip: {fileID: 8300000, guid: 8091b8b16c3c8eb42ab3ce54abd8b670, type: 3}
+      clip: {fileID: 8300000, guid: 88e252a79e29a304795465aaaae50c14, type: 3}
       volume: 0.3
       pitch: 1
       oldSource: {fileID: 0}

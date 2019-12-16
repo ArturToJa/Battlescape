@@ -238,6 +238,7 @@ public class CombatController : MonoBehaviour
 
     public void SendCommandToAttack(Unit Attacker, Unit Defender)
     {
+        GameStateManager.Instance.Animate();
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
             photonView.RPC(

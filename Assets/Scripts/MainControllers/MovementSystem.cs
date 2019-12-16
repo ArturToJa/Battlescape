@@ -36,11 +36,17 @@ public class MovementSystem : MonoBehaviour
     }
     bool IsMovementLegal()
     {
-        return            
+        return
             IsTileMouseovered() &&
+            IsUnitMouseovered() == false &&
             IsThereLegalUnitToMove() &&
             IsNotDuringQuittingCombat() &&
             IsCurrentPlayerLocalHuman();
+    }
+
+    private bool IsUnitMouseovered()
+    {
+        return MouseManager.Instance.MouseoveredUnit != null;
     }
 
     #region IsMovementLegal Subfunctions   
@@ -76,7 +82,8 @@ public class MovementSystem : MonoBehaviour
     /// </summary>
     /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
     public void SendCommandToMove(BattlescapeLogic.Unit unit, Tile target)
-    {        
+    {
+        GameStateManager.Instance.Animate(); //this makes sense only on the 'active' PC' that's why I put it here ;)
         if (GameStateManager.Instance.MatchType == MatchTypes.Online)
         {
             int startX = Mathf.RoundToInt(unit.transform.position.x);
@@ -116,7 +123,7 @@ public class MovementSystem : MonoBehaviour
     }
     // NOTE - currently THIS is JUST doing NORMAL MOVEMENT. Please do not add special movments (like QC) here in ANY WAY!
     // ALSO - use THIS instead of SendCommand, if its already in a command, obviously.
-    public void DoMovement(BattlescapeLogic.Unit unit,Tile tile)
+    public void DoMovement(Unit unit,Tile tile)
     {
         unit.movement.ApplyUnit(unit);
         unit.Move(tile);

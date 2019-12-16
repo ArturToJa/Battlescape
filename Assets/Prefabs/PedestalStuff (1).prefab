@@ -397,7 +397,6 @@ GameObject:
   - component: {fileID: 4511168097533564}
   - component: {fileID: 95920535213361522}
   - component: {fileID: 65150268832201042}
-  - component: {fileID: 114140729762765482}
   m_Layer: 8
   m_Name: WK_light_archer_B
   m_TagString: Body
@@ -839,7 +838,6 @@ GameObject:
   - component: {fileID: 4641192752767042}
   - component: {fileID: 95233654933977650}
   - component: {fileID: 65361141084014094}
-  - component: {fileID: 114623358318813038}
   m_Layer: 8
   m_Name: WK_Catapult
   m_TagString: Body
@@ -1187,11 +1185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4630630177535952}
   - component: {fileID: 54975025604312922}
-  - component: {fileID: 114825529166801604}
-  - component: {fileID: 114031786435039918}
   - component: {fileID: 114431210861870720}
-  - component: {fileID: 114798747343616846}
-  - component: {fileID: 114275778633528888}
   m_Layer: 8
   m_Name: Marksman
   m_TagString: Unit
@@ -1457,7 +1451,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4361394981287156}
   - component: {fileID: 95558691277752644}
-  - component: {fileID: 114827391678172896}
   - component: {fileID: 65953019406359086}
   m_Layer: 8
   m_Name: WK_heavy_infantry_B
@@ -1836,7 +1829,6 @@ GameObject:
   - component: {fileID: 4351932761478732}
   - component: {fileID: 95803172398639396}
   - component: {fileID: 65484036253074996}
-  - component: {fileID: 114805932139040678}
   m_Layer: 8
   m_Name: WK_light_archer_B
   m_TagString: Body
@@ -2146,10 +2138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4322176572782232}
   - component: {fileID: 54154032023684574}
-  - component: {fileID: 114556951282531158}
-  - component: {fileID: 114038523022666308}
   - component: {fileID: 114865172144210678}
-  - component: {fileID: 114586418474167366}
   m_Layer: 8
   m_Name: Swordman
   m_TagString: Unit
@@ -3046,11 +3035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4488000763294124}
   - component: {fileID: 54658249191432168}
-  - component: {fileID: 114761007146924776}
-  - component: {fileID: 114678363889396474}
   - component: {fileID: 114553181684152278}
-  - component: {fileID: 114669035486446302}
-  - component: {fileID: 114169543432969808}
   m_Layer: 8
   m_Name: Archer
   m_TagString: Unit
@@ -3632,11 +3617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4193008825992400}
   - component: {fileID: 54428286177508162}
-  - component: {fileID: 114954498559557220}
-  - component: {fileID: 114693307124462764}
   - component: {fileID: 114634294951872568}
-  - component: {fileID: 114205426069829588}
-  - component: {fileID: 114208102347625404}
   m_Layer: 8
   m_Name: Green Catapult
   m_TagString: Unit
@@ -3893,10 +3874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4954818258713890}
   - component: {fileID: 54384332550897172}
-  - component: {fileID: 114023855269301406}
-  - component: {fileID: 114086493782966884}
   - component: {fileID: 114624299052399820}
-  - component: {fileID: 114610506827219672}
   m_Layer: 8
   m_Name: Knights
   m_TagString: Unit
@@ -4567,10 +4545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4975329262889564}
   - component: {fileID: 54586973678557260}
-  - component: {fileID: 114280660567215546}
-  - component: {fileID: 114500956450637882}
   - component: {fileID: 114881261692785378}
-  - component: {fileID: 114739590839667278}
   m_Layer: 8
   m_Name: Pikeman
   m_TagString: Unit
@@ -4852,10 +4827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4874021844203718}
   - component: {fileID: 54726891342010028}
-  - component: {fileID: 114113179889950822}
-  - component: {fileID: 114636208147356400}
   - component: {fileID: 114371369695460212}
-  - component: {fileID: 114056710703236138}
   m_Layer: 8
   m_Name: Imperial Guard
   m_TagString: Unit
@@ -5430,11 +5402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4526010690904884}
   - component: {fileID: 54461946160794256}
-  - component: {fileID: 114727096315630888}
-  - component: {fileID: 114270196433690802}
   - component: {fileID: 114649116517604410}
-  - component: {fileID: 114253673874791354}
-  - component: {fileID: 114816016239996576}
   m_Layer: 8
   m_Name: Green Hero Warrior
   m_TagString: Unit
@@ -5689,7 +5657,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4596490941564960}
   - component: {fileID: 95722982379332932}
-  - component: {fileID: 114202681642518974}
   - component: {fileID: 65953291955442106}
   m_Layer: 8
   m_Name: WK_heavy_infantry_B (1)
@@ -6495,7 +6462,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4764179861103750}
   - component: {fileID: 95823407902258854}
-  - component: {fileID: 114401258446835512}
   - component: {fileID: 65413741469452210}
   m_Layer: 8
   m_Name: WK_heavy_cavalry
@@ -6654,7 +6620,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4043843951075618}
   - component: {fileID: 95872107065271602}
-  - component: {fileID: 114972610899157706}
   - component: {fileID: 65964360994965490}
   m_Layer: 8
   m_Name: WK_light_infantry_A
@@ -7555,7 +7520,6 @@ GameObject:
   - component: {fileID: 4624004335895038}
   - component: {fileID: 95167074193125022}
   - component: {fileID: 65546017840728524}
-  - component: {fileID: 114507923255815502}
   m_Layer: 8
   m_Name: WK_spearman_B
   m_TagString: Body
@@ -8740,7 +8704,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4143273150071508}
   - component: {fileID: 95405765541552086}
-  - component: {fileID: 114665707041890820}
   - component: {fileID: 65227364333896032}
   m_Layer: 8
   m_Name: WK_light_cavalry
@@ -9532,10 +9495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4632296506695968}
   - component: {fileID: 54276959715266652}
-  - component: {fileID: 114399092476519406}
-  - component: {fileID: 114577061956346386}
   - component: {fileID: 114727631818897230}
-  - component: {fileID: 114920831608873074}
   m_Layer: 8
   m_Name: Green Horsemen
   m_TagString: Unit
@@ -25703,186 +25663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8164c89ed14eb141a1cd3ad0bdf15da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114023855269301406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1395125297216680}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 4
-  canMove: 1
-  MoveSpeed: 10
-  isMoving: 0
---- !u!114 &114031786435039918
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142529662306448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 2
-  unitUnit: {fileID: 11400000, guid: 0e7be5d700835254299bf7b68628feee, type: 2}
-  isRealUnit: 0
-  maxHP: 4
-  QuitCombatPercent: 50
-  Attack: 4
-  CurrAttack: 0
-  Defence: 3
-  CurrDefence: 0
-  Value: 8
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 1
-  isUndead: 0
-  isSpecial: 1
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114038523022666308
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1247697939115820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 1
-  unitUnit: {fileID: 11400000, guid: 867fe34d0ed0f514689de4e0a01b3030, type: 2}
-  isRealUnit: 0
-  maxHP: 5
-  QuitCombatPercent: 25
-  Attack: 1
-  CurrAttack: 0
-  Defence: 1
-  CurrDefence: 0
-  Value: 1
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114056710703236138
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483052721503830}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 2
-  DefenceModifierVersusUnitType: 4
-  favouriteEnemy: 4
---- !u!114 &114086493782966884
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1395125297216680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 4
-  unitUnit: {fileID: 11400000, guid: bfc24fda6e1d45344b1ff68fc618e4b8, type: 2}
-  isRealUnit: 0
-  maxHP: 3
-  QuitCombatPercent: 60
-  Attack: 5
-  CurrAttack: 0
-  Defence: 4
-  CurrDefence: 0
-  Value: 7
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 1
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114113179889950822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483052721503830}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 4
-  isMoving: 0
---- !u!114 &114140729762765482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1037434218328184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114168924540376620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25896,162 +25676,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tempo: 0
   axis: 1
---- !u!114 &114169543432969808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316717772695194}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootingRange: 5
-  shortDistance: 1
-  CanShoot: 0
-  Projectile: {fileID: 1879587708424968, guid: f034dc33eec5ad74bbc05884ffd185be, type: 2}
-  PROJECTILE_SPEED: 20
-  ProjectileLauncher: {fileID: 4386226450417920}
-  AMOUNT_OF_SHOTS_PER_ATTACK: 2
-  TIME_BETWEEN_SHOTS: 1
-  DELAY: 0.2
---- !u!114 &114202681642518974
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1578445517247146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114205426069829588
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371825858887356}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 0
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 0
---- !u!114 &114208102347625404
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371825858887356}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootingRange: 8
-  shortDistance: 0
-  CanShoot: 0
-  Projectile: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d, type: 2}
-  PROJECTILE_SPEED: 50
-  ProjectileLauncher: {fileID: 4824035797650994}
-  AMOUNT_OF_SHOTS_PER_ATTACK: 1
-  TIME_BETWEEN_SHOTS: 1
-  DELAY: 0.2
---- !u!114 &114253673874791354
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549741542172092}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 0
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 0
---- !u!114 &114270196433690802
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549741542172092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 0
-  unitUnit: {fileID: 11400000, guid: 0b60a9743df80704ca813b9bf696c85b, type: 2}
-  isRealUnit: 0
-  maxHP: 5
-  QuitCombatPercent: 25
-  Attack: 5
-  CurrAttack: 0
-  Defence: 5
-  CurrDefence: 0
-  Value: 0
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114275778633528888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142529662306448}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6648726191c43fc49a9fb3cc78cecdf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shootingRange: 6
-  shortDistance: 0
-  CanShoot: 0
-  Projectile: {fileID: 1879587708424968, guid: f034dc33eec5ad74bbc05884ffd185be, type: 2}
-  PROJECTILE_SPEED: 20
-  ProjectileLauncher: {fileID: 4481400646425994}
-  AMOUNT_OF_SHOTS_PER_ATTACK: 2
-  TIME_BETWEEN_SHOTS: 1
-  DELAY: 0.2
---- !u!114 &114280660567215546
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1447015604136666}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 3
-  isMoving: 0
 --- !u!114 &114371369695460212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26063,34 +25687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114399092476519406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1929724327870202}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 4
-  canMove: 1
-  MoveSpeed: 8
-  isMoving: 0
---- !u!114 &114401258446835512
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651710784079442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114431210861870720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26102,59 +25701,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114500956450637882
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1447015604136666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 3
-  unitUnit: {fileID: 11400000, guid: 51977908d90539749a16e2aac40d68c8, type: 2}
-  isRealUnit: 0
-  maxHP: 4
-  QuitCombatPercent: 50
-  Attack: 2
-  CurrAttack: 0
-  Defence: 4
-  CurrDefence: 0
-  Value: 4
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114507923255815502
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737102877073650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114553181684152278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26166,103 +25715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114556951282531158
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1247697939115820}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 3
-  isMoving: 0
---- !u!114 &114577061956346386
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1929724327870202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 4
-  unitUnit: {fileID: 11400000, guid: fc62d1d6b9d76c043b8a76ad52c9a077, type: 2}
-  isRealUnit: 0
-  maxHP: 4
-  QuitCombatPercent: 50
-  Attack: 5
-  CurrAttack: 0
-  Defence: 3
-  CurrDefence: 0
-  Value: 6
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114586418474167366
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1247697939115820}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 0
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 0
---- !u!114 &114610506827219672
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1395125297216680}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 3
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 2
---- !u!114 &114623358318813038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1100149020155080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114624299052399820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26274,6 +25729,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
 --- !u!114 &114634294951872568
 MonoBehaviour:
@@ -26286,48 +25743,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114636208147356400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1483052721503830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 3
-  unitUnit: {fileID: 11400000, guid: 01757c012a053d24c8218a0d4b199193, type: 2}
-  isRealUnit: 0
-  maxHP: 3
-  QuitCombatPercent: 75
-  Attack: 4
-  CurrAttack: 0
-  Defence: 6
-  CurrDefence: 0
-  Value: 7
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 0
-  isUndead: 0
-  isSpecial: 1
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
 --- !u!114 &114649116517604410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26339,130 +25757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114665707041890820
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1841516655992622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114669035486446302
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316717772695194}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 0
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 0
---- !u!114 &114678363889396474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316717772695194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 2
-  unitUnit: {fileID: 11400000, guid: bb4783336671e1f4c9c1e21349743d19, type: 2}
-  isRealUnit: 0
-  maxHP: 3
-  QuitCombatPercent: 33
-  Attack: 3
-  CurrAttack: 0
-  Defence: 1
-  CurrDefence: 0
-  Value: 3
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 1
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 0
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114693307124462764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371825858887356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e12be432ecb64849be38b33df073b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGreen: 1
-  unitType: 2
-  unitUnit: {fileID: 11400000, guid: b4952c7ece3848f4a9847222a9a0b46b, type: 2}
-  isRealUnit: 0
-  maxHP: 2
-  QuitCombatPercent: 10
-  Attack: 3
-  CurrAttack: 0
-  Defence: 6
-  CurrDefence: 0
-  Value: 5
-  AttackDice: 0
-  isColossal: 0
-  isRanged: 1
-  isUndead: 0
-  isSpecial: 0
-  isConstruct: 1
-  isSummonned: 0
-  isPoisonous: 0
-  isProtector: 0
-  isStoppingRetaliation: 0
-  mm: {fileID: 0}
-  tm: {fileID: 0}
-  myTile: {fileID: 0}
-  isQuittingCombat: 0
-  hasJustArrivedToCombat: 0
-  hasAttacked: 0
-  canRetaliate: 1
-  EnemyList: []
-  AllyList: []
---- !u!114 &114727096315630888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549741542172092}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 4
-  isMoving: 0
 --- !u!114 &114727631818897230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26474,100 +25771,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114739590839667278
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1447015604136666}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 4
-  DefenceModifierVersusUnitType: 4
-  favouriteEnemy: 4
---- !u!114 &114761007146924776
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1316717772695194}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 3
-  isMoving: 0
---- !u!114 &114798747343616846
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142529662306448}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 0
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 0
---- !u!114 &114805932139040678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1209218113165294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114816016239996576
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549741542172092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2692d9d19e972b04f859e765c84e00f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114825529166801604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142529662306448}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 0
-  visualMovementSpeed: 2
-  canMove: 1
-  MoveSpeed: 4
-  isMoving: 0
---- !u!114 &114827391678172896
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1158958306168100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114865172144210678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -26579,6 +25785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
 --- !u!114 &114881261692785378
 MonoBehaviour:
@@ -26591,48 +25799,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b537100a411996a468515edc85904d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyAnimator: {fileID: 0}
+  sword: {fileID: 0}
   isHit: 0
---- !u!114 &114920831608873074
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1929724327870202}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89560775faabcdb47bfc9f4310307d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackModifierVersusUnitType: 5
-  DefenceModifierVersusUnitType: 0
-  favouriteEnemy: 2
---- !u!114 &114954498559557220
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1371825858887356}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebed0fa9be5e9f14f9237fc5cd35a319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableStrangeFlipping: 1
-  visualMovementSpeed: 1
-  canMove: 1
-  MoveSpeed: 1
-  isMoving: 0
---- !u!114 &114972610899157706
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1662785054343962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c433a344e93b4b45b2eb89f1e21f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137010159757884978
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

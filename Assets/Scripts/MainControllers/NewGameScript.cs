@@ -29,7 +29,7 @@ public class NewGameScript : MonoBehaviour
         TurnManager.Instance.PlayerHavingTurn = 0;
         TurnManager.Instance.isEndgameTrue = false;
         TurnManager.Instance.MovementPhase();
-        VictoryLossChecker.Clear();
+        VictoryLossChecker.isAnyHeroDead = false;
         skybox.SetSkyboxToRandom();
         foreach (BattlescapeLogic.Unit unit in FindObjectsOfType<BattlescapeLogic.Unit>())
         {

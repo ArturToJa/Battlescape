@@ -11295,7 +11295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 1530675496}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &193829622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11309,7 +11308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CH: {fileID: 1691826101}
   ab: {fileID: 0}
-  myHero: {fileID: 0}
+  myHero: {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   BasicSprites: []
   HighlightSprites: []
 --- !u!114 &193829623
@@ -17763,7 +17762,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 414912081}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &302444651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17777,7 +17775,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CH: {fileID: 1691826101}
   ab: {fileID: 0}
-  myHero: {fileID: 0}
+  myHero: {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   BasicSprites: []
   HighlightSprites: []
 --- !u!114 &302444652
@@ -31188,7 +31186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CH: {fileID: 1691826101}
   ab: {fileID: 0}
-  myHero: {fileID: 0}
+  myHero: {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   BasicSprites: []
   HighlightSprites: []
 --- !u!114 &548614855
@@ -31204,7 +31202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 1958132104}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &548614856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36898,7 +36895,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 1958132104}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &630175493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36912,7 +36908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CH: {fileID: 1691826101}
   ab: {fileID: 0}
-  myHero: {fileID: 0}
+  myHero: {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   BasicSprites: []
   HighlightSprites: []
 --- !u!114 &630175494
@@ -63296,7 +63292,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 414912081}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &1125691674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63310,7 +63305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CH: {fileID: 1691826101}
   ab: {fileID: 0}
-  myHero: {fileID: 0}
+  myHero: {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   BasicSprites: []
   HighlightSprites: []
 --- !u!114 &1125691675
@@ -74502,7 +74497,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PedestalUnit: {fileID: 1530675496}
   heroTypeSpot: {fileID: 637694670}
-  myUnit: {fileID: 0}
 --- !u!114 &1357167440
 MonoBehaviour:
   m_ObjectHideFlags: 0

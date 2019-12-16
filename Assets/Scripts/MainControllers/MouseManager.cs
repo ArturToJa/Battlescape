@@ -162,7 +162,7 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 //THIS one below is just poorly re-written for now. We need to maybe re-do it :D
-                else if (Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.IsRanged() && SelectedUnit.CanStillAttack() && SelectedUnit.IsInCombat() != false)
+                else if (Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) && SelectedUnit.IsRanged() && SelectedUnit.CanStillAttack() && SelectedUnit.IsInCombat() == false)
                 {
                     foreach (Unit enemy in FindObjectsOfType<Unit>())
                     {
@@ -175,11 +175,11 @@ public class MouseManager : MonoBehaviour
                     }
                 }
                 // THIS MIGHT NOT WORK! :<
-                else if (mouseoveredTile != SelectedUnit.currentPosition && Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) == false)
-                {
+                //else if (mouseoveredTile != SelectedUnit.currentPosition && Pathfinder.instance.IsLegalTileForUnit(mouseoveredTile, SelectedUnit) == false)
+                //{
 
-                    //PathCreator.Instance.ClearPath();
-                }
+                //    //PathCreator.Instance.ClearPath();
+                //}
             }
 
             //MovementSystem.Instance.CheckForAddingSteps(SelectedUnit, oldTile, mouseoveredTile);

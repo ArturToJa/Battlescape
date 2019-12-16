@@ -21,9 +21,9 @@ public class VictoryLossChecker : MonoBehaviour
         }
     }
     [SerializeField] GameObject WinScreen;
-    public static bool isAHeroDead = false;
     [SerializeField] Text GreenPoints;
     [SerializeField] Text RedPoints;
+    public static bool isAnyHeroDead = false;
 
     void Start()
     {
@@ -90,9 +90,4 @@ public class VictoryLossChecker : MonoBehaviour
     {
         return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]).playerUnits;
     }    
-
-    public static void Clear()
-    {
-        isAHeroDead = false;        
-    }
 }

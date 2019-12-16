@@ -46,8 +46,11 @@ namespace BattlescapeLogic
                 yield return null;
             }
             StopMovementAnimation();
-            //HERE we need to pathfind, actually, to get distance etc.
+            //HERE we need to pathfind, actually, to get distance etc. to know how many points we lost - I THINK. Or maybe fliers cannot move more that once per turn xD?
             myUnit.statistics.movementPoints = 0;
+            myUnit.OnMove(myUnit.currentPosition, destination);
+            destination.SetMyUnitTo(myUnit);
+            GameStateManager.Instance.EndAnimation();
         }
 
         void FlyUp()

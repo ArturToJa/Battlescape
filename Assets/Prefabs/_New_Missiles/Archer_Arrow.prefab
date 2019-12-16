@@ -154,5 +154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ea3c118b43c4142869123cca561c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedPerFrame: 0.1
-  _maxHeight: 5
+  _speedPerFrame: 1
+  _maxHeight: 3

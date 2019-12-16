@@ -37,5 +37,6 @@ namespace BattlescapeLogic
         public abstract void OnAttackAnimation();
 
         public abstract void OnRangedAttackAnimation();
+        
     }
 }
