@@ -242,6 +242,7 @@ namespace BattlescapeLogic
 
         public void HitTarget(Unit target)
         {
+            GameStateManager.Instance.EndAnimation();
             if (DamageCalculator.IsMiss(this, target))
             {
                 // rzucamy buff na target obniżający obronę

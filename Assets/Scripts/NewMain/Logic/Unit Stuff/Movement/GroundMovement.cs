@@ -34,6 +34,7 @@ namespace BattlescapeLogic
                 temporaryGoal.SetMyUnitTo(myUnit);
             }
             StopMovementAnimation();
+            GameStateManager.Instance.EndAnimation();
             if (newPosition.IsProtectedByEnemyOf(myUnit))
             {
                 myUnit.statistics.movementPoints = 0;
