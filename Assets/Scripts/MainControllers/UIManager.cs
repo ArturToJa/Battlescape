@@ -120,7 +120,7 @@ public class UIManager : MonoBehaviour
     private void SetPanelsActivity()
     {
         SmoothlyTransitionActivity(UnitPanel, unitWeShowStatsOf != null, 0.1f);
-        SmoothlyTransitionActivity(MovementPanel, GameStateManager.Instance.GameState == GameStates.MoveState, 0.1f);
+        //SmoothlyTransitionActivity(MovementPanel, GameStateManager.Instance.GameState == GameStates.MoveState, 0.1f);
     }
 
     public void ToggleShowingStats()
