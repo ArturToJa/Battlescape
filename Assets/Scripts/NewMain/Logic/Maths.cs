@@ -15,20 +15,19 @@ namespace BattlescapeLogic
         // these methods need testing
         public static void SetObjectYaw(GameObject gameObject, float angle)
         {
-            // gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
-            Quaternion rotation = new Quaternion();
-            rotation.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y, angle - gameObject.transform.eulerAngles.z);
-            gameObject.transform.rotation = rotation;
+            gameObject.transform.rotation *= Quaternion.AngleAxis(angle - gameObject.transform.rotation.eulerAngles.y, new Vector3(0, 1, 0));
         }
 
         public static void SetObjectPitch(GameObject gameObject, float angle)
         {
-            gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(0, 0, 1));
+            Debug.Log("Inside before: " + gameObject.transform.rotation.eulerAngles);
+            gameObject.transform.rotation *= Quaternion.AngleAxis(angle - gameObject.transform.rotation.eulerAngles.z, new Vector3(0, 0, 1));
+            Debug.Log("Inside after: " + gameObject.transform.rotation.eulerAngles);
         }
 
         public static void SetObjectRoll(GameObject gameObject, float angle)
         {
-            gameObject.transform.rotation *= Quaternion.AngleAxis(angle, new Vector3(1, 0, 0));
+            gameObject.transform.rotation *= Quaternion.AngleAxis(angle - gameObject.transform.rotation.eulerAngles.x, new Vector3(1, 0, 0));
         }
     }
 }
