@@ -32,9 +32,17 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-        MatchType = MatchTypes.None;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            MatchType = MatchTypes.None;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
     }
 
 
