@@ -6,6 +6,7 @@ namespace BattlescapeLogic
 {
     public class GameTurn
     {
+        //THere is ONE AND ONLY ONE GameTurn!
         public LinkedList<INewTurn> newTurnObjects = new LinkedList<INewTurn>();
 
         static GameTurn _instance;
