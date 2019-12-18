@@ -11,12 +11,10 @@ namespace BattlescapeLogic
         public MeleeAttack(Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
+
             if (_myUnit.meleeWeaponVisual != null)
             {
-                if (_myUnit.meleeWeaponVisual != null)
-                {
-                    _myUnit.meleeWeaponVisual.SetActive(true);
-                }
+                _myUnit.meleeWeaponVisual.SetActive(true);
             }
         }
 
@@ -24,7 +22,7 @@ namespace BattlescapeLogic
         {
             base.Attack(target);
             TurnTowardsTarget();
-            PlayAttackAnimation();            
+            PlayAttackAnimation();
         }
         protected override void PlayAttackAnimation()
         {

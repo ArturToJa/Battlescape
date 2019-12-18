@@ -17,10 +17,7 @@ namespace BattlescapeLogic
         {
             if (_myUnit.meleeWeaponVisual != null)
             {
-                if (_myUnit.meleeWeaponVisual != null)
-                {
-                    _myUnit.meleeWeaponVisual.SetActive(false);
-                }
+                _myUnit.meleeWeaponVisual.SetActive(false);
             }
         }
 
