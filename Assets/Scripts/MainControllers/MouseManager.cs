@@ -34,10 +34,7 @@ public class MouseManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && GameStateManager.Instance.IsCurrentPlayerAI() == false)
-        {
-            SelectNextAvailableUnit();
-        }
+        
         if (Helper.IsOverNonHealthBarUI())
         {
             isMouseOverUI = true;
@@ -58,7 +55,7 @@ public class MouseManager : MonoBehaviour
             {
                 //So we just turned from UI back to the board - time to recolour stuff!
                 isMouseOverUI = false;
-                if (SelectedUnit.IsInCombat() == false && SelectedUnit.movement.isMoving == false)
+                if (SelectedUnit.movement.isMoving == false)
                 {
                     BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
                 }
@@ -68,21 +65,12 @@ public class MouseManager : MonoBehaviour
         TileRay();
         UnitRay();
         DestructibleRay();
-        TestKiller();
     }
 
     public void OnNewTurn()
     {
         Deselect();
-    }
-
-    private void TestKiller()
-    {
-        if (Input.GetKeyDown(KeyCode.F) && Application.isEditor)
-        {
-            SelectedUnit.OnHit(SelectedUnit, 100);
-        }
-    }
+    }    
 
     public bool IsMousoveredTile()
     {
@@ -146,7 +134,7 @@ public class MouseManager : MonoBehaviour
             {
                 toolMouseOverer.ClearMouseover(mouseoveredTile.gameObject);
             }
-            mouseoveredTile = mouseOveredObject.GetComponent<Tile>();    
+            mouseoveredTile = mouseOveredObject.GetComponent<Tile>();
             toolMouseOverer.Mouseover(mouseoveredTile.gameObject);
             if (SelectedUnit != null && GameStateManager.Instance.GameState == GameStates.MoveState && SelectedUnit.CanStillMove())
             {
@@ -241,7 +229,7 @@ public class MouseManager : MonoBehaviour
         SelectedUnit = unit;
         if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && SelectedUnit.CanStillMove())
         {
-            ColourForSelectedUnit();
+            ColourLegalTilesForSelectedUnit();
         }
         if (GameStateManager.Instance.IsCurrentPlayerAI() == false)
         {
@@ -254,15 +242,10 @@ public class MouseManager : MonoBehaviour
         selectionSound.oldSource.Play();
     }
 
-    void ColourForSelectedUnit()
+    void ColourLegalTilesForSelectedUnit()
     {
-
-        BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-        if ((SelectedUnit.IsInCombat() == false))
-        {
-            BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
-        }
-    }    
+        BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(SelectedUnit);
+    }
 
     public void Deselect()
     {
@@ -285,7 +268,7 @@ public class MouseManager : MonoBehaviour
         if (Physics.Raycast(tileRay, out tileInfo, Mathf.Infinity, tileMask))
         {
             Mouseover(tileInfo.transform.gameObject);
-            
+
         }
         else if (mouseoveredTile != null)
         {
@@ -348,7 +331,7 @@ public class MouseManager : MonoBehaviour
         return FindObjectOfType<CameraController>().manualCamera;
     }
 
-    void SelectNextAvailableUnit()
+    public void SelectNextAvailableUnit()
     {
 
         List<Unit> AllUnits = new List<Unit>(VictoryLossChecker.GetMyUnitList());

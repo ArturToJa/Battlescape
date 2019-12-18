@@ -20,6 +20,7 @@ namespace BattlescapeGraphics
 
         public static void SetColour(MonoBehaviour target, Color colour)
         {
+            target.StopAllCoroutines();
             target.StartCoroutine(SetColourRoutine(target.gameObject, colour));
         }
 

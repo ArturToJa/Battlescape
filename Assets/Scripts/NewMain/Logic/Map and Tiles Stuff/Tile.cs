@@ -101,7 +101,7 @@ namespace BattlescapeLogic
         }
 
         //IDK how we want to do that but currently we do not deal with setting Units/Tiles in pairs AT ALL - we have no way to set those.
-        public void SetMyUnitTo(BattlescapeLogic.Unit unit)
+        public void SetMyUnitTo(Unit unit)
         {
             myUnit = unit;
             Tile oldTile = null;

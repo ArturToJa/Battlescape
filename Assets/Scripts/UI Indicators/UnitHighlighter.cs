@@ -4,60 +4,41 @@ using UnityEngine;
 using BattlescapeLogic;
 
 public class UnitHighlighter : MonoBehaviour
-{
-    bool toggle;
-    bool isPressingControl = false;
-    List<Tile> ControlledTiles = new List<Tile>();
+{    
+    static List<Tile> ControlledTiles = new List<Tile>();
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            toggle = true;
-            ToggleHighlight();
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            toggle = false;
-            ToggleHighlight();
-            isPressingControl = false;
-
-        }
-    }
-    public void SwitchToggle()
-    {
-        toggle = !toggle;
-    }
-
-    public void ToggleHighlight()
+    public static void ToggleHighlight()
     {
         bool thereIsAUnitWhoCanMove = false;
 
-        if (toggle == false)
+        if (Input.GetKey(KeyCode.LeftControl) == false)
         {
             foreach (Tile tile in Map.Board)
             {
                 if (ControlledTiles.Contains(tile))
                 {
                     ControlledTiles.Remove(tile);
-                    tile.GetComponent<Renderer>().material.color = Color.white;
+                    BattlescapeGraphics.ColouringTool.SetColour(tile, Color.white);
                 }
             }
         }
         else
-        {
+        {            
             if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement && (GameStateManager.Instance.GameState == GameStates.IdleState ||GameStateManager.Instance.GameState == GameStates.MoveState))
             {
                 foreach (Tile tile in Map.Board)
                 {
                     if (tile.myUnit != null && tile.myUnit.owner == Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0] && tile.myUnit.CanStillMove())
                     {
-                        tile.GetComponent<Renderer>().material.color = Color.green;
-                        ControlledTiles.Add(tile);
+                        BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
+                        if (ControlledTiles.Contains(tile) == false)
+                        {
+                            ControlledTiles.Add(tile);
+                        }
                         thereIsAUnitWhoCanMove = true;
                     }
                 }
-                if (thereIsAUnitWhoCanMove == false && isPressingControl == false && TurnManager.Instance.TurnCount > 0)
+                if (thereIsAUnitWhoCanMove == false && TurnManager.Instance.TurnCount > 0)
                 {
                     PopupTextController.AddPopupText("No more units can move!", PopupTypes.Info);
                 }
@@ -72,17 +53,16 @@ public class UnitHighlighter : MonoBehaviour
                         && tile.myUnit.CanStillAttack() == true 
                         && tile.myUnit.attack != null)
                     {
-                        tile.GetComponent<Renderer>().material.color = Color.green;
+                        BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
                         ControlledTiles.Add(tile);
                         thereIsAUnitWhoCanMove = true;
                     }
                 }
-                if (thereIsAUnitWhoCanMove == false && isPressingControl == false && TurnManager.Instance.TurnCount > 0)
+                if (thereIsAUnitWhoCanMove == false && TurnManager.Instance.TurnCount > 0)
                 {
                     PopupTextController.AddPopupText("No more units can attack!", PopupTypes.Info);
                 }
-            }
-            isPressingControl = true;
+            }            
         }
         
     }

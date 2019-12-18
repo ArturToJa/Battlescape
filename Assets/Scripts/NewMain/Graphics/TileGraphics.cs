@@ -32,12 +32,12 @@ namespace BattlescapeGraphics
                     GetComponent<Renderer>().material.color = Color.red;
                 }
 
-            }
+            }            
+        }
 
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                grid.SetActive(!grid.activeSelf);
-            }
+        public void ToggleGrid()
+        {
+            grid.SetActive(!grid.activeSelf);
         }
     }
 }

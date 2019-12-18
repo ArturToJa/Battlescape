@@ -110,6 +110,15 @@ public class Map : MonoBehaviour
         return new Vector3(x, 0, z);
     }
 
+    public static void ToggleGrid()
+    {
+        foreach (Tile tile in Board)
+        {
+            BattlescapeGraphics.TileGraphics tileGraphics = tile.GetComponent<BattlescapeGraphics.TileGraphics>();
+            tileGraphics.ToggleGrid();
+        }
+    }
+
 
 
 }

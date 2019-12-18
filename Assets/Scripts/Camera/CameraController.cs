@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-public static CameraController Instance { get; private set; }
+    public static CameraController Instance { get; private set; }
 
     Coroutine routine;
     public float scrollSpeed = 20f;
@@ -29,8 +29,6 @@ public static CameraController Instance { get; private set; }
     [SerializeField] BoxCollider bounds;
     Bounds b;
     public bool canChangeVerticalRoration = false;
-
-    public bool canRotate;
     Vector3 LocalRotation;
     public float sensitivity = 4f;
     float rotateDampening = 10f;
@@ -59,24 +57,7 @@ public static CameraController Instance { get; private set; }
         sensitivity = PlayerPrefs.GetFloat("rotationSpeed");
     }
     void Update()
-    {
-       /* if (MouseManager.Instance.SelectedUnit != null && Input.GetKeyDown(KeyCode.C))
-        {
-            if (SetPosToUnitRoutine != null)
-            {
-                StopCoroutine(SetPosToUnitRoutine);
-            }
-            SetPosToUnitRoutine = StartCoroutine(SetCameraToUnit(MouseManager.Instance.SelectedUnit));
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SetCameraFree();
-        }*/
-       /* isOutside = view.x < 0 || view.x > 1 || view.y < 0 || view.y > 1;
-        if (isOutside)
-        {
-            return;
-        }*/
+    {       
         if (manualCamera)
         {
             CheckForInput();
@@ -88,25 +69,21 @@ public static CameraController Instance { get; private set; }
         if (SetPosition(transform.localPosition, transform.position) != null)
         {
             transform.localPosition = (Vector3)SetPosition(transform.localPosition, transform.position);
-        }
-        //SetPosition(transform.localPosition);
-        canRotate = Input.GetMouseButton(1);
-        if (canRotate)
+        }        
+        
+
+    }
+
+    public void RotateCamera()
+    {
+        if (manualCamera == false)
         {
-            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
-            {
-                LocalRotation.x += Input.GetAxis("Mouse X") * sensitivity;
-                if (canChangeVerticalRoration)
-                {
-                    ChangeVerticalLocation();
-                }
-            }
+            return;
         }
-        if (Input.GetKey(KeyCode.Space) && InGameInputField.IsNotTypingInChat())
+        LocalRotation.x += Input.GetAxis("Mouse X") * sensitivity;
+        if (canChangeVerticalRoration)
         {
-            canRotate = false;
-            transform.localPosition = startector;
-            LocalRotation = Quaternion.identity.eulerAngles;
+            ChangeVerticalLocation();
         }
     }
 
@@ -120,7 +97,7 @@ public static CameraController Instance { get; private set; }
     {
         if (Input.GetMouseButton(1) == false)
         {
-            if ((Input.mousePosition.y >= Screen.height - panBoarderThickness ) || (Input.GetKey(KeyCode.W) && InGameInputField.IsNotTypingInChat()) || (Input.GetKey(KeyCode.UpArrow) && InGameInputField.IsNotTypingInChat()))
+            if ((Input.mousePosition.y >= Screen.height - panBoarderThickness) || (Input.GetKey(KeyCode.W) && InGameInputField.IsNotTypingInChat()) || (Input.GetKey(KeyCode.UpArrow) && InGameInputField.IsNotTypingInChat()))
             {
                 pos += Vector3.forward * Time.deltaTime * panSpeed;
                 //pos.z += panSpeed * Time.deltaTime;
@@ -154,7 +131,7 @@ public static CameraController Instance { get; private set; }
         if (b.Contains(pos + this.transform.parent.position) == false)
         {
             return null;
-            
+
         }
         return pos;
     }
@@ -241,7 +218,7 @@ public static CameraController Instance { get; private set; }
             yield return null;
         }
         manualCamera = true;
-        
+
     }
 
     /*public void SetCameraFree()
@@ -256,7 +233,7 @@ public static CameraController Instance { get; private set; }
         {
             StopCoroutine(routine);
         }
-       routine = StartCoroutine(SetCameraToUnit(unit,condition));
+        routine = StartCoroutine(SetCameraToUnit(unit, condition));
     }
     public void SetCamToU(BattlescapeLogic.Unit unit)
     {
@@ -265,5 +242,15 @@ public static CameraController Instance { get; private set; }
             StopCoroutine(routine);
         }
         routine = StartCoroutine(SetCameraToUnit(unit));
+    }
+
+    public void ResetCamera()
+    {
+        if (manualCamera == false)
+        {
+            return;
+        }
+        transform.localPosition = startector;
+        LocalRotation = Quaternion.identity.eulerAngles;
     }
 }
