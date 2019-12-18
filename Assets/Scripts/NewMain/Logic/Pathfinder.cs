@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -94,7 +95,7 @@ namespace BattlescapeLogic
 
         //This function populates Distances and Parents arrays with data, using BFS algorithm.
         //Currently it just calculates for whole board (not until reaching destination).
-        void BFS(BattlescapeLogic.Unit unitToMove)
+        void BFS(Unit unitToMove)
         {
             //THIS first part is just for optimization
             if (HaveToBFSFor(unitToMove) == false)
@@ -120,9 +121,9 @@ namespace BattlescapeLogic
                 Tile current = queue.Peek();
                 queue.Dequeue();
                 List<Tile> orderedNeighbours = OrderNeighbours(current);
-                foreach (var neighbour in orderedNeighbours)
+                foreach (Tile neighbour in orderedNeighbours)
                 {                    
-                    if (distances[neighbour.position.x, neighbour.position.z] == -1 && neighbour.IsWalkable())
+                    if (distances[neighbour.position.x, neighbour.position.z] == -1 && neighbour.IsWalkable() && IsQuittingCombatIntoCombat(unitToMove, neighbour) == false)
                     {
                         distances[neighbour.position.x, neighbour.position.z] = distances[current.position.x, current.position.z] + 1;
                         parents[neighbour.position.x, neighbour.position.z] = current;
@@ -133,6 +134,11 @@ namespace BattlescapeLogic
                     }
                 }
             }
+        }
+
+        bool IsQuittingCombatIntoCombat(Unit unitToMove, Tile tile)
+        {
+            return unitToMove.IsInCombat() && tile.IsProtectedByEnemyOf(unitToMove);
         }
         #region BFS Subfunctions
         void SetDistancesToMinus()

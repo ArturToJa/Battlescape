@@ -49,7 +49,7 @@ namespace BattlescapeLogic
         public GameObject visuals { get; private set; }
         public GameObject meleeWeaponVisual { get; private set; }
         public Animator animator { get; private set; }
-   
+
         [SerializeField] string _fluffText;
         public string fluffText
         {
@@ -81,7 +81,7 @@ namespace BattlescapeLogic
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
-            meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");            
+            meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");
             buffs = new List<AbstractBuff>();
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
@@ -191,7 +191,7 @@ namespace BattlescapeLogic
                 OnCombatExit();
                 foreach (Tile tile in oldTile.neighbours)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team)
+                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
                     {
                         tile.myUnit.OnCombatExit();
                     }
@@ -202,7 +202,7 @@ namespace BattlescapeLogic
         public void OnCombatEnter()
         {
             //Add 'buff' limiting maxMovementPoints to 1;            
-            if (attack is ShootingAttack)
+            if (attackType == AttackTypes.Ranged)
             {
                 attack = new MeleeAttack(this);
             }
@@ -210,13 +210,25 @@ namespace BattlescapeLogic
 
         public void OnCombatExit()
         {
-            //Remove 'buff' limiting maxMovementPoints to 1;            
-            if (attackType == AttackTypes.Ranged)
+            foreach (Tile neighbour in currentPosition.neighbours)
             {
-                attack = new ShootingAttack(this);
+                if (this.IsAlive() && neighbour.myUnit != null && neighbour.myUnit.owner.team != this.owner.team)
+                {
+                    //Add buff to change hitChance and possibly damage?
+                    //this buff needs to delete itself!
+                    neighbour.myUnit.Attack(this);
+                }
+            }
+            if (IsAlive())
+            {
+                //Remove 'buff' limiting maxMovementPoints to 1;            
+                if (attackType == AttackTypes.Ranged)
+                {
+                    attack = new ShootingAttack(this);
+                }
             }
         }
-            public void Move(Tile newPosition)
+        public void Move(Tile newPosition)
         {
             if (CanStillMove())
             {
@@ -268,7 +280,7 @@ namespace BattlescapeLogic
                                     retaliatingUnit.CanStillRetaliate() &&
                                     retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
                                     TurnManager.Instance.PlayerHavingTurn != retaliatingUnit.owner.team.index //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
-                                    // && check for stopping retaliations in buffs/passives/idk
+                                                                                                              // && check for stopping retaliations in buffs/passives/idk
                                 )
             {
                 GameStateManager.Instance.StartRetaliationChoice();
@@ -283,7 +295,7 @@ namespace BattlescapeLogic
 
         private void ReceiveDamage(Unit source, int damage)
         {
-            statistics.healthPoints -= damage;            
+            statistics.healthPoints -= damage;
             if (IsAlive())
             {
                 PlayWoundAnimation();
@@ -305,23 +317,20 @@ namespace BattlescapeLogic
         }
 
         public virtual void Die(Unit killer)
-        {       
+        {
             currentPosition.SetMyUnitTo(null);
             //Note: this makes the Tile 'forget' about the unit, but the dead Unit 'remembers' its last Tile!
             if (currentPosition.IsProtectedByEnemyOf(this))
             {
                 foreach (Tile tile in currentPosition.neighbours)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team)
+                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
                     {
-                        if (tile.IsProtectedByEnemyOf(tile.myUnit) == false)
-                        {
-                            //The guy just got free from combat by death of our Unit;
-                            tile.myUnit.OnCombatExit();
-                        }
+                        //The enemy dude exists and just got free from combat by death of our Unit;
+                        tile.myUnit.OnCombatExit();
                     }
                 }
-            }            
+            }
             if (MouseManager.Instance.SelectedUnit == this)
             {
                 MouseManager.Instance.Deselect();

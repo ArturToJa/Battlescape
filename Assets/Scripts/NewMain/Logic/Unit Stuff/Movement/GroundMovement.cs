@@ -20,8 +20,9 @@ namespace BattlescapeLogic
             PlayMovementAnimation();
             int tileCount = path.Count;
             for (int i = 0; i < tileCount; ++i)
-            {               
-                Tile temporaryGoal = path.Dequeue();                
+            {
+                Tile temporaryGoal = path.Dequeue();
+                myUnit.OnMove(myUnit.currentPosition, temporaryGoal);                
                 //I am aware, that for now we are still just turning into a direction in one frame. If we ever want it any other way, it needs a bit of work to set it otherwise so im not doing it now :D.                
                 //if we want to slowly turn, we need to ask if we already turned, and if not we turn and if yes we move here.   
                 TurnTowards(temporaryGoal.transform.position);
@@ -30,7 +31,7 @@ namespace BattlescapeLogic
                     myUnit.transform.position = Vector3.MoveTowards(myUnit.transform.position, temporaryGoal.transform.position,visualSpeed * Time.deltaTime);
                     yield return null;
                 }
-                myUnit.OnMove(myUnit.currentPosition, temporaryGoal);
+                
                 temporaryGoal.SetMyUnitTo(myUnit);
             }
             StopMovementAnimation();
