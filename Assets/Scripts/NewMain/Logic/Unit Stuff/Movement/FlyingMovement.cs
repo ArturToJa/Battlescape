@@ -50,7 +50,7 @@ namespace BattlescapeLogic
             myUnit.statistics.movementPoints = 0;
             myUnit.OnMove(myUnit.currentPosition, destination);
             destination.SetMyUnitTo(myUnit);
-            GameStateManager.Instance.EndAnimation();
+            PlayerInput.instance.isInputBlocked = false;
         }
 
         void FlyUp()

@@ -32,12 +32,13 @@ public class ShowActiveAbilities : MonoBehaviour
         }
         else
         {
-            if (MouseManager.Instance.MouseoveredUnit == null || EnemyTooltipHandler.isOn)
-            {
-                return null;
-            }
-            return MouseManager.Instance.MouseoveredUnit;
+            //if (MouseManager.Instance.MouseoveredUnit == null || EnemyTooltipHandler.isOn)
+            //{
+            //    return null;
+            //}
+            //return MouseManager.Instance.MouseoveredUnit;
         }
+        return null;
     }
 
     void UpdateActives()

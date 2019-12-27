@@ -40,19 +40,19 @@ public class UnitTypes : MonoBehaviour
     {        
         if (RealOne)
         {            
-            if (MouseManager.Instance.SelectedUnit == null)
+            if (MouseManager.instance.selectedUnit == null)
             {
                 return;
             }
-            myUnit = MouseManager.Instance.SelectedUnit;
+            myUnit = MouseManager.instance.selectedUnit;
         }
         else if (ManagementScene == false)
         {
-            if (MouseManager.Instance.MouseoveredUnit == null || EnemyTooltipHandler.isOn)
-            {
-                return;
-            }
-            myUnit = MouseManager.Instance.MouseoveredUnit;           
+            //if (MouseManager.Instance.MouseoveredUnit == null || EnemyTooltipHandler.isOn)
+            //{
+            //    return;
+            //}
+            //myUnit = MouseManager.Instance.MouseoveredUnit;           
         }
         else
         {

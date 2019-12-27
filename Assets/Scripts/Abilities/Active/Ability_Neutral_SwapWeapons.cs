@@ -25,7 +25,7 @@ public class Ability_Neutral_SwapWeapons : Ability_Basic
 
     protected override void OnUpdate()
     {
-        if (myUnit == MouseManager.Instance.SelectedUnit)
+        if (myUnit == BattlescapeLogic.MouseManager.instance.selectedUnit)
         {
             if (IsPri)
             {
@@ -53,7 +53,7 @@ public class Ability_Neutral_SwapWeapons : Ability_Basic
         SendCommandForActivation();
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return true;
     }
@@ -82,7 +82,7 @@ public class Ability_Neutral_SwapWeapons : Ability_Basic
     {
         //Setting unit as a Ranged (or not) unit, both logically and visually
         myUnit.attackType = swapIn.attackType;
-        GetComponentInChildren<AnimController>().SetRanged(swapIn.attackType == BattlescapeLogic.AttackTypes.Ranged);
+        //GetComponentInChildren<AnimController>().SetRanged(swapIn.attackType == BattlescapeLogic.AttackTypes.Ranged);
 
         //Adding (or deducting) stats based on stats of swapped weapons
         swapIn.SetLogicallyInUse(true);

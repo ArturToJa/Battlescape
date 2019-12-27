@@ -15,14 +15,13 @@ public abstract class Ability_Basic : MonoBehaviour
     public string TooltipInfo;
     public Sprite mySprite;
     public GameObject MyObject { get; set; }
-    protected bool isBeingUsed;
+    public bool isBeingUsed { get; private set; }
     public static Ability_Basic currentlyUsedAbility;
     public int UsesPerBattle;
     public int UsesLeft { get; protected set; }
     public Sound AbilitySound;
     AudioSource AbilitySource;
     public GameObject BasicVFX;
-    public AbilityStyle Style;
     public int EnergyCost;
     protected UnitEnergy myEnergy;
     public List<TurnPhases> LegalInPhases;
@@ -38,7 +37,6 @@ public abstract class Ability_Basic : MonoBehaviour
         Use();
         currentlyUsedAbility = this;
         isBeingUsed = true;
-        GameStateManager.Instance.SetState(Style);
         ColourTiles();
         myEnergy.CurrentEnergy -= EnergyCost;
 
@@ -47,7 +45,6 @@ public abstract class Ability_Basic : MonoBehaviour
     {
         CancelUse();
         BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-        GameStateManager.Instance.BackToIdle();
         currentlyUsedAbility = null;
         isBeingUsed = false;
         myEnergy.CurrentEnergy += EnergyCost;
@@ -55,9 +52,9 @@ public abstract class Ability_Basic : MonoBehaviour
     }
     protected void SendCommandForActivation()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        if (Global.instance.MatchType == MatchTypes.Online)
         {
-            GameStateManager.Instance.GetComponent<PhotonView>().RPC
+            Networking.instance.GetComponent<PhotonView>().RPC
                 (
                 "RPCActivateAbility",
                 PhotonTargets.All,
@@ -79,7 +76,7 @@ public abstract class Ability_Basic : MonoBehaviour
     protected abstract void Use();
     protected abstract void SetTarget();
     public abstract void Activate();
-    protected abstract bool ActivationRequirements();
+    public abstract bool ActivationRequirements();
     /// <summary>
     /// Note that this function should be empty unles really needed otherwise (all functionality should be somehow in base unlkess it is really hard/unpractical/single-time-only-very-special-condition
     /// </summary>
@@ -92,7 +89,7 @@ public abstract class Ability_Basic : MonoBehaviour
             myEnergy.IsEnoughEnergyFor(this) &&
             Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] == myUnit.owner &&
             AlreadyUsedThisTurn == false &&
-            GameStateManager.Instance.IsItPreGame() == false &&
+            //GameStateManager.Instance.IsItPreGame() == false &&
             LegalInPhases.Contains(TurnManager.Instance.CurrentPhase) &&
             (!OnlyInCombat || (OnlyInCombat && myUnit.IsInCombat())) &&
             (!UnavailableInCombat || (UnavailableInCombat && !myUnit.IsInCombat())) &&
@@ -121,7 +118,6 @@ public abstract class Ability_Basic : MonoBehaviour
         {
             UsesLeft--;
         }
-        GameStateManager.Instance.BackToIdle();
         BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         AlreadyUsedThisTurn = true;
         currentlyUsedAbility = null;
@@ -133,7 +129,7 @@ public abstract class Ability_Basic : MonoBehaviour
 
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
         UsesLeft = UsesPerBattle;
-        myUnit = GetComponent<BattlescapeLogic.Unit>();
+        myUnit = GetComponent<Unit>();
         myEnergy = GetComponent<UnitEnergy>();
         AbilitySource = gameObject.AddComponent<AudioSource>();
         OnStart();
@@ -171,7 +167,7 @@ public abstract class Ability_Basic : MonoBehaviour
         if (isBeingUsed)
         {
 
-            GameStateManager.Instance.isTargetValid = ActivationRequirements();
+            //GameStateManager.Instance.isTargetValid = ActivationRequirements();
             ColourTiles();
         }
 

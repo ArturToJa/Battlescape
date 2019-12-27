@@ -38,7 +38,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
         return;
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return true;
     }
@@ -65,7 +65,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
 
     void DoArtisticStuff()
     {
-        GetComponent<AnimController>().Cast();
+        //myUnit.GetComponent<AnimController>().Cast();
         PlayAbilitySound();
         CreateVFXOn(transform, transform.rotation);
         PassiveAbility_Buff.AddBuff(gameObject, 2, 0, 0, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "WarriorWallBuff", vfx, 3f, false, false, false);

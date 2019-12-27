@@ -69,7 +69,7 @@ public class AI_Shooting : AI_Base_Attack
            
             if (myUnitsToMove.Count == 0)
             {
-                GameStateManager.NextPhase();
+                //GameStateManager.NextPhase();
                 return null;
             }
             else
@@ -87,9 +87,9 @@ public class AI_Shooting : AI_Base_Attack
         if (target.Key != null)
         {
             Debug.Log("Chosen tile is: " + target.Key);
-            CombatController.Instance.attackTarget = target.Key.myUnit.GetComponent<BattlescapeLogic.Unit>();
+            Unit attackTarget = target.Key.myUnit;
             currentUnit.statistics.numberOfAttacks = 0;
-            CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.attackTarget);
+            Networking.instance.SendCommandToAttack(currentUnit, attackTarget);
         }
         else
         {
@@ -102,7 +102,7 @@ public class AI_Shooting : AI_Base_Attack
         List<Tile> enemiesInRange = new List<Tile>();
         foreach (BattlescapeLogic.Unit enemy in enemyList)
         {
-            bool isInRange = CombatController.Instance.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position);
+            bool isInRange = false; // CombatController.Instance.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position);
             if (enemy.owner.index != this.ID && isInRange && enemy.IsAlive())
             {
                 enemiesInRange.Add(enemy.currentPosition);

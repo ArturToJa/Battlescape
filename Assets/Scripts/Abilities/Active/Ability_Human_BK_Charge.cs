@@ -41,7 +41,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
     }
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
     public override void Activate()
@@ -51,12 +51,12 @@ public class Ability_Human_BK_Charge : Ability_Basic
         StartCoroutine(Charge(tileCount));
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return (
-            MouseManager.Instance.mouseoveredTile != null &&
-            MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile) &&
-            EventSystem.current.IsPointerOverGameObject() == false
+        return (true
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MovementQuestions.Instance.CanMove(GameManager.instance.selectedUnit, MouseManager.Instance.mouseoveredTile) &&
+            //EventSystem.current.IsPointerOverGameObject() == false
             );
     }
 
@@ -122,12 +122,12 @@ public class Ability_Human_BK_Charge : Ability_Basic
         //Log.SpawnLog(myUnit.name + " attack(s) " + CombatController.Instance.attackTarget.name + " while charging!");
         //// Notice that all of this is networked so we dont want to send the attack over network from BOTH computers, so ill send it just from the computer on which the player is LOCAL 
         //// (i dont even think i care which one computer does it tho tbh). But this fraze will work in Single/HS too.
-        //if (GameStateManager.Instance.IsCurrentPlayerLocal() || GameStateManager.Instance.IsCurrentPlayerAI())
+        //if (Global.instance.IsCurrentPlayerLocal() || Global.instance.IsCurrentPlayerAI())
         //{
         //    CombatController.Instance.SendCommandToAttack(myUnit, CombatController.Instance.attackTarget, false);
         //}
 
-        //if (GameStateManager.Instance.IsCurrentPlayerAI())
+        //if (Global.instance.IsCurrentPlayerAI())
         //{
         //    CombatController.Instance.MakeAIWait(3f);
         //}

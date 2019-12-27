@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using BattlescapeLogic;
 
 public class EscapeMenu : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class EscapeMenu : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) &&(FindObjectOfType<EnemyTooltipHandler>() == null || (FindObjectOfType<EnemyTooltipHandler>() != null && EnemyTooltipHandler.isOn == false)))
+        if (Input.GetKeyDown(KeyCode.Escape) &&(FindObjectOfType<EnemyTooltipHandler>() == null || (FindObjectOfType<EnemyTooltipHandler>() != null)))
         {
             EscapeMenuWindow.SetActive(!EscapeMenuWindow.activeSelf);
             source.Play();
@@ -27,9 +28,9 @@ public class EscapeMenu : MonoBehaviour
     {
         if (PhotonNetwork.connected)
         {
-            if (GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()))
+            if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                GameStateManager.Instance.GetComponent<PhotonView>().RPC("RPCConnectionLossScreen", PhotonTargets.Others, PhotonNetwork.player.NickName);
+                Networking.instance.photonView.RPC("RPCConnectionLossScreen", PhotonTargets.Others, PhotonNetwork.player.NickName);
             }            
             MyNetworkManager.Instance.Disconnect();
         }
@@ -41,9 +42,9 @@ public class EscapeMenu : MonoBehaviour
     {
         if (PhotonNetwork.connected)
         {
-            if (GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()))
+            if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                GameStateManager.Instance.GetComponent<PhotonView>().RPC("RPCConnectionLossScreen", PhotonTargets.Others, PhotonNetwork.player.NickName);
+                Networking.instance.photonView.RPC("RPCConnectionLossScreen", PhotonTargets.Others, PhotonNetwork.player.NickName);
             }
             MyNetworkManager.Instance.Disconnect();
         }

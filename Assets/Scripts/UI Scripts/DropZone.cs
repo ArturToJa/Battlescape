@@ -96,7 +96,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
 
     public void CommandInstantiateUnit(int UnitID, int PlayerID, Vector3 position)
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        if (Global.instance.MatchType == MatchTypes.Online)
         {
             GetComponent<PhotonView>().RPC("RPCInstantiateUnit", PhotonTargets.All, UnitID, PlayerID, position);
             //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));

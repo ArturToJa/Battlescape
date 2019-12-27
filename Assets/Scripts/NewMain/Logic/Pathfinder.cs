@@ -27,16 +27,16 @@ namespace BattlescapeLogic
         
         //These are for us to always know if we BFSed from this tile standing in this position
         //So that we only BFS if we have new unit or unit moved.
-        BattlescapeLogic.Unit lastUnit;
+        Unit lastUnit;
         Tile lastTile;
 
-        bool HaveToBFSFor(BattlescapeLogic.Unit unitToMove)
+        bool HaveToBFSFor(Unit unitToMove)
         {
             return (lastUnit == unitToMove && lastTile == unitToMove.currentPosition) == false;
         }
 
         //Some old ability wants this ;D
-        public int GetDistanceFromTo(BattlescapeLogic.Unit unit, Tile tile)
+        public int GetDistanceFromTo(Unit unit, Tile tile)
         {
             int distance = distances[tile.position.x, tile.position.z];
             BFS(unit);
@@ -52,7 +52,7 @@ namespace BattlescapeLogic
         
 
         //This function gives the list of possible tiles a Unit could get to.
-        public List<Tile> GetAllLegalTilesFor(BattlescapeLogic.Unit unitToMove)
+        public List<Tile> GetAllLegalTilesFor(Unit unitToMove)
         {
             List<Tile> returnList = new List<Tile>();
             // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
@@ -68,13 +68,13 @@ namespace BattlescapeLogic
             return returnList;
         }
 
-        public bool IsLegalTileForUnit(Tile tile, BattlescapeLogic.Unit unit)
+        public bool IsLegalTileForUnit(Tile tile, Unit unit)
         {
             BFS(unit);
             return distances[tile.position.x, tile.position.z] <= unit.statistics.movementPoints && distances[tile.position.x, tile.position.z] > 0;
         }
 
-        public Queue<Tile> GetPathFromTo(BattlescapeLogic.Unit unitToMove, Tile finalTile)
+        public Queue<Tile> GetPathFromTo(Unit unitToMove, Tile finalTile)
         {
             BFS(unitToMove);
             Stack<Tile> tileStack = new Stack<Tile>();

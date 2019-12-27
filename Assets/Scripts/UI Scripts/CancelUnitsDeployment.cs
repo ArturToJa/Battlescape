@@ -17,7 +17,7 @@ public class CancelUnitsDeployment : MonoBehaviour
     }
     public void CommandCancel()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        if (Global.instance.MatchType == MatchTypes.Online)
         {
             //UnitPositionKeeper.Instance.photonView.RPC("RPCDeleteAll", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);
             photonView.RPC("RPCCancel", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);

@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : NewTurnMonoBehaviour
+    public class Unit : NewTurnMonoBehaviour, IMouseTargetable
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -64,6 +64,9 @@ namespace BattlescapeLogic
         }
 
         [SerializeField] Faction _race;
+
+
+
         public Faction race
         {
             get
@@ -138,6 +141,19 @@ namespace BattlescapeLogic
                     //unit cannot attack
                     return null;
             }
+        }
+
+        public bool CanAttackOrMoveNow()
+        {
+            if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+            {
+                return CanStillMove();
+            }
+            if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
+            {
+                return (IsRanged() || IsInCombat()) && CanStillAttack();
+            }
+            else return false;
         }
 
         public bool IsAlive()
@@ -254,7 +270,7 @@ namespace BattlescapeLogic
 
         public void HitTarget(Unit target)
         {
-            GameStateManager.Instance.EndAnimation();
+            PlayerInput.instance.isInputBlocked = false;
             if (DamageCalculator.IsMiss(this, target))
             {
                 // rzucamy buff na target obniżający obronę
@@ -270,21 +286,31 @@ namespace BattlescapeLogic
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.OnHit(this, damage);
             }
-            CheckForRetaliation(target);
+            if (IsRetaliationPossible(target))
+            {
+                Networking.instance.SendCommandToGiveChoiceOfRetaliation(target, this);
+            }
+
         }
 
-        void CheckForRetaliation(Unit retaliatingUnit)
+        bool IsRetaliationPossible(Unit retaliatingUnit)
         {
-            if
-                                (
-                                    retaliatingUnit.CanStillRetaliate() &&
-                                    retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
-                                    TurnManager.Instance.PlayerHavingTurn != retaliatingUnit.owner.team.index //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
-                                                                                                              // && check for stopping retaliations in buffs/passives/idk
-                                )
-            {
-                GameStateManager.Instance.StartRetaliationChoice();
-            }
+            return
+                (
+                    retaliatingUnit.CanStillRetaliate() &&
+                    retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
+                    TurnManager.Instance.PlayerHavingTurn != retaliatingUnit.owner.team.index //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
+                                                                                              // && check for stopping retaliations in buffs/passives/idk
+                );
+
+        }
+
+        //MAYBE this belongs in other script and/or should include the attack itself?
+        public void Retaliate()
+        {
+            Log.SpawnLog(this.name + " strikes back!");
+            this.statistics.numberOfRetaliations--;
+            Networking.instance.FinishRetaliation();
         }
 
         //this should play on attacked unit when it is time it should receive DMG
@@ -331,9 +357,9 @@ namespace BattlescapeLogic
                     }
                 }
             }
-            if (MouseManager.Instance.SelectedUnit == this)
+            if (MouseManager.instance.selectedUnit == this)
             {
-                MouseManager.Instance.Deselect();
+                MouseManager.instance.unitSelector.DeselectUnit();
             }
             killer.owner.AddPoints(statistics.cost);
             HideHealthUI();
@@ -343,9 +369,23 @@ namespace BattlescapeLogic
             //definitely a log to log window
         }
 
-        private void HideHealthUI()
+        void HideHealthUI()
         {
             GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        }
+
+        public bool IsInAttackRange(Vector3 target)
+        {
+            Bounds FullRange = new Bounds(this.transform.position, new Vector3(2 * this.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * this.statistics.GetCurrentAttackRange() + 0.25f));
+            if (this.statistics.minimalAttackRange > 0)
+            {
+                Bounds miniRange = new Bounds(this.transform.position, new Vector3(2 * this.statistics.minimalAttackRange + 0.25f, 5, 2 * this.statistics.minimalAttackRange + 0.25f));
+                return miniRange.Contains(target) == false && FullRange.Contains(target);
+            }
+            else
+            {
+                return FullRange.Contains(target);
+            }
         }
     }
 }

@@ -6,26 +6,26 @@ using BattlescapeLogic;
 public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 {
     [SerializeField] int RangeModifier;
-    UIHitChanceInformation hitInfo;
+//    UIHitChanceInformation hitInfo;
 
     protected override void OnStart()
     {
-        hitInfo = FindObjectOfType<UIHitChanceInformation>();
+        //hitInfo = FindObjectOfType<UIHitChanceInformation>();
     }
 
     protected override void OnUpdate()
     {
-        if (isBeingUsed)
-        {
-            if (MouseManager.Instance.MouseoveredUnit != null)
-            {
-                if (hitInfo.IsNewTargetToCalculate())
-                {
-                    hitInfo.ChangeUnitsStatsBy(-Mathf.CeilToInt(0.5f * MouseManager.Instance.MouseoveredUnit.statistics.GetCurrentDefence()));
-                    hitInfo.ShowNewInformation();
-                }
-            }
-        }
+        //if (isBeingUsed)
+        //{
+        //    if (MouseManager.Instance.MouseoveredUnit != null)
+        //    {
+        //        if (hitInfo.IsNewTargetToCalculate())
+        //        {
+        //            hitInfo.ChangeUnitsStatsBy(-Mathf.CeilToInt(0.5f * MouseManager.Instance.MouseoveredUnit.statistics.GetCurrentDefence()));
+        //            hitInfo.ShowNewInformation();
+        //        }
+        //    }
+        //}
     }
 
     protected override bool IsUsableNow()
@@ -37,7 +37,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     protected override void CancelUse()
     {
         myUnit.statistics.bonusAttackRange -= RangeModifier;
-        hitInfo.ChangeUnitsStatsBy(0);
+        //hitInfo.ChangeUnitsStatsBy(0);
     }
 
     protected override void Use()
@@ -47,7 +47,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
     public override void Activate()
@@ -55,22 +55,20 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         StartCoroutine(ActivateThisAbility(Target.myUnit));
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return ((MouseManager.Instance.MouseoveredUnit != null) && CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position));
+        return true;// ((MouseManager.Instance.MouseoveredUnit != null) && CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.MouseoveredUnit.transform.position));
     }
 
 
-    void PerformPenetratingShot(BattlescapeLogic.Unit target)
+    void PerformPenetratingShot(Unit target)
     {
         //int oldDef = target.statistics.GetCurrentDefence();
         //target.statistics.defence = target.statistics.GetCurrentDefence() - Mathf.CeilToInt(0.5f * target.statistics.GetCurrentDefence());
         myUnit.statistics.numberOfAttacks = 0;
-        CombatController.Instance.attackTarget = target;
-        CombatController.Instance.Attack(myUnit, target);
+        myUnit.Attack(target);
         //target.statistics.GetCurrentDefence() = oldDef;
         myUnit.statistics.bonusAttackRange -= RangeModifier;
-        GameStateManager.Instance.BackToIdle();
     }
 
     IEnumerator ActivateThisAbility(BattlescapeLogic.Unit target)
@@ -80,36 +78,36 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
         Log.SpawnLog(myUnit.name + " shoots a Penetrating Shot at " + target.name + ", temporarily decreasing " + target.name + "'s defence by half");
         myUnit.statistics.numberOfAttacks = 0;
         DoArtisticStuff();
-        GameStateManager.Instance.Animate();
+        PlayerInput.instance.isInputBlocked = true;
         yield return new WaitForSeconds(1.5f);
-        GameStateManager.Instance.EndAnimation();
+        PlayerInput.instance.isInputBlocked = false;
         if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].type != PlayerType.Network)
         {
             // We cannot send this through network if we are just doing this ONLY because enemy used it in online game - cause he will also send this command and we will shoot 2 times).
             PerformPenetratingShot(target);
         }
-        hitInfo.ChangeUnitsStatsBy(0);
+        //hitInfo.ChangeUnitsStatsBy(0);
     }
 
     void DoArtisticStuff()
     {
         PlayAbilitySound();
-        GetComponent<AnimController>().Cast();
+        //myUnit.GetComponent<AnimController>().Cast();
         CreateVFXOn(transform, transform.rotation);
     }
     protected override void ColourTiles()
     {
-        foreach (Tile tile in Map.Board)
-        {
-            if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
-            }
-            else
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.white);
-            }
-        }
+    //    foreach (Tile tile in Map.Board)
+    //    {
+    //        if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
+    //        {
+    //            BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.red);
+    //        }
+    //        else
+    //        {
+    //            BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.white);
+    //        }
+    //    }
     }
 
 

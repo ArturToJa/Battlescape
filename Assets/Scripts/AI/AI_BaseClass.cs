@@ -42,7 +42,7 @@ public class AI_BaseClass
             {
                 PopupTextController.AddPopupText("Bug appeared! Tell Dogo about it!", PopupTypes.Info);
                 Log.SpawnLog("An AI - bug happenned. Please tell Dogo about it.");
-                GameStateManager.NextPhase();
+                //GameStateManager.NextPhase();
                 return;
             }
             LastThreeSelectedUnits.Add(currentUnit);
@@ -50,13 +50,13 @@ public class AI_BaseClass
             {
                 LastThreeSelectedUnits.RemoveAt(0);
             }
-            MouseManager.Instance.SelectAUnit(currentUnit, true);
+            MouseManager.instance.unitSelector.SelectUnit(currentUnit);
 
             ///////////////////// ABILITIES HERE//////////////////////////////
             // Here we should check if we want to use an active ability!
             if (CheckIfGoodToUseAbility(currentUnit))
             {
-                CombatController.Instance.MakeAIWait(3f);
+                //CombatController.Instance.MakeAIWait(3f);
                 return;
             }
             
@@ -81,11 +81,11 @@ public class AI_BaseClass
         }
         if (this is AI_Attack)
         {
-            CombatController.Instance.MakeAIWait(3f);
+            //CombatController.Instance.MakeAIWait(3f);
         }
         else
         {
-            CombatController.Instance.MakeAIWait(1f);
+            //CombatController.Instance.MakeAIWait(1f);
         }
     }
 

@@ -47,13 +47,13 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return
-            MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.IsWalkable() &&
-            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile, myUnit.currentPosition, 2) &&
-            IsValidJump(myUnit.currentPosition, MouseManager.Instance.mouseoveredTile);
+        return true;
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MouseManager.Instance.mouseoveredTile.IsWalkable() &&
+            //Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile, myUnit.currentPosition, 2) &&
+            //IsValidJump(myUnit.currentPosition, MouseManager.Instance.mouseoveredTile);
         //there needs to be one more thing - the obstacle! in exact middle!
     }
 
@@ -94,14 +94,14 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         Log.SpawnLog("Horseman jumps above an obstacle!");
         PlayAbilitySound();
         GameObject lightnings = CreateVFXOn(transform, BasicVFX.transform.rotation);
-        GetComponent<AnimController>().SetJumping(true);
-        MovementSystem.Instance.DoMovement(myUnit, Target);
+        //myUnit.GetComponent<AnimController>().SetJumping(true);
+        myUnit.Move(Target);
         yield return null;
         FinishUsing();
         // some future
         //yield return WaitUntil(something)
         yield return new WaitUntil(IsDoneMoving);
-        GetComponent<AnimController>().SetJumping(false);
+        //myUnit.GetComponent<AnimController>().SetJumping(false);
         Destroy(lightnings);
         Target.SetMyUnitTo(myUnit);
     }
@@ -137,23 +137,23 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; // MouseManager.Instance.mouseoveredTile;
     }
 
     protected override void ColourTiles()
     {
-        var Tiles = Helper.GetTilesInRangeOf(myUnit.currentPosition, 2);
-        foreach (Tile tile in Tiles)
-        {
-            if (
-                myUnit.currentPosition.neighbours.Contains(tile) == false &&
-                IsValidJump(tile, myUnit.currentPosition) &&
-                tile.IsWalkable()
-                )
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
-            }
-        }
+        //var Tiles = Helper.GetTilesInRangeOf(myUnit.currentPosition, 2);
+        //foreach (Tile tile in Tiles)
+        //{
+        //    if (
+        //        myUnit.currentPosition.neighbours.Contains(tile) == false &&
+        //        IsValidJump(tile, myUnit.currentPosition) &&
+        //        tile.IsWalkable()
+        //        )
+        //    {
+        //        BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
+        //    }
+        //}
     }
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class InGameInputField : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class InGameInputField : MonoBehaviour
     void Start()
     {
         msg = "";
-        if (GameStateManager.Instance.MatchType != MatchTypes.Online)
+        if (Global.instance.MatchType != MatchTypes.Online)
         {
             this.gameObject.SetActive(false);
         }

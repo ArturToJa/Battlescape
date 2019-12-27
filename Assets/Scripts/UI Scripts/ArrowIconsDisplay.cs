@@ -10,7 +10,7 @@ public class ArrowIconsDisplay : MonoBehaviour
     void Start()
     {
         myUnit = GetComponentInParent<BattlescapeLogic.Unit>();
-        CombatController.Instance.AttackEvent += OnAttack;
+        //CombatController.Instance.AttackEvent += OnAttack;
     }
 
 

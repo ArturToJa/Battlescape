@@ -47,13 +47,13 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return
-            MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.IsWalkable() == true &&
-            MouseManager.Instance.mouseoveredTile.IsWalkable() &&
-            MouseManager.Instance.mouseoveredTile.neighbours.Contains(myUnit.currentPosition);
+        return true;
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MouseManager.Instance.mouseoveredTile.IsWalkable() == true &&
+            //MouseManager.Instance.mouseoveredTile.IsWalkable() &&
+            //MouseManager.Instance.mouseoveredTile.neighbours.Contains(myUnit.currentPosition);
     }
 
     public override void Activate()
@@ -67,7 +67,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
         yield return null;
         FinishUsing();
         //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
-        myUnit.GetComponent<AnimController>().SpecialAttack();
+        //myUnit.//myUnit.GetComponent<AnimController>().SpecialAttack();
         List<GameObject> visuals = new List<GameObject>();
         foreach (Vector3 position in Positions)
         {
@@ -126,7 +126,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null;// MouseManager.Instance.mouseoveredTile;
     }
     protected override void ColourTiles()
     {
@@ -134,7 +134,7 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
         {
             if (tile.IsWalkable())
             {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
             }
         }
     }

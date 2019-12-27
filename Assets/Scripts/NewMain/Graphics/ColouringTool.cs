@@ -2,60 +2,99 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
+using System;
 
 namespace BattlescapeGraphics
 {
     public static class ColouringTool
     {
-        static float speed = 2.0f;
-
-        public static void UncolourAllTiles()
+        public static void ColourUnitsThatStillCanMoveOrAttack()
         {
-            foreach (Tile tile in Map.Board)
+            Player currentPlayer = Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0];
+            foreach (Unit unit in currentPlayer.playerUnits)
             {
-                UncolourTile(tile);
-            }
-
-        }
-
-        public static void SetColour(MonoBehaviour target, Color colour)
-        {
-            target.StopAllCoroutines();
-            target.StartCoroutine(SetColourRoutine(target.gameObject, colour));
-        }
-
-        static IEnumerator SetColourRoutine(GameObject target, Color colour)
-        {
-            Renderer renderer = target.GetComponent<Renderer>();
-            while (renderer.material.color != colour)
-            {
-                float t = speed * Time.deltaTime;
-                renderer.material.color = Color.Lerp(renderer.material.color, colour, t);
-                yield return null;
+                if (unit.CanAttackOrMoveNow())
+                {
+                    ColourObject(unit, Color.green);
+                }
             }
         }
 
-        static void UncolourTile(Tile tile)
+        public static void UncolourAllUnits()
         {
-            tile.StopAllCoroutines();
-            tile.GetComponent<Renderer>().material.color = Color.white;
+            foreach (PlayerTeam team in Global.instance.playerTeams)
+            {
+                foreach (Player player in team.players)
+                {
+                    foreach (Unit unit in player.playerUnits)
+                    {
+                        ColourObject(unit, Color.white);
+                    }
+                }
+            }
         }
 
         public static void ColourLegalTilesFor(Unit unit)
         {
             UncolourAllTiles();
-            var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
-            foreach (Tile tile in temp)
+            if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
             {
-                if (tile.IsProtectedByEnemyOf(unit))
+                var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
+                foreach (Tile tile in temp)
                 {
-                    SetColour(tile, Color.red);
-                }
-                else
-                {
-                    SetColour(tile, Color.cyan);
+                    if (tile.IsProtectedByEnemyOf(unit))
+                    {
+                        ColourObject(tile, Color.red);
+                    }
+                    else
+                    {
+                        ColourObject(tile, Color.cyan);
+                    }
                 }
             }
+            else if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
+            {
+                foreach (Tile tile in Map.Board)
+                {
+                    if (tile.myUnit != null && tile.myUnit.owner.team != unit.currentPosition.myUnit.owner.team && unit.IsInAttackRange(tile.transform.position) && unit.CanStillAttack())
+                    {
+                        ColourObject(tile, Color.red);
+                    }
+                }
+            }
+           
         }
+
+        public static void UncolourAllTiles()
+        {
+            foreach (Tile tile in Map.Board)
+            {
+                ColourObject(tile, Color.white);
+            }
+
+        }
+
+        public static void ColourUnitAsAllyOrEnemy(Unit unit)
+        {
+            if (unit.owner.IsCurrentLocalPlayer())
+            {
+                ColourObject(unit, Color.green);
+            }
+            else
+            {
+                ColourObject(unit, Color.red);
+            }
+        }                       
+
+        public static void ColourObject(MonoBehaviour target, Color color)
+        {
+            Renderer[] rs = target.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in rs)
+            {
+                Material m = r.material;
+                m.color = color;
+                r.material = m;
+            }
+        }                  
     }
 }

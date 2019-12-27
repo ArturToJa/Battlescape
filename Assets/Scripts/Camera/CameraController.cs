@@ -55,24 +55,7 @@ public class CameraController : MonoBehaviour
 
         panSpeed = PlayerPrefs.GetFloat("panSpeed");
         sensitivity = PlayerPrefs.GetFloat("rotationSpeed");
-    }
-    void Update()
-    {       
-        if (manualCamera)
-        {
-            CheckForInput();
-        }
-    }
-
-    void CheckForInput()
-    {
-        if (SetPosition(transform.localPosition, transform.position) != null)
-        {
-            transform.localPosition = (Vector3)SetPosition(transform.localPosition, transform.position);
-        }        
-        
-
-    }
+    }    
 
     public void RotateCamera()
     {
@@ -93,7 +76,20 @@ public class CameraController : MonoBehaviour
         LocalRotation.y = Mathf.Clamp(LocalRotation.y, minYRotation, maxYRotation);
     }
 
-    private Vector3? SetPosition(Vector3 pos, Vector3 posWorld)
+    public void OnCameraMove(Vector3 direction)
+    {
+        if (manualCamera)
+        {
+            Vector3 pos = transform.localPosition;
+            pos += direction * Time.deltaTime * panSpeed;
+            if (b.Contains(pos + this.transform.parent.position))
+            {
+                transform.localPosition = pos;
+            }
+        }
+    }
+
+    private Vector3? SetPosition(Vector3 pos)
     {
         if (Input.GetMouseButton(1) == false)
         {

@@ -48,10 +48,10 @@ public class AssassinStatModifier : PassiveAbility
         //{
         //    return true;
         //}
-        if (QCManager.Instance.IsTimeForBackstabs)
-        {
-            return true;
-        }
+        //if (QCManager.Instance.IsTimeForBackstabs)
+        //{
+        //    return true;
+        //}
         // TODO: if (IsLeavingDisguise) also return true in the future!
         else
             return false;

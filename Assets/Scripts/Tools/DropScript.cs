@@ -11,7 +11,7 @@ public class DropScript : MonoBehaviour
     public void Drop()
     {
       /*  return;
-        unit = MouseManager.Instance.SelectedUnit;
+        unit = GameManager.instance.selectedUnit;
         if (unitis Hero)
         {
             if (unit.isGreen)

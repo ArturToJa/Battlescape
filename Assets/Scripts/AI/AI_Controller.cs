@@ -31,7 +31,7 @@ public class AI_Controller : MonoBehaviour
         {
             Instance = this;
         }
-        if (GameStateManager.Instance.MatchType != MatchTypes.Singleplayer)
+        if (Global.instance.MatchType != MatchTypes.Singleplayer)
         {
             return;
         }
@@ -53,20 +53,20 @@ public class AI_Controller : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameStateManager.Instance.MatchType != MatchTypes.Singleplayer)
+        if (Global.instance.MatchType != MatchTypes.Singleplayer)
         {
             return;
         }
-        if (TurnManager.Instance.TurnCount == 0 && GameStateManager.Instance.IsCurrentPlayerAI())
+        if (TurnManager.Instance.TurnCount == 0 && Global.instance.IsCurrentPlayerAI())
         {
             //PreGameAI tool = new PreGameAI();
             //tool.PositionUnits();
             endButton.OK();
         }
-        if (VictoryLossChecker.IsGameOver || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || GameStateManager.Instance.IsCurrentPlayerAI() == false)
-        {
-            return;
-        }
+        //if (VictoryLossChecker.IsGameOver || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || Global.instance.IsCurrentPlayerAI() == false)
+        //{
+        //    return;
+        //}
         // Already we know it is decisionmaking moment!
         // If green player has tim,e to move and he is an AI, do AI.
         if (CheckIfTimeForAI(0))
@@ -79,11 +79,11 @@ public class AI_Controller : MonoBehaviour
             ChangeAIToAppropriateOne(1);
             PlayerAIs[1].DoAI();
         }
-        if (GameStateManager.Instance.GameState == GameStates.RetaliationState && IsCurrentTurnHuman()  && isRetaliating == false)
-        {
-            isRetaliating = true;
-            CombatController.Instance.RetaliationForAI();
-        }
+        //if (GameStateManager.Instance.GameState == GameStates.RetaliationState && IsCurrentTurnHuman()  && isRetaliating == false)
+        //{
+        //    isRetaliating = true;
+        //    //CombatController.Instance.RetaliationForAI();
+        //}
     }
 
     public void OnNewTurn()
@@ -124,11 +124,11 @@ public class AI_Controller : MonoBehaviour
             return;
         }
 
-        if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.AttackState) && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && TurnManager.Instance.PlayerHavingTurn == TurnManager.Instance.PlayerToMove && IsCurrentTurnHuman() == false)
-        {
-            PlayerAIs[ID] = new AI_Attack(ID);
-            return;
-        }
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.AttackState) && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && TurnManager.Instance.PlayerHavingTurn == TurnManager.Instance.PlayerToMove && IsCurrentTurnHuman() == false)
+        //{
+        //    PlayerAIs[ID] = new AI_Attack(ID);
+        //    return;
+        //}
 
         //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState) && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
         //{
@@ -136,16 +136,16 @@ public class AI_Controller : MonoBehaviour
         //    return;
         //}
 
-        if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.MoveState) && TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
-        {
-             if (!didAllTheQCDecisionsHappen)
-             {
-                 PlayerAIs[ID] = new AI_QuitCombat(ID);
-             }
-             else
-                PlayerAIs[ID] = new AI_Movement(ID);
-            return;
-        }
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.MoveState) && TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+        //{
+        //     if (!didAllTheQCDecisionsHappen)
+        //     {
+        //         PlayerAIs[ID] = new AI_QuitCombat(ID);
+        //     }
+        //     else
+        //        PlayerAIs[ID] = new AI_Movement(ID);
+        //    return;
+        //}
     }
     bool IsCurrentTurnHuman()
     {

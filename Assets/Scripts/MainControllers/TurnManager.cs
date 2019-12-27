@@ -51,9 +51,28 @@ public class TurnManager : MonoBehaviour
     AudioSource turnSource;
     public TurnPhases CurrentPhase;
 
+    public void OnPressEndButton()
+    {
+        if (
+            (Global.instance.playerTeams[PlayerHavingTurn].players[0].type == PlayerType.Local) && 
+            PlayerInput.instance.isInputBlocked == false && 
+            //Some check for ability not being used here 
+            TurnCount > 0 && 
+            InGameInputField.IsNotTypingInChat())
+        {
+            if (CurrentPhase == TurnPhases.Movement)
+            {
+                NextPhase(false);
+            }
+            else
+            {
+                NewTurn(true);
+            }
+        }
+    }
+
     int PlayerCountOfEndPreGame;
-
-
+    public TurnPhases previousPhase;
 
     private void Start()
     {
@@ -68,7 +87,7 @@ public class TurnManager : MonoBehaviour
         CurrentPhase = TurnPhases.None;
         TurnCount = -1;
 
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[1].players[0].type == PlayerType.Local)
+        if (Global.instance.MatchType == MatchTypes.Online && Global.instance.playerTeams[1].players[0].type == PlayerType.Local)
         {
             // we are in an online game, AND we are not a host (precisely: second (red) player is the local player) so we should set CurrentPlayer stuff to 1 ;)
             PlayerHavingTurn = 1;
@@ -78,22 +97,14 @@ public class TurnManager : MonoBehaviour
 
     public void Update()
     {
-        SetButtons();
-        CheckInput();
+        SetButtons();        
     }
 
     void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.End) && (Global.instance.playerTeams[PlayerHavingTurn].players[0].type == PlayerType.Local) && GameStateManager.Instance.IsGameStateNormal() && TurnCount > 0 && InGameInputField.IsNotTypingInChat())
+        if (Input.GetKeyDown(KeyCode.End))
         {
-            if (CurrentPhase == TurnPhases.Movement)
-            {
-                NextPhase(false);
-            }
-            else
-            {
-                NewTurn(true);
-            }
+            
         }
     }
 
@@ -123,7 +134,7 @@ public class TurnManager : MonoBehaviour
         {
             EndTurner.SetActive(true);
         }
-        if (GameStateManager.Instance.IsCurrentPlayerLocal() == false)
+        if (Global.instance.IsCurrentPlayerLocal() == false)
         {
             EndTurner.SetActive(false);
             nexxt.SetActive(false);
@@ -136,7 +147,7 @@ public class TurnManager : MonoBehaviour
 
     public void NewTurnWrapper()
     {
-        if (CombatController.CheckIfLastAttacker() == false || DoesWantToShowPhaseWindow)
+        if (Global.instance.playerTeams[PlayerHavingTurn].players[0].HasAttacksOrMovesLeft() == false || DoesWantToShowPhaseWindow)
         {
             EndTurnWindow.SetActive(true);
         }
@@ -149,7 +160,7 @@ public class TurnManager : MonoBehaviour
 
     public void NewTurn(bool isRealGame)
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online && isRealGame)
+        if (Global.instance.MatchType == MatchTypes.Online && isRealGame)
         {
             photonView.RPC("RPCNewTurn", PhotonTargets.All, isRealGame);
         }
@@ -177,12 +188,13 @@ public class TurnManager : MonoBehaviour
         text2.isOff = false;
         SwitchPlayerHavingTurn();
         CurrentPhase = TurnPhases.Movement;
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
+        if (Global.instance.IsCurrentPlayerAI())
         {
             Debug.Log("New AI turn.");
         }
         if (isRealGame)
         {
+            MouseManager.instance.unitSelector.DeselectUnit();
             GameTurn.instance.OnClick();
             turnSource.Play();
             TurnCount++;
@@ -227,8 +239,8 @@ public class TurnManager : MonoBehaviour
     public void MovementPhase()
     {
         CurrentPhase = TurnPhases.Movement;
-        MouseManager.Instance.Deselect();
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
+        MouseManager.instance.unitSelector.DeselectUnit();
+        if (Global.instance.IsCurrentPlayerAI())
         {
             Debug.Log("Movement phase beggins.");
         }
@@ -237,8 +249,8 @@ public class TurnManager : MonoBehaviour
     public void AttackPhase()
     {
         CurrentPhase = TurnPhases.Attack;
-        MouseManager.Instance.Deselect();
-        if (GameStateManager.Instance.IsCurrentPlayerAI())
+        MouseManager.instance.unitSelector.DeselectUnit();
+        if (Global.instance.IsCurrentPlayerAI())
         {
             Debug.Log("Attack phase beggins.");
         }
@@ -246,7 +258,7 @@ public class TurnManager : MonoBehaviour
 
     public void NextPhase(bool didAI)
     {
-        if (DoesWantToShowPhaseWindow && didAI == false && GameStateManager.Instance.MatchType != MatchTypes.Online)
+        if (DoesWantToShowPhaseWindow && didAI == false && Global.instance.MatchType != MatchTypes.Online)
         {
             EndPhaseWindow.SetActive(true);
         }
@@ -259,7 +271,7 @@ public class TurnManager : MonoBehaviour
     public void RealNextPhase(bool didAI)
     {
         PopupTextController.ClearPopups();
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        if (Global.instance.MatchType == MatchTypes.Online)
         {
             photonView.RPC("RPCNextPhase", PhotonTargets.All, didAI);
         }
@@ -277,7 +289,7 @@ public class TurnManager : MonoBehaviour
 
     void SetNextPhase(bool didAI)
     {
-        if ((GameStateManager.Instance.IsCurrentPlayerAI() == true && didAI == false) || (GameStateManager.Instance.IsCurrentPlayerAI() == false && didAI == true) || CurrentPhase == TurnPhases.Enemy || GameStateManager.Instance.GameState == GameStates.AnimatingState)
+        if ((Global.instance.IsCurrentPlayerAI() == true && didAI == false) || (Global.instance.IsCurrentPlayerAI() == false && didAI == true) || CurrentPhase == TurnPhases.Enemy || PlayerInput.instance.isInputBlocked)
         {
             return;
         }
@@ -315,6 +327,11 @@ public class TurnManager : MonoBehaviour
     public bool IsTimeToEndPreGame()
     {
         return PlayerCountOfEndPreGame == 2;
+    }
+
+    public bool IsItPreGame()
+    {
+        return TurnCount <= 0;
     }
 
 }

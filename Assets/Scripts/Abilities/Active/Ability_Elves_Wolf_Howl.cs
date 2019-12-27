@@ -30,20 +30,20 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     }
     protected override void ColourTiles()
     {
-        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, RangeBetweenWolves))
-        {
-            //if (ally.unitUnit.myUnitID == UnitID.Wolf)
-            //{
-            //    BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition,Color.green);
-            //}
-        }
-        foreach (BattlescapeLogic.Unit enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
-        {
-            //if (enemy.unitUnit.myUnitID == UnitID.Wolf)
-            //{
-            //    BattlescapeGraphics.ColouringTool.SetColour(enemy.currentPosition, Color.green);                
-            //}
-        }
+        //foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, RangeBetweenWolves))
+        //{
+        //    //if (ally.unitUnit.myUnitID == UnitID.Wolf)
+        //    //{
+        //    //    BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition,Color.green);
+        //    //}
+        //}
+        //foreach (BattlescapeLogic.Unit enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
+        //{
+        //    //if (enemy.unitUnit.myUnitID == UnitID.Wolf)
+        //    //{
+        //    //    BattlescapeGraphics.ColouringTool.SetColour(enemy.currentPosition, Color.green);                
+        //    //}
+        //}
     }
 
     protected override bool IsUsableNow()
@@ -61,7 +61,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         return;
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return true;
     }
@@ -110,14 +110,14 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     }
     void DoMyArt()
     {
-        GetComponent<AnimController>().Cast();
+        //myUnit.GetComponent<AnimController>().Cast();
     }
 
     IEnumerator DoOtherWolfStuff(BattlescapeLogic.Unit wolf)
     {
 
         Log.SpawnLog("Nearby wolf gets affected by a powerfull Howl!");
-        wolf.GetComponent<AnimController>().Cast();
+        //wolf.myUnit.GetComponent<AnimController>().Cast();
         //PassiveAbility_Buff.AddBuff(wolf.gameObject, Duration, AttackBuff, DefenceBuff, 0, wolf.baseQuitCombatPercent, true, "WolfBuff", BuffVFX, 0, false, false, false);
         GameObject vfx1 = CreateVFXOn(wolf.transform, BasicVFX.transform.rotation);
         yield return new WaitForSeconds(6);

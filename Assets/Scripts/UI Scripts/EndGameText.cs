@@ -18,7 +18,7 @@ public class EndGameText : MonoBehaviour
         }
         else
         {
-            switch (GameStateManager.Instance.MatchType)
+            switch (Global.instance.MatchType)
             {
                 case MatchTypes.Online:
                     if ((VictoryLossChecker.gameResult == GameResult.GreenWon && Global.instance.playerTeams[0].players[0].type == PlayerType.Local) ||(VictoryLossChecker.gameResult == GameResult.RedWon && Global.instance.playerTeams[1].players[0].type == PlayerType.Local))

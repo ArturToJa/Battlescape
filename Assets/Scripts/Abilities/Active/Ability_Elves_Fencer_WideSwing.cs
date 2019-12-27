@@ -16,16 +16,16 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     protected override void OnUpdate()
     {
-        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
-        {
-            previousMousovered = MouseManager.Instance.MouseoveredUnit;
-            ColourPotentialTargets();
-        }
-        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit == null)
-        {
-            UncolourPotentialTargets();
-            previousMousovered = null;
-        }
+        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
+        //{
+        //    previousMousovered = MouseManager.Instance.MouseoveredUnit;
+        //    ColourPotentialTargets();
+        //}
+        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit == null)
+        //{
+        //    UncolourPotentialTargets();
+        //    previousMousovered = null;
+        //}
     }
 
 
@@ -48,11 +48,11 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
     {
         foreach (Tile neighbour in myUnit.currentPosition.neighbours)
         {
-            if (neighbour.myUnit != null && MouseManager.Instance.MouseoveredUnit.currentPosition.neighbours.Contains(neighbour))
-            {
-                PaintObject(neighbour.myUnit.gameObject, Color.red);
-                colouredUnits.Add(neighbour.myUnit.gameObject);
-            }
+            //if (neighbour.myUnit != null && MouseManager.Instance.MouseoveredUnit.currentPosition.neighbours.Contains(neighbour))
+            //{
+            //    PaintObject(neighbour.myUnit.gameObject, Color.red);
+            //    colouredUnits.Add(neighbour.myUnit.gameObject);
+            //}
         }
     }
     void PaintObject(GameObject Object, Color color)
@@ -75,12 +75,13 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return
-            MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.mouseoveredTile.myUnit.currentPosition);
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
+            //myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.mouseoveredTile.myUnit.currentPosition);
+            false;
     }
 
     public override void Activate()
@@ -92,7 +93,7 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
     {
         CreateVFXOn(transform, BasicVFX.transform.rotation);
         //myUnit.LookAtTheTarget(Target.transform.position, 0/*myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack*/);
-        GetComponent<AnimController>().SpecialAttack();
+        ////myUnit.GetComponent<AnimController>().SpecialAttack();
         Log.SpawnLog("Fencer uses Wide Swing, swinging his blade recklessly around him");
         //LOGIC
         BattlescapeLogic.Unit Enemy = Target.myUnit;
@@ -144,7 +145,8 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = //MouseManager.Instance.mouseoveredTile;
+        null;
     }
 
 

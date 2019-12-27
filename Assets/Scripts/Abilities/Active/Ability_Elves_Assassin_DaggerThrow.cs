@@ -42,14 +42,14 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return
-            MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
-            Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.currentPosition, 2);
-
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
+            //MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
+            //Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.currentPosition, 2);
+            true;
     }
 
     public override void Activate()
@@ -60,7 +60,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
     IEnumerator Throw()
     {
         //myUnit.LookAtTheTarget(Target.transform.position, 60);
-        GetComponent<AnimController>().Cast();
+        ////myUnit.GetComponent<AnimController>().Cast();
         /* var temp = Instantiate(Dagger, daggerSpawn.position, Dagger.transform.rotation);
          temp.GetComponent<ProjectileScript>().Target = Target.transform.position;*/
         //LaunchDagger(Target.transform.position, speed);
@@ -97,11 +97,11 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.currentPosition, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner && (Map.Board[x, z].myUnit.statistics.cost > 5 || Map.Board[x, z].myUnit is BattlescapeLogic.Hero))
-                {
-                    Target = Map.Board[x, z];
-                    return true;
-                }
+                //if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.currentPosition, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner && (Map.Board[x, z].myUnit.statistics.cost > 5 || Map.Board[x, z].myUnit is BattlescapeLogic.Hero))
+                //{
+                //    Target = Map.Board[x, z];
+                //    return true;
+                //}
             }
         return false;
     }
@@ -110,17 +110,18 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = //MouseManager.Instance.mouseoveredTile;
+            null;
     }
     protected override void ColourTiles()
     {
         for (int x = 0; x < Map.mapWidth; x++)
             for (int z = 0; z < Map.mapHeight; z++)
             {
-                if (Helper.AreTilesInRange(myUnit.currentPosition, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner)
-                {
-                    BattlescapeGraphics.ColouringTool.SetColour(Map.Board[x, z],Color.red);
-                }
+                //if (Helper.AreTilesInRange(myUnit.currentPosition, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner)
+                //{
+                //    BattlescapeGraphics.ColouringTool.ColourObject(Map.Board[x, z],Color.red);
+                //}
             }
 
     }

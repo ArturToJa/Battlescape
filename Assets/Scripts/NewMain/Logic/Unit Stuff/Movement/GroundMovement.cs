@@ -30,12 +30,11 @@ namespace BattlescapeLogic
                 {
                     myUnit.transform.position = Vector3.MoveTowards(myUnit.transform.position, temporaryGoal.transform.position,visualSpeed * Time.deltaTime);
                     yield return null;
-                }
-                
+                }                
                 temporaryGoal.SetMyUnitTo(myUnit);
-            }
+             }
             StopMovementAnimation();
-            GameStateManager.Instance.EndAnimation();
+            PlayerInput.instance.isInputBlocked = false;
             if (newPosition.IsProtectedByEnemyOf(myUnit))
             {
                 myUnit.statistics.movementPoints = 0;
@@ -45,8 +44,6 @@ namespace BattlescapeLogic
                 myUnit.statistics.movementPoints -= tileCount - 1;
             }
             BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(myUnit);
-
-
         }
 
         void PlayMovementAnimation()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class DisabledMove : MonoBehaviour
 {
@@ -9,10 +10,10 @@ public class DisabledMove : MonoBehaviour
     
     void Update()
     {
-        if (MouseManager.Instance.SelectedUnit != null)
+        if (MouseManager.instance.selectedUnit != null)
         {
 
-            if (MouseManager.Instance.SelectedUnit.CanStillMove() == false)
+            if (MouseManager.instance.selectedUnit.CanStillMove() == false)
             {
                 MoveButton.interactable = false;
                 MoveButton.GetComponentInChildren<Text>().text = "Already moved.";

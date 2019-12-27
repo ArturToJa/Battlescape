@@ -6,27 +6,36 @@ using BattlescapeLogic;
 
 public class SelectionIndicator : MonoBehaviour
 {
+    Image myImage;
     [SerializeField] Sprite basic;
     [SerializeField] Sprite hero;
 
-    void Update()
+    void Start()
     {
-        if (MouseManager.Instance.SelectedUnit != null)
+        myImage = GetComponentInChildren<Image>();
+    }
+    
+    public void SetActiveFor(Unit unit)
+    {
+        if (unit is Hero)
         {
-            this.transform.position = MouseManager.Instance.SelectedUnit.transform.position;
-            if (MouseManager.Instance.SelectedUnit is Hero)
-            {
-                this.transform.position = MouseManager.Instance.SelectedUnit.transform.position +new Vector3(0, 0.01f, 0);
-                GetComponentInChildren<Image>().sprite = hero;
-            }
-            else
-            {
-                GetComponentInChildren<Image>().sprite = basic;
-            }
+            this.transform.position = unit.transform.position + new Vector3(0, 0.1f, 0);
+            myImage.sprite = hero;
         }
         else
         {
-            this.transform.position = new Vector3(100, 100, 100);
+            this.transform.position = unit.transform.position;
+            myImage.sprite = basic;
         }
+        this.transform.parent = unit.transform;
     }
+
+    public void SetInactive()
+    {
+        this.transform.position = new Vector3(100, 100, 100);
+        this.transform.parent = null;
+    }
+
+
+
 }

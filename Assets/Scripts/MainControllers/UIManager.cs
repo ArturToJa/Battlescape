@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
         SetPanelsActivity();
         SetUnitName();
         UpdateAbilitiesEnabled();
-        if (MouseManager.Instance.SelectedUnit != null)
+        if (MouseManager.instance.selectedUnit != null)
         {
             FillTheBar();
         }
@@ -59,15 +59,15 @@ public class UIManager : MonoBehaviour
 
     void UpdateAbilitiesEnabled()
     {
-        if (MouseManager.Instance.SelectedUnit == null)
+        if (MouseManager.instance.selectedUnit == null)
         {
             return;
         }
-        foreach (Ability_Basic ability in MouseManager.Instance.SelectedUnit.GetComponents<Ability_Basic>())
+        foreach (Ability_Basic ability in MouseManager.instance.selectedUnit.GetComponents<Ability_Basic>())
         {
             if (ability.MyObject != null)
             {
-                ability.MyObject.GetComponentInChildren<Button>().interactable = (ability.IsUsableNowBase() && MouseManager.Instance.SelectedUnit.movement.isMoving == false);
+                ability.MyObject.GetComponentInChildren<Button>().interactable = (ability.IsUsableNowBase() && MouseManager.instance.selectedUnit.movement.isMoving == false);
             }
         }
         SmoothlyTransitionActivity(CancelAbilityButton, Ability_Basic.currentlyUsedAbility != null, 0.1f);
@@ -84,11 +84,11 @@ public class UIManager : MonoBehaviour
 
     void UpdateSelectedUnit()
     {
-        if (GameStateManager.Instance.IsCurrentPlayerAI() == false)
+        if (Global.instance.IsCurrentPlayerAI() == false)
         {
-            unitWeShowStatsOf = MouseManager.Instance.SelectedUnit;
+            unitWeShowStatsOf = MouseManager.instance.selectedUnit;
         }
-        if (GameStateManager.Instance.IsCurrentPlayerAI() == true)
+        if (Global.instance.IsCurrentPlayerAI() == true)
         {
             SetOurOwnUnitSelection();
         }
@@ -96,17 +96,18 @@ public class UIManager : MonoBehaviour
 
     void SetOurOwnUnitSelection()
     {
-        if (Input.GetMouseButton(0) && MouseManager.Instance.MouseoveredUnit != null)
-        {
-            if (MouseManager.Instance.MouseoveredUnit != unitWeShowStatsOf)
-            {
-                unitWeShowStatsOf = MouseManager.Instance.MouseoveredUnit;
-            }
-            else
-            {
-                unitWeShowStatsOf = null;
-            }
-        }
+        //THIS should be done via PlayerInput xD
+        //if (Input.GetMouseButton(0) && MouseManager.Instance.MouseoveredUnit != null)
+        //{
+        //    if (MouseManager.Instance.MouseoveredUnit != unitWeShowStatsOf)
+        //    {
+        //        unitWeShowStatsOf = MouseManager.Instance.MouseoveredUnit;
+        //    }
+        //    else
+        //    {
+        //        unitWeShowStatsOf = null;
+        //    }
+        //}
     }
 
     private void SetUnitName()
@@ -152,6 +153,24 @@ public class UIManager : MonoBehaviour
         }
         SetPanelsInteraction(UIElement);
     }
+
+    public static void InstantlyTransitionActivity(GameObject UIElement, bool active)
+    {
+        if (UIElement.GetComponent<CanvasGroup>() == null)
+        {
+            UIElement.AddComponent<CanvasGroup>();
+        }
+        if (active)
+        {
+            UIElement.transform.GetComponent<CanvasGroup>().alpha = 1;
+        }
+        else
+        {
+            UIElement.transform.GetComponent<CanvasGroup>().alpha = 0;
+        }
+        SetPanelsInteraction(UIElement);
+
+    }
     static void SetPanelsInteraction(GameObject panel)
     {
         panel.GetComponent<CanvasGroup>().interactable = panel.GetComponent<CanvasGroup>().alpha > 0.9f;
@@ -165,7 +184,7 @@ public class UIManager : MonoBehaviour
 
     void FillTheBar()
     {
-        Unit unit = MouseManager.Instance.SelectedUnit;
+        Unit unit = MouseManager.instance.selectedUnit;
         float velocity = 0;
         fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.currentEnergy / (float)Statistics.maxEnergy), ref velocity, barAnimationTime);
         amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString();

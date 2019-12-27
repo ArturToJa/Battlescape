@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{    
+{
     [HideInInspector]
     public GameObject Tooltip;
     public string TooltipName;
@@ -38,31 +38,16 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
         }
     }
 
-    
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (CursorController.Instance != null)
-        {
-            CursorController.Instance.SetCursorToInfo();
-        }
-        else
-        {
-            MenuCursorController.Instance.SetCursorToInfo();
-        }
+        CursorController.Instance.SetCursorTo(CursorController.Instance.infoCursor, CursorController.Instance.infoCursor);
         hoveredIcon = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hoveredIcon = null;
-        if (CursorController.Instance != null)
-        {
-            CursorController.Instance.StopSettingInfoCursor();
-        }
-        else
-        {
-            MenuCursorController.Instance.StopSettingInfoCursor();
-        }
+        hoveredIcon = null;        
     }
 }

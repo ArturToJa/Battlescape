@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class ShowAbilitiesUI : MonoBehaviour
 {
@@ -28,25 +28,25 @@ public class ShowAbilitiesUI : MonoBehaviour
             Unit = unitTypes.myUnit;
             return;
         }
-        if (RealOne == false && EnemyTooltipHandler.isOn)
-        {
-            return;
-        }
+        //if (RealOne == false && EnemyTooltipHandler.isOn)
+        //{
+        //    return;
+        //}
         if (RealOne)
         {
-            if (MouseManager.Instance.SelectedUnit == null)
+            if (MouseManager.instance.selectedUnit == null)
             {
                 return;
             }
-            Unit = MouseManager.Instance.SelectedUnit;
+            Unit = MouseManager.instance.selectedUnit;
         }
         else
         {
-            if (MouseManager.Instance.MouseoveredUnit == null)
-            {
-                return;
-            }
-            Unit = MouseManager.Instance.MouseoveredUnit.GetComponent<BattlescapeLogic.Unit>();
+            //if (MouseManager.Instance.MouseoveredUnit == null)
+            //{
+            //    return;
+            //}
+            //Unit = MouseManager.Instance.MouseoveredUnit.GetComponent<BattlescapeLogic.Unit>();
         }
     }
 

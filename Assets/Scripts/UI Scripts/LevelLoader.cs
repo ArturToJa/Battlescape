@@ -36,21 +36,9 @@ public class LevelLoader : MonoBehaviour
     }
 
     void LoadScene(string scene)
-    {
-        if (scene == "_MENU")
-        {
-            if (Application.isEditor)
-            {
-                DestroyImmediate(GameStateManager.Instance.GetComponent<PhotonView>());
-            }
-            else
-            {
-                Destroy(GameStateManager.Instance.GetComponent<PhotonView>());
-            }            
-        }
+    {        
         AudioManager.isPlayingGameOverMusic = false;
-        StartCoroutine(LoadAsync(scene));
-        
+        StartCoroutine(LoadAsync(scene));        
     }
 
 

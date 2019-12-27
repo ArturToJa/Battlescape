@@ -25,6 +25,10 @@ namespace BattlescapeLogic
         public virtual void Attack(Unit target)
         {
             targetUnit = target;
+            if (target.owner.HasAttacksOrMovesLeft() == false)
+            {
+                PopupTextController.AddPopupText("No more units can attack!", PopupTypes.Info);
+            }
         }
         protected abstract void PlayAttackAnimation();
 
@@ -37,6 +41,7 @@ namespace BattlescapeLogic
         public abstract void OnAttackAnimation();
 
         public abstract void OnRangedAttackAnimation();
-        
+
+          
     }
 }

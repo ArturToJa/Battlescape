@@ -67,17 +67,17 @@ public class AudioManager : MonoBehaviour
         {
             PlayRandomClipOfType(SoundType.Menu);
         }
-        if ((GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && isPlayingGameOverMusic == false && VictoryLossChecker.IsGameOver))
+        if ((SceneManager.GetActiveScene().name.Contains("_GameScene_") && isPlayingGameOverMusic == false && VictoryLossChecker.IsGameOver))
         {
             PlayCorrectEndgameClip();
         }
-        else if (VictoryLossChecker.IsGameOver == false && GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && (currentMusic == null || currentMusic.isPlaying == false))
+        else if (VictoryLossChecker.IsGameOver == false && (SceneManager.GetActiveScene().name.Contains("_GameScene_")) && (currentMusic == null || currentMusic.isPlaying == false))
         {
             PlayRandomClipOfType(SoundType.Game);
             currentSongTime = 0f;
         }
         currentSongTime += Time.deltaTime;
-        if (GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()) && IsPlayingWind && startedWindAlready == false)
+        if ((SceneManager.GetActiveScene().name.Contains("_GameScene_")) && IsPlayingWind && startedWindAlready == false)
         {
             PlayRandomClipOfType(SoundType.Wind);
             startedWindAlready = true;
@@ -212,5 +212,5 @@ public class AudioManager : MonoBehaviour
             PlayerPrefs.SetInt("IsAudioMute", 1);
             currentMusic.volume = 0;
         }
-    }
+    }    
 }

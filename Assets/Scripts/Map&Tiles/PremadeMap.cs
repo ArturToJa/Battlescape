@@ -9,7 +9,7 @@ public class PremadeMap : Map
     {
         //one more thing we can do in inspector and not hardcode as we have a premade map :))
     }
-    protected override void CommandAddObstacles()
+    protected override void AddObstacles()
     {
         //as map is premade, do nothing ;)
         return;

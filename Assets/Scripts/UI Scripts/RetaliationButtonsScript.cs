@@ -2,44 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class RetaliationButtonsScript : MonoBehaviour
-{      
-    private void Update()
-    {
-        UIManager.SmoothlyTransitionActivity(this.gameObject, CheckIfImNeeded(), 0.1f);
-        SetBlockingRaycasts();
-    }
-
-    private void SetBlockingRaycasts()
-    {
-        if (GetComponent<CanvasGroup>().alpha > 0.9f)
-        {
-            GetComponent<CanvasGroup>().blocksRaycasts = true;
-        }
-        else
-        {
-            GetComponent<CanvasGroup>().blocksRaycasts = false;
-        }
-    }
-
-    private bool CheckIfImNeeded()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Log.SpawnLog("GameState: " + GameStateManager.Instance.GameState.ToString());
-            Log.SpawnLog("isLocal: " + GameStateManager.Instance.IsCurrentPlayerLocal());
-        }
-        return GameStateManager.Instance.GameState == GameStates.RetaliationState && GameStateManager.Instance.IsCurrentPlayerLocal();
-    }
-
+{
     public void Yes()
     {
-        CombatController.Instance.SendCommandToRetaliate();
+        TurnOff();
+        Networking.instance.SendCommandToRetaliate(Networking.instance.retaliatingUnit, Networking.instance.retaliationTarget);
     }
 
     public void No()
     {
-        CombatController.Instance.SendCommandToNotRetaliate();
+        TurnOff();
+        Networking.instance.SendCommandToNotRetaliate();
+    }
+
+    public void TurnOn()
+    {
+        GetComponent<CanvasGroup>().alpha = 1;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+        GetComponent<CanvasGroup>().interactable = true;
+    }
+    public void TurnOff()
+    {
+        GetComponent<CanvasGroup>().alpha = 0;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        GetComponent<CanvasGroup>().interactable = false;
     }
 }

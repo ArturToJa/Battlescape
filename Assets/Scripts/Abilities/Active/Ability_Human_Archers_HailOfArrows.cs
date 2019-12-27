@@ -19,12 +19,12 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     protected override void OnUpdate()
     {
-        if (currentlyUsedAbility == this && (oldMouseoveredTile != MouseManager.Instance.mouseoveredTile))
-        {
-            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            ColourTiles();
-        }
-        oldMouseoveredTile = MouseManager.Instance.mouseoveredTile;
+        //if (currentlyUsedAbility == this && (oldMouseoveredTile != MouseManager.Instance.mouseoveredTile))
+        //{
+        //    BattlescapeGraphics.ColouringTool.UncolourAllTiles();
+        //    ColourTiles();
+        //}
+        //oldMouseoveredTile = MouseManager.Instance.mouseoveredTile;
     }
 
 
@@ -49,40 +49,40 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
     protected override void ColourTiles()
     {
-        if (MouseManager.Instance.mouseoveredTile == null)
-        {
-            return;
-        }
+        //if (MouseManager.Instance.mouseoveredTile == null)
+        //{
+        //    return;
+        //}
 
-        if (CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.mouseoveredTile.transform.position) == false)
-        {
-            return;
-        }
+        //if (CombatController.Instance.WouldItBePossibleToShoot(myUnit, transform.position, MouseManager.Instance.mouseoveredTile.transform.position) == false)
+        //{
+        //    return;
+        //}
 
-        if (MouseManager.Instance.mouseoveredTile.myUnit != null)
-        {
-            BattlescapeGraphics.ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.red);
-        }
-        else
-        {
-            BattlescapeGraphics.ColouringTool.SetColour(MouseManager.Instance.mouseoveredTile, Color.green);
-        }
-        foreach (Tile tile in MouseManager.Instance.mouseoveredTile.neighbours)
-        {
-            if (tile.myUnit != null)
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
-            }
-            else
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
-            }
-        }
+        //if (MouseManager.Instance.mouseoveredTile.myUnit != null)
+        //{
+        //    BattlescapeGraphics.ColouringTool.ColourObject(MouseManager.Instance.mouseoveredTile, Color.red);
+        //}
+        //else
+        //{
+        //    BattlescapeGraphics.ColouringTool.ColourObject(MouseManager.Instance.mouseoveredTile, Color.green);
+        //}
+        //foreach (Tile tile in MouseManager.Instance.mouseoveredTile.neighbours)
+        //{
+        //    if (tile.myUnit != null)
+        //    {
+        //        BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.red);
+        //    }
+        //    else
+        //    {
+        //        BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
+        //    }
+        //}
 
 
     }
@@ -108,7 +108,7 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
         Instantiate(LightningFrame, Target.transform.position, LightningFrame.transform.rotation, Target.transform);
         GameObject visual = Helper.FindChildWithTag(gameObject, "Body");
         //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
-        myUnit.GetComponent<AnimController>().MyAnimator.SetTrigger("ShootOnce");
+        //myUnit.//myUnit.GetComponent<AnimController>().MyAnimator.SetTrigger("ShootOnce");
         List<GameObject> visuals = new List<GameObject>();
         foreach (Vector3 position in positions)
         {
@@ -158,9 +158,9 @@ public class Ability_Human_Archers_HailOfArrows : Ability_Basic
         PassiveAbility_Buff.AddBuff(target.gameObject, 2, 0, -1, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "HailOfArrowsDebuff", BasicVFX, 0, false, true, false);
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
+        return true; //MouseManager.Instance.mouseoveredTile != null && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
     }
 
     ///////////////////////////////

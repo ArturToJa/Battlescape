@@ -75,7 +75,7 @@ public class SaveLoadManager : MonoBehaviour
 
     void Start()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
+        if (Global.instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
         {
             Debug.Log("WOOF");
             LoadAIArmyToGame(Global.instance.playerBuilders[0], currentSaveValue);
@@ -185,9 +185,9 @@ public class SaveLoadManager : MonoBehaviour
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
-        {
-            GameStateManager.Instance.GetComponent<PhotonView>().RPC("RPCSetHeroName", PhotonTargets.All, TurnManager.Instance.PlayerToMove, HeroName);
+        if (Global.instance.MatchType == MatchTypes.Online)
+        {            
+            Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, TurnManager.Instance.PlayerToMove, HeroName);
         }
         else
         {
@@ -338,7 +338,7 @@ public class SaveLoadManager : MonoBehaviour
                     Destroy(temp);
                     continue;
                 }
-                if (GameStateManager.Instance.MatchType == MatchTypes.Online && armyInfo.faction != LocalFaction)
+                if (Global.instance.MatchType == MatchTypes.Online && armyInfo.faction != LocalFaction)
                 {
                     Debug.Log("Skipped");
                     Destroy(temp);

@@ -31,10 +31,10 @@ namespace BattlescapeLogic
         public Faction race { get; set; }
         public readonly PlayerType type;
         public readonly PlayerColour colour;
-        public readonly List<BattlescapeLogic.Unit> playerUnits;
+        public readonly List<Unit> playerUnits;
         public int playerScore { get; private set; }
 
-        void AddNewUnit(BattlescapeLogic.Unit newUnit)
+        void AddNewUnit(Unit newUnit)
         {
             playerUnits.Add(newUnit);
         }
@@ -44,7 +44,7 @@ namespace BattlescapeLogic
         }
         public Unit GetUnitByIndex(int index)
         {
-            foreach (BattlescapeLogic.Unit unit in playerUnits)
+            foreach (Unit unit in playerUnits)
             {
                 /*if (unit.index == index)
                 {
@@ -60,6 +60,40 @@ namespace BattlescapeLogic
             playerUnits.Add(myUnit);
             myUnit.owner = this;
         }
+
+        /// <summary>
+        /// Returns true only, if it is the player currently 'active' on this computer.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCurrentLocalPlayer()
+        {
+            if (type != PlayerType.Local)
+            {
+                return false;
+            }
+            if (Global.instance.MatchType == MatchTypes.HotSeat && team.index != TurnManager.Instance.PlayerToMove)
+            {
+                return false;
+            }
+            return true;
+            //meaning: the player is local and if the match type is HotSeat, the player is the guy who's time it is to move;
+        }
+
+        /// <summary>
+        /// Returns true, if a player has units, that can still legally make the basic action in this phase (move in Movement Phase, attack in Attack Phase).
+        /// </summary>
+        public bool HasAttacksOrMovesLeft()
+        {
+            foreach (Unit unit in playerUnits)
+            {
+                if (unit.CanAttackOrMoveNow())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
 

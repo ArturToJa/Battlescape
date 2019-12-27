@@ -20,7 +20,7 @@ public class Map : MonoBehaviour
         GenerateMapData();
         SetBoard();
         GenerateMapVisual();
-        CommandAddObstacles();
+        AddObstacles();
         AddDropzones();
     }
 
@@ -56,17 +56,9 @@ public class Map : MonoBehaviour
         }
     }
 
-    protected virtual void CommandAddObstacles()
+    protected virtual void AddObstacles()
     {
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
-        {
-            GameStateManager.Instance.GetComponent<PhotonView>().RPC("RPCSetSeed", PhotonTargets.All, Random.Range(0, 99999));
-        }
-        else if (GameStateManager.Instance.MatchType != MatchTypes.Online)
-        {
-            mapVisuals.RandomlyPutObstacles(Random.Range(0, 99999));
-
-        }
+        Networking.instance.SendCommandToAddObstacles();
     }    
     protected virtual void SetBoard()
     {

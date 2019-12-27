@@ -33,7 +33,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; // MouseManager.Instance.mouseoveredTile;
     }
 
     protected override bool IsUsableNow()
@@ -46,9 +46,9 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
        StartCoroutine(ShootToObstacle());
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && MouseManager.Instance.mouseoveredTile.hasObstacle == true && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position) && Helper.FindChildWithTag(MouseManager.Instance.mouseoveredTile.gameObject, "Dice") != null;
+        return true; //MouseManager.Instance.mouseoveredTile != null && MouseManager.Instance.mouseoveredTile.hasObstacle == true && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position) && Helper.FindChildWithTag(MouseManager.Instance.mouseoveredTile.gameObject, "Dice") != null;
     }
 
    
@@ -75,16 +75,16 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
         
         
     }
-    protected override void ColourTiles()
-    {
-        foreach (Tile tile in Map.Board)
-        {
-            if (tile.hasObstacle && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position) && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
-            {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.red);
-            }
-        }
-    }
+    //protected override void ColourTiles()
+    //{
+    //    foreach (Tile tile in Map.Board)
+    //    {
+    //        if (tile.hasObstacle && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position) && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
+    //        {
+    //            BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.red);
+    //        }
+    //    }
+    //}
 
 
     /////////////////////// AI segment

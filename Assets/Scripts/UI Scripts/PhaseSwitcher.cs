@@ -14,7 +14,7 @@ public class PhaseSwitcher : MonoBehaviour
 
     void LateUpdate()
     {
-        if (GameStateManager.Instance.IsCurrentPlayerAI() || GameStateManager.Instance.IsItPreGame() || TurnManager.Instance.TurnCount < 1)
+        if (Global.instance.IsCurrentPlayerAI() || TurnManager.Instance.IsItPreGame())
         {
             return;
         }
@@ -22,15 +22,11 @@ public class PhaseSwitcher : MonoBehaviour
         {
             TurnManager.Instance.NextPhase(false);
         }
-        else if (CombatController.CheckIfLastAttacker())
-        {
-            TurnManager.Instance.NewTurn(true);
-        }
     }
 
     bool CanAnyoneElseMove()
     {
-        foreach (BattlescapeLogic.Unit ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
+        foreach (Unit ally in Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].playerUnits)
         {
             if (ally.CanStillMove())
             {

@@ -44,17 +44,7 @@ public static class Helper
         }
         t.SetPositionAndRotation(new Vector3(x, t.position.y, z), Quaternion.identity);
     }
-
-    public static bool AreTilesInRange(Tile start, Tile end, int range)
-    {
-        return
-           (start.position.x - end.position.x == range &&
-            start.position.z - end.position.z <= range)
-            ||
-            (start.position.z - end.position.z == range &&
-            start.position.x - end.position.x <= range);
-    }
-
+    
     public static bool IsOverNonHealthBarUI()
     {
         if (EventSystem.current.IsPointerOverGameObject() == false)
@@ -68,81 +58,14 @@ public static class Helper
         pointerData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log(results.Count);
+            Debug.Log(results[0].gameObject.transform.root.tag != "Unit");
+        }        
         return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit"));
     }
-
-    /* public static PhotonView GetOrAddPhotonView(GameObject myGameObject)
-     {
-         PhotonView photonView = myGameObject.GetComponent<PhotonView>();
-         if (photonView == null)
-         {
-             photonView = myGameObject.AddComponent<PhotonView>();
-             photonView.viewID = PhotonNetwork.AllocateViewID();
-         }
-
-         return photonView;
-     }*/
-    /// <summary>
-    /// Returns all tiles in range of 'range' from 'tile'. Note that 'tile' is not included!
-    /// </summary>
-    public static List<Tile> GetTilesInRangeOf(Tile tile, int range)
-    {
-        int x = Mathf.RoundToInt(tile.transform.position.x);
-        int z = Mathf.RoundToInt(tile.transform.position.z);
-        List<Tile> ReturnList = new List<Tile>();
-        for (int i = -range; i <= range; i++)
-            for (int j = -range; j <= range; j++)
-            {
-                int tileX = x + i;
-                int tileZ = z + j;
-                if (
-                    tileX < 0 || tileX > Map.mapWidth -1 || tileZ < 0 || tileZ > Map.mapHeight -1
-                    )
-                {
-                    continue;
-                }
-                if (
-                    Map.Board[tileX,tileZ] != null &&
-                    Map.Board[tileX,tileZ] != tile
-                    )
-                {
-                    ReturnList.Add(Map.Board[tileX, tileZ]);
-                }
-            }
-        return ReturnList;
-    }
-
-    /// <summary>
-    /// Returns all BattlescapeLogic.Units of the SAME Player in range of 'range' from 'unit'. Note that 'unit' is not included!
-    /// </summary>
-    public static List<BattlescapeLogic.Unit> GetAlliesInRange(BattlescapeLogic.Unit unit, int range)
-    {
-        List<BattlescapeLogic.Unit> AlliesInRange = new List<BattlescapeLogic.Unit>();
-        foreach (Tile tile in GetTilesInRangeOf(unit.currentPosition, range))
-        {
-            if (tile.myUnit != null && tile.myUnit.owner.team == unit.owner.team)
-            {
-                AlliesInRange.Add(tile.myUnit);
-            }
-        }
-        return AlliesInRange;
-    }
-
-    /// <summary>
-    /// Returns all BattlescapeLogic.Units of the OTHER Player in range of 'range' from 'unit'.
-    /// </summary>
-    public static List<BattlescapeLogic.Unit> GetEnemiesInRange(BattlescapeLogic.Unit unit, int range)
-    {
-        List<BattlescapeLogic.Unit> EnemiesInRange = new List<BattlescapeLogic.Unit>();
-        foreach (Tile tile in GetTilesInRangeOf(unit.currentPosition, range))
-        {
-            if (tile.myUnit != null && tile.myUnit.owner.team != unit.owner.team)
-            {
-                EnemiesInRange.Add(tile.myUnit);
-            }
-        }
-        return EnemiesInRange;
-    }
+   
 
     /// <summary>
     /// Returns the position of the object 'snapped' to closest full integer position
@@ -153,5 +76,20 @@ public static class Helper
     {
         return new Vector3((int)(thing.transform.position.x + 0.5f), (int)(thing.transform.position.y + 0.5f), (int)(thing.transform.position.z + 0.5f));
         
+    }
+
+    //No fricking idea where to put this so it goes to Helper ;<
+    public static bool WouldBeInAttackRange(Unit unit, Tile where, Vector3 target)
+    {
+        Bounds FullRange = new Bounds(where.transform.position, new Vector3(2 * unit.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * unit.statistics.GetCurrentAttackRange() + 0.25f));
+        if (unit.statistics.minimalAttackRange > 0)
+        {
+            Bounds miniRange = new Bounds(where.transform.position, new Vector3(2 * unit.statistics.minimalAttackRange + 0.25f, 5, 2 * unit.statistics.minimalAttackRange + 0.25f));
+            return miniRange.Contains(target) == false && FullRange.Contains(target);
+        }
+        else
+        {
+            return FullRange.Contains(target);
+        }
     }
 }

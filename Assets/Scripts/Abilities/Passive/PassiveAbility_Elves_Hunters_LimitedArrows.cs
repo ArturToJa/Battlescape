@@ -16,7 +16,7 @@ public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
     {
         CurrentArrows = StartingArrows;
         swapWeapons = GetComponent<Ability_Neutral_SwapWeapons>();
-        CombatController.Instance.AttackEvent += OnAttack;
+        //CombatController.Instance.AttackEvent += OnAttack;
     }
 
     protected override void ChangableUpdate()

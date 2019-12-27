@@ -41,7 +41,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
 
@@ -50,9 +50,9 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
         StartCoroutine(BuffAlly(Target.myUnit));
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && IsLegalTarget(MouseManager.Instance.mouseoveredTile);
+        return true; // MouseManager.Instance.mouseoveredTile != null && IsLegalTarget(MouseManager.Instance.mouseoveredTile);
     }
 
     protected override void ColourTiles()
@@ -61,7 +61,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
         {
             if (IsLegalTarget(tile))
             {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
             }
         }
     }
@@ -76,7 +76,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
         Log.SpawnLog(myUnit.name + " empowers " + ally.name + ", giving a +2 bonus to Attack and Defence till next turn");
         PlayAbilitySound();
         GameObject vfx1 = CreateVFXOn(ally.transform, BasicVFX.transform.rotation);
-        GetComponent<AnimController>().Cast();
+        //myUnit.GetComponent<AnimController>().Cast();
         PassiveAbility_Buff.AddBuff(ally.gameObject, 2, 2, 2, 0, myUnit.statistics.currentMaxNumberOfRetaliations, "IGBuff", BuffVFX, 0, false, false, false);
         yield return null;
         FinishUsing();

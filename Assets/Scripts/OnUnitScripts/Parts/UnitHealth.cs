@@ -45,7 +45,7 @@ public class UnitHealth : MonoBehaviour
     }
    public static void SetColour()
     {
-        switch (GameStateManager.Instance.MatchType)
+        switch (Global.instance.MatchType)
         {
             case MatchTypes.Online:
                 foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())

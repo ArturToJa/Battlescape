@@ -34,7 +34,7 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
             MadeEmpoweredShotThisTurn == false;
     }
 
-    
+
 
     protected override void Use()
     {
@@ -48,13 +48,14 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return
-            MouseManager.Instance.mouseoveredTile != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
-            CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
+            //MouseManager.Instance.mouseoveredTile != null &&
+            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
+            //MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
+            //CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
+            true;
     }
 
     public override void Activate()
@@ -69,11 +70,11 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
         }
         //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         //myShooter.CurrentProjectile = Projectile;
-        myUnit.GetComponent<AnimController>().Cast();
+        //myUnit.//myUnit.GetComponent<AnimController>().Cast();
         //Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, true);
         myUnit.statistics.numberOfAttacks = 0;
-        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);        
-     }    
+        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
+    }
 
 
 
@@ -91,14 +92,15 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
     public override bool AI_IsGoodToUseNow()
     {
         return false;
-    }         
+    }
 
-    
+
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = //MouseManager.Instance.mouseoveredTile;
+        null;
     }
 
-    
+
 }

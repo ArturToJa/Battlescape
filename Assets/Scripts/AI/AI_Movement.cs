@@ -21,7 +21,7 @@ public class AI_Movement : AI_Base_Movement
 
         if (GetUnitsWithPriority() == null)
         {
-            GameStateManager.NextPhase();
+            //GameStateManager.NextPhase();
             return null;
         }
 
@@ -34,7 +34,7 @@ public class AI_Movement : AI_Base_Movement
             {
                 if (GetUnitsWithPriority() == null)
                 {
-                    GameStateManager.NextPhase();
+                    //GameStateManager.NextPhase();
                 }
                 return null;
             }
@@ -427,7 +427,7 @@ public class AI_Movement : AI_Base_Movement
             }
         }
         foreach (BattlescapeLogic.Unit unit in Object.FindObjectsOfType<BattlescapeLogic.Unit>())
-        {            
+        {
             if (unit.owner == currentUnit.owner && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
             {
                 Evaluation += 0.01f;
@@ -471,7 +471,7 @@ public class AI_Movement : AI_Base_Movement
         if (theTile != null)
         {
             //PathCreator.Instance.AddSteps(currentUnit.currentPosition,theTile);
-            MovementSystem.Instance.SendCommandToMove(currentUnit, theTile);
+            Networking.instance.SendCommandToMove(currentUnit, theTile);
             unitsSkippingTurn.Clear();
             Debug.Log("Chosen tile is: " + theTile);
         }

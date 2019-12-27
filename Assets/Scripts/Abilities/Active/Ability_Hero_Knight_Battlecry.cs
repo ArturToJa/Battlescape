@@ -42,7 +42,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return true;
     }
@@ -55,14 +55,14 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     IEnumerator Battlecry()
     {
-        GetComponent<AnimController>().Cast();
+        //myUnit.GetComponent<AnimController>().Cast();
         Log.SpawnLog(myUnit.name + " uses Battlecry, increasing nearby allies' attack and removing all negative effects.");
 
 
-        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
-        {
-            StartCoroutine(PassiveAbility_Buff_BattlecryBuff.AddMyBuff(myUnit, ally, VFXOnBuffedAllies, RingOfBuff, 1.5f));
-        }
+        //foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
+        //{
+        //    StartCoroutine(PassiveAbility_Buff_BattlecryBuff.AddMyBuff(myUnit, ally, VFXOnBuffedAllies, RingOfBuff, 1.5f));
+        //}
 
         yield return null;
         FinishUsing();
@@ -84,10 +84,10 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     protected override void ColourTiles()
     {
-        foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
-        {
-            BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition, Color.green);
-        }
+        //foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, Range))
+        //{
+        //    BattlescapeGraphics.ColouringTool.ColourObject(ally.currentPosition, Color.green);
+        //}
     }
 
 
@@ -106,7 +106,8 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        return Helper.GetAlliesInRange(myUnit, Range).Count > 2 || TurnManager.Instance.TurnCount >= 15;
+        //return Helper.GetAlliesInRange(myUnit, Range).Count > 2 || TurnManager.Instance.TurnCount >= 15;
+        return false;
     }
 
 

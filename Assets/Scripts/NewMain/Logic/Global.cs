@@ -4,18 +4,22 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+
+    public enum MatchTypes { Online, HotSeat, Singleplayer, None }
+
     public class Global : MonoBehaviour
     {
         public static Global instance { get; private set; }
         public NewMap map { get; private set; }
         public List<PlayerTeam> playerTeams { get; private set; }
+        public MatchTypes MatchType;
 
         //THIS IS TEMPORARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         public PlayerBuilder[] playerBuilders = new PlayerBuilder[2];
 
-        public AbstractMovement[] movementTypes = new AbstractMovement[3];
+        public AbstractMovement[] movementTypes = new AbstractMovement[3];       
 
-        void Start()
+        void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
             if (instance == null)
@@ -36,6 +40,7 @@ namespace BattlescapeLogic
             playerTeams.Add(teamRight);
             playerBuilders[0] = new PlayerBuilder();
             playerBuilders[1] = new PlayerBuilder();
+            MatchType = MatchTypes.None;
         }
 
 
@@ -69,5 +74,47 @@ namespace BattlescapeLogic
                 return null;
             }                        
         }
+
+        public bool IsCurrentPlayerAI()
+        {
+            if (playerBuilders[TurnManager.Instance.PlayerToMove] != null)
+            {
+                return playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.AI;
+            }
+            else
+            {
+                return (playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.AI);
+            }
+        }
+
+        public bool IsCurrentPlayerLocal()
+        {
+            if (playerBuilders[TurnManager.Instance.PlayerToMove] != null)
+            {
+                return playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.Local;
+            }
+            else
+            {
+                return (playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local);
+            }
+        }
+
+        public List<Unit> GetAllUnits()
+        {
+            List<Unit> returnList = new List<Unit>();
+            foreach (PlayerTeam team in playerTeams)
+            {
+                foreach (Player player in team.players)
+                {
+                    foreach (Unit unit in player.playerUnits)
+                    {
+                        returnList.Add(unit);
+                    }
+                }
+            }
+            return returnList;
+        }
+
+
     }
 }

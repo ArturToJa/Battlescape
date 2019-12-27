@@ -13,7 +13,7 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
     public void Okay()
     {
         int ID = -1;
-        switch (GameStateManager.Instance.MatchType)
+        switch (Global.instance.MatchType)
         {
             case MatchTypes.Online:
                 if (PhotonNetwork.isMasterClient)

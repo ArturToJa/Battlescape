@@ -7,7 +7,7 @@ public class DragableUnit : MonoBehaviour
 {  
     void OnMouseDrag()
     {
-        if (GameStateManager.Instance.IsItPreGame() == false)
+        if (TurnManager.Instance.IsItPreGame() == false)
         {
             return;
         }
@@ -19,7 +19,7 @@ public class DragableUnit : MonoBehaviour
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
             if ((tile.DropzoneOfPlayer == TurnManager.Instance.PlayerToMove) && tile.IsWalkable())
             {
-                if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+                if (Global.instance.MatchType == MatchTypes.Online)
                 {
                     FindObjectOfType<DropZone>().GetComponent<PhotonView>().RPC("RPCSetUnitPosition", PhotonTargets.All, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z), Mathf.RoundToInt(hitInfo.transform.position.x), Mathf.RoundToInt(hitInfo.transform.position.z));
                 }

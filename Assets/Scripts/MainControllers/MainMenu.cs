@@ -131,13 +131,10 @@ public class MainMenu : MonoBehaviour
     {
         singlePlayer = single;
     }
-    public void SetStartingPoints(int points)
-    {
-        GameStateManager.Instance.startingArmyPoints = points;
-    }
+    
     public void StartQuickMatch()
     {
-        GameStateManager.Instance.MatchType = MatchTypes.Singleplayer;
+        Global.instance.MatchType = MatchTypes.Singleplayer;
         if (SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
@@ -165,12 +162,10 @@ public class MainMenu : MonoBehaviour
         if (the25toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 25;
-            SetStartingPoints(25);
         }
         else if (the50toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 50;
-            SetStartingPoints(50);
         }
         PlayGameScene();
     }
@@ -186,7 +181,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartHotSeat()
     {
-        GameStateManager.Instance.MatchType = MatchTypes.HotSeat;
+        Global.instance.MatchType = MatchTypes.HotSeat;
         if (SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
@@ -207,12 +202,10 @@ public class MainMenu : MonoBehaviour
         if (MultiPlayerthe25toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 25;
-            SetStartingPoints(25);
         }
         else if (MultiPlayerthe50toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 50;
-            SetStartingPoints(50);
         }
         if (GameSceneName == null)
         {
@@ -251,7 +244,7 @@ public class MainMenu : MonoBehaviour
             }
         }
         MyNetworkManager.Instance.Connect();
-        GameStateManager.Instance.MatchType = MatchTypes.Online;
+        Global.instance.MatchType = MatchTypes.Online;
         Global.instance.playerBuilders[0].index = 0;
         Global.instance.playerBuilders[0].colour = PlayerColour.Green;
         Global.instance.playerBuilders[0].playerName = "Green Player";
@@ -270,12 +263,10 @@ public class MainMenu : MonoBehaviour
         if (MultiPlayerthe25toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 25;
-            SetStartingPoints(25);
         }
         else if (MultiPlayerthe50toggle.isOn)
         {
             SaveLoadManager.Instance.currentSaveValue = 50;
-            SetStartingPoints(50);
         }
         FindObjectOfType<LevelLoader>().CommandLoadScene("_LobbyScene");
     }

@@ -39,12 +39,12 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
     protected override void ColourTiles()
     {
-       List<Tile> legalTiles = Pathfinder.instance.GetAllLegalTilesFor(myUnit);
+        List<Tile> legalTiles = Pathfinder.instance.GetAllLegalTilesFor(myUnit);
         foreach (var tile in legalTiles)
         {
             if (HasTileFood(tile))
             {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.cyan);
+                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.cyan);
             }
         }
     }
@@ -53,12 +53,13 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return
-            MouseManager.Instance.mouseoveredTile != null &&
-            Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, myUnit) &&
-            HasTileFood(MouseManager.Instance.mouseoveredTile);
+        //MouseManager.Instance.mouseoveredTile != null &&
+        //Pathfinder.instance.IsLegalTileForUnit(MouseManager.Instance.mouseoveredTile, myUnit) &&
+        //HasTileFood(MouseManager.Instance.mouseoveredTile);
+        false;
     }
 
     public override void Activate()
@@ -73,16 +74,16 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
         RhinoFood.SetAllActiveTo(false);
         Log.SpawnLog(myUnit.name + " eats a mushroom, gaining " + healValue + " health back");
-        MovementSystem.Instance.DoMovement(myUnit,Target);
+        myUnit.movement.MoveTo(Target);
         yield return new WaitUntil(EndedMovement);
         CreateVFXOn(transform, BasicVFX.transform.rotation);
         PlayAbilitySound();
         Destroy(Target.GetComponentInChildren<RhinoFood>().gameObject, 0.1f);
-        GetComponent<AnimController>().SetEating(true);
+        //myUnit.GetComponent<AnimController>().SetEating(true);
         myUnit.statistics.healthPoints += healValue;
         IsForcingMovementStuff = false;
         yield return new WaitForSeconds(3f);
-        GetComponent<AnimController>().SetEating(false);
+        //myUnit.GetComponent<AnimController>().SetEating(false);
     }
 
 
@@ -96,7 +97,8 @@ public class Ability_Elves_Rhino_EatMushrooms : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = //MouseManager.Instance.mouseoveredTile;
+        null;
     }
 
 

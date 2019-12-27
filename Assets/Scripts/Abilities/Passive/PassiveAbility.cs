@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public abstract class PassiveAbility : MonoBehaviour
 {
     public string AbilityIconName;
     bool wasSelectedLastTimeWeChecked = false;
-    bool wasHighlightedLastTimeWeChecked = false;
     protected GameObject AbilityIcon;
     ShowAbilitiesUI RealTooltip;
     protected GameObject IconForReal;
-    ShowAbilitiesUI UnrealTooltip;
     protected GameObject IconForUnreal;
     protected BattlescapeLogic.Unit myUnit;
     [Header("Modyfier Values")]
@@ -30,10 +29,6 @@ public abstract class PassiveAbility : MonoBehaviour
             if (item.RealOne)
             {
                 RealTooltip = item;
-            }
-            else
-            {
-                UnrealTooltip = item;
             }
         }
     }
@@ -59,13 +54,13 @@ public abstract class PassiveAbility : MonoBehaviour
             //Debug.Log(name);
         }
         ChangableUpdate();
-        if (myUnit == MouseManager.Instance.SelectedUnit && wasSelectedLastTimeWeChecked == false && HasIcon)
+        if (myUnit == MouseManager.instance.selectedUnit && wasSelectedLastTimeWeChecked == false && HasIcon)
         {
             // so we are selected, but didnt tell it to ourselves yet
             IconForReal = RealTooltip.AddAbilityIcon(AbilityIcon, true);
             wasSelectedLastTimeWeChecked = true;
         }
-        if (myUnit != MouseManager.Instance.SelectedUnit && wasSelectedLastTimeWeChecked)
+        if (myUnit != MouseManager.instance.selectedUnit && wasSelectedLastTimeWeChecked)
         {
             if (Application.isEditor)
             {
@@ -79,24 +74,24 @@ public abstract class PassiveAbility : MonoBehaviour
         }
 
 
-        if (EnemyTooltipHandler.isOn && UnrealTooltip.Unit == myUnit && wasHighlightedLastTimeWeChecked == false && HasIcon)
-        {
-            IconForUnreal = UnrealTooltip.AddAbilityIcon(AbilityIcon, false);
-            wasHighlightedLastTimeWeChecked = true;
-        }
-        if ((EnemyTooltipHandler.isOn == false || UnrealTooltip.Unit != myUnit) && wasHighlightedLastTimeWeChecked == true)
-        {
-            wasHighlightedLastTimeWeChecked = false;
-            if (Application.isEditor)
-            {
-                DestroyImmediate(IconForUnreal);
-            }
-            else
-            {
-                Destroy(IconForUnreal);
-            }
+        //if (EnemyTooltipHandler.isOn && UnrealTooltip.Unit == myUnit && wasHighlightedLastTimeWeChecked == false && HasIcon)
+        //{
+        //    IconForUnreal = UnrealTooltip.AddAbilityIcon(AbilityIcon, false);
+        //    wasHighlightedLastTimeWeChecked = true;
+        //}
+        //if ((EnemyTooltipHandler.isOn == false || UnrealTooltip.Unit != myUnit) && wasHighlightedLastTimeWeChecked == true)
+        //{
+        //    wasHighlightedLastTimeWeChecked = false;
+        //    if (Application.isEditor)
+        //    {
+        //        DestroyImmediate(IconForUnreal);
+        //    }
+        //    else
+        //    {
+        //        Destroy(IconForUnreal);
+        //    }
 
-        }
+        //}
     }
 
     protected abstract void ChangableStart();

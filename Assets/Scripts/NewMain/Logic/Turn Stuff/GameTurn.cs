@@ -17,7 +17,7 @@ namespace BattlescapeLogic
                 if (_instance == null)
                 {
                     _instance = new GameTurn();
-                }                
+                }
                 return _instance;
             }
         }
@@ -25,6 +25,7 @@ namespace BattlescapeLogic
         {
 
         }
+        
         public void OnClick()
         {
             NewTurn();
@@ -32,7 +33,7 @@ namespace BattlescapeLogic
 
         private void NewTurn()
         {
-            foreach(INewTurn turnObject in newTurnObjects)
+            foreach (INewTurn turnObject in newTurnObjects)
             {
                 turnObject.OnNewTurn();
             }

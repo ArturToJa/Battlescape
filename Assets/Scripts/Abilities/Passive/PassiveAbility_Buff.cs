@@ -21,14 +21,14 @@ public class PassiveAbility_Buff : PassiveAbility
     protected override void ChangableStart()
     {
         TurnManager.Instance.NewTurnEvent += OnNewTurn;
-        CombatController.Instance.AttackEvent += OnAttack;
+        //CombatController.Instance.AttackEvent += OnAttack;
     }
 
     public void OnGotDestroyed()
     {
         Debug.Log("Destrroyed");
         TurnManager.Instance.NewTurnEvent -= OnNewTurn;
-        CombatController.Instance.AttackEvent -= OnAttack;
+        //CombatController.Instance.AttackEvent -= OnAttack;
     }
 
 

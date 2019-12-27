@@ -21,7 +21,7 @@ public class AI_Attack : AI_Base_Attack
             if (myUnitsToMove.Count == 0)
             {
                 AI_Controller.Instance.ClearAIs();
-                GameStateManager.NextPhase();
+                //GameStateManager.NextPhase();
                 return null;
             }
             else
@@ -38,9 +38,9 @@ public class AI_Attack : AI_Base_Attack
         AI_Controller.tilesAreEvaluated = false;
         if (theTile != null)
         {
-            CombatController.Instance.attackTarget = theTile.myUnit.GetComponent<BattlescapeLogic.Unit>();
+            Unit attackTarget = theTile.myUnit;
             currentUnit.statistics.numberOfAttacks = 0;
-            CombatController.Instance.SendCommandToAttack(currentUnit, CombatController.Instance.attackTarget);
+            Networking.instance.SendCommandToAttack(currentUnit, attackTarget);
         }
         else
         {

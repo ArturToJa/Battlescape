@@ -42,7 +42,7 @@ public class Ability_Human_Swordsman_DeffensiveStance : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return true;
     }
@@ -60,7 +60,7 @@ public class Ability_Human_Swordsman_DeffensiveStance : Ability_Basic
         myUnit.statistics.numberOfAttacks = 0;
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
-        GetComponent<AnimController>().Cast();        
+        //myUnit.GetComponent<AnimController>().Cast();        
         PassiveAbility_Buff.AddBuff(gameObject, 2, 0, 2, 0, myUnit.statistics.currentMaxNumberOfRetaliations + 1, "SwordmanBuff", vfx, 3f, false, false, true);
     }
 

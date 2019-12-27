@@ -10,16 +10,16 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
 
     protected override void OnUpdate()
     {
-        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
-        {
-            previousMousovered = MouseManager.Instance.MouseoveredUnit;
-            ColourPotentialTargets();
-        }
-        if (isBeingUsed && MouseManager.Instance.MouseoveredUnit == null)
-        {
-            UncolourPotentialTargets();
-            previousMousovered = null;
-        }
+        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
+        //{
+        //    previousMousovered = MouseManager.Instance.MouseoveredUnit;
+        //    ColourPotentialTargets();
+        //}
+        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit == null)
+        //{
+        //    UncolourPotentialTargets();
+        //    previousMousovered = null;
+        //}
     }
     public override void Activate()
     {
@@ -45,7 +45,8 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
 
     void ColourPotentialTargets()
     {
-        Tile targeto = MouseManager.Instance.MouseoveredUnit.currentPosition;
+        Tile targeto = //MouseManager.Instance.MouseoveredUnit.currentPosition; 
+            null;
         PaintObject(targeto.myUnit.gameObject, Color.red);
         colouredUnits.Add(targeto.myUnit.gameObject);
         foreach (Tile neighbour in targeto.neighbours)

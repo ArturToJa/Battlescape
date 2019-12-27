@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class MyNetworkManager : MonoBehaviour
 {
@@ -32,9 +32,9 @@ public class MyNetworkManager : MonoBehaviour
 
     void OnPhotonPlayerDisconnected(PhotonPlayer player)
     {
-        if (GameStateManager.Instance.IsSceneGameScene(SceneManager.GetActiveScene()))
+        if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
         {
-            GameStateManager.Instance.GetComponent<PhotonView>().RPC("RPCConnectionLossScreen", PhotonTargets.All, "Player " + player.NickName + " lost connection or ragequitted. You win :( We are very sorry for that!");
+            Networking.instance.photonView.RPC("RPCConnectionLossScreen", PhotonTargets.All, "Player " + player.NickName + " lost connection or ragequitted. You win :( We are very sorry for that!");
         }
     }
     

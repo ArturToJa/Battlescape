@@ -18,7 +18,7 @@ namespace BattlescapeLogic
 
     //WE USE THIS! This is our TILE! Old "TILE" is no longer a thing!
     //Temporarily(!) uses BattlescapeLogic.Unit, not Unit. :< NEEDS CHANGING ASAP!
-    public class Tile : MonoBehaviour
+    public class Tile : MonoBehaviour, IMouseTargetable
     {
         // put correct width and height here
         public static float tileWidth = 0;

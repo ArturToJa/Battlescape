@@ -35,7 +35,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
     public override void Activate()
@@ -43,9 +43,9 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         StartCoroutine(ShadowCover(Target));
     }
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
-        return MouseManager.Instance.mouseoveredTile != null && legalTiles.Contains(MouseManager.Instance.mouseoveredTile);
+        return true; //MouseManager.Instance.mouseoveredTile != null && legalTiles.Contains(MouseManager.Instance.mouseoveredTile);
     }
 
     protected override void ColourTiles()
@@ -56,7 +56,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         {
             if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {
-                BattlescapeGraphics.ColouringTool.SetColour(tile, Color.green);
+                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
                 legalTiles.Add(tile);
             }
         }

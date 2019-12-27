@@ -110,7 +110,7 @@ public class AI_QuitCombat : AI_Base_Movement
         if (target.Key != null && target.Value > -Mathf.Infinity)
         {
             Debug.Log("Quitting Combat! Chosen tile is: " + target.Key);
-            QCManager.Instance.QCForAI(target.Key);
+            //QCManager.Instance.QCForAI(target.Key);
             unitsSkippingTurn.Clear();
         }
         else

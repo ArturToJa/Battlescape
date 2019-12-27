@@ -20,9 +20,9 @@ public class ArmyBuildingEndButton : MonoBehaviour
     public void OK()
     {
         CameraController.Instance.SetCurrentViewTo(0);
-        CombatController.Instance.MakeAIWait(3f);
+        //CombatController.Instance.MakeAIWait(3f);
         this.transform.parent.parent.gameObject.SetActive(false);
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == 0 && GameStateManager.Instance.MatchType != MatchTypes.Online)
+        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == 0 && Global.instance.MatchType != MatchTypes.Online)
         {
             TurnManager.Instance.TurnCount = -1;
             //  Pedestal.enabled = true;
@@ -56,7 +56,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         }
         else
         {
-            if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+            if (Global.instance.MatchType == MatchTypes.Online)
             {
                 var Text1 = FindObjectOfType<CurrentPlayerInfo>();
                 Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]).playerName.ToString() + "'s turn";
@@ -81,7 +81,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             CameraController.Instance.StartCoroutine(CameraController.Instance.CheckIfPositionAndRotationMatchDesired());
             // UnitPanel.transform.parent.gameObject.SetActive(false);
         }
-        if (GameStateManager.Instance.MatchType == MatchTypes.Online)
+        if (Global.instance.MatchType == MatchTypes.Online)
         {
             TurnManager.Instance.PlayerEndedPreGame();
 

@@ -43,13 +43,14 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
 
 
 
-    protected override bool ActivationRequirements()
+    public override bool ActivationRequirements()
     {
         return (
-           MouseManager.Instance.mouseoveredTile != null &&
-           MovementQuestions.Instance.CanMove(MouseManager.Instance.SelectedUnit, MouseManager.Instance.mouseoveredTile) &&
-           /*Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myBattlescapeLogic.Unit.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
-           EventSystem.current.IsPointerOverGameObject() == false
+           //MouseManager.Instance.mouseoveredTile != null &&
+           //MovementQuestions.Instance.CanMove(GameManager.instance.selectedUnit, MouseManager.Instance.mouseoveredTile) &&
+           ///*Pathfinder.instance.GetAllTilesThatWouldBeLegalIfNotInCombat(myUnit, myBattlescapeLogic.Unit.GetCurrentMoveSpeed(true)).Contains(MouseManager.Instance.mouseoveredTile)&&*/
+           //EventSystem.current.IsPointerOverGameObject() == false
+           true
            );
     }
 
@@ -65,7 +66,7 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
         //myUnit.isQuittingCombat = false;
         PlayAbilitySound();
         CreateVFXOn(transform, BasicVFX.transform.rotation);
-        MovementSystem.Instance.DoMovement(myUnit, Target);
+        myUnit.Move(Target);
         yield return null;
         FinishUsing();
     }
@@ -99,7 +100,7 @@ public class Ability_Elves_Rider_SwiftMove : Ability_Basic
 
     protected override void SetTarget()
     {
-        Target = MouseManager.Instance.mouseoveredTile;
+        Target = null; //MouseManager.Instance.mouseoveredTile;
     }
 
 }
