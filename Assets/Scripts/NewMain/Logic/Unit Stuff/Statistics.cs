@@ -91,13 +91,8 @@ namespace BattlescapeLogic
         }
         public int bonusMaxMovementPoints { get; set; }
         public int movementPoints { get; set; }
+
         [SerializeField] int _baseAttackRange = 1;
-
-        public void NullMaxNumberOfAttacks()
-        {
-            maxNumberOfAttacks = 0;
-        }
-
         public int baseAttackRange
         {
             get
@@ -170,6 +165,11 @@ namespace BattlescapeLogic
             }
         }
 
+        public void NullMaxNumberOfAttacks()
+        {
+            maxNumberOfAttacks = 0;
+        }
+
         public void NullMaxMovementPoints()
         {
             _baseMaxMovementPoints = 0;
@@ -197,6 +197,33 @@ namespace BattlescapeLogic
             return baseMaxMovementPoints + bonusMaxMovementPoints;
         }
 
+        public void ApplyBonusStatistics(ChangeableStatistics bonusStatistics)
+        {
+            // statistics increases in non-dumb way - we don't want to increase base statistics, only bonus ones
+            bonusAttack += bonusStatistics.bonusAttack;
+            bonusDefence += bonusStatistics.bonusDefence;
+            bonusAttackRange += bonusStatistics.bonusAttackRange;
+            maxHealthPoints += bonusStatistics.bonusHealth;
+            bonusMaxMovementPoints += bonusStatistics.bonusMovementPoints;
+            numberOfAttacks += bonusStatistics.bonusNumberOfAttacks;
+            currentMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
+            numberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
 
+            healthPoints += bonusStatistics.bonusHealth;
+            movementPoints += bonusStatistics.bonusMovementPoints;
+        }
+
+        public void RemoveBonusStatistics(ChangeableStatistics bonusStatistics)
+        {
+            bonusAttack -= bonusStatistics.bonusAttack;
+            bonusDefence -= bonusStatistics.bonusDefence;
+            bonusAttackRange -= bonusStatistics.bonusAttackRange;
+            maxHealthPoints -= bonusStatistics.bonusHealth;
+
+            if(healthPoints > maxHealthPoints)
+            {
+                healthPoints = maxHealthPoints;
+            }
+        }
     }
 }
