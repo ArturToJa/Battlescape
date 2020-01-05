@@ -28,7 +28,7 @@ public class HeroNames : MonoBehaviour
 
     public static string GetHeroName()
     {
-        return PlayerHeroNames[Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index];
+        return PlayerHeroNames[GameRound.instance.currentPlayer.team.index];
     }
 
     public static string GetRandomHeroName()

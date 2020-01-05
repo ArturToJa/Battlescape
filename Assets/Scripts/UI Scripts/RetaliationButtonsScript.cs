@@ -6,6 +6,13 @@ using BattlescapeLogic;
 
 public class RetaliationButtonsScript : MonoBehaviour
 {
+    UIHitChanceInformation hitChanceInfo;
+
+    void Start()
+    {
+        hitChanceInfo = FindObjectOfType<UIHitChanceInformation>();
+    }
+
     public void Yes()
     {
         TurnOff();
@@ -29,5 +36,14 @@ public class RetaliationButtonsScript : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         GetComponent<CanvasGroup>().interactable = false;
+    }
+
+    public void MouseEnterYesButton()
+    {
+        hitChanceInfo.TurnOnFor(Networking.instance.retaliatingUnit, Networking.instance.retaliationTarget);
+    }
+    public void MouseExitYesButton()
+    {
+        hitChanceInfo.TurnOff();
     }
 }

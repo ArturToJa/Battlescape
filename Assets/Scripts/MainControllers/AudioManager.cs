@@ -106,7 +106,7 @@ public class AudioManager : MonoBehaviour
                 PlayEndGameMusic(SoundType.Loose);
                 // draw - in the future change this to a new track
             }
-            else if ((TurnManager.Instance.PlayerHavingTurn == 0 && VictoryLossChecker.gameResult == GameResult.GreenWon) || (TurnManager.Instance.PlayerHavingTurn == 1 && VictoryLossChecker.gameResult == GameResult.RedWon))
+            else if ((GameRound.instance.currentPlayer.team.index == 0 && VictoryLossChecker.gameResult == GameResult.GreenWon) || (GameRound.instance.currentPlayer.team.index == 1 && VictoryLossChecker.gameResult == GameResult.RedWon))
             {
                 PlayEndGameMusic(SoundType.Win);
             }

@@ -37,10 +37,10 @@ public class FlagScript : MonoBehaviour
         }
         else
         {
-            if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players.Count > 0 && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0] != null)
+            if (GameRound.instance.currentPlayer != null)
             {                
-                flag.sprite = Flags[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].colour];
-                emblem.sprite = Emblems[(int)Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].race];
+                flag.sprite = Flags[(int)GameRound.instance.currentPlayer.colour];
+                emblem.sprite = Emblems[(int)GameRound.instance.currentPlayer.race];
             }
             
         }

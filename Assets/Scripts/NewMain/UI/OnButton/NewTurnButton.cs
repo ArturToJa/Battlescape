@@ -7,14 +7,30 @@ using BattlescapeLogic;
 public class NewTurnButton : MonoBehaviour
 {
     Button thisButton;
+    Text text;
     
-    //void Start()
-    //{
-    //    thisButton = this.gameObject.GetComponent<Button>();
-    //    thisButton.onClick.AddListener(GameTurn.instance.OnClick);
-    //}    
+    void Start()
+    {
+        thisButton = GetComponent<Button>();
+        text = GetComponentInChildren<Text>();
+        thisButton.onClick.AddListener(GameRound.instance.OnClick);
+        TurnOff();
+    }
 
-    //THIS is redundant as long as it is done in Turn Manager and I can't yet remove it from there, as it is done ALSO for turn1 of the whole game there;))
-   
+    public void SetTextTo(string newText)
+    {
+        text.text = newText;
+    }
+
+    public void TurnOn()
+    {
+        UIManager.InstantlyTransitionActivity(this.gameObject, true);
+    }
+
+    public void TurnOff()
+    {
+        UIManager.InstantlyTransitionActivity(this.gameObject, false);
+    }
+    
 
 }

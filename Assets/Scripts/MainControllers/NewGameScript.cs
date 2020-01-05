@@ -25,13 +25,10 @@ public class NewGameScript : MonoBehaviour
         FindObjectOfType<TurnNumberText>().ResetColour();
         AudioManager.isPlayingGameOverMusic = false;
         UIManager.SmoothlyTransitionActivity(WinScreen, false, 0.001f);
-        TurnManager.Instance.TurnCount = 1;
-        TurnManager.Instance.PlayerHavingTurn = 0;
-        TurnManager.Instance.isEndgameTrue = false;
-        TurnManager.Instance.MovementPhase();
+        GameRound.instance.ResetGameTurn();        
         VictoryLossChecker.isAnyHeroDead = false;
         skybox.SetSkyboxToRandom();
-        foreach (BattlescapeLogic.Unit unit in FindObjectsOfType<BattlescapeLogic.Unit>())
+        foreach (Unit unit in FindObjectsOfType<Unit>())
         {
             if (Application.isEditor)
             {
@@ -48,11 +45,11 @@ public class NewGameScript : MonoBehaviour
             tile.SetMyUnitTo(null);
         }
 
-        foreach (KeyValuePair<Vector3, BattlescapeLogic.Unit> pair in PlayerOneArmy)
+        foreach (KeyValuePair<Vector3, Unit> pair in PlayerOneArmy)
         {
             Instantiate(pair.Value.gameObject, pair.Key, pair.Value.gameObject.transform.rotation);
         }
-        foreach (KeyValuePair<Vector3, BattlescapeLogic.Unit> pair in PlayerTwoArmy)
+        foreach (KeyValuePair<Vector3, Unit> pair in PlayerTwoArmy)
         {
             Instantiate(pair.Value.gameObject, pair.Key, pair.Value.gameObject.transform.rotation);
         }

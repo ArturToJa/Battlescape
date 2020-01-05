@@ -48,7 +48,7 @@ public class AI_Controller : MonoBehaviour
                 PlayerAIs[i] = null;
             }
         }
-        TurnManager.Instance.NewTurnEvent += OnNewTurn;
+        //TurnManager.Instance.NewTurnEvent += OnNewTurn;
     }
 
     private void LateUpdate()
@@ -57,12 +57,12 @@ public class AI_Controller : MonoBehaviour
         {
             return;
         }
-        if (TurnManager.Instance.TurnCount == 0 && Global.instance.IsCurrentPlayerAI())
-        {
-            //PreGameAI tool = new PreGameAI();
-            //tool.PositionUnits();
-            endButton.OK();
-        }
+        //if (GameRound.instance.gameRoundCount == 0 && Global.instance.IsCurrentPlayerAI())
+        //{
+        //    //PreGameAI tool = new PreGameAI();
+        //    //tool.PositionUnits();
+        //    endButton.OK();
+        //}
         //if (VictoryLossChecker.IsGameOver || /*QCManager.QCisHappening ||*/ GameStateManager.Instance.GameState == GameStates.AnimatingState || GameStateManager.Instance.IsItPreGame() || actionCooldown || Global.instance.IsCurrentPlayerAI() == false)
         //{
         //    return;
@@ -102,7 +102,7 @@ public class AI_Controller : MonoBehaviour
         {
             return false;
         }       
-        if (PlayerAIs[ID] != null && Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == ID)
+        if (PlayerAIs[ID] != null && GameRound.instance.currentPlayer.team.index == ID)
         {
             return true;
         }
@@ -124,19 +124,19 @@ public class AI_Controller : MonoBehaviour
             return;
         }
 
-        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.AttackState) && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && TurnManager.Instance.PlayerHavingTurn == TurnManager.Instance.PlayerToMove && IsCurrentTurnHuman() == false)
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.AttackState) && GameRound.instance.currentPhase == TurnPhases.Attack && GameRound.instance.currentPlayer == GameRound.instance.currentPlayer && IsCurrentTurnHuman() == false)
         //{
         //    PlayerAIs[ID] = new AI_Attack(ID);
         //    return;
         //}
 
-        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState) && TurnManager.Instance.CurrentPhase == TurnPhases.Shooting)
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.ShootingState) && GameRound.instance.currentPhase == TurnPhases.Shooting)
         //{
         //    PlayerAIs[ID] = new AI_Shooting(ID);
         //    return;
         //}
 
-        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.MoveState) && TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+        //if ((GameStateManager.Instance.GameState == GameStates.IdleState || GameStateManager.Instance.GameState == GameStates.MoveState) && GameRound.instance.currentPhase == TurnPhases.Movement)
         //{
         //     if (!didAllTheQCDecisionsHappen)
         //     {
@@ -149,7 +149,7 @@ public class AI_Controller : MonoBehaviour
     }
     bool IsCurrentTurnHuman()
     {
-        return PlayerAIs[Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index] == null;
+        return PlayerAIs[GameRound.instance.currentPlayer.team.index] == null;
     }
 
     public void ClearAIs()

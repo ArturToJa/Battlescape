@@ -15,6 +15,7 @@ namespace BattlescapeSound
         bool isAudioMute;
         public Sound[] sounds;
         public Sound selectionSound;
+
         //its here cause too hard to add it where it should be (no MBs there).
         Dictionary<GameObject, AudioSource> objectsPlayingSounds;
 
@@ -32,7 +33,7 @@ namespace BattlescapeSound
             {
                 Debug.LogError("Second instance of singleton - Sound Manager!");
             }
-        }
+        }        
 
 
         public void PlaySound(GameObject target, Sound sound)

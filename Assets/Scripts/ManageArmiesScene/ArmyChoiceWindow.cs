@@ -44,7 +44,7 @@ public class ArmyChoiceWindow : MonoBehaviour
         SaveLoadManager.Instance.RecreateUnitsList();
         HeroChoicer.SetActive(true);
         HeroChoicer.GetComponent<HeroChoiceScreenScript>().LoadHero(SaveLoadManager.Instance.playerArmy.heroIndex);
-        //HeroNames.SetHeroName(TurnManager.Instance.PlayerToMove);
+        //HeroNames.SetHeroName(GameRound.instance.currentPlayer);
         StartCoroutine(CloseWindow(gameObject));
         foreach (Transform child in ArmyBuilder.Instance.HeroesChoice.transform)
         {

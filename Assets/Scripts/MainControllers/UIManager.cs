@@ -83,14 +83,14 @@ public class UIManager : MonoBehaviour
     }
 
     void UpdateSelectedUnit()
-    {
-        if (Global.instance.IsCurrentPlayerAI() == false)
-        {
-            unitWeShowStatsOf = MouseManager.instance.selectedUnit;
-        }
-        if (Global.instance.IsCurrentPlayerAI() == true)
+    {       
+        if (GameRound.instance.currentPlayer != null && GameRound.instance.currentPlayer.type == PlayerType.AI)
         {
             SetOurOwnUnitSelection();
+        }
+        else
+        {
+            unitWeShowStatsOf = MouseManager.instance.selectedUnit;
         }
     }
 

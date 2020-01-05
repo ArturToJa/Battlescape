@@ -7,7 +7,7 @@ public class DragableUnit : MonoBehaviour
 {  
     void OnMouseDrag()
     {
-        if (TurnManager.Instance.IsItPreGame() == false)
+        if (GameRound.instance.gameRoundCount > 0)
         {
             return;
         }
@@ -17,7 +17,7 @@ public class DragableUnit : MonoBehaviour
         if (Physics.Raycast(cameraRay,out hitInfo, Mathf.Infinity,tileMask))
         {
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-            if ((tile.DropzoneOfPlayer == TurnManager.Instance.PlayerToMove) && tile.IsWalkable())
+            if ((tile.DropzoneOfPlayer == GameRound.instance.currentPlayer.team.index) && tile.IsWalkable())
             {
                 if (Global.instance.MatchType == MatchTypes.Online)
                 {

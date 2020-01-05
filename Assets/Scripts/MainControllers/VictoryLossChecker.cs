@@ -32,11 +32,11 @@ public class VictoryLossChecker : MonoBehaviour
     private void Update()
     {
         //UpdateUnitLists();
-        if (TurnManager.Instance.TurnCount > 0)
+        if (GameRound.instance.gameRoundCount > 0)
         {
             GreenPoints.text = Global.instance.playerTeams[0].players[0].playerScore.ToString();
             RedPoints.text = Global.instance.playerTeams[1].players[0].playerScore.ToString();
-            if (TurnManager.Instance.TurnCount > 1 && TurnManager.Instance.TurnCount > TurnManager.Instance.TurnsInTheGame)
+            if (GameRound.instance.gameRoundCount > 1 && GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
             {
                 CalculateWinner();
             }
@@ -84,10 +84,10 @@ public class VictoryLossChecker : MonoBehaviour
 
     public static List<BattlescapeLogic.Unit> GetMyUnitList()
     {
-        return Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits;
+        return GameRound.instance.currentPlayer.playerUnits;
     }
     public static List<BattlescapeLogic.Unit> GetEnemyUnitList()
     {
-        return Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]).playerUnits;
+        return Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerUnits;
     }    
 }

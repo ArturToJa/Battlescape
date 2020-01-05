@@ -21,7 +21,7 @@ namespace BattlescapeGraphics
 
         void Update()
         {
-            if (TurnManager.Instance.TurnCount == 0)
+            if (GameRound.instance.gameRoundCount == 0)
             {
                 if (myTile.DropzoneOfPlayer == 0)
                 {

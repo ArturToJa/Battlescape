@@ -53,6 +53,11 @@ public class LevelLoader : MonoBehaviour
         }
         slider.gameObject.SetActive(true);
         AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
+        if (scene == "_MENU")
+        {
+            Destroy(BattlescapeLogic.Networking.instance.gameObject);
+            Destroy(BattlescapeLogic.Global.instance.gameObject);
+        }
         while (operation.isDone == false)
         {
 

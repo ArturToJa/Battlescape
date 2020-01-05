@@ -23,7 +23,7 @@ public abstract class Ability_Basic : MonoBehaviour
     AudioSource AbilitySource;
     public GameObject BasicVFX;
     public int EnergyCost;
-    protected UnitEnergy myEnergy;
+    //protected UnitEnergy myEnergy;
     public List<TurnPhases> LegalInPhases;
     public bool LimitedUses;
     public bool OnlyInCombat;
@@ -38,7 +38,7 @@ public abstract class Ability_Basic : MonoBehaviour
         currentlyUsedAbility = this;
         isBeingUsed = true;
         ColourTiles();
-        myEnergy.CurrentEnergy -= EnergyCost;
+        //myEnergy.CurrentEnergy -= EnergyCost;
 
     }
     public void BaseCancelUse()
@@ -47,7 +47,7 @@ public abstract class Ability_Basic : MonoBehaviour
         BattlescapeGraphics.ColouringTool.UncolourAllTiles();
         currentlyUsedAbility = null;
         isBeingUsed = false;
-        myEnergy.CurrentEnergy += EnergyCost;
+        //myEnergy.CurrentEnergy += EnergyCost;
         Debug.Log("woff");
     }
     protected void SendCommandForActivation()
@@ -86,11 +86,11 @@ public abstract class Ability_Basic : MonoBehaviour
         return
             IsUsableNow() &&
             (UsesLeft > 0 || LimitedUses == false) &&
-            myEnergy.IsEnoughEnergyFor(this) &&
-            Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0] == myUnit.owner &&
+            //myEnergy.IsEnoughEnergyFor(this) &&
+            GameRound.instance.currentPlayer == myUnit.owner &&
             AlreadyUsedThisTurn == false &&
             //GameStateManager.Instance.IsItPreGame() == false &&
-            LegalInPhases.Contains(TurnManager.Instance.CurrentPhase) &&
+            LegalInPhases.Contains(GameRound.instance.currentPhase) &&
             (!OnlyInCombat || (OnlyInCombat && myUnit.IsInCombat())) &&
             (!UnavailableInCombat || (UnavailableInCombat && !myUnit.IsInCombat())) &&
             (!RequiresCanMove || (RequiresCanMove && myUnit.CanStillMove())) &&
@@ -127,10 +127,10 @@ public abstract class Ability_Basic : MonoBehaviour
     void Start()
     {
 
-        TurnManager.Instance.NewTurnEvent += OnNewTurn;
+        //TurnManager.Instance.NewTurnEvent += OnNewTurn;
         UsesLeft = UsesPerBattle;
         myUnit = GetComponent<Unit>();
-        myEnergy = GetComponent<UnitEnergy>();
+        //myEnergy = GetComponent<UnitEnergy>();
         AbilitySource = gameObject.AddComponent<AudioSource>();
         OnStart();
     }

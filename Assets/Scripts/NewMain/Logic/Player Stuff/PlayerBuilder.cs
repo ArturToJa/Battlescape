@@ -6,16 +6,19 @@ namespace BattlescapeLogic
 {
     public class PlayerBuilder
     {
+        
+
         public PlayerBuilder()
         {
-            playerUnits = new List<BattlescapeLogic.Unit>();
+            playerUnits = new List<Unit>();
         }
         public int index { get; set; }
         public string playerName { get; set; }
         public Faction race { get; set; }
         public PlayerType type { get; set; }
         public PlayerColour colour { get; set; }
-        public List<BattlescapeLogic.Unit> playerUnits { get; set; }
+        public List<Unit> playerUnits { get; set; }
         public PlayerTeam team { get; set; }
+        public bool isObserver { get; set; }
     }
 }

@@ -75,27 +75,15 @@ namespace BattlescapeLogic
             }                        
         }
 
-        public bool IsCurrentPlayerAI()
-        {
-            if (playerBuilders[TurnManager.Instance.PlayerToMove] != null)
-            {
-                return playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.AI;
-            }
-            else
-            {
-                return (playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.AI);
-            }
-        }
-
         public bool IsCurrentPlayerLocal()
         {
-            if (playerBuilders[TurnManager.Instance.PlayerToMove] != null)
+            if (playerBuilders[GameRound.instance.currentPlayer.team.index] != null)
             {
-                return playerBuilders[TurnManager.Instance.PlayerToMove].type == PlayerType.Local;
+                return playerBuilders[GameRound.instance.currentPlayer.team.index].type == PlayerType.Local;
             }
             else
             {
-                return (playerTeams[TurnManager.Instance.PlayerToMove].players[0].type == PlayerType.Local);
+                return (GameRound.instance.currentPlayer.type == PlayerType.Local);
             }
         }
 
@@ -113,6 +101,36 @@ namespace BattlescapeLogic
                 }
             }
             return returnList;
+        }
+
+        //Doesn't count the observers
+        public int GetActivePlayerCount()
+        {
+            int count = 0;
+            if (playerBuilders[0] != null)
+            {
+                foreach (PlayerBuilder player in playerBuilders)
+                {
+                    if (player.isObserver == false)
+                    {
+                        count++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (PlayerTeam team in playerTeams)
+                {
+                    foreach (Player player in team.players)
+                    {
+                        if (player.isObserver == false)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return count;
         }
 
 

@@ -22,12 +22,8 @@ public class ArmyBuildingEndButton : MonoBehaviour
         CameraController.Instance.SetCurrentViewTo(0);
         //CombatController.Instance.MakeAIWait(3f);
         this.transform.parent.parent.gameObject.SetActive(false);
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index == 0 && Global.instance.MatchType != MatchTypes.Online)
+        if (GameRound.instance.currentPlayer.team.index == 0 && Global.instance.MatchType != MatchTypes.Online)
         {
-            TurnManager.Instance.TurnCount = -1;
-            //  Pedestal.enabled = true;
-            //heroChoicer.NextPlayer();
-            TurnManager.Instance.NewTurn(false);
             SkyboxChanger.Instance.SetSkyboxTo(SkyboxChanger.Instance.PregameSkyboxDefault);
             SaveLoadManager.Instance.UnitsList.Clear();
             foreach (Transform child in UnitPanel.transform)
@@ -59,7 +55,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             if (Global.instance.MatchType == MatchTypes.Online)
             {
                 var Text1 = FindObjectOfType<CurrentPlayerInfo>();
-                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]).playerName.ToString() + "'s turn";
+                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerName.ToString() + "'s turn";
                 Text1.isOff = true;
                 var Text3 = FindObjectOfType<TurnNumberText>();
                 Text3.GetComponent<Text>().text = "Waiting for opponent...";
@@ -72,7 +68,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             }
             else
             {
-                TurnManager.Instance.NewTurn(true);
+                GameRound.instance.EndOfPhase();
             }
             foreach (Tile tile in FindObjectsOfType<Tile>())
             {
@@ -83,7 +79,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         }
         if (Global.instance.MatchType == MatchTypes.Online)
         {
-            TurnManager.Instance.PlayerEndedPreGame();
+            Networking.instance.PlayerEndedPreGame();
 
         }
     }

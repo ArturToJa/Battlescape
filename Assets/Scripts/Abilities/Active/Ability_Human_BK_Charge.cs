@@ -155,11 +155,11 @@ public class Ability_Human_BK_Charge : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        if (TurnManager.Instance.TurnCount >= 15)
+        if (GameRound.instance.gameRoundCount >= 15)
         {
             return true;
         }
-        if (TurnManager.Instance.TurnCount >= 9 || myUnit.statistics.healthPoints == 1)
+        if (GameRound.instance.gameRoundCount >= 9 || myUnit.statistics.healthPoints == 1)
         {
             int speed = myUnit.statistics.movementPoints;
             foreach (BattlescapeLogic.Unit enemy in VictoryLossChecker.GetEnemyUnitList())

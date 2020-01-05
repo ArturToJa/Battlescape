@@ -116,7 +116,6 @@ GameObject:
   - component: {fileID: 223836380080365166}
   - component: {fileID: 114723515260128850}
   - component: {fileID: 114758917733276324}
-  - component: {fileID: 114082537379350750}
   m_Layer: 8
   m_Name: HealthbarCanvas
   m_TagString: Untagged
@@ -243,17 +242,6 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
   isBeingAttacked: 0
---- !u!114 &114082537379350750
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1394554922403982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc3c7d6afca5104c8cb6cc3d48badf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114483959917158692
 MonoBehaviour:
   m_ObjectHideFlags: 1

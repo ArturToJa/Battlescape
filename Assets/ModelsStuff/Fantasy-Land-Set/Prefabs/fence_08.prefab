@@ -115,7 +115,6 @@ GameObject:
   - component: {fileID: 223883688905844610}
   - component: {fileID: 114585474677438076}
   - component: {fileID: 114010381031984340}
-  - component: {fileID: 114824679183111048}
   m_Layer: 8
   m_Name: HealthbarCanvas
   m_TagString: Untagged
@@ -306,17 +305,6 @@ MonoBehaviour:
   colorSpeed: 1
   fallingSpeed: 1
   durability: 6
---- !u!114 &114824679183111048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1690921191302754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc3c7d6afca5104c8cb6cc3d48badf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114866893692899456
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
-public class PopupTextController : MonoBehaviour
+public class PopupTextController : NewRoundMonoBehaviour
 {
 
     PopupDmgScript _popupText;
@@ -12,9 +13,9 @@ public class PopupTextController : MonoBehaviour
     [SerializeField] float timeBetweenPopups;
     float timeFromLastPopup;
 
-    void Start()
+    protected override void Start()
     {
-        TurnManager.Instance.NewTurnEvent += OnNewTurn;
+        base.Start();
         popupsToShow = new Queue<PopupInformation>();
     }
 
@@ -30,12 +31,7 @@ public class PopupTextController : MonoBehaviour
         {
             timeFromLastPopup += Time.deltaTime;
         }
-    }
-
-    public void OnNewTurn()
-    {
-        ClearPopups();
-    }
+    }   
     static void Initialize(PopupTypes type)
     {
         popupText = Resources.Load<PopupDmgScript>("PopupTextParent" + (type.GetHashCode() + 1).ToString());
@@ -43,8 +39,8 @@ public class PopupTextController : MonoBehaviour
     }
 
     public static void AddPopupText(string text, PopupTypes type)
-    {        
-        popupsToShow.Enqueue(new PopupInformation(type,text));
+    {
+        popupsToShow.Enqueue(new PopupInformation(type, text));
     }
 
     public static void AddParalelPopupText(string text, PopupTypes type)
@@ -69,6 +65,11 @@ public class PopupTextController : MonoBehaviour
     public static void ClearPopups()
     {
         popupsToShow.Clear();
+    }
+
+    public override void OnNewRound()
+    {
+        ClearPopups();
     }
 }
 public enum PopupTypes

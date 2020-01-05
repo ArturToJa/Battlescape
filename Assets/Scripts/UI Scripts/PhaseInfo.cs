@@ -10,22 +10,22 @@ public class PhaseInfo : MonoBehaviour {
 
     void Update()
     {
-        if (TurnManager.Instance.TurnCount <= 0)
+        if (GameRound.instance.gameRoundCount <= 0)
         {
             PhaseInfoText.text = "Positioning Phase";
             return;
         }
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Enemy)
+        if (GameRound.instance.currentPhase == TurnPhases.Enemy)
         {
-            PhaseInfoText.text = Global.instance.GetNextPlayer(Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0]).playerName.ToString() + "'s Responding!";
+            PhaseInfoText.text = Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerName.ToString() + "'s Responding!";
         }
         else
         {
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+            if (GameRound.instance.currentPhase == TurnPhases.Movement)
             {
                 PhaseInfoText.text = "Movement Phase";
             }
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
+            if (GameRound.instance.currentPhase == TurnPhases.Attack)
             {
                 PhaseInfoText.text = "Attack Phase";
             }

@@ -187,11 +187,11 @@ public class SaveLoadManager : MonoBehaviour
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
         if (Global.instance.MatchType == MatchTypes.Online)
         {            
-            Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, TurnManager.Instance.PlayerToMove, HeroName);
+            Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, GameRound.instance.currentPlayer.team.index, HeroName);
         }
         else
         {
-            HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, HeroName);
+            HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, HeroName);
         }
     }
     public void LoadAIArmyToGame(PlayerBuilder player, int points)
@@ -199,7 +199,7 @@ public class SaveLoadManager : MonoBehaviour
         LoadAIArmy(points);
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
-        HeroNames.SetHeroName(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, HeroName);
+        HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, HeroName);
         player.race = (Faction)Race;
     }
 

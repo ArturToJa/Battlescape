@@ -104,7 +104,7 @@ namespace BattlescapeLogic
 
         public bool CanSelect(Unit unit)
         {
-            return (/*Some ability-checker so that no ability is beiong used HERE && */ PlayerInput.instance.isInputBlocked == false && unit.owner.IsCurrentLocalPlayer() && TurnManager.Instance.CurrentPhase != TurnPhases.Enemy && TurnManager.Instance.CurrentPhase != TurnPhases.None);
+            return (/*Some ability-checker so that no ability is beiong used HERE && */ PlayerInput.instance.isInputBlocked == false && unit.owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None);
         }
 
         /// <summary>
@@ -116,13 +116,13 @@ namespace BattlescapeLogic
         public bool IsLegalToDeclareAttack(Unit attacker, Unit defender)
         {
             return
-                TurnManager.Instance.CurrentPhase == TurnPhases.Attack
+                GameRound.instance.currentPhase == TurnPhases.Attack
                 && attacker != null
                 && defender != null
                 && attacker.owner.IsCurrentLocalPlayer()
                 && attacker.CanStillAttack()
                 && attacker.IsInAttackRange(defender.transform.position)
-                && attacker.owner.team != defender.owner.team;
+                && attacker.IsEnemyOf(defender);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace BattlescapeLogic
                 selectedUnit != null
                 && destination != null
                 && selectedUnit.owner.IsCurrentLocalPlayer()
-                && TurnManager.Instance.CurrentPhase == TurnPhases.Movement
+                && GameRound.instance.currentPhase == TurnPhases.Movement
                 && selectedUnit.CanStillMove()
                 && Pathfinder.instance.IsLegalTileForUnit(destination, selectedUnit)
                 && PlayerInput.instance.isInputBlocked == false;
@@ -168,7 +168,7 @@ namespace BattlescapeLogic
                 {
                     foreach (Unit unit in Global.instance.GetAllUnits())
                     {
-                        if (unit.owner.team != selectedUnit.owner.team && Helper.WouldBeInAttackRange(selectedUnit, hoveredTile, unit.transform.position))
+                        if (selectedUnit.IsEnemyOf(unit) && Helper.WouldBeInAttackRange(selectedUnit, hoveredTile, unit.transform.position))
                         {
                             BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.red);
                         }

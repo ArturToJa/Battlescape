@@ -19,12 +19,12 @@ public class CancelUnitsDeployment : MonoBehaviour
     {
         if (Global.instance.MatchType == MatchTypes.Online)
         {
-            //UnitPositionKeeper.Instance.photonView.RPC("RPCDeleteAll", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);
-            photonView.RPC("RPCCancel", PhotonTargets.All, TurnManager.Instance.PlayerHavingTurn);
+            //UnitPositionKeeper.Instance.photonView.RPC("RPCDeleteAll", PhotonTargets.All, GameRound.instance.currentPlayer);
+            photonView.RPC("RPCCancel", PhotonTargets.All, GameRound.instance.currentPlayer);
         }
         else
         {
-            Cancel(TurnManager.Instance.PlayerHavingTurn);
+            Cancel(GameRound.instance.currentPlayer);
         }
         
     }

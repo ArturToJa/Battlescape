@@ -38,6 +38,7 @@ TagManager:
   - Bow
   - Grid
   - Coloured
+  - EndPhaseWindow
   layers:
   - Default
   - TransparentFX

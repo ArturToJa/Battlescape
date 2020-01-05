@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : NewTurnMonoBehaviour, IMouseTargetable
+    public class Unit : NewRoundMonoBehaviour, IMouseTargetable
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -112,7 +112,7 @@ namespace BattlescapeLogic
             visuals.transform.LookAt(mapMiddle);
         }
 
-        public override void OnNewTurn()
+        public override void OnNewRound()
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
@@ -145,11 +145,11 @@ namespace BattlescapeLogic
 
         public bool CanAttackOrMoveNow()
         {
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+            if (GameRound.instance.currentPhase == TurnPhases.Movement)
             {
                 return CanStillMove();
             }
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
+            if (GameRound.instance.currentPhase == TurnPhases.Attack)
             {
                 return (IsRanged() || IsInCombat()) && CanStillAttack();
             }
@@ -195,7 +195,7 @@ namespace BattlescapeLogic
                 OnCombatEnter();
                 foreach (Tile tile in newTile.neighbours)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team)
+                    if (tile.myUnit != null && IsEnemyOf(tile.myUnit))
                     {
                         tile.myUnit.OnCombatEnter();
                     }
@@ -207,7 +207,7 @@ namespace BattlescapeLogic
                 OnCombatExit();
                 foreach (Tile tile in oldTile.neighbours)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
+                    if (tile.myUnit != null && IsEnemyOf(tile.myUnit) && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
                     {
                         tile.myUnit.OnCombatExit();
                     }
@@ -221,14 +221,16 @@ namespace BattlescapeLogic
             if (attackType == AttackTypes.Ranged)
             {
                 attack = new MeleeAttack(this);
-            }
+            }            
+            animator.SetBool("InCombat", true);
         }
 
         public void OnCombatExit()
         {
+            animator.SetBool("InCombat", false);
             foreach (Tile neighbour in currentPosition.neighbours)
             {
-                if (this.IsAlive() && neighbour.myUnit != null && neighbour.myUnit.owner.team != this.owner.team)
+                if (this.IsAlive() && neighbour.myUnit != null && IsEnemyOf(neighbour.myUnit))
                 {
                     //Add buff to change hitChance and possibly damage?
                     //this buff needs to delete itself!
@@ -246,21 +248,15 @@ namespace BattlescapeLogic
         }
         public void Move(Tile newPosition)
         {
-            if (CanStillMove())
-            {
-                movement.ApplyUnit(this);
-                StartCoroutine(movement.MoveTo(newPosition));
-            }
+            movement.ApplyUnit(this);
+            StartCoroutine(movement.MoveTo(newPosition));
         }
 
         //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
         public void Attack(Unit target)
         {
-            if (CanStillAttack())
-            {
-                statistics.numberOfAttacks--;
-                attack.Attack(target);
-            }
+            statistics.numberOfAttacks--;
+            attack.Attack(target);
         }
 
 
@@ -270,10 +266,13 @@ namespace BattlescapeLogic
 
         public void HitTarget(Unit target)
         {
+            
             PlayerInput.instance.isInputBlocked = false;
             if (DamageCalculator.IsMiss(this, target))
             {
-                // rzucamy buff na target obniżający obronę
+                //StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/DefenceDebuff") as GameObject).GetComponent<StatisticChangeBuff>();
+                //buffs.Add(defenceDebuff);
+                //defenceDebuff.ApplyChange();
                 Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
                 Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
@@ -299,8 +298,8 @@ namespace BattlescapeLogic
                 (
                     retaliatingUnit.CanStillRetaliate() &&
                     retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
-                    TurnManager.Instance.PlayerHavingTurn != retaliatingUnit.owner.team.index //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
-                                                                                              // && check for stopping retaliations in buffs/passives/idk
+                    GameRound.instance.currentPlayer != retaliatingUnit.owner //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
+                                                                              // && check for stopping retaliations in buffs/passives/idk
                 );
 
         }
@@ -350,7 +349,7 @@ namespace BattlescapeLogic
             {
                 foreach (Tile tile in currentPosition.neighbours)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != this.owner.team && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
+                    if (tile.myUnit != null && IsEnemyOf(tile.myUnit) && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
                     {
                         //The enemy dude exists and just got free from combat by death of our Unit;
                         tile.myUnit.OnCombatExit();
@@ -386,6 +385,10 @@ namespace BattlescapeLogic
             {
                 return FullRange.Contains(target);
             }
+        }
+        public bool IsEnemyOf(Unit other)
+        {
+            return owner.team != other.owner.team;
         }
     }
 }

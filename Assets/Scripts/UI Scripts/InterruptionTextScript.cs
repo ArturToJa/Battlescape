@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class InterruptionTextScript : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class InterruptionTextScript : MonoBehaviour
 
     void Update()
     {
-        if (TurnManager.Instance.CurrentPhase != TurnPhases.Enemy)
+        if (GameRound.instance.currentPhase != TurnPhases.Enemy)
         {
             InterruText.text = "Interrupt!";
         }

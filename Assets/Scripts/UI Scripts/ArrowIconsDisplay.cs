@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class ArrowIconsDisplay : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class ArrowIconsDisplay : MonoBehaviour
 
     public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
-        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
+        if (Attacker == myUnit && GameRound.instance.currentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
         {
             if (Application.isEditor)
             {

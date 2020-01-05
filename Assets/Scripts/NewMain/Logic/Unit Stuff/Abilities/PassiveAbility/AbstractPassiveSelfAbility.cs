@@ -6,7 +6,7 @@ namespace BattlescapeLogic
 {
     public class AbstractPassiveSelfAbility : AbstractPassiveAbility
     {
-        public override void OnNewTurn()
+        public override void OnNewRound()
         {
             ApplyBuffsToUnit(owner);
         }

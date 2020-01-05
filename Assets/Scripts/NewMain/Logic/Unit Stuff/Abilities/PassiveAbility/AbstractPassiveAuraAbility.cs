@@ -8,7 +8,7 @@ namespace BattlescapeLogic
     {
         public int range { get; protected set; }
 
-        public override void OnNewTurn()
+        public override void OnNewRound()
         {
             // Get Units in range of owner
             // filter these units

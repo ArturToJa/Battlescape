@@ -11,7 +11,7 @@ public class PreGameAI
 
     public void RepositionUnits()
     {
-        foreach (BattlescapeLogic.Unit unit in Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].playerUnits)
+        foreach (BattlescapeLogic.Unit unit in GameRound.instance.currentPlayer.playerUnits)
         {
             Tile newTile = ChooseTheTile();
             DragableUnit.SetNewPosition(unit.currentPosition.position.x, unit.currentPosition.position.z, newTile.position.x, newTile.position.z);
@@ -20,10 +20,10 @@ public class PreGameAI
 
     public void PositionUnits()
     {
-        Position(SaveLoadManager.Instance.playerArmy.heroIndex, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
+        Position(SaveLoadManager.Instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
         foreach (int index in SaveLoadManager.Instance.playerArmy.unitIndecies)
         {
-            Position(index, Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0].team.index, ChooseTheTile());
+            Position(index, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
         }
         /*foreach (Transform unit in DeploymentPanel)
         {
@@ -61,7 +61,7 @@ public class PreGameAI
         //List<Tile> greatTiles = new List<Tile>();
         foreach (Tile tile in Map.Board)
         {
-            if (tile.IsWalkable() && (tile.DropzoneOfPlayer == TurnManager.Instance.PlayerToMove))
+            if (tile.IsWalkable() && (tile.DropzoneOfPlayer == GameRound.instance.currentPlayer.team.index))
             {
                 possibleTiles.Add(tile);
                 /*if (me.thisUnitFirstPlayer.GetComponent<BattlescapeLogic.Unit>().IsRanged() && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)

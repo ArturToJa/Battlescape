@@ -24,6 +24,7 @@ namespace BattlescapeLogic
 
         public virtual void Attack(Unit target)
         {
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             targetUnit = target;
             if (target.owner.HasAttacksOrMovesLeft() == false)
             {

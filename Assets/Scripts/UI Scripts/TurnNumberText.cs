@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class TurnNumberText : MonoBehaviour
 {
@@ -17,33 +18,37 @@ public class TurnNumberText : MonoBehaviour
         {
             return;
         }
-        if (TurnManager.Instance.TurnCount > 16)
+        if (GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
         {
             TurnMumber.text = "Time is up!";
             TurnMumber.color = Color.yellow;
             return;
         }
-        if (TurnManager.Instance.TurnCount <= 0)
+        if (GameRound.instance.gameRoundCount <= 0)
         {
             TurnMumber.text = "Drag units to position them!";
+            TurnMumber.color = Color.green;
             return;
         }
-        if (TurnManager.Instance.isEndgameTrue)
+
+        if (GameRound.instance.gameRoundCount == GameRound.instance.maximumRounds)
         {
-            if (TurnManager.Instance.TurnCount == 16)
-            {
-                TurnMumber.text = "Final Turn";
-            }
-            else
-            {
-                TurnMumber.text = "Turns to end: " + (16 - TurnManager.Instance.TurnCount).ToString();
-            }        
+            TurnMumber.text = "Final Turn";
             ColourChange();
+            return;
         }
-        else
+        if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds - 5)
         {
-            TurnMumber.text = "Turn Number: " + TurnManager.Instance.TurnCount.ToString() + "/16";
+            TurnMumber.text = "Turns to end: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString();
+            ColourChange();
+            return;
         }
+
+
+
+        TurnMumber.color = Color.white;
+        TurnMumber.text = "Turn Number: " + GameRound.instance.gameRoundCount.ToString() + "/" + GameRound.instance.maximumRounds.ToString();
+
     }
 
     void ColourChange()

@@ -17,7 +17,8 @@ public class UnitHealth : MonoBehaviour
 
     void Awake()
     {
-        SetStuff();      
+        SetStuff();
+        TurnOffHealthbars();
     }
     void Update()
     {
@@ -25,9 +26,16 @@ public class UnitHealth : MonoBehaviour
         FillTheBar();
     }
 
+
+
     void SetStuff()
     {
-        thisUnit = this.transform.root.GetComponent<BattlescapeLogic.Unit>();
+        Canvas canvas = transform.root.GetComponentInChildren<Canvas>();
+        foreach (Image child in canvas.GetComponentsInChildren<Image>())
+        {
+            child.raycastTarget = false;
+        }
+        thisUnit = this.transform.root.GetComponent<Unit>();
         fillOfABar = GetComponentsInChildren<Image>()[1];
         amount = GetComponentInChildren<TextMeshProUGUI>();
         GetComponent<Image>().sprite = Background;
@@ -43,7 +51,22 @@ public class UnitHealth : MonoBehaviour
         float velocity = 0;
         fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisUnit.statistics.healthPoints / (float)thisUnit.statistics.maxHealthPoints), ref velocity, barAnimationTime);
     }
-   public static void SetColour()
+
+    public static void TurnOffHealthbars()
+    {
+        foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
+        {
+            UIManager.InstantlyTransitionActivity(unit.gameObject, false);
+        }
+    }
+    public static void TurnOnHealthbars()
+    {
+        foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
+        {
+            UIManager.InstantlyTransitionActivity(unit.gameObject, true);
+        }
+    }
+    public static void SetColour()
     {
         switch (Global.instance.MatchType)
         {
@@ -71,7 +94,7 @@ public class UnitHealth : MonoBehaviour
                     {
                         unit.SetStuff();
                     }
-                    if (TurnManager.Instance.PlayerToMove == unit.thisUnit.owner.team.index)
+                    if (GameRound.instance.currentPlayer == unit.thisUnit.owner)
                     {
                         unit.fillOfABar.sprite = unit.GreenFill;
                     }
@@ -101,7 +124,7 @@ public class UnitHealth : MonoBehaviour
             default:
                 break;
         }
-        
-        
+
+
     }
 }

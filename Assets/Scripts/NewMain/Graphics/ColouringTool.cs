@@ -10,7 +10,7 @@ namespace BattlescapeGraphics
     {
         public static void ColourUnitsThatStillCanMoveOrAttack()
         {
-            Player currentPlayer = Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0];
+            Player currentPlayer = GameRound.instance.currentPlayer;
             foreach (Unit unit in currentPlayer.playerUnits)
             {
                 if (unit.CanAttackOrMoveNow())
@@ -37,7 +37,7 @@ namespace BattlescapeGraphics
         public static void ColourLegalTilesFor(Unit unit)
         {
             UncolourAllTiles();
-            if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+            if (GameRound.instance.currentPhase == TurnPhases.Movement)
             {
                 var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
                 foreach (Tile tile in temp)
@@ -52,7 +52,7 @@ namespace BattlescapeGraphics
                     }
                 }
             }
-            else if (TurnManager.Instance.CurrentPhase == TurnPhases.Attack)
+            else if (GameRound.instance.currentPhase == TurnPhases.Attack)
             {
                 foreach (Tile tile in Map.Board)
                 {
@@ -62,7 +62,7 @@ namespace BattlescapeGraphics
                     }
                 }
             }
-           
+
         }
 
         public static void UncolourAllTiles()
@@ -84,17 +84,28 @@ namespace BattlescapeGraphics
             {
                 ColourObject(unit, Color.red);
             }
-        }                       
+        }
 
         public static void ColourObject(MonoBehaviour target, Color color)
         {
-            Renderer[] rs = target.GetComponentsInChildren<Renderer>();
-            foreach (Renderer r in rs)
+            if (target is Tile)
             {
+                Renderer r = target.GetComponentInChildren<Renderer>();
                 Material m = r.material;
                 m.color = color;
                 r.material = m;
             }
-        }                  
+            else
+            {
+                Renderer[] rs = target.GetComponentsInChildren<Renderer>();
+                foreach (Renderer r in rs)
+                {
+                    Material m = r.material;
+                    m.color = color;
+                    r.material = m;
+                }
+            }
+            
+        }
     }
 }

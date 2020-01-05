@@ -51,11 +51,12 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
                 break;
         }
         PlayerBuilder currentPlayerBuilder = Global.instance.playerBuilders[ID];
-        Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(new Player(currentPlayerBuilder));
+        Player currentPlayer = new Player(currentPlayerBuilder);
+        GameRound.instance.currentPlayer = currentPlayer;
+        Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(currentPlayer);        
         Global.instance.playerBuilders[ID] = null;
-        Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].race = (Faction)SaveLoadManager.Instance.Race;
-        TurnManager.Instance.TurnCount = 0;
-        if (Global.instance.playerTeams[TurnManager.Instance.PlayerHavingTurn].players[0].team.index == 1)
+        currentPlayer.race = SaveLoadManager.Instance.Race;
+        if (currentPlayer.team.index == 1)
         {
             if (SkyboxChanger.Instance.isSkyboxRandom)
             {
@@ -83,34 +84,5 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 
     }
 
-    /*public void CreateUnit(GameObject Unit, RenderTexture _sprite, Unit _me)
-    {
-        var temp = Instantiate(Unit, DeploymentPanel);
-        temp.GetComponentInChildren<RawImage>().texture = _sprite;
-        temp.GetComponent<DragableUnitIcon>().me = _me;
-    }
-    public void CreateHero(GameObject Unit, Sprite _sprite, Unit _me)
-    {
-        var temp = Instantiate(Unit, DeploymentPanel);
-        temp.GetComponentInChildren<RawImage>().gameObject.SetActive(false);
-        temp.GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(true);
-        temp.GetComponentsInChildren<Image>()[1].sprite = _sprite;
-        temp.GetComponent<DragableUnitIcon>().me = _me;
-    }
-
-    void CreateAllUnits()
-    {
-        int safeCheck = 0;
-        foreach (Unit theUnit in SaveLoadManager.Instance.UnitsList)
-        {
-            if (safeCheck > 30)
-            {
-                break;
-            }
-            CreateUnit(theUnit.thisBox, theUnit.thisSprite, theUnit);
-            safeCheck++;
-        }
-        CreateHero(SaveLoadManager.Instance.hero.thisBox, SaveLoadManager.Instance.hero.ThisRealSprite, SaveLoadManager.Instance.hero);
-
-    }*/
+    
 }

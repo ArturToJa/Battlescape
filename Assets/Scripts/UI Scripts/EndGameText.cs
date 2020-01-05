@@ -23,32 +23,32 @@ public class EndGameText : MonoBehaviour
                 case MatchTypes.Online:
                     if ((VictoryLossChecker.gameResult == GameResult.GreenWon && Global.instance.playerTeams[0].players[0].type == PlayerType.Local) ||(VictoryLossChecker.gameResult == GameResult.RedWon && Global.instance.playerTeams[1].players[0].type == PlayerType.Local))
                     {
-                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        WinText(GameRound.instance.currentPlayer);
                     }
                     else
                     {
-                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        LoseText(GameRound.instance.currentPlayer);
                     }
                     break;
 
                 case MatchTypes.HotSeat:
-                    if ((VictoryLossChecker.gameResult == GameResult.GreenWon && TurnManager.Instance.PlayerToMove == 0) ||(VictoryLossChecker.gameResult == GameResult.RedWon && TurnManager.Instance.PlayerToMove == 1))
+                    if ((VictoryLossChecker.gameResult == GameResult.GreenWon && GameRound.instance.currentPlayer.team.index == 0) ||(VictoryLossChecker.gameResult == GameResult.RedWon && GameRound.instance.currentPlayer.team.index == 1))
                     {
-                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        WinText(GameRound.instance.currentPlayer);
                     }
                     else
                     {
-                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        LoseText(GameRound.instance.currentPlayer);
                     }                    
                         break;
                 case MatchTypes.Singleplayer:
                     if ((VictoryLossChecker.gameResult == GameResult.GreenWon && Global.instance.playerTeams[0].players[0].type == PlayerType.Local) || (VictoryLossChecker.gameResult == GameResult.RedWon && Global.instance.playerTeams[1].players[0].type == PlayerType.Local))
                     {
-                        WinText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        WinText(GameRound.instance.currentPlayer);
                     }
                     else
                     {
-                        LoseText(Global.instance.playerTeams[TurnManager.Instance.PlayerToMove].players[0]);
+                        LoseText(GameRound.instance.currentPlayer);
                     }
                     break;
                 default:
@@ -69,7 +69,7 @@ public class EndGameText : MonoBehaviour
         {
             GetComponent<Text>().text += "What a bloodbath!";
         }
-        else if (TurnManager.Instance.TurnCount >= TurnManager.Instance.TurnsInTheGame)
+        else if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds)
         {
             GetComponent<Text>().text += "Nobody managed to win in time!";
         }
@@ -83,7 +83,7 @@ public class EndGameText : MonoBehaviour
             GetComponent<Text>().text += "\n" + "Enemy Hero is dead!";
         }
 
-        else if (TurnManager.Instance.TurnCount >= TurnManager.Instance.TurnsInTheGame)
+        else if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds)
         {
             GetComponent<Text>().text += "\n" + "You won on time!";
         }
@@ -101,7 +101,7 @@ public class EndGameText : MonoBehaviour
         {
             GetComponent<Text>().text += "\n" + "Your Hero is dead!";
         }
-        else if (TurnManager.Instance.TurnCount >= TurnManager.Instance.TurnsInTheGame)
+        else if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds)
         {
             GetComponent<Text>().text += "\n" + "Your time has ended!";
         }

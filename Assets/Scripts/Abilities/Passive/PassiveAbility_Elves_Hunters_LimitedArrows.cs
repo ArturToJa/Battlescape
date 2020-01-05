@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
 {
@@ -46,7 +47,7 @@ public class PassiveAbility_Elves_Hunters_LimitedArrows : PassiveAbility
 
     public void OnAttack(BattlescapeLogic.Unit Attacker, BattlescapeLogic.Unit Defender)
     {
-        if (Attacker == myUnit && TurnManager.Instance.CurrentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
+        if (Attacker == myUnit && GameRound.instance.currentPhase == TurnPhases.Attack && myUnit.IsInCombat() == false)
         {
             CurrentArrows--;
         }

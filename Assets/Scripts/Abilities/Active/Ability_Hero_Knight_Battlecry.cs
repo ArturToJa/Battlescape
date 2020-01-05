@@ -106,7 +106,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        //return Helper.GetAlliesInRange(myUnit, Range).Count > 2 || TurnManager.Instance.TurnCount >= 15;
+        //return Helper.GetAlliesInRange(myUnit, Range).Count > 2 || GameRound.instance.gameRoundCount >= 15;
         return false;
     }
 

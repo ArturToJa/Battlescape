@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class AbstractBuff : NewTurnMonoBehaviour
+    public abstract class AbstractBuff : NewRoundMonoBehaviour
     {
         [SerializeField] string _buffName;
         public string buffName
@@ -57,7 +57,7 @@ namespace BattlescapeLogic
             base.Start();
         }
 
-        public override void OnNewTurn()
+        public override void OnNewRound()
         {
             if(!IsExpired())
             {

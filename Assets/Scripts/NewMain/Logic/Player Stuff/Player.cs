@@ -23,6 +23,7 @@ namespace BattlescapeLogic
             team = builder.team;
             playerScore = 0;
             playerUnits = builder.playerUnits;
+            isObserver = builder.isObserver;
         }
 
         public readonly int index;
@@ -33,6 +34,7 @@ namespace BattlescapeLogic
         public readonly PlayerColour colour;
         public readonly List<Unit> playerUnits;
         public int playerScore { get; private set; }
+        public bool isObserver { get; private set; }
 
         void AddNewUnit(Unit newUnit)
         {
@@ -71,7 +73,7 @@ namespace BattlescapeLogic
             {
                 return false;
             }
-            if (Global.instance.MatchType == MatchTypes.HotSeat && team.index != TurnManager.Instance.PlayerToMove)
+            if (Global.instance.MatchType == MatchTypes.HotSeat && this != GameRound.instance.currentPlayer)
             {
                 return false;
             }

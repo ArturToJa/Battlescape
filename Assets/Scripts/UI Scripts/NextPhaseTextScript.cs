@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class NextPhaseTextScript : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class NextPhaseTextScript : MonoBehaviour
 
     void Update()
     {
-        if (TurnManager.Instance.CurrentPhase == TurnPhases.Movement)
+        if (GameRound.instance.currentPhase == TurnPhases.Movement)
         {
             NextPhaseText.text = "Next Phase";
         }        

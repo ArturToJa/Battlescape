@@ -3,43 +3,43 @@
 namespace BattlescapeLogic
 {
 
-    public interface INewTurn
+    public interface INewRound
     {
-        void OnNewTurn();
+        void OnNewRound();
         void OnCreation();
         void OnDestruction();
     }
-    public abstract class NewTurn : INewTurn
+    public abstract class NewRound : INewRound
     {
-        public NewTurn()
+        public NewRound()
         {
             OnCreation();
         }
-        public abstract void OnNewTurn();
+        public abstract void OnNewRound();
 
         public virtual void OnCreation()
         {
-            GameTurn.instance.newTurnObjects.AddLast(this);
+            GameRound.instance.newRoundObjects.AddLast(this);
         }
 
         public virtual void OnDestruction()
         {
-            GameTurn.instance.newTurnObjects.Remove(GameTurn.instance.newTurnObjects.Find(this));
+            GameRound.instance.newRoundObjects.Remove(GameRound.instance.newRoundObjects.Find(this));
         }
     }
 
-    public abstract class NewTurnMonoBehaviour : MonoBehaviour, INewTurn
+    public abstract class NewRoundMonoBehaviour : MonoBehaviour, INewRound
     {
-        public abstract void OnNewTurn();
+        public abstract void OnNewRound();
 
         public virtual void OnCreation()
         {
-            GameTurn.instance.newTurnObjects.AddLast(this);
+            GameRound.instance.newRoundObjects.AddLast(this);
         }
 
         public virtual void OnDestruction()
         {
-            GameTurn.instance.newTurnObjects.Remove(GameTurn.instance.newTurnObjects.Find(this));
+            GameRound.instance.newRoundObjects.Remove(GameRound.instance.newRoundObjects.Find(this));
         }
 
         protected virtual void Start()

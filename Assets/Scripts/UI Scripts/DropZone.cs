@@ -20,7 +20,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
             return;
         }
         DragableUnitIcon.objectBeingDragged.transform.SetParent(transform);
-        CommandInstantiateUnit((int)DragableUnitIcon.objectBeingDragged.GetComponent<DragableUnitIcon>().me.myUnitID, TurnManager.Instance.PlayerHavingTurn, ElSecondRay());
+        CommandInstantiateUnit((int)DragableUnitIcon.objectBeingDragged.GetComponent<DragableUnitIcon>().me.myUnitID, GameRound.instance.currentPlayer, ElSecondRay());
         if (Application.isEditor)
         {
             DestroyImmediate(DragableUnitIcon.objectBeingDragged);
@@ -80,7 +80,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
     }
     bool CheckIfCorrectDropzone(Transform tile)
     {
-        return tile.GetComponent<Tile>().isDropzoneOfPlayer[TurnManager.Instance.PlayerToMove];        
+        return tile.GetComponent<Tile>().isDropzoneOfPlayer[GameRound.instance.currentPlayer];        
     }
     public void DestroyRealUnit(UnitScript unit)
     {

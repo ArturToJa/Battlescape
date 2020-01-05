@@ -44,6 +44,7 @@ namespace BattlescapeLogic
         }
         public Unit retaliatingUnit { get; private set; }
         public Unit retaliationTarget { get; private set; }
+        public int playersWhoAlreadyEndedPregame { get; private set; }
 
         void Start()
         {
@@ -213,9 +214,8 @@ namespace BattlescapeLogic
         }
         void RetaliationChoice(Unit _retaliatingUnit, Unit _retaliationTarget)
         {
-            TurnManager.Instance.previousPhase= TurnManager.Instance.CurrentPhase;
             retaliationChoiceUI.TurnOn();
-            TurnManager.Instance.CurrentPhase = TurnPhases.Enemy;
+            GameRound.instance.SetPhaseToEnemy();
             retaliatingUnit = _retaliatingUnit;
             retaliationTarget = _retaliationTarget;
         }
@@ -274,7 +274,39 @@ namespace BattlescapeLogic
         public void FinishRetaliation()
         {
             UIManager.SmoothlyTransitionActivity(waitingForRetaliationUI, false, 0.001f);
-            TurnManager.Instance.CurrentPhase = TurnManager.Instance.previousPhase;
+            GameRound.instance.ResetPhaseAfterEnemy();
+        }
+
+        public void SendCommandToEndTurnPhase()
+        {
+            if (Global.instance.MatchType == MatchTypes.Online)
+            {
+                photonView.RPC("RPCEndTurnPhase", PhotonTargets.All);
+            }
+            else
+            {
+                GameRound.instance.EndOfPhase();
+            }
+        }
+
+        [PunRPC]
+        void RPCEndTurnPhase()
+        {
+            GameRound.instance.EndOfPhase();
+        }
+
+        [PunRPC]
+        void RPCPlayerEndedPreGame()
+        {
+            playersWhoAlreadyEndedPregame++;
+            if (playersWhoAlreadyEndedPregame == Global.instance.GetActivePlayerCount())
+            {
+                GameRound.instance.EndOfPhase();            }
+        }
+
+        public void PlayerEndedPreGame()
+        {
+            photonView.RPC("RPCPlayerEndedPreGame", PhotonTargets.All);
         }
 
     }

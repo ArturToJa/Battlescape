@@ -8,7 +8,7 @@ namespace BattlescapeLogic
 	{
 		public ChangeableStatistics statistics;
 		public override void ApplyChange()
-		{
+		{            
 			owner.statistics.ApplyBonusStatistics(statistics);
 		}
 

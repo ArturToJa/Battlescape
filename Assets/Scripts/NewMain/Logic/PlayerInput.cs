@@ -50,7 +50,7 @@ namespace BattlescapeLogic
         {
             if (Input.GetKeyDown(KeyCode.End))
             {
-                TurnManager.Instance.OnPressEndButton();
+                GameRound.instance.OnPressEndButton();
             }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -62,8 +62,9 @@ namespace BattlescapeLogic
                 //I dont know if Map is the perfect guy to toggle grid, but I had to put it somewhere?
                 Map.ToggleGrid();
             }
-            if (Input.GetKeyDown(KeyCode.Tab) && Global.instance.IsCurrentPlayerAI() == false)
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
+                //Here there sould be some check if it's OUR turn or stuff?
                 MouseManager.instance.unitSelector.SelectNextAvailableUnit();
             }
 
@@ -114,7 +115,7 @@ namespace BattlescapeLogic
             {
                 // selected unit gets 1000 damage (dies xD)
                 MouseManager.instance.selectedUnit.OnHit(MouseManager.instance.selectedUnit, 1000);
-            }
+            }            
         }
 
         void DoMouse()

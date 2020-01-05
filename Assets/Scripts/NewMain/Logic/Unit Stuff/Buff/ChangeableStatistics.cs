@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    [System.Serializable]
 	public class ChangeableStatistics
 	{
         [SerializeField] int _bonusAttack;
