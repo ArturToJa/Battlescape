@@ -29,8 +29,8 @@ public class UIHitChanceInformation : MonoBehaviour
     {
         float hitChance = DamageCalculator.HitChance(attacker, defender);
         theText.text = "Chances for:";
-        theText.text += "\n" + "Miss (reducing Defence): " + ((1-hitChance) * 100).ToString() + "%";
-        theText.text += "\n" + "Hit (dealing Damage): " + (hitChance * 100).ToString() + "%";
+        theText.text += "\n" + "Miss (reducing Defence): " + ((1-hitChance) * 100).ToString("F2") + "%";
+        theText.text += "\n" + "Hit (dealing Damage): " + (hitChance * 100).ToString("F2") + "%";
         int avgDmg = Statistics.baseDamage + DamageCalculator.GetStatisticsDifference(attacker, defender);
         int dmgRange = avgDmg / 5;
         theText.text += "\n" + "\n" + "Damage if hit: " + (avgDmg - dmgRange).ToString() + " - " + (avgDmg + dmgRange).ToString();
