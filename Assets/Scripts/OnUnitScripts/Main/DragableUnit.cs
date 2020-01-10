@@ -4,7 +4,13 @@ using UnityEngine;
 using BattlescapeLogic;
 
 public class DragableUnit : MonoBehaviour
-{  
+{
+    Unit myUnit;
+
+    void Start()
+    {
+        myUnit = transform.root.GetComponent<Unit>();
+    }
     void OnMouseDrag()
     {
         if (GameRound.instance.gameRoundCount > 0)
@@ -19,19 +25,7 @@ public class DragableUnit : MonoBehaviour
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
             if ((tile.DropzoneOfPlayer == GameRound.instance.currentPlayer.team.index) && tile.IsWalkable())
             {
-                if (Global.instance.MatchType == MatchTypes.Online)
-                {
-                    FindObjectOfType<DropZone>().GetComponent<PhotonView>().RPC("RPCSetUnitPosition", PhotonTargets.All, Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z), Mathf.RoundToInt(hitInfo.transform.position.x), Mathf.RoundToInt(hitInfo.transform.position.z));
-                }
-                else
-                {
-                    int startX = Mathf.RoundToInt(transform.position.x);
-                    int startZ = Mathf.RoundToInt(transform.position.z);
-                    int endX = Mathf.RoundToInt(hitInfo.transform.position.x);
-                    int endZ = Mathf.RoundToInt(hitInfo.transform.position.z);
-                    //UnitPositionKeeper.Instance.photonView.RPC("RPCMoveUnit", PhotonTargets.All, Map.Board[startX, startZ].myUnit, endX, endZ);
-                    SetNewPosition(startX, startZ, endX, endZ);
-                }
+                DropZone.Instance.SendCommandToSetUnitPosition(myUnit, tile);
                 
             }
 
@@ -39,10 +33,10 @@ public class DragableUnit : MonoBehaviour
     }
 
     public static void SetNewPosition(int startPosX, int startPosZ, int endPosX, int endPosZ)
-    {       
+    {             
         Vector3 oldPos = Map.Board[startPosX, startPosZ].transform.position;
         Vector3 newPos = Map.Board[endPosX, endPosZ].transform.position;
-        BattlescapeLogic.Unit me = Map.Board[startPosX, startPosZ].myUnit;
+        Unit me = Map.Board[startPosX, startPosZ].myUnit;
         if (me.owner.team.index == 0)
         {
             if (NewGameScript.PlayerOneArmy.ContainsKey(oldPos))

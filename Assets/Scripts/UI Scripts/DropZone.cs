@@ -7,96 +7,18 @@ using BattlescapeLogic;
 public class DropZone : MonoBehaviour//, IDropHandler
 {
     public static DropZone Instance;
+    PhotonView photonView;
 
 
     private void Start()
     {
         Instance = this;
+        photonView = GetComponent<PhotonView>();
     }
-    /*public void OnDrop(PointerEventData eventData)
-    {
-        if (!DidHitLegalTile() || DidHitUnit())
-        {
-            return;
-        }
-        DragableUnitIcon.objectBeingDragged.transform.SetParent(transform);
-        CommandInstantiateUnit((int)DragableUnitIcon.objectBeingDragged.GetComponent<DragableUnitIcon>().me.myUnitID, GameRound.instance.currentPlayer, ElSecondRay());
-        if (Application.isEditor)
-        {
-            DestroyImmediate(DragableUnitIcon.objectBeingDragged);
-        }
-        else
-        {
-            Destroy(DragableUnitIcon.objectBeingDragged);
-        }
-    }
-
-    
-
    
-
-    bool DidHitLegalTile()
-    {
-        Ray tileRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit tileInfo;
-        int tileMask = 1 << 9;
-        if (Physics.Raycast(tileRay, out tileInfo, Mathf.Infinity, tileMask) && CheckIfCorrectDropzone(tileInfo.transform) && tileInfo.transform.gameObject.GetComponent<Tile>().myUnit == null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    Vector3 ElSecondRay()
-    {
-        Ray tileRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit tileInfo;
-        int tileMask = 1 << 9;
-        if (Physics.Raycast(tileRay, out tileInfo, Mathf.Infinity, tileMask))
-        {
-            return tileInfo.transform.position;
-        }
-        else
-        {
-            throw new System.Exception("");
-        }
-    }
-    bool DidHitUnit()
-    {
-        Ray unitRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit unitInfo;
-        int unitMask = 1 << 8;
-
-        if (Physics.Raycast(unitRay, out unitInfo, Mathf.Infinity, unitMask))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    bool CheckIfCorrectDropzone(Transform tile)
-    {
-        return tile.GetComponent<Tile>().isDropzoneOfPlayer[GameRound.instance.currentPlayer];        
-    }
-    public void DestroyRealUnit(UnitScript unit)
-    {
-        if (unit.PlayerID == 0)
-        {
-            NewGameScript.PlayerOneArmy.Remove(unit.transform.position);
-        }
-        else
-        {
-            NewGameScript.PlayerTwoArmy.Remove(unit.transform.position);
-        }
-    }*/
-
     public void CommandInstantiateUnit(int UnitID, int PlayerID, Vector3 position)
     {
-        if (Global.instance.MatchType == MatchTypes.Online)
+        if (Global.instance.matchType == MatchTypes.Online)
         {
             GetComponent<PhotonView>().RPC("RPCInstantiateUnit", PhotonTargets.All, UnitID, PlayerID, position);
             //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
@@ -130,6 +52,22 @@ public class DropZone : MonoBehaviour//, IDropHandler
             NewGameScript.PlayerTwoArmy.Add(position, myUnit);
         }
         Map.Board[(int)position.x, (int)position.z].SetMyUnitTo(myUnit);
+    }
+
+    public void SendCommandToSetUnitPosition(Unit unit, Tile targetTile)
+    {
+        int startPosX = unit.currentPosition.position.x;
+        int startPosZ = unit.currentPosition.position.z;
+        int endPosX = targetTile.position.x;
+        int endPosZ = targetTile.position.z;
+        if (Global.instance.matchType == MatchTypes.Online)
+        {
+            photonView.RPC("RPCSetUnitPosition", PhotonTargets.All, startPosX, startPosZ, endPosX, endPosZ);
+        }
+        else
+        {
+            DragableUnit.SetNewPosition(startPosX, startPosZ, endPosX, endPosZ);
+        }
     }
 
     [PunRPC]

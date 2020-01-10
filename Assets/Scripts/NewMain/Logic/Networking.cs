@@ -62,6 +62,38 @@ namespace BattlescapeLogic
             HeroNames.SetHeroName(ID, name);
         }
 
+        public void SendCommandToAddPlayer(PlayerTeam playerTeam, Player player)
+        {
+            if (Global.instance.matchType == MatchTypes.Online)
+            {
+                photonView.RPC("RPCAddPlayer", PhotonTargets.Others, player.index, PlayerType.Network, player.isObserver, player.playerName, (int)player.colour, (int)player.race, player.team.index);
+                playerTeam.AddNewPlayer(player);
+            }
+            else
+            {
+                playerTeam.AddNewPlayer(player);
+            }
+        }
+
+        [PunRPC]
+        void RPCAddPlayer(int playerIndex, int playerType, bool isObserver, string playerName, int colour, int race, int teamIndex)
+        {
+            PlayerTeam playerTeam = Global.instance.playerTeams[teamIndex];
+
+            PlayerBuilder builder = new PlayerBuilder();
+
+            builder.index = playerIndex;
+            builder.type = (PlayerType)playerType;
+            builder.isObserver = isObserver;
+            builder.playerName = playerName;
+            builder.colour = (PlayerColour)colour;
+            builder.race = (Faction)race;
+            builder.team = playerTeam;
+
+            Player newPlayer = new Player(builder);
+            playerTeam.AddNewPlayer(newPlayer);
+        }        
+
         //When u get disconnected, opponents will see this
         [PunRPC]
         public void RPCConnectionLossScreen(string text)
@@ -85,11 +117,11 @@ namespace BattlescapeLogic
 
         public void SendCommandToAddObstacles()
         {
-            if (Global.instance.MatchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
+            if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
             {
                 photonView.RPC("RPCSetSeed", PhotonTargets.All, Random.Range(0, 99999));
             }
-            else if (Global.instance.MatchType != MatchTypes.Online)
+            else if (Global.instance.matchType != MatchTypes.Online)
             {
                 FindObjectOfType<MapVisuals>().RandomlyPutObstacles(Random.Range(0, 99999));
             }
@@ -118,7 +150,7 @@ namespace BattlescapeLogic
         public void SendCommandToMove(Unit unit, Tile destination)
         {
             PlayerInput.instance.isInputBlocked = true; //this makes sense only on the 'active' PC' that's why I put it here ;)
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
                 int startX = Mathf.RoundToInt(unit.transform.position.x);
                 int startZ = Mathf.RoundToInt(unit.transform.position.z);
@@ -159,10 +191,10 @@ namespace BattlescapeLogic
         /// </summary>
         /// <param name="Attacker"></param>
         /// <param name="Defender"></param>
-        public void SendCommandToAttack(Unit Attacker, Unit Defender)
+        public void SendCommandToStartAttack(Unit Attacker, Unit Defender)
         {
             PlayerInput.instance.isInputBlocked = true;
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
                 photonView.RPC(
                     "RPCAttack", PhotonTargets.All,
@@ -189,9 +221,9 @@ namespace BattlescapeLogic
 
         public void SendCommandToGiveChoiceOfRetaliation(Unit retaliatingUnit, Unit target)
         {
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
-                GetComponent<PhotonView>().RPC("RPCRetaliation", PhotonTargets.All);
+                GetComponent<PhotonView>().RPC("RPCRetaliation", PhotonTargets.All, retaliatingUnit.currentPosition.position.x, retaliatingUnit.currentPosition.position.z, target.currentPosition.position.x, target.currentPosition.position.z);
             }
             else
             {
@@ -206,11 +238,13 @@ namespace BattlescapeLogic
             Unit retaliatingUnit = Map.Board[attackerX, attackerZ].myUnit;
             if (retaliatingUnit.owner.type != PlayerType.Local)
             {
+                UIManager.InstantlyTransitionActivity(waitingForRetaliationUI, true);
+                GameRound.instance.SetPhaseToEnemy();
                 return;
             }
             Unit target = Map.Board[targetX, targetZ].myUnit;
             RetaliationChoice(retaliatingUnit, target);
-            UIManager.SmoothlyTransitionActivity(waitingForRetaliationUI, true, 0.001f);
+            
         }
         void RetaliationChoice(Unit _retaliatingUnit, Unit _retaliationTarget)
         {
@@ -228,10 +262,10 @@ namespace BattlescapeLogic
         public void SendCommandToRetaliate(Unit retaliatingUnit, Unit retaliationTarget)
         {
             //note this Attack command is already networked therefore it does not need to be networked a second time inside this command we gonna send here
-            SendCommandToAttack(retaliatingUnit, retaliationTarget);
+            SendCommandToStartAttack(retaliatingUnit, retaliationTarget);
             //note also that AttackTarget is now the guy who retaliates, and AttackingUnit is getting hit.
 
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
                 int unitX = retaliatingUnit.currentPosition.position.x;
                 int unitZ = retaliatingUnit.currentPosition.position.z;
@@ -250,11 +284,37 @@ namespace BattlescapeLogic
             unit.Retaliate();
         }
 
+        //THIS is the actual damaging part!
+        public void SendCommandToHit(Unit source, Unit target)
+        {
+           if(Global.instance.matchType == MatchTypes.Online)
+            {
+                photonView.RPC
+                    ("RPCHitTarget", 
+                    PhotonTargets.All,
+                    source.currentPosition.position.x, 
+                    source.currentPosition.position.z,
+                    target.currentPosition.position.x, 
+                    target.currentPosition.position.z, 
+                    DamageCalculator.CalculateBasicDamage(source, target));
+            }
+            else
+            {                
+                source.HitTarget(target, DamageCalculator.CalculateBasicDamage(source,target));
+            }
+        }
 
+        [PunRPC]
+        void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage)
+        {
+            Unit source = Map.Board[sourceX, sourceZ].myUnit;
+            Unit target = Map.Board[targetX, targetZ].myUnit;
+            source.HitTarget(target, damage);
+        }
 
         public void SendCommandToNotRetaliate()
         {
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
                 photonView.RPC("RPCNoRetaliation", PhotonTargets.All);
             }
@@ -279,7 +339,7 @@ namespace BattlescapeLogic
 
         public void SendCommandToEndTurnPhase()
         {
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
                 photonView.RPC("RPCEndTurnPhase", PhotonTargets.All);
             }
@@ -299,9 +359,12 @@ namespace BattlescapeLogic
         void RPCPlayerEndedPreGame()
         {
             playersWhoAlreadyEndedPregame++;
+            //Debug.Log("Players total: " + Global.instance.GetActivePlayerCount());
+            //Debug.Log("Players who ended: " + playersWhoAlreadyEndedPregame);
             if (playersWhoAlreadyEndedPregame == Global.instance.GetActivePlayerCount())
             {
-                GameRound.instance.EndOfPhase();            }
+                GameRound.instance.StartGame();
+            }
         }
 
         public void PlayerEndedPreGame()

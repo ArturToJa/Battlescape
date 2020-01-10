@@ -88,4 +88,6 @@ MonoBehaviour:
   - RPCSetHeroName
   - RpcSetRaceAndName
   - RPCEndTurnPhase
+  - RPCHitTarget
+  - RPCAddPlayer
   DisableAutoOpenWizard: 1

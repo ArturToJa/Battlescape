@@ -83,12 +83,12 @@ public class RoomScript : MonoBehaviour
         //this function sets playertypes, so tells us who is "mylocalplayer" ;) If we are the MasterClient, then we are player 0 (so players[0] is Local) and if not then we are player 1. 
         if (PhotonNetwork.isMasterClient)
         {
-            Global.instance.playerBuilders[0].type = PlayerType.Local;
+            Global.instance.playerBuilders[0,0].type = PlayerType.Local;
 
         }
         else
         {
-            Global.instance.playerBuilders[1].type = PlayerType.Local;
+            Global.instance.playerBuilders[1,0].type = PlayerType.Local;
         }
     }
 

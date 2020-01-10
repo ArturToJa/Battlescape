@@ -52,13 +52,13 @@ public class RaceChoosingManager : MonoBehaviour
         chosenFaction = Race;
         if (PhotonNetwork.isMasterClient)
         {
-            Global.instance.playerBuilders[0].playerName = PlayerPrefs.GetString("MyPlayerName");
-            Global.instance.playerBuilders[0].race = Race;
+            Global.instance.playerBuilders[0,0].playerName = PlayerPrefs.GetString("MyPlayerName");
+            Global.instance.playerBuilders[0,0].race = Race;
         }
         else
         {
-            Global.instance.playerBuilders[1].playerName = PlayerPrefs.GetString("MyPlayerName");
-            Global.instance.playerBuilders[1].race = Race;
+            Global.instance.playerBuilders[1,0].playerName = PlayerPrefs.GetString("MyPlayerName");
+            Global.instance.playerBuilders[1,0].race = Race;
         }
         MyArmy.sprite = SaveLoadManager.Instance.GetRaceSprite(chosenFaction);
     }
@@ -77,16 +77,16 @@ public class RaceChoosingManager : MonoBehaviour
         }
         else
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, race, PlayerPrefs.GetString("MyPlayerName"), 1, 1);
+            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, race, PlayerPrefs.GetString("MyPlayerName"), 1, 0);
         }
     }
 
     [PunRPC]
     public void RpcSetRaceAndName(Faction race, string name, int teamID, int playerID)
     {
-        Global.instance.playerBuilders[playerID].playerName = PlayerPrefs.GetString("MyPlayerName");
-        Global.instance.playerBuilders[playerID].race = race;
-        Global.instance.playerBuilders[playerID].team = Global.instance.playerTeams[teamID];
+        Global.instance.playerBuilders[teamID,playerID].playerName = PlayerPrefs.GetString("MyPlayerName");
+        Global.instance.playerBuilders[teamID,playerID].race = race;
+        Global.instance.playerBuilders[teamID,playerID].team = Global.instance.playerTeams[teamID];
     }
 
     [PunRPC]
@@ -94,7 +94,7 @@ public class RaceChoosingManager : MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, Race, playerName, 1, 1);
+            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, Race, playerName, 1, 0);
         }
         else
         {

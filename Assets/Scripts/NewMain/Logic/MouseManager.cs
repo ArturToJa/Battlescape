@@ -8,7 +8,7 @@ namespace BattlescapeLogic
     //This is more like 'OnMouseDoesSomething Manager xD as it deals with whatever happens on mouse clicks and hovers.
     //Pls rename it to your liking ;)
     // As I can't work without SOME kind of a manager script knowing the rules and deciding over stuff, I'm making it that way. If you have a better idea, please refactor it.
-    public class MouseManager
+    public class MouseManager: TurnChangeObject
     {
         static MouseManager _instance;
         public static MouseManager instance
@@ -86,7 +86,7 @@ namespace BattlescapeLogic
                 }
                 else if (IsLegalToDeclareAttack(selectedUnit, clickedUnit))
                 {
-                    Networking.instance.SendCommandToAttack(selectedUnit, clickedUnit);
+                    Networking.instance.SendCommandToStartAttack(selectedUnit, clickedUnit);
                     selectedUnit.statistics.numberOfAttacks--;
                 }
             }
@@ -120,6 +120,7 @@ namespace BattlescapeLogic
                 && attacker != null
                 && defender != null
                 && attacker.owner.IsCurrentLocalPlayer()
+                && attacker.owner == GameRound.instance.currentPlayer
                 && attacker.CanStillAttack()
                 && attacker.IsInAttackRange(defender.transform.position)
                 && attacker.IsEnemyOf(defender);
@@ -141,6 +142,7 @@ namespace BattlescapeLogic
                 selectedUnit != null
                 && destination != null
                 && selectedUnit.owner.IsCurrentLocalPlayer()
+                && selectedUnit.owner == GameRound.instance.currentPlayer
                 && GameRound.instance.currentPhase == TurnPhases.Movement
                 && selectedUnit.CanStillMove()
                 && Pathfinder.instance.IsLegalTileForUnit(destination, selectedUnit)
@@ -231,6 +233,21 @@ namespace BattlescapeLogic
                 Unit hoveredUnit = hoveredObject as Unit;
                 OnUnitRightClicked(hoveredUnit);
             }
+        }
+
+        public override void OnNewRound()
+        {
+            return;
+        }
+
+        public override void OnNewTurn()
+        {
+            return;
+        }
+
+        public override void OnNewPhase()
+        {
+            unitSelector.DeselectUnit();
         }
     }
 }

@@ -12,10 +12,10 @@ namespace BattlescapeLogic
         public static Global instance { get; private set; }
         public NewMap map { get; private set; }
         public List<PlayerTeam> playerTeams { get; private set; }
-        public MatchTypes MatchType;
+        public MatchTypes matchType;
 
         //THIS IS TEMPORARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        public PlayerBuilder[] playerBuilders = new PlayerBuilder[2];
+        public PlayerBuilder[,] playerBuilders = new PlayerBuilder[2,1];
 
         public AbstractMovement[] movementTypes = new AbstractMovement[3];       
 
@@ -38,9 +38,9 @@ namespace BattlescapeLogic
             PlayerTeam teamRight = new PlayerTeam(1, 1);
             playerTeams.Add(teamLeft);
             playerTeams.Add(teamRight);
-            playerBuilders[0] = new PlayerBuilder();
-            playerBuilders[1] = new PlayerBuilder();
-            MatchType = MatchTypes.None;
+            playerBuilders[0,0] = new PlayerBuilder();
+            playerBuilders[1,0] = new PlayerBuilder();
+            matchType = MatchTypes.None;
         }
 
 
@@ -77,9 +77,9 @@ namespace BattlescapeLogic
 
         public bool IsCurrentPlayerLocal()
         {
-            if (playerBuilders[GameRound.instance.currentPlayer.team.index] != null)
+            if (playerBuilders[GameRound.instance.currentPlayer.team.index,GameRound.instance.currentPlayer.index] != null)
             {
-                return playerBuilders[GameRound.instance.currentPlayer.team.index].type == PlayerType.Local;
+                return playerBuilders[GameRound.instance.currentPlayer.team.index, GameRound.instance.currentPlayer.index].type == PlayerType.Local;
             }
             else
             {
@@ -107,17 +107,13 @@ namespace BattlescapeLogic
         public int GetActivePlayerCount()
         {
             int count = 0;
-            if (playerBuilders[0] != null)
+            foreach (PlayerBuilder playerBuilder in playerBuilders)
             {
-                foreach (PlayerBuilder player in playerBuilders)
+                if (playerBuilder != null && playerBuilder.isObserver == false)
                 {
-                    if (player.isObserver == false)
-                    {
-                        count++;
-                    }
+                    count++;
                 }
             }
-            else
             {
                 foreach (PlayerTeam team in playerTeams)
                 {

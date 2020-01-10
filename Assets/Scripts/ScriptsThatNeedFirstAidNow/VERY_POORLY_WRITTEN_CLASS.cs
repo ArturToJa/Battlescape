@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
+using System;
 
 public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 {
@@ -12,49 +13,10 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 
     public void Okay()
     {
-        int ID = -1;
-        switch (Global.instance.MatchType)
-        {
-            case MatchTypes.Online:
-                if (PhotonNetwork.isMasterClient)
-                {
-                    ID = 0;
-                }
-                else
-                {
-                    ID = 1;
-                }
-                break;
-            case MatchTypes.HotSeat:
-
-                for (int i = 0; i < Global.instance.playerBuilders.Length; i++)
-                {
-                    if (Global.instance.playerBuilders[i] != null)
-                    {
-                        ID = Global.instance.playerBuilders[i].team.index;
-                        break;
-                    }
-                }
-                break;
-            case MatchTypes.Singleplayer:
-                for (int i = 0; i < Global.instance.playerBuilders.Length; i++)
-                {
-                    if (Global.instance.playerBuilders[i] != null)
-                    {
-                        ID = Global.instance.playerBuilders[i].index;
-                    }
-                }
-                break;
-            case MatchTypes.None:
-                break;
-            default:
-                break;
-        }
-        PlayerBuilder currentPlayerBuilder = Global.instance.playerBuilders[ID];
+        PlayerBuilder currentPlayerBuilder = GetPlayerBuilder();        
         Player currentPlayer = new Player(currentPlayerBuilder);
         GameRound.instance.currentPlayer = currentPlayer;
-        Global.instance.playerTeams[currentPlayerBuilder.team.index].AddNewPlayer(currentPlayer);        
-        Global.instance.playerBuilders[ID] = null;
+        Networking.instance.SendCommandToAddPlayer(Global.instance.playerTeams[currentPlayerBuilder.team.index], currentPlayer);
         currentPlayer.race = SaveLoadManager.Instance.Race;
         if (currentPlayer.team.index == 1)
         {
@@ -80,9 +42,36 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         //CreateAllUnits();
         PreGameAI temp = new PreGameAI();
         temp.PositionUnits();
-        
+
 
     }
 
-    
+    //VERY temporary :D
+    PlayerBuilder GetPlayerBuilder()
+    {
+        if (Global.instance.matchType == MatchTypes.Online)
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                return Global.instance.playerBuilders[0, 0];
+            }
+            else
+            {
+                return Global.instance.playerBuilders[1, 0];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < Global.instance.playerBuilders.GetLength(0); i++)
+                for (int j = 0; j < Global.instance.playerBuilders.GetLength(1); j++)
+                {
+                    if (Global.instance.playerBuilders[i, j] != null)
+                    {
+                        return Global.instance.playerBuilders[i, j];
+                    }
+                }
+            Debug.LogError("Not found!");
+            return null;
+        }        
+    }
 }

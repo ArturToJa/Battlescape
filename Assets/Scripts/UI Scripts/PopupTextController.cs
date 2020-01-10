@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-public class PopupTextController : NewRoundMonoBehaviour
+public class PopupTextController : TurnChangeMonoBehaviour
 {
 
     PopupDmgScript _popupText;
@@ -70,6 +70,42 @@ public class PopupTextController : NewRoundMonoBehaviour
     public override void OnNewRound()
     {
         ClearPopups();
+        if (GameRound.instance.gameRoundCount == 1)
+        {
+            AddPopupText("Press Escape to see Victory Conditions!", PopupTypes.Info);
+            Log.SpawnLog("Prepare for the Battle! Press Escape to see Victory Conditions!");
+        }
+        else if (GameRound.instance.gameRoundCount < GameRound.instance.maximumRounds - GameRound.instance.countdown)
+        {
+            AddPopupText("New Round!", PopupTypes.Info);
+            Log.SpawnLog("New round");
+        }
+        else if (GameRound.instance.gameRoundCount < GameRound.instance.maximumRounds)
+        {
+            AddPopupText("Remaining rounds: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString() + "!", PopupTypes.Damage);
+            Log.SpawnLog("New round. Remaining rounds: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString() + ".");
+        }
+        else if (GameRound.instance.gameRoundCount == GameRound.instance.maximumRounds)
+        {
+            AddPopupText("Final Turn!", PopupTypes.Damage);
+            Log.SpawnLog("The last turn of the game has begun!");
+        }
+        else
+        {
+            AddPopupText("Time is up!", PopupTypes.Stats);
+        }
+    }
+
+    public override void OnNewTurn()
+    {
+        AddPopupText("New Turn!", PopupTypes.Info);
+        Log.SpawnLog("New turn of player: " + GameRound.instance.currentPlayer.playerName + ".");
+    }
+
+    public override void OnNewPhase()
+    {
+        AddPopupText("Next Phase!", PopupTypes.Info);
+        Log.SpawnLog(GameRound.instance.currentPhase.ToString() + " begins.");
     }
 }
 public enum PopupTypes

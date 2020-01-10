@@ -19,6 +19,8 @@ namespace BattlescapeLogic
             }
         }
 
+        public string heroName { get; set; }
+
         public override void Die(Unit killer)
         {
             base.Die(killer);

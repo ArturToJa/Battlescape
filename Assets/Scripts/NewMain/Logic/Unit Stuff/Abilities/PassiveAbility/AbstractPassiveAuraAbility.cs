@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class AbstractPassiveAuraAbility : AbstractPassiveAbility
+    public abstract class AbstractPassiveAuraAbility : AbstractPassiveAbility
     {
         public int range { get; protected set; }
 

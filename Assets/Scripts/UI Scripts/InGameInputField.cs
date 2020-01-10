@@ -11,7 +11,7 @@ public class InGameInputField : MonoBehaviour
     void Start()
     {
         msg = "";
-        if (Global.instance.MatchType != MatchTypes.Online)
+        if (Global.instance.matchType != MatchTypes.Online)
         {
             this.gameObject.SetActive(false);
         }

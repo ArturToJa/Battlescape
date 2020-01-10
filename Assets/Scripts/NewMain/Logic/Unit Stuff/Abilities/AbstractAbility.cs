@@ -30,7 +30,7 @@ namespace BattlescapeLogic
         Flying
     };
 
-    public abstract class AbstractAbility : NewRound
+    public abstract class AbstractAbility : TurnChangeObject
     {
         public string name { get; protected set; }
         public string description { get; protected set; }
@@ -39,7 +39,15 @@ namespace BattlescapeLogic
 
         public override void OnNewRound()
         {
-
+            return;
+        }
+        public override void OnNewTurn()
+        {
+            return;
+        }
+        public override void OnNewPhase()
+        {
+            return;
         }
     }
 }

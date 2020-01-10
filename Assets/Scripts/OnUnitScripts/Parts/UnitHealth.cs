@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using BattlescapeLogic;
 
-public class UnitHealth : MonoBehaviour
+public class UnitHealth : TurnChangeMonoBehaviour
 {
     public Sprite Background;
     public Sprite RedFill;
@@ -59,72 +59,38 @@ public class UnitHealth : MonoBehaviour
             UIManager.InstantlyTransitionActivity(unit.gameObject, false);
         }
     }
-    public static void TurnOnHealthbars()
+    void TurnOn()
     {
-        foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
-        {
-            UIManager.InstantlyTransitionActivity(unit.gameObject, true);
-        }
+        UIManager.InstantlyTransitionActivity(gameObject, true);
     }
-    public static void SetColour()
+    void SetColour()
     {
-        switch (Global.instance.MatchType)
+        if (thisUnit == null)
         {
-            case MatchTypes.Online:
-                foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
-                {
-                    if (unit.thisUnit == null)
-                    {
-                        unit.SetStuff();
-                    }
-                    if (unit.thisUnit.owner.type == PlayerType.Local)
-                    {
-                        unit.fillOfABar.sprite = unit.GreenFill;
-                    }
-                    else
-                    {
-                        unit.fillOfABar.sprite = unit.RedFill;
-                    }
-                }
-                break;
-            case MatchTypes.HotSeat:
-                foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
-                {
-                    if (unit.thisUnit == null)
-                    {
-                        unit.SetStuff();
-                    }
-                    if (GameRound.instance.currentPlayer == unit.thisUnit.owner)
-                    {
-                        unit.fillOfABar.sprite = unit.GreenFill;
-                    }
-                    else
-                    {
-                        unit.fillOfABar.sprite = unit.RedFill;
-                    }
-                }
-                break;
-            case MatchTypes.Singleplayer:
-                foreach (UnitHealth unit in FindObjectsOfType<UnitHealth>())
-                {
-                    if (unit.thisUnit == null)
-                    {
-                        unit.SetStuff();
-                    }
-                    if (unit.thisUnit.owner.type == PlayerType.Local)
-                    {
-                        unit.fillOfABar.sprite = unit.GreenFill;
-                    }
-                    else
-                    {
-                        unit.fillOfABar.sprite = unit.RedFill;
-                    }
-                }
-                break;
-            default:
-                break;
+            SetStuff();
         }
+        if (thisUnit.owner.IsCurrentLocalPlayer())
+        {
+            fillOfABar.sprite = GreenFill;
+        }
+        else
+        {
+            fillOfABar.sprite = RedFill;
+        }        
+    }
 
+    public override void OnNewRound()
+    {
+        TurnOn();
+    }
 
+    public override void OnNewTurn()
+    {
+        SetColour();
+    }
+
+    public override void OnNewPhase()
+    {
+        return;
     }
 }

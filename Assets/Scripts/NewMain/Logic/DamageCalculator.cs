@@ -12,6 +12,10 @@ namespace BattlescapeLogic
 
         public static int CalculateBasicDamage(Unit source, Unit target)
         {
+            if (IsMiss(source,target))
+            {
+                return 0;
+            }
             int averageDamage = Statistics.baseDamage + GetStatisticsDifference(source, target);
             int damageRange = averageDamage / 5;
             return UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);

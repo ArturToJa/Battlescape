@@ -22,7 +22,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         CameraController.Instance.SetCurrentViewTo(0);
         //CombatController.Instance.MakeAIWait(3f);
         this.transform.parent.parent.gameObject.SetActive(false);
-        if (GameRound.instance.currentPlayer.team.index == 0 && Global.instance.MatchType != MatchTypes.Online)
+        if (GameRound.instance.currentPlayer.team.index == 0 && Global.instance.matchType != MatchTypes.Online)
         {
             SkyboxChanger.Instance.SetSkyboxTo(SkyboxChanger.Instance.PregameSkyboxDefault);
             SaveLoadManager.Instance.UnitsList.Clear();
@@ -37,10 +37,10 @@ public class ArmyBuildingEndButton : MonoBehaviour
                     Destroy(child.gameObject);
                 }
             }
-            if (Global.instance.playerBuilders[1].type == PlayerType.AI)
+            if (Global.instance.playerBuilders[1,0].type == PlayerType.AI)
             {
-                SaveLoadManager.Instance.LoadAIArmyToGame(Global.instance.playerBuilders[1], SaveLoadManager.Instance.currentSaveValue);
-                Global.instance.playerBuilders[1].race = (Faction)SaveLoadManager.Instance.Race;
+                SaveLoadManager.Instance.LoadAIArmyToGame(Global.instance.playerBuilders[1,0], SaveLoadManager.Instance.currentSaveValue);
+                Global.instance.playerBuilders[1,0].race = (Faction)SaveLoadManager.Instance.Race;
             }
             else
             {
@@ -52,19 +52,9 @@ public class ArmyBuildingEndButton : MonoBehaviour
         }
         else
         {
-            if (Global.instance.MatchType == MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online)
             {
-                var Text1 = FindObjectOfType<CurrentPlayerInfo>();
-                Text1.GetComponent<Text>().text = Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerName.ToString() + "'s turn";
-                Text1.isOff = true;
-                var Text3 = FindObjectOfType<TurnNumberText>();
-                Text3.GetComponent<Text>().text = "Waiting for opponent...";
-                Text3.isOff = true;
-
-                //foreach (Tile tile in Map.Board)
-                //{
-                //    tile.DropzoneOfPlayer = null;
-                //}
+               
             }
             else
             {
@@ -77,7 +67,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             CameraController.Instance.StartCoroutine(CameraController.Instance.CheckIfPositionAndRotationMatchDesired());
             // UnitPanel.transform.parent.gameObject.SetActive(false);
         }
-        if (Global.instance.MatchType == MatchTypes.Online)
+        if (Global.instance.matchType == MatchTypes.Online)
         {
             Networking.instance.PlayerEndedPreGame();
 

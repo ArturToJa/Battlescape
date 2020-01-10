@@ -23,6 +23,7 @@ namespace BattlescapeLogic
         public void AddNewPlayer(Player player)
         {
             players.Add(player);
+            Global.instance.playerBuilders[index,player.index] = null;
         }
     }
 }

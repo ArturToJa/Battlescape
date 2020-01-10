@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : NewRoundMonoBehaviour, IMouseTargetable
+    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -112,17 +112,7 @@ namespace BattlescapeLogic
             visuals.transform.LookAt(mapMiddle);
         }
 
-        public override void OnNewRound()
-        {
-            statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
-            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
-            statistics.numberOfRetaliations = statistics.currentMaxNumberOfRetaliations;
-            statistics.currentEnergy += statistics.energyRegen;
-            if (statistics.currentEnergy >= Statistics.maxEnergy)
-            {
-                statistics.currentEnergy = Statistics.maxEnergy;
-            }
-        }
+        
         AbstractMovement GetMovementType()
         {
             return Global.instance.movementTypes[(int)movementType];
@@ -264,11 +254,12 @@ namespace BattlescapeLogic
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
 
-        public void HitTarget(Unit target)
+
+            //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
+        public void HitTarget(Unit target, int damage)
         {
-            
             PlayerInput.instance.isInputBlocked = false;
-            if (DamageCalculator.IsMiss(this, target))
+            if (damage == 0)
             {
                 //StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/DefenceDebuff") as GameObject).GetComponent<StatisticChangeBuff>();
                 //buffs.Add(defenceDebuff);
@@ -278,14 +269,13 @@ namespace BattlescapeLogic
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }
-            else
+            else if (damage > 0)
             {
-                int damage = DamageCalculator.CalculateBasicDamage(this, target);
                 Log.SpawnLog(this.unitName + " deals " + damage + " damage to " + target.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.OnHit(this, damage);
             }
-            if (IsRetaliationPossible(target))
+            if (IsRetaliationPossible(target) && owner.type != PlayerType.Network)
             {
                 Networking.instance.SendCommandToGiveChoiceOfRetaliation(target, this);
             }
@@ -389,6 +379,28 @@ namespace BattlescapeLogic
         public bool IsEnemyOf(Unit other)
         {
             return owner.team != other.owner.team;
+        }
+
+        public override void OnNewRound()
+        {
+            statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
+            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
+            statistics.numberOfRetaliations = statistics.currentMaxNumberOfRetaliations;
+            statistics.currentEnergy += statistics.energyRegen;
+            if (statistics.currentEnergy >= Statistics.maxEnergy)
+            {
+                statistics.currentEnergy = Statistics.maxEnergy;
+            }
+        }
+
+        public override void OnNewTurn()
+        {
+            return;
+        }
+
+        public override void OnNewPhase()
+        {
+            return;
         }
     }
 }

@@ -52,7 +52,7 @@ public abstract class Ability_Basic : MonoBehaviour
     }
     protected void SendCommandForActivation()
     {
-        if (Global.instance.MatchType == MatchTypes.Online)
+        if (Global.instance.matchType == MatchTypes.Online)
         {
             Networking.instance.GetComponent<PhotonView>().RPC
                 (

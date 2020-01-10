@@ -11,7 +11,7 @@ namespace BattlescapeLogic
 
     public enum Faction { Human, Elves, Neutral }
 
-    public class Player
+    public class Player 
     {
         public Player(PlayerBuilder builder)
         {
@@ -73,7 +73,7 @@ namespace BattlescapeLogic
             {
                 return false;
             }
-            if (Global.instance.MatchType == MatchTypes.HotSeat && this != GameRound.instance.currentPlayer)
+            if (Global.instance.matchType == MatchTypes.HotSeat && this != GameRound.instance.currentPlayer)
             {
                 return false;
             }

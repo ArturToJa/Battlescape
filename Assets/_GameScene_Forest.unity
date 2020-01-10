@@ -2526,6 +2526,7 @@ GameObject:
   - component: {fileID: 137761109}
   - component: {fileID: 137761108}
   - component: {fileID: 137761110}
+  - component: {fileID: 137761111}
   m_Layer: 5
   m_Name: DoYouWantToEndPhaseWindow
   m_TagString: EndPhaseWindow
@@ -2598,6 +2599,19 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &137761111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 137761106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf4b5d3e4fe86a41ba5060fd2d41da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yesButton: {fileID: 1616239777}
+  noButton: {fileID: 855522167}
 --- !u!1 &150049751
 GameObject:
   m_ObjectHideFlags: 0
@@ -3289,7 +3303,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TurnMumber: {fileID: 200143110}
   speed: 1
-  isOff: 0
 --- !u!114 &200143110
 MonoBehaviour:
   m_ObjectHideFlags: 0

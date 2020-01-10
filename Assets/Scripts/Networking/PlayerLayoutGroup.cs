@@ -57,7 +57,6 @@ public class PlayerLayoutGroup : MonoBehaviour
 
     void PlayerLeftRoom(PhotonPlayer photonPlayer)
     {
-        Debug.Log("Player left!");
         int index = PlayerList.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if (index != -1)
         {

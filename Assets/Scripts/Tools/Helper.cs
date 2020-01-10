@@ -57,12 +57,7 @@ public static class Helper
         };
         pointerData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, results);
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log(results.Count);
-            Debug.Log(results[0].gameObject.transform.root.tag != "Unit");
-        }        
+        EventSystem.current.RaycastAll(pointerData, results);           
         return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit"));
     }
    

@@ -31,7 +31,7 @@ namespace BattlescapeLogic
         {
         }
 
-        public abstract IEnumerator MoveTo(Tile destination);
+        public abstract IEnumerator MoveTo(Tile destination);        
 
         protected void TurnTowards(Vector3 target)
         {

@@ -11,10 +11,10 @@ namespace BattlescapeLogic
         //THere is ONE AND ONLY ONE GameRound!
 
 
-        public LinkedList<INewRound> newRoundObjects = new LinkedList<INewRound>();
+        public LinkedList<ITurnInteractable> newRoundObjects = new LinkedList<ITurnInteractable>();
 
         public int gameRoundCount { get; private set; }
-        int countdown;
+        public int countdown { get; private set; }
         public int maximumRounds { get; private set; }
 
         int turnOfPlayerNumber;
@@ -27,56 +27,16 @@ namespace BattlescapeLogic
                 if (_playerOrder == null)
                 {
                     _playerOrder = SetPlayerOrder();
-                }                
+                }
                 return _playerOrder;
             }
         }
         Stack<Player> additionalTurns = new Stack<Player>();
-        Sound newTurnSound;
+
 
         public TurnPhases currentPhase { get; private set; }
         //Phase to return to after EnemyPhase - Movement or Attack? Most likely Attack, but MAYBE there will be a way to (by ability) get into Enemy Phase from Movement Phase.
-        public TurnPhases previousPhase { get; private set; }
-
-
-
-
-        //THESE most likely belong outside of this class ^ ^ it will require changes after we make new UI code ;> but this mess WILL disappear ;)
-        bool DoesWantToShowPhaseWindow
-        {
-            get
-            {
-                return
-                    PlayerPrefs.HasKey("SkipNextPhaseNotification") == false ||
-                    PlayerPrefs.GetInt("SkipNextPhaseNotification") == 0;
-            }
-        }
-        GameObject _endPhaseWindow;
-        GameObject endPhaseWindow
-        {
-            get
-            {
-                if (_endPhaseWindow == null)
-                {
-                    _endPhaseWindow = GameObject.FindGameObjectWithTag("EndPhaseWindow");
-                    _endPhaseWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(Networking.instance.SendCommandToEndTurnPhase);
-                    _endPhaseWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(TurnOffNextPhaseWindow);
-                    _endPhaseWindow.GetComponentsInChildren<Button>()[1].onClick.AddListener(TurnOffNextPhaseWindow);
-                }
-                return _endPhaseWindow;
-            }
-        }
-
-
-        NewTurnButton nextPhaseButton
-        {
-            get
-            {
-                return GameObject.FindObjectOfType<NewTurnButton>();
-            }
-        }
-
-
+        public TurnPhases previousPhase { get; private set; }          
 
         static GameRound _instance;
         public static GameRound instance
@@ -98,9 +58,6 @@ namespace BattlescapeLogic
             turnOfPlayerNumber = -1;
             currentPlayer = null;
             currentPhase = TurnPhases.None;
-            newTurnSound = new Sound();
-            newTurnSound.clip = Resources.Load<AudioClip>("NewTurnSound");
-            newTurnSound.volume = 0.02f;
         }
 
         public void ResetGameTurn()
@@ -123,7 +80,7 @@ namespace BattlescapeLogic
                     {
                         allPlayers.Enqueue(Global.instance.playerTeams[i].players[index]);
                     }
-                    
+
                 }
                 index++;
             }
@@ -137,14 +94,20 @@ namespace BattlescapeLogic
 
         public void SetPhaseToEnemy()
         {
-            nextPhaseButton.TurnOff();
             previousPhase = currentPhase;
             currentPhase = TurnPhases.Enemy;
+            foreach (ITurnInteractable roundObject in newRoundObjects)
+            {
+                roundObject.OnNewPhase();
+            }
         }
         public void ResetPhaseAfterEnemy()
         {
             currentPhase = previousPhase;
-            nextPhaseButton.TurnOn();
+            foreach (ITurnInteractable roundObject in newRoundObjects)
+            {
+                roundObject.OnNewPhase();
+            }
         }
 
         public void OnPressEndButton()
@@ -162,9 +125,13 @@ namespace BattlescapeLogic
 
         public void OnClick()
         {
-            if (currentPlayer.HasAttacksOrMovesLeft() && DoesWantToShowPhaseWindow)
+            if (PlayerInput.instance.isInputBlocked)
             {
-                UIManager.InstantlyTransitionActivity(endPhaseWindow, true);
+                return;
+            }
+            if (currentPlayer.HasAttacksOrMovesLeft() && PlayerPrefs.GetInt("SkipNextPhaseNotification", 0) == 0)
+            {
+                UIManager.InstantlyTransitionActivity(EndTurnWindow.instance.gameObject, true);
             }
             else
             {
@@ -196,37 +163,35 @@ namespace BattlescapeLogic
 
         void EndOfTurn()
         {
-            if (turnOfPlayerNumber == playerOrder.Length-1)
+            if (turnOfPlayerNumber == playerOrder.Length - 1)
             {
                 NewRound();
             }
             else
             {
                 TurnOfPlayer(GetNextPlayer());
-            }            
+            }
         }
 
         void NewRound()
         {
-            UnitHealth.TurnOnHealthbars();
-            nextPhaseButton.TurnOn();
-            foreach (INewRound roundObject in newRoundObjects)
+            gameRoundCount++;
+            foreach (ITurnInteractable roundObject in newRoundObjects)
             {
                 roundObject.OnNewRound();
             }
-            gameRoundCount++;
-            AddNewRoundPopup();
             TurnOfPlayer(GetNextPlayer());
-
         }
 
         void TurnOfPlayer(Player player)
         {
             currentPlayer = player;
-            AddNewTurnPopup(player);
-            BattlescapeSound.SoundManager.instance.PlaySound(Camera.main.gameObject, newTurnSound);
+
+            foreach (ITurnInteractable roundObject in newRoundObjects)
+            {
+                roundObject.OnNewTurn();
+            }
             NextPhase();
-            UnitHealth.SetColour();
         }
 
         void NextPhase()
@@ -234,17 +199,16 @@ namespace BattlescapeLogic
             if (currentPhase == TurnPhases.Movement)
             {
                 currentPhase = TurnPhases.Attack;
-                nextPhaseButton.SetTextTo("End Turn");
             }
             else
             {
                 currentPhase = TurnPhases.Movement;
-                nextPhaseButton.SetTextTo("Next Phase");
             }
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            MouseManager.instance.unitSelector.DeselectUnit();
-            PopupTextController.AddPopupText("Next Phase!", PopupTypes.Info);
-            Log.SpawnLog(currentPhase.ToString() + " begins.");
+            foreach (ITurnInteractable roundObject in newRoundObjects)
+            {
+                roundObject.OnNewPhase();
+            }
         }
 
         Player GetNextPlayer()
@@ -269,49 +233,16 @@ namespace BattlescapeLogic
             additionalTurns.Push(player);
         }
 
-        void AddNewTurnPopup(Player player)
-        {
-            PopupTextController.AddPopupText("New Turn!", PopupTypes.Info);
-            Log.SpawnLog("New turn of player: " + player.playerName + ".");
-        }
-
-        void AddNewRoundPopup()
-        {
-            if (gameRoundCount == 1)
-            {
-                PopupTextController.AddPopupText("Press Escape to see Victory Conditions!", PopupTypes.Info);
-                Log.SpawnLog("Prepare for the Battle! Press Escape to see Victory Conditions!");
-            }
-            else if (gameRoundCount < maximumRounds - countdown)
-            {
-                PopupTextController.AddPopupText("New Round!", PopupTypes.Info);
-                Log.SpawnLog("New round");
-            }
-            else if (gameRoundCount < maximumRounds)
-            {
-                PopupTextController.AddPopupText("Remaining rounds: " + (maximumRounds - gameRoundCount).ToString() + "!", PopupTypes.Damage);
-                Log.SpawnLog("New round. Remaining rounds: " + (maximumRounds - gameRoundCount).ToString() + ".");
-            }
-            else if (gameRoundCount == maximumRounds)
-            {
-                PopupTextController.AddPopupText("Final Turn!", PopupTypes.Damage);
-                Log.SpawnLog("The last turn of the game has begun!");
-            }
-            else
-            {
-                PopupTextController.AddPopupText("Time is up!", PopupTypes.Stats);
-            }
-        }
-
         public bool IsGameGoing()
         {
             return gameRoundCount > 0 && gameRoundCount <= maximumRounds;
         }
-
-        //THIS should also disappear
-        void TurnOffNextPhaseWindow()
+       
+        public void StartGame()
         {
-            UIManager.InstantlyTransitionActivity(endPhaseWindow, false);
+            //MAYBE we want something 'extra' on a new game idk
+            //Its AFTER the positioning phase
+            NewRound();
         }
     }
 

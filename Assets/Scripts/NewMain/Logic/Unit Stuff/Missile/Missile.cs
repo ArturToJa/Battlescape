@@ -44,7 +44,10 @@ namespace BattlescapeLogic
             UpdatePosition();
             if (Vector2.Distance(this.transform.position, target.transform.position) < minDistance)
             {
-                sourceUnit.HitTarget(target);
+                if (sourceUnit.owner.type != PlayerType.Network)
+                {
+                    Networking.instance.SendCommandToHit(sourceUnit, target);
+                }
                 Destroy(this);
             }
         }

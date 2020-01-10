@@ -4,51 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public class TurnNumberText : MonoBehaviour
+public class TurnNumberText : TurnChangeMonoBehaviour
 {
 
     public Text TurnMumber;
     [SerializeField] float speed = 1;
     bool isRaisingColour = true;
-    public bool isOff;
 
-    void Update()
+    protected override void Start()
     {
-        if (isOff)
-        {
-            return;
-        }
-        if (GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
-        {
-            TurnMumber.text = "Time is up!";
-            TurnMumber.color = Color.yellow;
-            return;
-        }
-        if (GameRound.instance.gameRoundCount <= 0)
-        {
-            TurnMumber.text = "Drag units to position them!";
-            TurnMumber.color = Color.green;
-            return;
-        }
-
-        if (GameRound.instance.gameRoundCount == GameRound.instance.maximumRounds)
-        {
-            TurnMumber.text = "Final Turn";
-            ColourChange();
-            return;
-        }
-        if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds - 5)
-        {
-            TurnMumber.text = "Turns to end: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString();
-            ColourChange();
-            return;
-        }
-
-
-
-        TurnMumber.color = Color.white;
-        TurnMumber.text = "Turn Number: " + GameRound.instance.gameRoundCount.ToString() + "/" + GameRound.instance.maximumRounds.ToString();
-
+        base.Start();
+        TurnMumber.text = "Drag units to position them!";
+        TurnMumber.color = Color.green;
     }
 
     void ColourChange()
@@ -80,5 +47,55 @@ public class TurnNumberText : MonoBehaviour
     public void ResetColour()
     {
         TurnMumber.color = Color.white;
+    }
+
+    public void SetTurnNumberText()
+    {
+        if (GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
+        {
+            TurnMumber.text = "Time is up!";
+            TurnMumber.color = Color.yellow;
+            return;
+        }
+        if (GameRound.instance.gameRoundCount <= 0)
+        {
+            TurnMumber.text = "Drag units to position them!";
+            TurnMumber.color = Color.green;
+            return;
+        }
+
+        if (GameRound.instance.gameRoundCount == GameRound.instance.maximumRounds)
+        {
+            TurnMumber.text = "Final Round";
+            ColourChange();
+            return;
+        }
+        if (GameRound.instance.gameRoundCount >= GameRound.instance.maximumRounds - 5)
+        {
+            TurnMumber.text = "Rounds to end: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString();
+            ColourChange();
+            return;
+        }
+
+
+
+        TurnMumber.color = Color.white;
+        TurnMumber.text = "Round Number: " + GameRound.instance.gameRoundCount.ToString() + "/" + GameRound.instance.maximumRounds.ToString();
+
+    }
+
+    public override void OnNewRound()
+    {
+        SetTurnNumberText();
+    }
+
+    public override void OnNewTurn()
+    {
+        return;
+    }
+
+    public override void OnNewPhase()
+    {
+        return;
     }
 }

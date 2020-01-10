@@ -26,7 +26,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         get
         {
-            return Global.instance.playerBuilders[0].race != Faction.Neutral && Global.instance.playerBuilders[1].race != Faction.Neutral;
+            return Global.instance.playerBuilders[0,0].race != Faction.Neutral && Global.instance.playerBuilders[1,0].race != Faction.Neutral;
         }
     }
     Faction LocalFaction
@@ -35,11 +35,11 @@ public class SaveLoadManager : MonoBehaviour
         {
             if (PhotonNetwork.isMasterClient)
             {
-                return Global.instance.playerBuilders[0].race;
+                return Global.instance.playerBuilders[0,0].race;
             }
             else
             {
-                return Global.instance.playerBuilders[1].race;
+                return Global.instance.playerBuilders[1,0].race;
             }
         }
     }
@@ -75,10 +75,9 @@ public class SaveLoadManager : MonoBehaviour
 
     void Start()
     {
-        if (Global.instance.MatchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
+        if (Global.instance.matchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
         {
-            Debug.Log("WOOF");
-            LoadAIArmyToGame(Global.instance.playerBuilders[0], currentSaveValue);
+            LoadAIArmyToGame(Global.instance.playerBuilders[0,0], currentSaveValue);
         }
     }
 
@@ -185,7 +184,7 @@ public class SaveLoadManager : MonoBehaviour
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
-        if (Global.instance.MatchType == MatchTypes.Online)
+        if (Global.instance.matchType == MatchTypes.Online)
         {            
             Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, GameRound.instance.currentPlayer.team.index, HeroName);
         }
@@ -338,7 +337,7 @@ public class SaveLoadManager : MonoBehaviour
                     Destroy(temp);
                     continue;
                 }
-                if (Global.instance.MatchType == MatchTypes.Online && armyInfo.faction != LocalFaction)
+                if (Global.instance.matchType == MatchTypes.Online && armyInfo.faction != LocalFaction)
                 {
                     Debug.Log("Skipped");
                     Destroy(temp);

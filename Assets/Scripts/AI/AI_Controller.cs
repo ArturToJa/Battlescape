@@ -31,7 +31,7 @@ public class AI_Controller : MonoBehaviour
         {
             Instance = this;
         }
-        if (Global.instance.MatchType != MatchTypes.Singleplayer)
+        if (Global.instance.matchType != MatchTypes.Singleplayer)
         {
             return;
         }
@@ -53,7 +53,7 @@ public class AI_Controller : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Global.instance.MatchType != MatchTypes.Singleplayer)
+        if (Global.instance.matchType != MatchTypes.Singleplayer)
         {
             return;
         }

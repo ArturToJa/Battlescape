@@ -11,10 +11,10 @@ public class PreGameAI
 
     public void RepositionUnits()
     {
-        foreach (BattlescapeLogic.Unit unit in GameRound.instance.currentPlayer.playerUnits)
+        foreach (Unit unit in GameRound.instance.currentPlayer.playerUnits)
         {
             Tile newTile = ChooseTheTile();
-            DragableUnit.SetNewPosition(unit.currentPosition.position.x, unit.currentPosition.position.z, newTile.position.x, newTile.position.z);
+            DropZone.Instance.SendCommandToSetUnitPosition(unit, newTile);
         }
     }
 

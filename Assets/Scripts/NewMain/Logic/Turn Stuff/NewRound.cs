@@ -3,19 +3,23 @@
 namespace BattlescapeLogic
 {
 
-    public interface INewRound
+    public interface ITurnInteractable
     {
         void OnNewRound();
+        void OnNewTurn();
+        void OnNewPhase();
         void OnCreation();
         void OnDestruction();
     }
-    public abstract class NewRound : INewRound
+    public abstract class TurnChangeObject : ITurnInteractable
     {
-        public NewRound()
+        public TurnChangeObject()
         {
             OnCreation();
         }
         public abstract void OnNewRound();
+        public abstract void OnNewTurn();
+        public abstract void OnNewPhase();
 
         public virtual void OnCreation()
         {
@@ -28,9 +32,11 @@ namespace BattlescapeLogic
         }
     }
 
-    public abstract class NewRoundMonoBehaviour : MonoBehaviour, INewRound
+    public abstract class TurnChangeMonoBehaviour : MonoBehaviour, ITurnInteractable
     {
         public abstract void OnNewRound();
+        public abstract void OnNewTurn();
+        public abstract void OnNewPhase();
 
         public virtual void OnCreation()
         {
