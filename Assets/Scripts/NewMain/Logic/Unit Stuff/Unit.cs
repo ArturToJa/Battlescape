@@ -25,9 +25,22 @@ namespace BattlescapeLogic
         [SerializeField] public MovementTypes movementType;
         public AbstractMovement movement { get; private set; }
         public AbstractAttack attack { get; private set; }
-        //NOTE - this needs to be done some other way, this 'readonly' thing will NOT work here :)))
-        //Also - IDK why we need it at all
-        public readonly int index;
+
+        static int counter = -1;
+        [ReadOnly] public int _unitTypeIndex = -1;
+        public int unitTypeIndex
+        {
+            get
+            {
+                return _unitTypeIndex;
+            }
+            set
+            {
+                counter++;
+                _unitTypeIndex = counter;
+            }
+        }
+
         public Player owner { get; set; }
         [SerializeField] string _unitName;
         public string unitName
@@ -261,9 +274,8 @@ namespace BattlescapeLogic
             PlayerInput.instance.isInputBlocked = false;
             if (damage == 0)
             {
-                //StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/DefenceDebuff") as GameObject).GetComponent<StatisticChangeBuff>();
-                //buffs.Add(defenceDebuff);
-                //defenceDebuff.ApplyChange();
+                StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/DefenceDebuff") as GameObject).GetComponent<StatisticChangeBuff>();
+                defenceDebuff.ApplyOnUnit(target);
                 Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
                 Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
@@ -274,6 +286,10 @@ namespace BattlescapeLogic
                 Log.SpawnLog(this.unitName + " deals " + damage + " damage to " + target.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.OnHit(this, damage);
+                foreach(AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
+                {
+                    buff.RemoveFromUnitInstantly();
+                }
             }
             if (IsRetaliationPossible(target) && owner.type != PlayerType.Network)
             {
@@ -300,6 +316,19 @@ namespace BattlescapeLogic
             Log.SpawnLog(this.name + " strikes back!");
             this.statistics.numberOfRetaliations--;
             Networking.instance.FinishRetaliation();
+        }
+
+        public List<AbstractBuff> FindAllBuffsOfType(string buffType)
+        {
+            List<AbstractBuff> list = new List<AbstractBuff>();
+            foreach(AbstractBuff buff in buffs)
+            {
+                if(buff.name.Equals(buffType))
+                {
+                    list.Add(buff);
+                }
+            }
+            return list;
         }
 
         //this should play on attacked unit when it is time it should receive DMG

@@ -88,7 +88,7 @@ namespace BattlescapeLogic
         private void CalculateNewPitch(float distanceDelta, float heightDelta)
         {
             float angle = Mathf.Atan2(heightDelta, distanceDelta) * Mathf.Rad2Deg;
-            Debug.Log("angle: " + angle);
+            //Debug.Log("angle: " + angle);
            // Maths.SetObjectPitch(this.gameObject, angle);
             this.transform.rotation *= Quaternion.AngleAxis((angle) - this.transform.rotation.eulerAngles.y, new Vector3(0, 1, 0));
         }

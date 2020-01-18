@@ -49,8 +49,23 @@ namespace BattlescapeLogic
             }
         }
 
+        [SerializeField] bool _isStackable;
+        public bool isStackable
+        {
+            get
+            {
+                return _isStackable;
+            }
+            private set
+            {
+                _isStackable = value;
+            }
+        }
+
         public Unit owner { get; private set; }
         public AbstractAbility source { get; private set; }
+
+        public int index { get; private set; }
 
         protected override void Start()
         {
@@ -76,7 +91,7 @@ namespace BattlescapeLogic
 
         public bool IsExpired()
         {
-            return !HasInfiniteDuration() && !(duration < 0);
+            return !HasInfiniteDuration() && (duration == 0);
         }
 
         public bool HasInfiniteDuration()
@@ -87,9 +102,39 @@ namespace BattlescapeLogic
         protected virtual void OnExpire()
         {
             OnDestruction();
+            this.owner.buffs.Remove(this);
             RemoveChange();
         }
 
+        public void ApplyOnUnit(Unit unit, AbstractAbility source)
+        {
+            this.source = source;
+            ApplyOnUnit(unit);
+        }
+
+        public void ApplyOnUnit(Unit unit)
+        {
+            if(!isStackable && IsAlreadyOnUnit(unit))
+            {
+                OnDestruction();
+            }
+            else
+            {
+                this.owner = unit;
+                unit.buffs.Add(this);
+                ApplyChange();
+            }
+        }
+
+        public void RemoveFromUnitInstantly()
+        {
+            OnExpire();
+        }
+
+        protected bool IsAlreadyOnUnit(Unit unit)
+        {
+            return unit.FindAllBuffsOfType(this.name).Count > 0;
+        }
         public abstract void ApplyChange();
         protected abstract void RemoveChange();
     }
