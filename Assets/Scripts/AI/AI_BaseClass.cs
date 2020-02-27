@@ -50,7 +50,7 @@ public class AI_BaseClass
             {
                 LastThreeSelectedUnits.RemoveAt(0);
             }
-            MouseManager.instance.unitSelector.SelectUnit(currentUnit);
+            MouseManager.instance.SelectUnit(currentUnit);
 
             ///////////////////// ABILITIES HERE//////////////////////////////
             // Here we should check if we want to use an active ability!

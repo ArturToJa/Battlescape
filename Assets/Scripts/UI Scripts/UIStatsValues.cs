@@ -26,8 +26,25 @@ public class UIStatsValues : MonoBehaviour
     [SerializeField] Text shootingRangeText;
     [SerializeField] Text valueText;
 
+    Unit myUnit;
+
+    void Start()
+    {
+        AbstractBuff.OnBuffDestruction += OnBuffCreatedOrDestroyed;
+        AbstractBuff.OnBuffCreation += OnBuffCreatedOrDestroyed;
+        if (isRightClickTooltip == false)
+        {
+            MouseManager.instance.OnUnitSelection += AdjustTextValuesFor;
+        }
+        else
+        {
+            EnemyTooltipHandler.instance.OnRightclickTooltipOn += AdjustTextValuesFor;
+        }
+    }
+
     public void AdjustTextValuesFor(Unit unit)
     {
+        myUnit = unit;
         SetValuesAndColours(unit.statistics.bonusAttack, unit.statistics.baseAttack, attackText);
         SetValuesAndColours(unit.statistics.bonusDefence, unit.statistics.baseDefence, defenceText);
         SetValuesAndColours(unit.statistics.bonusMaxMovementPoints, unit.statistics.baseMaxMovementPoints, movementText);
@@ -49,11 +66,19 @@ public class UIStatsValues : MonoBehaviour
         t.text = baseValue.ToString();
         if (bonusValue > 0)
         {
-            t.text += "<size=15> + </size><color=green>" + bonusValue + "</color>";
+            t.text += "<size=15>  </size><color=green>" + bonusValue + "</color>";
         }
         if (bonusValue < 0)
         {
-            t.text += "<size=15> - </size><color=red>" + bonusValue + "</color>";
+            t.text += "<size=15>  </size><color=red>" + bonusValue + "</color>";
         }        
+    }
+
+    void OnBuffCreatedOrDestroyed(AbstractBuff buff)
+    {
+        if (buff.owner == myUnit)
+        {
+            AdjustTextValuesFor(myUnit);
+        }
     }
 }

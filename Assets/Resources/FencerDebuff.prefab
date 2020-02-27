@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222720821239873136}
   - component: {fileID: 114941607788548378}
   - component: {fileID: 114172300032590722}
-  - component: {fileID: 114292991953712426}
+  - component: {fileID: 114620934375096344}
   m_Layer: 5
   m_Name: FencerDebuff
   m_TagString: Untagged
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114292991953712426
+--- !u!114 &114620934375096344
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
   TooltipName: RecklessStrike
   TooltipText: Fencer performed a Wide Swing, uncovering himself for attacks.
 --- !u!114 &114941607788548378

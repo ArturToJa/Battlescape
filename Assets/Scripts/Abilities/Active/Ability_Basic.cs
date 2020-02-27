@@ -137,19 +137,19 @@ public abstract class Ability_Basic : MonoBehaviour
 
     void Update()
     {
-        if (MyObject != null)
-        {
-            MyObject.GetComponentInChildren<AbilityIconScript>().EnergyText.text = "- " + EnergyCost.ToString();
-            if (LimitedUses)
-            {
-                MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "x " + UsesLeft.ToString();
-            }
-            else
-            {
-                MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "";
-            }
+        //if (MyObject != null)
+        //{
+        //    MyObject.GetComponentInChildren<AbilityIconScript>().EnergyText.text = "- " + EnergyCost.ToString();
+        //    if (LimitedUses)
+        //    {
+        //        MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "x " + UsesLeft.ToString();
+        //    }
+        //    else
+        //    {
+        //        MyObject.GetComponentInChildren<AbilityIconScript>().LimitedText.text = "";
+        //    }
 
-        }
+        //}
         OnUpdate();
         if (this == currentlyUsedAbility && Input.GetMouseButtonDown(1))
         {

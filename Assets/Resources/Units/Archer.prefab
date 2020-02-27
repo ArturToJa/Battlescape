@@ -3168,6 +3168,7 @@ MonoBehaviour:
     type: 2}
   attackType: 1
   movementType: 0
+  _unitTypeIndex: -1
   _unitName: Archer
   unitSounds:
     _movementSound:
@@ -3222,6 +3223,7 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
+  unitClass: 1
   _fluffText: This should be some fluff text for Archer.
   _race: 0
 --- !u!114 &114524222045293342

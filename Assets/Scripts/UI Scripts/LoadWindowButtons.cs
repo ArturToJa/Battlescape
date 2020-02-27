@@ -25,10 +25,10 @@ public class LoadWindowButtons : MonoBehaviour {
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Debug.Log(SaveLoadManager.Instance.currentSaveName);
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    Debug.Log(SaveLoadManager.Instance.currentSaveName);
+        //}
         if (Yes != null)
         {
             UIManager.SmoothlyTransitionActivity(Yes, (string.IsNullOrEmpty(SaveLoadManager.Instance.currentSaveName) == false), 0.01f);

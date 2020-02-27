@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector]
-    public GameObject Tooltip;
+    public GameObject Tooltip { get; private set; }
     public string TooltipName;
     public string TooltipText;
     MouseHoverInfoCursor hoveredIcon;

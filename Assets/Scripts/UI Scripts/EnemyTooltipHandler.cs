@@ -8,24 +8,23 @@ using BattlescapeLogic;
 //Note - this is totally misnamed - not ENEMY, just RIGHT CLICK TOOLTIP :)
 public class EnemyTooltipHandler : MonoBehaviour
 {
-    [SerializeField] Text Title;
-    UIStatsValues stats
+    [SerializeField] Text Title;    
+
+    public event Action <Unit> OnRightclickTooltipOn;
+    public static EnemyTooltipHandler instance;
+
+    void Awake()
     {
-        get
-        {
-            return GetComponentInChildren<UIStatsValues>();
-            //this is inefficient but whatevs;
-            //its old code anyways;
-        }
+        instance = this;
     }
-    
+
 
     public void SetOnFor(Unit unit)
     {
+        OnRightclickTooltipOn(unit);
         UIManager.InstantlyTransitionActivity(this.gameObject, true);
         transform.SetPositionAndRotation(Input.mousePosition + new Vector3(-90, 40, 0), Quaternion.identity);
         Helper.CheckIfInBoundries(transform);
-        stats.AdjustTextValuesFor(unit);
     }
     
     public void TurnOff()
