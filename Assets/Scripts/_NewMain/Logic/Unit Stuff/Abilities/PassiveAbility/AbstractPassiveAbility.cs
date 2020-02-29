@@ -12,7 +12,7 @@ namespace BattlescapeLogic
         {
             foreach (AbstractBuff buff in placeableBuffs)
             {
-                //unit.applyBuff(buff);
+                buff.ApplyOnUnit(unit);
             }
         }
     }

@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 114541917603909788}
   - component: {fileID: 114328775634505010}
   - component: {fileID: 114729259108950372}
-  - component: {fileID: 114122584596023944}
+  - component: {fileID: 114156567488977066}
   m_Layer: 5
   m_Name: Art
   m_TagString: Untagged
@@ -83,7 +83,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114122584596023944
+--- !u!114 &114156567488977066
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

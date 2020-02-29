@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114608254406367336}
   - component: {fileID: 114562131478885718}
   - component: {fileID: 114580500508975460}
-  - component: {fileID: 114856242234806564}
+  - component: {fileID: 114900482402953764}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -250,7 +250,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: ShitArmy
---- !u!114 &114856242234806564
+--- !u!114 &114900482402953764
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

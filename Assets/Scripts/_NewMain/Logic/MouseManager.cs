@@ -25,7 +25,6 @@ namespace BattlescapeLogic
 
         public Unit selectedUnit { get; set; }
         public UnitSelector unitSelector { get; private set; }
-        UIStatsValues selectedUnitStats;
         EnemyTooltipHandler rightClickTooltip;
         UIHitChanceInformation hitChanceInfoUI;
 
@@ -44,15 +43,7 @@ namespace BattlescapeLogic
             hitChanceInfoUI = GameObject.FindObjectOfType<UIHitChanceInformation>();
             hitChanceInfoUI.TurnOff();
             rightClickTooltip = GameObject.FindObjectOfType<EnemyTooltipHandler>();
-            rightClickTooltip.TurnOff();
-            var temp = GameObject.FindObjectsOfType<UIStatsValues>();
-            foreach (var item in temp)
-            {
-                if (item.isRightClickTooltip == false)
-                {
-                    selectedUnitStats = item;
-                }
-            }
+            rightClickTooltip.TurnOff();            
         }
 
         //This function should be only called in one place IMO;

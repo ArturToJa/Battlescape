@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222411184153051986}
   - component: {fileID: 114327489311845910}
   - component: {fileID: 114839562099430530}
-  - component: {fileID: 114079657179195310}
+  - component: {fileID: 114195689778797138}
   m_Layer: 5
   m_Name: BuffPrefab
   m_TagString: Untagged
@@ -65,17 +65,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114079657179195310
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481704311894820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114153079676959320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,6 +78,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TooltipName: 
   TooltipText: 
+--- !u!114 &114195689778797138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1481704311894820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114236152870930726
 MonoBehaviour:
   m_ObjectHideFlags: 1
