@@ -13,9 +13,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject selectedUnitStats;
     [SerializeField] Text unitName;
     BattlescapeLogic.Unit unitWeShowStatsOf;
-    public GameObject AbilitiesPanel;
-    public GameObject AbilityPrefab;
-    [SerializeField] GameObject CancelAbilityButton;
 
     [SerializeField] GameObject EnergyBar;
     [SerializeField] Image fillOfABar;
@@ -37,56 +34,18 @@ public class UIManager : MonoBehaviour
         UpdateSelectedUnit();
         SetPanelsActivity();
         SetUnitName();
-        UpdateAbilitiesEnabled();
         if (MouseManager.instance.selectedUnit != null)
         {
             FillTheBar();
         }
-    }
-
-    public static void UpdateAbilitiesPanel(GameObject Panel, GameObject Prefab, BattlescapeLogic.Unit Unit)
-    {
-        RemoveChildrenOf(Panel.transform);
-        foreach (Ability_Basic ability in Unit.GetComponents<Ability_Basic>())
-        {
-            ability.MyObject = Instantiate(Prefab, Panel.transform);
-            ability.MyObject.GetComponentInChildren<AbilityIconScript>().myAbility = ability;
-            ability.MyObject.GetComponentInChildren<AbilityIconScript>().myImage.sprite = ability.mySprite;
-            ability.MyObject.GetComponentInChildren<Button>().onClick.AddListener(delegate { ability.BaseUse(); });
-
-        }
-    }
-
-    void UpdateAbilitiesEnabled()
-    {
-        if (MouseManager.instance.selectedUnit == null)
-        {
-            return;
-        }
-        foreach (Ability_Basic ability in MouseManager.instance.selectedUnit.GetComponents<Ability_Basic>())
-        {
-            if (ability.MyObject != null)
-            {
-                ability.MyObject.GetComponentInChildren<Button>().interactable = (ability.IsUsableNowBase() && MouseManager.instance.selectedUnit.movement.isMoving == false);
-            }
-        }
-        SmoothlyTransitionActivity(CancelAbilityButton, Ability_Basic.currentlyUsedAbility != null, 0.1f);
-    }
-
-    static void RemoveChildrenOf(Transform panel)
-    {
-        int temp = panel.childCount;
-        for (int i = 0; i < temp; i++)
-        {
-            Destroy(panel.GetChild(i).gameObject);
-        }
-    }
+    } 
+    
 
     void UpdateSelectedUnit()
     {       
         if (GameRound.instance.currentPlayer != null && GameRound.instance.currentPlayer.type == PlayerType.AI)
         {
-            SetOurOwnUnitSelection();
+           //??
         }
         else
         {
@@ -94,21 +53,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void SetOurOwnUnitSelection()
-    {
-        //THIS should be done via PlayerInput xD
-        //if (Input.GetMouseButton(0) && MouseManager.Instance.MouseoveredUnit != null)
-        //{
-        //    if (MouseManager.Instance.MouseoveredUnit != unitWeShowStatsOf)
-        //    {
-        //        unitWeShowStatsOf = MouseManager.Instance.MouseoveredUnit;
-        //    }
-        //    else
-        //    {
-        //        unitWeShowStatsOf = null;
-        //    }
-        //}
-    }
+    
 
     private void SetUnitName()
     {
@@ -121,12 +66,6 @@ public class UIManager : MonoBehaviour
     private void SetPanelsActivity()
     {
         SmoothlyTransitionActivity(UnitPanel, unitWeShowStatsOf != null, 0.1f);
-        //SmoothlyTransitionActivity(MovementPanel, GameStateManager.Instance.GameState == GameStates.MoveState, 0.1f);
-    }
-
-    public void ToggleShowingStats()
-    {
-        selectedUnitStats.SetActive(!selectedUnitStats.activeSelf);
     }
 
     public static void SmoothlyTransitionActivity(GameObject UIElement, bool active, float time)
@@ -175,11 +114,6 @@ public class UIManager : MonoBehaviour
     {
         panel.GetComponent<CanvasGroup>().interactable = panel.GetComponent<CanvasGroup>().alpha > 0.9f;
         panel.GetComponent<CanvasGroup>().blocksRaycasts = panel.GetComponent<CanvasGroup>().alpha > 0.9f;
-    }
-
-    public void CancelAbility()
-    {
-        Ability_Basic.currentlyUsedAbility.BaseCancelUse();
     }
 
     void FillTheBar()

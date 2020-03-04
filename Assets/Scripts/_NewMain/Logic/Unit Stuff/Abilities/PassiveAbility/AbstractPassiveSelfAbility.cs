@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class AbstractPassiveSelfAbility : AbstractPassiveAbility
+    public abstract class AbstractPassiveSelfAbility : AbstractPassiveAbility
     {
        
 

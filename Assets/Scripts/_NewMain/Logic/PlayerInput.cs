@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeGraphics;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 namespace BattlescapeLogic
 {
@@ -14,6 +15,8 @@ namespace BattlescapeLogic
         public static PlayerInput instance { get; private set; }
         IMouseTargetable hoveredObject;
         //let's try to not make it public. It is mostly for un-hovering (OnMouseHoverExit).
+        GameObject lastUI;
+        //This is only to optimise stuff, when mouse is over UI, as GetComponent is heavy and no need to do it each frame.
 
         private void Start()
         {
@@ -31,13 +34,21 @@ namespace BattlescapeLogic
 
         void Update()
         {
-            if (Helper.IsOverNonHealthBarUI() == false && SceneManager.GetActiveScene().name.Contains("_GameScene_"))
+            if (SceneManager.GetActiveScene().name.Contains("_GameScene_") == false)
             {
-                DoMouse();
+                CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                return;
+            }
+            if (Helper.IsOverNonHealthBarUI())
+            {
+                if (CursorController.instance.isInfoByUI == false)
+                {
+                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                }
             }
             else
             {
-                CursorController.Instance.SetCursorTo(CursorController.Instance.defaultCursor, CursorController.Instance.clickingDefaultCursor);
+                DoMouse();
             }
             if (Application.isEditor)
             {
@@ -121,12 +132,12 @@ namespace BattlescapeLogic
                 if (MouseManager.instance.selectedUnit != null && MouseManager.instance.selectedUnit.buffs.Count > 0)
                 {
                     MouseManager.instance.selectedUnit.buffs[0].RemoveFromUnitInstantly();
-                }                
+                }
             }
-            if(Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnUnit(MouseManager.instance.selectedUnit);                
+                defenceDebuff.ApplyOnUnit(MouseManager.instance.selectedUnit);
             }
         }
 
@@ -162,11 +173,11 @@ namespace BattlescapeLogic
             {
                 if (MouseManager.instance.selectedUnit == null)
                 {
-                    CursorController.Instance.SetCursorTo(CursorController.Instance.defaultCursor, CursorController.Instance.clickingDefaultCursor);
+                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
                 }
                 else
                 {
-                    CursorController.Instance.SetCursorTo(CursorController.Instance.blockedCursor, CursorController.Instance.clickingBlockedCursor);
+                    CursorController.instance.SetCursorTo(CursorController.instance.blockedCursor, CursorController.instance.clickingBlockedCursor);
                 }
                 if (hoveredObject != null)
                 {

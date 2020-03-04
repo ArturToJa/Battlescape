@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     float panSpeed = 10;
     float rotationSpeed = 4;
     float moveSpeedAnim = 1f;
+    float timeTillTooltip = 0.5f;
     //float timeTillTooltip;
     bool singlePlayer = false;
     bool isGreenAI = false;
@@ -38,7 +39,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetFloat("TimeTillOpenTooltip", /*timeTillTooltip*/ 0.1f);
+        PlayerPrefs.SetFloat("TimeTillOpenTooltip", timeTillTooltip);
         ToggleNextPhaseConfirmationCheckbox.SetActive(PlayerPrefs.HasKey("SkipNextPhaseNotification") && PlayerPrefs.GetInt("SkipNextPhaseNotification") == 1);
         if (PlayerPrefs.HasKey("panSpeed") == false || PlayerPrefs.HasKey("moveSpeedAnimation") == false || PlayerPrefs.GetFloat("moveSpeedAnimation") <= 0)
         {
@@ -81,10 +82,10 @@ public class MainMenu : MonoBehaviour
     {
         canChangeYRotation = b;
     }
-    /*public void ChangeTimeTillTooltipsShowUp(float f)
+    public void ChangeTimeTillTooltipsShowUp(float f)
     {
         timeTillTooltip = f;
-    }*/
+    }
     public void OKOptions()
     {
         if (canChangeYRotation)
@@ -98,7 +99,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetFloat("moveSpeedAnimation", moveSpeedAnim);
         PlayerPrefs.SetFloat("panSpeed", panSpeed);
         PlayerPrefs.SetFloat("rotationSpeed", rotationSpeed);
-        PlayerPrefs.SetFloat("TimeTillOpenTooltip", /*timeTillTooltip*/ 0.1f);
+        PlayerPrefs.SetFloat("TimeTillOpenTooltip", timeTillTooltip);
         PlayerPrefs.Save();
     }
     public void DefaultOptions()
@@ -107,7 +108,7 @@ public class MainMenu : MonoBehaviour
         panSpeed = 10;
         rotationSpeed = 4;
         moveSpeedAnim = 2;
-        //timeTillTooltip = 0.5f;
+        timeTillTooltip = 0.5f;
         OKOptions();
     }
     public void ManageArmy()

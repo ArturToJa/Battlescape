@@ -58,7 +58,7 @@ public class UIStatsValues : MonoBehaviour
         else
         {
             valueText.transform.parent.parent.gameObject.SetActive(false);
-        }       
+        }
     }
 
     void SetValuesAndColours(int bonusValue, int baseValue, Text t)
@@ -71,7 +71,7 @@ public class UIStatsValues : MonoBehaviour
         if (bonusValue < 0)
         {
             t.text += "<size=15>  </size><color=red>" + bonusValue + "</color>";
-        }        
+        }
     }
 
     void OnBuffCreatedOrDestroyed(AbstractBuff buff)

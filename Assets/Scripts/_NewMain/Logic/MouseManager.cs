@@ -198,12 +198,12 @@ namespace BattlescapeLogic
             if (hoveredObject is Unit)
             {
                 Unit hoveredUnit = hoveredObject as Unit;
-                CursorController.Instance.OnUnitHovered(hoveredUnit);
+                CursorController.instance.OnUnitHovered(hoveredUnit);
             }
             else if (hoveredObject is Tile)
             {
                 Tile hoveredTile = hoveredObject as Tile;
-                CursorController.Instance.OnTileHovered(hoveredTile);
+                CursorController.instance.OnTileHovered(hoveredTile);
             }
         }
 
@@ -211,7 +211,15 @@ namespace BattlescapeLogic
 
         public void OnMouseLeftClick(IMouseTargetable hoveredObject)
         {
-            if (hoveredObject is Unit)
+            if (AbstractActiveAbility.currentlyUsedAbility != null)
+            {
+                if (AbstractActiveAbility.currentlyUsedAbility.IsLegalTarget(hoveredObject))
+                {
+                    AbstractActiveAbility.currentlyUsedAbility.target = hoveredObject;
+                    AbstractActiveAbility.currentlyUsedAbility.BaseActivate();
+                }               
+            }
+            else if (hoveredObject is Unit)
             {
                 Unit hoveredUnit = hoveredObject as Unit;
                 OnUnitLeftClicked(hoveredUnit);

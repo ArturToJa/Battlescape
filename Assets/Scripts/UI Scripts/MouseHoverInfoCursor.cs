@@ -8,8 +8,8 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
 {
     [HideInInspector]
     public GameObject Tooltip { get; private set; }
-    public string TooltipName;
-    public string TooltipText;
+    public string tooltipName;
+    public string tooltipText;
     MouseHoverInfoCursor hoveredIcon;
 
     private void Awake()
@@ -25,8 +25,8 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
         {
             Tooltip.GetComponent<CanvasGroup>().alpha = 1f;
             Tooltip.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            Tooltip.GetComponentsInChildren<Text>()[0].text = TooltipName;
-            Tooltip.GetComponentsInChildren<Text>()[1].text = TooltipText;
+            Tooltip.GetComponentsInChildren<Text>()[0].text = tooltipName;
+            Tooltip.GetComponentsInChildren<Text>()[1].text = tooltipText;
             Tooltip.transform.SetPositionAndRotation(Input.mousePosition + new Vector3(-90, 40, 0), Quaternion.identity);
             //and here
             Helper.CheckIfInBoundries(Tooltip.transform);
@@ -42,12 +42,17 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        CursorController.Instance.SetCursorTo(CursorController.Instance.infoCursor, CursorController.Instance.infoCursor);
+        if (this is MouseHoverAbilityIconCursor == false)
+        {
+            CursorController.instance.SetCursorTo(CursorController.instance.infoCursor, CursorController.instance.infoCursor);
+            CursorController.instance.isInfoByUI = true;
+        }
         hoveredIcon = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hoveredIcon = null;        
+        hoveredIcon = null;
+        CursorController.instance.isInfoByUI = false;
     }
 }

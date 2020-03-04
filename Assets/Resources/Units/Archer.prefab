@@ -357,6 +357,8 @@ GameObject:
   - component: {fileID: 114173816431765564}
   - component: {fileID: 114816784686270198}
   - component: {fileID: 54301261033011858}
+  - component: {fileID: 114781464901237968}
+  - component: {fileID: 114942564704694662}
   m_Layer: 8
   m_Name: Archer
   m_TagString: Unit
@@ -3224,6 +3226,7 @@ MonoBehaviour:
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
   unitClass: 1
+  abilities: []
   _fluffText: This should be some fluff text for Archer.
   _race: 0
 --- !u!114 &114524222045293342
@@ -3421,6 +3424,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114781464901237968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361541935773806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ecae2fda15a19644b17d0c58d53c9b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _abilityName: Test_Ability
+  _description: ThisIsATestAbility
+  _icon: {fileID: 21300000, guid: d5e8f223b6a2bd64cb1901cbda6e7b39, type: 3}
+  _filter: 
+  _cooldown: 1
+  _energyCost: 30
+  _usesPerBattle: 0
+  damage: 23
 --- !u!114 &114797132776520940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3449,6 +3471,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429181357bc3c3f42b14246e13f7e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114942564704694662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1361541935773806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ecae2fda15a19644b17d0c58d53c9b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _abilityName: Second_Abi
+  _description: Second_Test
+  _icon: {fileID: 21300000, guid: 1eecd9e19cec1bd47a4fcbd2c476ccf1, type: 3}
+  _filter: 
+  _cooldown: 1
+  _energyCost: 20
+  _usesPerBattle: 1
+  damage: 3
 --- !u!135 &135347313670186114
 SphereCollider:
   m_ObjectHideFlags: 1

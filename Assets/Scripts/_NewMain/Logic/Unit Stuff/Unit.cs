@@ -119,6 +119,16 @@ namespace BattlescapeLogic
             statistics.currentEnergy = Statistics.maxEnergy / 2;
             statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
             FaceMiddleOfMap();
+            UpdateAbilities();
+        }
+
+        private void UpdateAbilities()
+        {
+            foreach (AbstractAbility ability in GetComponents<AbstractAbility>())
+            {
+                abilities.Add(ability);
+                ability.owner = this;
+            }
         }
 
         public void FaceMiddleOfMap()

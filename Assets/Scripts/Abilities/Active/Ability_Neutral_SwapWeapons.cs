@@ -27,14 +27,14 @@ public class Ability_Neutral_SwapWeapons : Ability_Basic
     {
         if (myUnit == BattlescapeLogic.MouseManager.instance.selectedUnit)
         {
-            if (IsPri)
-            {
-                MyObject.GetComponentInChildren<AbilityIconScript>().myImage.sprite = SecondarySprite;
-            }
-            else
-            {
-                MyObject.GetComponentInChildren<AbilityIconScript>().myImage.sprite = PrimarySprite;
-            }
+            //if (IsPri)
+            //{
+            //    MyObject.GetComponentInChildren<AbilityIconScript>().myImage.sprite = SecondarySprite;
+            //}
+            //else
+            //{
+            //    MyObject.GetComponentInChildren<AbilityIconScript>().myImage.sprite = PrimarySprite;
+            //}
         }
     }
 

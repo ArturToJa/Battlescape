@@ -6,7 +6,18 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractPassiveAuraAbility : AbstractPassiveAbility
     {
-        public int range { get; protected set; }
+        [SerializeField] int _range;
+        public int range
+        {
+            get
+            {
+                return _range;
+            }
+            protected set
+            {
+                _range = value;
+            }
+        }
 
         public override void OnNewRound()
         {
@@ -23,24 +34,24 @@ namespace BattlescapeLogic
                 if ((filter[(int)AbilityFilter.Ally] && owner.owner.team == playerTeam) ||
                     (filter[(int)AbilityFilter.Enemy] && owner.owner.team != playerTeam))
                 {
-                    ApplyAuraForPlayers(playerTeam);
+                    ApplyAuraForTeam(playerTeam);
                 }
             }
         }
 
-        private void ApplyAuraForPlayers(PlayerTeam playerTeam)
+        private void ApplyAuraForTeam(PlayerTeam playerTeam)
         {
             foreach (Player player in playerTeam.players)
             {
                 if ((filter[(int)AbilityFilter.SelfPlayer] && owner.owner == player) ||
                     (filter[(int)AbilityFilter.OtherPlayer] && owner.owner != player))
                 {
-                    ApplyAuraForUnit(player);
+                    ApplyAuraForPlayer(player);
                 }
             }
         }
 
-        private void ApplyAuraForUnit(Player player)
+        private void ApplyAuraForPlayer(Player player)
         {
             foreach (Unit unit in player.playerUnits)
             {

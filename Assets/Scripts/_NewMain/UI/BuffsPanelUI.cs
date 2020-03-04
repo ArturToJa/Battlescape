@@ -48,6 +48,7 @@ namespace BattlescapeUI
             {
                 child.name = "RemovedBuff";
                 child.gameObject.SetActive(false);
+                Destroy(child.gameObject);
             }
             alreadyRepresentedBuffs = new Dictionary<string, int>();
             foreach (AbstractBuff buff in unit.buffs)
@@ -69,11 +70,11 @@ namespace BattlescapeUI
             {
                 alreadyRepresentedBuffs.Add(buff.buffName, 1);
                 GameObject buffIcon = Instantiate(buffPrefab, this.transform);
-                buffIcon.GetComponent<Image>().sprite = buff.image;
+                buffIcon.GetComponent<Image>().sprite = buff.icon;
                 buffIcon.name = buff.buffName;
                 MouseHoverInfoCursor hoverInfo = buffIcon.GetComponentInChildren<MouseHoverInfoCursor>();
-                hoverInfo.TooltipName = buff.buffName;
-                hoverInfo.TooltipText = buff.description;
+                hoverInfo.tooltipName = buff.buffName;
+                hoverInfo.tooltipText = buff.description;
             }
         }
 

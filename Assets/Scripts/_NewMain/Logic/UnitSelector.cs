@@ -29,7 +29,6 @@ namespace BattlescapeLogic
             }
             if (GameRound.instance.currentPlayer.type != PlayerType.AI)
             {
-                UIManager.UpdateAbilitiesPanel(UIManager.Instance.AbilitiesPanel, UIManager.Instance.AbilityPrefab, MouseManager.instance.selectedUnit);           
                 PlaySelectionSound();
             }
         }

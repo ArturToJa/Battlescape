@@ -149,9 +149,32 @@ namespace BattlescapeLogic
 
         public int currentMaxNumberOfRetaliations { get; set; }
 
-        public int numberOfRetaliations { get; set; }   
+        public int numberOfRetaliations { get; set; }
 
-        public int currentEnergy { get; set; }
+        int _currentEnergy;
+        public int currentEnergy
+        {
+            get
+            {
+                return _currentEnergy;
+            }
+            set
+            {
+                if (value > maxEnergy)
+                {
+                    _currentEnergy = maxEnergy;
+                }
+                else if (value < 0)
+                {
+                    _currentEnergy = 0;
+                }
+                else
+                {
+                    _currentEnergy = value;
+                }
+                OnEnergyChanged(this);
+            }
+        }
         [SerializeField] int _energyRegen;
         public int energyRegen
         {
@@ -164,6 +187,8 @@ namespace BattlescapeLogic
                 _energyRegen = value;
             }
         }
+
+        public static event Action<Statistics> OnEnergyChanged = delegate { };
 
         public void NullMaxNumberOfAttacks()
         {

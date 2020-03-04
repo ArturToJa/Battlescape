@@ -30,12 +30,62 @@ namespace BattlescapeLogic
         Flying
     };
 
-    public abstract class AbstractAbility : TurnChangeObject
+    public abstract class AbstractAbility : TurnChangeMonoBehaviour
     {
-        public string name { get; protected set; }
-        public string description { get; protected set; }
-        public Unit owner { get; protected set; }
-        public List<bool> filter { get; protected set; }
+
+        [SerializeField] string _abilityName;
+        public string abilityName
+        {
+            get
+            {
+                return _abilityName;
+            }
+            protected set
+            {
+                _abilityName = value;
+            }
+        }
+
+        [SerializeField] string _description;
+        public string description
+        {
+            get
+            {
+                return _description;
+            }
+            protected set
+            {
+                _description = value;
+            }
+        }
+
+        [SerializeField] Sprite _icon;
+        public Sprite icon
+        {
+            get
+            {
+                return _icon;
+            }
+            protected set
+            {
+                _icon = value;
+            }
+        }
+
+        public Unit owner { get; set; }
+
+        [SerializeField] List<bool> _filter;
+        public List<bool> filter
+        {
+            get
+            {
+                return _filter;
+            }
+            protected set
+            {
+                _filter = value;
+            }
+        }        
 
         public override void OnNewRound()
         {

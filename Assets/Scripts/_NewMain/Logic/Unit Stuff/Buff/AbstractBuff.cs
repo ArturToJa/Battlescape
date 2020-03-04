@@ -33,7 +33,7 @@ namespace BattlescapeLogic
         }
 
         [SerializeField] Sprite _image;
-        public Sprite image
+        public Sprite icon
         {
             get
             {

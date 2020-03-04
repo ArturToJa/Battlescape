@@ -6,13 +6,25 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractPassiveAbility : AbstractAbility
     {
-        public List<AbstractBuff> placeableBuffs { get; protected set; }
+        [SerializeField] List<GameObject> _placeableBuffs;
+        public List<GameObject> placeableBuffs
+        {
+            get
+            {
+                return _placeableBuffs;
+            }
+            protected set
+            {
+                _placeableBuffs = value;
+            }
+        }
 
         protected void ApplyBuffsToUnit(Unit unit)
         {
-            foreach (AbstractBuff buff in placeableBuffs)
+            foreach (GameObject buffPrefab in placeableBuffs)
             {
-                buff.ApplyOnUnit(unit);
+                AbstractBuff newBuff = Instantiate(buffPrefab).GetComponent<AbstractBuff>();
+                newBuff.ApplyOnUnit(unit);
             }
         }
     }

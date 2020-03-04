@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using BattlescapeLogic;
+
 public class ActiveAbilityTooltip : MonoBehaviour
 {
 
@@ -11,13 +13,10 @@ public class ActiveAbilityTooltip : MonoBehaviour
     public GameObject LimitedField;
     public Text LimitedText;
     public Text CostText;
-    public float maxHovering = 1;
+    float maxHovering = 1;
     public float isHovering = 0;
     bool isOpened = false;
     // Is Opened is just an internal tool to check if a tooltip was already opened (to not make this update  open opened tooltip every frame or to not close a closed one).
-
-
-    Ability_Basic hoveredAbility;
 
     // Use this for initialization
     void Start()
@@ -34,7 +33,7 @@ public class ActiveAbilityTooltip : MonoBehaviour
         {
             OpenTooltip();
         }
-        else if (isOpened && isHovering<maxHovering)
+        else if (isOpened && isHovering ==0 )
         {
             CloseTooltip();
         }

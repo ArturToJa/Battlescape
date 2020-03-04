@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class CursorController : MonoBehaviour
 {
-    public static CursorController Instance { get; private set; }
+    public static CursorController instance { get; private set; }
 
     [SerializeField] List<Texture2D> MiddleHotspotCursors;
 
@@ -38,42 +38,26 @@ public class CursorController : MonoBehaviour
     Vector2 basicHotspot = Vector2.zero;
     Vector2 middleHotspot = new Vector2(32, 32);
 
+    public bool isInfoByUI = false;
+
     private void Start()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
     }
 
-   public void SetCursorTo(Texture2D basicCursor, Texture2D clickingCursor)
+    public void SetCursorTo(Texture2D basicCursor, Texture2D clickingCursor)
     {
-        if (Helper.IsOverNonHealthBarUI())
-        {
-            if (PlayerInput.instance.isInputBlocked)
-            {
-                Cursor.SetCursor(waitingCursor, GetHotspotType(waitingCursor),CursorMode.Auto);
-                return;
-            }
-            if (Input.GetMouseButton(0))
-            {
-                Cursor.SetCursor(clickingDefaultCursor, GetHotspotType(clickingDefaultCursor), CursorMode.Auto);
-                return;
-            }
-            else
-            {
-                Cursor.SetCursor(defaultCursor, GetHotspotType(defaultCursor), CursorMode.Auto);
-                return;
-            }
-        }
-        //I know, that normally we ask for 'clicking' in PlayerInput, but it is here just for convenience.
-        //Would take way more space to check for Input there in every possible scenario
+
         if (PlayerInput.instance.isInputBlocked)
         {
             Cursor.SetCursor(waitingCursor, GetHotspotType(waitingCursor), CursorMode.Auto);
             return;
         }
-        else if (Input.GetMouseButton(0))
+
+        if (Input.GetMouseButton(0))
         {
             Cursor.SetCursor(clickingCursor, GetHotspotType(clickingCursor), CursorMode.Auto);
             return;
@@ -83,10 +67,23 @@ public class CursorController : MonoBehaviour
             Cursor.SetCursor(basicCursor, GetHotspotType(basicCursor), CursorMode.Auto);
             return;
         }
-    }
-    
+    }   
+
     public void OnUnitHovered(Unit unit)
     {
+        if (AbstractActiveAbility.currentlyUsedAbility != null)
+        {
+            if (AbstractActiveAbility.currentlyUsedAbility.IsLegalTarget(unit))
+            {
+                SetCursorTo(validTargetCursor, clickingTargetCursor);
+                return;
+            }
+            else
+            {
+                SetCursorTo(invalidTargetCursor, invalidTargetCursor);
+                return;
+            }
+        }
         if (MouseManager.instance.CanSelect(unit))
         {
             SetCursorTo(selectionCursor, clickingSelectionCursor);
@@ -114,6 +111,19 @@ public class CursorController : MonoBehaviour
 
     public void OnTileHovered(Tile tile)
     {
+        if (AbstractActiveAbility.currentlyUsedAbility != null)
+        {
+            if (AbstractActiveAbility.currentlyUsedAbility.IsLegalTarget(tile))
+            {
+                SetCursorTo(validTargetCursor, clickingTargetCursor);
+                return;
+            }
+            else
+            {
+                SetCursorTo(invalidTargetCursor, invalidTargetCursor);
+                return;
+            }
+        }
         if (MouseManager.instance.selectedUnit == null)
         {
             SetCursorTo(defaultCursor, clickingDefaultCursor);
@@ -151,5 +161,5 @@ public class CursorController : MonoBehaviour
         }
     }
 
-    
+
 }

@@ -57,7 +57,7 @@ public static class Helper
         };
         pointerData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, results);           
+        EventSystem.current.RaycastAll(pointerData, results);
         return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit"));
     }
    

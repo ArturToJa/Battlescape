@@ -52,8 +52,8 @@ public class ShowActiveAbilities : MonoBehaviour
             //UIManager.UpdateAbilitiesPanel(gameObject, ActiveAbilityPrefab, myUnit);
             GameObject NewIcon = Instantiate(ActiveAbilityPrefab, this.transform);
             NewIcon.GetComponent<Image>().sprite = ability.mySprite;
-            NewIcon.GetComponent<MouseHoverInfoCursor>().TooltipName = ability.Name;
-            NewIcon.GetComponent<MouseHoverInfoCursor>().TooltipText = ability.TooltipInfo;
+            NewIcon.GetComponent<MouseHoverInfoCursor>().tooltipName = ability.Name;
+            NewIcon.GetComponent<MouseHoverInfoCursor>().tooltipText = ability.TooltipInfo;
         }
     }
 }
