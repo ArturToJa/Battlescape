@@ -4,30 +4,27 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    enum AbilityFilter
+    [System.Serializable]
+    public class AbilityFilter
     {
-        // team based filter
-        Ally,
-        Enemy,
+        [SerializeField] private AbstractAbility thisAbility;
+        [SerializeField] private bool ally;
+        [SerializeField] private bool enemy;
+        [SerializeField] private bool selfPlayer;
+        [SerializeField] private bool otherPlayer;
+        [SerializeField] private bool self;
+        [SerializeField] private bool hero;
+        [SerializeField] private bool regular;
+        [SerializeField] private bool ranged;
+        [SerializeField] private bool melee;
+        [SerializeField] private bool ground;
+        [SerializeField] private bool flying;
 
-        // player based filter
-        SelfPlayer,
-        OtherPlayer,
+        public bool FilterSelf(Unit unit)
+        {
+            return self && thisAbility.owner == unit;
+        }
 
-        // can affect self or not
-        Self,
-
-        // unit specific filter
-        Hero,
-        Regular,
-
-        // attack type filter
-        Ranged,
-        Melee,
-
-        // movement type filter
-        Ground,
-        Flying
     };
 
     public abstract class AbstractAbility : TurnChangeMonoBehaviour
@@ -74,8 +71,8 @@ namespace BattlescapeLogic
 
         public Unit owner { get; set; }
 
-        [SerializeField] List<bool> _filter;
-        public List<bool> filter
+        [SerializeField] AbilityFilter _filter;
+        public AbilityFilter filter
         {
             get
             {
