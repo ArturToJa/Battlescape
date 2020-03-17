@@ -37,6 +37,7 @@ namespace BattlescapeLogic
 
         void Start()
         {
+            startingPoint = this.transform.position;
             maxHeight += startingPoint.y;
         }
         void Update()
@@ -60,8 +61,7 @@ namespace BattlescapeLogic
             CalculateNewPitch(distanceDelta, heightDelta);
         }
 
-        // i'm doin these half asleep, need heavy testing
-        private float CalculateNew2DPosition(/*Vector3 newPosition*/)
+        private float CalculateNew2DPosition()
         {
             float distanceToMove = speedPerFrame * Time.deltaTime;
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
@@ -87,10 +87,8 @@ namespace BattlescapeLogic
 
         private void CalculateNewPitch(float distanceDelta, float heightDelta)
         {
-            float angle = Mathf.Atan2(heightDelta, distanceDelta) * Mathf.Rad2Deg;
-            //Debug.Log("angle: " + angle);
-           // Maths.SetObjectPitch(this.gameObject, angle);
-            this.transform.rotation *= Quaternion.AngleAxis((angle) - this.transform.rotation.eulerAngles.y, new Vector3(0, 1, 0));
+            float angle = -90 + Mathf.Atan2(heightDelta, distanceDelta) * Mathf.Rad2Deg;
+            Maths.SetObjectYaw(this.gameObject, angle);
         }
     }
 }

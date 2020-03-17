@@ -38,7 +38,6 @@ namespace BattlescapeLogic
         {
             GameObject missileObject = GameObject.Instantiate(sourceUnit.missilePrefab, sourceUnit.transform.position, sourceUnit.transform.rotation);
             Missile missileScript = missileObject.GetComponent<Missile>();
-            missileScript.startingPoint = missileScript.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missileScript.sourceUnit = sourceUnit;
             missileScript.target = targetUnit;
