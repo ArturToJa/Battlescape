@@ -12,5 +12,5 @@ public class AIArmy : ScriptableObject
     public int Points;
     public UnitCreator Hero;
     public List<UnitCreator> Units;
-    public Faction faction;
+    public Race Race;
 }

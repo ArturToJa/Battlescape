@@ -11,15 +11,15 @@ public class HeroPedestalVisualChooser : MonoBehaviour {
         {
             child.gameObject.SetActive(false);
         }
-        switch (SaveLoadManager.Instance.Race)
+        switch (SaveLoadManager.instance.race)
         {
-            case Faction.Human:
+            case Race.Human:
                 transform.GetChild(0).gameObject.SetActive(true);
                 break;
-            case Faction.Elves:
+            case Race.Elves:
                 transform.GetChild(1).gameObject.SetActive(true);
                 break;
-            case Faction.Neutral:
+            case Race.Neutral:
                 Debug.LogError("This hero is neutral and should probably not be: " + transform.root.position);
                 break;
             default:

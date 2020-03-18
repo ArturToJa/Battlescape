@@ -10,8 +10,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114039825556510290}
-  - component: {fileID: 114508242714807288}
+  - component: {fileID: 114574526069064088}
   m_Layer: 0
   m_Name: rock_05
   m_TagString: Dice
@@ -84,7 +83,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
---- !u!114 &114039825556510290
+--- !u!114 &114574526069064088
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,22 +91,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376b6ed72eae32e468aa8dbd65271622, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  doBFT: 1
-  IsNotBeingDestroyed: 1
---- !u!114 &114508242714807288
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d73defe0deaca4a86e42d06bae7f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CoverValue: 2
-  IsJumpable: 1
+  _type: 3
+  _shape:
+  - x: 0
+    z: 0

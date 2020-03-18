@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114762818610555108}
+  - component: {fileID: 114831985212624926}
   m_Layer: 0
   m_Name: rock_10
   m_TagString: Dice
@@ -83,7 +83,7 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
---- !u!114 &114762818610555108
+--- !u!114 &114831985212624926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -91,9 +91,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376b6ed72eae32e468aa8dbd65271622, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  doBFT: 1
-  IsNotBeingDestroyed: 1
+  _type: 3
+  _shape:
+  - x: 0
+    z: 0

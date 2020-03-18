@@ -17,9 +17,9 @@ public class HeroNameText : MonoBehaviour {
     private IEnumerator SetItLater()
     {
         yield return null;
-        if (string.IsNullOrEmpty(SaveLoadManager.Instance.HeroName) == false)
+        if (string.IsNullOrEmpty(SaveLoadManager.instance.heroName) == false)
         {
-            field.text = SaveLoadManager.Instance.HeroName;
+            field.text = SaveLoadManager.instance.heroName;
         }
     }
 }

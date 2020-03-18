@@ -33,7 +33,7 @@ public class FlagScript : MonoBehaviour
                     emblem.sprite = Emblems[(int)Global.instance.playerTeams[1].players[0].race];
                 }
             
-            UIManager.SmoothlyTransitionActivity(gameObject, VictoryLossChecker.IsGameOver && VictoryLossChecker.gameResult != GameResult.Draw, 0.01f);
+            UIManager.SmoothlyTransitionActivity(gameObject, VictoryLossChecker.isGameOver && VictoryLossChecker.gameResult != GameResult.Draw, 0.01f);
         }
         else
         {

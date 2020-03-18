@@ -10,7 +10,7 @@ namespace BattlescapeLogic
 
         public override void OnNewRound()
         {
-            ApplyBuffsToUnit(owner);
+            ApplyBuffsToUnit(placeableBuffs, owner);
         }
 
         public override void OnNewTurn()

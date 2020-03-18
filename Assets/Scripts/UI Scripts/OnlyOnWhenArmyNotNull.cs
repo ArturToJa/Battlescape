@@ -8,11 +8,11 @@ public class OnlyOnWhenArmyNotNull : MonoBehaviour
     
     private void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(SaveLoadManager.Instance.SaveArmyButton);
+        GetComponent<Button>().onClick.AddListener(SaveLoadManager.instance.SaveArmyButton);
     }
     private void Update()
     {
-        UIManager.SmoothlyTransitionActivity(this.gameObject, ArmyBuilder.Instance.RightUnits.childCount > 0, 0.1f);
+        UIManager.SmoothlyTransitionActivity(this.gameObject, ArmyBuilder.instance.RightUnits.childCount > 0, 0.1f);
     }
 
 }

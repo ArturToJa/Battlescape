@@ -38,7 +38,7 @@ public class NewGameScript : MonoBehaviour
             { Destroy(unit.gameObject); }
         }
 
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
   
             

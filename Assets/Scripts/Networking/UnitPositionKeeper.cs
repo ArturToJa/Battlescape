@@ -11,8 +11,8 @@ public class UnitPositionKeeper : MonoBehaviour
     int maxID = 0;
     //these are units with their unique integerIDs, they will be checked by multiuplayer if they are positioned where they should!
 
-    int[,] UnitPositions = new int[Map.mapWidth, Map.mapHeight];
-    //these are the simplified version of Map.Board - just so that i can sedn it over the net... UnitPosition[i,j] = 0 means empty slot, other number = ID from UnitsInGame queue.
+    int[,] UnitPositions = new int[Global.instance.map.mapWidth, Global.instance.map.mapHeight];
+    //these are the simplified version of Global.instance.map.board - just so that i can sedn it over the net... UnitPosition[i,j] = 0 means empty slot, other number = ID from UnitsInGame queue.
 
 
     void Start()
@@ -46,7 +46,7 @@ public class UnitPositionKeeper : MonoBehaviour
     [PunRPC]
     public void RPCAddUnit(int x, int z)
     {
-        BattlescapeLogic.Unit unit = Map.Board[x, z].myUnit;
+        BattlescapeLogic.Unit unit = Global.instance.map.board[x, z].myUnit;
         AddUnit(unit, x, z);
         Debug.Log(UnitsInGame.Count);
     }
@@ -68,7 +68,7 @@ public class UnitPositionKeeper : MonoBehaviour
     [PunRPC]
     public void RPCDeleteUnit(int x, int z)
     {
-        BattlescapeLogic.Unit unit = Map.Board[x, z].myUnit;
+        BattlescapeLogic.Unit unit = Global.instance.map.board[x, z].myUnit;
         Debug.Log(unit);
         DeleteUnit(unit);
         
@@ -101,7 +101,7 @@ public class UnitPositionKeeper : MonoBehaviour
     [PunRPC]
     void RPCMoveUnit(int startX, int startZ, int endX, int endZ)
     {
-        BattlescapeLogic.Unit unit = Map.Board[startX, startZ].myUnit;
+        BattlescapeLogic.Unit unit = Global.instance.map.board[startX, startZ].myUnit;
         Log.SpawnLog(startX + ", " + startZ);
         MoveUnit(unit, endX, endZ);
     }
@@ -145,7 +145,7 @@ public class UnitPositionKeeper : MonoBehaviour
                     {
                         unit.currentPosition.myUnit = null;
                     }
-                    Tile newTile = Map.Board[i, j];
+                    Tile newTile = Global.instance.map.board[i, j];
                     unit.currentPosition = newTile;
                     newTile.myUnit = unit;
                     unit.GetComponent<BattlescapeLogic.Unit>().SetDestination(newTile.transform.position);
@@ -153,7 +153,7 @@ public class UnitPositionKeeper : MonoBehaviour
                 }
                 else
                 {
-                    Tile tile = Map.Board[i, j];
+                    Tile tile = Global.instance.map.board[i, j];
                     if (tile.myUnit != null && (UnitsInGame.ContainsValue(tile.myUnit) == false))
                     {
                         Debug.Log(tile.myUnit);

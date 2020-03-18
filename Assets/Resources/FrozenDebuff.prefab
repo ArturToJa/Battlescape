@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222008395399222776}
   - component: {fileID: 114921564428878564}
   - component: {fileID: 114447259646401608}
-  - component: {fileID: 114652451981817542}
+  - component: {fileID: 114315064649301760}
   m_Layer: 5
   m_Name: FrozenDebuff
   m_TagString: Untagged
@@ -75,6 +75,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114315064649301760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1806600395166958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114447259646401608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,20 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Frozen
-  TooltipText: This unit is frozen and cannot perform any actions.
---- !u!114 &114652451981817542
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1806600395166958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &114921564428878564
 MonoBehaviour:
   m_ObjectHideFlags: 1

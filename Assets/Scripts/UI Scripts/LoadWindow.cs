@@ -13,7 +13,7 @@ public class LoadWindow : MonoBehaviour
     public void OpenTheWindow()
     {
         StartCoroutine(Opening());
-        SaveLoadManager.Instance.ReCreateSaves(ExiSaves);
+        SaveLoadManager.instance.ReCreateSaves(ExiSaves);
         this.GetComponent<CanvasGroup>().alpha = 0f;
         this.GetComponent<CanvasGroup>().blocksRaycasts = false;
         this.GetComponent<CanvasGroup>().interactable = false;

@@ -357,8 +357,7 @@ GameObject:
   - component: {fileID: 114173816431765564}
   - component: {fileID: 114816784686270198}
   - component: {fileID: 54301261033011858}
-  - component: {fileID: 114781464901237968}
-  - component: {fileID: 114942564704694662}
+  - component: {fileID: 114913150164585950}
   m_Layer: 8
   m_Name: Archer
   m_TagString: Unit
@@ -1432,7 +1431,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1814057948970888}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: -0.7071068}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
@@ -1462,7 +1461,7 @@ Transform:
   - {fileID: 4642686287324108}
   m_Father: {fileID: 4487057915801576}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 180, y: -90, z: 180}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!4 &4292909135735036
 Transform:
   m_ObjectHideFlags: 1
@@ -3170,8 +3169,10 @@ MonoBehaviour:
     type: 2}
   attackType: 1
   movementType: 0
-  _unitTypeIndex: -1
-  _unitName: Archer
+  _info:
+    _unitName: Archer
+    _fluffText: Basic shooting unit of the Human army. Archers' ability, Hail of Arrows,
+      is really usefull against groups of enemies.
   unitSounds:
     _movementSound:
       name: ArcherMovementSound
@@ -3226,8 +3227,6 @@ MonoBehaviour:
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
   unitClass: 1
-  abilities: []
-  _fluffText: This should be some fluff text for Archer.
   _race: 0
 --- !u!114 &114524222045293342
 MonoBehaviour:
@@ -3424,25 +3423,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114781464901237968
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1361541935773806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ecae2fda15a19644b17d0c58d53c9b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityName: Test_Ability
-  _description: ThisIsATestAbility
-  _icon: {fileID: 21300000, guid: d5e8f223b6a2bd64cb1901cbda6e7b39, type: 3}
-  _filter: 
-  _cooldown: 1
-  _energyCost: 30
-  _usesPerBattle: 0
-  damage: 23
 --- !u!114 &114797132776520940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3471,7 +3451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429181357bc3c3f42b14246e13f7e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114942564704694662
+--- !u!114 &114913150164585950
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -3479,17 +3459,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 1361541935773806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ecae2fda15a19644b17d0c58d53c9b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 746bee4f0ee5fc540b9a6b20cc00820c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _abilityName: Second_Abi
-  _description: Second_Test
-  _icon: {fileID: 21300000, guid: 1eecd9e19cec1bd47a4fcbd2c476ccf1, type: 3}
-  _filter: 
+  legalPhases: 2
+  _filter:
+    ally: 0
+    enemy: 0
+    selfPlayer: 0
+    otherPlayer: 0
+    canSelf: 0
+    hero: 0
+    regular: 0
+    ranged: 0
+    melee: 0
+    ground: 0
+    flying: 0
+  _abilityName: Hail of Arrows
+  _description: Archer fires a hail of arrows, dealing 4 damage to every unit in its
+    range and decreasing their Defense skill by 1 permanently. The defense decrease
+    is non-stackable.
+  _icon: {fileID: 21300000, guid: 7d457bb241b8b5a4ea185b3e495f0d61, type: 3}
+  costsMovement: 0
   _cooldown: 1
-  _energyCost: 20
-  _usesPerBattle: 1
-  damage: 3
+  _energyCost: 50
+  _usesPerBattle: 0
+  _animationTrigger: ShootOnce
+  sound:
+    name: 
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 0
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 0
+  log: Archer fires a Hail of Arrows!
+  castVisualEffect: {fileID: 1884933212294534, guid: ba2e4cc5e763f7247b273ba0b54532b0,
+    type: 2}
+  _range: 0
+  isRangeModified: 1
+  rangeModifier: -1
+  size: 2
+  vfxOnTargetArea:
+  - {fileID: 1505100389049832, guid: fb206fc0100641743ab5cf224c17a534, type: 2}
+  - {fileID: 1848597579681154, guid: 3454cfbc1426b974c8ed782033773fbd, type: 2}
+  buffs:
+  - {fileID: 1234158636466810, guid: c9cef1489541c4c499433af08299e1cc, type: 2}
+  damage: 4
 --- !u!135 &135347313670186114
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -10,11 +10,9 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114328665104735858}
   - component: {fileID: 64616193247461468}
-  - component: {fileID: 114308760174788940}
-  - component: {fileID: 114739108218445018}
-  m_Layer: 11
+  - component: {fileID: 114351594154570774}
+  m_Layer: 0
   m_Name: barrel_02
   m_TagString: Dice
   m_Icon: {fileID: 0}
@@ -99,13 +97,13 @@ GameObject:
   - component: {fileID: 223664987202184016}
   - component: {fileID: 114812751499409574}
   - component: {fileID: 114093366782919334}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthbarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1457989569270970
 GameObject:
   m_ObjectHideFlags: 1
@@ -116,7 +114,7 @@ GameObject:
   - component: {fileID: 224065659274538708}
   - component: {fileID: 222279503853845752}
   - component: {fileID: 114685010976489676}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,13 +133,13 @@ GameObject:
   - component: {fileID: 135765292537016226}
   - component: {fileID: 23366938103437124}
   - component: {fileID: 114042771201861656}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HPBarPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1848281469151240
 GameObject:
   m_ObjectHideFlags: 1
@@ -152,7 +150,7 @@ GameObject:
   - component: {fileID: 224746322997325568}
   - component: {fileID: 222377280994932844}
   - component: {fileID: 114265455836649118}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +268,7 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
   isBeingAttacked: 0
---- !u!114 &114308760174788940
+--- !u!114 &114351594154570774
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -278,24 +276,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8c0bf0a273aea34999f686606a7cf1c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropValue: 1
---- !u!114 &114328665104735858
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ea1bddea3a3a8438827348dd2ba146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorSpeed: 2
-  fallingSpeed: 0.3
-  durability: 1
+  _type: 8
+  _shape:
+  - x: 0
+    z: 0
 --- !u!114 &114685010976489676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,19 +310,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114739108218445018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d73defe0deaca4a86e42d06bae7f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CoverValue: 2
-  IsJumpable: 1
 --- !u!114 &114812751499409574
 MonoBehaviour:
   m_ObjectHideFlags: 1

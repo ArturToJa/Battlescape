@@ -66,7 +66,7 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                photonView.RPC("RPCAddPlayer", PhotonTargets.Others, player.index, PlayerType.Network, player.isObserver, player.playerName, (int)player.colour, (int)player.race, player.team.index);
+                photonView.RPC("RPCAddPlayer", PhotonTargets.Others, player.index, player.isObserver, player.playerName, (int)player.colour, (int)player.race, player.team.index);
                 playerTeam.AddNewPlayer(player);
             }
             else
@@ -76,23 +76,22 @@ namespace BattlescapeLogic
         }
 
         [PunRPC]
-        void RPCAddPlayer(int playerIndex, int playerType, bool isObserver, string playerName, int colour, int race, int teamIndex)
+        void RPCAddPlayer(int playerIndex, bool isObserver, string playerName, int colour, int race, int teamIndex)
         {
             PlayerTeam playerTeam = Global.instance.playerTeams[teamIndex];
 
-            PlayerBuilder builder = new PlayerBuilder();
+            PlayerBuilder playerBuilder = new PlayerBuilder();
+            playerBuilder.index = playerIndex;
+            playerBuilder.type = PlayerType.Network;
+            playerBuilder.isObserver = isObserver;
+            playerBuilder.playerName = playerName;
+            playerBuilder.colour = (PlayerColour)colour;
+            playerBuilder.race = (Race)race;
+            playerBuilder.team = playerTeam;
 
-            builder.index = playerIndex;
-            builder.type = (PlayerType)playerType;
-            builder.isObserver = isObserver;
-            builder.playerName = playerName;
-            builder.colour = (PlayerColour)colour;
-            builder.race = (Faction)race;
-            builder.team = playerTeam;
-
-            Player newPlayer = new Player(builder);
+            Player newPlayer = new Player(playerBuilder);
             playerTeam.AddNewPlayer(newPlayer);
-        }        
+        }    
 
         //When u get disconnected, opponents will see this
         [PunRPC]
@@ -123,7 +122,7 @@ namespace BattlescapeLogic
             }
             else if (Global.instance.matchType != MatchTypes.Online)
             {
-                FindObjectOfType<MapVisuals>().RandomlyPutObstacles(Random.Range(0, 99999));
+                Global.instance.currentMap.mapVisuals.GenerateObjects(Random.Range(0, 99999));
             }
         }
 
@@ -135,11 +134,11 @@ namespace BattlescapeLogic
 
         IEnumerator PutObstaclesWhenPossible(int s)
         {
-            while (FindObjectOfType<MapVisuals>() == null)
+            while (Global.instance.currentMap.mapVisuals == null)
             {
                 yield return new WaitForSeconds(1f);
             }
-            FindObjectOfType<MapVisuals>().RandomlyPutObstacles(s);
+            Global.instance.currentMap.mapVisuals.GenerateObjects(s);
         }
 
 
@@ -174,7 +173,7 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCDoMovement(int startX, int startZ, int endX, int endZ)
         {
-            Tile startTile = Map.Board[startX, startZ];
+            Tile startTile = Global.instance.currentMap.board[startX, startZ];
             Unit unit = startTile.myUnit;
             if (unit == null)
             {
@@ -182,7 +181,7 @@ namespace BattlescapeLogic
                 Log.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
-            Tile destination = Map.Board[endX, endZ];
+            Tile destination = Global.instance.currentMap.board[endX, endZ];
             unit.Move(destination);
         }
 
@@ -213,8 +212,8 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCAttack(int AttackerX, int AttackerZ, int DefenderX, int DefenderZ)
         {
-            Unit Attacker = Map.Board[AttackerX, AttackerZ].myUnit;
-            Unit Defender = Map.Board[DefenderX, DefenderZ].myUnit;
+            Unit Attacker = Global.instance.currentMap.board[AttackerX, AttackerZ].myUnit;
+            Unit Defender = Global.instance.currentMap.board[DefenderX, DefenderZ].myUnit;
             Attacker.Attack(Defender);
         }
 
@@ -235,14 +234,14 @@ namespace BattlescapeLogic
         void RPCRetaliation(int attackerX, int attackerZ, int targetX, int targetZ)
         {
 
-            Unit retaliatingUnit = Map.Board[attackerX, attackerZ].myUnit;
+            Unit retaliatingUnit = Global.instance.currentMap.board[attackerX, attackerZ].myUnit;
             if (retaliatingUnit.owner.type != PlayerType.Local)
             {
                 UIManager.InstantlyTransitionActivity(waitingForRetaliationUI, true);
                 GameRound.instance.SetPhaseToEnemy();
                 return;
             }
-            Unit target = Map.Board[targetX, targetZ].myUnit;
+            Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
             RetaliationChoice(retaliatingUnit, target);
             
         }
@@ -278,8 +277,8 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCRetaliate(int attackerX, int attackerZ, int targetX, int targetZ)
         {
-            Unit attacker = Map.Board[attackerX, attackerZ].myUnit;
-            Unit target = Map.Board[targetX, targetZ].myUnit;
+            Unit attacker = Global.instance.currentMap.board[attackerX, attackerZ].myUnit;
+            Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
             attacker.RetaliateTo(target);
         }
 
@@ -307,7 +306,7 @@ namespace BattlescapeLogic
         {
             if (damage == -1)
             {
-                damage = DamageCalculator.CalculateBasicDamage(source, target);
+                damage = DamageCalculator.CalculateDamage(source, target);
             }
             if (Global.instance.matchType == MatchTypes.Online)
             {
@@ -329,8 +328,8 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage)
         {
-            Unit source = Map.Board[sourceX, sourceZ].myUnit;
-            Unit target = Map.Board[targetX, targetZ].myUnit;
+            Unit source = Global.instance.currentMap.board[sourceX, sourceZ].myUnit;
+            Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
             source.HitTarget(target, damage);
         }
 

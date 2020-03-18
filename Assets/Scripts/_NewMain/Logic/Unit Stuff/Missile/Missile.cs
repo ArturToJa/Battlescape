@@ -6,6 +6,8 @@ namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
+
+        public int damage { get; set; }
         static readonly float minDistance = 0.2f;
         public Vector3 startingPoint { get; set; }
         public Unit sourceUnit { get; set; }
@@ -47,7 +49,15 @@ namespace BattlescapeLogic
             {
                 if (sourceUnit.owner.type != PlayerType.Network)
                 {
-                    Networking.instance.SendCommandToHit(sourceUnit, target);
+                    if (damage != 0)
+                    {
+                        Networking.instance.SendCommandToHit(sourceUnit, target, damage);
+                    }
+                    else
+                    {
+                        Networking.instance.SendCommandToHit(sourceUnit, target);
+                    }
+                    
                 }
                 Destroy(this);
             }

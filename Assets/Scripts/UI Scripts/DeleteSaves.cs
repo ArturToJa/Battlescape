@@ -39,10 +39,10 @@ public class DeleteSaves : MonoBehaviour
             return;
         }
         StartCoroutine(Closing());
-        File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + SaveLoadManager.Instance.currentSaveName + ".lemur");
+        File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + SaveLoadManager.instance.currentSaveName + ".lemur");
         foreach (Transform child in ExistingSaves)
         {
-            if (child.gameObject.name == SaveLoadManager.Instance.currentSaveName)
+            if (child.gameObject.name == SaveLoadManager.instance.currentSaveName)
             {
                 if (Application.isEditor)
                 {
@@ -54,7 +54,7 @@ public class DeleteSaves : MonoBehaviour
                 }
             }
         }
-        SaveLoadManager.Instance.currentSaveName = null;
+        SaveLoadManager.instance.currentSaveName = null;
     }
 
     public void OpenWindow()

@@ -10,9 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114159152843575154}
   - component: {fileID: 64146235485554826}
-  - component: {fileID: 114176719991525114}
+  - component: {fileID: 114731677206264960}
   m_Layer: 0
   m_Name: rock_02
   m_TagString: Dice
@@ -99,7 +98,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 687103bf2ff0efa42afe1eb097a7afee, type: 3}
---- !u!114 &114159152843575154
+--- !u!114 &114731677206264960
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -107,22 +106,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d73defe0deaca4a86e42d06bae7f40, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoverValue: 4
-  IsJumpable: 1
---- !u!114 &114176719991525114
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376b6ed72eae32e468aa8dbd65271622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  doBFT: 1
-  IsNotBeingDestroyed: 1
+  _type: 3
+  _shape:
+  - x: 0
+    z: 0

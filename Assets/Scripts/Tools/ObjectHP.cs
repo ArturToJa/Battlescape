@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+using BattlescapeLogic;
+
 
 public class ObjectHP : MonoBehaviour
 {
 
     public Sprite HPVisual;
-    DestructibleScript thisObject;
+    DestructibleObstacle thisObstacle;
     [SerializeField] Image fillOfABar;
     [SerializeField] float barAnimationTime = 0.1f;
     public bool isBeingAttacked = false;
@@ -28,7 +29,7 @@ public class ObjectHP : MonoBehaviour
 
     void Start()
     {
-        thisObject = this.transform.root.GetComponentInChildren<DestructibleScript>();
+        thisObstacle = this.transform.root.GetComponentInChildren<DestructibleObstacle>();
         fillOfABar = GetComponentsInChildren<Image>()[0];
         fillOfABar.sprite = HPVisual;
         fillOfABar.rectTransform.localScale = new Vector3(0.5f, 0.25f, 0.25f);
@@ -47,7 +48,7 @@ public class ObjectHP : MonoBehaviour
 
     void UpdateText()
     {
-        if (thisObject.GetDurability() <= 0)
+        if (thisObstacle.currentHealth <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -56,6 +57,6 @@ public class ObjectHP : MonoBehaviour
     void FillTheBar()
     {
         float velocity = 0;
-        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisObject.GetCurrentDurability() / (float)thisObject.GetDurability()), ref velocity, barAnimationTime);
+        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisObstacle.currentHealth / (float)thisObstacle.maxHealth), ref velocity, barAnimationTime);
     }
 }

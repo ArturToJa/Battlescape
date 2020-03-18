@@ -8,6 +8,11 @@ namespace BattlescapeGraphics
 {
     public static class ColouringTool
     {
+        static ColouringTool()
+        {
+            Unit.OnUnitSelected += ColourLegalTilesFor;
+            Unit.OnUnitDeselected += UncolourAllTiles;
+        }
         public static void ColourUnitsThatStillCanMoveOrAttack()
         {
             Player currentPlayer = GameRound.instance.currentPlayer;
@@ -54,7 +59,7 @@ namespace BattlescapeGraphics
             }
             else if (GameRound.instance.currentPhase == TurnPhases.Attack)
             {
-                foreach (Tile tile in Map.Board)
+                foreach (Tile tile in Global.instance.currentMap.board)
                 {
                     if (tile.myUnit != null && tile.myUnit.owner.team != unit.currentPosition.myUnit.owner.team && unit.IsInAttackRange(tile.transform.position) && unit.CanStillAttack())
                     {
@@ -67,16 +72,16 @@ namespace BattlescapeGraphics
 
         public static void UncolourAllTiles()
         {
-            foreach (Tile tile in Map.Board)
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
                 ColourObject(tile, Color.white);
             }
 
         }
 
-        public static void ColourUnitAsAllyOrEnemy(Unit unit)
+        public static void ColourUnitAsAllyOrEnemyOf(Unit unit, Player player)
         {
-            if (unit.owner.IsCurrentLocalPlayer())
+            if (unit.owner.team == player.team)
             {
                 ColourObject(unit, Color.green);
             }
@@ -105,7 +110,7 @@ namespace BattlescapeGraphics
                     r.material = m;
                 }
             }
-            
+
         }
     }
 }

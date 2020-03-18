@@ -77,7 +77,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         yield return null;
         FinishUsing();
         yield return new WaitForSeconds(TimeBetweenHowls);
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
             if (
                 (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
@@ -147,7 +147,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     public override bool AI_IsGoodToUseNow()
     {
         int wolfCount = 0;
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
             if (
                 (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)

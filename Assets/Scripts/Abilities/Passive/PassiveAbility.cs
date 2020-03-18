@@ -54,13 +54,13 @@ public abstract class PassiveAbility : MonoBehaviour
             //Debug.Log(name);
         }
         ChangableUpdate();
-        if (myUnit == MouseManager.instance.selectedUnit && wasSelectedLastTimeWeChecked == false && HasIcon)
+        if (myUnit == GameRound.instance.currentPlayer.selectedUnit && wasSelectedLastTimeWeChecked == false && HasIcon)
         {
             // so we are selected, but didnt tell it to ourselves yet
             IconForReal = RealTooltip.AddAbilityIcon(AbilityIcon, true);
             wasSelectedLastTimeWeChecked = true;
         }
-        if (myUnit != MouseManager.instance.selectedUnit && wasSelectedLastTimeWeChecked)
+        if (myUnit != GameRound.instance.currentPlayer.selectedUnit && wasSelectedLastTimeWeChecked)
         {
             if (Application.isEditor)
             {

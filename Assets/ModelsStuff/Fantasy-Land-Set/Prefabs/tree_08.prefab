@@ -10,9 +10,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114924504390250084}
   - component: {fileID: 64674234052902834}
-  - component: {fileID: 114514200903107620}
+  - component: {fileID: 114896234044911210}
   m_Layer: 0
   m_Name: tree_08
   m_TagString: Dice
@@ -171,7 +170,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: e88b3176e0fe40249926238fdba82090, type: 3}
---- !u!114 &114514200903107620
+--- !u!114 &114896234044911210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -179,21 +178,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376b6ed72eae32e468aa8dbd65271622, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  doBFT: 1
-  IsNotBeingDestroyed: 1
---- !u!114 &114924504390250084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d73defe0deaca4a86e42d06bae7f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CoverValue: 3
+  _type: 4
+  _shape:
+  - x: 0
+    z: 0

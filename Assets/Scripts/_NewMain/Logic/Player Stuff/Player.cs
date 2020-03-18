@@ -9,9 +9,9 @@ namespace BattlescapeLogic
 
     public enum PlayerColour { Green, Red }
 
-    public enum Faction { Human, Elves, Neutral }
+    public enum Race { Human, Elves, Neutral }
 
-    public class Player 
+    public class Player : IActiveEntity
     {
         public Player(PlayerBuilder builder)
         {
@@ -29,12 +29,13 @@ namespace BattlescapeLogic
         public readonly int index;
         public PlayerTeam team { get; set; }
         public string playerName { get; set; }
-        public Faction race { get; set; }
+        public Race race { get; set; }
         public readonly PlayerType type;
         public readonly PlayerColour colour;
         public readonly List<Unit> playerUnits;
         public int playerScore { get; private set; }
         public bool isObserver { get; private set; }
+        public Unit selectedUnit { get; private set; }
 
         void AddNewUnit(Unit newUnit)
         {
@@ -94,6 +95,92 @@ namespace BattlescapeLogic
                 }
             }
             return false;
+        }
+
+        public void OnRightClick(IMouseTargetable target)
+        {
+            if (target is Unit)
+            {
+                var targetUnit = target as Unit;
+                if (targetUnit.IsAlive())
+                {
+                    EnemyTooltipHandler.instance.SetOnFor(targetUnit);
+                }
+            }
+        }
+
+        public void OnLeftClick(IMouseTargetable target)
+        {
+            if (target is Unit)
+            {
+                Unit targetUnit = target as Unit;
+                if (targetUnit.CanBeSelected())
+                {
+                    SelectUnit(targetUnit);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Selects a random unit that still has actions this phase
+        /// </summary>
+        public void SelectRandomUnit()
+        {
+            if (type != PlayerType.Local)
+            {
+                return;
+            }
+            List<Unit> PossibleUnits = new List<Unit>();
+            foreach (Unit unit in playerUnits)
+            {
+                if (unit.CanAttackOrMoveNow())
+                {
+                    PossibleUnits.Add(unit);
+                }
+            }
+
+            if (PossibleUnits.Count > 0)
+            {
+                SelectUnit(PossibleUnits[UnityEngine.Random.Range(0, PossibleUnits.Count)]);
+            }
+            else
+            {
+                PopupTextController.AddPopupText("No more units ot act!", PopupTypes.Info);
+            }
+        }
+
+        public void SelectUnit(Unit unit)
+        {
+            if (unit.owner != this)
+            {
+                Debug.LogError("Tried to select unit that's not mine!");
+                return;
+            }
+            unit.OnSelection();
+            Global.instance.currentEntity = unit;
+
+        }
+
+        public void DeselectUnit()
+        {
+            selectedUnit.OnDeselection();
+            selectedUnit = null;
+        }
+
+        public void OnCursorOver(IMouseTargetable target)
+        {
+            if (target is Unit)
+            {
+                var targetUnit = target as Unit;
+                if (targetUnit.CanBeSelected())
+                {
+                    Cursor.instance.OnSelectableHovered();
+                }
+            }
+            if (target is Tile)
+            {
+                Cursor.instance.SetToDefault();
+            }
         }
 
     }

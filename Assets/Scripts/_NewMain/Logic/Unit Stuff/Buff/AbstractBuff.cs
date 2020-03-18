@@ -55,10 +55,10 @@ namespace BattlescapeLogic
             private set
             {
                 _duration = value;
-                if(IsExpired())
-                {
-                    OnExpire();
-                }
+                //if(IsExpired())
+                //{
+                //    OnExpire();
+                //}
             }
         }
 
@@ -84,6 +84,9 @@ namespace BattlescapeLogic
         public static event System.Action<AbstractBuff> OnBuffCreation;
         public static event System.Action<AbstractBuff> OnBuffDestruction;
 
+        [SerializeField] GameObject visualEffectPrefab;
+        GameObject visualEffect;
+
         protected override void Start()
         {
             base.Start();
@@ -99,7 +102,10 @@ namespace BattlescapeLogic
 
         public override void OnNewTurn()
         {
-            return;
+            if (IsExpired() && GameRound.instance.currentPlayer == owner.owner)
+            {
+                OnExpire();
+            }
         }
         public override void OnNewPhase()
         {
@@ -117,7 +123,11 @@ namespace BattlescapeLogic
         }
 
         protected virtual void OnExpire()
-        {           
+        {
+            if (visualEffect != null)
+            {
+                Destroy(visualEffect);
+            }
             OnDestruction();
             this.owner.buffs.Remove(this);
             RemoveChange();
@@ -132,7 +142,10 @@ namespace BattlescapeLogic
 
         public void ApplyOnUnit(Unit unit)
         {
-            
+            if (visualEffectPrefab != null)
+            {
+                visualEffect = Instantiate(visualEffectPrefab, unit.transform.position, visualEffectPrefab.transform.rotation);
+            }
             if(!isStackable && IsAlreadyOnUnit(unit))
             {
                 OnDestruction();

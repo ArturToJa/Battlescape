@@ -4,6 +4,7 @@ using UnityEngine;
 using BattlescapeGraphics;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System;
 
 namespace BattlescapeLogic
 {
@@ -36,15 +37,12 @@ namespace BattlescapeLogic
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_") == false)
             {
-                CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                Cursor.instance.SetToDefault();
                 return;
             }
             if (Helper.IsOverNonHealthBarUI())
             {
-                if (CursorController.instance.isInfoByUI == false)
-                {
-                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
-                }
+                Cursor.instance.SetToDefault();
             }
             else
             {
@@ -71,12 +69,12 @@ namespace BattlescapeLogic
             {
                 // toggle grid
                 //I dont know if Map is the perfect guy to toggle grid, but I had to put it somewhere?
-                Map.ToggleGrid();
+                Global.instance.currentMap.ToggleGrid();
             }
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 //Here there sould be some check if it's OUR turn or stuff?
-                MouseManager.instance.unitSelector.SelectNextAvailableUnit();
+                GameRound.instance.currentPlayer.SelectRandomUnit();
             }
 
             //On click PERSISTING (as long as the mouse button is being pressed)
@@ -125,24 +123,29 @@ namespace BattlescapeLogic
             if (Input.GetKeyDown(KeyCode.F))
             {
                 // selected unit gets 1000 damage (dies xD)
-                MouseManager.instance.selectedUnit.OnHit(MouseManager.instance.selectedUnit, 1000);
+                GameRound.instance.currentPlayer.selectedUnit.OnHit(GameRound.instance.currentPlayer.selectedUnit, 1000);
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                if (MouseManager.instance.selectedUnit != null && MouseManager.instance.selectedUnit.buffs.Count > 0)
+                if (GameRound.instance.currentPlayer.selectedUnit != null && GameRound.instance.currentPlayer.selectedUnit.buffs.Count > 0)
                 {
-                    MouseManager.instance.selectedUnit.buffs[0].RemoveFromUnitInstantly();
+                    GameRound.instance.currentPlayer.selectedUnit.buffs[0].RemoveFromUnitInstantly();
                 }
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnUnit(MouseManager.instance.selectedUnit);
+                defenceDebuff.ApplyOnUnit(GameRound.instance.currentPlayer.selectedUnit);
             }
         }
 
         void DoMouse()
         {
+            if (GameRound.instance.currentPlayer == null)
+            {
+                Cursor.instance.SetToDefault();
+                return;
+            }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
@@ -152,37 +155,33 @@ namespace BattlescapeLogic
                 if (newHoveredObject != hoveredObject)
                 {
                     //Old hovered object existed so we  de-hover it with On Exit
-                    MouseManager.instance.OnMouseHoverExit(hoveredObject);
+                    hoveredObject.OnMouseHoverExit();
                     //Change hovered object to new
                     hoveredObject = newHoveredObject;
                     // New object is hovered, so play On Enter.
-                    MouseManager.instance.OnMouseHoverEnter(hoveredObject);
-
+                    hoveredObject.OnMouseHoverEnter();
+                    Global.instance.currentEntity.OnCursorOver(hoveredObject);
                 }
-                MouseManager.instance.OnMouseHoverContinue(hoveredObject);
+
                 if (Input.GetMouseButtonDown(0))
                 {
-                    MouseManager.instance.OnMouseLeftClick(hoveredObject);
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    MouseManager.instance.OnMouseRightClick(hoveredObject);
+                    Global.instance.currentEntity.OnLeftClick(hoveredObject);
                 }
             }
             else
             {
-                if (MouseManager.instance.selectedUnit == null)
+                if (GameRound.instance.currentPlayer.selectedUnit == null && Cursor.instance.isInfoByUI == false)
                 {
-                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                    Cursor.instance.SetToDefault();
                 }
                 else
                 {
-                    CursorController.instance.SetCursorTo(CursorController.instance.blockedCursor, CursorController.instance.clickingBlockedCursor);
+                    Cursor.instance.OnInvalidTargetHovered();
                 }
                 if (hoveredObject != null)
                 {
                     //We HAD an object and now we don't so lets play On Exit.
-                    MouseManager.instance.OnMouseHoverExit(hoveredObject);
+                    hoveredObject.OnMouseHoverExit();
                     hoveredObject = null;
                 }
 
@@ -193,6 +192,9 @@ namespace BattlescapeLogic
                 if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
                 {
                     CameraController.Instance.RotateCamera();
+                    Global.instance.currentEntity.OnRightClick(hoveredObject);
+                    //This can be also null - its ok! Ability will cancel and other IActiveEntitys will do nothing ;)
+
                 }
             }
         }

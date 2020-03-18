@@ -43,12 +43,6 @@ namespace BattlescapeLogic
             missileScript.target = targetUnit;
         }
 
-        IEnumerator FlyMissile(GameObject missile, Tile target)
-        {
-            //here we need some complex stuff! Someone smarter than me would be nice to have here ;D cause my missiles in the old BS... terrible!
-            yield return null;
-        }
-
         // Ranged unit does nothing on it's attack animation
         public override void OnAttackAnimation()
         {

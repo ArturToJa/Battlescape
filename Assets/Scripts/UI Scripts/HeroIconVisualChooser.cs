@@ -6,7 +6,7 @@ public class HeroIconVisualChooser : MonoBehaviour
 {   
     void Update()
     {
-        if (SaveLoadManager.Instance.Race != BattlescapeLogic.Faction.Neutral)
+        if (SaveLoadManager.instance.race != BattlescapeLogic.Race.Neutral)
         {
             SetCorrectVisual();
         }
@@ -18,6 +18,6 @@ public class HeroIconVisualChooser : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        transform.GetChild((int)SaveLoadManager.Instance.Race).gameObject.SetActive(true);
+        transform.GetChild((int)SaveLoadManager.instance.race).gameObject.SetActive(true);
     }
 }

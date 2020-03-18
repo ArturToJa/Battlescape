@@ -27,7 +27,7 @@ public class ArmyChoiceWindow : MonoBehaviour
     public void CreateNewArmy()
     {
         windowSetter.currentScreen = HeroChoicer;
-        SaveLoadManager.Instance.currentSaveName = null;
+        SaveLoadManager.instance.currentSaveName = null;
         NewArmyWindow.SetActive(true);
         gameObject.SetActive(false);
 
@@ -40,15 +40,15 @@ public class ArmyChoiceWindow : MonoBehaviour
     public void ChooseCurrentArmy()
     {
         windowSetter.currentScreen = HeroChoicer;
-        SaveLoadManager.Instance.LoadPlayerArmy();
-        SaveLoadManager.Instance.RecreateUnitsList();
+        SaveLoadManager.instance.LoadPlayerArmy();
+        SaveLoadManager.instance.RecreateUnitsList();
         HeroChoicer.SetActive(true);
-        HeroChoicer.GetComponent<HeroChoiceScreenScript>().LoadHero(SaveLoadManager.Instance.playerArmy.heroIndex);
+        HeroChoicer.GetComponent<HeroChoiceScreenScript>().LoadHero(SaveLoadManager.instance.playerArmy.heroIndex);
         //HeroNames.SetHeroName(GameRound.instance.currentPlayer);
         StartCoroutine(CloseWindow(gameObject));
-        foreach (Transform child in ArmyBuilder.Instance.HeroesChoice.transform)
+        foreach (Transform child in ArmyBuilder.instance.HeroesChoice.transform)
         {
-           ArmyBuilder.Instance.SetHeroPortrait(child.gameObject, (int)SaveLoadManager.Instance.Race);
+           ArmyBuilder.instance.SetHeroPortrait(child.gameObject, (int)SaveLoadManager.instance.race);
         }        
     }  
 

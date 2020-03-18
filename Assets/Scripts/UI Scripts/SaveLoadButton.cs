@@ -13,7 +13,7 @@ public class SaveLoadButton : MonoBehaviour
 
     void TaskOnClick()
     {
-        SaveLoadManager.Instance.currentSaveName = this.gameObject.name;
+        SaveLoadManager.instance.currentSaveName = this.gameObject.name;
         FindObjectOfType<LoadWindowButtons>().canDelete = isDeletable;
     }
 }

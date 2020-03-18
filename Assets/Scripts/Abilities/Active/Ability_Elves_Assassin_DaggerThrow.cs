@@ -94,15 +94,15 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 
     public override bool AI_IsGoodToUseNow()
     {
-        for (int x = 0; x < Map.mapWidth; x++)
-            for (int z = 0; z < Map.mapHeight; z++)
-            {
-                //if (Helper.AreTilesInRange(Map.Board[x, z],myUnit.currentPosition, 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner && (Map.Board[x, z].myUnit.statistics.cost > 5 || Map.Board[x, z].myUnit is BattlescapeLogic.Hero))
-                //{
-                //    Target = Map.Board[x, z];
-                //    return true;
-                //}
-            }
+        //for (int x = 0; x < Global.instance.map.mapWidth; x++)
+        //    for (int z = 0; z < Global.instance.map.mapHeight; z++)
+        //    {
+        //        //if (Helper.AreTilesInRange(Global.instance.map.board[x, z],myUnit.currentPosition, 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.owner != myUnit.owner && (Global.instance.map.board[x, z].myUnit.statistics.cost > 5 || Global.instance.map.board[x, z].myUnit is BattlescapeLogic.Hero))
+        //        //{
+        //        //    Target = Global.instance.map.board[x, z];
+        //        //    return true;
+        //        //}
+        //    }
         return false;
     }
 
@@ -115,14 +115,14 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
     }
     protected override void ColourTiles()
     {
-        for (int x = 0; x < Map.mapWidth; x++)
-            for (int z = 0; z < Map.mapHeight; z++)
-            {
-                //if (Helper.AreTilesInRange(myUnit.currentPosition, Map.Board[x, z], 2) && Map.Board[x, z].myUnit != null && Map.Board[x, z].myUnit.owner != myUnit.owner)
-                //{
-                //    BattlescapeGraphics.ColouringTool.ColourObject(Map.Board[x, z],Color.red);
-                //}
-            }
+        //for (int x = 0; x < Global.instance.map.mapWidth; x++)
+        //    for (int z = 0; z < Global.instance.map.mapHeight; z++)
+        //    {
+        //        //if (Helper.AreTilesInRange(myUnit.currentPosition, Global.instance.map.board[x, z], 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.owner != myUnit.owner)
+        //        //{
+        //        //    BattlescapeGraphics.ColouringTool.ColourObject(Global.instance.map.board[x, z],Color.red);
+        //        //}
+        //    }
 
     }
 

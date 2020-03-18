@@ -7066,9 +7066,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Undead
-  TooltipText: This unit is not alive nor dead.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &125157331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8532,7 +8531,6 @@ MonoBehaviour:
   middle: {fileID: 749444648}
   bounds: {fileID: 55911786}
   canChangeVerticalRoration: 0
-  canRotate: 0
   sensitivity: 4
 --- !u!111 &150288919
 Animation:
@@ -10454,9 +10452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Flying
-  TooltipText: Flying units can move over enemies and obstacles.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &183985761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15490,9 +15487,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Cannot Attack
-  TooltipText: This unit cannot fight in melee combat.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &260196530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28012,9 +28008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Stops Retaliation
-  TooltipText: Enemies will not retaliate to the attack of this unit.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &494739992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32824,13 +32819,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73c994b160c30c74d8e5f76fb9d48a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Yes: {fileID: 0}
-  Choose: {fileID: 316342690}
-  BackButton: {fileID: 1282554685}
-  Delete: {fileID: 27288026}
-  ExiSaves: {fileID: 239294290}
+  confirmButton: {fileID: 316342694}
+  backButton: {fileID: 1282554689}
+  deleteButton: {fileID: 27288030}
+  existingSaves: {fileID: 239294290}
   savePrefab: {fileID: 1651261313338776, guid: f253785d8f50573468fe63fc43eba076, type: 2}
-  canDelete: 0
 --- !u!114 &575830404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39017,9 +39010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Special Unit
-  TooltipText: This unit is very precious. It can massacre Cannonmeat, too!
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &663146617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43731,9 +43723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Colossus
-  TooltipText: This unit gets defence bonus when facing smaller units.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &759862134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47415,9 +47406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Unit Type
-  TooltipText: Type of this unit.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &836015510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51432,9 +51422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Summoned
-  TooltipText: This unit has been summoned!
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &906103542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56923,9 +56912,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Short Range
-  TooltipText: This unit shoots less effective to far away targets.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &1007746534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57199,8 +57187,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1054937470}
-        m_MethodName: ClickElves
+      - m_Target: {fileID: 1015760368}
+        m_MethodName: ChooseRace
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -57256,10 +57244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd4766f1c8ca93499b4b44ca2e31ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FactionName: Elves
-  FactionDescription: Based on tactics, tricks and ambushes, rather than regular combat,
-    elves are the sneakiest of them all. Lacking in strict frontal fighting skills,
-    they shine in the field of speed and tricky abilities.
+  raceName: Elves
+  race: 0
+  raceDescription: Using deceiving tricks and their huge movement speed, Elves outmanouver
+    their opponents instead of beating them in simple combat. A hard race to play
+    for newer players.
 --- !u!114 &1015760369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59262,22 +59251,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeroesChoice: {fileID: 215334882}
-  FactionScreen: {fileID: 1373970054}
-  ABScreen: {fileID: 155761096}
-  DeploymentPanel: {fileID: 0}
-  LeftUnits: {fileID: 1692062254}
+  raceScreen: {fileID: 1373970054}
+  armyBuildingScreen: {fileID: 155761096}
+  leftUnits: {fileID: 1692062254}
   RightUnits: {fileID: 456918962}
-  heroCreator: {fileID: 0}
-  pressedButton: {fileID: 0}
-  currentMoney: 0
-  RemainingGoldText: {fileID: 1463571493}
+  remainingGoldText: {fileID: 1463571493}
   UnitsList: []
-  Pedestal: {fileID: 1118790302}
-  isVisual: 0
-  HeroChoicer: {fileID: 1592443983}
-  FactionOK: {fileID: 1718316048}
-  FactionNameText: {fileID: 1187210596}
-  FactionDescriptionText: {fileID: 735106044}
+  heroPedestal: {fileID: 1118790302}
+  heroChoiceScreen: {fileID: 1592443983}
+  raceOK: {fileID: 1718316048}
+  RaceNameText: {fileID: 1187210596}
+  RaceDescriptionText: {fileID: 735106044}
 --- !u!1 &1057527047
 GameObject:
   m_ObjectHideFlags: 0
@@ -63499,9 +63483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Full Melee Strength
-  TooltipText: Despite being ranged, this unit has full Attack power in melee combat.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &1130638746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66742,8 +66725,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1054937470}
-        m_MethodName: ClickHuman
+      - m_Target: {fileID: 1210816748}
+        m_MethodName: ChooseRace
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -66766,9 +66749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd4766f1c8ca93499b4b44ca2e31ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FactionName: Human
-  FactionDescription: Most well-rounded faction. Humans are very versatile, yet they
-    lack flying units. Most of their units are not too fast.
+  raceName: Human
+  race: 0
+  raceDescription: The most balanced race, a jack of all trades and a master of none,
+    Human race is the best choice for newer players.
 --- !u!114 &1210816749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72999,10 +72983,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Assassin
-  TooltipText: Gets bonus attack if attacking a Hero, Colossus or last member of a
-    unit (Unit with 1 HP).
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &1329969072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90059,9 +90041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Poison
-  TooltipText: Poisonous attacks are very deadly.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &1654758834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92561,7 +92542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1718316049
 RectTransform:
   m_ObjectHideFlags: 0
@@ -102570,7 +102551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92217466ada392f458ddb610c17dc6d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitCreator: {fileID: 0}
+  unitCreator: {fileID: 11400000, guid: abd43d637f0202142951efc05e22c2a6, type: 2}
   isVisual: 1
 --- !u!114 &1899920678
 MonoBehaviour:
@@ -105784,12 +105765,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 1944730634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ef9347995f35d744821b225dc40571d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c0593b10cf85854883ba77effb54cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalCursor: {fileID: 2800000, guid: c0a8d3df75dd6ef4097d3e7761e5ba0c, type: 3}
-  clickingCursor: {fileID: 2800000, guid: b7e57c903086a5b40976fce8953dc509, type: 3}
+  middleHotspotCursors:
+  - {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
+  - {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18, type: 3}
+  - {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9, type: 3}
+  - {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae, type: 3}
+  - {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
+  - {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
+  - {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
+  - {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
+  - {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222, type: 3}
+  - {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
+  - {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1, type: 3}
+  - {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
+  defaultCursor: {fileID: 2800000, guid: c0a8d3df75dd6ef4097d3e7761e5ba0c, type: 3}
+  clickingDefaultCursor: {fileID: 2800000, guid: b7e57c903086a5b40976fce8953dc509,
+    type: 3}
+  waitingCursor: {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
+  shootingCursor: {fileID: 2800000, guid: 3dbf1f571a2a5e44aae172fcdd9fb863, type: 3}
+  clickingShootingCursor: {fileID: 2800000, guid: 206bc905e9ddaa74182b28e607313dac,
+    type: 3}
+  badRangeShootingCursor: {fileID: 2800000, guid: 435a37661d6de7a428594a9b4c3d62d4,
+    type: 3}
+  clickingBadRangeShootingCursor: {fileID: 2800000, guid: 6ad38a182b2ec834385c282d8a3ee86b,
+    type: 3}
+  attackCursor: {fileID: 2800000, guid: 06999c45015f60445a68eacd280c4ccb, type: 3}
+  clickingAttackCursor: {fileID: 2800000, guid: cda0d9c61377ede41b29982bd4394e9c,
+    type: 3}
+  walkingCursor: {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
+  clickingWalkingCursor: {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9,
+    type: 3}
+  validTargetCursor: {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
+  clickingTargetCursor: {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222,
+    type: 3}
   infoCursor: {fileID: 2800000, guid: d6c255cd4a632b043b788ec2e419aca9, type: 3}
+  selectionCursor: {fileID: 2800000, guid: 44ab20cdcf81931488387a334cb1041f, type: 3}
+  clickingSelectionCursor: {fileID: 2800000, guid: c892115c0354b6040ab73cbc6968b31c,
+    type: 3}
+  blockedCursor: {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
+  clickingBlockedCursor: {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1,
+    type: 3}
+  enterCombatCursor: {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
+  clickingEnterCombatCursor: {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8,
+    type: 3}
+  combatExitingMovementCursor: {fileID: 0}
+  clickingCombatExitingMovementCursor: {fileID: 0}
 --- !u!4 &1944730636
 Transform:
   m_ObjectHideFlags: 0
@@ -107151,7 +107174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 96, y: -55.29875}
+  m_AnchoredPosition: {x: 96, y: -55.298706}
   m_SizeDelta: {x: 192, y: 110.5975}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963225997
@@ -114251,9 +114274,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Construct
-  TooltipText: This unit is a machine.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &2083806882
 MonoBehaviour:
   m_ObjectHideFlags: 0

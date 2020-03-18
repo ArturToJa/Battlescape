@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
 {
     //IDK if we need it or not but i didn't like forcing my physical transform.position (which is a float) into int all the time
+    [System.Serializable]
     public struct Position
     {
         public Position(int _x, int _z)
@@ -14,17 +16,17 @@ namespace BattlescapeLogic
         }
         public int x;
         public int z;
+
+        public int DistanceTo(Position other)
+        {
+            return Mathf.Max(Mathf.Abs(this.x - other.x), Mathf.Abs(this.z - other.z));
+        }
     }
 
-    //WE USE THIS! This is our TILE! Old "TILE" is no longer a thing!
-    //Temporarily(!) uses BattlescapeLogic.Unit, not Unit. :< NEEDS CHANGING ASAP!
     public class Tile : MonoBehaviour, IMouseTargetable
     {
-        // put correct width and height here
-        public static float tileWidth = 0;
-        public static float tileHeight = 0;
-        public BattlescapeLogic.Unit myUnit { get; private set; }
-        public GameObject myObstacle { get; set; }
+        public Unit myUnit { get; private set; }
+        public Obstacle myObstacle { get; set; }
         public bool hasObstacle
         {
             get
@@ -35,9 +37,22 @@ namespace BattlescapeLogic
         //this is not used as we, for some strange reason, dont show movement path!
         public bool isUnderMovementMarker { get; set; }
         public Position position { get; set; }
-        public int DropzoneOfPlayer { get; set; }
+        [SerializeField] int _dropzoneOfTeam = -1;
+        public int dropzoneOfTeam
+        {
+            get
+            {
+                return _dropzoneOfTeam;
+            }
+            set
+            {
+                _dropzoneOfTeam = value;
+            }
+        }
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
+
+        public static event Action<Tile> OnMouseHoverTileEnter;        
 
         public List<Tile> neighbours
         {
@@ -45,27 +60,25 @@ namespace BattlescapeLogic
             {
                 List<Tile> returnList = new List<Tile>();
 
-                for (int i = 0; i < Map.mapWidth; i++)
-                    for (int j = 0; j < Map.mapHeight; j++)
+                for (int i = 0; i < Global.instance.currentMap.mapWidth; i++)
+                    for (int j = 0; j < Global.instance.currentMap.mapHeight; j++)
                     {
                         //next line means: all 8 neighbours, literally (and prevents OUR tile to be inside the scope), NOTE THAT unwalkable/obstacled tiles are STILL neighbours.
                         if (Mathf.Abs(i - position.x) <= 1 && Mathf.Abs(j - position.z) <= 1 && !(position.x == i && position.z == j))
                         {
-                            returnList.Add(Map.Board[i, j]);
+                            returnList.Add(Global.instance.currentMap.board[i, j]);
                         }
                     }
                 return returnList;
             }
         }
 
-
-        private void Start()
+        public void OnSetup()
         {
             position = new Position((int)transform.position.x, (int)transform.position.z);
+            Global.instance.currentMap.board[position.x, position.z] = this;
         }
 
-        //this should JUST give info, if there is ANY CHANCE that ANY unit (does not care about who the owner is) can finish movement here/walk through it without abilities/flying.
-        //at least thats what i think...    
         public bool IsWalkable()
         {
             return myUnit == null && hasObstacle == false;
@@ -122,6 +135,23 @@ namespace BattlescapeLogic
             myObstacle = null;
         }
 
+        public Tile GetMyTile()
+        {
+            return this;
+        }
+
+        public void OnMouseHoverEnter()
+        {
+            OnMouseHoverTileEnter(this);
+        }
+
+        public void OnMouseHoverExit()
+        {
+            foreach (Unit unit in Global.instance.GetAllUnits())
+            {
+                BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.white);
+            }
+        }
     }
 }
 

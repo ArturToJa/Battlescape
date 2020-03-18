@@ -5,54 +5,65 @@ using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using BattlescapeLogic;
+using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : MonoBehaviour
 {
-    [SerializeField] Sprite[] FactionSymbols;
-    [SerializeField] Sprite[] HeroPortraits;
-    public static SaveLoadManager Instance { get; private set; }
-    [SerializeField] GameObject SavePrefab;
-    [SerializeField] Transform DeploymentPanel;
-    public List<UnitCreator> UnitsList;
-    public PlayerArmy playerArmy;
-    public string currentSaveName;
-    public int currentSaveValue = 25;
-    public UnitCreator hero;
-    public Faction Race;
-    public string HeroName;
-    //public Faction[] ChosenFactions = new Faction[2];
+    [SerializeField] Sprite[] raceSymbols;
+    public static SaveLoadManager instance { get; private set; }
+    [SerializeField] GameObject savePrefab;
+    public List<UnitCreator> unitsList { get; set; }
+    public PlayerArmy playerArmy { get; set; }
+    public string currentSaveName { get; set; }
+    public int currentSaveValue { get; set; }
+    public UnitCreator hero { get; set; }
+    public Race race { get; set; }
+    public string heroName { get; set; }
+    //public Race[] ChosenRaces = new Race[2];
     public List<UnitCreator> allUnitCreators;
-    public bool AreBothFactionsChosen
+    public bool haveAllPlayersChosenRace
     {
         get
         {
-            return Global.instance.playerBuilders[0,0].race != Faction.Neutral && Global.instance.playerBuilders[1,0].race != Faction.Neutral;
+            foreach (PlayerBuilder playerBuilder in Global.instance.playerBuilders)
+            {
+                if (playerBuilder.race == Race.Neutral)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
-    Faction LocalFaction
+    Race localRace
     {
         get
         {
-            if (PhotonNetwork.isMasterClient)
+            foreach (PlayerTeam team in Global.instance.playerTeams)
             {
-                return Global.instance.playerBuilders[0,0].race;
+                foreach (Player player in team.players)
+                {
+                    if (player.type == PlayerType.Local)
+                    {
+                        return player.race;
+                    }
+                }
             }
-            else
-            {
-                return Global.instance.playerBuilders[1,0].race;
-            }
+            Debug.LogError("No local player found!");
+            return Race.Neutral;
         }
     }
-    //^ this is just for multiplayer purpose of setting factions in the lobby. As lobby scene has no central manager script and it is connected in a way to SLM (cause it restricts allowed saves to load for later).... It stays here.
+    //^ this is just for multiplayer purpose of setting Races in the lobby. As lobby scene has no central manager script and it is connected in a way to SLM (cause it restricts allowed saves to load for later).... It stays here.
 
     void Awake()
     {
-        Race = Faction.Neutral;
-        //ChosenFactions[0] = Faction.Neutral;
-        //ChosenFactions[1] = Faction.Neutral;
-        if (Instance == null)
+        currentSaveValue = 25;
+        race = Race.Neutral;
+        //ChosenRaces[0] = Race.Neutral;
+        //ChosenRaces[1] = Race.Neutral;
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -69,15 +80,23 @@ public class SaveLoadManager : MonoBehaviour
 
 
         playerArmy = new PlayerArmy();
-        UnitsList = new List<UnitCreator>();
-
+        unitsList = new List<UnitCreator>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Start()
     {
         if (Global.instance.matchType == MatchTypes.Singleplayer && Global.instance.playerTeams[0].players[0].type == PlayerType.AI)
         {
-            LoadAIArmyToGame(Global.instance.playerBuilders[0,0], currentSaveValue);
+            LoadAIArmyToGame(Global.instance.playerBuilders[0], currentSaveValue);
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name.Contains("_GameScene_"))
+        {
+            Global.instance.SetMap(scene.name);
         }
     }
 
@@ -111,22 +130,22 @@ public class SaveLoadManager : MonoBehaviour
     public void CopyDataToSave()
     {
         playerArmy = new PlayerArmy();
-        if (Race != Faction.Neutral)
+        if (race != Race.Neutral)
         {
-            playerArmy.faction = Race;
+            playerArmy.Race = race;
         }
-        if (HeroName != null && HeroName != string.Empty)
+        if (heroName != null && heroName != string.Empty)
         {
-            playerArmy.HeroName = HeroName;
+            playerArmy.HeroName = heroName;
         }
         else
         {
             playerArmy.HeroName = HeroNames.GetRandomHeroName();
-            HeroName = playerArmy.HeroName;
+            heroName = playerArmy.HeroName;
         }
-        if (ArmyBuilder.Instance != null && ArmyBuilder.Instance.heroCreator != null)
+        if (ArmyBuilder.instance != null && ArmyBuilder.instance.heroCreator != null)
         {
-            playerArmy.heroIndex = ArmyBuilder.Instance.heroCreator.index;
+            playerArmy.heroIndex = ArmyBuilder.instance.heroCreator.index;
         }
         else
         {
@@ -134,7 +153,7 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         playerArmy.unitIndecies = new List<int>();
-        foreach (UnitCreator unitCreator in UnitsList)
+        foreach (UnitCreator unitCreator in unitsList)
         {
             playerArmy.unitIndecies.Add(unitCreator.index);
         }
@@ -182,32 +201,32 @@ public class SaveLoadManager : MonoBehaviour
     {
         LoadPlayerArmy();
         RecreateUnitsList();
-        FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
+        FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().LoadPlayerToGame();
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
         if (Global.instance.matchType == MatchTypes.Online)
-        {            
-            Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, GameRound.instance.currentPlayer.team.index, HeroName);
+        {
+            Networking.instance.photonView.RPC("RPCSetHeroName", PhotonTargets.All, GameRound.instance.currentPlayer.team.index, heroName);
         }
         else
         {
-            HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, HeroName);
+            HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
         }
     }
-    public void LoadAIArmyToGame(PlayerBuilder player, int points)
+    public void LoadAIArmyToGame(PlayerBuilder currentPlayerBuilder, int points)
     {
         LoadAIArmy(points);
         RecreateUnitsList();
-        FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().Okay();
-        HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, HeroName);
-        player.race = (Faction)Race;
+        FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().LoadPlayerToGame();
+        HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
+        currentPlayerBuilder.race = (Race)race;
     }
 
     public void RecreateUnitsList()
     {
-        UnitsList.Clear();
+        unitsList.Clear();
         foreach (int index in playerArmy.unitIndecies)
         {
-            UnitsList.Add(GetUnitCreatorFromIndex(index));
+            unitsList.Add(GetUnitCreatorFromIndex(index));
         }
         if (playerArmy.heroIndex == -1)
         {
@@ -215,12 +234,12 @@ public class SaveLoadManager : MonoBehaviour
             return;
         }
         hero = GetUnitCreatorFromIndex(playerArmy.heroIndex);
-        if (ArmyBuilder.Instance != null)
+        if (ArmyBuilder.instance != null)
         {
-            ArmyBuilder.Instance.heroCreator = hero;
+            ArmyBuilder.instance.heroCreator = hero;
         }
-        HeroName = playerArmy.HeroName;
-        Race = playerArmy.faction;
+        heroName = playerArmy.HeroName;
+        race = playerArmy.Race;
     }
 
     public UnitCreator GetUnitCreatorFromIndex(int index)
@@ -235,7 +254,7 @@ public class SaveLoadManager : MonoBehaviour
         Debug.LogError("No unitcreators of set index in the all-list!");
         return null;
     }
-    
+
     public Dictionary<string, string> GetSaveNames(string location)
     {
         Dictionary<string, string> saveNames = new Dictionary<string, string>();
@@ -252,21 +271,21 @@ public class SaveLoadManager : MonoBehaviour
         return saveNames;
     }
 
-    public bool HasRaceSaved(Faction race)
+    public bool HasRaceSaved(Race race)
     {
-        var list = SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/");
+        var list = SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/");
         if (list != null)
         {
             foreach (var item in list)
             {
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.faction == Faction.Neutral)
+                if (armyInfo.Race == Race.Neutral)
                 {
                     Debug.Log("deleted");
-                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
+                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
                     continue;
                 }
-                if (armyInfo.faction == race)
+                if (armyInfo.Race == race)
                 {
                     return true;
                 }
@@ -296,10 +315,10 @@ public class SaveLoadManager : MonoBehaviour
             Save();
             currentSaveName = null;
             hero = null;
-            HeroName = null;
-            Race = Faction.Neutral;
+            heroName = null;
+            race = Race.Neutral;
             playerArmy = new PlayerArmy();
-            UnitsList = new List<UnitCreator>();
+            unitsList = new List<UnitCreator>();
             FindObjectOfType<WindowSetter>().GoBack();
         }
     }
@@ -321,30 +340,30 @@ public class SaveLoadManager : MonoBehaviour
                 Destroy(ExiSaves.GetChild(0).gameObject);
             }
         }
-        var list = SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/");
+        var list = SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/");
         if (list != null)
         {
             foreach (var item in list)
             {
-                var temp = Instantiate(SavePrefab, ExiSaves);
+                var temp = Instantiate(savePrefab, ExiSaves);
                 temp.GetComponent<SaveLoadButton>().isDeletable = true;
                 temp.GetComponentInChildren<Text>().text = item.Key;
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.faction == Faction.Neutral)
+                if (armyInfo.Race == Race.Neutral)
                 {
                     Debug.Log("deleted");
-                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.Instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
+                    File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
                     Destroy(temp);
                     continue;
                 }
-                if (Global.instance.matchType == MatchTypes.Online && armyInfo.faction != LocalFaction)
+                if (Global.instance.matchType == MatchTypes.Online && armyInfo.Race != localRace)
                 {
                     Debug.Log("Skipped");
                     Destroy(temp);
                     continue;
                 }
-                temp.GetComponentsInChildren<Image>()[1].sprite = GetRaceSprite((Faction)armyInfo.faction);
-                //temp.GetComponentsInChildren<Image>()[2].sprite = FactionSymbols[(int)armyInfo.heroID];
+                temp.GetComponentsInChildren<Image>()[1].sprite = GetRaceSprite((Race)armyInfo.Race);
+                //temp.GetComponentsInChildren<Image>()[2].sprite = RaceSymbols[(int)armyInfo.heroID];
                 temp.name = item.Key;
             }
         }
@@ -365,13 +384,13 @@ public class SaveLoadManager : MonoBehaviour
          string name= "";
          switch (Race)
          {
-             case Faction.Elves:
+             case Race.Elves:
                  name = "E";
                  break;
-             case Faction.Human:
+             case Race.Human:
                  name = "H";
                  break;
-             case Faction.Neutral:
+             case Race.Neutral:
                  name = "N";
                  Debug.LogWarning("This is neutral army!");
                  break;
@@ -397,9 +416,9 @@ public class SaveLoadManager : MonoBehaviour
          return name;
      }*/
 
-    public Sprite GetRaceSprite(Faction race)
+    public Sprite GetRaceSprite(Race race)
     {
-        return FactionSymbols[(int)race];
+        return raceSymbols[(int)race];
     }
 
 }
@@ -410,7 +429,7 @@ public class PlayerArmy
     public string HeroName;
     public List<int> unitIndecies;
     public int heroIndex;
-    public Faction faction;
+    public Race Race;
 }
 
 [System.Serializable]

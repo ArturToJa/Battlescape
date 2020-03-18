@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,14 +11,19 @@ namespace BattlescapeLogic
     public class Global : MonoBehaviour
     {
         public static Global instance { get; private set; }
-        public NewMap map { get; private set; }
+        public Map currentMap { get; private set; }
+        [SerializeField] List<Map> maps;
         public List<PlayerTeam> playerTeams { get; private set; }
-        public MatchTypes matchType;
+        public MatchTypes matchType { get; set; }
 
         //THIS IS TEMPORARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        public PlayerBuilder[,] playerBuilders = new PlayerBuilder[2,1];
+        public List<PlayerBuilder> playerBuilders = new List<PlayerBuilder>();
 
-        public AbstractMovement[] movementTypes = new AbstractMovement[3];       
+
+
+        public AbstractMovement[] movementTypes = new AbstractMovement[3];
+        public IActiveEntity currentEntity;
+        public int playerCount { get; set; }
 
         void Awake()
         {
@@ -27,7 +33,7 @@ namespace BattlescapeLogic
                 instance = this;
             }
             else if (instance != this)
-            {                
+            {
                 Destroy(this.gameObject);
             }
             movementTypes[(int)MovementTypes.Ground] = new GroundMovement();
@@ -38,53 +44,26 @@ namespace BattlescapeLogic
             PlayerTeam teamRight = new PlayerTeam(1, 1);
             playerTeams.Add(teamLeft);
             playerTeams.Add(teamRight);
-            playerBuilders[0,0] = new PlayerBuilder();
-            playerBuilders[1,0] = new PlayerBuilder();
             matchType = MatchTypes.None;
+            playerCount = 2;
         }
 
-
-        public Player GetNextPlayer(Player player)
+        public PlayerBuilder GetCurrentPlayerBuilder()
         {
-            if (playerTeams.Count > player.team.index && 
-                playerTeams[player.team.index] != null && 
-                playerTeams[player.team.index].players.Count > player.index && 
-                playerTeams[player.team.index].players[player.index] != null)
-            {
-                if (playerTeams[player.team.index].players.Count - 1 > player.index)
-                //meaning 'there are NEXT players in this team - I assume currently players move first inside of one team, might be false!
-                {
-                    return player.team.players[player.index + 1];
-                }
-                else if (playerTeams.Count - 1 > player.team.index)
-                //meaning 'there is a NEXT team - same assumption as before
-                {
-                    return playerTeams[player.team.index + 1].players[0];
-                }
-                else
-                {
-                    //there are NO 'next' teams and players, so its time for player 0 of team 0!
-                    return playerTeams[0].players[0];
-                }
-            }
-            else
-            {
-                //havent found the Player player in the lists - freak out with an error!
-                Debug.LogError("Fuck, no such player exists!");
-                return null;
-            }                        
-        }
+            return playerBuilders[0];
+        }       
 
         public bool IsCurrentPlayerLocal()
         {
-            if (playerBuilders[GameRound.instance.currentPlayer.team.index,GameRound.instance.currentPlayer.index] != null)
+            foreach (PlayerBuilder playerBuilder in playerBuilders)
             {
-                return playerBuilders[GameRound.instance.currentPlayer.team.index, GameRound.instance.currentPlayer.index].type == PlayerType.Local;
+                if (playerBuilder.type == PlayerType.Local && playerBuilder.team == GameRound.instance.currentPlayer.team && playerBuilder.index == GameRound.instance.currentPlayer.index)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return (GameRound.instance.currentPlayer.type == PlayerType.Local);
-            }
+
+            return (GameRound.instance.currentPlayer.type == PlayerType.Local);
         }
 
         public List<Unit> GetAllUnits()
@@ -127,6 +106,18 @@ namespace BattlescapeLogic
                 }
             }
             return count;
+        }
+
+        public void SetMap(string mapName)
+        {
+            foreach (Map map in maps)
+            {
+                if (map.mapName == mapName)
+                {
+                    currentMap = map;
+                    currentMap.OnSetup();
+                }
+            }
         }
 
 

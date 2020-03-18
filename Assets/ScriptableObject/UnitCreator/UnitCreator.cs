@@ -13,7 +13,7 @@ public class UnitCreator : ScriptableObject
 
     public static GameObject FindUnitPrefabByIndex(int index)
     {
-        foreach (UnitCreator unitCreator in SaveLoadManager.Instance.allUnitCreators)
+        foreach (UnitCreator unitCreator in SaveLoadManager.instance.allUnitCreators)
         {
             if (unitCreator.index == index)
             {

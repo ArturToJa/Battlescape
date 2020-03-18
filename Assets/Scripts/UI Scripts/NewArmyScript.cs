@@ -20,14 +20,14 @@ public class NewArmyScript : MonoBehaviour
     {
         if (the25toggle.isOn)
         {
-            SaveLoadManager.Instance.currentSaveValue = 25;
+            SaveLoadManager.instance.currentSaveValue = 25;
         }
         if (the50toggle.isOn)
         {
-            SaveLoadManager.Instance.currentSaveValue = 50;
+            SaveLoadManager.instance.currentSaveValue = 50;
         }
-        SaveLoadManager.Instance.currentSaveName = tempName;
-        SaveLoadManager.Instance.Save();
+        SaveLoadManager.instance.currentSaveName = tempName;
+        SaveLoadManager.instance.Save();
         HeroChoicer.SetActive(true);
         this.gameObject.SetActive(false);
     }

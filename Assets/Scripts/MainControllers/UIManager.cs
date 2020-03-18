@@ -8,13 +8,12 @@ using BattlescapeLogic;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameObject UnitPanel;
-    [SerializeField] GameObject MovementPanel;
+    [SerializeField] GameObject unitPanel;
     [SerializeField] GameObject selectedUnitStats;
     [SerializeField] Text unitName;
     BattlescapeLogic.Unit unitWeShowStatsOf;
 
-    [SerializeField] GameObject EnergyBar;
+    [SerializeField] GameObject energyBar;
     [SerializeField] Image fillOfABar;
     [SerializeField] Text amount;
     [SerializeField] float barAnimationTime = 0.1f;
@@ -32,40 +31,31 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateSelectedUnit();
-        SetPanelsActivity();
-        SetUnitName();
-        if (MouseManager.instance.selectedUnit != null)
-        {
-            FillTheBar();
-        }
     } 
     
 
     void UpdateSelectedUnit()
-    {       
-        if (GameRound.instance.currentPlayer != null && GameRound.instance.currentPlayer.type == PlayerType.AI)
+    {
+        if (GameRound.instance.currentPlayer == null)
+        {
+            return;
+        }
+
+        SmoothlyTransitionActivity(unitPanel, unitWeShowStatsOf != null, 0.1f);
+
+        if (GameRound.instance.currentPlayer.type == PlayerType.AI)
         {
            //??
         }
         else
         {
-            unitWeShowStatsOf = MouseManager.instance.selectedUnit;
+            unitWeShowStatsOf = GameRound.instance.currentPlayer.selectedUnit;
+            if (unitWeShowStatsOf != null)
+            {
+                FillTheBar();
+                unitName.text = unitWeShowStatsOf.name;
+            }
         }
-    }
-
-    
-
-    private void SetUnitName()
-    {
-        if (unitWeShowStatsOf != null)
-        {
-            unitName.text = unitWeShowStatsOf.name;
-        }
-    }
-
-    private void SetPanelsActivity()
-    {
-        SmoothlyTransitionActivity(UnitPanel, unitWeShowStatsOf != null, 0.1f);
     }
 
     public static void SmoothlyTransitionActivity(GameObject UIElement, bool active, float time)
@@ -118,9 +108,9 @@ public class UIManager : MonoBehaviour
 
     void FillTheBar()
     {
-        Unit unit = MouseManager.instance.selectedUnit;
+        Unit unit = GameRound.instance.currentPlayer.selectedUnit;
         float velocity = 0;
         fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.currentEnergy / (float)Statistics.maxEnergy), ref velocity, barAnimationTime);
-        amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString();
+        amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString() + "               +" + unit.statistics.energyRegen;
     }
 }

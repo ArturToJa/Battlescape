@@ -13,6 +13,8 @@ public class SelectionIndicator : MonoBehaviour
     void Start()
     {
         myImage = GetComponentInChildren<Image>();
+        Unit.OnUnitSelected += SetActiveFor;
+        Unit.OnUnitDeselected += SetInactive;
     }
     
     public void SetActiveFor(Unit unit)

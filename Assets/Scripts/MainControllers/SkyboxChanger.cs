@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkyboxChanger : MonoBehaviour
 {
 
-    public static SkyboxChanger Instance { get; private set; }
+    public static SkyboxChanger instance { get; private set; }
     public Material[] skyboxes;
     public Material PregameSkyboxDefault;
     public Material currSkybox;
@@ -15,9 +15,9 @@ public class SkyboxChanger : MonoBehaviour
 
     void Start()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         SetSkyboxTo(PregameSkyboxDefault);
     }
@@ -33,9 +33,16 @@ public class SkyboxChanger : MonoBehaviour
 
     public void SetSkyboxTo(int skyboxCounter)
     {
-        currentSkyboxNumber = skyboxCounter;
-        RenderSettings.skybox = skyboxes[currentSkyboxNumber];
-        currSkybox = RenderSettings.skybox;
+        if (skyboxCounter == -1)
+        {
+            SetSkyboxToRandom();
+        }
+        else
+        {
+            currentSkyboxNumber = skyboxCounter;
+            RenderSettings.skybox = skyboxes[currentSkyboxNumber];
+            currSkybox = RenderSettings.skybox;
+        }     
     }
     public void SetSkyboxTo(Material skybox)
     {

@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable
+    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IActiveEntity
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -20,70 +20,41 @@ namespace BattlescapeLogic
             {
                 _missilePrefab = value;
             }
-        }        
+        }
 
         [SerializeField] public AttackTypes attackType;
         [SerializeField] public MovementTypes movementType;
         public AbstractMovement movement { get; private set; }
-        public AbstractAttack attack { get; set; }
-
-        static int counter = -1;
-        public int _unitTypeIndex = -1;
-        public int unitTypeIndex
-        {
-            get
-            {
-                return _unitTypeIndex;
-            }
-            set
-            {
-                counter++;
-                _unitTypeIndex = counter;
-            }
-        }
+        public AbstractAttack attack { get; set; }       
 
         public Player owner { get; set; }
-        [SerializeField] string _unitName;
-        public string unitName
+
+        [SerializeField] UnitInfo _info;
+        public UnitInfo info
         {
             get
             {
-                return _unitName;
+                return _info;
             }
             private set
             {
-                _unitName = value;
+                info = value;
             }
         }
+
         public Tile currentPosition { get; set; }
         public UnitSounds unitSounds;
         public Statistics statistics;
         [SerializeField] UnitClass unitClass;
-        
-        public List<AbstractAbility> abilities;
+
+        public List<AbstractAbility> abilities { get; private set; }
         public List<AbstractBuff> buffs { get; private set; }
         public GameObject visuals { get; private set; }
         public GameObject meleeWeaponVisual { get; private set; }
-        public Animator animator { get; private set; }
+        public Animator animator { get; private set; }        
 
-        [SerializeField] string _fluffText;
-        public string fluffText
-        {
-            get
-            {
-                return _fluffText;
-            }
-            private set
-            {
-                _fluffText = value;
-            }
-        }
-
-        [SerializeField] Faction _race;
-
-
-
-        public Faction race
+        [SerializeField] Race _race;
+        public Race race
         {
             get
             {
@@ -94,6 +65,9 @@ namespace BattlescapeLogic
                 _race = value;
             }
         }
+
+        public static event Action<Unit> OnUnitSelected = delegate { };
+        public static event Action OnUnitDeselected = delegate { };
 
         protected override void Start()
         {
@@ -109,7 +83,7 @@ namespace BattlescapeLogic
                 statistics.NullMaxMovementPoints();
             }
 
-            attack = GetAttackType();
+            SetAttackToDefault();
             if (attack == null)
             {
                 statistics.NullBaseAttack();
@@ -120,6 +94,7 @@ namespace BattlescapeLogic
             statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
             FaceMiddleOfMap();
             UpdateAbilities();
+            Tile.OnMouseHoverTileEnter += OnTileHovered;
         }
 
         private void UpdateAbilities()
@@ -133,12 +108,11 @@ namespace BattlescapeLogic
 
         public void FaceMiddleOfMap()
         {
-            Vector3 mapMiddle = new Vector3(Map.MapMiddle.x, visuals.transform.position.y, Map.MapMiddle.z);
+            Vector3 mapMiddle = new Vector3((Global.instance.currentMap.mapWidth - 1) / 2, visuals.transform.position.y, (Global.instance.currentMap.mapHeight - 1) / 2);
             transform.LookAt(mapMiddle);
             visuals.transform.LookAt(mapMiddle);
         }
 
-        
         AbstractMovement GetMovementType()
         {
             return Global.instance.movementTypes[(int)movementType];
@@ -157,6 +131,16 @@ namespace BattlescapeLogic
                     //unit cannot attack
                     return null;
             }
+        }
+
+        public Tile GetMyTile()
+        {
+            return currentPosition;
+        }
+
+        public void SetAttackToDefault()
+        {
+            attack = GetAttackType();
         }
 
         public bool CanAttackOrMoveNow()
@@ -206,7 +190,7 @@ namespace BattlescapeLogic
         //Returns true if movement is exiting combat
         public bool IsExittingCombat(Tile newPosition)
         {
-            return (currentPosition.IsProtectedByEnemyOf(this) && (newPosition.IsProtectedByEnemyOf(this) == false));            
+            return (currentPosition.IsProtectedByEnemyOf(this) && (newPosition.IsProtectedByEnemyOf(this) == false));
         }
 
         public void ExitCombat()
@@ -236,23 +220,23 @@ namespace BattlescapeLogic
                     }
                 }
             }
-            
+
         }
 
         public void OnCombatEnter()
-        {         
+        {
             if (attackType == AttackTypes.Ranged)
             {
                 attack = new MeleeAttack(this);
-            }            
+            }
             animator.SetBool("InCombat", true);
         }
 
         public void OnCombatExit()
         {
-            animator.SetBool("InCombat", false);            
+            animator.SetBool("InCombat", false);
             if (IsAlive())
-            {          
+            {
                 if (attackType == AttackTypes.Ranged)
                 {
                     attack = new ShootingAttack(this);
@@ -283,7 +267,7 @@ namespace BattlescapeLogic
         //This is the attack on enemy exiting combat with us... Needed to separate it to a) change chances and b) calculate damage beforehand (to be able to know if I can or cannot quit combat)
         public void Backstab(Unit target, int damage)
         {
-            attack = new BackstabAttack(attack, damage,this);
+            attack = new BackstabAttack(attack, damage, this);
             attack.Attack(target);
         }
 
@@ -293,7 +277,7 @@ namespace BattlescapeLogic
         //public event Action<Unit, Unit, int> AttackEvent;       
 
 
-            //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
+        //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
         public void HitTarget(Unit target, int damage)
         {
             PlayerInput.instance.isInputBlocked = false;
@@ -301,17 +285,17 @@ namespace BattlescapeLogic
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
                 defenceDebuff.ApplyOnUnit(target);
-                Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
-                Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
+                Log.SpawnLog(this.info.unitName + " attacks " + target.info.unitName + ", but misses completely!");
+                Log.SpawnLog(target.info.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }
             else if (damage > 0)
             {
-                Log.SpawnLog(this.unitName + " deals " + damage + " damage to " + target.unitName + "!");
+                Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.info.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.OnHit(this, damage);
-                foreach(AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
+                foreach (AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
                 {
                     buff.RemoveFromUnitInstantly();
                 }
@@ -333,14 +317,14 @@ namespace BattlescapeLogic
                                                                               // && check for stopping retaliations in buffs/passives/idk
                 );
 
-        }       
+        }
 
         public List<AbstractBuff> FindAllBuffsOfType(string buffType)
         {
             List<AbstractBuff> list = new List<AbstractBuff>();
-            foreach(AbstractBuff buff in buffs)
+            foreach (AbstractBuff buff in buffs)
             {
-                if(buff.buffName.Equals(buffType))
+                if (buff.buffName.Equals(buffType))
                 {
                     list.Add(buff);
                 }
@@ -392,9 +376,9 @@ namespace BattlescapeLogic
                     }
                 }
             }
-            if (MouseManager.instance.selectedUnit == this)
+            if (GameRound.instance.currentPlayer.selectedUnit == this)
             {
-                MouseManager.instance.unitSelector.DeselectUnit();
+                owner.DeselectUnit();
             }
             killer.owner.AddPoints(statistics.cost);
             HideHealthUI();
@@ -446,30 +430,154 @@ namespace BattlescapeLogic
 
         public override void OnNewPhase()
         {
-            return;
+            if (owner.selectedUnit == this)
+            {
+                owner.DeselectUnit();
+            }
         }
 
-        public int CompareUnitClass(Unit other)
+        public void OnRightClick(IMouseTargetable target)
         {
-            int myClass = 0;
-            int otherClass = 0;
-            if (this is Hero || this.unitClass == UnitClass.Special)
+            if (target is Unit)
             {
-                myClass++;
+                var targetUnit = target as Unit;
+                if (targetUnit.IsAlive())
+                {
+                    EnemyTooltipHandler.instance.SetOnFor(targetUnit);
+                }
             }
-            if (this.unitClass == UnitClass.Cannonmeat)
+
+        }
+
+        public void OnLeftClick(IMouseTargetable target)
+        {
+            if (target is Unit)
             {
-                myClass--;
+                var targetUnit = target as Unit;
+                if (targetUnit == this)
+                {
+                    targetUnit.owner.DeselectUnit();
+                }
+                else if (targetUnit.owner.team == owner.team)
+                {
+                    targetUnit.owner.SelectUnit(targetUnit);
+                }
+                if (targetUnit.IsEnemyOf(this) && attack.CanAttack(targetUnit))
+                {
+                    Networking.instance.SendCommandToStartAttack(this, targetUnit);
+                    statistics.numberOfAttacks--;
+                }
             }
-            if (other is Hero|| other.unitClass == UnitClass.Special)
+            else if (target is Tile)
             {
-                otherClass++;
+                var targetTile = target as Tile;
+                if (CanMoveTo(targetTile))
+                {
+                    Networking.instance.SendCommandToMove(this, targetTile);
+                }
+
             }
-            if (other.unitClass == UnitClass.Cannonmeat)
+        }
+
+        public bool CanBeSelected()
+        {
+            return PlayerInput.instance.isInputBlocked == false && owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None;
+        }
+
+        public void OnSelection()
+        {
+            OnUnitSelected(this);
+            if (GameRound.instance.currentPlayer.type != PlayerType.AI)
             {
-                otherClass--;
+                PlaySelectionSound();
             }
-            return myClass - otherClass;
+        }
+
+        public void OnDeselection()
+        {
+            OnUnitDeselected();
+            Global.instance.currentEntity = GameRound.instance.currentPlayer;
+        }
+
+        void PlaySelectionSound()
+        {
+            BattlescapeSound.SoundManager.instance.PlaySound(GameRound.instance.currentPlayer.selectedUnit.gameObject, BattlescapeSound.SoundManager.instance.selectionSound);
+        }
+
+        public bool CanMoveTo(Tile tile)
+        {
+            movement.ApplyUnit(this);
+            return movement.CanMoveTo(tile);
+        }
+
+        void OnTileHovered(Tile hoveredTile)
+        {
+            if (GameRound.instance.currentPlayer.selectedUnit == this)
+            {
+                if (CanMoveTo(hoveredTile))
+                {
+                    foreach (Unit otherUnit in Global.instance.GetAllUnits())
+                    {
+                        if (IsEnemyOf(otherUnit) && CouldAttackEnemyFromTile(otherUnit, hoveredTile))
+                        {
+                            BattlescapeGraphics.ColouringTool.ColourObject(otherUnit, Color.red);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void OnMouseHoverEnter()
+        {
+            BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(this, GameRound.instance.currentPlayer);
+            UIHitChanceInformation.instance.OnMouseHoverEnter(this);
+        }
+
+        public void OnMouseHoverExit()
+        {
+            BattlescapeGraphics.ColouringTool.ColourObject(this, Color.white);
+            UIHitChanceInformation.instance.TurnOff();
+        }
+
+        bool CouldAttackEnemyFromTile(Unit enemy, Tile tile)
+        {
+            return currentPosition.position.DistanceTo(enemy.currentPosition.position) <= statistics.GetCurrentAttackRange();
+        }
+
+        public void OnCursorOver(IMouseTargetable target)
+        {
+            if (target is Unit)
+            {
+                var targetUnit = target as Unit;
+                if (targetUnit.CanBeSelected())
+                {
+                    Cursor.instance.OnSelectableHovered();
+                }
+                if (targetUnit.IsEnemyOf(this))
+                {
+                    Cursor.instance.OnEnemyHovered(this, targetUnit);
+                }
+                else
+                {
+                    Cursor.instance.ShowInfoCursor();
+                }
+            }
+            if (target is Tile)
+            {
+                var targetTile = target as Tile;
+                if (CanMoveTo(targetTile))
+                {
+                    Cursor.instance.OnTileToMoveHovered(this, targetTile);
+                }
+                else
+                {
+                    Cursor.instance.OnInvalidTargetHovered();
+                }
+            }
+            else
+            {
+                Cursor.instance.OnInvalidTargetHovered();
+            }
         }
     }
     public enum UnitClass

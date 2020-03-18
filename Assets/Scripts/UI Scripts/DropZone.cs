@@ -36,14 +36,14 @@ public class DropZone : MonoBehaviour//, IDropHandler
 
     }
 
-    void InstantiateUnit(int unitID, int PlayerID, Vector3 position)
+    void InstantiateUnit(int unitID, int playerID, Vector3 position)
     {
         GameObject UnitObject = UnitCreator.FindUnitPrefabByIndex(unitID);
         GameObject InstantiatedUnit = Instantiate(UnitObject, position, UnitObject.transform.rotation);
         Unit myUnit = InstantiatedUnit.GetComponent<Unit>();
-        Global.instance.playerTeams[PlayerID].players[0].AddUnit(myUnit);
-        InstantiatedUnit.name = myUnit.unitName;
-        if (PlayerID == 0)
+        Global.instance.playerTeams[playerID].players[0].AddUnit(myUnit);
+        InstantiatedUnit.name = myUnit.info.unitName;
+        if (playerID == 0)
         {
             NewGameScript.PlayerOneArmy.Add(position, myUnit);
         }
@@ -51,7 +51,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
         {
             NewGameScript.PlayerTwoArmy.Add(position, myUnit);
         }
-        Map.Board[(int)position.x, (int)position.z].SetMyUnitTo(myUnit);
+        Global.instance.currentMap.board[(int)position.x, (int)position.z].SetMyUnitTo(myUnit);
     }
 
     public void SendCommandToSetUnitPosition(Unit unit, Tile targetTile)

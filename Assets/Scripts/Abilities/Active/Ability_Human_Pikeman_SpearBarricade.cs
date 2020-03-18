@@ -78,9 +78,9 @@ public class Ability_Human_Pikeman_SpearBarricade : Ability_Basic
             a.SetTrigger("SpecialAttack");
         }
         yield return new WaitForSeconds(1f - (Positions.Length*0.1f));
-        GameObject Barricade = Instantiate(BarricadePrefab, Target.transform.position, BarricadePrefab.transform.rotation, Target.transform);
-        Target.myObstacle = Barricade;
-        CreateVFXOn(Barricade.transform, BasicVFX.transform.rotation);
+        GameObject barricade = Instantiate(BarricadePrefab, Target.transform.position, BarricadePrefab.transform.rotation, Target.transform);
+        Target.myObstacle = barricade.GetComponent<Obstacle>();
+        CreateVFXOn(barricade.transform, BasicVFX.transform.rotation);
         foreach (GameObject disposable in visuals)
         {
             if (Application.isEditor)

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 114620226632445610}
+  - component: {fileID: 114737923921705736}
   m_Layer: 0
   m_Name: mushroom_01
   m_TagString: Untagged
@@ -95,3 +96,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vfx: {fileID: 1955994845926840, guid: 19528d1a662e95543ad172f088224ff8, type: 2}
+--- !u!114 &114737923921705736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65dae6199915fd4387cdc9da2ecb13a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 0

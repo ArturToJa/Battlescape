@@ -11,6 +11,6 @@ public class SetTextToCorrect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = SaveLoadManager.Instance.currentSaveName;
+        text.text = SaveLoadManager.instance.currentSaveName;
     }
 }

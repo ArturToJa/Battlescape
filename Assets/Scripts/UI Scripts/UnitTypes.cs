@@ -40,11 +40,11 @@ public class UnitTypes : MonoBehaviour
     {        
         if (RealOne)
         {            
-            if (MouseManager.instance.selectedUnit == null)
+            if (GameRound.instance.currentPlayer.selectedUnit == null)
             {
                 return;
             }
-            myUnit = MouseManager.instance.selectedUnit;
+            myUnit = GameRound.instance.currentPlayer.selectedUnit;
         }
         else if (ManagementScene == false)
         {

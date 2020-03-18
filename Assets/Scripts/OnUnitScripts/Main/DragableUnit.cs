@@ -23,7 +23,7 @@ public class DragableUnit : MonoBehaviour
         if (Physics.Raycast(cameraRay,out hitInfo, Mathf.Infinity,tileMask))
         {
             Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-            if ((tile.DropzoneOfPlayer == GameRound.instance.currentPlayer.team.index) && tile.IsWalkable())
+            if ((tile.dropzoneOfTeam == GameRound.instance.currentPlayer.team.index) && tile.IsWalkable())
             {
                 DropZone.Instance.SendCommandToSetUnitPosition(myUnit, tile);
                 
@@ -34,9 +34,9 @@ public class DragableUnit : MonoBehaviour
 
     public static void SetNewPosition(int startPosX, int startPosZ, int endPosX, int endPosZ)
     {             
-        Vector3 oldPos = Map.Board[startPosX, startPosZ].transform.position;
-        Vector3 newPos = Map.Board[endPosX, endPosZ].transform.position;
-        Unit me = Map.Board[startPosX, startPosZ].myUnit;
+        Vector3 oldPos = Global.instance.currentMap.board[startPosX, startPosZ].transform.position;
+        Vector3 newPos = Global.instance.currentMap.board[endPosX, endPosZ].transform.position;
+        Unit me = Global.instance.currentMap.board[startPosX, startPosZ].myUnit;
         if (me.owner.team.index == 0)
         {
             if (NewGameScript.PlayerOneArmy.ContainsKey(oldPos))
@@ -54,7 +54,7 @@ public class DragableUnit : MonoBehaviour
             NewGameScript.PlayerTwoArmy.Add(newPos, me);
         }
 
-        Tile tile = Map.Board[endPosX, endPosZ];
+        Tile tile = Global.instance.currentMap.board[endPosX, endPosZ];
 
         Quaternion q = me.transform.rotation;
         me.transform.position = tile.transform.position;

@@ -8,7 +8,7 @@ public class EndGameText : MonoBehaviour
 {
     void Update()
     {
-        if (VictoryLossChecker.IsGameOver == false)
+        if (VictoryLossChecker.isGameOver == false)
         {
             return;
         }

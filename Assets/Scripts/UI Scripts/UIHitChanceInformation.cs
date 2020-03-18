@@ -9,10 +9,18 @@ public class UIHitChanceInformation : MonoBehaviour
 {
     Text theText;
 
+    public static UIHitChanceInformation instance { get; private set; }    
+
     void Awake()
     {
         theText = GetComponentInChildren<Text>();
         theText.text = "";
+        if (instance != null)
+        {
+            Debug.LogError("Doubled HitChanceInfo, there can be only one!");
+            return;
+        }
+        instance = this;
     } 
     
     public void TurnOnFor(Unit attacker, Unit defender)
@@ -34,6 +42,14 @@ public class UIHitChanceInformation : MonoBehaviour
         int avgDmg = Statistics.baseDamage + DamageCalculator.GetStatisticsDifference(attacker, defender);
         int dmgRange = avgDmg / 5;
         theText.text += "\n" + "\n" + "Damage if hit: " + (avgDmg - dmgRange).ToString() + " - " + (avgDmg + dmgRange).ToString();
+    }
+
+    public void OnMouseHoverEnter(Unit hoveredUnit)
+    {
+        if (GameRound.instance.currentPlayer.selectedUnit != null && GameRound.instance.currentPlayer.selectedUnit.attack.CanAttack(hoveredUnit))
+        {
+            TurnOnFor(GameRound.instance.currentPlayer.selectedUnit, hoveredUnit);
+        }
     }
 
 

@@ -18,7 +18,7 @@ public class HeroChoiceScreenScript : MonoBehaviour
 
     private void Update()
     {
-        OKButton.SetActive(ArmyBuilder.Instance.IsHero());
+        OKButton.SetActive(ArmyBuilder.instance.IsHero());
         UIManager.SmoothlyTransitionActivity(this.gameObject, amIActive, 0.1f);
 
     }
@@ -29,7 +29,7 @@ public class HeroChoiceScreenScript : MonoBehaviour
         amIActive = false;
         StartCoroutine(ABFadeIn());
         chosenHero.theHero = null;
-        ArmyBuilder.Instance.LoadArmy(GetUnitsFromCreators(SaveLoadManager.Instance.playerArmy.unitIndecies));
+        ArmyBuilder.instance.LoadArmy(GetUnitsFromCreators(SaveLoadManager.instance.playerArmy.unitIndecies));
 
     }
 
@@ -38,7 +38,7 @@ public class HeroChoiceScreenScript : MonoBehaviour
         List<Unit> returnList = new List<Unit>();
         foreach (int unitCreator in unitCreators)
         {            
-            returnList.Add(SaveLoadManager.Instance.GetUnitCreatorFromIndex(unitCreator).prefab.GetComponent<Unit>());
+            returnList.Add(SaveLoadManager.instance.GetUnitCreatorFromIndex(unitCreator).prefab.GetComponent<Unit>());
         }    
         return returnList;
     }

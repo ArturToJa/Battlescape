@@ -10,10 +10,10 @@ public class DisabledMove : MonoBehaviour
     
     void Update()
     {
-        if (MouseManager.instance.selectedUnit != null)
+        if (GameRound.instance.currentPlayer.selectedUnit != null)
         {
 
-            if (MouseManager.instance.selectedUnit.CanStillMove() == false)
+            if (GameRound.instance.currentPlayer.selectedUnit.CanStillMove() == false)
             {
                 MoveButton.interactable = false;
                 MoveButton.GetComponentInChildren<Text>().text = "Already moved.";

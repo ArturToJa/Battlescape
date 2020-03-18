@@ -34,11 +34,11 @@ public class ShowAbilitiesUI : MonoBehaviour
         //}
         if (RealOne)
         {
-            if (MouseManager.instance.selectedUnit == null)
+            if (GameRound.instance.currentPlayer.selectedUnit == null)
             {
                 return;
             }
-            Unit = MouseManager.instance.selectedUnit;
+            Unit = GameRound.instance.currentPlayer.selectedUnit;
         }
         else
         {

@@ -77,11 +77,10 @@ public class Ability_Human_Horseman_ObstacleHop : Ability_Basic
         int middleX = (startX + endX) / 2;
         int middleZ = (startZ + endZ) / 2;
 
-        Tile midTile = Map.Board[middleX, middleZ];
+        Tile midTile = Global.instance.currentMap.board[middleX, middleZ];
         return
             midTile.hasObstacle &&
-            midTile.GetComponentInChildren<Obstacle_Cover>() != null &&
-            midTile.GetComponentInChildren<Obstacle_Cover>().IsJumpable;
+            midTile.GetComponentInChildren<Obstacle>().myTiles.Count == 1;
     }
 
     public override void Activate()

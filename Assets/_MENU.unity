@@ -1483,7 +1483,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -481.71375}
+  m_AnchoredPosition: {x: 960, y: -382.5}
   m_SizeDelta: {x: 384, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &149654548
@@ -4257,7 +4257,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMediumDestructibleCount
         m_Mode: 1
         m_Arguments:
@@ -4537,7 +4537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -262.35687}
+  m_AnchoredPosition: {x: 960, y: -212.75}
   m_SizeDelta: {x: 384, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459749582
@@ -4760,7 +4760,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetLowObstacleDensity
         m_Mode: 1
         m_Arguments:
@@ -5189,7 +5189,6 @@ GameObject:
   - component: {fileID: 502386875}
   - component: {fileID: 502386874}
   - component: {fileID: 502386876}
-  - component: {fileID: 502386877}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -5279,17 +5278,6 @@ MonoBehaviour:
   GameScenes:
   - _GameScene_Forest
   - _GameScene_Town
---- !u!114 &502386877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 502386872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcee4368119589646be03f15d82c594e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &502695109
 GameObject:
   m_ObjectHideFlags: 0
@@ -5504,7 +5492,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetHighDestructibleCount
         m_Mode: 1
         m_Arguments:
@@ -5827,7 +5815,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetLowDestructibleCount
         m_Mode: 1
         m_Arguments:
@@ -7481,7 +7469,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMapSizeToSmall
         m_Mode: 1
         m_Arguments:
@@ -8507,7 +8495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMapSizeToMedium
         m_Mode: 1
         m_Arguments:
@@ -10912,17 +10900,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0593b10cf85854883ba77effb54cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MiddleHotspotCursors:
-  - {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
+  middleHotspotCursors:
   - {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
+  - {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18, type: 3}
   - {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9, type: 3}
+  - {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae, type: 3}
+  - {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
+  - {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
   - {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
+  - {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
   - {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222, type: 3}
   - {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
   - {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1, type: 3}
-  - {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
-  - {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
-  - {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
+  - {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
   defaultCursor: {fileID: 2800000, guid: c0a8d3df75dd6ef4097d3e7761e5ba0c, type: 3}
   clickingDefaultCursor: {fileID: 2800000, guid: b7e57c903086a5b40976fce8953dc509,
     type: 3}
@@ -10940,7 +10930,6 @@ MonoBehaviour:
   walkingCursor: {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
   clickingWalkingCursor: {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9,
     type: 3}
-  invalidTargetCursor: {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
   validTargetCursor: {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
   clickingTargetCursor: {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222,
     type: 3}
@@ -10954,9 +10943,8 @@ MonoBehaviour:
   enterCombatCursor: {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
   clickingEnterCombatCursor: {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8,
     type: 3}
-  QCMovementCursor: {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18, type: 3}
-  clickingQCMovementCursor: {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae,
-    type: 3}
+  combatExitingMovementCursor: {fileID: 0}
+  clickingCombatExitingMovementCursor: {fileID: 0}
 --- !u!4 &982457046
 Transform:
   m_ObjectHideFlags: 0
@@ -14548,7 +14536,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: DefaultSettings
         m_Mode: 1
         m_Arguments:
@@ -16798,7 +16786,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: DefaultSettings
         m_Mode: 1
         m_Arguments:
@@ -17889,7 +17877,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -701.0706}
+  m_AnchoredPosition: {x: 960, y: -552.25}
   m_SizeDelta: {x: 384, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1601761553
@@ -18450,7 +18438,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMapSizeToBig
         m_Mode: 1
         m_Arguments:
@@ -20606,7 +20594,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetAbsurdObstacleDensity
         m_Mode: 1
         m_Arguments:
@@ -21960,31 +21948,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3f953d5aad807418a7e4b9656d3fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FactionSymbols:
+  raceSymbols:
   - {fileID: 21300000, guid: 724b3c49c726665449e7c29231aee3bb, type: 3}
   - {fileID: 21300000, guid: b641ac2088f42db439aecf85ebaaf56d, type: 3}
-  - {fileID: 21300000, guid: 82eb2863800418e4db508e58c23da31e, type: 3}
-  HeroPortraits:
-  - {fileID: 21300000, guid: 6ec61db974930534ea7b7a9a89b4d04e, type: 3}
   - {fileID: 0}
-  - {fileID: 0}
-  SavePrefab: {fileID: 1651261313338776, guid: f253785d8f50573468fe63fc43eba076, type: 2}
-  DeploymentPanel: {fileID: 0}
-  UnitsList: []
-  playerArmy:
-    HeroName: 
-    unitIndecies: 
-    heroIndex: 0
-    faction: 0
-  currentSaveName: 
-  currentSaveValue: 25
-  hero: {fileID: 0}
-  Race: 0
-  HeroName: 
+  savePrefab: {fileID: 1651261313338776, guid: f253785d8f50573468fe63fc43eba076, type: 2}
   allUnitCreators:
   - {fileID: 11400000, guid: 924a6747bf22315479fba91bf8dc45aa, type: 2}
   - {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
   - {fileID: 11400000, guid: 552d88a26962b534bb0733d6c2d958aa, type: 2}
+  - {fileID: 11400000, guid: abd43d637f0202142951efc05e22c2a6, type: 2}
 --- !u!4 &1859684904
 Transform:
   m_ObjectHideFlags: 0
@@ -22287,7 +22260,145 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ab3a35c4905f64e9e984fd8c0bdeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchType: 0
+  maps:
+  - _mapName: _GameScene_Forest
+    _mapWidth: 11
+    _mapHeight: 16
+    _mapVisuals:
+      specs:
+      - _type: 5
+        _minAmount: 1
+        _maxAmount: 3
+        _minDistanceToShortSide: 6
+        _minDistanceToLongSide: 3
+        _needsExtraSpace: 1
+      - _type: 4
+        _minAmount: 4
+        _maxAmount: 6
+        _minDistanceToShortSide: 3
+        _minDistanceToLongSide: 1
+        _needsExtraSpace: 1
+      - _type: 3
+        _minAmount: 2
+        _maxAmount: 4
+        _minDistanceToShortSide: 3
+        _minDistanceToLongSide: 2
+        _needsExtraSpace: 1
+      - _type: 7
+        _minAmount: 3
+        _maxAmount: 6
+        _minDistanceToShortSide: 4
+        _minDistanceToLongSide: 0
+        _needsExtraSpace: 1
+      - _type: 8
+        _minAmount: 2
+        _maxAmount: 8
+        _minDistanceToShortSide: 3
+        _minDistanceToLongSide: 0
+        _needsExtraSpace: 1
+      - _type: 6
+        _minAmount: 0
+        _maxAmount: 2
+        _minDistanceToShortSide: 6
+        _minDistanceToLongSide: 0
+        _needsExtraSpace: 1
+      - _type: 2
+        _minAmount: 1
+        _maxAmount: 4
+        _minDistanceToShortSide: 2
+        _minDistanceToLongSide: 1
+        _needsExtraSpace: 0
+      - _type: 0
+        _minAmount: 6
+        _maxAmount: 6
+        _minDistanceToShortSide: 5
+        _minDistanceToLongSide: 0
+        _needsExtraSpace: 0
+      - _type: 1
+        _minAmount: 4
+        _maxAmount: 10
+        _minDistanceToShortSide: 0
+        _minDistanceToLongSide: 0
+        _needsExtraSpace: 0
+      allLegalObjects:
+      - {fileID: 114853115568249516, guid: 7f78cac05e3547d42b8c72fb66361523, type: 2}
+      - {fileID: 114351594154570774, guid: e3afc8cc56676724db06a3f6bfd1712c, type: 2}
+      - {fileID: 114915369002933334, guid: 25909fe074dde18439c56ed1777761cd, type: 2}
+      - {fileID: 114683833179175846, guid: 43d5e15757e37ce4187f7c0a5e5b5393, type: 2}
+      - {fileID: 114846612122935622, guid: 7152f154ba4c33a4dad812d3ceb711ac, type: 2}
+      - {fileID: 114714430027681158, guid: db5abb6182675344c8ab8087923c8484, type: 2}
+      - {fileID: 114829137364501942, guid: 9c38da78c05e05244afd7879667e105b, type: 2}
+      - {fileID: 114035822630376186, guid: dc564cd88affd264a9bc8991793d7017, type: 2}
+      - {fileID: 114143441472642902, guid: 342e1d6cf4a06a142ab343bbd7bf3365, type: 2}
+      - {fileID: 114631745826413364, guid: 752fbee7790656e4c9e157f828c01fb3, type: 2}
+      - {fileID: 114475753080123524, guid: f2ca21b577a5f8243abd6a9c849b8085, type: 2}
+      - {fileID: 114218640712555260, guid: 0d1e6025136fafe48b6fc7352aac2f01, type: 2}
+      - {fileID: 114977244750982466, guid: 250baca770ae9394ca8a266bd6795d90, type: 2}
+      - {fileID: 114742425187959874, guid: 6a97f2ae0bf018d4c9539f4ce0ac938d, type: 2}
+      - {fileID: 114289712212116840, guid: b3ff2cefb30fac1439a4d28f9495d527, type: 2}
+      - {fileID: 114543802127859082, guid: 6c2a78b02abe9704ba65cdfaa200c383, type: 2}
+      - {fileID: 114134663649053158, guid: 3b664fc6ae0031542af3142e5515b9b9, type: 2}
+      - {fileID: 114591300855341152, guid: 1ce0846d34936e946b4906c951617d94, type: 2}
+      - {fileID: 114739395065399936, guid: 4ae069ef1a8ca164c95555396519b05f, type: 2}
+      - {fileID: 114274634916917220, guid: 9210597cf09343d4fb343ef6b26ec5f4, type: 2}
+      - {fileID: 114067764790348670, guid: 283717a943e5c08439523dc8d7c205aa, type: 2}
+      - {fileID: 114349040933967786, guid: d6bcc2472330c0347af3774c41464abc, type: 2}
+      - {fileID: 114125063386041102, guid: 5a18e60cd161abf4188228106d9553f7, type: 2}
+      - {fileID: 114198687950784354, guid: 15cf7823f069ac74d84b4251bf98eecb, type: 2}
+      - {fileID: 114824070607568488, guid: a102d7ecb57bf6d45b94d75d789e3dcd, type: 2}
+      - {fileID: 114828596120904854, guid: fd5bb17dd9aa49247b9e6e52eac3c571, type: 2}
+      - {fileID: 114706230204656424, guid: 83e944eb5d2740e4dac018af4373c0ac, type: 2}
+      - {fileID: 114903884757337122, guid: 0a8f022a3b2ce7e449dc2506911e69cf, type: 2}
+      - {fileID: 114379848747742080, guid: bfdb70be27517d94880cf065495d9ca7, type: 2}
+      - {fileID: 114039844679633252, guid: 376238748c9b6114ea77eb4a391d8d4e, type: 2}
+      - {fileID: 114507697128267248, guid: 9c1c0ba3342c39c428ae1ebb97388600, type: 2}
+      - {fileID: 114849223005705326, guid: cd4a05a6b804e4449b797bae1c270f0c, type: 2}
+      - {fileID: 114466788441986312, guid: 7921fb75f27fee84583a28235a088d52, type: 2}
+      - {fileID: 114482897478204796, guid: e26808f03709d5f40a94221c01e0a8e6, type: 2}
+      - {fileID: 114535362443444472, guid: 69810889f6590704f862816b479f21d3, type: 2}
+      - {fileID: 114949678204970218, guid: e329a83a13edc594695d285c1a056892, type: 2}
+      - {fileID: 114939091145440644, guid: 7d3efb20f1ef05848937886f7cedadee, type: 2}
+      - {fileID: 114266969344067850, guid: 5a31ef87bb528d54dbc08f342d440f08, type: 2}
+      - {fileID: 114757484802820116, guid: 1b13ca2173fd72d488a562b4b7635533, type: 2}
+      - {fileID: 114737923921705736, guid: d50bed3039d1aff4b92cedc9b02addc8, type: 2}
+      - {fileID: 114999589924335580, guid: 9b0c73020c6c9bc4ebb1f6f89626901a, type: 2}
+      - {fileID: 114966845791088104, guid: ce1743ffb4284fc42827563c0510ed19, type: 2}
+      - {fileID: 114192825563170584, guid: ddda2a1e19c737d4a819a0115c3f736f, type: 2}
+      - {fileID: 114198994154230498, guid: 4489c65cfe3381945bb0fb513021f03c, type: 2}
+      - {fileID: 114021546176030866, guid: 5253bb54c5082634587ed8c83b40b186, type: 2}
+      - {fileID: 114780830782515340, guid: 8a6fb72968de13544adf5c4d0f8aaba8, type: 2}
+      - {fileID: 114864594555204604, guid: 09f517156d5c0e348a8656d13b7fa6b3, type: 2}
+      - {fileID: 114730399787489810, guid: 38ceeed1528b44f4d88b338a4945cfe6, type: 2}
+      - {fileID: 114237373988893264, guid: 99da7d3bbd744a04ea8339cddd2debf3, type: 2}
+      - {fileID: 114801788054696250, guid: 0dfe797cc762b6f4db63392302ddd22f, type: 2}
+      - {fileID: 114499257329227310, guid: e35e9b0f7578a5c47a135d79a0c5da9d, type: 2}
+      - {fileID: 114671176829883452, guid: 7fd5e665d962a5f46bc1d19bbd20d6f1, type: 2}
+      - {fileID: 114785031330630404, guid: 26d3e073c7856974fbc0d8a5960dde01, type: 2}
+      - {fileID: 114571447964960164, guid: e45c773f33ff91641bbda633b02c1c41, type: 2}
+      - {fileID: 114214744136190354, guid: 3459c08223a02a241aba8679a98dcc6e, type: 2}
+      - {fileID: 114731677206264960, guid: 6f225aabee7652f42921bba4b34aa8b9, type: 2}
+      - {fileID: 114629238194395862, guid: fe304275e557e15488f634218baacb4a, type: 2}
+      - {fileID: 114689211401761176, guid: 6180a4f8f38cf99428ffae036ad384ff, type: 2}
+      - {fileID: 114574526069064088, guid: ee71a91b3f9d05640901aeb7879b5b87, type: 2}
+      - {fileID: 114795955960176026, guid: 2d71cb7719f2eef44a5b01aefe96e8ee, type: 2}
+      - {fileID: 114391097417947438, guid: 901d0ca9a7e65b74d840677acb597c86, type: 2}
+      - {fileID: 114122704828805052, guid: f354402a9a7fb1c42a3e54f1d15d923b, type: 2}
+      - {fileID: 114951714773944522, guid: 740a040375acac24b9169d73d7756463, type: 2}
+      - {fileID: 114831985212624926, guid: 374cec95e95f9eb459f8c193cea810bb, type: 2}
+      - {fileID: 114868077927474630, guid: 82d094ed66dc0cc41b60cb66641316e3, type: 2}
+      - {fileID: 114293371000707474, guid: 9648c6ec8b2c6094da18570801a206d2, type: 2}
+      - {fileID: 114192135455506372, guid: c3b2e1d1a05829d4a89ddc864f7316e3, type: 2}
+      - {fileID: 114116252807432746, guid: eee46e72811b6fd4a83c92dc43352c04, type: 2}
+      - {fileID: 114492126687543734, guid: 1b3ce442d280dfa4eab4d50f0f469956, type: 2}
+      - {fileID: 114755916939227508, guid: f515cfcefbeb9b046ba71a6847fffcf2, type: 2}
+      - {fileID: 114896234044911210, guid: ab785ca0dc1786d4c8a50fc8ffa26b3e, type: 2}
+      - {fileID: 114084743372921804, guid: 0ef4b661e68447f49ac9c3b37f98c250, type: 2}
+      - {fileID: 114541210165822748, guid: dcf3ade84dda7874d83806c810d84b5b, type: 2}
+      - {fileID: 114606562459729290, guid: 4231d19d7f2efd14784e971101809ab5, type: 2}
+      - {fileID: 114438889224960870, guid: 606a39ed782715c489b8d8947c645cc8, type: 2}
+      - {fileID: 114243231525678874, guid: 9c51cd46c09871e4c8797a41664b5e49, type: 2}
+      allowedPercentage: 0.25
+    manualObstacles: 0
 --- !u!114 &1883127336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22779,11 +22890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364b871bdf5554e4893be7fd5b91a0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AIArmies:
-  - {fileID: 11400000, guid: 6d476202c6557c84ba9a8f1c6836e166, type: 2}
-  - {fileID: 11400000, guid: 9655650f80c81b54d9d1d013016acb2e, type: 2}
-  - {fileID: 11400000, guid: 7a2ef3d0f37df58459bbcdc27a1d4ffd, type: 2}
-  version: v0.1.5
+  theAIArmies: []
+  version: v0.1.6
   versionText: {fileID: 798977738}
 --- !u!4 &1919172691
 Transform:
@@ -23470,7 +23578,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetMediumObstacleDensity
         m_Mode: 1
         m_Arguments:
@@ -23869,7 +23977,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: SetHighObstacleDensity
         m_Mode: 1
         m_Arguments:
@@ -24434,7 +24542,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502386877}
+      - m_Target: {fileID: 0}
         m_MethodName: DefaultSettings
         m_Mode: 1
         m_Arguments:

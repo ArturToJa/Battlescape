@@ -10,10 +10,9 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 114181491472788796}
   - component: {fileID: 64858280385023234}
-  - component: {fileID: 114929936652627364}
-  m_Layer: 11
+  - component: {fileID: 114349040933967786}
+  m_Layer: 0
   m_Name: fence_09
   m_TagString: Dice
   m_Icon: {fileID: 0}
@@ -99,13 +98,13 @@ GameObject:
   - component: {fileID: 135936773438661828}
   - component: {fileID: 23762096283054246}
   - component: {fileID: 114781842446383818}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HPBarPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1490055704889104
 GameObject:
   m_ObjectHideFlags: 1
@@ -116,7 +115,7 @@ GameObject:
   - component: {fileID: 224906352249379756}
   - component: {fileID: 222747665377855258}
   - component: {fileID: 114357978572485510}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +132,7 @@ GameObject:
   - component: {fileID: 224894318223777852}
   - component: {fileID: 222912960968174272}
   - component: {fileID: 114929870227885086}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,13 +150,13 @@ GameObject:
   - component: {fileID: 223922709111086792}
   - component: {fileID: 114260000441170600}
   - component: {fileID: 114167307730216446}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: HealthbarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4250276707151784
 Transform:
   m_ObjectHideFlags: 1
@@ -242,20 +241,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114181491472788796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ea1bddea3a3a8438827348dd2ba146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorSpeed: 1
-  fallingSpeed: 1
-  durability: 0
 --- !u!114 &114260000441170600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +262,21 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114349040933967786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  _shape:
+  - x: 0
+    z: 0
 --- !u!114 &114357978572485510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -331,19 +331,6 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
   isBeingAttacked: 0
---- !u!114 &114929936652627364
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d73defe0deaca4a86e42d06bae7f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CoverValue: 1
-  IsJumpable: 1
 --- !u!135 &135936773438661828
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : MonoBehaviour {
+public class TestScript : MonoBehaviour
+{
 
-    bool switcher;
+    bool isOn = false;
     Renderer r;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         r = GetComponent<Renderer>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        r.enabled = isOn;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.Q) && Application.isEditor)
         {
-            switcher = !switcher;
+            isOn = !isOn;
         }
-        r.enabled = switcher;
-	}
+        r.enabled = isOn;
+    }
 }

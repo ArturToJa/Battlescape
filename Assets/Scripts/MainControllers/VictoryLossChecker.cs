@@ -10,7 +10,7 @@ public enum GameResult { Unfinished, GreenWon, RedWon, Draw }
 public class VictoryLossChecker : MonoBehaviour
 {
     public static GameResult gameResult { get; set; }
-    public static bool IsGameOver
+    public static bool isGameOver
     {
         get
         {
@@ -41,7 +41,7 @@ public class VictoryLossChecker : MonoBehaviour
                 CalculateWinner();
             }
         }
-        UIManager.SmoothlyTransitionActivity(WinScreen, IsGameOver, 0.2f);
+        UIManager.SmoothlyTransitionActivity(WinScreen, isGameOver, 0.2f);
         
     }
 
@@ -82,12 +82,12 @@ public class VictoryLossChecker : MonoBehaviour
         }        
     }
 
-    public static List<BattlescapeLogic.Unit> GetMyUnitList()
+    public static List<Unit> GetMyUnitList()
     {
         return GameRound.instance.currentPlayer.playerUnits;
     }
-    public static List<BattlescapeLogic.Unit> GetEnemyUnitList()
+    public static List<Unit> GetEnemyUnitList()
     {
-        return Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerUnits;
+        return GameRound.instance.GetNextPlayer().playerUnits;
     }    
 }

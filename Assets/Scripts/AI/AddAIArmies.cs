@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class AddAIArmies : MonoBehaviour
 {
-    [SerializeField] List<AIArmy> AIArmies;
+    [SerializeField] List<AIArmy> theAIArmies;
     PlayerArmy playerArmy;
     public string version;
     [SerializeField] Text versionText;
@@ -30,7 +30,7 @@ public class AddAIArmies : MonoBehaviour
         Directory.CreateDirectory(Application.persistentDataPath + "/Armies/AI");
 
         BinaryFormatter bf = new BinaryFormatter();
-        foreach (AIArmy army in AIArmies)
+        foreach (AIArmy army in theAIArmies)
         {
             if (Directory.Exists(Application.persistentDataPath + "/Armies/AI/" + army.Points.ToString() + "points") == false)
             {
@@ -50,7 +50,7 @@ public class AddAIArmies : MonoBehaviour
         {
             unitIndecies = new List<int>(),
             heroIndex = army.Hero.index,
-            faction = army.faction
+            Race = army.Race
 
         };
         foreach (var unit in army.Units)

@@ -20,28 +20,11 @@ public class PreGameAI
 
     public void PositionUnits()
     {
-        Position(SaveLoadManager.Instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
-        foreach (int index in SaveLoadManager.Instance.playerArmy.unitIndecies)
+        Position(SaveLoadManager.instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
+        foreach (int index in SaveLoadManager.instance.playerArmy.unitIndecies)
         {
             Position(index, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
         }
-        /*foreach (Transform unit in DeploymentPanel)
-        {
-            
-                    
-        }
-        int tempInt = DeploymentPanel.transform.childCount;
-        for (int i = 0; i < tempInt; i++)
-        {
-            if (Application.isEditor)
-            {
-                Object.DestroyImmediate(DeploymentPanel.transform.GetChild(0).gameObject);
-            }
-            else
-            {
-                Object.Destroy(DeploymentPanel.transform.GetChild(i).gameObject);
-            }
-        }*/
     }
 
     public void Position(int index, int playerID, Tile tile)
@@ -58,46 +41,33 @@ public class PreGameAI
     public Tile ChooseTheTile()
     {
         List<Tile> possibleTiles = new List<Tile>();
-        //List<Tile> greatTiles = new List<Tile>();
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
-            if (tile.IsWalkable() && (tile.DropzoneOfPlayer == GameRound.instance.currentPlayer.team.index))
+            if (tile.IsWalkable() && (tile.dropzoneOfTeam == GameRound.instance.currentPlayer.team.index))
             {
                 possibleTiles.Add(tile);
-                /*if (me.thisUnitFirstPlayer.GetComponent<BattlescapeLogic.Unit>().IsRanged() && (tile.transform.position.x == 0 || tile.transform.position.x == 1 || tile.transform.position.x == 14 || tile.transform.position.x == 15) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
-                {
-                    greatTiles.Add(tile);
-                }
-                else if (me.thisUnitFirstPlayer.GetComponent<BattlescapeLogic.Unit>().IsRanged() == false && (tile.transform.position.x == 1 || tile.transform.position.x == 2 || tile.transform.position.x == 13 || tile.transform.position.x == 14) && tile.transform.position.z != 0 && tile.transform.position.z != 9)
-                {
-                    greatTiles.Add(tile);
-                }*/
             }
         }
-        Tile chosenTile = null;
-        //chosenTile = ChooseRandomTileFromList(greatTiles);
-        if (chosenTile == null)
-        {
-            chosenTile = ChooseRandomTileFromList(possibleTiles);
-        }
+
+        Tile chosenTile = ChooseRandomTileFromList(possibleTiles);
+
         if (chosenTile == null)
         {
             Debug.LogError("Too many units, couldn't put them on battlefield");
             return null;
         }
-        //  Debug.Log("tile" + chosenTile);
         return chosenTile;
     }
 
-    static Tile ChooseRandomTileFromList(List<Tile> TileList)
+    static Tile ChooseRandomTileFromList(List<Tile> tileList)
     {
         Tile chosenTile = null;
-        while (TileList.Count > 0)
+        while (tileList.Count > 0)
         {
-            chosenTile = TileList[Random.Range(0, TileList.Count)];
+            chosenTile = tileList[Random.Range(0, tileList.Count)];
             if (chosenTile.IsWalkable() == false || chosenTile.hasObstacle)
             {
-                TileList.Remove(chosenTile);
+                tileList.Remove(chosenTile);
             }
             else
             {

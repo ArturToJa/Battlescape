@@ -1,26 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using BattlescapeLogic;
 
-public class RaceChoosingButton : MonoBehaviour {
+public class RaceChoosingButton : MonoBehaviour
+{
 
-    [SerializeField] string FactionName;
-    [SerializeField] string FactionDescription;
+    [SerializeField] string raceName;
+    [SerializeField] Race race;
+    [SerializeField] string raceDescription;
 
 
     public void OnHover()
     {
-        if (ArmyBuilder.Instance == null)
+        if (ArmyBuilder.instance == null)
         {
-            RaceChoosingManager.Instance.FactionDescriptionText.text = FactionDescription;
-            RaceChoosingManager.Instance.FactionNameText.text = FactionName;
+            RaceChoosingManager.instance.raceDescriptionText.text = raceDescription;
+            RaceChoosingManager.instance.raceNameText.text = raceName;
         }
         else
         {
-            ArmyBuilder.Instance.FactionDescriptionText.text = FactionDescription;
-            ArmyBuilder.Instance.FactionNameText.text = FactionName;
+            ArmyBuilder.instance.RaceDescriptionText.text = raceDescription;
+            ArmyBuilder.instance.RaceNameText.text = raceName;
         }
-        
-    }    
+
+    }
+
+    public void ChooseRace()
+    {
+        SaveLoadManager.instance.race = race;
+        foreach (Transform child in ArmyBuilder.instance.HeroesChoice.transform)
+        {
+            ArmyBuilder.instance.SetHeroPortrait(child.gameObject, 1);
+            ArmyBuilder.instance.raceOK.SetActive(true);
+        }
+    }
 }

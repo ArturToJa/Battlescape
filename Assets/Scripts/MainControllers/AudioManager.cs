@@ -67,11 +67,11 @@ public class AudioManager : MonoBehaviour
         {
             PlayRandomClipOfType(SoundType.Menu);
         }
-        if ((SceneManager.GetActiveScene().name.Contains("_GameScene_") && isPlayingGameOverMusic == false && VictoryLossChecker.IsGameOver))
+        if ((SceneManager.GetActiveScene().name.Contains("_GameScene_") && isPlayingGameOverMusic == false && VictoryLossChecker.isGameOver))
         {
             PlayCorrectEndgameClip();
         }
-        else if (VictoryLossChecker.IsGameOver == false && (SceneManager.GetActiveScene().name.Contains("_GameScene_")) && (currentMusic == null || currentMusic.isPlaying == false))
+        else if (VictoryLossChecker.isGameOver == false && (SceneManager.GetActiveScene().name.Contains("_GameScene_")) && (currentMusic == null || currentMusic.isPlaying == false))
         {
             PlayRandomClipOfType(SoundType.Game);
             currentSongTime = 0f;

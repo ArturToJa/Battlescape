@@ -24,7 +24,7 @@ namespace BattlescapeLogic
                 {
                     if (myUnit.IsAlive() && neighbour.myUnit != null && myUnit.IsEnemyOf(neighbour.myUnit))
                     {
-                        int damage = DamageCalculator.CalculateBackstabDamage(neighbour.myUnit, myUnit);
+                        int damage = DamageCalculator.CalculateDamage(neighbour.myUnit, myUnit, 1.5f);
                         neighbour.myUnit.Backstab(myUnit,damage);
                         health -= damage;
                     }

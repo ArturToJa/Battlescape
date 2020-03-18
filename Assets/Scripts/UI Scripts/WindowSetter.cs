@@ -24,7 +24,7 @@ public class WindowSetter : MonoBehaviour
 
     public void GoBack()
     {
-        SaveLoadManager.Instance.currentSaveName = null;
+        SaveLoadManager.instance.currentSaveName = null;
         currentScreen = startingScreen;
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
         if (PhotonNetwork.connected)

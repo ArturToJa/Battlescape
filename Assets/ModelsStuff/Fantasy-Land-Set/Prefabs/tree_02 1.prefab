@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4371041638746958}
   - component: {fileID: 64901515882722556}
-  - component: {fileID: 114641195698934972}
+  - component: {fileID: 114293371000707474}
   m_Layer: 0
   m_Name: tree_02 1
   m_TagString: BigObstacle
@@ -199,7 +199,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 048ff42cc42eea64f85b0cb2cacd8098, type: 3}
---- !u!114 &114641195698934972
+--- !u!114 &114293371000707474
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -207,9 +207,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1929538202210638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 376b6ed72eae32e468aa8dbd65271622, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  doBFT: 0
-  IsNotBeingDestroyed: 1
+  _type: 5
+  _shape:
+  - x: 0
+    z: 0
+  - x: 1
+    z: 0
+  - x: 0
+    z: 1
+  - x: 1
+    z: 1

@@ -23,11 +23,11 @@ namespace BattlescapeGraphics
         {
             if (GameRound.instance.gameRoundCount == 0)
             {
-                if (myTile.DropzoneOfPlayer == 0)
+                if (myTile.dropzoneOfTeam == 0)
                 {
                     GetComponent<Renderer>().material.color = Color.green;
                 }
-                else if (myTile.DropzoneOfPlayer == 1)
+                else if (myTile.dropzoneOfTeam == 1)
                 {
                     GetComponent<Renderer>().material.color = Color.red;
                 }

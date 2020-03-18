@@ -11,6 +11,6 @@ public class AreYouSureDeleteText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "Are you sure to delete: " + SaveLoadManager.Instance.currentSaveName + "?";
+        text.text = "Are you sure to delete: " + SaveLoadManager.instance.currentSaveName + "?";
     }
 }

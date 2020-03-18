@@ -66,7 +66,7 @@ public class Ability_Human_BK_Charge : Ability_Basic
         if (alreadyAddedMarkers == false)
         {
             alreadyAddedMarkers = true;
-            foreach (Tile tile in Map.Board)
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
 
                 if ((Pathfinder.instance.GetDistanceFromTo(myUnit, tile) == myUnit.statistics.movementPoints) && tile.IsProtectedByEnemyOf(myUnit) && tile.IsWalkable() && tile.hasObstacle == false)

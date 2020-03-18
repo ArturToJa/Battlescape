@@ -36,8 +36,7 @@ namespace BattlescapeLogic
 
         protected abstract void PlayAttackAnimation();
 
-        //im aware im copying it from AbstractMovement ;/
-        protected virtual void TurnTowardsTarget()
+        protected void TurnTowardsTarget()
         {
             sourceUnit.visuals.transform.LookAt(new Vector3(targetUnit.transform.position.x, sourceUnit.visuals.transform.position.y, targetUnit.transform.position.z));
         }
@@ -46,6 +45,15 @@ namespace BattlescapeLogic
 
         public abstract void OnRangedAttackAnimation();
 
-        
+        public bool CanAttack(Unit targetUnit)
+        {
+            return
+                GameRound.instance.currentPhase == TurnPhases.Attack
+                && sourceUnit.owner.IsCurrentLocalPlayer()
+                && sourceUnit.owner == GameRound.instance.currentPlayer
+                && sourceUnit.CanStillAttack()
+                && sourceUnit.IsInAttackRange(targetUnit.transform.position)
+                && sourceUnit.IsEnemyOf(targetUnit);
+        }        
     }
 }

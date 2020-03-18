@@ -24,7 +24,7 @@ public class UnitButtonScript : MonoBehaviour
             theName = GetComponentsInChildren<Text>()[0];
             value = GetComponentsInChildren<Text>()[1];
             myUnit = unitCreator.prefab.GetComponent<Unit>();
-            theName.text = myUnit.unitName;
+            theName.text = myUnit.info.unitName;
             this.GetComponent<Button>().onClick.AddListener(() => SetPressedButton());
             limit.color = Color.white;
             theName.color = Color.white;
@@ -53,13 +53,13 @@ public class UnitButtonScript : MonoBehaviour
 
     public void SetPressedButton()
     {
-        ArmyBuilder.Instance.pressedButton = this.GetComponent<Button>();
-        ArmyBuilder.Instance.AddOrRemoveUnit(true);
+        ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
+        ArmyBuilder.instance.AddOrRemoveUnit(true);
     }
     public void AddButtonToRightList()
     {
-        ArmyBuilder.Instance.pressedButton = this.GetComponent<Button>();
-        ArmyBuilder.Instance.AddOrRemoveUnit(false);
+        ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
+        ArmyBuilder.instance.AddOrRemoveUnit(false);
     }
 
     public void IncrementAmount()

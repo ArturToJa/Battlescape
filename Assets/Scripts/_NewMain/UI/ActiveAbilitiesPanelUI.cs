@@ -23,7 +23,7 @@ namespace BattlescapeUI
         }
 
         [SerializeField] GameObject abilityIconPrefab;
-        [SerializeField] GameObject CancelButton;
+        [SerializeField] GameObject cancelButton;
 
         //THESE two and their functions probably dont belong here idk
         [SerializeField] Sprite unclickedFrameAbility;
@@ -37,8 +37,9 @@ namespace BattlescapeUI
         {
             if (isRightClickTooltip == false)
             {
-                MouseManager.instance.OnUnitSelection += SetAbilitiesInPanel;
-                AbstractActiveAbility.OnCurrentlyUsedAbilityChanged += SetAbilityFrame;
+                Unit.OnUnitSelected += SetAbilitiesInPanel;
+                AbstractActiveAbility.OnAbilityClicked += SetAbilityFrame;
+                AbstractActiveAbility.OnAbilityClicked += OnAbilityChosen;
             }
             else
             {
@@ -55,9 +56,13 @@ namespace BattlescapeUI
                 if (myUnit != null)
                 {
                     UpdateActivity();
-                }
-                CancelButton.SetActive(AbstractActiveAbility.currentlyUsedAbility != null);
+                }                
             }
+        }
+
+        public void OnAbilityChosen()
+        {
+            cancelButton.SetActive(true);
         }
 
 
@@ -113,20 +118,20 @@ namespace BattlescapeUI
         {
             foreach (var thing in iconDictionary)
             {
-                thing.Value.GetComponentInChildren<Button>().interactable = (thing.Key.IsUsableNowBase());
+                thing.Value.GetComponentInChildren<Button>().interactable = (thing.Key.IsUsableNow());
             }
         }
 
         public void CancelAbility()
         {
-            AbstractActiveAbility.currentlyUsedAbility.Cancel();
+            Global.instance.currentEntity = GameRound.instance.currentPlayer;
         }
 
         void SetAbilityFrame()
         {
             foreach (var thing in iconDictionary)
             {
-                if (thing.Key == AbstractActiveAbility.currentlyUsedAbility)
+                if (thing.Key == (Global.instance.currentEntity as AbstractActiveAbility))
                 {
                     thing.Value.GetComponent<Image>().sprite = clickedFrameAbility;
                 }

@@ -5,25 +5,53 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class AbstractActiveAbility : AbstractAbility
+    public abstract class AbstractActiveAbility : AbstractAbility, IActiveEntity
     {
-        static AbstractActiveAbility _currentlyUsedAbility;
-        public static AbstractActiveAbility currentlyUsedAbility
+        [SerializeField] string _abilityName;
+        public string abilityName
         {
             get
             {
-                return _currentlyUsedAbility;
+                return _abilityName;
             }
-            set
+            protected set
             {
-                _currentlyUsedAbility = value;
-                OnCurrentlyUsedAbilityChanged();
+                _abilityName = value;
             }
         }
 
+        [SerializeField] string _description;
+        public string description
+        {
+            get
+            {
+                return _description;
+            }
+            protected set
+            {
+                _description = value;
+            }
+        }
+
+        [SerializeField] Sprite _icon;
+        public Sprite icon
+        {
+            get
+            {
+                return _icon;
+            }
+            protected set
+            {
+                _icon = value;
+            }
+        }        
+
         public IMouseTargetable target { get; set; }
 
-        [Header("Cost statistics")]        
+        [Header("Limitations")]
+
+        [SerializeField]
+        bool costsMovement;
 
         [SerializeField] int _cooldown = 1;
         public int cooldown
@@ -65,7 +93,7 @@ namespace BattlescapeLogic
             {
                 _usesPerBattle = value;
             }
-        }        
+        }
 
         int _usesLeft = -1;
         public int usesLeft
@@ -84,26 +112,82 @@ namespace BattlescapeLogic
             }
         }
 
-
-        public static event System.Action OnCurrentlyUsedAbilityChanged = delegate { };
-
-        protected abstract bool IsUsableNow();
-
-        public bool IsUsableNowBase()
+        [Header("Visuals and Sound")]
+        [Space]
+        [SerializeField]
+        string _animationTrigger;
+        public string animationTrigger
         {
-            return IsUsableNow() && (usesLeft > 0 || usesPerBattle == 0) && owner.statistics.currentEnergy >= energyCost && roundsTillOffCooldown == 0;
+            get
+            {
+                return _animationTrigger;
+            }
+            private set
+            {
+                _animationTrigger = value;
+            }
+        }
+        [SerializeField] Sound sound;
+        [SerializeField] string log;
+        [SerializeField] GameObject castVisualEffect;
+
+
+        public static event Action OnAbilityClicked = delegate { };
+
+
+
+        public virtual bool IsUsableNow()
+        {
+            return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase();
         }
 
-        public abstract bool IsLegalTarget(IMouseTargetable target);
-
-
-        public void OnClickIcon()
+        protected bool CheckMovementCost()
         {
-            currentlyUsedAbility = this;
-            ColourTargets();
+            return costsMovement == false || (owner.statistics.movementPoints >= owner.statistics.GetCurrentMaxMovementPoints());
         }
 
-        public abstract void ColourTargets();
+        protected bool IsOffCooldown()
+        {
+            return roundsTillOffCooldown == 0;
+        }
+
+        protected bool HasEnoughEnergy()
+        {
+            return owner.statistics.currentEnergy >= energyCost;
+        }
+
+        protected bool HasUsesLeft()
+        {
+            return (usesLeft > 0 || usesPerBattle == 0);
+        }
+
+        protected bool IsCorrectPhase()
+        {
+            switch (legalPhases)
+            {
+                case TurnPhases.None:
+                    Debug.LogWarning("Legal phases for: " + abilityName + " is set to none; it makes no sense, consider changing it");
+                    return false;
+                case TurnPhases.All:
+                    return true;
+                default:
+                    return legalPhases == GameRound.instance.currentPhase;
+            }
+        }
+
+
+
+
+
+
+        public virtual void OnClickIcon()
+        {
+            Global.instance.currentEntity = this;
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
+            ColourPossibleTargets();
+        }
+
+        public abstract void ColourPossibleTargets();
 
         //NO IDEA if we even need this - in old code it coloured e.g. possible targets when hovering over ability, especially if ability is no target (used on click and not on activation
         public virtual void OnMouseHovered()
@@ -111,24 +195,32 @@ namespace BattlescapeLogic
             return;
         }
         
+        public abstract bool IsLegalTarget(IMouseTargetable target);
 
-        public void BaseActivate()
+
+        protected virtual void Activate()
         {
+            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             owner.statistics.currentEnergy -= energyCost;
             if (usesPerBattle > 0)
             {
                 usesLeft--;
             }
+            if (costsMovement)
+            {
+                owner.statistics.movementPoints = 0;
+            }
             roundsTillOffCooldown = cooldown;
-            Activate();
-            currentlyUsedAbility = null;
+            Cancel();
+            Log.SpawnLog(log);
+            Animate();
+            DoVisualEffectFor(castVisualEffect, owner.gameObject);
+            BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
         }
-
-        public abstract void Activate();
 
         public void Cancel()
         {
-            currentlyUsedAbility = null;
+            Global.instance.currentEntity = GameRound.instance.currentPlayer;
         }
 
         public override void OnNewRound()
@@ -137,6 +229,45 @@ namespace BattlescapeLogic
             if (roundsTillOffCooldown > 0)
             {
                 roundsTillOffCooldown--;
+            }
+        }
+
+        protected void Animate()
+        {
+            owner.animator.SetTrigger(animationTrigger);
+        }
+
+        protected void DoVisualEffectFor(GameObject vfx, GameObject target)
+        {
+            if (vfx != null)
+            {
+                Instantiate(vfx, target.transform.position, vfx.transform.rotation,target.transform);
+            }
+        }
+
+        public void OnLeftClick(IMouseTargetable clickedObject)
+        {
+            if (IsLegalTarget(clickedObject))
+            {
+                target = clickedObject;
+                Activate();
+            }
+        }
+
+        public void OnRightClick(IMouseTargetable target)
+        {
+            Cancel();
+        }
+
+        public virtual void OnCursorOver(IMouseTargetable target)
+        {
+            if (IsLegalTarget(target))
+            {
+                Cursor.instance.OnLegalTargetHovered();
+            }
+            else
+            {
+                Cursor.instance.OnInvalidTargetHovered();
             }
         }
     }

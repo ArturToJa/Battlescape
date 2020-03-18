@@ -14,7 +14,7 @@ public class RoomScript : MonoBehaviour
     [SerializeField] GameObject StartGameButton;
     [SerializeField] GameObject ChooseMapButton;
     bool isMatchStarted = false;
-    string GameSceneName;
+    string gameSceneName;
     [SerializeField] GameObject MapChoiceWindow;
 
     void Start()
@@ -40,7 +40,7 @@ public class RoomScript : MonoBehaviour
         StartGameButton.SetActive
             (PhotonNetwork.isMasterClient 
             && (PhotonNetwork.room.PlayerCount == 2)
-            && SaveLoadManager.Instance.AreBothFactionsChosen);
+            && SaveLoadManager.instance.haveAllPlayersChosenRace);
         ChooseMapButton.SetActive
             (PhotonNetwork.isMasterClient
             && PhotonNetwork.room.PlayerCount == 2
@@ -57,8 +57,7 @@ public class RoomScript : MonoBehaviour
         if (isMatchStarted == false)
         {
             isMatchStarted = true;
-            photonView.RPC("RPCSetPlayerTypes", PhotonTargets.All);
-            FindObjectOfType<LevelLoader>().CommandLoadScene(GameSceneName);
+            FindObjectOfType<LevelLoader>().CommandLoadScene(gameSceneName);
         }
         
     }
@@ -72,29 +71,14 @@ public class RoomScript : MonoBehaviour
     {
         // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
         photonView.RPC("RPCSetGameSceneName", PhotonTargets.All, EventSystem.current.currentSelectedGameObject.name);
-        Log.LobbySpawnLog("MapChosen: " + GameSceneName);
+        Log.LobbySpawnLog("MapChosen: " + gameSceneName);
         transform.SetAsLastSibling();
 
     }
 
     [PunRPC]
-    void RPCSetPlayerTypes()
-    {
-        //this function sets playertypes, so tells us who is "mylocalplayer" ;) If we are the MasterClient, then we are player 0 (so players[0] is Local) and if not then we are player 1. 
-        if (PhotonNetwork.isMasterClient)
-        {
-            Global.instance.playerBuilders[0,0].type = PlayerType.Local;
-
-        }
-        else
-        {
-            Global.instance.playerBuilders[1,0].type = PlayerType.Local;
-        }
-    }
-
-    [PunRPC]
     void RPCSetGameSceneName(string name)
     {
-        GameSceneName = name;
+        gameSceneName = name;
     }
 }

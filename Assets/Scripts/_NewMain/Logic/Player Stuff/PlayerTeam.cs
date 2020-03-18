@@ -23,7 +23,14 @@ namespace BattlescapeLogic
         public void AddNewPlayer(Player player)
         {
             players.Add(player);
-            Global.instance.playerBuilders[index,player.index] = null;
+            foreach (PlayerBuilder playerBuilder in Global.instance.playerBuilders)
+            {
+                if (playerBuilder.index == player.index && playerBuilder.team.index == player.team.index)
+                {
+                    Global.instance.playerBuilders.Remove(playerBuilder);
+                    break;
+                }
+            }          
         }
     }
 }

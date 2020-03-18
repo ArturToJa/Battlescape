@@ -25,7 +25,7 @@ public class Ability_Neutral_SwapWeapons : Ability_Basic
 
     protected override void OnUpdate()
     {
-        if (myUnit == BattlescapeLogic.MouseManager.instance.selectedUnit)
+        if (myUnit == BattlescapeLogic.GameRound.instance.currentPlayer.selectedUnit)
         {
             //if (IsPri)
             //{

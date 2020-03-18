@@ -52,7 +52,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
     {
         legalTiles = new List<Tile>();
         Bounds RangeBounds = new Bounds(transform.position, new Vector3(2f * Range, 5f, 2f * Range));
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
             if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {
@@ -104,7 +104,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
     {
         legalTiles = new List<Tile>();
         Bounds RangeBounds = new Bounds(transform.position, new Vector3(2f * Range, 5f, 2f * Range));
-        foreach (Tile tile in Map.Board)
+        foreach (Tile tile in Global.instance.currentMap.board)
         {
             if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {

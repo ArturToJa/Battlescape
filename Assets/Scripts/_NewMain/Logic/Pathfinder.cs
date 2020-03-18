@@ -58,7 +58,7 @@ namespace BattlescapeLogic
             // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
             //Also it has to BFS there as it is also used elsewhere;
             BFS(unitToMove);
-            foreach (Tile tile in Map.Board)
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
                 if (IsLegalTileForUnit(tile, unitToMove))
                 {
@@ -116,7 +116,7 @@ namespace BattlescapeLogic
                 lastTile = unitToMove.currentPosition;
                 lastUnit = unitToMove;
             }
-            parents = new Tile[Map.mapWidth, Map.mapHeight];
+            parents = new Tile[Global.instance.currentMap.mapWidth, Global.instance.currentMap.mapHeight];
             SetDistancesToMinus();
             SetOccupations(unitToMove);
 
@@ -152,10 +152,10 @@ namespace BattlescapeLogic
         #region BFS Subfunctions
         void SetDistancesToMinus()
         {
-            distances = new int[Map.mapWidth, Map.mapHeight];
-            for (int i = 0; i < Map.mapWidth; i++)
+            distances = new int[Global.instance.currentMap.mapWidth, Global.instance.currentMap.mapHeight];
+            for (int i = 0; i < Global.instance.currentMap.mapWidth; i++)
             {
-                for (int j = 0; j < Map.mapHeight; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight; j++)
                 {
                     distances[i, j] = -1;
                 }
@@ -165,12 +165,12 @@ namespace BattlescapeLogic
         //Tile is considered Occupied, if there is an enemy on its neighbour.
         void SetOccupations(BattlescapeLogic.Unit unitToMove)
         {
-            enemyProtection = new bool[Map.mapWidth, Map.mapHeight];
-            for (int i = 0; i < Map.mapWidth; i++)
+            enemyProtection = new bool[Global.instance.currentMap.mapWidth, Global.instance.currentMap.mapHeight];
+            for (int i = 0; i < Global.instance.currentMap.mapWidth; i++)
             {
-                for (int j = 0; j < Map.mapHeight; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight; j++)
                 {
-                    enemyProtection[i, j] = Map.Board[i, j].IsProtectedByEnemyOf(unitToMove);
+                    enemyProtection[i, j] = Global.instance.currentMap.board[i, j].IsProtectedByEnemyOf(unitToMove);
                 }
             }
         }

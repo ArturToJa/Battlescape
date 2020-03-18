@@ -97,7 +97,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     }
     protected override void ColourTiles()
     {
-    //    foreach (Tile tile in Map.Board)
+    //    foreach (Tile tile in Global.instance.map.board)
     //    {
     //        if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
     //        {

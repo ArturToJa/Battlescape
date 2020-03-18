@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 33085679703244146}
   - component: {fileID: 23714856032074010}
   - component: {fileID: 65117603072933248}
-  - component: {fileID: 114165629349565634}
   m_Layer: 12
   m_Name: Quad
   m_TagString: Untagged
@@ -141,14 +140,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.29, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114165629349565634
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1962110011122446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce8e8ba7cb628044db7c0215cccf4041, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

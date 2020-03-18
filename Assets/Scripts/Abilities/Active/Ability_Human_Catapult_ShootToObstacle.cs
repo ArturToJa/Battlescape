@@ -77,7 +77,7 @@ public class Ability_Human_Catapult_ShootToObstacle : Ability_Basic
     }
     //protected override void ColourTiles()
     //{
-    //    foreach (Tile tile in Map.Board)
+    //    foreach (Tile tile in Global.instance.map.board)
     //    {
     //        if (tile.hasObstacle && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position) && Helper.FindChildWithTag(tile.gameObject, "Dice") != null)
     //        {

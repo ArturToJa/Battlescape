@@ -7,41 +7,39 @@ using BattlescapeLogic;
 
 public class ArmyBuilder : MonoBehaviour
 {
-    public static ArmyBuilder Instance { get; private set; }
+    public static ArmyBuilder instance { get; private set; }
 
     // This class deals with modyfing Armies in Manage Armies mode (adding and removing units to your army to later save it
     public GameObject HeroesChoice;
-    [SerializeField] GameObject FactionScreen;
-    [SerializeField] GameObject ABScreen;
-    public Transform DeploymentPanel;
-    [SerializeField] Transform LeftUnits;
+    [SerializeField] GameObject raceScreen;
+    [SerializeField] GameObject armyBuildingScreen;
+    [SerializeField] Transform leftUnits;
     public Transform RightUnits;
-    public UnitCreator heroCreator;
-    public Button pressedButton;
+    public UnitCreator heroCreator { get; set; }
+    public Button pressedButton { get; set; }
     int startingMoney;
-    [SerializeField] int currentMoney;
-    [SerializeField] Text RemainingGoldText;
+    int currentMoney;
+    [SerializeField] Text remainingGoldText;
     public List<UnitCreator> UnitsList;
 
-    [SerializeField] Renderer Pedestal;
-    [SerializeField] bool isVisual;
-    [SerializeField] GameObject HeroChoicer;
-    [SerializeField] GameObject FactionOK;
-    public Text FactionNameText;
-    public Text FactionDescriptionText;
+    [SerializeField] Renderer heroPedestal;
+    [SerializeField] GameObject heroChoiceScreen;
+    public GameObject raceOK;
+    public Text RaceNameText;
+    public Text RaceDescriptionText;
     WindowSetter windowSetter;
 
     void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
             Debug.LogError("why");
         }
-        startingMoney = SaveLoadManager.Instance.currentSaveValue;
+        startingMoney = SaveLoadManager.instance.currentSaveValue;
         currentMoney = startingMoney;
         UnitsList = new List<UnitCreator>();
         windowSetter = FindObjectOfType<WindowSetter>();
@@ -49,23 +47,23 @@ public class ArmyBuilder : MonoBehaviour
 
     void Update()
     {
-        if (SaveLoadManager.Instance.playerArmy != null && SaveLoadManager.Instance.playerArmy.unitIndecies != null && SaveLoadManager.Instance.playerArmy.unitIndecies.Count > 0)
+        if (SaveLoadManager.instance.playerArmy != null && SaveLoadManager.instance.playerArmy.unitIndecies != null && SaveLoadManager.instance.playerArmy.unitIndecies.Count > 0)
         {
-            FactionScreen.SetActive(false);
+            raceScreen.SetActive(false);
         }
-        RemainingGoldText.text = currentMoney.ToString();
+        remainingGoldText.text = currentMoney.ToString();
         if (Input.GetKeyDown(KeyCode.Escape) && windowSetter.currentScreen == this.gameObject)
         {
             GoBackToHeroScreen();
         }
-        FactionOK.SetActive(SaveLoadManager.Instance.Race != Faction.Neutral);
-        if (ABScreen.activeSelf)
+        raceOK.SetActive(SaveLoadManager.instance.race != Race.Neutral);
+        if (armyBuildingScreen.activeSelf)
         {
-            foreach (Transform unitButton in LeftUnits)
+            foreach (Transform unitButton in leftUnits)
             {
                 if (unitButton.GetSiblingIndex() > 0)
                 {
-                    unitButton.gameObject.SetActive(unitButton.GetComponent<UnitButtonScript>().unitCreator != null && unitButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().race == SaveLoadManager.Instance.Race);
+                    unitButton.gameObject.SetActive(unitButton.GetComponent<UnitButtonScript>().unitCreator != null && unitButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().race == SaveLoadManager.instance.race);
                 }
             }
         }
@@ -78,12 +76,12 @@ public class ArmyBuilder : MonoBehaviour
 
     public void InputHeroName(string text)
     {
-        SaveLoadManager.Instance.HeroName = text;
+        SaveLoadManager.instance.heroName = text;
     }
 
     public void AddOrRemoveUnit(bool isReal)
     {
-        if (pressedButton.transform.parent == LeftUnits)
+        if (pressedButton.transform.parent == leftUnits)
         {
 
             if (currentMoney >= pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost)
@@ -98,7 +96,7 @@ public class ArmyBuilder : MonoBehaviour
                         AddPressedButtonToUnitList();
                         if (isReal)
                         {
-                            SaveLoadManager.Instance.UnitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                            SaveLoadManager.instance.unitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
                         }
                     }
 
@@ -111,7 +109,7 @@ public class ArmyBuilder : MonoBehaviour
                     AddPressedButtonToUnitList();
                     if (isReal)
                     {
-                        SaveLoadManager.Instance.UnitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                        SaveLoadManager.instance.unitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
                     }
                 }
             }
@@ -129,13 +127,13 @@ public class ArmyBuilder : MonoBehaviour
             {
                 RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().DecrementAmount();
                 RemovePressedButtonToUnitList();
-                SaveLoadManager.Instance.UnitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
             }
             else
             {
                 if (Application.isEditor)
                 {
-                    SaveLoadManager.Instance.UnitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                    SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
                     RemovePressedButtonToUnitList();
                     DestroyImmediate(pressedButton.gameObject);
 
@@ -143,7 +141,7 @@ public class ArmyBuilder : MonoBehaviour
                 }
                 else
                 {
-                    SaveLoadManager.Instance.UnitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                    SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
                     RemovePressedButtonToUnitList();
                     Destroy(pressedButton.gameObject);
                 }
@@ -171,14 +169,14 @@ public class ArmyBuilder : MonoBehaviour
     
     public void GoBackToHeroScreen()
     {
-        windowSetter.currentScreen = HeroChoicer;
+        windowSetter.currentScreen = heroChoiceScreen;
         StartCoroutine(BackToHeroCoroutine());
     }
 
     private IEnumerator BackToHeroCoroutine()
     {
         FindObjectOfType<HeroChoiceScreenScript>().amIActive = true;
-        while (ABScreen.GetComponent<CanvasGroup>().alpha > 0.1f)
+        while (armyBuildingScreen.GetComponent<CanvasGroup>().alpha > 0.1f)
         {
             UIManager.SmoothlyTransitionActivity(gameObject, false, 0.1f);
             yield return null;
@@ -189,8 +187,8 @@ public class ArmyBuilder : MonoBehaviour
         }
         heroCreator = null;
         currentMoney = startingMoney;
-        ABScreen.GetComponent<CanvasGroup>().alpha = 0;
-        ABScreen.SetActive(false);
+        armyBuildingScreen.GetComponent<CanvasGroup>().alpha = 0;
+        armyBuildingScreen.SetActive(false);
     }
 
     public bool IsHero()
@@ -201,33 +199,15 @@ public class ArmyBuilder : MonoBehaviour
     {
         foreach (Unit item in army)
         {
-            for (int i = 1; i < LeftUnits.childCount; i++)
+            for (int i = 1; i < leftUnits.childCount; i++)
             {
-                if (LeftUnits.GetChild(i).GetComponent<UnitButtonScript>().unitCreator == item)
+                if (leftUnits.GetChild(i).GetComponent<UnitButtonScript>().unitCreator == item)
                 {
-                    LeftUnits.GetChild(i).GetComponent<UnitButtonScript>().AddButtonToRightList();
+                    leftUnits.GetChild(i).GetComponent<UnitButtonScript>().AddButtonToRightList();
                 }
             }
         }
-    }
-
-    public void ClickHuman()
-    {
-        SaveLoadManager.Instance.Race = Faction.Human;
-        foreach (Transform child in HeroesChoice.transform)
-        {
-            SetHeroPortrait(child.gameObject, 0);
-        }
-    }
-
-    public void ClickElves()
-    {
-        SaveLoadManager.Instance.Race = Faction.Elves;
-        foreach (Transform child in HeroesChoice.transform)
-        {
-            SetHeroPortrait(child.gameObject, 1);
-        }
-    }
+    }    
 
     public void SetHeroPortrait(GameObject portraitFrame, int raceID)
     {

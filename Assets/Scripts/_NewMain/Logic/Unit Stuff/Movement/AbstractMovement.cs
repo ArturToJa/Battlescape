@@ -14,7 +14,7 @@ namespace BattlescapeLogic
     {
         protected Unit myUnit;
         protected float visualSpeed;
-        protected Tile finalTile;        
+        protected Tile finalTile;
 
 
         //This is ONLY about finishing the WHOLE movement!
@@ -24,14 +24,14 @@ namespace BattlescapeLogic
             {
                 return myUnit != null && myUnit.currentPosition != null && finalTile != null && myUnit.currentPosition != finalTile;
             }
-            
+
         }
 
         public AbstractMovement()
         {
         }
 
-        public abstract IEnumerator MoveTo(Tile destination);        
+        public abstract IEnumerator MoveTo(Tile destination);
 
         protected void TurnTowards(Vector3 target)
         {
@@ -42,9 +42,25 @@ namespace BattlescapeLogic
         }
 
         public void ApplyUnit(Unit unit)
-        {            
+        {
             myUnit = unit;
         }
-        
+
+        public bool CanMoveTo(Tile destination)
+        {
+            if (destination == null)
+            {
+                Debug.LogError("Destination is null!");
+            }
+            return
+                destination != null
+                && myUnit.owner.IsCurrentLocalPlayer()
+                && myUnit.owner == GameRound.instance.currentPlayer
+                && GameRound.instance.currentPhase == TurnPhases.Movement
+                && myUnit.CanStillMove()
+                && Pathfinder.instance.IsLegalTileForUnit(destination, myUnit)
+                && PlayerInput.instance.isInputBlocked == false;
+        }
+
     }
 }

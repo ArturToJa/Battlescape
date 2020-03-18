@@ -12,10 +12,10 @@ public class AI_BaseClass
     
     protected int ID;
     protected Dictionary<Tile, float> EvaluatedTiles;
-    public List<BattlescapeLogic.Unit> enemyList;
-    public List<BattlescapeLogic.Unit> allyList;
+    public List<Unit> enemyList;
+    public List<Unit> allyList;
 
-    List<BattlescapeLogic.Unit> LastThreeSelectedUnits;
+    List<Unit> lastThreeSelectedUnits;
 
     public AI_BaseClass(int ID)
     {
@@ -24,10 +24,10 @@ public class AI_BaseClass
 
     protected void CallTheConstructor(int ID)
     {
-        LastThreeSelectedUnits = new List<BattlescapeLogic.Unit>();
+        lastThreeSelectedUnits = new List<BattlescapeLogic.Unit>();
         this.ID = ID;
         allyList = Global.instance.playerTeams[ID].players[0].playerUnits;
-        enemyList = Global.instance.GetNextPlayer(Global.instance.playerTeams[ID].players[0]).playerUnits;
+        //enemyList = Global.instance.GetNextPlayer(Global.instance.playerTeams[ID].players[0]).playerUnits;
     }
 
     public void DoAI()
@@ -45,12 +45,12 @@ public class AI_BaseClass
                 //GameStateManager.NextPhase();
                 return;
             }
-            LastThreeSelectedUnits.Add(currentUnit);
-            if (LastThreeSelectedUnits.Count > 3)
+            lastThreeSelectedUnits.Add(currentUnit);
+            if (lastThreeSelectedUnits.Count > 3)
             {
-                LastThreeSelectedUnits.RemoveAt(0);
+                lastThreeSelectedUnits.RemoveAt(0);
             }
-            MouseManager.instance.SelectUnit(currentUnit);
+            //MouseManager.instance.SelectUnit(currentUnit);
 
             ///////////////////// ABILITIES HERE//////////////////////////////
             // Here we should check if we want to use an active ability!
@@ -105,7 +105,7 @@ public class AI_BaseClass
     bool IsInInfiniteLoop(BattlescapeLogic.Unit unit)
     {
         int count = 0;
-        foreach (BattlescapeLogic.Unit u in LastThreeSelectedUnits)
+        foreach (BattlescapeLogic.Unit u in lastThreeSelectedUnits)
         {
             if (unit = u)
             {

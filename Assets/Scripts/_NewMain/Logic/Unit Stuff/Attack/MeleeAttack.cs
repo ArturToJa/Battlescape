@@ -27,13 +27,7 @@ namespace BattlescapeLogic
         protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger("Attack");
-        }
-
-        //im aware im copying it from AbstractMovement ;/
-        protected override void TurnTowardsTarget()
-        {
-            sourceUnit.visuals.transform.LookAt(new Vector3(targetUnit.transform.position.x, sourceUnit.visuals.transform.position.y, targetUnit.transform.position.z));
-        }
+        }        
 
         public override void OnAttackAnimation()
         {
