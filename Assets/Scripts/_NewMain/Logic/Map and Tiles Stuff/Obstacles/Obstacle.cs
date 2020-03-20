@@ -2,10 +2,7 @@
 
 namespace BattlescapeLogic
 {
-    /// <summary>
-    ///     TO DO!!!      Create Spawn function, assign position to tiles
-    /// </summary>
-    
+
     public class Obstacle : MonoBehaviour, IMouseTargetable
     {
         [SerializeField]
@@ -46,11 +43,6 @@ namespace BattlescapeLogic
         public void Destruct(Unit source)
         {
             animator.SetTrigger("Destruct");
-        }
-
-        public void Spawn()
-        {
-            Debug.Log("'Spawn' function for Obstacle is empty!");
         }
         
 

@@ -129,6 +129,27 @@ namespace BattlescapeLogic
             return count;
         }
 
+        public static List<IMouseTargetable> FindAllTargetablesInLine(Vector3 start, Vector3 end)
+        {
+
+            var VectorToTarget = -start + end;
+
+            Ray ray = new Ray(start, VectorToTarget);
+            RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(start, end));
+
+            var list = new List<IMouseTargetable>();
+
+            foreach (var hit in hits)
+            {
+                if (hit.transform.GetComponent<IMouseTargetable>() != null)
+                {
+                    list.Add(hit.transform.GetComponent<IMouseTargetable>());
+                }
+            }
+
+            return list;
+        }
+
 
     }
 }

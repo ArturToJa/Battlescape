@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace BattlescapeLogic
 {
@@ -6,6 +7,8 @@ namespace BattlescapeLogic
     {
         [SerializeField]
         int _healthpoints;
+
+        public List<AbstractBuff> currentBuffs = new List<AbstractBuff>();
 
         public int healthPoints
         {

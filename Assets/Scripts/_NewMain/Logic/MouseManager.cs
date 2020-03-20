@@ -120,6 +120,7 @@ namespace BattlescapeLogic
                 && attacker.owner == GameRound.instance.currentPlayer
                 && attacker.CanStillAttack()
                 && attacker.IsInAttackRange(defender.transform.position)
+                && attacker.HasClearView(defender.transform.position)
                 && attacker.IsEnemyOf(defender);
         }
 

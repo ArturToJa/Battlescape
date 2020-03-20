@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable
+    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IDamageable
     {
         [SerializeField] GameObject _missilePrefab;
         public GameObject missilePrefab
@@ -310,7 +310,7 @@ namespace BattlescapeLogic
             {
                 Log.SpawnLog(this.unitName + " deals " + damage + " damage to " + target.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
-                target.OnHit(this, damage);
+                target.TakeDamage(this, damage);
                 foreach(AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
                 {
                     buff.RemoveFromUnitInstantly();
@@ -349,7 +349,7 @@ namespace BattlescapeLogic
         }
 
         //this should play on attacked unit when it is time it should receive DMG
-        public void OnHit(Unit source, int damage)
+        public void TakeDamage(Unit source, int damage)
         {
             ReceiveDamage(source, damage);
         }
@@ -422,6 +422,22 @@ namespace BattlescapeLogic
                 return FullRange.Contains(target);
             }
         }
+
+        public bool HasClearView(Vector3 defender)
+        {
+            foreach (var targetable in Global.FindAllTargetablesInLine(transform.position,defender))
+            {
+                var obstacle = targetable as Obstacle;
+
+                if (obstacle != null && obstacle.isTall)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool IsEnemyOf(Unit other)
         {
             return owner.team != other.owner.team;
