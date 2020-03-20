@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 137662774033492178}
   m_Layer: 8
   m_Name: WK_Units_Legs_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 23134973131512390}
   m_Layer: 8
   m_Name: WK_Units_hammer_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 137549572491049494}
   m_Layer: 8
   m_Name: WK_Units_Legs_C
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 137346392651001338}
   m_Layer: 8
   m_Name: WK_Units_shoulderpads_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 23427568033234766}
   m_Layer: 8
   m_Name: WK_Units_sword_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 137691283505175228}
   m_Layer: 8
   m_Name: WK_Units_Body_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 23194661206217538}
   m_Layer: 8
   m_Name: WK_Units_spear
-  m_TagString: SpearInHand
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 23611053109876682}
   m_Layer: 8
   m_Name: WK_Units_axe_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 137848975274967012}
   m_Layer: 8
   m_Name: WK_Units_Arms_D
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 23796387678298410}
   m_Layer: 8
   m_Name: WK_Units_pick
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 23753625858059464}
   m_Layer: 8
   m_Name: WK_Units_sword_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -406,7 +406,7 @@ GameObject:
   - component: {fileID: 137985799509968270}
   m_Layer: 8
   m_Name: WK_Units_Legs_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 137266584563887150}
   m_Layer: 8
   m_Name: WK_Units_Body_E
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 23142410521955130}
   m_Layer: 8
   m_Name: WK_Units_staff_C
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,7 +531,7 @@ GameObject:
   - component: {fileID: 137175591623739138}
   m_Layer: 8
   m_Name: WK_Units_Body_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 54147378901850522}
   - component: {fileID: 114314348284977456}
   - component: {fileID: 114129476627310188}
-  - component: {fileID: 114422723921791038}
+  - component: {fileID: 114127821290305074}
   m_Layer: 8
   m_Name: Pikeman
   m_TagString: Unit
@@ -674,7 +674,7 @@ GameObject:
   - component: {fileID: 137155780718955244}
   m_Layer: 8
   m_Name: WK_Units_Body_C
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 23178719027268024}
   m_Layer: 8
   m_Name: WK_Units_shield_D
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 23167166942439738}
   m_Layer: 8
   m_Name: WK_Units_axe_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 23193581281451288}
   m_Layer: 8
   m_Name: WK_Units_shield_C
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -834,7 +834,7 @@ GameObject:
   - component: {fileID: 137549671705008486}
   m_Layer: 8
   m_Name: WK_Units_Arms_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -867,7 +867,7 @@ GameObject:
   - component: {fileID: 137742868608838312}
   m_Layer: 8
   m_Name: WK_Units_Arms_C
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -883,7 +883,7 @@ GameObject:
   - component: {fileID: 137424598758425806}
   m_Layer: 8
   m_Name: WK_Units_Body_D
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -930,7 +930,7 @@ GameObject:
   - component: {fileID: 137933150364236438}
   m_Layer: 8
   m_Name: WK_Units_Arms_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -962,7 +962,7 @@ GameObject:
   - component: {fileID: 137681510628252944}
   m_Layer: 8
   m_Name: WK_Units_shoulderpads_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1057,30 +1057,11 @@ GameObject:
   - component: {fileID: 23269214125816358}
   m_Layer: 8
   m_Name: WK_Units_staff_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!1 &1941637993371116
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4380737894032780}
-  - component: {fileID: 33929766530255238}
-  - component: {fileID: 135599050564194964}
-  - component: {fileID: 23370685528811424}
-  - component: {fileID: 114378387057573688}
-  m_Layer: 8
-  m_Name: HPBarPlaceholder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1950325766859608
 GameObject:
   m_ObjectHideFlags: 1
@@ -1107,6 +1088,7 @@ GameObject:
   - component: {fileID: 222005764042638526}
   - component: {fileID: 114254290860884690}
   - component: {fileID: 114897186874223810}
+  - component: {fileID: 114246415925257842}
   m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1126,7 +1108,7 @@ GameObject:
   - component: {fileID: 23924655780790480}
   m_Layer: 8
   m_Name: WK_Units_hammer_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1160,7 +1142,7 @@ GameObject:
   - component: {fileID: 23936897141871286}
   m_Layer: 8
   m_Name: WK_Units_shield_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1196,7 +1178,7 @@ GameObject:
   - component: {fileID: 23868327890403018}
   m_Layer: 8
   m_Name: WK_Units_Bow
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1213,7 +1195,7 @@ GameObject:
   - component: {fileID: 23521312813084382}
   m_Layer: 8
   m_Name: WK_Units_staff_B
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1230,7 +1212,7 @@ GameObject:
   - component: {fileID: 23526580202195058}
   m_Layer: 8
   m_Name: WK_Units_shield_A
-  m_TagString: Untagged
+  m_TagString: Coloured
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1314,7 +1296,6 @@ Transform:
   m_LocalPosition: {x: 100, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4380737894032780}
   - {fileID: 224537191315604580}
   - {fileID: 4921335748820268}
   m_Father: {fileID: 0}
@@ -1678,19 +1659,6 @@ Transform:
   m_Children:
   - {fileID: 4105678352389434}
   m_Father: {fileID: 4405004577088994}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4380737894032780
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1941637993371116}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 4115919446164862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4391388128022516
@@ -2192,7 +2160,7 @@ Transform:
   - {fileID: 4529444892633328}
   - {fileID: 4544088671200496}
   m_Father: {fileID: 4115919446164862}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4922619543868296
 Transform:
@@ -2603,40 +2571,6 @@ MeshRenderer:
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!23 &23370685528811424
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1941637993371116}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
@@ -3121,13 +3055,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1684258851458678}
   m_Mesh: {fileID: 4300002, guid: 635180035812f964db1d9529cbb170f2, type: 3}
---- !u!33 &33929766530255238
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1941637993371116}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &33955223789961828
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -3314,6 +3241,63 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114127821290305074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638792360579844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd68a56f1c32884fad3e438a6148204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legalPhases: 4
+  _filter:
+    ally: 0
+    enemy: 0
+    selfPlayer: 0
+    otherPlayer: 0
+    canSelf: 0
+    hero: 0
+    regular: 0
+    ranged: 0
+    melee: 0
+    ground: 0
+    flying: 0
+  _abilityName: Barricade
+  _description: Pikeman creates a destructible barricade on a neighbouring tile. It
+    can not be passed. Can be built more than once a turn.
+  _icon: {fileID: 21300000, guid: 866f8849b06ee3e43b14da96ce4299a0, type: 3}
+  costsMovement: 0
+  _cooldown: 0
+  _energyCost: 20
+  _usesPerBattle: 0
+  _animationTrigger: Barricade
+  sound:
+    name: PikemanBarriicadeSound
+    clip: {fileID: 8300000, guid: 8ecf3e7ab8b6d1c4cb8c86e29c80570d, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
+  log: Pikeman builds a Barricade!
+  castVisualEffect: {fileID: 1884933212294534, guid: 0af5be3914fd2e54dab118360595c72b,
+    type: 2}
+  _range: 1
+  isRangeModified: 0
+  rangeModifier: 0
+  obstaclePrefab: {fileID: 1695538124464800, guid: 44a3891117063ed4f9cd26cfb3445a77,
+    type: 2}
+  onHitTheGroundSound:
+    name: PikemanSpearHitGroundSound
+    clip: {fileID: 8300000, guid: 89371f48456c92445b358a10deedd6b4, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
 --- !u!114 &114129476627310188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3386,6 +3370,15 @@ MonoBehaviour:
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
   unitClass: 1
+  _equipment:
+    primaryWeapon:
+      itemEquipped: {fileID: 1325237222996624}
+      itemHidden: {fileID: 0}
+      _isRanged: 0
+    secondaryWeapon:
+      itemEquipped: {fileID: 0}
+      itemHidden: {fileID: 0}
+      _isRanged: 0
   _race: 0
 --- !u!114 &114135990274733798
 MonoBehaviour:
@@ -3414,6 +3407,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114246415925257842
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970639260321658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1.25
 --- !u!114 &114254290860884690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3452,67 +3457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429181357bc3c3f42b14246e13f7e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114378387057573688
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1941637993371116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPBar: {fileID: 1970639260321658}
---- !u!114 &114422723921791038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638792360579844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9b8404ce4e61d04ea07a9f9a8c143fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  legalPhases: 4
-  _filter:
-    ally: 0
-    enemy: 0
-    selfPlayer: 0
-    otherPlayer: 0
-    canSelf: 0
-    hero: 0
-    regular: 0
-    ranged: 0
-    melee: 0
-    ground: 0
-    flying: 0
-  _abilityName: Barricade
-  _description: Pikeman creates a destructible barricade on a neighbouring tile. It
-    can not be passed. Can be built more than once a turn.
-  _icon: {fileID: 21300000, guid: 866f8849b06ee3e43b14da96ce4299a0, type: 3}
-  costsMovement: 0
-  _cooldown: 0
-  _energyCost: 20
-  _usesPerBattle: 0
-  _animationTrigger: SpecialAttack
-  sound:
-    name: PikemanBarriicadeSound
-    clip: {fileID: 8300000, guid: 8ecf3e7ab8b6d1c4cb8c86e29c80570d, type: 3}
-    volume: 0.3
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  log: Pikeman builds a Barricade!
-  castVisualEffect: {fileID: 1884933212294534, guid: 0af5be3914fd2e54dab118360595c72b,
-    type: 2}
-  _range: 1
-  isRangeModified: 0
-  rangeModifier: 0
-  obstaclePrefab: {fileID: 1695538124464800, guid: 44a3891117063ed4f9cd26cfb3445a77,
-    type: 2}
 --- !u!114 &114610901809939534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3571,18 +3515,6 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   amount: {fileID: 0}
   barAnimationTime: 0.1
---- !u!135 &135599050564194964
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1941637993371116}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137061543785152140
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4877,7 +4809,7 @@ RectTransform:
   m_Children:
   - {fileID: 224515955421345430}
   m_Father: {fileID: 4115919446164862}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

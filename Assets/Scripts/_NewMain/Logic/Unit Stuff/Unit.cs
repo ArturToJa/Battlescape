@@ -50,7 +50,18 @@ namespace BattlescapeLogic
         public List<AbstractAbility> abilities { get; private set; }
         public List<AbstractBuff> buffs { get; private set; }
         public GameObject visuals { get; private set; }
-        public GameObject meleeWeaponVisual { get; private set; }
+        [SerializeField] Equipment _equipment;
+        public Equipment equipment
+        {
+            get
+            {
+                return _equipment;
+            }
+            private set
+            {
+                _equipment = value;
+            }
+        }
         public Animator animator { get; private set; }        
 
         [SerializeField] Race _race;
@@ -71,10 +82,10 @@ namespace BattlescapeLogic
 
         protected override void Start()
         {
+            equipment.EquipPrimaryWeapon();
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
-            meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");
             buffs = new List<AbstractBuff>();
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
@@ -545,17 +556,19 @@ namespace BattlescapeLogic
         }
 
         public void OnCursorOver(IMouseTargetable target)
-        {
+        {    
             if (target is Unit)
             {
                 var targetUnit = target as Unit;
                 if (targetUnit.CanBeSelected())
                 {
                     Cursor.instance.OnSelectableHovered();
+                    return;
                 }
                 if (targetUnit.IsEnemyOf(this))
                 {
                     Cursor.instance.OnEnemyHovered(this, targetUnit);
+                    return;
                 }
                 else
                 {

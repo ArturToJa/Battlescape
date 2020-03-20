@@ -11,11 +11,7 @@ namespace BattlescapeLogic
         public MeleeAttack(Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
-
-            if (_myUnit.meleeWeaponVisual != null)
-            {
-                _myUnit.meleeWeaponVisual.SetActive(true);
-            }
+            _myUnit.equipment.EquipMainMeleeWeapon();
         }
 
         public override void Attack(Unit target)
@@ -27,7 +23,7 @@ namespace BattlescapeLogic
         protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger("Attack");
-        }        
+        }
 
         public override void OnAttackAnimation()
         {

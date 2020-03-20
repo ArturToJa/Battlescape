@@ -5,11 +5,17 @@ using UnityEngine.UI;
 
 public class HealthbarSticker : MonoBehaviour
 {
-    [SerializeField] GameObject HPBar;
+    Camera mainCamera;
+    BattlescapeLogic.Unit myUnit;
+    [SerializeField] float offset;
 
-    void Update()
+    private void Start()
     {
-        Vector3 pos = Camera.main.WorldToScreenPoint(this.transform.position);
-        HPBar.transform.position = pos;
+        mainCamera = Camera.main;
+        myUnit = transform.GetComponentInParent<BattlescapeLogic.Unit>();
+    }
+    void LateUpdate()
+    {
+        transform.position = mainCamera.WorldToScreenPoint(myUnit.transform.position + Vector3.up * offset);
     }
 }

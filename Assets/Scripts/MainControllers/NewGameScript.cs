@@ -27,7 +27,7 @@ public class NewGameScript : MonoBehaviour
         UIManager.SmoothlyTransitionActivity(WinScreen, false, 0.001f);
         GameRound.instance.ResetGameTurn();        
         VictoryLossChecker.isAnyHeroDead = false;
-        skybox.SetSkyboxToRandom();
+        skybox.SetSkyboxTo(-1);
         foreach (Unit unit in FindObjectsOfType<Unit>())
         {
             if (Application.isEditor)

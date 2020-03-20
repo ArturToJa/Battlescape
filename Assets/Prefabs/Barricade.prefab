@@ -56,14 +56,13 @@ GameObject:
   - component: {fileID: 223475772386058234}
   - component: {fileID: 114529319832191246}
   - component: {fileID: 114131174205249816}
-  - component: {fileID: 114069283281252524}
   m_Layer: 8
   m_Name: HealthbarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1659665665824810
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1695538124464800
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,8 +107,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4356408629241914}
-  - component: {fileID: 114207822511786192}
   - component: {fileID: 65426501755239424}
+  - component: {fileID: 114989132371174434}
   m_Layer: 11
   m_Name: Barricade
   m_TagString: Dice
@@ -397,17 +396,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &114069283281252524
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1595242574438482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc3c7d6afca5104c8cb6cc3d48badf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114131174205249816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -424,20 +412,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114207822511786192
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1695538124464800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ea1bddea3a3a8438827348dd2ba146, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colorSpeed: 2
-  fallingSpeed: 0.3
-  durability: 10
 --- !u!114 &114409187175662798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -485,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1838792616064066}
+  offset: 1
 --- !u!114 &114927887301324954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -513,6 +487,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114989132371174434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1695538124464800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  _shape:
+  - x: 0
+    z: 0
 --- !u!135 &135543764342804042
 SphereCollider:
   m_ObjectHideFlags: 1

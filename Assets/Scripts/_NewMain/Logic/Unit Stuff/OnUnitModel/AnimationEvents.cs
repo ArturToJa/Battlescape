@@ -46,5 +46,18 @@ namespace BattlescapeLogic
         {
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.deathSound);
         }
+
+        void OnAbilityAnimationEvent()
+        {
+            foreach (AbstractActiveAbility ability in myUnit.abilities)
+            {
+                ability.OnAnimationEvent();
+            }
+        }
+
+        void EquipPrimaryWeapon()
+        {
+            myUnit.equipment.EquipPrimaryWeapon();
+        }
     }
 }

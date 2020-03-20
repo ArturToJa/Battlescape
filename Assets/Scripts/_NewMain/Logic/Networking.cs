@@ -149,6 +149,7 @@ namespace BattlescapeLogic
         public void SendCommandToMove(Unit unit, Tile destination)
         {
             PlayerInput.instance.isInputBlocked = true; //this makes sense only on the 'active' PC' that's why I put it here ;)
+
             if (Global.instance.matchType == MatchTypes.Online)
             {
                 int startX = Mathf.RoundToInt(unit.transform.position.x);

@@ -7,7 +7,6 @@ public class SkyboxChanger : MonoBehaviour
 
     public static SkyboxChanger instance { get; private set; }
     public Material[] skyboxes;
-    public Material PregameSkyboxDefault;
     public Material currSkybox;
     int currentSkyboxNumber;
     public int realSkyboxNumber;
@@ -19,11 +18,13 @@ public class SkyboxChanger : MonoBehaviour
         {
             instance = this;
         }
-        SetSkyboxTo(PregameSkyboxDefault);
+        else
+        {
+            Destroy(this);
+        }
     }
 
-
-    public void SetSkyboxToRandom()
+    void SetSkyboxToRandom()
     {
         currentSkyboxNumber = Random.Range(0, skyboxes.Length);
         RenderSettings.skybox = skyboxes[currentSkyboxNumber];
@@ -44,23 +45,5 @@ public class SkyboxChanger : MonoBehaviour
             currSkybox = RenderSettings.skybox;
         }     
     }
-    public void SetSkyboxTo(Material skybox)
-    {
-        RenderSettings.skybox = skybox;
-        currSkybox = RenderSettings.skybox;
-    }
-    private void Update()
-    {
-        if (Application.isEditor)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                Debug.Log(currSkybox.name);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                SetSkyboxToRandom();
-            }
-        }        
-    }
+   
 }

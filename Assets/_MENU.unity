@@ -10943,8 +10943,10 @@ MonoBehaviour:
   enterCombatCursor: {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
   clickingEnterCombatCursor: {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8,
     type: 3}
-  combatExitingMovementCursor: {fileID: 0}
-  clickingCombatExitingMovementCursor: {fileID: 0}
+  combatExitingMovementCursor: {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18,
+    type: 3}
+  clickingCombatExitingMovementCursor: {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae,
+    type: 3}
 --- !u!4 &982457046
 Transform:
   m_ObjectHideFlags: 0
@@ -22262,8 +22264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maps:
   - _mapName: _GameScene_Forest
-    _mapWidth: 11
-    _mapHeight: 16
+    _mapWidth: 16
+    _mapHeight: 11
     _mapVisuals:
       specs:
       - _type: 5

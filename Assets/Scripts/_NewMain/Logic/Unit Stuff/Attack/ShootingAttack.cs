@@ -15,10 +15,7 @@ namespace BattlescapeLogic
 
         public ShootingAttack(Unit _myUnit) : base(_myUnit)
         {
-            if (_myUnit.meleeWeaponVisual != null)
-            {
-                _myUnit.meleeWeaponVisual.SetActive(false);
-            }
+            _myUnit.equipment.EquipMainRangedWeapon();                        
         }
 
         public override void Attack(Unit target)

@@ -1097,6 +1097,7 @@ GameObject:
   - component: {fileID: 222817997190841466}
   - component: {fileID: 114536741799061986}
   - component: {fileID: 114797132776520940}
+  - component: {fileID: 114617453908093600}
   m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1393,25 +1394,6 @@ GameObject:
   - component: {fileID: 4812888254380528}
   m_Layer: 8
   m_Name: Bip001 R UpperArm001
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1815852360976288
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4270314690208780}
-  - component: {fileID: 33513481966319118}
-  - component: {fileID: 135347313670186114}
-  - component: {fileID: 23786929069855850}
-  - component: {fileID: 114114297385801220}
-  m_Layer: 8
-  m_Name: HPBarPlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2037,19 +2019,6 @@ Transform:
   m_Father: {fileID: 4242901687417158}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4270314690208780
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1815852360976288}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 4487057915801576}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4280344160385692
 Transform:
   m_ObjectHideFlags: 1
@@ -2414,7 +2383,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4270314690208780}
   - {fileID: 224918425534663976}
   - {fileID: 4710610988996904}
   m_Father: {fileID: 0}
@@ -2787,7 +2755,7 @@ Transform:
   - {fileID: 4754651247549860}
   - {fileID: 4940521842285000}
   m_Father: {fileID: 4487057915801576}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 180, y: -90, z: 180}
 --- !u!4 &4717882825791762
 Transform:
@@ -3521,40 +3489,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23786929069855850
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1815852360976288}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!23 &23813959738777436
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -3726,13 +3660,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1162465708983598}
   m_Mesh: {fileID: 4300026, guid: 26b0b465439dcd84cb4971737ab4b8ca, type: 3}
---- !u!33 &33513481966319118
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1815852360976288}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &33520354166740394
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -3906,18 +3833,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114114297385801220
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1815852360976288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPBar: {fileID: 1607960078318472}
 --- !u!114 &114189816127802122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4001,6 +3916,15 @@ MonoBehaviour:
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
   unitClass: 0
+  _equipment:
+    primaryWeapon:
+      itemEquipped: {fileID: 1089517427620422}
+      itemHidden: {fileID: 0}
+      _isRanged: 0
+    secondaryWeapon:
+      itemEquipped: {fileID: 0}
+      itemHidden: {fileID: 0}
+      _isRanged: 0
   _race: 0
   _avatar: {fileID: 21300000, guid: 91be49f1dc4fae2449ff4878394d8863, type: 3}
 --- !u!114 &114332874213010496
@@ -4070,6 +3994,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114617453908093600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607960078318472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1.5
 --- !u!114 &114645502885724306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4228,18 +4164,6 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   amount: {fileID: 0}
   barAnimationTime: 0.1
---- !u!135 &135347313670186114
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1815852360976288}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137060404657122716
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -5602,7 +5526,7 @@ RectTransform:
   m_Children:
   - {fileID: 224860604846155268}
   m_Father: {fileID: 4487057915801576}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

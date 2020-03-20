@@ -156,9 +156,9 @@ namespace BattlescapeLogic
                 Debug.LogError("Tried to select unit that's not mine!");
                 return;
             }
+            selectedUnit = unit;
             unit.OnSelection();
             Global.instance.currentEntity = unit;
-
         }
 
         public void DeselectUnit()

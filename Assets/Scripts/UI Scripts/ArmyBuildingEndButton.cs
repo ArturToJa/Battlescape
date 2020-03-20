@@ -16,12 +16,11 @@ public class ArmyBuildingEndButton : MonoBehaviour
         this.transform.parent.parent.gameObject.SetActive(false);
         if (GameRound.instance.currentPlayer.team.index == 0 && Global.instance.matchType != MatchTypes.Online)
         {
-            SkyboxChanger.instance.SetSkyboxTo(SkyboxChanger.instance.PregameSkyboxDefault);
             SaveLoadManager.instance.unitsList.Clear();
-            if(GameRound.instance.GetNextPlayer().type == PlayerType.AI)
+            if(Global.instance.GetCurrentPlayerBuilder().type == PlayerType.AI)
             {
-                SaveLoadManager.instance.LoadAIArmyToGame(Global.instance.playerBuilders[0], SaveLoadManager.instance.currentSaveValue);
-                GameRound.instance.GetNextPlayer().race = SaveLoadManager.instance.race;
+                SaveLoadManager.instance.LoadAIArmyToGame(Global.instance.GetCurrentPlayerBuilder(), SaveLoadManager.instance.currentSaveValue);
+                Global.instance.GetCurrentPlayerBuilder().race = SaveLoadManager.instance.race;
             }
             else
             {

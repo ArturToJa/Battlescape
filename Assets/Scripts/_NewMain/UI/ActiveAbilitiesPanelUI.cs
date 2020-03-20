@@ -39,7 +39,10 @@ namespace BattlescapeUI
             {
                 Unit.OnUnitSelected += SetAbilitiesInPanel;
                 AbstractActiveAbility.OnAbilityClicked += SetAbilityFrame;
-                AbstractActiveAbility.OnAbilityClicked += OnAbilityChosen;
+                AbstractActiveAbility.OnAbilityClicked += CancelButtonOn;
+                AbstractActiveAbility.OnAbilityFinished += CancelButtonOff;
+
+                CancelButtonOff();
             }
             else
             {
@@ -60,9 +63,14 @@ namespace BattlescapeUI
             }
         }
 
-        public void OnAbilityChosen()
+        public void CancelButtonOn()
         {
             cancelButton.SetActive(true);
+        }
+
+        public void CancelButtonOff()
+        {
+            cancelButton.SetActive(false);
         }
 
 
@@ -124,7 +132,9 @@ namespace BattlescapeUI
 
         public void CancelAbility()
         {
-            Global.instance.currentEntity = GameRound.instance.currentPlayer;
+            AbstractActiveAbility currentAbility = Global.instance.currentEntity as AbstractActiveAbility;
+            currentAbility.OnFinish();
+
         }
 
         void SetAbilityFrame()

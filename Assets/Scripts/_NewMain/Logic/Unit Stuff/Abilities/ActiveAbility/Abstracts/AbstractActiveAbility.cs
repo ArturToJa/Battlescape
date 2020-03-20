@@ -70,6 +70,12 @@ namespace BattlescapeLogic
 
 
         [SerializeField] int _energyCost;
+
+        public virtual void OnAnimationEvent()
+        {
+            return;
+        }
+
         public int energyCost
         {
             get
@@ -134,6 +140,8 @@ namespace BattlescapeLogic
 
         public static event Action OnAbilityClicked = delegate { };
 
+        public static event Action OnAbilityFinished = delegate { };
+
 
 
         public virtual bool IsUsableNow()
@@ -185,6 +193,7 @@ namespace BattlescapeLogic
             Global.instance.currentEntity = this;
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             ColourPossibleTargets();
+            OnAbilityClicked();
         }
 
         public abstract void ColourPossibleTargets();
@@ -211,16 +220,19 @@ namespace BattlescapeLogic
                 owner.statistics.movementPoints = 0;
             }
             roundsTillOffCooldown = cooldown;
-            Cancel();
             Log.SpawnLog(log);
             Animate();
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
+            OnFinish();
+            //the thing below is necessary, but no idea WHEN and WHERE to turn it off.
+            //PlayerInput.instance.isInputBlocked = true;
         }
 
-        public void Cancel()
+        public void OnFinish()
         {
-            Global.instance.currentEntity = GameRound.instance.currentPlayer;
+            owner.owner.SelectUnit(owner);
+            OnAbilityFinished();
         }
 
         public override void OnNewRound()
@@ -234,7 +246,10 @@ namespace BattlescapeLogic
 
         protected void Animate()
         {
-            owner.animator.SetTrigger(animationTrigger);
+            if (string.IsNullOrEmpty(animationTrigger) == false)
+            {
+                owner.animator.SetTrigger(animationTrigger);
+            }            
         }
 
         protected void DoVisualEffectFor(GameObject vfx, GameObject target)
@@ -256,7 +271,7 @@ namespace BattlescapeLogic
 
         public void OnRightClick(IMouseTargetable target)
         {
-            Cancel();
+            OnFinish();
         }
 
         public virtual void OnCursorOver(IMouseTargetable target)
@@ -269,6 +284,11 @@ namespace BattlescapeLogic
             {
                 Cursor.instance.OnInvalidTargetHovered();
             }
+        }
+
+        public void OnAbilityOver()
+        {
+            PlayerInput.instance.isInputBlocked = false;
         }
     }
 }

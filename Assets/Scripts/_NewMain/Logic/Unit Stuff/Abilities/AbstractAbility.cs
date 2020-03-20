@@ -7,7 +7,7 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class AbilityFilter
     {
-        AbstractAbility thisAbility;       
+        AbstractAbility thisAbility;
         [SerializeField] private bool ally;
         [SerializeField] private bool enemy;
         [SerializeField] private bool selfPlayer;
@@ -39,7 +39,7 @@ namespace BattlescapeLogic
         public bool FilterUnit(Unit unit)
         {
             return FilterSelf(unit) && (FilterHero(unit) || FilterRegular(unit)) && (FilterRanged(unit) || FilterMelee(unit)) && (FilterGround(unit) || FilterFlying(unit));
-        }        
+        }
 
 
 
@@ -55,7 +55,7 @@ namespace BattlescapeLogic
             return enemy && thisAbility.owner.owner.team != team;
         }
 
-        
+
 
         bool FilterSelfPlayer(Player player)
         {
@@ -67,11 +67,11 @@ namespace BattlescapeLogic
             return otherPlayer && thisAbility.owner.owner != player;
         }
 
-        
+
 
         //This only disallows self-targetting if self is checked off.
         bool FilterSelf(Unit unit)
-        {            
+        {
             return canSelf || thisAbility.owner != unit;
         }
 
@@ -109,7 +109,7 @@ namespace BattlescapeLogic
     };
 
     public abstract class AbstractAbility : TurnChangeMonoBehaviour
-    {        
+    {
         public Unit owner { get; set; }
 
         [SerializeField] protected TurnPhases legalPhases = TurnPhases.All;
@@ -150,8 +150,14 @@ namespace BattlescapeLogic
         {
             foreach (GameObject buffPrefab in buffs)
             {
-                AbstractBuff newBuff = Instantiate(buffPrefab).GetComponent<AbstractBuff>();
-                newBuff.ApplyOnUnit(target);
+                var buffObject = Instantiate(buffPrefab, target.transform);
+                var buffObjectBuffs = buffObject.GetComponents<AbstractBuff>();
+                if (buffObjectBuffs.Length != 1)
+                {
+                    Debug.LogError("Wrong count of buffs on buff object: " + buffObject.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
+                }
+                AbstractBuff newBuff = buffObjectBuffs[0];
+                newBuff.ApplyOnUnit(target, this);
             }
         }
     }

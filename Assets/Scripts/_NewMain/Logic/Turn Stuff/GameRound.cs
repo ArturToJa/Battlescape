@@ -71,18 +71,18 @@ namespace BattlescapeLogic
             int playerCount = Global.instance.GetActivePlayerCount();
             Player[] newPlayerOrder = new Player[playerCount];
             Queue<Player> allPlayers = new Queue<Player>();
-            int index = 0;
+            int playerIndex = 0;
             while (allPlayers.Count < newPlayerOrder.Length)
             {
-                for (int i = 0; i < Global.instance.playerTeams.Count; i++)
+                for (int teamIndex = 0; teamIndex < Global.instance.playerTeams.Count; teamIndex++)
                 {
-                    if (Global.instance.playerTeams[i].players[index].isObserver == false)
+                    if (Global.instance.playerTeams[teamIndex].players[playerIndex].isObserver == false)
                     {
-                        allPlayers.Enqueue(Global.instance.playerTeams[i].players[index]);
+                        allPlayers.Enqueue(Global.instance.playerTeams[teamIndex].players[playerIndex]);
                     }
 
                 }
-                index++;
+                playerIndex++;
             }
             for (int i = 0; i < newPlayerOrder.Length; i++)
             {
@@ -232,6 +232,7 @@ namespace BattlescapeLogic
 
         public Player GetNextPlayer()
         {
+            
             //If additional turns are added, use first one of them now.
             if (additionalTurns.Count > 0)
             {

@@ -53,6 +53,10 @@ namespace BattlescapeUI
             alreadyRepresentedBuffs = new Dictionary<string, int>();
             foreach (AbstractBuff buff in unit.buffs)
             {
+                if (buff.isHidden)
+                {
+                    continue;
+                }
                 AddBuff(buff);
             }
 

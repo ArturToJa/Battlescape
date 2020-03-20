@@ -15,10 +15,7 @@ namespace BattlescapeLogic
             damage = _damage;
             normalAttackType = _normalAttackType;
 
-            if (_myUnit.meleeWeaponVisual != null)
-            {
-                _myUnit.meleeWeaponVisual.SetActive(true);
-            }
+            _myUnit.equipment.EquipMainMeleeWeapon();           
         }
 
         public override void Attack(Unit target)

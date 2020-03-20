@@ -6,6 +6,14 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractBuff : TurnChangeMonoBehaviour
     {
+        [SerializeField] bool _isHidden = false;
+        public bool isHidden
+        {
+            get
+            {
+                return _isHidden;
+            }
+        }
         [SerializeField] string _buffName;
         public string buffName
         {

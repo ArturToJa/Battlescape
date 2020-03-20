@@ -10,8 +10,19 @@ namespace BattlescapeLogic
 {
     public class PlayerInput : MonoBehaviour
     {
-
-        public bool isInputBlocked { get; set; }
+        bool _isInputBlocked;
+        public bool isInputBlocked
+        {
+            get
+            {
+                return _isInputBlocked;
+            }
+            set
+            {
+                _isInputBlocked = value;
+                ResetCursor();
+            }
+        }
         //this is the old AnimatingState - it's being set to true when someone is moving or attacking or so on.
         public static PlayerInput instance { get; private set; }
         IMouseTargetable hoveredObject;
@@ -31,6 +42,7 @@ namespace BattlescapeLogic
             {
                 Destroy(this);
             }
+            AbstractActiveAbility.OnAbilityFinished += ResetCursor;
         }
 
         void Update()
@@ -137,6 +149,10 @@ namespace BattlescapeLogic
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
                 defenceDebuff.ApplyOnUnit(GameRound.instance.currentPlayer.selectedUnit);
             }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log(Global.instance.currentEntity);
+            }
         }
 
         void DoMouse()
@@ -150,22 +166,29 @@ namespace BattlescapeLogic
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
             {
-                IMouseTargetable newHoveredObject = hitInfo.collider.transform.root.GetComponentInChildren<IMouseTargetable>();
+                IMouseTargetable newHoveredObject = hitInfo.collider.transform.GetComponentInParent<IMouseTargetable>();
                 //just caching.
                 if (newHoveredObject != hoveredObject)
                 {
-                    //Old hovered object existed so we  de-hover it with On Exit
-                    hoveredObject.OnMouseHoverExit();
+                    if (hoveredObject !=null)
+                    {
+                        //Old hovered object existed so we  de-hover it with On Exit
+                        hoveredObject.OnMouseHoverExit();
+                    }
+                   
                     //Change hovered object to new
                     hoveredObject = newHoveredObject;
                     // New object is hovered, so play On Enter.
                     hoveredObject.OnMouseHoverEnter();
-                    Global.instance.currentEntity.OnCursorOver(hoveredObject);
+                    if (Global.instance.currentEntity != null)
+                    {
+                        Global.instance.currentEntity.OnCursorOver(hoveredObject);
+                    }                    
                 }
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Global.instance.currentEntity.OnLeftClick(hoveredObject);
+                    Global.instance.currentEntity.OnLeftClick(hoveredObject);                                        
                 }
             }
             else
@@ -187,16 +210,21 @@ namespace BattlescapeLogic
 
             }
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonDown(1))
             {
+                Global.instance.currentEntity.OnRightClick(hoveredObject);
+                //This can be also null - its ok! Ability will cancel and other IActiveEntitys will do nothing ;)
+
                 if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
                 {
-                    CameraController.Instance.RotateCamera();
-                    Global.instance.currentEntity.OnRightClick(hoveredObject);
-                    //This can be also null - its ok! Ability will cancel and other IActiveEntitys will do nothing ;)
-
+                    CameraController.Instance.RotateCamera();                   
                 }
             }
+        }
+
+        void ResetCursor()
+        {
+            hoveredObject = null;
         }
     }
 }

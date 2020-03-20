@@ -6,7 +6,6 @@ namespace BattlescapeLogic
 {
     public class ActiveTileSpawnObstacle : AbstractActiveTileTargetAbility
     {
-
         [SerializeField] GameObject obstaclePrefab;
 
         public override bool IsLegalTarget(IMouseTargetable target)
@@ -21,7 +20,16 @@ namespace BattlescapeLogic
 
         protected override void Activate()
         {
-            base.Activate();
+            base.Activate();            
+        }
+
+        public override void OnAnimationEvent()
+        {
+            SpawnObstacle();
+        }
+
+        void SpawnObstacle()
+        {
             Tile targetTile = target as Tile;
             Obstacle obstacle = Instantiate(obstaclePrefab, targetTile.transform.position, obstaclePrefab.transform.rotation).GetComponent<Obstacle>();
             obstacle.OnSpawn(targetTile);

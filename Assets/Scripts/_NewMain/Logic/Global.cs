@@ -22,7 +22,7 @@ namespace BattlescapeLogic
 
 
         public AbstractMovement[] movementTypes = new AbstractMovement[3];
-        public IActiveEntity currentEntity;
+        public IActiveEntity currentEntity { get; set; }
         public int playerCount { get; set; }
 
         void Awake()
@@ -51,7 +51,8 @@ namespace BattlescapeLogic
         public PlayerBuilder GetCurrentPlayerBuilder()
         {
             return playerBuilders[0];
-        }       
+        }  
+        
 
         public bool IsCurrentPlayerLocal()
         {

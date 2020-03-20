@@ -13,14 +13,16 @@ public class UIHitChanceInformation : MonoBehaviour
 
     void Awake()
     {
-        theText = GetComponentInChildren<Text>();
-        theText.text = "";
+        
         if (instance != null)
         {
             Debug.LogError("Doubled HitChanceInfo, there can be only one!");
             return;
         }
         instance = this;
+        theText = GetComponentInChildren<Text>();
+        theText.text = "";
+        TurnOff();
     } 
     
     public void TurnOnFor(Unit attacker, Unit defender)
