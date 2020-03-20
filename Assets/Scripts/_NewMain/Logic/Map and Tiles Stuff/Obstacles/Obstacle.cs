@@ -2,13 +2,12 @@
 
 namespace BattlescapeLogic
 {
-
     public class Obstacle : MonoBehaviour, IMouseTargetable
     {
         [SerializeField]
-        private bool _isTall;
+        private bool _isTall = false;
         [SerializeField]
-        private int _size;
+        private int _size = 1;
 
         public Tile[] position;
 
@@ -33,20 +32,15 @@ namespace BattlescapeLogic
             }
         }
 
-        void Start()
+        public virtual void Start()
         {
             position = new Tile[_size];
             animator = GetComponent<Animator>();
-            
         }
 
         public void Destruct(Unit source)
         {
             animator.SetTrigger("Destruct");
         }
-        
-
     }
-
-
 }

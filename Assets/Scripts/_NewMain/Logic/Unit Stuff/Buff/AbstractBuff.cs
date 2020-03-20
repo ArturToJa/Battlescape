@@ -75,7 +75,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public Unit owner { get; private set; }
+        public BuffGroup buffGroup { get; private set; }
         public AbstractAbility source { get; private set; }
 
         public int index { get; private set; }
@@ -117,43 +117,58 @@ namespace BattlescapeLogic
         }
 
         protected virtual void OnExpire()
-        {           
-            OnDestruction();
-            this.owner.buffs.Remove(this);
+        {
             RemoveChange();
+            OnDestruction();
+            this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
         }
 
-        public void ApplyOnUnit(Unit unit, AbstractAbility source)
-        {
-            this.source = source;
-            ApplyOnUnit(unit);
-        }
+        protected abstract bool IsAcceptableTargetType(IDamageable target);
 
-        public void ApplyOnUnit(Unit unit)
+        public void ApplyOnTarget(IDamageable target, AbstractAbility source)
         {
-            
-            if(!isStackable && IsAlreadyOnUnit(unit))
+            if(IsAcceptableTargetType(target))
             {
-                OnDestruction();
+                this.source = source;
+                ApplyOnTarget(target);
             }
             else
             {
-                this.owner = unit;
-                unit.buffs.Add(this);
-                ApplyChange();
+                OnDestruction();
             }
-            OnBuffCreation(this);
         }
 
-        public void RemoveFromUnitInstantly()
+        public void ApplyOnTarget(IDamageable target)
+        {
+            if(IsAcceptableTargetType(target))
+            {
+                if (!isStackable && IsAlreadyOnTarget(target))
+                {
+                    OnDestruction();
+                }
+                else
+                {
+                    buffGroup = target.buffs;
+                    target.buffs.AddBuff(this);
+                    ApplyChange();
+                }
+                OnBuffCreation(this);
+            }
+            else
+            {
+                OnDestruction();
+            }
+        }
+
+        public void RemoveFromTargetInstantly()
         {
             OnExpire();
         }
 
-        protected bool IsAlreadyOnUnit(Unit unit)
+        protected bool IsAlreadyOnTarget(IDamageable target)
         {
-            return unit.FindAllBuffsOfType(this.name).Count > 0;
+            return !target.buffs.FindAllBuffsOfType(this.name).IsEmpty();
         }
         public abstract void ApplyChange();
         protected abstract void RemoveChange();

@@ -131,7 +131,6 @@ namespace BattlescapeLogic
 
         public static List<IMouseTargetable> FindAllTargetablesInLine(Vector3 start, Vector3 end)
         {
-
             var VectorToTarget = -start + end;
 
             Ray ray = new Ray(start, VectorToTarget);
@@ -146,10 +145,7 @@ namespace BattlescapeLogic
                     list.Add(hit.transform.GetComponent<IMouseTargetable>());
                 }
             }
-
             return list;
         }
-
-
     }
 }

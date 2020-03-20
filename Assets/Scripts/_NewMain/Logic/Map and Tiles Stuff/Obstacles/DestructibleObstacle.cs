@@ -5,11 +5,9 @@ namespace BattlescapeLogic
 {
     public class DestructibleObstacle : Obstacle, IDamageable
     {
-        [SerializeField]
-        int _healthpoints;
+        public BuffGroup buffs { get; private set; }
 
-        public List<AbstractBuff> currentBuffs = new List<AbstractBuff>();
-
+        [SerializeField] int _healthpoints;
         public int healthPoints
         {
             get
@@ -21,6 +19,12 @@ namespace BattlescapeLogic
             {
                 _healthpoints = value;
             }
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            buffs = new BuffGroup(this);
         }
 
         public void TakeDamage(Unit source, int dmg)

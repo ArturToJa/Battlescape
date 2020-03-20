@@ -7,6 +7,8 @@ namespace BattlescapeLogic
 {
     public interface IDamageable
     {
+        BuffGroup buffs { get;}
+
         void TakeDamage(Unit source, int dmg);
     }
 }

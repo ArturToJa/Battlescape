@@ -61,7 +61,7 @@ namespace BattlescapeLogic
         [SerializeField] UnitClass unitClass;
         
         public List<AbstractAbility> abilities;
-        public List<AbstractBuff> buffs { get; private set; }
+        public BuffGroup buffs { get; private set; }
         public GameObject visuals { get; private set; }
         public GameObject meleeWeaponVisual { get; private set; }
         public Animator animator { get; private set; }
@@ -101,7 +101,7 @@ namespace BattlescapeLogic
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
             meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");
-            buffs = new List<AbstractBuff>();
+            buffs = new BuffGroup(this);
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
             if (movement == null)
@@ -300,7 +300,7 @@ namespace BattlescapeLogic
             if (damage == 0)
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnUnit(target);
+                defenceDebuff.ApplyOnTarget(target);
                 Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
                 Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
@@ -311,9 +311,9 @@ namespace BattlescapeLogic
                 Log.SpawnLog(this.unitName + " deals " + damage + " damage to " + target.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.TakeDamage(this, damage);
-                foreach(AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
+                foreach(AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
                 {
-                    buff.RemoveFromUnitInstantly();
+                    buff.RemoveFromTargetInstantly();
                 }
             }
             if (IsRetaliationPossible(target) && owner.type != PlayerType.Network)
@@ -334,19 +334,6 @@ namespace BattlescapeLogic
                 );
 
         }       
-
-        public List<AbstractBuff> FindAllBuffsOfType(string buffType)
-        {
-            List<AbstractBuff> list = new List<AbstractBuff>();
-            foreach(AbstractBuff buff in buffs)
-            {
-                if(buff.buffName.Equals(buffType))
-                {
-                    list.Add(buff);
-                }
-            }
-            return list;
-        }
 
         //this should play on attacked unit when it is time it should receive DMG
         public void TakeDamage(Unit source, int damage)

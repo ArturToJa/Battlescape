@@ -24,7 +24,7 @@ namespace BattlescapeLogic
             foreach (GameObject buffPrefab in placeableBuffs)
             {
                 AbstractBuff newBuff = Instantiate(buffPrefab).GetComponent<AbstractBuff>();
-                newBuff.ApplyOnUnit(unit);
+                newBuff.ApplyOnTarget(unit);
             }
         }
     }
