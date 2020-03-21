@@ -15,16 +15,15 @@ namespace BattlescapeLogic
 
         public void GenerateObjects(int seed)
         {
-
-            //Random.InitState(seed);
-            //foreach (MapVisualsSpecification spec in specs)
-            //{
-            //    int amountOfType = Random.Range(spec.minAmount, spec.maxAmount);
-            //    for (int i = 0; i < amountOfType; i++)
-            //    {
-            //        GenerateObject(GetRandomObject(spec.type, amountOfType), GetRandomTile(spec.minDistanceToShortSide, spec.minDistanceToLongSide, spec));
-            //    }
-            //}
+            Random.InitState(seed);
+            foreach (MapVisualsSpecification spec in specs)
+            {
+                int amountOfType = Random.Range(spec.minAmount, spec.maxAmount + 1);
+                for (int i = 0; i < amountOfType; i++)
+                {
+                    GenerateObject(GetRandomObject(spec.type, amountOfType), GetRandomTile(spec.minDistanceToShortSide, spec.minDistanceToLongSide, spec));
+                }
+            }
         }
 
         void GenerateObject(OnTileObject prefab, Tile tile)
@@ -43,10 +42,16 @@ namespace BattlescapeLogic
         {
             List<OnTileObject> returnList = GetAllObjectsOfType(type);
             OnTileObject answer = returnList[Random.Range(0, returnList.Count - 1)];
+            int terminator = 0;
             while (IsObjectAllowed(answer, amountOfType) == false)
             {
+                terminator++;
                 returnList.Remove(answer);
                 answer = returnList[Random.Range(0, returnList.Count - 1)];
+                if (terminator == 100)
+                {
+                    return answer;
+                }
             }
             return answer;
         }
@@ -58,21 +63,25 @@ namespace BattlescapeLogic
             while (IsTileFullyLegal(tile, spec) == false)
             {
                 terminator++;
+                tile = Global.instance.currentMap.board[Random.Range(minDistanceShort, Global.instance.currentMap.mapWidth - minDistanceShort), Random.Range(minDistanceLong, Global.instance.currentMap.mapHeight - minDistanceLong)];
                 if (terminator == 100)
                 {
-                    terminator = 0;
-                    while (IsTileBarelyLegal(tile, spec))
+                    break;
+                }
+            }
+            if (terminator == 100)
+            {
+                terminator = 0;
+                while (IsTileBarelyLegal(tile, spec))
+                {
+                    terminator++;
+                    tile = Global.instance.currentMap.board[Random.Range(0, Global.instance.currentMap.mapWidth), Random.Range(0, Global.instance.currentMap.mapHeight)];
+                    if (terminator == 100)
                     {
-                        terminator++;
-                        tile = Global.instance.currentMap.board[Random.Range(0, Global.instance.currentMap.mapWidth), Random.Range(0, Global.instance.currentMap.mapHeight)];
-                        if (terminator == 100)
-                        {
-                            Debug.Log("Terminated.");
-                            return null;
-                        }
+                        Debug.Log("Terminated.");
+                        return null;
                     }
                 }
-                tile = Global.instance.currentMap.board[Random.Range(minDistanceShort, Global.instance.currentMap.mapWidth - minDistanceShort), Random.Range(minDistanceLong, Global.instance.currentMap.mapHeight - minDistanceLong)];
             }
             return tile;
         }

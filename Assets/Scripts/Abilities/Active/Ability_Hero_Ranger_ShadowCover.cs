@@ -56,7 +56,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         {
             if (RangeBounds.Contains(tile.transform.position) && tile.myUnit == null && tile.IsWalkable() && tile.hasObstacle == false && tile.IsProtectedByEnemyOf(myUnit) == false)
             {
-                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
+                tile.highlighter.TurnOn(Color.green);
                 legalTiles.Add(tile);
             }
         }

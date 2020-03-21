@@ -37,7 +37,7 @@ namespace BattlescapeLogic
             {
                 if (IsLegalTarget(tile))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.cyan);
+                    tile.highlighter.TurnOn(Color.cyan);
                 }
             }
         }

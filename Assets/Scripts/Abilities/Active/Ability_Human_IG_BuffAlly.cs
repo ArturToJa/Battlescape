@@ -61,7 +61,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
         {
             if (IsLegalTarget(tile))
             {
-                BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
+                tile.highlighter.TurnOn(Color.green);
             }
         }
     }

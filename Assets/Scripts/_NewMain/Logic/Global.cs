@@ -25,6 +25,15 @@ namespace BattlescapeLogic
         public IActiveEntity currentEntity { get; set; }
         public int playerCount { get; set; }
 
+        [SerializeField] BattlescapeGraphics.Colours _colours;
+        public BattlescapeGraphics.Colours colours
+        {
+            get
+            {
+                return _colours;
+            }
+        }
+
         void Awake()
         {
             DontDestroyOnLoad(this.gameObject);

@@ -170,12 +170,12 @@ namespace BattlescapeLogic
                 //just caching.
                 if (newHoveredObject != hoveredObject)
                 {
-                    if (hoveredObject !=null)
+                    if (hoveredObject != null)
                     {
                         //Old hovered object existed so we  de-hover it with On Exit
                         hoveredObject.OnMouseHoverExit();
                     }
-                   
+
                     //Change hovered object to new
                     hoveredObject = newHoveredObject;
                     // New object is hovered, so play On Enter.
@@ -183,12 +183,12 @@ namespace BattlescapeLogic
                     if (Global.instance.currentEntity != null)
                     {
                         Global.instance.currentEntity.OnCursorOver(hoveredObject);
-                    }                    
+                    }
                 }
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Global.instance.currentEntity.OnLeftClick(hoveredObject);                                        
+                    Global.instance.currentEntity.OnLeftClick(hoveredObject);
                 }
             }
             else
@@ -215,10 +215,10 @@ namespace BattlescapeLogic
                 Global.instance.currentEntity.OnRightClick(hoveredObject);
                 //This can be also null - its ok! Ability will cancel and other IActiveEntitys will do nothing ;)
 
-                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
-                {
-                    CameraController.Instance.RotateCamera();                   
-                }
+            }
+            if (Input.GetMouseButton(1) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
+            {
+                CameraController.Instance.RotateCamera();
             }
         }
 

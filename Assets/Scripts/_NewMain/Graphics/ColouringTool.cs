@@ -49,11 +49,11 @@ namespace BattlescapeGraphics
                 {
                     if (tile.IsProtectedByEnemyOf(unit))
                     {
-                        ColourObject(tile, Color.red);
+                        tile.highlighter.TurnOn(Global.instance.colours.red);
                     }
                     else
                     {
-                        ColourObject(tile, Color.cyan);
+                        tile.highlighter.TurnOn(Global.instance.colours.yellow);
                     }
                 }
             }
@@ -63,7 +63,7 @@ namespace BattlescapeGraphics
                 {
                     if (tile.myUnit != null && tile.myUnit.owner.team != unit.currentPosition.myUnit.owner.team && unit.IsInAttackRange(tile.transform.position) && unit.CanStillAttack())
                     {
-                        ColourObject(tile, Color.red);
+                        tile.highlighter.TurnOn(Global.instance.colours.red);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace BattlescapeGraphics
         {
             foreach (Tile tile in Global.instance.currentMap.board)
             {
-                ColourObject(tile, Color.white);
+                tile.highlighter.TurnOff();
             }
 
         }
@@ -91,26 +91,20 @@ namespace BattlescapeGraphics
             }
         }
 
-        public static void ColourObject(MonoBehaviour target, Color color)
+        public static void ColourObject(MonoBehaviour target, Color colour)
         {
             if (target is Tile)
             {
-                Renderer r = target.GetComponentInChildren<Renderer>();
-                Material m = r.material;
-                m.color = color;
-                r.material = m;
-            }
-            else
-            {
-                Renderer[] rs = target.GetComponentsInChildren<Renderer>();
-                foreach (Renderer r in rs)
-                {
-                    Material m = r.material;
-                    m.color = color;
-                    r.material = m;
-                }
+                Debug.LogWarning("thats not how you colour tiles. Try tile.highlighter.TurnOn(Color colour)");
             }
 
+            Renderer[] rs = target.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in rs)
+            {
+                Material m = r.material;
+                m.color = colour;
+                r.material = m;
+            }
         }
     }
 }

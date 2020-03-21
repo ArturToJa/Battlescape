@@ -25,6 +25,7 @@ namespace BattlescapeLogic
 
     public class Tile : MonoBehaviour, IMouseTargetable
     {
+        public BattlescapeGraphics.TileHighlighter highlighter { get; private set; }
         public Unit myUnit { get; private set; }
         public Obstacle myObstacle { get; set; }
         public bool hasObstacle
@@ -77,6 +78,7 @@ namespace BattlescapeLogic
         {
             position = new Position((int)transform.position.x, (int)transform.position.z);
             Global.instance.currentMap.board[position.x, position.z] = this;
+            highlighter = GetComponentInChildren<BattlescapeGraphics.TileHighlighter>();
         }
 
         public bool IsWalkable()
