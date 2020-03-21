@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BattlescapeLogic
 {
@@ -71,6 +72,20 @@ namespace BattlescapeLogic
                 }
             }
             return list;
+        }
+
+        public int GetDistanceTo(Tile target)
+        {
+            int distance = 9999;
+            foreach (Tile tile in currentPosition)
+            {
+                int possibleDistance = tile.position.DistanceTo(target.position);
+                if (possibleDistance < distance)
+                {
+                    distance = possibleDistance;
+                }
+            }
+            return distance;
         }
     }
 }
