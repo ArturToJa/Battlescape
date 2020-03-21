@@ -76,7 +76,8 @@ public class UIStatsValues : MonoBehaviour
 
     void OnBuffCreatedOrDestroyed(AbstractBuff buff)
     {
-        if (buff.owner == myUnit)
+        Unit owner = buff.buffGroup.owner as Unit;
+        if (owner != null && owner == myUnit)
         {
             AdjustTextValuesFor(myUnit);
         }

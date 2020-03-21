@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IActiveEntity
+    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IDamageable, IActiveEntity
     {
         [SerializeField] GameObject _missilePrefab;
 
@@ -49,7 +49,7 @@ namespace BattlescapeLogic
         public Statistics statistics;
 
         public List<AbstractAbility> abilities { get; private set; }
-        public List<AbstractBuff> buffs { get; private set; }
+        public BuffGroup buffs { get; private set; }
         public GameObject visuals { get; private set; }
         [SerializeField] Equipment _equipment;
         public Equipment equipment
@@ -87,7 +87,8 @@ namespace BattlescapeLogic
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
-            buffs = new List<AbstractBuff>();
+            meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");
+            buffs = new BuffGroup(this);
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
             if (movement == null)
@@ -300,9 +301,9 @@ namespace BattlescapeLogic
             if (damage == 0)
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnUnit(target);
-                Log.SpawnLog(this.info.unitName + " attacks " + target.info.unitName + ", but misses completely!");
-                Log.SpawnLog(target.info.unitName + " loses 1 point of Defence temporarily.");
+                defenceDebuff.ApplyOnTarget(target);
+                Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
+                Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }
@@ -310,10 +311,10 @@ namespace BattlescapeLogic
             {
                 Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.info.unitName + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
-                target.OnHit(this, damage);
-                foreach (AbstractBuff buff in target.FindAllBuffsOfType("Combat Wound"))
+                target.TakeDamage(this, damage);
+                foreach(AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
                 {
-                    buff.RemoveFromUnitInstantly();
+                    buff.RemoveFromTargetInstantly();
                 }
             }
             if (IsRetaliationPossible(target) && owner.type != PlayerType.Network)
@@ -335,21 +336,8 @@ namespace BattlescapeLogic
 
         }
 
-        public List<AbstractBuff> FindAllBuffsOfType(string buffType)
-        {
-            List<AbstractBuff> list = new List<AbstractBuff>();
-            foreach (AbstractBuff buff in buffs)
-            {
-                if (buff.buffName.Equals(buffType))
-                {
-                    list.Add(buff);
-                }
-            }
-            return list;
-        }
-
         //this should play on attacked unit when it is time it should receive DMG
-        public void OnHit(Unit source, int damage)
+        public void TakeDamage(Unit source, int damage)
         {
             ReceiveDamage(source, damage);
         }
@@ -422,6 +410,22 @@ namespace BattlescapeLogic
                 return FullRange.Contains(target);
             }
         }
+
+        public bool HasClearView(Vector3 defender)
+        {
+            foreach (var targetable in Global.FindAllTargetablesInLine(transform.position,defender))
+            {
+                var obstacle = targetable as Obstacle;
+
+                if (obstacle != null && obstacle.isTall)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool IsEnemyOf(Unit other)
         {
             return owner.team != other.owner.team;

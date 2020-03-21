@@ -88,7 +88,8 @@ namespace BattlescapeUI
 
         void OnBuffCreatedOrDestroyed(AbstractBuff buff)
         {
-            if (buff.owner == myUnit)
+            Unit owner = buff.buffGroup.owner as Unit;
+            if (owner != null && owner == myUnit)
             {
                 UpdateBuffPanel(myUnit);
             }
