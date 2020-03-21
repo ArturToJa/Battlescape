@@ -31,6 +31,10 @@ namespace BattlescapeLogic
         {
             base.OnSpawn(spawningTile);
             currentPosition = GetTiles(spawningTile, shape);
+            foreach (Tile tile in currentPosition)
+            {
+                tile.myObstacle = this;
+            }
         }
         
 
