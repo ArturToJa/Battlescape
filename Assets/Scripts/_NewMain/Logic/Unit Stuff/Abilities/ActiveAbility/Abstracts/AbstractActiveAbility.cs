@@ -51,6 +51,9 @@ namespace BattlescapeLogic
         [Header("Limitations")]
 
         [SerializeField]
+        protected TurnPhases legalPhases = TurnPhases.All;
+
+        [SerializeField]
         bool costsMovement;
 
         [SerializeField] int _cooldown = 1;

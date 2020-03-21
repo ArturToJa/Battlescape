@@ -26566,7 +26566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92217466ada392f458ddb610c17dc6d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitCreator: {fileID: 0}
+  unitCreator: {fileID: 11400000, guid: b758f4088adee9d449d10dd0d6fd9f1e, type: 2}
   isVisual: 1
 --- !u!114 &472406651
 MonoBehaviour:
@@ -81163,8 +81163,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 2100000, guid: 023767a4808b5ac4ab194903636cac0a, type: 2}
   - {fileID: 2100000, guid: 766e6bec4fd76e54ebe552a5ff65e233, type: 2}
-  PregameSkyboxDefault: {fileID: 2100000, guid: 9f8e3bc9b419fd549afb1614f3e1f834,
-    type: 2}
   currSkybox: {fileID: 0}
   realSkyboxNumber: 0
   isSkyboxRandom: 0

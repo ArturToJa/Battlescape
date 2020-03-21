@@ -61,7 +61,7 @@ namespace BattlescapeGraphics
             {
                 foreach (Tile tile in Global.instance.currentMap.board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != unit.currentPosition.myUnit.owner.team && unit.IsInAttackRange(tile.transform.position) && unit.CanStillAttack())
+                    if (tile.myUnit != null && unit.attack.CanAttack(tile.myUnit))
                     {
                         tile.highlighter.TurnOn(Global.instance.colours.red);
                     }

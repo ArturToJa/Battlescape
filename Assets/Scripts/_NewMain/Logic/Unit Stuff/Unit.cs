@@ -10,16 +10,18 @@ namespace BattlescapeLogic
     public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IActiveEntity
     {
         [SerializeField] GameObject _missilePrefab;
-        public GameObject missilePrefab
+
+        Missile _myMissile;
+        public Missile myMissile
         {
             get
             {
-                return _missilePrefab;
-            }
-            private set
-            {
-                _missilePrefab = value;
-            }
+                if (_myMissile == null)
+                {
+                    _myMissile = _missilePrefab.GetComponent<Missile>();
+                }
+                return _myMissile;
+            }            
         }
 
         [SerializeField] public AttackTypes attackType;
@@ -45,7 +47,6 @@ namespace BattlescapeLogic
         public Tile currentPosition { get; set; }
         public UnitSounds unitSounds;
         public Statistics statistics;
-        [SerializeField] UnitClass unitClass;
 
         public List<AbstractAbility> abilities { get; private set; }
         public List<AbstractBuff> buffs { get; private set; }
@@ -291,6 +292,10 @@ namespace BattlescapeLogic
         //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
         public void HitTarget(Unit target, int damage)
         {
+            foreach (AbstractAttackModifierBuff modifierBuff in buffs)
+            {
+                modifierBuff.ModifyAttack(target, damage);
+            }
             PlayerInput.instance.isInputBlocked = false;
             if (damage == 0)
             {
@@ -552,7 +557,7 @@ namespace BattlescapeLogic
 
         bool CouldAttackEnemyFromTile(Unit enemy, Tile tile)
         {
-            return currentPosition.position.DistanceTo(enemy.currentPosition.position) <= statistics.GetCurrentAttackRange();
+            return tile.position.DistanceTo(enemy.currentPosition.position) <= statistics.GetCurrentAttackRange();
         }
 
         public void OnCursorOver(IMouseTargetable target)
@@ -592,10 +597,6 @@ namespace BattlescapeLogic
                 Cursor.instance.OnInvalidTargetHovered();
             }
         }
-    }
-    public enum UnitClass
-    {
-        Special, Normal, Cannonmeat
     }
 }
 

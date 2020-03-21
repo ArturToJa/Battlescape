@@ -88,9 +88,12 @@ namespace BattlescapeUI
                 child.gameObject.SetActive(false);
                 Destroy(child.gameObject);
             }
-            foreach (AbstractActiveAbility ability in unit.abilities)
+            foreach (AbstractAbility ability in unit.abilities)
             {
-                AddAbility(ability);
+                if (ability is AbstractActiveAbility)
+                {
+                    AddAbility((AbstractActiveAbility)ability);
+                }               
             }
         }
 

@@ -112,8 +112,6 @@ namespace BattlescapeLogic
     {
         public Unit owner { get; set; }
 
-        [SerializeField] protected TurnPhases legalPhases = TurnPhases.All;
-
         [SerializeField] AbilityFilter _filter;
         public AbilityFilter filter
         {

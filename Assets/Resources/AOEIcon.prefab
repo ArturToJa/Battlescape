@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222659836274353708}
   - component: {fileID: 114603336168743570}
   - component: {fileID: 114910503928126746}
-  - component: {fileID: 114544351218829918}
+  - component: {fileID: 114769795599973690}
   m_Layer: 5
   m_Name: AOEIcon
   m_TagString: Untagged
@@ -59,20 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TooltipName: Area Attacking Unit
-  TooltipText: This unit is able to attack multiple tiles at once. The attacks are
-    weaker than the attacks of other units, though.
---- !u!114 &114544351218829918
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1550200126665596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &114603336168743570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,6 +88,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114769795599973690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1550200126665596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114823334986178610
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -3141,7 +3141,6 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
-  unitClass: 1
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 1625272301528718}

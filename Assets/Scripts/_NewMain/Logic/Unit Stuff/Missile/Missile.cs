@@ -59,7 +59,7 @@ namespace BattlescapeLogic
                     }
                     
                 }
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
