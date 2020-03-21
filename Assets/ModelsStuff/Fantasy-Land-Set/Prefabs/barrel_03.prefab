@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64890004294010650}
-  - component: {fileID: 114915369002933334}
+  - component: {fileID: 114873180520939862}
   m_Layer: 0
   m_Name: barrel_03
   m_TagString: Dice
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1078861740188108}
+  offset: 0
 --- !u!114 &114551080158775270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114915369002933334
+--- !u!114 &114873180520939862
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -324,13 +324,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 8
-  _shape:
+  _isTall: 0
+  _size: 1
+  shape:
   - x: 0
     z: 0
+  _maxHealthPoints: 10
 --- !u!135 &135063354293244466
 SphereCollider:
   m_ObjectHideFlags: 1

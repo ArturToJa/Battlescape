@@ -87,7 +87,6 @@ namespace BattlescapeLogic
             base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
-            meleeWeaponVisual = Helper.FindChildWithTag(gameObject, "Sword");
             buffs = new BuffGroup(this);
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
@@ -302,8 +301,8 @@ namespace BattlescapeLogic
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
                 defenceDebuff.ApplyOnTarget(target);
-                Log.SpawnLog(this.unitName + " attacks " + target.unitName + ", but misses completely!");
-                Log.SpawnLog(target.unitName + " loses 1 point of Defence temporarily.");
+                Log.SpawnLog(this.info.unitName + " attacks " + target.info.unitName + ", but misses completely!");
+                Log.SpawnLog(target.info.unitName + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }

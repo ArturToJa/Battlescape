@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64225424382746114}
-  - component: {fileID: 114543802127859082}
+  - component: {fileID: 114097733191459248}
   m_Layer: 0
   m_Name: fence_03
   m_TagString: Dice
@@ -225,6 +225,23 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 5ae1ea8a6fa5f5e4fad6892f0a9927b5, type: 3}
+--- !u!114 &114097733191459248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  shape:
+  - x: 0
+    z: 0
+  _isTall: 0
+  _maxHealthPoints: 5
 --- !u!114 &114184230266230926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1534395679271206}
+  offset: 0
 --- !u!114 &114217954023071084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,21 +290,6 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
   isBeingAttacked: 0
---- !u!114 &114543802127859082
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 6
-  _shape:
-  - x: 0
-    z: 0
 --- !u!114 &114615525203787838
 MonoBehaviour:
   m_ObjectHideFlags: 1

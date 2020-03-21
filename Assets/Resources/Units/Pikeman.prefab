@@ -3252,7 +3252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd68a56f1c32884fad3e438a6148204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  legalPhases: 4
   _filter:
     ally: 0
     enemy: 0
@@ -3269,6 +3268,7 @@ MonoBehaviour:
   _description: Pikeman creates a destructible barricade on a neighbouring tile. It
     can not be passed. Can be built more than once a turn.
   _icon: {fileID: 21300000, guid: 866f8849b06ee3e43b14da96ce4299a0, type: 3}
+  legalPhases: 4
   costsMovement: 0
   _cooldown: 0
   _energyCost: 20
@@ -3285,6 +3285,7 @@ MonoBehaviour:
   log: Pikeman builds a Barricade!
   castVisualEffect: {fileID: 1884933212294534, guid: 0af5be3914fd2e54dab118360595c72b,
     type: 2}
+  targetColouringColour: {r: 0, g: 0.8156863, b: 0.8901961, a: 0.5019608}
   _range: 1
   isRangeModified: 0
   rangeModifier: 0
@@ -3369,7 +3370,6 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
-  unitClass: 1
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 1325237222996624}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Human_Swordman_Active_DefensiveStance : AbstractActiveNoTargetAbility
+    public class ActiveSelfBuffAbility : AbstractActiveNoTargetAbility
     {
         [SerializeField] List<GameObject> selfBuffs;
 
@@ -12,7 +12,6 @@ namespace BattlescapeLogic
         {
             base.Activate();
             ApplyBuffsToUnit(selfBuffs, owner);
-            owner.statistics.movementPoints = 0;
         }
 
         public override bool IsLegalTarget(IMouseTargetable target)

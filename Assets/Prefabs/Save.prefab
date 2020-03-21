@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114608254406367336}
   - component: {fileID: 114562131478885718}
   - component: {fileID: 114580500508975460}
-  - component: {fileID: 114772841844475550}
+  - component: {fileID: 114783377002029558}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114772841844475550
+--- !u!114 &114783377002029558
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

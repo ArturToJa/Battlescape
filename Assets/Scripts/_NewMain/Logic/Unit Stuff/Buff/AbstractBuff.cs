@@ -110,7 +110,7 @@ namespace BattlescapeLogic
 
         public override void OnNewTurn()
         {
-            if (IsExpired() && GameRound.instance.currentPlayer == owner.owner)
+            if (IsExpired() && GameRound.instance.currentPlayer == source.owner.owner)
             {
                 OnExpire();
             }
@@ -163,7 +163,7 @@ namespace BattlescapeLogic
             {
                 if (visualEffectPrefab != null)
                 {
-                    visualEffect = Instantiate(visualEffectPrefab, unit.transform.position, visualEffectPrefab.transform.rotation);
+                    visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
                 }
                 if (!isStackable && IsAlreadyOnTarget(target))
                 {

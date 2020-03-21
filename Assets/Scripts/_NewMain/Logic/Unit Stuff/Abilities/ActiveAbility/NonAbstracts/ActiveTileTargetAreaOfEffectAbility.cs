@@ -30,7 +30,7 @@ namespace BattlescapeLogic
             }
             foreach (Tile tile in GetTargetsForTile(hoveredTile))
             {
-                tile.highlighter.TurnOn(Color.red);
+                tile.highlighter.TurnOn(targetColouringColour);
             }
         }
 

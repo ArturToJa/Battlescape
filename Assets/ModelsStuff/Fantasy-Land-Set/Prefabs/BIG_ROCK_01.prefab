@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4826294132669482}
-  - component: {fileID: 114155978417549764}
+  - component: {fileID: 114975435713898678}
   m_Layer: 0
   m_Name: BIG_ROCK_01
   m_TagString: Untagged
@@ -127,7 +127,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 2882e547d2bd0564fb6c142fae94be06, type: 3}
---- !u!114 &114155978417549764
+--- !u!114 &114975435713898678
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -135,11 +135,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768869135566316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Script: {fileID: 11500000, guid: a5283539767aaa5408126c4e8487448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 5
-  _shape:
+  shape:
   - x: 0
     z: 0
   - x: 1
@@ -148,3 +148,4 @@ MonoBehaviour:
     z: 1
   - x: 1
     z: 1
+  _isTall: 1

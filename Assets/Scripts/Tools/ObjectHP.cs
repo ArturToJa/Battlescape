@@ -48,7 +48,7 @@ public class ObjectHP : MonoBehaviour
 
     void UpdateText()
     {
-        if (thisObstacle.currentHealth <= 0)
+        if (thisObstacle.currentHealthPoints <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -57,6 +57,6 @@ public class ObjectHP : MonoBehaviour
     void FillTheBar()
     {
         float velocity = 0;
-        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisObstacle.currentHealth / (float)thisObstacle.maxHealth), ref velocity, barAnimationTime);
+        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)thisObstacle.currentHealthPoints / (float)thisObstacle.maxHealthPoints), ref velocity, barAnimationTime);
     }
 }

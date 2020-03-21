@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 114747540933320742}
   - component: {fileID: 54728536769794198}
   - component: {fileID: 114199587095040600}
+  - component: {fileID: 114886309664882002}
   m_Layer: 8
   m_Name: Catapult
   m_TagString: Unit
@@ -1047,6 +1048,52 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114886309664882002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1815397335590040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0956c73dfabd343bb5cfc49e4a6142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 0
+    enemy: 0
+    selfPlayer: 0
+    otherPlayer: 0
+    canSelf: 0
+    hero: 0
+    regular: 0
+    ranged: 0
+    melee: 0
+    ground: 0
+    flying: 0
+  _abilityName: Destroy Obstacle
+  _description: Catapult shoots at an obstacle, rem,moving it from the game.
+  _icon: {fileID: 21300000, guid: da9f9eef3ae368f4d8d473e0ddcacd47, type: 3}
+  legalPhases: 1
+  costsMovement: 0
+  _cooldown: 1
+  _energyCost: 100
+  _usesPerBattle: 0
+  _animationTrigger: Shooting
+  sound:
+    name: 
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 0
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 0
+  log: 
+  castVisualEffect: {fileID: 0}
+  targetColouringColour: {r: 0.5882353, g: 0.02745098, b: 0.02745098, a: 0.5019608}
+  _range: 0
+  isRangeModified: 1
+  rangeModifier: 0
 --- !u!137 &137254323568621442
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

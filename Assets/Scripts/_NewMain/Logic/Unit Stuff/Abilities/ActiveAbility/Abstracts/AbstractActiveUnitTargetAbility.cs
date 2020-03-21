@@ -59,7 +59,7 @@ namespace BattlescapeLogic
             {
                 if (IsLegalTarget(unit))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(unit, owner.owner);
+                    unit.currentPosition.highlighter.TurnOn(targetColouringColour);
                 }
             }
         }

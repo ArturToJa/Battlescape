@@ -155,7 +155,7 @@ namespace BattlescapeLogic
                     Debug.LogError("Wrong count of buffs on buff object: " + buffObject.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
                 }
                 AbstractBuff newBuff = buffObjectBuffs[0];
-                newBuff.ApplyOnUnit(target, this);
+                newBuff.ApplyOnTarget(target, this);
             }
         }
     }

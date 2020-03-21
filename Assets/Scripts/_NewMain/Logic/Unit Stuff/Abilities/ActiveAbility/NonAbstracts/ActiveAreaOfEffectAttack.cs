@@ -19,7 +19,7 @@ namespace BattlescapeLogic
             {
                 if (tile.myUnit != null)
                 {
-                    tile.myUnit.OnHit(owner, damage);
+                    tile.myUnit.TakeDamage(owner, damage);
 
                 }
             }

@@ -20,9 +20,15 @@ namespace BattlescapeLogic
                 if (neighbour.myUnit != null)
                 {
                     PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
-                    neighbour.myUnit.OnHit(owner, splashDamage);
+                    Unit owner = buffGroup.owner as Unit;
+                    neighbour.myUnit.TakeDamage(owner, splashDamage);
                 }
             }
+        }
+
+        protected override bool IsAcceptableTargetType(IDamageable target)
+        {
+            return Tools.TypeComparizer<IDamageable, Unit>(target);
         }
 
         protected override void RemoveChange()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64858280385023234}
-  - component: {fileID: 114349040933967786}
+  - component: {fileID: 114250405110630104}
   m_Layer: 0
   m_Name: fence_09
   m_TagString: Dice
@@ -241,6 +241,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114250405110630104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  shape:
+  - x: 0
+    z: 0
+  _isTall: 0
+  _maxHealthPoints: 5
 --- !u!114 &114260000441170600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -262,21 +279,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114349040933967786
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 6
-  _shape:
-  - x: 0
-    z: 0
 --- !u!114 &114357978572485510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1780738027512070}
+  offset: 0
 --- !u!114 &114929870227885086
 MonoBehaviour:
   m_ObjectHideFlags: 1

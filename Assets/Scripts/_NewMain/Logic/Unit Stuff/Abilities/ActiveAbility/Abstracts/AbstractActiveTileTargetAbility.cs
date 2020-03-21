@@ -37,7 +37,7 @@ namespace BattlescapeLogic
             {
                 if (IsLegalTarget(tile))
                 {
-                    tile.highlighter.TurnOn(Color.cyan);
+                    tile.highlighter.TurnOn(targetColouringColour);
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace BattlescapeLogic
 
         }
 
-        public bool IsInRange(Tile tile)
+        protected bool IsInRange(Tile tile)
         {
             return owner.currentPosition.position.DistanceTo(tile.position) <= range;
         }        

@@ -135,19 +135,19 @@ namespace BattlescapeLogic
             if (Input.GetKeyDown(KeyCode.F))
             {
                 // selected unit gets 1000 damage (dies xD)
-                MouseManager.instance.selectedUnit.TakeDamage(MouseManager.instance.selectedUnit, 1000);
+                GameRound.instance.currentPlayer.selectedUnit.TakeDamage(GameRound.instance.currentPlayer.selectedUnit, 1000);
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                if (MouseManager.instance.selectedUnit != null && !MouseManager.instance.selectedUnit.buffs.IsEmpty())
+                if (GameRound.instance.currentPlayer.selectedUnit != null && !GameRound.instance.currentPlayer.selectedUnit.buffs.IsEmpty())
                 {
-                    MouseManager.instance.selectedUnit.buffs[0].RemoveFromTargetInstantly();
+                    GameRound.instance.currentPlayer.selectedUnit.buffs[0].RemoveFromTargetInstantly();
                 }
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnTarget(MouseManager.instance.selectedUnit);
+                defenceDebuff.ApplyOnTarget(GameRound.instance.currentPlayer.selectedUnit);
             }
             if (Input.GetKeyDown(KeyCode.P))
             {

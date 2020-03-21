@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64747276755032754}
-  - component: {fileID: 114714430027681158}
+  - component: {fileID: 114684450047513220}
   m_Layer: 0
   m_Name: box_02
   m_TagString: Dice
@@ -256,7 +256,7 @@ MonoBehaviour:
   fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
   isBeingAttacked: 0
---- !u!114 &114714430027681158
+--- !u!114 &114684450047513220
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -264,13 +264,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 7
-  _shape:
+  shape:
   - x: 0
     z: 0
+  _isTall: 0
+  _maxHealthPoints: 15
 --- !u!114 &114819388580302076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1779575006960706}
+  offset: 0
 --- !u!114 &114834434193675972
 MonoBehaviour:
   m_ObjectHideFlags: 1

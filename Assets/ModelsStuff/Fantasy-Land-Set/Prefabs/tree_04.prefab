@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64828760208291882}
-  - component: {fileID: 114116252807432746}
+  - component: {fileID: 114124802963984514}
   m_Layer: 0
   m_Name: tree_04
   m_TagString: Dice
@@ -98,7 +98,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: b67eb4b9606877f48b9d1c240425a75a, type: 3}
---- !u!114 &114116252807432746
+--- !u!114 &114124802963984514
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -106,10 +106,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
+  m_Script: {fileID: 11500000, guid: a5283539767aaa5408126c4e8487448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 4
-  _shape:
+  shape:
   - x: 0
     z: 0
+  _isTall: 1

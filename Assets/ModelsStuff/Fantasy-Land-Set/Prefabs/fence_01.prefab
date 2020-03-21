@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64241320492480844}
-  - component: {fileID: 114742425187959874}
+  - component: {fileID: 114532016954587364}
   m_Layer: 0
   m_Name: fence_01
   m_TagString: Dice
@@ -289,6 +289,23 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114532016954587364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  shape:
+  - x: 0
+    z: 0
+  _isTall: 0
+  _maxHealthPoints: 5
 --- !u!114 &114596767158614204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -300,22 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1663785735284212}
---- !u!114 &114742425187959874
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 6
-  _shape:
-  - x: 0
-    z: 0
+  offset: 0
 --- !u!114 &114907434640039302
 MonoBehaviour:
   m_ObjectHideFlags: 1

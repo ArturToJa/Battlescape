@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
   - component: {fileID: 64019752004431998}
-  - component: {fileID: 114739395065399936}
+  - component: {fileID: 114020705787651124}
   m_Layer: 0
   m_Name: fence_06
   m_TagString: Dice
@@ -225,6 +225,23 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 8aa034e4715c74346add5386555893e6, type: 3}
+--- !u!114 &114020705787651124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af701893b7d2db42a5342ef86d5c3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 6
+  shape:
+  - x: 0
+    z: 0
+  _isTall: 0
+  _maxHealthPoints: 5
 --- !u!114 &114179921870583354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 1295688797252578}
+  offset: 0
 --- !u!114 &114487707589429894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,21 +318,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114739395065399936
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9177fd0d9017942aa489e212714fd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _type: 6
-  _shape:
-  - x: 0
-    z: 0
 --- !u!114 &114862014292271794
 MonoBehaviour:
   m_ObjectHideFlags: 1

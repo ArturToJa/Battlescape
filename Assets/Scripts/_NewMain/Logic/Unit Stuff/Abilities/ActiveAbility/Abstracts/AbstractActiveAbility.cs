@@ -139,6 +139,7 @@ namespace BattlescapeLogic
         [SerializeField] Sound sound;
         [SerializeField] string log;
         [SerializeField] GameObject castVisualEffect;
+        [SerializeField] protected Color targetColouringColour;
 
 
         public static event Action OnAbilityClicked = delegate { };

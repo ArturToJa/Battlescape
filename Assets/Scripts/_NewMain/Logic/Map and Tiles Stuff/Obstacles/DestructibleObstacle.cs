@@ -7,19 +7,22 @@ namespace BattlescapeLogic
     {
         public BuffGroup buffs { get; private set; }
 
-        [SerializeField] int _healthpoints;
-        public int healthPoints
+        [SerializeField] int _maxHealthPoints;
+        public int maxHealthPoints
         {
             get
             {
-                return _healthpoints;
+                return _maxHealthPoints;
             }
 
             private set
             {
-                _healthpoints = value;
+                _maxHealthPoints = value;
             }
         }
+
+        public int currentHealthPoints { get; private set; }
+
 
         public override void Start()
         {
@@ -29,9 +32,9 @@ namespace BattlescapeLogic
 
         public void TakeDamage(Unit source, int dmg)
         {
-            healthPoints -= dmg;
+            currentHealthPoints -= dmg;
 
-            if(healthPoints<=0)
+            if (currentHealthPoints <= 0)
             {
                 this.Destruct(source);
             }
