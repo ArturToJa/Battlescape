@@ -46,7 +46,12 @@ namespace BattlescapeLogic
 
         public void Destruct(Unit source)
         {
-            animator.SetTrigger("Destruct");
+            //Tu mna być animacja destrukcji.
+            foreach (Tile myTile in currentPosition)
+            {
+                myTile.myObstacle = null;
+            }
+            Destroy(gameObject);
         }
 
         public void OnMouseHoverEnter()
@@ -68,7 +73,7 @@ namespace BattlescapeLogic
                 int tileZ = tile.position.z + myShape[i].z;
                 if (tileX <= Global.instance.currentMap.mapWidth && tileX >= 0 && tileZ <= Global.instance.currentMap.mapHeight && tileZ >= 0)
                 {
-                    list[i] = Global.instance.currentMap.board[shape[i].x, shape[i].z];
+                    list[i] = Global.instance.currentMap.board[tileX, tileZ];
                 }
             }
             return list;

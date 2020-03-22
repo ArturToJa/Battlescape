@@ -695,8 +695,7 @@ MonoBehaviour:
     melee: 0
     ground: 0
     flying: 0
-  placeableBuffs:
-  - {fileID: 1234158636466810, guid: a7933eef4f766b24cad879989ef4aece, type: 2}
+  _placeableBuffs: []
 --- !u!114 &114251794970843026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1079,21 +1078,23 @@ MonoBehaviour:
   _cooldown: 1
   _energyCost: 100
   _usesPerBattle: 0
-  _animationTrigger: Shooting
+  _animationTrigger: ShootObstacle
   sound:
-    name: 
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+    name: CatapultDestroyObstacleSound
+    clip: {fileID: 8300000, guid: 9297b1de99f3a5e41b2ef5d6bf762f95, type: 3}
+    volume: 0.3
+    pitch: 1
     oldSource: {fileID: 0}
     loop: 0
-    soundType: 0
+    soundType: 6
   log: 
   castVisualEffect: {fileID: 0}
   targetColouringColour: {r: 0.5882353, g: 0.02745098, b: 0.02745098, a: 0.5019608}
   _range: 0
   isRangeModified: 1
   rangeModifier: 0
+  missilePrefab: {fileID: 1000357107973312, guid: 241cfc714e402ba4f896d07a6ab8eaaa,
+    type: 2}
 --- !u!137 &137254323568621442
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

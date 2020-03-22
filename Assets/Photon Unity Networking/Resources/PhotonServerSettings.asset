@@ -91,4 +91,5 @@ MonoBehaviour:
   - RPCHitTarget
   - RPCAddPlayer
   - RPCChangePlayer
+  - RPCDestroyObstacle
   DisableAutoOpenWizard: 1

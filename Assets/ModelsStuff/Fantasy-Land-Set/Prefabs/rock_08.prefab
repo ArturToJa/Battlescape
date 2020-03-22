@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4935533869413214}
   - component: {fileID: 33775069666909762}
   - component: {fileID: 23086643546299190}
+  - component: {fileID: 64599740031431084}
   m_Layer: 0
   m_Name: rock_08
   m_TagString: Dice
@@ -66,7 +67,7 @@ Transform:
   m_GameObject: {fileID: 1352142225392406}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 2, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4409613662665680}
   m_RootOrder: 0
@@ -111,6 +112,20 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1352142225392406}
+  m_Mesh: {fileID: 4300000, guid: e3df2588f2d1c31489f894f7ede6185c, type: 3}
+--- !u!64 &64599740031431084
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1352142225392406}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: e3df2588f2d1c31489f894f7ede6185c, type: 3}
 --- !u!114 &114789320225414476
 MonoBehaviour:

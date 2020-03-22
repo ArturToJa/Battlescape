@@ -22272,62 +22272,71 @@ MonoBehaviour:
       - _type: 5
         _minAmount: 2
         _maxAmount: 2
-        _minDistanceToShortSide: 6
+        _minDistanceToShortSide: 5
         _minDistanceToLongSide: 3
         _needsExtraSpace: 1
+        _canRotate: 0
       - _type: 4
         _minAmount: 5
         _maxAmount: 7
         _minDistanceToShortSide: 3
         _minDistanceToLongSide: 1
         _needsExtraSpace: 1
+        _canRotate: 1
       - _type: 3
         _minAmount: 3
         _maxAmount: 6
         _minDistanceToShortSide: 3
         _minDistanceToLongSide: 2
         _needsExtraSpace: 1
+        _canRotate: 1
       - _type: 7
         _minAmount: 3
         _maxAmount: 6
         _minDistanceToShortSide: 4
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
+        _canRotate: 1
       - _type: 8
         _minAmount: 2
         _maxAmount: 8
         _minDistanceToShortSide: 3
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
+        _canRotate: 1
       - _type: 6
         _minAmount: 2
-        _maxAmount: 4
-        _minDistanceToShortSide: 6
+        _maxAmount: 6
+        _minDistanceToShortSide: 3
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
+        _canRotate: 1
       - _type: 2
         _minAmount: 3
         _maxAmount: 5
         _minDistanceToShortSide: 2
         _minDistanceToLongSide: 1
         _needsExtraSpace: 0
+        _canRotate: 1
       - _type: 0
         _minAmount: 8
         _maxAmount: 8
         _minDistanceToShortSide: 5
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
+        _canRotate: 1
       - _type: 1
         _minAmount: 6
         _maxAmount: 10
         _minDistanceToShortSide: 0
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
+        _canRotate: 1
       allLegalObjects:
       - {fileID: 114305811382496326, guid: 7f78cac05e3547d42b8c72fb66361523, type: 2}
       - {fileID: 114236866644937056, guid: e3afc8cc56676724db06a3f6bfd1712c, type: 2}
       - {fileID: 114873180520939862, guid: 25909fe074dde18439c56ed1777761cd, type: 2}
-      - {fileID: 114975435713898678, guid: a7f243ff84b3a044cb0f12abac65c40b, type: 2}
+      - {fileID: 114066759898915188, guid: 9c51cd46c09871e4c8797a41664b5e49, type: 2}
       - {fileID: 114442681755970086, guid: 7152f154ba4c33a4dad812d3ceb711ac, type: 2}
       - {fileID: 114684450047513220, guid: db5abb6182675344c8ab8087923c8484, type: 2}
       - {fileID: 114625228902306658, guid: 9c38da78c05e05244afd7879667e105b, type: 2}
@@ -22397,7 +22406,6 @@ MonoBehaviour:
       - {fileID: 114678658753504978, guid: dcf3ade84dda7874d83806c810d84b5b, type: 2}
       - {fileID: 114896288282407656, guid: 4231d19d7f2efd14784e971101809ab5, type: 2}
       - {fileID: 114195888828570252, guid: 606a39ed782715c489b8d8947c645cc8, type: 2}
-      - {fileID: 114066759898915188, guid: 9c51cd46c09871e4c8797a41664b5e49, type: 2}
       allowedPercentage: 0.3
     manualObstacles: 0
   _colours:

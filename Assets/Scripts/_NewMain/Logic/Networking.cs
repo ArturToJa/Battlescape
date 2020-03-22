@@ -42,6 +42,9 @@ namespace BattlescapeLogic
                 return _waitingForRetaliationUI;
             }
         }
+
+
+
         public Unit retaliatingUnit { get; private set; }
         public Unit retaliationTarget { get; private set; }
         public int playersWhoAlreadyEndedPregame { get; private set; }
@@ -91,7 +94,7 @@ namespace BattlescapeLogic
 
             Player newPlayer = new Player(playerBuilder);
             playerTeam.AddNewPlayer(newPlayer);
-        }    
+        }
 
         //When u get disconnected, opponents will see this
         [PunRPC]
@@ -139,6 +142,32 @@ namespace BattlescapeLogic
                 yield return new WaitForSeconds(1f);
             }
             Global.instance.currentMap.mapVisuals.GenerateObjects(s);
+        }
+
+        public void SendCommandToDestroyObstacle(Unit sourceUnit, Obstacle myObstacle)
+        {
+            if(Global.instance.matchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC(
+                    "RPCDestroyObstacle", 
+                    PhotonTargets.All, 
+                    sourceUnit.currentPosition.position.x, 
+                    sourceUnit.currentPosition.position.z,
+                    myObstacle.currentPosition[0].position.x,
+                    myObstacle.currentPosition[0].position.z);
+            }
+            else if (Global.instance.matchType != MatchTypes.Online)
+            {
+                myObstacle.Destruct(sourceUnit);
+            }
+        }
+
+        [PunRPC]
+        void RPCDestroyObstacle(int sourceX, int sourceZ, int obstacleX, int obstacleZ)
+        {
+            Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].myObstacle;
+            Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].myUnit;
+            obstacle.Destruct(unit);
         }
 
 
@@ -244,7 +273,7 @@ namespace BattlescapeLogic
             }
             Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
             RetaliationChoice(retaliatingUnit, target);
-            
+
         }
         void RetaliationChoice(Unit _retaliatingUnit, Unit _retaliationTarget)
         {
@@ -260,7 +289,7 @@ namespace BattlescapeLogic
         /// <param name="retaliatingUnit"></param>
         /// <param name="retaliationTarget"></param>
         public void SendCommandToRetaliate(Unit retaliatingUnit, Unit retaliationTarget)
-        {            
+        {
             //note also that AttackTarget is now the guy who retaliates, and AttackingUnit is getting hit.
 
             if (Global.instance.matchType == MatchTypes.Online)

@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4308497170431138}
   - component: {fileID: 33846139861787076}
   - component: {fileID: 23443060404422920}
+  - component: {fileID: 64617805772909194}
   m_Layer: 0
   m_Name: rock_09
   m_TagString: Dice
@@ -111,6 +112,20 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322632577621990}
+  m_Mesh: {fileID: 4300000, guid: 82f60ffe0b5746a44bae6748dac4be52, type: 3}
+--- !u!64 &64617805772909194
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322632577621990}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 82f60ffe0b5746a44bae6748dac4be52, type: 3}
 --- !u!114 &114448576858069820
 MonoBehaviour:

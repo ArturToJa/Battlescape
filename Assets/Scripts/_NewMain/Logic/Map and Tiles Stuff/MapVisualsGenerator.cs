@@ -10,6 +10,7 @@ namespace BattlescapeLogic
         [SerializeField] List<MapVisualsSpecification> specs;
         [SerializeField] List<OnTileObject> allLegalObjects;
         [SerializeField] float allowedPercentage = 0.25f;
+        List<Tile> tilesWithObstacle;
 
         Dictionary<string, int> alreadyGeneratedStuff = new Dictionary<string, int>();
 
@@ -21,19 +22,24 @@ namespace BattlescapeLogic
                 int amountOfType = Random.Range(spec.minAmount, spec.maxAmount + 1);
                 for (int i = 0; i < amountOfType; i++)
                 {
-                    GenerateObject(GetRandomObject(spec.type, amountOfType), GetRandomTile(spec.minDistanceToShortSide, spec.minDistanceToLongSide, spec));
+                    GenerateObject(GetRandomObject(spec.type, amountOfType), GetRandomTile(spec.minDistanceToShortSide, spec.minDistanceToLongSide, spec), spec.canRotate);
                 }
             }
         }
 
-        void GenerateObject(OnTileObject prefab, Tile tile)
+        void GenerateObject(OnTileObject prefab, Tile tile, bool canRotate)
         {
             if (tile == null)
             {
                 Debug.Log("Didn't spawn: " + prefab.name + " cause of lack of space");
                 return;
             }
-            OnTileObject spawnedObject = Object.Instantiate(prefab, tile.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0), tile.transform);
+            Quaternion rotation = prefab.transform.rotation;
+            if (canRotate)
+            {
+                rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            }
+            OnTileObject spawnedObject = Object.Instantiate(prefab, tile.transform.position, rotation, tile.transform);
             spawnedObject.OnSpawn(tile);
             AddToDictionary(prefab.name);
         }
@@ -49,8 +55,8 @@ namespace BattlescapeLogic
                 returnList.Remove(answer);
                 answer = returnList[Random.Range(0, returnList.Count - 1)];
                 if (terminator == 100)
-                {
-                    return answer;
+                {                    
+                    return returnList[Random.Range(0, returnList.Count - 1)]; ;
                 }
             }
             return answer;
@@ -66,6 +72,7 @@ namespace BattlescapeLogic
                 tile = Global.instance.currentMap.board[Random.Range(minDistanceShort, Global.instance.currentMap.mapWidth - minDistanceShort), Random.Range(minDistanceLong, Global.instance.currentMap.mapHeight - minDistanceLong)];
                 if (terminator == 100)
                 {
+                    Debug.Log("half-terminator");
                     break;
                 }
             }
@@ -166,10 +173,6 @@ namespace BattlescapeLogic
             {
                 return _type;
             }
-            private set
-            {
-                _type = value;
-            }
         }
         [SerializeField] int _minAmount;
         public int minAmount
@@ -177,11 +180,7 @@ namespace BattlescapeLogic
             get
             {
                 return _minAmount;
-            }
-            private set
-            {
-                _minAmount = value;
-            }
+            }        
         }
         [SerializeField] int _maxAmount;
         public int maxAmount
@@ -189,11 +188,7 @@ namespace BattlescapeLogic
             get
             {
                 return _maxAmount;
-            }
-            private set
-            {
-                _maxAmount = value;
-            }
+            }           
         }
         [SerializeField] int _minDistanceToShortSide;
         public int minDistanceToShortSide
@@ -201,10 +196,6 @@ namespace BattlescapeLogic
             get
             {
                 return _minDistanceToShortSide;
-            }
-            private set
-            {
-                _minDistanceToShortSide = value;
             }
         }
         [SerializeField] int _minDistanceToLongSide;
@@ -214,10 +205,6 @@ namespace BattlescapeLogic
             {
                 return _minDistanceToLongSide;
             }
-            private set
-            {
-                _minDistanceToLongSide = value;
-            }
         }
 
         [SerializeField] bool _needsExtraSpace;
@@ -226,10 +213,15 @@ namespace BattlescapeLogic
             get
             {
                 return _needsExtraSpace;
-            }
-            private set
+            }            
+        }
+
+        [SerializeField] bool _canRotate;
+        public bool canRotate
+        {
+            get
             {
-                _needsExtraSpace = value;
+                return _canRotate;
             }
         }
     }
