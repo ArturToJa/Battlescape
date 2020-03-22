@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Photon.Pun;
 
 public class LevelLoader : MonoBehaviour
 {  
@@ -19,9 +20,9 @@ public class LevelLoader : MonoBehaviour
 
     public void CommandLoadScene(string scene)
     {
-        if (PhotonNetwork.connected)
+        if (PhotonNetwork.IsConnected)
         {
-            GetComponent<PhotonView>().RPC("RPCLoadScene", PhotonTargets.All, scene);
+            GetComponent<PhotonView>().RPC("RPCLoadScene", RpcTarget.All, scene);
         }
         else
         {

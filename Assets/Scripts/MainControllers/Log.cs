@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,16 +27,16 @@ public class Log : MonoBehaviour
 
     public static void NetworkSpawnLog(string log)
     {
-        photonView.RPC("RPCNetworkSpawnLog", PhotonTargets.All, log);
+        photonView.RPC("RPCNetworkSpawnLog", RpcTarget.All, log);
     }
     public static void LobbySpawnLog(string log)
     {
-        photonView.RPC("RPCLobbySpawnLog", PhotonTargets.All, log);
+        photonView.RPC("RPCLobbySpawnLog", RpcTarget.All, log);
     }
 
     public static void LobbySpawnLog(string log, string sound)
     {
-        photonView.RPC("RPCLobbySpawnLog", PhotonTargets.All, log, sound);
+        photonView.RPC("RPCLobbySpawnLog", RpcTarget.All, log, sound);
     }
 
     [PunRPC]

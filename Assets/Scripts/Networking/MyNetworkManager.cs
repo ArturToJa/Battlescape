@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BattlescapeLogic;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class MyNetworkManager : MonoBehaviour
+public class MyNetworkManager : MonoBehaviourPunCallbacks
 {
     public GameObject Lobby
     {
@@ -27,17 +29,21 @@ public class MyNetworkManager : MonoBehaviour
 
     public void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings(PlayerPrefs.GetString("Version"));
-    } 
+        PhotonNetwork.ConnectUsingSettings();
+    }
 
-    void OnPhotonPlayerDisconnected(PhotonPlayer player)
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+    }
+    void OnPhotonPlayerDisconnected(Photon.Realtime.Player player)
     {
         if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
         {
-            Networking.instance.photonView.RPC("RPCConnectionLossScreen", PhotonTargets.All, "Player " + player.NickName + " lost connection or ragequitted. You win :( We are very sorry for that!");
+            Networking.instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.All, "Player " + player.NickName + " lost connection or ragequitted. You win :( We are very sorry for that!");
         }
     }
-    
+
     public void Disconnect()
     {
         Debug.Log("Disconnected!");
@@ -51,7 +57,7 @@ public class MyNetworkManager : MonoBehaviour
     void OnConnectedToMaster()
     {
         Debug.Log("Connected to master!");
-        PhotonNetwork.JoinLobby(TypedLobby.Default);
+        PhotonNetwork.JoinLobby(Photon.Realtime.TypedLobby.Default);
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public class RaceChoosingManager : MonoBehaviour
 {
@@ -31,10 +32,10 @@ public class RaceChoosingManager : MonoBehaviour
 
     private void Update()
     {
-        chooseRaceButton.SetActive(SaveLoadManager.instance.haveAllPlayersChosenRace == false && PhotonNetwork.connected && PhotonNetwork.room != null && PhotonNetwork.room.PlayerCount == 2);
+        chooseRaceButton.SetActive(SaveLoadManager.instance.haveAllPlayersChosenRace == false && PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount == 2);
         if (SaveLoadManager.instance.haveAllPlayersChosenRace && didRevealEnemyRace == false)
         {
-            photonView.RPC("RPCSetEnemyRace", PhotonTargets.Others, chosenRace, PlayerPrefs.GetString("MyPlayerName"));
+            photonView.RPC("RPCSetEnemyRace", RpcTarget.Others, chosenRace, PlayerPrefs.GetString("MyPlayerName"));
             didRevealEnemyRace = true;
         }
     }
@@ -72,13 +73,13 @@ public class RaceChoosingManager : MonoBehaviour
 
     public void SetMyRaceTo(Race race)
     {
-        if (PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, race, PlayerPrefs.GetString("MyPlayerName"), 0, 0);
+            photonView.RPC("RpcSetRaceAndName", RpcTarget.All, race, PlayerPrefs.GetString("MyPlayerName"), 0, 0);
         }
         else
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, race, PlayerPrefs.GetString("MyPlayerName"), 1, 0);
+            photonView.RPC("RpcSetRaceAndName", RpcTarget.All, race, PlayerPrefs.GetString("MyPlayerName"), 1, 0);
         }
     }
 
@@ -93,13 +94,13 @@ public class RaceChoosingManager : MonoBehaviour
     [PunRPC]
     public void RPCSetEnemyRace(Race Race, string playerName)
     {
-        if (PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, Race, playerName, 1, 0);
+            photonView.RPC("RpcSetRaceAndName", RpcTarget.All, Race, playerName, 1, 0);
         }
         else
         {
-            photonView.RPC("RpcSetRaceAndName", PhotonTargets.All, Race, playerName, 0, 0);
+            photonView.RPC("RpcSetRaceAndName", RpcTarget.All, Race, playerName, 0, 0);
         }
         enemyArmy.sprite = SaveLoadManager.instance.GetRaceSprite(Race);
         Log.LobbySpawnLog("--SYSTEM-- Player: " + playerName + " chose race: " + Race.ToString(), "SystemSound");

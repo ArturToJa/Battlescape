@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,7 +70,7 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                photonView.RPC("RPCAddPlayer", PhotonTargets.Others, player.index, player.isObserver, player.playerName, (int)player.colour, (int)player.race, player.team.index);
+                photonView.RPC("RPCAddPlayer", RpcTarget.Others, player.index, player.isObserver, player.playerName, (int)player.colour, (int)player.race, player.team.index);
                 playerTeam.AddNewPlayer(player);
             }
             else
@@ -119,9 +120,9 @@ namespace BattlescapeLogic
 
         public void SendCommandToAddObstacles()
         {
-            if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
+            if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
             {
-                photonView.RPC("RPCSetSeed", PhotonTargets.All, Random.Range(0, 99999));
+                photonView.RPC("RPCSetSeed", RpcTarget.All, Random.Range(0, 99999));
             }
             else if (Global.instance.matchType != MatchTypes.Online)
             {
@@ -146,11 +147,11 @@ namespace BattlescapeLogic
 
         public void SendCommandToDestroyObstacle(Unit sourceUnit, Obstacle myObstacle)
         {
-            if(Global.instance.matchType == MatchTypes.Online && PhotonNetwork.isMasterClient)
+            if(Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(
-                    "RPCDestroyObstacle", 
-                    PhotonTargets.All, 
+                    "RPCDestroyObstacle",
+                    RpcTarget.All, 
                     sourceUnit.currentPosition.position.x, 
                     sourceUnit.currentPosition.position.z,
                     myObstacle.currentPosition[0].position.x,
@@ -188,7 +189,7 @@ namespace BattlescapeLogic
 
                 photonView.RPC(
                     "RPCDoMovement",
-                    PhotonTargets.All,
+                    RpcTarget.All,
                     startX,
                     startZ,
                     endX,
@@ -226,7 +227,7 @@ namespace BattlescapeLogic
             if (Global.instance.matchType == MatchTypes.Online)
             {
                 photonView.RPC(
-                    "RPCAttack", PhotonTargets.All,
+                    "RPCAttack", RpcTarget.All,
                     Mathf.RoundToInt(Attacker.transform.position.x),
                     Mathf.RoundToInt(Attacker.transform.position.z),
                     Mathf.RoundToInt(Defender.transform.position.x),
@@ -252,7 +253,7 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                GetComponent<PhotonView>().RPC("RPCRetaliation", PhotonTargets.All, retaliatingUnit.currentPosition.position.x, retaliatingUnit.currentPosition.position.z, target.currentPosition.position.x, target.currentPosition.position.z);
+                GetComponent<PhotonView>().RPC("RPCRetaliation", RpcTarget.All, retaliatingUnit.currentPosition.position.x, retaliatingUnit.currentPosition.position.z, target.currentPosition.position.x, target.currentPosition.position.z);
             }
             else
             {
@@ -296,7 +297,7 @@ namespace BattlescapeLogic
             {
                 int unitX = retaliatingUnit.currentPosition.position.x;
                 int unitZ = retaliatingUnit.currentPosition.position.z;
-                photonView.RPC("RPCRetaliate", PhotonTargets.All, unitX, unitZ);
+                photonView.RPC("RPCRetaliate", RpcTarget.All, unitX, unitZ);
             }
             else
             {
@@ -342,7 +343,7 @@ namespace BattlescapeLogic
             {
                 photonView.RPC
                     ("RPCHitTarget",
-                    PhotonTargets.All,
+                    RpcTarget.All,
                     source.currentPosition.position.x,
                     source.currentPosition.position.z,
                     target.currentPosition.position.x,
@@ -367,7 +368,7 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                photonView.RPC("RPCNoRetaliation", PhotonTargets.All);
+                photonView.RPC("RPCNoRetaliation", RpcTarget.All);
             }
             else
             {
@@ -392,7 +393,7 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                photonView.RPC("RPCEndTurnPhase", PhotonTargets.All);
+                photonView.RPC("RPCEndTurnPhase", RpcTarget.All);
             }
             else
             {
@@ -420,7 +421,7 @@ namespace BattlescapeLogic
 
         public void PlayerEndedPreGame()
         {
-            photonView.RPC("RPCPlayerEndedPreGame", PhotonTargets.All);
+            photonView.RPC("RPCPlayerEndedPreGame", RpcTarget.All);
         }
 
     }

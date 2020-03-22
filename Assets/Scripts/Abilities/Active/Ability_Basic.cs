@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public abstract class Ability_Basic : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public abstract class Ability_Basic : MonoBehaviour
             Networking.instance.GetComponent<PhotonView>().RPC
                 (
                 "RPCActivateAbility",
-                PhotonTargets.All,
+                RpcTarget.All,
                 Mathf.RoundToInt(transform.position.x),
                 Mathf.RoundToInt(transform.position.z),
                 Mathf.RoundToInt(Target.transform.position.x),

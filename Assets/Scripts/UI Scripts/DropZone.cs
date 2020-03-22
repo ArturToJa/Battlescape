@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public class DropZone : MonoBehaviour//, IDropHandler
 {
@@ -20,7 +21,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
     {
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            GetComponent<PhotonView>().RPC("RPCInstantiateUnit", PhotonTargets.All, UnitID, PlayerID, position);
+            GetComponent<PhotonView>().RPC("RPCInstantiateUnit", RpcTarget.All, UnitID, PlayerID, position);
             //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
         else
@@ -62,7 +63,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
         int endPosZ = targetTile.position.z;
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            photonView.RPC("RPCSetUnitPosition", PhotonTargets.All, startPosX, startPosZ, endPosX, endPosZ);
+            photonView.RPC("RPCSetUnitPosition", RpcTarget.All, startPosX, startPosZ, endPosX, endPosZ);
         }
         else
         {

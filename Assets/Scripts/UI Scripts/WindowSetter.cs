@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,7 +28,7 @@ public class WindowSetter : MonoBehaviour
         SaveLoadManager.instance.currentSaveName = null;
         currentScreen = startingScreen;
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
-        if (PhotonNetwork.connected)
+        if (PhotonNetwork.IsConnected)
         {
             MyNetworkManager.Instance.Disconnect();
         }

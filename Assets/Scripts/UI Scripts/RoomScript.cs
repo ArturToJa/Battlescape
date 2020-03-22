@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public class RoomScript : MonoBehaviour
 {
@@ -23,9 +24,9 @@ public class RoomScript : MonoBehaviour
     }
     void Update()
     {
-        if (PhotonNetwork.room != null)
+        if (PhotonNetwork.CurrentRoom != null)
         {
-            RoomName.text = PhotonNetwork.room.Name;
+            RoomName.text = PhotonNetwork.CurrentRoom.Name;
         }        
         if (Input.GetKeyDown(KeyCode.Return) && string.IsNullOrEmpty(message) == false)
         {
@@ -38,12 +39,12 @@ public class RoomScript : MonoBehaviour
            inputField.ActivateInputField();
         }
         StartGameButton.SetActive
-            (PhotonNetwork.isMasterClient 
-            && (PhotonNetwork.room.PlayerCount == 2)
+            (PhotonNetwork.IsMasterClient 
+            && (PhotonNetwork.CurrentRoom.PlayerCount == 2)
             && SaveLoadManager.instance.haveAllPlayersChosenRace);
         ChooseMapButton.SetActive
-            (PhotonNetwork.isMasterClient
-            && PhotonNetwork.room.PlayerCount == 2
+            (PhotonNetwork.IsMasterClient
+            && PhotonNetwork.CurrentRoom.PlayerCount == 2
             );
     }
 
@@ -70,7 +71,7 @@ public class RoomScript : MonoBehaviour
     public void SetMapToCurrentNumber()
     {
         // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
-        photonView.RPC("RPCSetGameSceneName", PhotonTargets.All, EventSystem.current.currentSelectedGameObject.name);
+        photonView.RPC("RPCSetGameSceneName", RpcTarget.All, EventSystem.current.currentSelectedGameObject.name);
         Log.LobbySpawnLog("MapChosen: " + gameSceneName);
         transform.SetAsLastSibling();
 

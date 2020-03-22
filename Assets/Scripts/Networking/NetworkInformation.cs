@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,6 @@ public class NetworkInformation : MonoBehaviour
 
     void Update()
     {
-        infoText.text = PhotonNetwork.connectionStateDetailed.ToString();
+        infoText.text = PhotonNetwork.NetworkClientState.ToString();
     }
 }
