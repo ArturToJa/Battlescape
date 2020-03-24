@@ -272,7 +272,7 @@ MonoBehaviour:
   - x: 0
     z: 0
   _isTall: 0
-  obstacleName: 
+  obstacleName: Box
   _maxHealthPoints: 25
 --- !u!222 &222008768841516116
 CanvasRenderer:
