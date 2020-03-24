@@ -550,7 +550,6 @@ namespace BattlescapeLogic
         public void OnMouseHoverEnter()
         {
             BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(this, GameRound.instance.currentPlayer);
-            UIHitChanceInformation.instance.OnMouseHoverEnter(this);
         }
 
         public void OnMouseHoverExit()
