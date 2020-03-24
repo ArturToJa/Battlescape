@@ -18,7 +18,7 @@ namespace BattlescapeLogic
             _myUnit.equipment.EquipMainRangedWeapon();                        
         }
 
-        public override void Attack(Unit target)
+        public override void Attack(IDamageable target)
         {
             base.Attack(target);
             TurnTowardsTarget();
@@ -37,7 +37,7 @@ namespace BattlescapeLogic
 
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
-            missile.target = targetUnit;
+            missile.target = targetObject;
         }
 
         // Ranged unit does nothing on it's attack animation
@@ -47,7 +47,10 @@ namespace BattlescapeLogic
 
         public override void OnRangedAttackAnimation()
         {
-            SpawnMissile(targetUnit.currentPosition);
+            int targetX = Mathf.RoundToInt(targetObject.GetMyPosition().x);
+            int targetZ = Mathf.RoundToInt(targetObject.GetMyPosition().z);
+            Tile targetTile = Global.instance.currentMap.board[targetX, targetZ];
+            SpawnMissile(targetTile);
         }
     }
 }

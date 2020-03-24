@@ -53,7 +53,7 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
         return
             //MouseManager.Instance.mouseoveredTile != null &&
             //MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
+            //MouseManager.Instance.mouseoveredTile.myUnit.GetMyOwner() != myUnit.GetMyOwner() &&
             //CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
             true;
     }

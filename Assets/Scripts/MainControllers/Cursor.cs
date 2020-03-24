@@ -98,18 +98,13 @@ namespace BattlescapeLogic
             SetCursorTo(selectionCursor, clickingSelectionCursor);
         }
 
-        public void OnEnemyHovered(Unit selected, Unit enemy)
+        public void OnEnemyHovered(Unit selected, IDamageable enemy)
         {
             if (selected.attack == null)
             {
                 OnInvalidTargetHovered();
                 return;
-            }
-            if (selected.attack.CanAttack(enemy) == false)
-            {
-                ShowInfoCursor();
-                return;
-            }
+            }            
             if (selected.attack is MeleeAttack)
             {
                 SetCursorTo(attackCursor, clickingAttackCursor);

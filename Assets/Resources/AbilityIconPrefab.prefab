@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222874434275744150}
   - component: {fileID: 114103926904993346}
   - component: {fileID: 114267374844194020}
-  - component: {fileID: 114423941482985504}
+  - component: {fileID: 114292034664100118}
   m_Layer: 5
   m_Name: Art
   m_TagString: Untagged
@@ -275,7 +275,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &114423941482985504
+--- !u!114 &114292034664100118
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

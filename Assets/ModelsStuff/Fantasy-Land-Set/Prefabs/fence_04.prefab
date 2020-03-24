@@ -95,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224010533435095118}
   - component: {fileID: 222889746280199956}
-  - component: {fileID: 114402613853242036}
+  - component: {fileID: 114846334732710196}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -262,21 +262,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114402613853242036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1267406125390424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688cc6b5a9755f141baadf0fc5b04883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPVisual: {fileID: 21300000, guid: 67884f050d5e73646865fb54c179b885, type: 3}
-  fillOfABar: {fileID: 0}
-  barAnimationTime: 0.1
-  isBeingAttacked: 0
 --- !u!114 &114430252171959980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,6 +318,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114846334732710196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1267406125390424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe240fe4232d594986a9c3407edce1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barAnimationTime: 0.1
 --- !u!135 &135801632549246306
 SphereCollider:
   m_ObjectHideFlags: 1

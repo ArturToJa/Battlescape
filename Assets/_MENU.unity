@@ -22304,13 +22304,6 @@ MonoBehaviour:
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0
         _canRotate: 1
-      - _type: 6
-        _minAmount: 2
-        _maxAmount: 6
-        _minDistanceToShortSide: 3
-        _minDistanceToLongSide: 0
-        _needsExtraSpace: 0
-        _canRotate: 1
       - _type: 2
         _minAmount: 3
         _maxAmount: 5

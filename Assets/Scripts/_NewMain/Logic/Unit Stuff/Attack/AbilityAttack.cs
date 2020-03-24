@@ -17,10 +17,10 @@ namespace BattlescapeLogic
         }
 
 
-        public override void Attack(Unit target)
+        public override void Attack(IDamageable target)
         {
             base.Attack(target);
-            damage = myAbility.damage + sourceUnit.statistics.GetCurrentAttack() - targetUnit.statistics.GetCurrentDefence();
+            damage = myAbility.damage + sourceUnit.statistics.GetCurrentAttack() - targetObject.GetCurrentDefence();
             sourceUnit.statistics.numberOfAttacks--;
             TurnTowardsTarget();
             PlayAttackAnimation();
@@ -29,9 +29,9 @@ namespace BattlescapeLogic
         //IF the ability is melee, this will trigger
         public override void OnAttackAnimation()
         {
-            if (sourceUnit.owner.type != PlayerType.Network)
+            if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetUnit, damage);
+                Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.SetAttackToDefault();
             }
         }
@@ -39,21 +39,21 @@ namespace BattlescapeLogic
         //IF the ability makes the guy shoot, this will trigger
         public override void OnRangedAttackAnimation()
         {
-            if (sourceUnit.owner.type != PlayerType.Network)
+            if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                SpawnMissile(targetUnit.currentPosition, damage);
+                SpawnMissile(damage);
                 sourceUnit.SetAttackToDefault();
             }            
         }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
-        void SpawnMissile(Tile target, int damage)
+        void SpawnMissile(int damage)
         {
             Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);           
             missile.startingPoint = missile.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
-            missile.target = targetUnit;
+            missile.target = targetObject;
             missile.damage = damage;
         }
 

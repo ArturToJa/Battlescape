@@ -5,7 +5,7 @@ namespace BattlescapeLogic
 {
     public class DestructibleObstacle : Obstacle, IDamageable
     {
-        public BuffGroup buffs { get; private set; }
+        [SerializeField] string obstacleName;
 
         [SerializeField] int _maxHealthPoints;
         public int maxHealthPoints
@@ -23,11 +23,21 @@ namespace BattlescapeLogic
 
         public int currentHealthPoints { get; private set; }
 
+        BattlescapeUI.AbstractHealthbar myHealthBar;
+
+
+
+        public BuffGroup buffs { get; private set; }
+
+
+
 
         public override void Start()
         {
             base.Start();
             buffs = new BuffGroup(this);
+            myHealthBar = GetComponentInChildren<BattlescapeUI.DestructibleObstacleHealthbar>();
+            currentHealthPoints = maxHealthPoints;
         }
 
         public void TakeDamage(Unit source, int dmg)
@@ -38,6 +48,36 @@ namespace BattlescapeLogic
             {
                 this.Destruct(source);
             }
+        }
+
+        public override void OnMouseHoverEnter()
+        {
+            myHealthBar.TurnOn();
+        }
+
+        public override void OnMouseHoverExit()
+        {
+            myHealthBar.TurnOff();
+        }
+
+        public Player GetMyOwner()
+        {
+            return null;
+        }
+
+        public Vector3 GetMyPosition()
+        {
+            return transform.position;
+        }
+
+        public int GetCurrentDefence()
+        {
+            return 0;
+        }
+
+        public string GetMyName()
+        {
+            return obstacleName;
         }
     }
 }

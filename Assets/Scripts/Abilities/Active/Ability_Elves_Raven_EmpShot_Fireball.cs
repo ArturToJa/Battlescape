@@ -10,7 +10,7 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
 
     protected override void OnUpdate()
     {
-        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.owner != myUnit.owner)
+        //if (isBeingUsed && MouseManager.Instance.MouseoveredUnit != null && MouseManager.Instance.MouseoveredUnit != previousMousovered && MouseManager.Instance.MouseoveredUnit.GetMyOwner() != myUnit.GetMyOwner())
         //{
         //    previousMousovered = MouseManager.Instance.MouseoveredUnit;
         //    ColourPotentialTargets();

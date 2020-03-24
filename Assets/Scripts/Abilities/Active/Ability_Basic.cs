@@ -87,7 +87,7 @@ public abstract class Ability_Basic : MonoBehaviour
             IsUsableNow() &&
             (UsesLeft > 0 || LimitedUses == false) &&
             //myEnergy.IsEnoughEnergyFor(this) &&
-            GameRound.instance.currentPlayer == myUnit.owner &&
+            GameRound.instance.currentPlayer == myUnit.GetMyOwner() &&
             AlreadyUsedThisTurn == false &&
             //GameStateManager.Instance.IsItPreGame() == false &&
             LegalInPhases.Contains(GameRound.instance.currentPhase) &&

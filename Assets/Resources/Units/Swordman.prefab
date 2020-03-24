@@ -821,8 +821,7 @@ GameObject:
   - component: {fileID: 224860604846155268}
   - component: {fileID: 222817997190841466}
   - component: {fileID: 114536741799061986}
-  - component: {fileID: 114797132776520940}
-  - component: {fileID: 114013985397086494}
+  - component: {fileID: 114116932980507404}
   m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
@@ -3034,18 +3033,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114013985397086494
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1607960078318472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: 1.25
 --- !u!114 &114037019196100750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3067,6 +3054,22 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114116932980507404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607960078318472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30968854e0e579443b526976226811b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1.5
+  barAnimationTime: 0.1
+  barColours:
+  - {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
+  - {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
 --- !u!114 &114173816431765564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3137,7 +3140,6 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
-  unitClass: 2
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 1699381898703206}
@@ -3170,7 +3172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344e4b50eb6b4674eb690aede74a5d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  legalPhases: 1
   _filter:
     ally: 0
     enemy: 0
@@ -3188,6 +3189,7 @@ MonoBehaviour:
     move this turn. He gains +2 defense and an additional retaliation until his next
     turn.
   _icon: {fileID: 21300000, guid: a4b36001bb2a9e242be36b09f2a0f4f1, type: 3}
+  legalPhases: 1
   costsMovement: 1
   _cooldown: 1
   _energyCost: 40
@@ -3204,6 +3206,7 @@ MonoBehaviour:
   log: Swordman uses Defensive Stance, increasing his defensive potential!
   castVisualEffect: {fileID: 1003680110655624, guid: b606b25bf44ca9641920d818bad3f026,
     type: 2}
+  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
   selfBuffs:
   - {fileID: 1234158636466810, guid: b178f101e1ae9cf45baa3561c09da5ce, type: 2}
   - {fileID: 1234158636466810, guid: 03c98184ca72d2949aff388fa2dc7e0b, type: 2}
@@ -3402,23 +3405,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114797132776520940
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1607960078318472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfc6c2134047f16468dfe2b2f5a02725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Background: {fileID: 21300000, guid: 19ed17772a493de44866d651ac1220e5, type: 3}
-  RedFill: {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
-  GreenFill: {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
-  fillOfABar: {fileID: 0}
-  amount: {fileID: 0}
-  barAnimationTime: 0.1
 --- !u!114 &114966996367365984
 MonoBehaviour:
   m_ObjectHideFlags: 1

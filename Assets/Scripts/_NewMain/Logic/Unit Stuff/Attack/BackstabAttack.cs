@@ -18,7 +18,7 @@ namespace BattlescapeLogic
             _myUnit.equipment.EquipMainMeleeWeapon();           
         }
 
-        public override void Attack(Unit target)
+        public override void Attack(IDamageable target)
         {
             base.Attack(target);
             TurnTowardsTarget();
@@ -27,9 +27,9 @@ namespace BattlescapeLogic
 
         public override void OnAttackAnimation()
         {
-            if (sourceUnit.owner.type != PlayerType.Network)
+            if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetUnit, damage);
+                Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.attack = normalAttackType;                
             }
         }

@@ -1087,8 +1087,7 @@ GameObject:
   - component: {fileID: 224515955421345430}
   - component: {fileID: 222005764042638526}
   - component: {fileID: 114254290860884690}
-  - component: {fileID: 114897186874223810}
-  - component: {fileID: 114246415925257842}
+  - component: {fileID: 114608401171220092}
   m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
@@ -3407,18 +3406,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114246415925257842
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970639260321658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: 1.25
 --- !u!114 &114254290860884690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3457,6 +3444,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429181357bc3c3f42b14246e13f7e2ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114608401171220092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1970639260321658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30968854e0e579443b526976226811b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1.5
+  barAnimationTime: 0.1
+  barColours:
+  - {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
+  - {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
 --- !u!114 &114610901809939534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3498,23 +3501,6 @@ MonoBehaviour:
   playerMaterials:
   - {fileID: 2100000, guid: f24d011a453b2d844956f9d487ac176d, type: 2}
   - {fileID: 2100000, guid: dc851844264c22f4c81c45df6c05894f, type: 2}
---- !u!114 &114897186874223810
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1970639260321658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfc6c2134047f16468dfe2b2f5a02725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Background: {fileID: 21300000, guid: 19ed17772a493de44866d651ac1220e5, type: 3}
-  RedFill: {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
-  GreenFill: {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
-  fillOfABar: {fileID: 0}
-  amount: {fileID: 0}
-  barAnimationTime: 0.1
 --- !u!137 &137061543785152140
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

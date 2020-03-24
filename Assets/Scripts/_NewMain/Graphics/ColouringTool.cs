@@ -61,7 +61,7 @@ namespace BattlescapeGraphics
             {
                 foreach (Tile tile in Global.instance.currentMap.board)
                 {
-                    if (tile.myUnit != null && unit.attack.CanAttack(tile.myUnit))
+                    if (tile.GetMyDamagableObject() != null && unit.attack.CanAttack(tile.GetMyDamagableObject()))
                     {
                         tile.highlighter.TurnOn(Global.instance.colours.red);
                     }
@@ -81,7 +81,7 @@ namespace BattlescapeGraphics
 
         public static void ColourUnitAsAllyOrEnemyOf(Unit unit, Player player)
         {
-            if (unit.owner.team == player.team)
+            if (unit.GetMyOwner().team == player.team)
             {
                 ColourObject(unit, Color.green);
             }

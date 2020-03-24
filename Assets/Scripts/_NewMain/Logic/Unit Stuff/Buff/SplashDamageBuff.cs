@@ -13,17 +13,17 @@ namespace BattlescapeLogic
             return;
         }
 
-        public override void ModifyAttack(Unit target, int damageToTarget)
+        public override void ModifyAttack(IDamageable target, int damageToTarget)
         {
-            foreach (Tile neighbour in target.currentPosition.neighbours)
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
-                if (neighbour.myUnit != null)
+                if (target.GetDistanceTo(tile.position) == 1 && tile.GetMyDamagableObject() != null)
                 {
                     PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
                     Unit owner = buffGroup.owner as Unit;
-                    neighbour.myUnit.TakeDamage(owner, splashDamage);
+                    tile.GetMyDamagableObject().TakeDamage(owner, splashDamage);
                 }
-            }
+            }            
         }
 
         protected override bool IsAcceptableTargetType(IDamageable target)

@@ -146,7 +146,7 @@ public class AI_Movement : AI_Base_Movement
 
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.GetMyOwner() == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
                 {
                     // there is an ally on next tile. Give like +0.1f for it.
                     Evaluation += 0.1f;
@@ -215,7 +215,7 @@ public class AI_Movement : AI_Base_Movement
             float penaltyForNearbyShooters = 0;
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit && neighbours[i].myUnit.IsRanged())
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.GetMyOwner() == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit && neighbours[i].myUnit.IsRanged())
                 {
                     // there is an allied SHOOTER on next tile. Give like -0.2f for it. We do not really like this type of positions.
                     penaltyForNearbyShooters -= 0.4f;
@@ -343,7 +343,7 @@ public class AI_Movement : AI_Base_Movement
             }
             for (int i = 0; i < neighbours.Count; i++)
             {
-                if (neighbours[i].myUnit != null && neighbours[i].myUnit.owner == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
+                if (neighbours[i].myUnit != null && neighbours[i].myUnit.GetMyOwner() == currentUnit.PlayerID && neighbours[i].myUnit != currentUnit)
                 {
                     // there is an ally on next tile. Give like +0.01f for it.
                     Evaluation += 0.01f;
@@ -389,7 +389,7 @@ public class AI_Movement : AI_Base_Movement
         List<Tile> neighbours = tile.neighbours;
         foreach (Tile t in neighbours)
         {
-            if (t.myUnit != null && t.myUnit.owner != currentUnit.owner)
+            if (t.myUnit != null && t.myUnit.GetMyOwner() != currentUnit.GetMyOwner())
             {
                 enemiesOnNextTiles++;
                 if (t.myUnit.statistics.healthPoints <= 2 && t.myUnit.statistics.healthPoints < currentUnit.statistics.healthPoints)
@@ -428,11 +428,11 @@ public class AI_Movement : AI_Base_Movement
         }
         foreach (BattlescapeLogic.Unit unit in Object.FindObjectsOfType<BattlescapeLogic.Unit>())
         {
-            if (unit.owner == currentUnit.owner && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
+            if (unit.GetMyOwner() == currentUnit.GetMyOwner() && Mathf.Abs(tile.transform.position.x - unit.transform.position.x) <= unit.statistics.movementPoints + 1 && Mathf.Abs(tile.transform.position.z - unit.transform.position.z) <= unit.statistics.movementPoints + 1)
             {
                 Evaluation += 0.01f;
             }
-            if (unit.owner == currentUnit.owner && unit.currentPosition.neighbours.Contains(tile))
+            if (unit.GetMyOwner() == currentUnit.GetMyOwner() && unit.currentPosition.neighbours.Contains(tile))
             {
                 Evaluation += 0.2f;
             }

@@ -235,7 +235,7 @@ namespace BattlescapeLogic
 
         public void OnFinish()
         {
-            owner.owner.SelectUnit(owner);
+            owner.GetMyOwner().SelectUnit(owner);
             OnAbilityFinished();
         }
 

@@ -47,7 +47,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         return
             //MouseManager.Instance.mouseoveredTile != null &&
             //MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit.owner != myUnit.owner &&
+            //MouseManager.Instance.mouseoveredTile.myUnit.GetMyOwner() != myUnit.GetMyOwner() &&
             //Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.currentPosition, 2);
             true;
     }
@@ -97,7 +97,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         //for (int x = 0; x < Global.instance.map.mapWidth; x++)
         //    for (int z = 0; z < Global.instance.map.mapHeight; z++)
         //    {
-        //        //if (Helper.AreTilesInRange(Global.instance.map.board[x, z],myUnit.currentPosition, 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.owner != myUnit.owner && (Global.instance.map.board[x, z].myUnit.statistics.cost > 5 || Global.instance.map.board[x, z].myUnit is BattlescapeLogic.Hero))
+        //        //if (Helper.AreTilesInRange(Global.instance.map.board[x, z],myUnit.currentPosition, 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.GetMyOwner() != myUnit.GetMyOwner() && (Global.instance.map.board[x, z].myUnit.statistics.cost > 5 || Global.instance.map.board[x, z].myUnit is BattlescapeLogic.Hero))
         //        //{
         //        //    Target = Global.instance.map.board[x, z];
         //        //    return true;
@@ -118,7 +118,7 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         //for (int x = 0; x < Global.instance.map.mapWidth; x++)
         //    for (int z = 0; z < Global.instance.map.mapHeight; z++)
         //    {
-        //        //if (Helper.AreTilesInRange(myUnit.currentPosition, Global.instance.map.board[x, z], 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.owner != myUnit.owner)
+        //        //if (Helper.AreTilesInRange(myUnit.currentPosition, Global.instance.map.board[x, z], 2) && Global.instance.map.board[x, z].myUnit != null && Global.instance.map.board[x, z].myUnit.GetMyOwner() != myUnit.GetMyOwner())
         //        //{
         //        //    BattlescapeGraphics.ColouringTool.ColourObject(Global.instance.map.board[x, z],Color.red);
         //        //}

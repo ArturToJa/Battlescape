@@ -61,7 +61,7 @@ namespace BattlescapeLogic
         public void AddUnit(Unit myUnit)
         {
             playerUnits.Add(myUnit);
-            myUnit.owner = this;
+            myUnit.SetMyOwner(this);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace BattlescapeLogic
 
         public void SelectUnit(Unit unit)
         {
-            if (unit.owner != this)
+            if (unit.GetMyOwner() != this)
             {
                 Debug.LogError("Tried to select unit that's not mine!");
                 return;

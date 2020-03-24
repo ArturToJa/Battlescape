@@ -5,8 +5,7 @@ namespace BattlescapeLogic
 {
     public class Obstacle : OnTileObject, IMouseTargetable
     {
-        private Animator animator;
-
+        Animator animator;
         
 
         [SerializeField] Position[] shape;
@@ -37,7 +36,7 @@ namespace BattlescapeLogic
                 tile.myObstacle = this;
             }
         }
-        
+
 
         public virtual void Start()
         {
@@ -54,12 +53,12 @@ namespace BattlescapeLogic
             Destroy(gameObject);
         }
 
-        public void OnMouseHoverEnter()
+        public virtual void OnMouseHoverEnter()
         {
             return;
         }
 
-        public void OnMouseHoverExit()
+        public virtual void OnMouseHoverExit()
         {
             return;
         }
@@ -79,12 +78,12 @@ namespace BattlescapeLogic
             return list;
         }
 
-        public int GetDistanceTo(Tile target)
+        public int GetDistanceTo(Position target)
         {
             int distance = 9999;
             foreach (Tile tile in currentPosition)
             {
-                int possibleDistance = tile.position.DistanceTo(target.position);
+                int possibleDistance = tile.position.DistanceTo(target);
                 if (possibleDistance < distance)
                 {
                     distance = possibleDistance;

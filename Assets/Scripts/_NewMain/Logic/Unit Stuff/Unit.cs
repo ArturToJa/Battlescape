@@ -29,7 +29,7 @@ namespace BattlescapeLogic
         public AbstractMovement movement { get; private set; }
         public AbstractAttack attack { get; set; }       
 
-        public Player owner { get; set; }
+        Player owner { get; set; }
 
         [SerializeField] UnitInfo _info;
         public UnitInfo info
@@ -262,7 +262,7 @@ namespace BattlescapeLogic
         }
 
         //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
-        public void Attack(Unit target)
+        public void Attack(IDamageable target)
         {
             statistics.numberOfAttacks--;
             attack.Attack(target);
@@ -290,7 +290,7 @@ namespace BattlescapeLogic
 
 
         //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
-        public void HitTarget(Unit target, int damage)
+        public void HitTarget(IDamageable target, int damage)
         {
             foreach (AbstractAttackModifierBuff modifierBuff in buffs)
             {
@@ -301,14 +301,14 @@ namespace BattlescapeLogic
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
                 defenceDebuff.ApplyOnTarget(target);
-                Log.SpawnLog(this.info.unitName + " attacks " + target.info.unitName + ", but misses completely!");
-                Log.SpawnLog(target.info.unitName + " loses 1 point of Defence temporarily.");
+                Log.SpawnLog(this.info.unitName + " attacks " + target.GetMyName() + ", but misses completely!");
+                Log.SpawnLog(target.GetMyName() + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }
             else if (damage > 0)
             {
-                Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.info.unitName + "!");
+                Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.GetMyName() + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.TakeDamage(this, damage);
                 foreach(AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
@@ -316,20 +316,25 @@ namespace BattlescapeLogic
                     buff.RemoveFromTargetInstantly();
                 }
             }
-            if (IsRetaliationPossible(target) && owner.type != PlayerType.Network)
+            if (target is Unit)
             {
-                Networking.instance.SendCommandToGiveChoiceOfRetaliation(target, this);
+                var targetUnit = target as Unit;
+                if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
+                {
+                    Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
+                }
             }
+            
 
         }
 
-        bool IsRetaliationPossible(Unit retaliatingUnit)
+        public bool CanRetaliate(Unit retaliatingUnit)
         {
             return
                 (
                     retaliatingUnit.CanStillRetaliate() &&
                     retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
-                    GameRound.instance.currentPlayer != retaliatingUnit.owner //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
+                    GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner() //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
                                                                               // && check for stopping retaliations in buffs/passives/idk
                 );
 
@@ -396,18 +401,9 @@ namespace BattlescapeLogic
             GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         }
 
-        public bool IsInAttackRange(Vector3 target)
-        {
-            Bounds FullRange = new Bounds(this.transform.position, new Vector3(2 * this.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * this.statistics.GetCurrentAttackRange() + 0.25f));
-            if (this.statistics.minimalAttackRange > 0)
-            {
-                Bounds miniRange = new Bounds(this.transform.position, new Vector3(2 * this.statistics.minimalAttackRange + 0.25f, 5, 2 * this.statistics.minimalAttackRange + 0.25f));
-                return miniRange.Contains(target) == false && FullRange.Contains(target);
-            }
-            else
-            {
-                return FullRange.Contains(target);
-            }
+        public bool IsInAttackRange(int distance)
+        {            
+            return distance <= statistics.GetCurrentAttackRange() && distance >= statistics.minimalAttackRange;            
         }
 
         public bool HasClearView(Vector3 defender)
@@ -425,9 +421,9 @@ namespace BattlescapeLogic
             return true;
         }
 
-        public bool IsEnemyOf(Unit other)
+        public bool IsEnemyOf(IDamageable other)
         {
-            return owner.team != other.owner.team;
+            return other.GetMyOwner() == null || owner.team != other.GetMyOwner().team;
         }
 
         public override void OnNewRound()
@@ -470,22 +466,27 @@ namespace BattlescapeLogic
 
         public void OnLeftClick(IMouseTargetable target)
         {
+            if (target is IDamageable)
+            {
+                var targetObject = target as IDamageable;
+                if (attack.CanAttack(targetObject))
+                {
+                    Networking.instance.SendCommandToStartAttack(this, targetObject);
+                    statistics.numberOfAttacks--;
+                }
+            }
             if (target is Unit)
             {
                 var targetUnit = target as Unit;
                 if (targetUnit == this)
                 {
-                    targetUnit.owner.DeselectUnit();
+                    targetUnit.GetMyOwner().DeselectUnit();
                 }
-                else if (targetUnit.owner.team == owner.team)
+                else if (targetUnit.GetMyOwner().team == owner.team)
                 {
-                    targetUnit.owner.SelectUnit(targetUnit);
+                    targetUnit.GetMyOwner().SelectUnit(targetUnit);
                 }
-                if (targetUnit.IsEnemyOf(this) && attack.CanAttack(targetUnit))
-                {
-                    Networking.instance.SendCommandToStartAttack(this, targetUnit);
-                    statistics.numberOfAttacks--;
-                }
+                
             }
             else if (target is Tile)
             {
@@ -564,7 +565,7 @@ namespace BattlescapeLogic
         }
 
         public void OnCursorOver(IMouseTargetable target)
-        {    
+        {
             if (target is Unit)
             {
                 var targetUnit = target as Unit;
@@ -573,9 +574,13 @@ namespace BattlescapeLogic
                     Cursor.instance.OnSelectableHovered();
                     return;
                 }
-                if (targetUnit.IsEnemyOf(this))
+            }
+            if (target is IDamageable)
+            {
+                var targetDamagableObject = target as IDamageable;                
+                if (attack.CanAttack(targetDamagableObject))
                 {
-                    Cursor.instance.OnEnemyHovered(this, targetUnit);
+                    Cursor.instance.OnEnemyHovered(this, targetDamagableObject);
                     return;
                 }
                 else
@@ -600,6 +605,35 @@ namespace BattlescapeLogic
                 Cursor.instance.OnInvalidTargetHovered();
             }
         }
+
+        public int GetDistanceTo(Position position)
+        {
+           return position.DistanceTo(currentPosition.position);
+        }
+
+        public Player GetMyOwner()
+        {
+            return owner;
+        }
+        public void SetMyOwner(Player player)
+        {
+            owner = player;
+        }
+
+        public Vector3 GetMyPosition()
+        {
+            return transform.position;
+        }
+
+        public int GetCurrentDefence()
+        {
+            return statistics.GetCurrentDefence();
+        }
+
+        public string GetMyName()
+        {
+            return info.unitName;
+        }        
     }
 }
 

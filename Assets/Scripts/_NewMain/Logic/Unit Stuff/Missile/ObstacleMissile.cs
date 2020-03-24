@@ -51,7 +51,7 @@ namespace BattlescapeLogic
             UpdatePosition();
             if (Vector2.Distance(this.transform.position, target.transform.position) < minDistance)
             {
-                if (sourceUnit.owner.type != PlayerType.Network)
+                if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
                     Networking.instance.SendCommandToDestroyObstacle(sourceUnit, target.myObstacle);
                 }

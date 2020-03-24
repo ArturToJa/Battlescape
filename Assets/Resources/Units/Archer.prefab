@@ -630,8 +630,7 @@ GameObject:
   - component: {fileID: 224860604846155268}
   - component: {fileID: 222817997190841466}
   - component: {fileID: 114536741799061986}
-  - component: {fileID: 114797132776520940}
-  - component: {fileID: 114773726137788726}
+  - component: {fileID: 114579948186640812}
   m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
@@ -3189,6 +3188,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114579948186640812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1607960078318472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30968854e0e579443b526976226811b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: 1.5
+  barAnimationTime: 0.1
+  barColours:
+  - {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
+  - {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
 --- !u!114 &114591138290805326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3346,35 +3361,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114773726137788726
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1607960078318472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee9c3f5f58e0a446b3ddf6d1489a2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: 1.25
---- !u!114 &114797132776520940
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1607960078318472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfc6c2134047f16468dfe2b2f5a02725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Background: {fileID: 21300000, guid: 19ed17772a493de44866d651ac1220e5, type: 3}
-  RedFill: {fileID: 21300000, guid: b80adf0da8267a34f8637b63bd27facf, type: 3}
-  GreenFill: {fileID: 21300000, guid: 91670e5fe154d51439e6f39eb75f83d1, type: 3}
-  fillOfABar: {fileID: 0}
-  amount: {fileID: 0}
-  barAnimationTime: 0.1
 --- !u!114 &114816784686270198
 MonoBehaviour:
   m_ObjectHideFlags: 1

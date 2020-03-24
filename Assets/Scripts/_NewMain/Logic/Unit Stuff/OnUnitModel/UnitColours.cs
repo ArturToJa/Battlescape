@@ -16,7 +16,7 @@ public class UnitColours : MonoBehaviour
         {
             if (renderer.gameObject.tag == "Coloured")
             {
-                renderer.material = playerMaterials[(int)myUnit.owner.colour];
+                renderer.material = playerMaterials[(int)myUnit.GetMyOwner().colour];
             }
 
         }

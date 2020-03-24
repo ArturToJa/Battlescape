@@ -95,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224380737641534820}
   - component: {fileID: 222002687272497808}
-  - component: {fileID: 114520449320382488}
+  - component: {fileID: 114068409878378292}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -225,6 +225,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 02bb1a2f54871024194f887fd75e8586, type: 3}
+--- !u!114 &114068409878378292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025058024366438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe240fe4232d594986a9c3407edce1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barAnimationTime: 0.1
 --- !u!114 &114105244630842314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,21 +302,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114520449320382488
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1025058024366438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688cc6b5a9755f141baadf0fc5b04883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPVisual: {fileID: 21300000, guid: 67884f050d5e73646865fb54c179b885, type: 3}
-  fillOfABar: {fileID: 0}
-  barAnimationTime: 0.1
-  isBeingAttacked: 0
 --- !u!114 &114534561443342500
 MonoBehaviour:
   m_ObjectHideFlags: 1

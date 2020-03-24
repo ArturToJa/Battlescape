@@ -1,14 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
 
 namespace BattlescapeLogic
 {
     public interface IDamageable
     {
+
         BuffGroup buffs { get;}
 
+        string GetMyName();
+
+        int GetDistanceTo(Position postion);
+
+        Player GetMyOwner();
+
+        Vector3 GetMyPosition();
+
         void TakeDamage(Unit source, int dmg);
+
+        int GetCurrentDefence();
     }
 }

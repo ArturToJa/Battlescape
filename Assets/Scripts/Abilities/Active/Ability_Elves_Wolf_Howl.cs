@@ -156,7 +156,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
                 && tile != myUnit.currentPosition
                 && tile.myUnit != null
                 //&& tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
-                && tile.myUnit.owner == myUnit.owner
+                && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner()
                 )
             {
                 wolfCount++;

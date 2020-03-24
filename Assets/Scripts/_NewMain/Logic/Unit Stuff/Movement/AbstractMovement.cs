@@ -54,8 +54,8 @@ namespace BattlescapeLogic
             }
             return
                 destination != null
-                && myUnit.owner.IsCurrentLocalPlayer()
-                && myUnit.owner == GameRound.instance.currentPlayer
+                && myUnit.GetMyOwner().IsCurrentLocalPlayer()
+                && myUnit.GetMyOwner() == GameRound.instance.currentPlayer
                 && GameRound.instance.currentPhase == TurnPhases.Movement
                 && myUnit.CanStillMove()
                 && Pathfinder.instance.IsLegalTileForUnit(destination, myUnit)
