@@ -110,7 +110,7 @@ namespace BattlescapeLogic
         //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
         bool IsTileUnderEnemyOfUnit(Tile tile, BattlescapeLogic.Unit unit)
         {
-            return tile.myUnit != null && tile.myUnit.GetMyOwner() != unit.GetMyOwner();
+            return tile.myUnit != null && tile.myUnit.IsEnemyOf(unit);
             //return tile.myUnit != null && tile.myUnit.GetMyOwner().team != unit.GetMyOwner().team;
             //^ this is correct for Unit;
         }
