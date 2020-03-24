@@ -11,7 +11,8 @@ namespace BattlescapeLogic
         static readonly float minDistance = 0.2f;
         public Vector3 startingPoint { get; set; }
         public Unit sourceUnit { get; set; }
-        public IDamageable target { get; set; }
+        public Tile target { get; set; }
+        [SerializeField] Sound onHitSound;
         [SerializeField] float _speedPerFrame;
         public float speedPerFrame
         {
@@ -45,20 +46,25 @@ namespace BattlescapeLogic
         void Update()
         {
             UpdatePosition();
-            if (Vector2.Distance(this.transform.position, target.GetMyPosition()) < minDistance)
+            if (Vector3.Distance(this.transform.position, target.transform.position) < minDistance)
             {
                 if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
-                    if (damage != 0)
+                    if (target.myObstacle != null && (target.myObstacle is IDamageable) == false)
                     {
-                        Networking.instance.SendCommandToHit(sourceUnit, target, damage);
+                        Networking.instance.SendCommandToDestroyObstacle(sourceUnit, target.myObstacle);
+                    }
+                    else if (damage != 0)
+                    {
+                        Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject(), damage);                        
                     }
                     else
                     {
-                        Networking.instance.SendCommandToHit(sourceUnit, target);
+                        Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject());                        
                     }
                     
                 }
+                BattlescapeSound.SoundManager.instance.PlaySound(gameObject, onHitSound);
                 Destroy(gameObject);
             }
         }
@@ -75,7 +81,7 @@ namespace BattlescapeLogic
         {
             float distanceToMove = speedPerFrame * Time.deltaTime;
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
-            Vector2 targetPosition = new Vector2(target.GetMyPosition().x, target.GetMyPosition().z);
+            Vector2 targetPosition = new Vector2(target.transform.position.x, target.transform.position.z);
             Vector2 newPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
             this.transform.position = new Vector3(newPosition.x, this.transform.position.y, newPosition.y);
             return distanceToMove;
@@ -85,7 +91,7 @@ namespace BattlescapeLogic
         {
             float x = Mathf.Sqrt(Mathf.Pow(this.transform.position.x, 2.0f) + Mathf.Pow(this.transform.position.z, 2.0f));
             float x1 = Mathf.Sqrt(Mathf.Pow(startingPoint.x, 2.0f) + Mathf.Pow(startingPoint.z, 2.0f));
-            float x2 = Mathf.Sqrt(Mathf.Pow(target.GetMyPosition().x, 2.0f) + Mathf.Pow(target.GetMyPosition().z, 2.0f));
+            float x2 = Mathf.Sqrt(Mathf.Pow(target.transform.position.x, 2.0f) + Mathf.Pow(target.transform.position.z, 2.0f));
             float p = x1 + ((x2 - x1) / 2.0f);
             float q = maxHeight;
             float a = (0.0f - q) / Mathf.Pow((x1 - p), 2.0f);

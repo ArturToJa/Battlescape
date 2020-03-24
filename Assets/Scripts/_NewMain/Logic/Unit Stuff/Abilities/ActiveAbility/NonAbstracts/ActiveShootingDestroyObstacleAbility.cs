@@ -6,9 +6,6 @@ namespace BattlescapeLogic
 {
     public class ActiveShootingDestroyObstacleAbility : AbstractActiveObstacleTargetAbility
     {
-        [SerializeField] GameObject missilePrefab;
-
-
         protected override void Activate()
         {
             base.Activate();
@@ -17,7 +14,7 @@ namespace BattlescapeLogic
 
             Obstacle targetObstacle = target as Obstacle;
 
-            ObstacleMissile missile = GameObject.Instantiate(missilePrefab, owner.transform.position, missilePrefab.transform.rotation).GetComponent<ObstacleMissile>();
+            Missile missile = GameObject.Instantiate(owner.myMissile, owner.transform.position, owner.myMissile.transform.rotation).GetComponent<Missile>();
             missile.startingPoint = missile.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = owner;

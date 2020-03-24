@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222411184153051986}
   - component: {fileID: 114327489311845910}
   - component: {fileID: 114839562099430530}
-  - component: {fileID: 114882508382784746}
+  - component: {fileID: 114991233769866312}
   m_Layer: 5
   m_Name: BuffPrefab
   m_TagString: Untagged
@@ -190,17 +190,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114882508382784746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481704311894820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114930432418188730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,6 +217,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114991233769866312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1481704311894820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222181218447776358
 CanvasRenderer:
   m_ObjectHideFlags: 1

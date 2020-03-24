@@ -37,7 +37,7 @@ namespace BattlescapeLogic
 
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
-            missile.target = targetObject;
+            missile.target = target;
         }
 
         // Ranged unit does nothing on it's attack animation

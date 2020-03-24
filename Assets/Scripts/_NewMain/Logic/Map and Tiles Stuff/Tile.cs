@@ -157,7 +157,7 @@ namespace BattlescapeLogic
 
         public IDamageable GetMyDamagableObject()
         {
-            if (hasObstacle)
+            if (hasObstacle && myObstacle is IDamageable)
             {
                 return myObstacle as IDamageable;
             }

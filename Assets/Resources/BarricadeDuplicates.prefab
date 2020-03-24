@@ -12086,7 +12086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54dd109537648a64c9c6e6cc345dc300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: SpecialAttack
+  trigger: Barricade
   timeTillStart: 0
   timeToDestroy: 2
 --- !u!114 &114938796526548736
