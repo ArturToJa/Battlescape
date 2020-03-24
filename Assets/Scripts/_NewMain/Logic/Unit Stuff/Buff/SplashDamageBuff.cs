@@ -15,13 +15,15 @@ namespace BattlescapeLogic
 
         public override void ModifyAttack(IDamageable target, int damageToTarget)
         {
+            List<IDamageable> alreadyDamaged = new List<IDamageable>();
             foreach (Tile tile in Global.instance.currentMap.board)
             {
-                if (target.GetDistanceTo(tile.position) == 1 && tile.GetMyDamagableObject() != null)
+                if (target.GetDistanceTo(tile.position) == 1 && tile.GetMyDamagableObject() != null && alreadyDamaged.Contains(tile.GetMyDamagableObject()))
                 {
                     PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
                     Unit owner = buffGroup.owner as Unit;
                     tile.GetMyDamagableObject().TakeDamage(owner, splashDamage);
+                    alreadyDamaged.Add(tile.GetMyDamagableObject());
                 }
             }            
         }
