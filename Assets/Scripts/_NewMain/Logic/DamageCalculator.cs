@@ -24,16 +24,16 @@ namespace BattlescapeLogic
         }
 
         public static bool IsMiss(Unit source, IDamageable target)
-        {
-            if (target is DestructibleObstacle)
-            {
-                return false;
-            }
+        {            
             return UnityEngine.Random.value > HitChance(source, target);
         }        
 
         public static float HitChance(Unit source, IDamageable target)
         {
+            if (target is DestructibleObstacle)
+            {
+                return 1;
+            }
             return Maths.Sigmoid(GetStatisticsDifference(source, target), sigmoidGrowthRate);
         }
 

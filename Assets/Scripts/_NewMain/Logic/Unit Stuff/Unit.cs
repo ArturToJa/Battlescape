@@ -7,7 +7,7 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : TurnChangeMonoBehaviour, IMouseTargetable, IDamageable, IActiveEntity
+    public class Unit : TurnChangeMonoBehaviour, IDamageable, IActiveEntity
     {
         [SerializeField] GameObject _missilePrefab;
 

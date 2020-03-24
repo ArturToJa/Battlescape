@@ -53,11 +53,13 @@ namespace BattlescapeLogic
         public override void OnMouseHoverEnter()
         {
             myHealthBar.TurnOn();
+            UIHitChanceInformation.instance.OnMouseHoverEnter(this);
         }
 
         public override void OnMouseHoverExit()
         {
             myHealthBar.TurnOff();
+            UIHitChanceInformation.instance.TurnOff();
         }
 
         public Player GetMyOwner()

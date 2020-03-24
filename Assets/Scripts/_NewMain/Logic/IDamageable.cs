@@ -2,7 +2,7 @@
 
 namespace BattlescapeLogic
 {
-    public interface IDamageable
+    public interface IDamageable: IMouseTargetable
     {
 
         BuffGroup buffs { get;}
