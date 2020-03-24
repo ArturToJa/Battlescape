@@ -21,13 +21,13 @@ namespace BattlescapeLogic
                     _myMissile = _missilePrefab.GetComponent<Missile>();
                 }
                 return _myMissile;
-            }            
+            }
         }
 
         [SerializeField] public AttackTypes attackType;
         [SerializeField] public MovementTypes movementType;
         public AbstractMovement movement { get; private set; }
-        public AbstractAttack attack { get; set; }       
+        public AbstractAttack attack { get; set; }
 
         Player owner { get; set; }
 
@@ -63,7 +63,7 @@ namespace BattlescapeLogic
                 _equipment = value;
             }
         }
-        public Animator animator { get; private set; }        
+        public Animator animator { get; private set; }
 
         [SerializeField] Race _race;
         public Race race
@@ -311,7 +311,7 @@ namespace BattlescapeLogic
                 Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.GetMyName() + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.TakeDamage(this, damage);
-                foreach(AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
+                foreach (AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
                 {
                     buff.RemoveFromTargetInstantly();
                 }
@@ -324,7 +324,7 @@ namespace BattlescapeLogic
                     Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
                 }
             }
-            
+
 
         }
 
@@ -335,7 +335,7 @@ namespace BattlescapeLogic
                     retaliatingUnit.CanStillRetaliate() &&
                     retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
                     GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner() //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
-                                                                              // && check for stopping retaliations in buffs/passives/idk
+                                                                                     // && check for stopping retaliations in buffs/passives/idk
                 );
 
         }
@@ -402,13 +402,13 @@ namespace BattlescapeLogic
         }
 
         public bool IsInAttackRange(int distance)
-        {            
-            return distance <= statistics.GetCurrentAttackRange() && distance >= statistics.minimalAttackRange;            
+        {
+            return distance <= statistics.GetCurrentAttackRange() && distance >= statistics.minimalAttackRange;
         }
 
         public bool HasClearView(Vector3 defender)
         {
-            foreach (var targetable in Global.FindAllTargetablesInLine(transform.position,defender))
+            foreach (var targetable in Global.FindAllTargetablesInLine(transform.position, defender))
             {
                 var obstacle = targetable as Obstacle;
 
@@ -486,7 +486,7 @@ namespace BattlescapeLogic
                 {
                     targetUnit.GetMyOwner().SelectUnit(targetUnit);
                 }
-                
+
             }
             else if (target is Tile)
             {
@@ -577,7 +577,7 @@ namespace BattlescapeLogic
             }
             if (target is IDamageable)
             {
-                var targetDamagableObject = target as IDamageable;                
+                var targetDamagableObject = target as IDamageable;
                 if (attack.CanAttack(targetDamagableObject))
                 {
                     Cursor.instance.OnEnemyHovered(this, targetDamagableObject);
@@ -608,7 +608,7 @@ namespace BattlescapeLogic
 
         public int GetDistanceTo(Position position)
         {
-           return position.DistanceTo(currentPosition.position);
+            return position.DistanceTo(currentPosition.position);
         }
 
         public Player GetMyOwner()
@@ -633,7 +633,12 @@ namespace BattlescapeLogic
         public string GetMyName()
         {
             return info.unitName;
-        }        
+        }
+
+        public float ChanceOfBeingHitBy(Unit source)
+        {
+            return Maths.Sigmoid(DamageCalculator.GetStatisticsDifference(source, this), DamageCalculator.sigmoidGrowthRate);
+        }
     }
 }
 

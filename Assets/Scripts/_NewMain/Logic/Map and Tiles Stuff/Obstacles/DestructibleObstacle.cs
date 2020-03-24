@@ -81,5 +81,10 @@ namespace BattlescapeLogic
         {
             return obstacleName;
         }
+
+        public float ChanceOfBeingHitBy(Unit source)
+        {
+            return 1;
+        }
     }
 }

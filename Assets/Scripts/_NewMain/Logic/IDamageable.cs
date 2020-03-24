@@ -18,5 +18,6 @@ namespace BattlescapeLogic
         void TakeDamage(Unit source, int dmg);
 
         int GetCurrentDefence();
+        float ChanceOfBeingHitBy(Unit source);
     }
 }
