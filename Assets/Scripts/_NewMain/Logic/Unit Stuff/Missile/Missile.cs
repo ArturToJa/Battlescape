@@ -6,7 +6,7 @@ namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
-
+        public IMissileLaucher myLauncher { get; set; }
         public int damage { get; set; }
         static readonly float minDistance = 0.2f;
         public Vector3 startingPoint { get; set; }
@@ -50,19 +50,7 @@ namespace BattlescapeLogic
             {
                 if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
-                    if (target.myObstacle != null && (target.myObstacle is IDamageable) == false)
-                    {
-                        Networking.instance.SendCommandToDestroyObstacle(sourceUnit, target.myObstacle);
-                    }
-                    else if (damage != 0)
-                    {
-                        Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject(), damage);                        
-                    }
-                    else
-                    {
-                        Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject());                        
-                    }
-                    
+                    myLauncher.OnMissileHitTarget(target);                   
                 }
                 BattlescapeSound.SoundManager.instance.PlaySound(gameObject, onHitSound);
                 Destroy(gameObject);

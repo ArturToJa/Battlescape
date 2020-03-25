@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class AbilityAttack : AbstractAttack
+    public class AbilityAttack : AbstractAttack, IMissileLaucher
     {
         ActiveAttackAbility myAbility;
         int damage;
@@ -13,7 +13,7 @@ namespace BattlescapeLogic
         public AbilityAttack(ActiveAttackAbility _myAbility) : base(_myAbility.owner)
         {
             sourceUnit = _myAbility.owner;
-            myAbility = _myAbility;            
+            myAbility = _myAbility;
         }
 
 
@@ -44,25 +44,31 @@ namespace BattlescapeLogic
                 int posX = Mathf.RoundToInt(targetObject.GetMyPosition().x);
                 int posZ = Mathf.RoundToInt(targetObject.GetMyPosition().z);
                 Tile targetTile = Global.instance.currentMap.board[posX, posZ];
-                SpawnMissile(targetTile,damage);
+                SpawnMissile(targetTile, damage);
                 sourceUnit.SetAttackToDefault();
-            }            
+            }
         }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
         void SpawnMissile(Tile target, int damage)
         {
-            Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);           
+            Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
             missile.startingPoint = missile.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
             missile.target = target;
             missile.damage = damage;
+            missile.myLauncher = this;
         }
 
         protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger(myAbility.animationTrigger);
+        }
+
+        public void OnMissileHitTarget(Tile target)
+        {
+            Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject(), damage);
         }
     }
 }

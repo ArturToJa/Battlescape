@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ActiveShootingDestroyObstacleAbility : AbstractActiveObstacleTargetAbility
+    public class ActiveShootingDestroyObstacleAbility : AbstractActiveObstacleTargetAbility, IMissileLaucher
     {
         protected override void Activate()
         {
@@ -19,6 +19,7 @@ namespace BattlescapeLogic
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = owner;
             missile.target = targetObstacle.currentPosition[0];
+            missile.myLauncher = this;
         }
 
         public override bool IsLegalTarget(IMouseTargetable target)
@@ -34,6 +35,9 @@ namespace BattlescapeLogic
             }
         }
 
-
+        public void OnMissileHitTarget(Tile target)
+        {
+            Networking.instance.SendCommandToDestroyObstacle(owner, target.myObstacle);
+        }
     }
 }

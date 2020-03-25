@@ -50,6 +50,12 @@ namespace BattlescapeLogic
                 _dropzoneOfTeam = value;
             }
         }
+
+        internal void OnHitByMissile(Unit sourceUnit, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
 
