@@ -36,7 +36,6 @@ namespace BattlescapeLogic
         protected void TurnTowards(Vector3 target)
         {
             Vector3 vector3 = new Vector3(target.x, myUnit.visuals.transform.position.y, target.z);
-            myUnit.transform.LookAt(vector3);
             //the following line does it in, i believe, one frame. If not, then forget what i said in comments in this file :D 
             myUnit.visuals.transform.LookAt(vector3);
         }
