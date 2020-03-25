@@ -190,7 +190,7 @@ namespace BattlescapeLogic
                     }
                 }
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && isInputBlocked == false)
                 {
                     Global.instance.currentEntity.OnLeftClick(hoveredObject);
                 }
