@@ -51,7 +51,7 @@ public class PassiveAbility_Elves_Fencer_Duelist : PassiveAbility
         int count = 0;
         foreach (Tile tile in myUnit.currentPosition.neighbours)
         {
-            if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner)
+            if (tile.myUnit != null && tile.myUnit.GetMyOwner() != myUnit.GetMyOwner())
             {
                 count++;
             }

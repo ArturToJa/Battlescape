@@ -99,7 +99,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     {
     //    foreach (Tile tile in Global.instance.map.board)
     //    {
-    //        if (tile.myUnit != null && tile.myUnit.owner != myUnit.owner && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
+    //        if (tile.myUnit != null && tile.myUnit.GetMyOwner() != myUnit.GetMyOwner() && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
     //        {
     //            BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.red);
     //        }

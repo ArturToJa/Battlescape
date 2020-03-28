@@ -103,7 +103,7 @@ public class AI_Shooting : AI_Base_Attack
         foreach (BattlescapeLogic.Unit enemy in enemyList)
         {
             bool isInRange = false; // CombatController.Instance.WouldItBePossibleToShoot(currentUnit, currentUnit.transform.position, enemy.transform.position);
-            if (enemy.owner.index != this.ID && isInRange && enemy.IsAlive())
+            if (enemy.GetMyOwner().index != this.ID && isInRange && enemy.IsAlive())
             {
                 enemiesInRange.Add(enemy.currentPosition);
             }

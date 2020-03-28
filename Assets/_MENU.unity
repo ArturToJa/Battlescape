@@ -21961,6 +21961,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 552d88a26962b534bb0733d6c2d958aa, type: 2}
   - {fileID: 11400000, guid: abd43d637f0202142951efc05e22c2a6, type: 2}
   - {fileID: 11400000, guid: b758f4088adee9d449d10dd0d6fd9f1e, type: 2}
+  - {fileID: 11400000, guid: 1478db11418a63240bb3d6268a4388e3, type: 2}
 --- !u!4 &1859684904
 Transform:
   m_ObjectHideFlags: 0
@@ -22300,13 +22301,6 @@ MonoBehaviour:
       - _type: 8
         _minAmount: 2
         _maxAmount: 8
-        _minDistanceToShortSide: 3
-        _minDistanceToLongSide: 0
-        _needsExtraSpace: 0
-        _canRotate: 1
-      - _type: 6
-        _minAmount: 2
-        _maxAmount: 6
         _minDistanceToShortSide: 3
         _minDistanceToLongSide: 0
         _needsExtraSpace: 0

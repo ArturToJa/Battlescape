@@ -154,5 +154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ea3c118b43c4142869123cca561c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitSound:
+    name: ArrowOnHitSound
+    clip: {fileID: 8300000, guid: ecab7f3d9fbaf394198d748877875597, type: 3}
+    volume: 0.3
+    pitch: 0
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 0
   _speedPerFrame: 1
   _maxHeight: 3

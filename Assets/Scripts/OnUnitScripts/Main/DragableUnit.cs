@@ -37,7 +37,7 @@ public class DragableUnit : MonoBehaviour
         Vector3 oldPos = Global.instance.currentMap.board[startPosX, startPosZ].transform.position;
         Vector3 newPos = Global.instance.currentMap.board[endPosX, endPosZ].transform.position;
         Unit me = Global.instance.currentMap.board[startPosX, startPosZ].myUnit;
-        if (me.owner.team.index == 0)
+        if (me.GetMyOwner().team.index == 0)
         {
             if (NewGameScript.PlayerOneArmy.ContainsKey(oldPos))
             {

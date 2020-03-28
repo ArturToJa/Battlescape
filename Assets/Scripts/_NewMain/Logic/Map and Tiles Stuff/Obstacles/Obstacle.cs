@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
+
 
 namespace BattlescapeLogic
 {
     public class Obstacle : OnTileObject, IMouseTargetable
     {
-        private Animator animator;
+        float deathSpeed = .5f;
 
-        
+        Animator animator;
+
 
         [SerializeField] Position[] shape;
 
-        public Tile[] currentPosition { get; private set; }       
+        public Tile[] currentPosition { get; private set; }
 
         [SerializeField]
         private bool _isTall = false;
@@ -37,7 +40,7 @@ namespace BattlescapeLogic
                 tile.myObstacle = this;
             }
         }
-        
+
 
         public virtual void Start()
         {
@@ -51,15 +54,29 @@ namespace BattlescapeLogic
             {
                 myTile.myObstacle = null;
             }
+            StartCoroutine(DestructionRoutine());
+        }
+
+        IEnumerator DestructionRoutine()
+        {
+            Vector3 finalPosition = new Vector3(transform.position.x, -1, transform.position.z);
+            Renderer renderer = GetComponent<Renderer>();
+            Color finalColour = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 0);
+            while (transform.position.y > -1)
+            {
+                transform.position = (Vector3.Lerp(transform.position, finalPosition, deathSpeed * Time.deltaTime));
+                renderer.material.color = (Color.Lerp(renderer.material.color, finalColour, 5*deathSpeed * Time.deltaTime));
+                yield return null;
+            }
             Destroy(gameObject);
         }
 
-        public void OnMouseHoverEnter()
+        public virtual void OnMouseHoverEnter()
         {
             return;
         }
 
-        public void OnMouseHoverExit()
+        public virtual void OnMouseHoverExit()
         {
             return;
         }
@@ -79,12 +96,12 @@ namespace BattlescapeLogic
             return list;
         }
 
-        public int GetDistanceTo(Tile target)
+        public int GetDistanceTo(Position target)
         {
             int distance = 9999;
             foreach (Tile tile in currentPosition)
             {
-                int possibleDistance = tile.position.DistanceTo(target.position);
+                int possibleDistance = tile.position.DistanceTo(target);
                 if (possibleDistance < distance)
                 {
                     distance = possibleDistance;

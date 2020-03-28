@@ -154,5 +154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ea3c118b43c4142869123cca561c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitSound:
+    name: CatapultStoneOnHitSound
+    clip: {fileID: 8300000, guid: db2ab641cf55cad4ba01ec1c5eecf5cd, type: 3}
+    volume: 0.3
+    pitch: 1
+    oldSource: {fileID: 0}
+    loop: 0
+    soundType: 6
   _speedPerFrame: 2
   _maxHeight: 5

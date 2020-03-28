@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224894318223777852}
   - component: {fileID: 222912960968174272}
-  - component: {fileID: 114929870227885086}
+  - component: {fileID: 114866897213331296}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: 0
---- !u!114 &114929870227885086
+--- !u!114 &114866897213331296
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -326,13 +326,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1780738027512070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688cc6b5a9755f141baadf0fc5b04883, type: 3}
+  m_Script: {fileID: 11500000, guid: cbe240fe4232d594986a9c3407edce1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPVisual: {fileID: 21300000, guid: 67884f050d5e73646865fb54c179b885, type: 3}
-  fillOfABar: {fileID: 0}
   barAnimationTime: 0.1
-  isBeingAttacked: 0
 --- !u!135 &135936773438661828
 SphereCollider:
   m_ObjectHideFlags: 1

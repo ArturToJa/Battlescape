@@ -9,10 +9,11 @@ namespace BattlescapeLogic
     public class DamageCalculator
     {
         public static readonly float sigmoidGrowthRate = 0.5f;
+        public static readonly int minimalDamageInGame = 1;
 
 
 
-        public static int CalculateDamage(Unit source, Unit target, float multiplier = 1)
+        public static int CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
         {
             if (IsMiss(source, target))
             {
@@ -20,24 +21,22 @@ namespace BattlescapeLogic
             }
             int averageDamage = Mathf.RoundToInt((Statistics.baseDamage + GetStatisticsDifference(source, target)) * multiplier);
             int damageRange = averageDamage / 5;
-            return UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
+            int finalDamage = UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
+            if (finalDamage < minimalDamageInGame)
+            {
+                finalDamage = minimalDamageInGame;
+            }
+            return finalDamage;
         }
 
-        public static bool IsMiss(Unit source, Unit target)
-        {
-            return UnityEngine.Random.value > HitChance(source, target);
-        }        
+        public static bool IsMiss(Unit source, IDamageable target)
+        {            
+            return UnityEngine.Random.value > target.ChanceOfBeingHitBy(source);
+        }                
 
-        public static float HitChance(Unit source, Unit target)
-        {
-            return Maths.Sigmoid(GetStatisticsDifference(source, target), sigmoidGrowthRate);
-        }
-
-        public static int GetStatisticsDifference(Unit source, Unit target)
-        {
-            int totalAttack = source.statistics.baseAttack + source.statistics.bonusAttack;
-            int totalDefence = target.statistics.baseDefence + target.statistics.bonusDefence;
-            return totalAttack - totalDefence;
+        public static int GetStatisticsDifference(Unit source, IDamageable target)
+        {            
+            return source.statistics.GetCurrentAttack() - target.GetCurrentDefence();
         }
     }
 }

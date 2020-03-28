@@ -47,24 +47,24 @@ namespace BattlescapeLogic
 
         bool FilterAlly(PlayerTeam team)
         {
-            return ally && thisAbility.owner.owner.team == team;
+            return ally && thisAbility.owner.GetMyOwner().team == team;
         }
 
         bool FilterEnemy(PlayerTeam team)
         {
-            return enemy && thisAbility.owner.owner.team != team;
+            return enemy && thisAbility.owner.GetMyOwner().team != team;
         }
 
 
 
         bool FilterSelfPlayer(Player player)
         {
-            return selfPlayer && thisAbility.owner.owner == player;
+            return selfPlayer && thisAbility.owner.GetMyOwner() == player;
         }
 
         bool FilterOtherPlayer(Player player)
         {
-            return otherPlayer && thisAbility.owner.owner != player;
+            return otherPlayer && thisAbility.owner.GetMyOwner() != player;
         }
 
 

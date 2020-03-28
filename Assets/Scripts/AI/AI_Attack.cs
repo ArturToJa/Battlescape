@@ -54,7 +54,7 @@ public class AI_Attack : AI_Base_Attack
         List<Tile> enemiesInCombat = new List<Tile>();
         foreach (Tile tile in currentUnit.currentPosition.neighbours)
         {
-            if (tile.myUnit != null && tile.myUnit.owner != currentUnit.owner)
+            if (tile.myUnit != null && tile.myUnit.GetMyOwner() != currentUnit.GetMyOwner())
             {
                 enemiesInCombat.Add(tile);
             }

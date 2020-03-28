@@ -91,7 +91,7 @@ public class Ability_Hero_Ranger_ShadowCover : Ability_Basic
         // I admit this is some HORRIBLE code down there. Maybe i should have just made this random, since my AI code is in general SICKly bad.. It should just generally work as follows in final version (as it does now):
         // Just take the normal movement AI and make it find the best move from legal tiles for this ability.
 
-        AI_Movement TemporaryMovementAI = new AI_Movement(myUnit.owner.index);
+        AI_Movement TemporaryMovementAI = new AI_Movement(myUnit.GetMyOwner().index);
         var dictionary = new Dictionary<Tile, float>();
         foreach (Tile tile in AI_GetTheLegalMoves())
         {

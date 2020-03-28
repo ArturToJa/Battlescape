@@ -6,12 +6,13 @@ namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
-
+        public IMissileLaucher myLauncher { get; set; }
         public int damage { get; set; }
         static readonly float minDistance = 0.2f;
         public Vector3 startingPoint { get; set; }
         public Unit sourceUnit { get; set; }
-        public Unit target { get; set; }
+        public Tile target { get; set; }
+        [SerializeField] Sound onHitSound;
         [SerializeField] float _speedPerFrame;
         public float speedPerFrame
         {
@@ -45,20 +46,13 @@ namespace BattlescapeLogic
         void Update()
         {
             UpdatePosition();
-            if (Vector2.Distance(this.transform.position, target.transform.position) < minDistance)
+            if (Vector3.Distance(this.transform.position, target.transform.position) < minDistance)
             {
-                if (sourceUnit.owner.type != PlayerType.Network)
+                if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
-                    if (damage != 0)
-                    {
-                        Networking.instance.SendCommandToHit(sourceUnit, target, damage);
-                    }
-                    else
-                    {
-                        Networking.instance.SendCommandToHit(sourceUnit, target);
-                    }
-                    
+                    myLauncher.OnMissileHitTarget(target);                   
                 }
+                BattlescapeSound.SoundManager.instance.PlaySound(gameObject, onHitSound);
                 Destroy(gameObject);
             }
         }

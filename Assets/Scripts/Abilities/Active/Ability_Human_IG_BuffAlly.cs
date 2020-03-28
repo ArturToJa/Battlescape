@@ -21,7 +21,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
     {
         foreach (Tile tile in myUnit.currentPosition.neighbours)
         {
-            if (tile.myUnit != null && tile.myUnit.owner == myUnit.owner)
+            if (tile.myUnit != null && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner())
             {
                 return true;
             }
@@ -68,7 +68,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     bool IsLegalTarget(Tile tile)
     {       
-        return tile.myUnit != null && tile.myUnit.owner == myUnit.owner && myUnit.currentPosition.neighbours.Contains(tile);
+        return tile.myUnit != null && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner() && myUnit.currentPosition.neighbours.Contains(tile);
     }
 
     IEnumerator BuffAlly(BattlescapeLogic.Unit ally)

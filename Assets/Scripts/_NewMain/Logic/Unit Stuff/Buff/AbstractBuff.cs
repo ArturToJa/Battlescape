@@ -110,7 +110,7 @@ namespace BattlescapeLogic
 
         public override void OnNewTurn()
         {
-            if (IsExpired() && GameRound.instance.currentPlayer == source.owner.owner)
+            if (IsExpired() && GameRound.instance.currentPlayer == source.owner.GetMyOwner())
             {
                 OnExpire();
             }

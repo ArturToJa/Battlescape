@@ -16,18 +16,18 @@ namespace BattlescapeLogic
     {
         public string name;
         protected Unit sourceUnit;
-        protected Unit targetUnit;
+        protected IDamageable targetObject;
 
         public AbstractAttack(Unit _myUnit)
         {
             sourceUnit = _myUnit;
         }
 
-        public virtual void Attack(Unit target)
+        public virtual void Attack(IDamageable target)
         {
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            targetUnit = target;
-            if (target.owner.HasAttacksOrMovesLeft() == false)
+            targetObject = target;
+            if (sourceUnit.GetMyOwner().HasAttacksOrMovesLeft() == false)
             {
                 PopupTextController.AddPopupText("No more units can attack!", PopupTypes.Info);
             }
@@ -38,22 +38,22 @@ namespace BattlescapeLogic
 
         protected void TurnTowardsTarget()
         {
-            sourceUnit.visuals.transform.LookAt(new Vector3(targetUnit.transform.position.x, sourceUnit.visuals.transform.position.y, targetUnit.transform.position.z));
+            sourceUnit.visuals.transform.LookAt(new Vector3(targetObject.GetMyPosition().x, sourceUnit.visuals.transform.position.y, targetObject.GetMyPosition().z));
         }
 
         public abstract void OnAttackAnimation();
 
         public abstract void OnRangedAttackAnimation();
 
-        public bool CanAttack(Unit targetUnit)
+        public bool CanAttack(IDamageable targetObject)
         {
             return
                 GameRound.instance.currentPhase == TurnPhases.Attack
-                && sourceUnit.owner.IsCurrentLocalPlayer()
-                && sourceUnit.owner == GameRound.instance.currentPlayer
+                && sourceUnit.GetMyOwner().IsCurrentLocalPlayer()
+                && sourceUnit.GetMyOwner() == GameRound.instance.currentPlayer
                 && sourceUnit.CanStillAttack()
-                && sourceUnit.IsInAttackRange(targetUnit.transform.position)
-                && sourceUnit.IsEnemyOf(targetUnit);
+                && sourceUnit.IsInAttackRange(targetObject.GetDistanceTo(sourceUnit.currentPosition.position))
+                && sourceUnit.IsEnemyOf(targetObject);
         }        
     }
 }

@@ -50,6 +50,12 @@ namespace BattlescapeLogic
                 _dropzoneOfTeam = value;
             }
         }
+
+        internal void OnHitByMissile(Unit sourceUnit, int damage)
+        {
+            throw new NotImplementedException();
+        }
+
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
 
@@ -110,8 +116,8 @@ namespace BattlescapeLogic
         //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
         bool IsTileUnderEnemyOfUnit(Tile tile, BattlescapeLogic.Unit unit)
         {
-            return tile.myUnit != null && tile.myUnit.owner != unit.owner;
-            //return tile.myUnit != null && tile.myUnit.owner.team != unit.owner.team;
+            return tile.myUnit != null && tile.myUnit.IsEnemyOf(unit);
+            //return tile.myUnit != null && tile.myUnit.GetMyOwner().team != unit.GetMyOwner().team;
             //^ this is correct for Unit;
         }
 
@@ -153,6 +159,19 @@ namespace BattlescapeLogic
             {
                 BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.white);
             }
+        }
+
+        public IDamageable GetMyDamagableObject()
+        {
+            if (hasObstacle && myObstacle is IDamageable)
+            {
+                return myObstacle as IDamageable;
+            }
+            if (myUnit != null)
+            {
+                return myUnit as IDamageable;
+            }
+            return null;
         }
     }
 }

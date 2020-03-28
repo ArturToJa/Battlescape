@@ -44,7 +44,7 @@ namespace BattlescapeLogic
                 return false;
             }
             Unit targetUnit = target as Unit;
-            return IsInRange(targetUnit) && filter.FilterTeam(targetUnit.owner.team) && filter.FilterPlayer(targetUnit.owner) && filter.FilterUnit(targetUnit);
+            return IsInRange(targetUnit) && filter.FilterTeam(targetUnit.GetMyOwner().team) && filter.FilterPlayer(targetUnit.GetMyOwner()) && filter.FilterUnit(targetUnit);
 
         }
 
