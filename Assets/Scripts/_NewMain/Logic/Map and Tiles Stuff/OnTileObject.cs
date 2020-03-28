@@ -29,8 +29,4 @@ namespace BattlescapeLogic
         }
     }
 }
-public enum TileObjectType
-{
-    Mushroom, Grass, FloorStone, Rock, SmallTree, FourTileSquare, Fence, Box, Barell, Other
-}
 
