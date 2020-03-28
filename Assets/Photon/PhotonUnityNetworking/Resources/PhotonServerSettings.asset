@@ -27,6 +27,32 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - ClickRpc
+  - DestroyRpc
+  - DestroySpaceship
+  - Fire
+  - RespawnSpaceship
+  - RPCAddPlayer
+  - RPCAttack
+  - RPCConnectionLossScreen
+  - RPCDestroyObstacle
+  - RPCDoMovement
+  - RPCEndTurnPhase
+  - RPCHitTarget
+  - RPCInstantiateUnit
+  - RPCLoadScene
+  - RPCLobbySpawnLog
+  - RPCNetworkSpawnLog
+  - RPCNoRetaliation
+  - RPCPlayerEndedPreGame
+  - RPCRetaliate
+  - RPCRetaliation
+  - RPCSetEnemyRace
+  - RPCSetGameSceneName
+  - RPCSetHeroName
+  - RpcSetRaceAndName
+  - RPCSetSeed
+  - RPCSetUnitPosition
   DisableAutoOpenWizard: 1
   ShowSettings: 1
