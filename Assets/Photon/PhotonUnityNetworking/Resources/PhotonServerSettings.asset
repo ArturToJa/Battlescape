@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
+    AppIdRealtime: 10fa0581-69f4-48c6-9742-5167ac5bf3d5
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -55,4 +56,4 @@ MonoBehaviour:
   - RPCSetSeed
   - RPCSetUnitPosition
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
