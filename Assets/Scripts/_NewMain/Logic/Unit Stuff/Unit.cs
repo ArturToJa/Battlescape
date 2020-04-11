@@ -273,7 +273,7 @@ namespace BattlescapeLogic
             Log.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
             attack.Attack(target);
-            Networking.instance.FinishRetaliation();
+            NetworkingBaseClass.Instance.FinishRetaliation();
         }
 
         //This is the attack on enemy exiting combat with us... Needed to separate it to a) change chances and b) calculate damage beforehand (to be able to know if I can or cannot quit combat)
@@ -321,7 +321,7 @@ namespace BattlescapeLogic
                 var targetUnit = target as Unit;
                 if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
                 {
-                    Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
+                    NetworkingBaseClass.Instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
                 }
             }
 
@@ -471,7 +471,7 @@ namespace BattlescapeLogic
                 var targetObject = target as IDamageable;
                 if (attack.CanAttack(targetObject))
                 {
-                    Networking.instance.SendCommandToStartAttack(this, targetObject);
+                    NetworkingBaseClass.Instance.SendCommandToStartAttack(this, targetObject);
                     statistics.numberOfAttacks--;
                 }
             }
@@ -493,7 +493,7 @@ namespace BattlescapeLogic
                 var targetTile = target as Tile;
                 if (CanMoveTo(targetTile))
                 {
-                    Networking.instance.SendCommandToMove(this, targetTile);
+                    NetworkingBaseClass.Instance.SendCommandToMove(this, targetTile);
                 }
 
             }

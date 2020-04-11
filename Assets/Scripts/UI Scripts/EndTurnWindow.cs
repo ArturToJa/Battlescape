@@ -16,7 +16,7 @@ public class EndTurnWindow : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            yesButton.onClick.AddListener(Networking.instance.SendCommandToEndTurnPhase);
+            yesButton.onClick.AddListener(NetworkingBaseClass.Instance.SendCommandToEndTurnPhase);
             yesButton.onClick.AddListener(TurnOff);
             noButton.onClick.AddListener(TurnOff);
         }

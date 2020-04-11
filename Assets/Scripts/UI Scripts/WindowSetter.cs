@@ -1,7 +1,4 @@
-﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WindowSetter : MonoBehaviour
@@ -28,9 +25,9 @@ public class WindowSetter : MonoBehaviour
         SaveLoadManager.instance.currentSaveName = null;
         currentScreen = startingScreen;
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
-        if (PhotonNetwork.IsConnected)
+        if (BattlescapeLogic.NetworkingBaseClass.Instance.IsConnected())
         {
-            MyNetworkManager.Instance.Disconnect();
+            BattlescapeLogic.NetworkingBaseClass.Instance.Disconnect();
         }
     }
 }

@@ -33,7 +33,7 @@ public class PlayerNameSetter : MonoBehaviour
     //this is both on a button and in start, if we already have a name. For now. In the future i might build a morel ogical system where you can maybe login to the lobby with password and the system will remember your stats and so on, for now it is just a simple game...
     public void Okay()
     {
-        PhotonNetwork.NickName = "#" + Random.Range(1000,10000) + " " + PlayerPrefs.GetString("MyPlayerName");             
-        MyNetworkManager.Instance.Lobby.transform.SetAsLastSibling();
+        PhotonNetwork.NickName = "#" + Random.Range(1000,10000) + " " + PlayerPrefs.GetString("MyPlayerName");
+        GameObject.FindGameObjectWithTag("Lobby").transform.SetAsLastSibling();
     }
 }

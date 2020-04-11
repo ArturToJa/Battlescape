@@ -27,13 +27,13 @@ public class EscapeMenu : MonoBehaviour
     }
     public void MainMenu()
     {
-        if (PhotonNetwork.IsConnected)
+        if (NetworkingBaseClass.Instance.IsConnected())
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                Networking.instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
+                NetworkingBaseClass.Instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
             }
-            MyNetworkManager.Instance.Disconnect();
+            NetworkingBaseClass.Instance.Disconnect();
         }
 
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
@@ -41,13 +41,13 @@ public class EscapeMenu : MonoBehaviour
 
     public void Quit()
     {
-        if (PhotonNetwork.IsConnected)
+        if (NetworkingBaseClass.Instance.IsConnected())
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                Networking.instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
+                NetworkingBaseClass.Instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
             }
-            MyNetworkManager.Instance.Disconnect();
+            NetworkingBaseClass.Instance.Disconnect();
         }
         Application.Quit();
     }

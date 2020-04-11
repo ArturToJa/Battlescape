@@ -238,7 +238,7 @@ public class MainMenu : MonoBehaviour
                 return;
             }
         }
-        MyNetworkManager.Instance.Connect();
+        NetworkingBaseClass.Instance.Connect();
         Global.instance.matchType = MatchTypes.Online;
         CreatePlayerBuilders(PlayerType.Network);           
 

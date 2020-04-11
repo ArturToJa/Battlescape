@@ -31,7 +31,7 @@ namespace BattlescapeLogic
         {
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
+                NetworkingBaseClass.Instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.SetAttackToDefault();
             }
         }
@@ -68,7 +68,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget(Tile target)
         {
-            Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject(), damage);
+            NetworkingBaseClass.Instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject(), damage);
         }
     }
 }

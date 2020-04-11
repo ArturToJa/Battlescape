@@ -471,7 +471,7 @@ public class AI_Movement : AI_Base_Movement
         if (theTile != null)
         {
             //PathCreator.Instance.AddSteps(currentUnit.currentPosition,theTile);
-            Networking.instance.SendCommandToMove(currentUnit, theTile);
+            NetworkingBaseClass.Instance.SendCommandToMove(currentUnit, theTile);
             unitsSkippingTurn.Clear();
             Debug.Log("Chosen tile is: " + theTile);
         }

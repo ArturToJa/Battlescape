@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BattlescapeLogic;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ public class RoomOnTheList : MonoBehaviour
     void Start()
     {
         Button button = GetComponent<Button>();
-        button.onClick.AddListener(() => MyNetworkManager.Instance.OnClickJoinRoom(RoomNameText.text));
+        button.onClick.AddListener(() => NetworkingBaseClass.Instance.JoinRoom(RoomNameText.text));
     }
 
     private void OnDestroy()

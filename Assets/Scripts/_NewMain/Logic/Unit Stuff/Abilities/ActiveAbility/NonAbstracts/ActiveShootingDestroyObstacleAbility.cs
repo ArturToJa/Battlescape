@@ -37,7 +37,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget(Tile target)
         {
-            Networking.instance.SendCommandToDestroyObstacle(owner, target.myObstacle);
+            NetworkingBaseClass.Instance.SendCommandToDestroyObstacle(owner, target.myObstacle);
         }
     }
 }

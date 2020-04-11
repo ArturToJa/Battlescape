@@ -69,7 +69,7 @@ public class PlayerLayoutGroup : MonoBehaviour
 
     public void OnClickLeaveRoom()
     {
-        MyNetworkManager.Instance.Lobby.transform.SetAsLastSibling();
+        GameObject.FindGameObjectWithTag("Lobby").transform.SetAsLastSibling();
 
         PhotonNetwork.LeaveRoom();
     }
