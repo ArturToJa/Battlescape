@@ -384,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 1758366741842042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4783049589803728}
   m_Father: {fileID: 4227966206419446}
@@ -737,6 +737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb061af0cfb31e044a032c612142d11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentPosition:
+    _width: 2
+    _height: 2
+  _type: 0
   _missilePrefab: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d,
     type: 2}
   attackType: 1
@@ -791,7 +795,7 @@ MonoBehaviour:
     _baseAttack: 4
     _baseDefence: 0
     _maxHealthPoints: 25
-    _baseMaxMovementPoints: 1
+    _baseMaxMovementPoints: 5
     _baseAttackRange: 9
     _minimalAttackRange: 3
     _maxNumberOfAttacks: 1
@@ -1080,8 +1084,6 @@ MonoBehaviour:
   _range: 0
   isRangeModified: 1
   rangeModifier: 0
-  missilePrefab: {fileID: 1000357107973312, guid: 241cfc714e402ba4f896d07a6ab8eaaa,
-    type: 2}
 --- !u!137 &137254323568621442
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

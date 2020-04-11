@@ -11,7 +11,7 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     protected override void OnStart()
     {
-        Target = myUnit.currentPosition;
+        //Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -46,14 +46,14 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
 
     void ColourPotentialTargets()
     {
-        foreach (Tile neighbour in myUnit.currentPosition.neighbours)
-        {
-            //if (neighbour.myUnit != null && MouseManager.Instance.MouseoveredUnit.currentPosition.neighbours.Contains(neighbour))
-            //{
-            //    PaintObject(neighbour.myUnit.gameObject, Color.red);
-            //    colouredUnits.Add(neighbour.myUnit.gameObject);
-            //}
-        }
+        //foreach (Tile neighbour in myUnit.currentPosition.neighbours)
+        //{
+        //    //if (neighbour.GetMyObject<Unit>() != null && MouseManager.Instance.MouseoveredUnit.currentPosition.neighbours.Contains(neighbour))
+        //    //{
+        //    //    PaintObject(neighbour.GetMyObject<Unit>().gameObject, Color.red);
+        //    //    colouredUnits.Add(neighbour.GetMyObject<Unit>().gameObject);
+        //    //}
+        //}
     }
     void PaintObject(GameObject Object, Color color)
     {
@@ -79,8 +79,8 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
     {
         return
             //MouseManager.Instance.mouseoveredTile != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            //myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.mouseoveredTile.myUnit.currentPosition);
+            //MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>() != null &&
+            //myUnit.currentPosition.neighbours.Contains(MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>().currentPosition);
             false;
     }
 
@@ -96,16 +96,16 @@ public class Ability_Elves_Fencer_WideSwing : Ability_Basic
         ////myUnit.GetComponent<AnimController>().SpecialAttack();
         Log.SpawnLog("Fencer uses Wide Swing, swinging his blade recklessly around him");
         //LOGIC
-        BattlescapeLogic.Unit Enemy = Target.myUnit;
+        BattlescapeLogic.Unit Enemy = Target.GetMyObject<Unit>();
         // Hit for Target
         HitForSwing(Enemy);
-        foreach (Tile neighbour in myUnit.currentPosition.neighbours)
-        {
-            if (neighbour.myUnit != null && Enemy.currentPosition.neighbours.Contains(neighbour))
-            {
-                HitForSwing(neighbour.myUnit);
-            }
-        }
+        //foreach (Tile neighbour in myUnit.currentPosition.neighbours)
+        //{
+        //    if (neighbour.GetMyObject<Unit>() != null && Enemy.currentPosition.neighbours.Contains(neighbour))
+        //    {
+        //        HitForSwing(neighbour.GetMyObject<Unit>());
+        //    }
+        //}
         // for mutual neighbours.
         // add debuff
         PassiveAbility_Buff.AddBuff(gameObject, 2, 0, -myUnit.statistics.GetCurrentDefence(), 0, myUnit.statistics.currentMaxNumberOfRetaliations, "FencerDebuff", null, 0, false, true, false);

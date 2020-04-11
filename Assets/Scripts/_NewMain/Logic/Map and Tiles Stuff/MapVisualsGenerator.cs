@@ -8,7 +8,7 @@ namespace BattlescapeLogic
     public class MapVisualsGenerator
     {
         [SerializeField] List<MapVisualsSpecification> specs;
-        [SerializeField] List<OnTileObject> allLegalObjects;
+        [SerializeField] List<IOnTilePlaceable> allLegalObjects;
         [SerializeField] float allowedPercentage = 0.25f;
         List<Tile> tilesWithObstacle;
 
@@ -27,27 +27,28 @@ namespace BattlescapeLogic
             }
         }
 
-        void GenerateObject(OnTileObject prefab, Tile tile, bool canRotate)
+        void GenerateObject(IOnTilePlaceable prefab, Tile tile, bool canRotate)
         {
             if (tile == null)
             {
                 Debug.Log("Didn't spawn: " + prefab.name + " cause of lack of space");
                 return;
             }
-            Quaternion rotation = prefab.transform.rotation;
+            var temp = prefab as MonoBehaviour;
+            Quaternion rotation = temp.transform.rotation;
             if (canRotate)
             {
                 rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
-            OnTileObject spawnedObject = Object.Instantiate(prefab, tile.transform.position, rotation, tile.transform);
+            IOnTilePlaceable spawnedObject = Object.Instantiate(temp, tile.transform.position, rotation, tile.transform).GetComponent<IOnTilePlaceable>();
             spawnedObject.OnSpawn(tile);
             AddToDictionary(prefab.name);
         }
 
-        OnTileObject GetRandomObject(TileObjectType type, int amountOfType)
+        IOnTilePlaceable GetRandomObject(TileObjectType type, int amountOfType)
         {
-            List<OnTileObject> returnList = GetAllObjectsOfType(type);
-            OnTileObject answer = returnList[Random.Range(0, returnList.Count - 1)];
+            List<IOnTilePlaceable> returnList = GetAllObjectsOfType(type);
+            IOnTilePlaceable answer = returnList[Random.Range(0, returnList.Count - 1)];
             int terminator = 0;
             while (IsObjectAllowed(answer, amountOfType) == false)
             {
@@ -79,7 +80,7 @@ namespace BattlescapeLogic
             if (terminator == 100)
             {
                 terminator = 0;
-                while (IsTileBarelyLegal(tile, spec))
+                while (IsTileBarelyLegal(tile, spec) == false)
                 {
                     terminator++;
                     tile = Global.instance.currentMap.board[Random.Range(0, Global.instance.currentMap.mapWidth), Random.Range(0, Global.instance.currentMap.mapHeight)];
@@ -95,18 +96,18 @@ namespace BattlescapeLogic
 
         bool IsTileFullyLegal(Tile tile, MapVisualsSpecification spec)
         {
-            return tile.hasObstacle == false && (HasExtraSpace(tile));
+            return tile.IsWalkable() && (HasExtraSpace(tile));
         }
         bool IsTileBarelyLegal(Tile tile, MapVisualsSpecification spec)
         {
-            return tile.hasObstacle == false && (spec.needsExtraSpace == false || HasExtraSpace(tile));
+            return tile.IsWalkable() && (spec.needsExtraSpace == false || HasExtraSpace(tile));
         }
 
         bool HasExtraSpace(Tile tile)
         {
             foreach (Tile neighbour in tile.neighbours)
             {
-                if (neighbour.hasObstacle)
+                if (neighbour.IsWalkable())
                 {
                     return false;
                 }
@@ -114,10 +115,10 @@ namespace BattlescapeLogic
             return true;
         }
 
-        List<OnTileObject> GetAllObjectsOfType(TileObjectType type)
+        List<IOnTilePlaceable> GetAllObjectsOfType(TileObjectType type)
         {
-            List<OnTileObject> returnList = new List<OnTileObject>();
-            foreach (OnTileObject prefab in allLegalObjects)
+            List<IOnTilePlaceable> returnList = new List<IOnTilePlaceable>();
+            foreach (IOnTilePlaceable prefab in allLegalObjects)
             {
                 if (prefab.type == type)
                 {
@@ -127,7 +128,7 @@ namespace BattlescapeLogic
             return returnList;
         }
 
-        bool IsObjectAllowed(OnTileObject prefab, int amountOfType)
+        bool IsObjectAllowed(IOnTilePlaceable prefab, int amountOfType)
         {
             if (alreadyGeneratedStuff.ContainsKey(prefab.name) == false)
             {

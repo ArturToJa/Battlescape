@@ -264,7 +264,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnLeftClick(IMouseTargetable clickedObject)
+        public void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition)
         {
             if (IsLegalTarget(clickedObject))
             {
@@ -278,7 +278,7 @@ namespace BattlescapeLogic
             OnFinish();
         }
 
-        public virtual void OnCursorOver(IMouseTargetable target)
+        public virtual void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
             if (IsLegalTarget(target))
             {
@@ -293,6 +293,11 @@ namespace BattlescapeLogic
         public void OnAbilityOver()
         {
             PlayerInput.instance.isInputBlocked = false;
+        }
+        protected void Update()
+        {
+            //if(abilityIsActive)
+            //{OnUpdate();
         }
     }
 }

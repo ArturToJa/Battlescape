@@ -9,7 +9,7 @@ namespace BattlescapeLogic
         string name { get; }
         TileObjectType type { get; }
 
-        Tile[,] currentPosition { get; }
+        MultiTile currentPosition { get; }
 
 
         void OnSpawn(Tile spawningTile);       

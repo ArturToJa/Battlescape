@@ -16,7 +16,7 @@ public class PassiveAbility_Human_Catapult_HeavyArmor : PassiveAbility
 
     public override int GetDefence(BattlescapeLogic.Unit other)
     {
-        if (other.IsRanged() && other.currentPosition.neighbours.Contains(myUnit.currentPosition) == false)
+        if (other.IsRanged() /*&& other.currentPosition.neighbours.Contains(myUnit.currentPosition) == false*/)
         {
             return DefenceModifierVersusUnitType;
         }

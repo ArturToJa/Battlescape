@@ -52,7 +52,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
 
     public override void Activate()
     {
-        StartCoroutine(ActivateThisAbility(Target.myUnit));
+        StartCoroutine(ActivateThisAbility(Target.GetMyObject<Unit>()));
     }
 
     public override bool ActivationRequirements()
@@ -99,7 +99,7 @@ public class Ability_Human_Marksmen_PenetrationShot : Ability_Basic
     {
     //    foreach (Tile tile in Global.instance.map.board)
     //    {
-    //        if (tile.myUnit != null && tile.myUnit.GetMyOwner() != myUnit.GetMyOwner() && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
+    //        if (tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().GetMyOwner() != myUnit.GetMyOwner() && CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, tile.transform.position))
     //        {
     //            BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.red);
     //        }

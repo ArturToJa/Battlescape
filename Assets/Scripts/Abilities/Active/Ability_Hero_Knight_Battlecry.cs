@@ -9,7 +9,7 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
     [SerializeField] GameObject VFXOnBuffedAllies;
     protected override void OnStart()
     {
-        Target = myUnit.currentPosition;
+        //Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -101,7 +101,8 @@ public class Ability_Hero_Knight_Battlecry : Ability_Basic
 
     public override GameObject AI_ChooseTarget()
     {
-        return myUnit.currentPosition.gameObject;
+        //return myUnit.currentPosition.gameObject;
+        return null;
     }
 
     public override bool AI_IsGoodToUseNow()

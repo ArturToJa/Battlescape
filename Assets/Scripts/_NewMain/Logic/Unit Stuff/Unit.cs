@@ -7,8 +7,11 @@ using System;
 
 namespace BattlescapeLogic
 {
-    public class Unit : TurnChangeMonoBehaviour, IDamageable, IActiveEntity
+    public class Unit : OnTileObject, IDamageable, IActiveEntity
     {
+        public int index { get; set; }
+
+
         [SerializeField] GameObject _missilePrefab;
 
         Missile _myMissile;
@@ -44,7 +47,6 @@ namespace BattlescapeLogic
             }
         }
 
-        public Tile currentPosition { get; set; }
         public UnitSounds unitSounds;
         public Statistics statistics;
 
@@ -86,7 +88,7 @@ namespace BattlescapeLogic
             equipment.EquipPrimaryWeapon();
             base.Start();
             animator = GetComponentInChildren<Animator>();
-            visuals = Helper.FindChildWithTag(gameObject, "Body");
+            visuals = Helper.FindChildWithTag(gameObject, "Body");           
             buffs = new BuffGroup(this);
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
@@ -106,7 +108,6 @@ namespace BattlescapeLogic
             statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
             FaceMiddleOfMap();
             UpdateAbilities();
-            Tile.OnMouseHoverTileEnter += OnTileHovered;
         }
 
         private void UpdateAbilities()
@@ -120,6 +121,7 @@ namespace BattlescapeLogic
 
         public void FaceMiddleOfMap()
         {
+            visuals = Helper.FindChildWithTag(gameObject, "Body");
             Vector3 mapMiddle = new Vector3((Global.instance.currentMap.mapWidth - 1) / 2, visuals.transform.position.y, (Global.instance.currentMap.mapHeight - 1) / 2);
             transform.LookAt(mapMiddle);
             visuals.transform.LookAt(mapMiddle);
@@ -143,11 +145,6 @@ namespace BattlescapeLogic
                     //unit cannot attack
                     return null;
             }
-        }
-
-        public Tile GetMyTile()
-        {
-            return currentPosition;
         }
 
         public void SetAttackToDefault()
@@ -200,35 +197,47 @@ namespace BattlescapeLogic
 
         //Played BEFORE the first step in the whole movement. Check for ExitCombat here cause it only makes sense here.
         //Returns true if movement is exiting combat
-        public bool IsExittingCombat(Tile newPosition)
+        public bool IsExittingCombat(MultiTile newPosition)
         {
-            return (currentPosition.IsProtectedByEnemyOf(this) && (newPosition.IsProtectedByEnemyOf(this) == false));
+            if (newPosition.IsProtectedByEnemyOf(this))
+            {
+                return false;
+            }
+            foreach (Tile myTile in currentPosition)
+            {
+                if (myTile.IsProtectedByEnemyOf(this))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void ExitCombat()
         {
             OnCombatExit();
-            foreach (Tile tile in currentPosition.neighbours)
-            {
-                if (tile.myUnit != null && IsEnemyOf(tile.myUnit) && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
+            foreach (Tile myTile in currentPosition)
+                foreach (Tile neighbour in myTile.neighbours)
                 {
-                    tile.myUnit.OnCombatExit();
+                    if (neighbour.GetMyObject<Unit>() != null && IsEnemyOf(neighbour.GetMyObject<Unit>()) && neighbour.IsProtectedByEnemyOf(neighbour.GetMyObject<Unit>()) == false)
+                    {
+                        neighbour.GetMyObject<Unit>().OnCombatExit();
+                    }
                 }
-            }
         }
 
-        public void OnMove(Tile oldTile, Tile newTile)
+        public void OnMove(MultiTile oldPosition, MultiTile newPosition)
         {
             //played on EVERY change of tile. Two tiles are used here to avoid confusion in using currentPosition - this will work no matter if we use it slightly before or after movement.
-            if (oldTile.IsProtectedByEnemyOf(this) == false && newTile.IsProtectedByEnemyOf(this))
+            if (oldPosition.IsProtectedByEnemyOf(this) == false && newPosition.IsProtectedByEnemyOf(this))
             {
                 //Unit just came from SAFETY to COMBAT, so inform it and all of the enemies around about it.
                 OnCombatEnter();
-                foreach (Tile tile in newTile.neighbours)
+                foreach (Tile neighbour in newPosition.closeNeighbours)
                 {
-                    if (tile.myUnit != null && IsEnemyOf(tile.myUnit))
+                    if (neighbour.GetMyObject<Unit>() != null && IsEnemyOf(neighbour.GetMyObject<Unit>()))
                     {
-                        tile.myUnit.OnCombatEnter();
+                        neighbour.GetMyObject<Unit>().OnCombatEnter();
                     }
                 }
             }
@@ -255,7 +264,7 @@ namespace BattlescapeLogic
                 }
             }
         }
-        public void Move(Tile newPosition)
+        public void Move(MultiTile newPosition)
         {
             movement.ApplyUnit(this);
             StartCoroutine(movement.MoveTo(newPosition));
@@ -330,14 +339,18 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit retaliatingUnit)
         {
-            return
-                (
-                    retaliatingUnit.CanStillRetaliate() &&
-                    retaliatingUnit.currentPosition.neighbours.Contains(this.currentPosition) && //Means: is the attack in melee range?
-                    GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner() //Means: we cannot retaliate to a retaliation, so we can't retaliate in our own turn
-                                                                                     // && check for stopping retaliations in buffs/passives/idk
-                );
-
+            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer == retaliatingUnit.GetMyOwner())
+            {
+                return false;
+            }
+            foreach (Tile myTile in currentPosition)
+            {
+                if (retaliatingUnit.GetDistanceTo(myTile.position) == 1)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         //this should play on attacked unit when it is time it should receive DMG
@@ -371,19 +384,24 @@ namespace BattlescapeLogic
 
         public virtual void Die(Unit killer)
         {
-            currentPosition.SetMyUnitTo(null);
-            //Note: this makes the Tile 'forget' about the unit, but the dead Unit 'remembers' its last Tile!
-            if (currentPosition.IsProtectedByEnemyOf(this))
+            foreach (Tile myTile in currentPosition)
             {
-                foreach (Tile tile in currentPosition.neighbours)
+                myTile.SetMyObjectTo(null);
+                if (myTile.IsProtectedByEnemyOf(this))
                 {
-                    if (tile.myUnit != null && IsEnemyOf(tile.myUnit) && tile.IsProtectedByEnemyOf(tile.myUnit) == false)
+                    foreach (Tile tile in myTile.neighbours)
                     {
-                        //The enemy dude exists and just got free from combat by death of our Unit;
-                        tile.myUnit.OnCombatExit();
+                        if (tile.GetMyObject<Unit>() != null && IsEnemyOf(tile.GetMyObject<Unit>()) && tile.IsProtectedByEnemyOf(tile.GetMyObject<Unit>()) == false)
+                        {
+                            //The enemy dude exists and just got free from combat by death of our Unit;
+                            tile.GetMyObject<Unit>().OnCombatExit();
+                        }
                     }
                 }
             }
+
+            //Note: this makes the Tile 'forget' about the unit, but the dead Unit 'remembers' its last Tile!
+
             if (GameRound.instance.currentPlayer.selectedUnit == this)
             {
                 owner.DeselectUnit();
@@ -464,7 +482,7 @@ namespace BattlescapeLogic
 
         }
 
-        public void OnLeftClick(IMouseTargetable target)
+        public void OnLeftClick(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is IDamageable)
             {
@@ -490,10 +508,10 @@ namespace BattlescapeLogic
             }
             else if (target is Tile)
             {
-                var targetTile = target as Tile;
-                if (CanMoveTo(targetTile))
+                MultiTile destination = (target as Tile).PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactClickPosition);
+                if (CanMoveTo(destination))
                 {
-                    Networking.instance.SendCommandToMove(this, targetTile);
+                    Networking.instance.SendCommandToMove(this, destination);
                 }
 
             }
@@ -524,30 +542,27 @@ namespace BattlescapeLogic
             BattlescapeSound.SoundManager.instance.PlaySound(GameRound.instance.currentPlayer.selectedUnit.gameObject, BattlescapeSound.SoundManager.instance.selectionSound);
         }
 
-        public bool CanMoveTo(Tile tile)
+        public bool CanMoveTo(MultiTile position)
         {
             movement.ApplyUnit(this);
-            return movement.CanMoveTo(tile);
+            return movement.CanMoveTo(position);
         }
 
-        void OnTileHovered(Tile hoveredTile)
+        public void OnTileHovered(Tile hoveredTile, Vector3 exactMousePosition)
         {
-            if (GameRound.instance.currentPlayer.selectedUnit == this)
+            if (CanMoveTo(hoveredTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition)))
             {
-                if (CanMoveTo(hoveredTile))
+                foreach (Unit otherUnit in Global.instance.GetAllUnits())
                 {
-                    foreach (Unit otherUnit in Global.instance.GetAllUnits())
+                    if (IsEnemyOf(otherUnit) && CouldAttackEnemyFromTile(otherUnit, hoveredTile))
                     {
-                        if (IsEnemyOf(otherUnit) && CouldAttackEnemyFromTile(otherUnit, hoveredTile))
-                        {
-                            BattlescapeGraphics.ColouringTool.ColourObject(otherUnit, Color.red);
-                        }
+                        BattlescapeGraphics.ColouringTool.ColourObject(otherUnit, Color.red);
                     }
                 }
             }
         }
 
-        public void OnMouseHoverEnter()
+        public void OnMouseHoverEnter(Vector3 exactMousePosition)
         {
             BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(this, GameRound.instance.currentPlayer);
         }
@@ -560,10 +575,10 @@ namespace BattlescapeLogic
 
         bool CouldAttackEnemyFromTile(Unit enemy, Tile tile)
         {
-            return tile.position.DistanceTo(enemy.currentPosition.position) <= statistics.GetCurrentAttackRange();
+            return IsInAttackRange(enemy.GetDistanceTo(tile.position));
         }
 
-        public void OnCursorOver(IMouseTargetable target)
+        public void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
             if (target is Unit)
             {
@@ -590,8 +605,12 @@ namespace BattlescapeLogic
             if (target is Tile)
             {
                 var targetTile = target as Tile;
-                if (CanMoveTo(targetTile))
+                MultiTile position = targetTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition);
+                
+                if (CanMoveTo(position))
                 {
+                    BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(this);
+                    BattlescapeGraphics.ColouringTool.OnPositionHovered(position);
                     Cursor.instance.OnTileToMoveHovered(this, targetTile);
                 }
                 else
@@ -605,9 +624,18 @@ namespace BattlescapeLogic
             }
         }
 
-        public int GetDistanceTo(Position position)
+        public int GetDistanceTo(Position target)
         {
-            return position.DistanceTo(currentPosition.position);
+            int distance = 9999;
+            foreach (Tile tile in currentPosition)
+            {
+                int possibleDistance = tile.position.DistanceTo(target);
+                if (possibleDistance < distance)
+                {
+                    distance = possibleDistance;
+                }
+            }
+            return distance;
         }
 
         public Player GetMyOwner()
@@ -638,6 +666,10 @@ namespace BattlescapeLogic
         {
             return Maths.Sigmoid(DamageCalculator.GetStatisticsDifference(source, this), DamageCalculator.sigmoidGrowthRate);
         }
+
+
+
+
     }
 }
 

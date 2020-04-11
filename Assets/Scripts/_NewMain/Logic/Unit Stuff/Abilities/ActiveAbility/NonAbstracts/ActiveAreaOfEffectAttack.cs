@@ -17,9 +17,9 @@ namespace BattlescapeLogic
             owner.statistics.numberOfAttacks--;
             foreach (Tile tile in GetTargetsForTile(targetTile))
             {
-                if (tile.myUnit != null)
+                if (tile.GetMyObject<Unit>() != null)
                 {
-                    tile.myUnit.TakeDamage(owner, damage);
+                    tile.GetMyObject<Unit>().TakeDamage(owner, damage);
 
                 }
             }

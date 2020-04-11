@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
 {
@@ -52,8 +53,8 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
     {
         return
             //MouseManager.Instance.mouseoveredTile != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit.GetMyOwner() != myUnit.GetMyOwner() &&
+            //MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>() != null &&
+            //MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>().GetMyOwner() != myUnit.GetMyOwner() &&
             //CombatController.Instance.WouldItBePossibleToShoot(myUnit, this.transform.position, MouseManager.Instance.mouseoveredTile.transform.position);
             true;
     }
@@ -71,9 +72,9 @@ public abstract class Ability_Elves_Raven_EmpoweredShot : Ability_Basic
         //myUnit.LookAtTheTarget(Target.transform.position, myUnit.GetComponentInChildren<BodyTrigger>().RotationInAttack);
         //myShooter.CurrentProjectile = Projectile;
         //myUnit.//myUnit.GetComponent<AnimController>().Cast();
-        //Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, true);
+        //Target.GetMyObject<Unit>().DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.GetMyObject<Unit>().statistics.GetCurrentDefence(), true, false, true);
         myUnit.statistics.numberOfAttacks = 0;
-        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
+        PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - Target.GetMyObject<Unit>().statistics.GetCurrentDefence()), PopupTypes.Damage);
     }
 
 

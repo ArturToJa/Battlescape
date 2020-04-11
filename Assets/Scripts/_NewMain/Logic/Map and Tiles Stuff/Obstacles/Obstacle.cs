@@ -11,11 +11,6 @@ namespace BattlescapeLogic
 
         Animator animator;
 
-
-        [SerializeField] Position[] shape;
-
-        public Tile[] currentPosition { get; private set; }
-
         [SerializeField]
         private bool _isTall = false;
         public bool isTall
@@ -28,31 +23,14 @@ namespace BattlescapeLogic
             {
                 _isTall = value;
             }
-        }
-
-
-        public override void OnSpawn(Tile spawningTile)
-        {
-            base.OnSpawn(spawningTile);
-            currentPosition = GetTiles(spawningTile, shape);
-            foreach (Tile tile in currentPosition)
-            {
-                tile.myObstacle = this;
-            }
-        }
-
-
-        public virtual void Start()
-        {
-            animator = GetComponent<Animator>();
-        }
+        }                 
 
         public void Destruct(Unit source)
         {
             //Tu mna być animacja destrukcji.
             foreach (Tile myTile in currentPosition)
             {
-                myTile.myObstacle = null;
+                myTile.SetMyObjectTo(null);
             }
             StartCoroutine(DestructionRoutine());
         }
@@ -71,7 +49,7 @@ namespace BattlescapeLogic
             Destroy(gameObject);
         }
 
-        public virtual void OnMouseHoverEnter()
+        public virtual void OnMouseHoverEnter(Vector3 exactMousePosition)
         {
             return;
         }
@@ -79,22 +57,7 @@ namespace BattlescapeLogic
         public virtual void OnMouseHoverExit()
         {
             return;
-        }
-
-        Tile[] GetTiles(Tile tile, Position[] myShape)
-        {
-            Tile[] list = new Tile[shape.Length];
-            for (int i = 0; i < shape.Length; i++)
-            {
-                int tileX = tile.position.x + myShape[i].x;
-                int tileZ = tile.position.z + myShape[i].z;
-                if (tileX <= Global.instance.currentMap.mapWidth && tileX >= 0 && tileZ <= Global.instance.currentMap.mapHeight && tileZ >= 0)
-                {
-                    list[i] = Global.instance.currentMap.board[tileX, tileZ];
-                }
-            }
-            return list;
-        }
+        }        
 
         public int GetDistanceTo(Position target)
         {
@@ -108,6 +71,21 @@ namespace BattlescapeLogic
                 }
             }
             return distance;
+        }
+        
+        public override void OnNewRound()
+        {
+            return;
+        }
+
+        public override void OnNewTurn()
+        {
+            return;
+        }
+
+        public override void OnNewPhase()
+        {
+            return;
         }
     }
 }

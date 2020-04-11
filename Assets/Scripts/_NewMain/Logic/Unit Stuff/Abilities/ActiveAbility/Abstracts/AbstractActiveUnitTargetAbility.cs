@@ -50,7 +50,7 @@ namespace BattlescapeLogic
 
         public bool IsInRange(Unit unit)
         {
-            return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
+            return owner.currentPosition.bottomLeftCorner.position.DistanceTo(unit.currentPosition.bottomLeftCorner.position) <= range;
         }
 
         public override void ColourPossibleTargets()
@@ -59,7 +59,7 @@ namespace BattlescapeLogic
             {
                 if (IsLegalTarget(unit))
                 {
-                    unit.currentPosition.highlighter.TurnOn(targetColouringColour);
+                    unit.currentPosition.bottomLeftCorner.highlighter.TurnOn(targetColouringColour);
                 }
             }
         }

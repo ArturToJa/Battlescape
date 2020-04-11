@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
@@ -51,6 +49,11 @@ namespace BattlescapeLogic
                 return true;
             }
             return false;
+        }
+
+        public static T GetRandomElementFromList<T>(List<T> list)
+        {
+            return list[Random.Range(0, list.Count)];
         }
     }
 }

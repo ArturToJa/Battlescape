@@ -109,7 +109,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnLeftClick(IMouseTargetable target)
+        public void OnLeftClick(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is Unit)
             {
@@ -167,7 +167,7 @@ namespace BattlescapeLogic
             selectedUnit = null;
         }
 
-        public void OnCursorOver(IMouseTargetable target)
+        public void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
             if (target is Unit)
             {

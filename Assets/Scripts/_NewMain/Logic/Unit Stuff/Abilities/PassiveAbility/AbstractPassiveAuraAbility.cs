@@ -53,8 +53,8 @@ namespace BattlescapeLogic
         {
             foreach (Unit unit in player.playerUnits)
             {
-                Position unitPosition = unit.currentPosition.position;
-                Position ownerPosition = owner.currentPosition.position;
+                Position unitPosition = unit.currentPosition.bottomLeftCorner.position;
+                Position ownerPosition = owner.currentPosition.bottomLeftCorner.position;
                 if (IsInRange(unit) && filter.FilterUnit(unit))
                 {
                     ApplyBuffsToUnit(placeableBuffs, unit);
@@ -64,7 +64,7 @@ namespace BattlescapeLogic
 
         bool IsInRange(Unit unit)
         {
-            return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
+            return owner.currentPosition.bottomLeftCorner.position.DistanceTo(unit.currentPosition.bottomLeftCorner.position) <= range;
         }
     }
 }

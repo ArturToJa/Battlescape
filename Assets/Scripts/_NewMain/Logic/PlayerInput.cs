@@ -179,20 +179,20 @@ namespace BattlescapeLogic
                     //Change hovered object to new
                     hoveredObject = newHoveredObject;
                     // New object is hovered, so play On Enter.
-                    hoveredObject.OnMouseHoverEnter();
+                    hoveredObject.OnMouseHoverEnter(hitInfo.point);
                     if (hoveredObject is IDamageable)
                     {
                         UIHitChanceInformation.instance.OnMouseHoverEnter(hoveredObject as IDamageable);
                     }
                     if (Global.instance.currentEntity != null)
                     {
-                        Global.instance.currentEntity.OnCursorOver(hoveredObject);
+                        Global.instance.currentEntity.OnCursorOver(hoveredObject, hitInfo.point);
                     }
                 }
 
                 if (Input.GetMouseButtonDown(0) && isInputBlocked == false)
                 {
-                    Global.instance.currentEntity.OnLeftClick(hoveredObject);
+                    Global.instance.currentEntity.OnLeftClick(hoveredObject, hitInfo.point);
                 }
             }
             else

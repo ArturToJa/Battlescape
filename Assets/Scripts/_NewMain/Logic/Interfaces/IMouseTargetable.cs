@@ -1,9 +1,9 @@
-﻿using System;
+﻿using UnityEngine;
 namespace BattlescapeLogic
 {
     public interface IMouseTargetable
     {
-        void OnMouseHoverEnter();
+        void OnMouseHoverEnter(Vector3 exactMousePosition);
         void OnMouseHoverExit();        
     }
 }

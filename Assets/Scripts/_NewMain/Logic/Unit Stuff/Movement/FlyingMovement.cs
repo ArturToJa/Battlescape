@@ -17,14 +17,14 @@ namespace BattlescapeLogic
         {
         }
 
-        public override IEnumerator MoveTo(Tile destination)
+        public override IEnumerator MoveTo(MultiTile destination)
         {
             PlayMovementAnimation();
             //this is what can be called retarded movement, but i cannot into realistic movement as much as Poland cannot into space ;<\
             // it flies up, then forwards, then down, in straight lines. I know it is bad!
 
             //turns in one frame currently
-            TurnTowards(destination.transform.position);
+            TurnTowards(destination.center);
 
             //while not up enough, rise
             while (myUnit.transform.position.y < flyHeight)
@@ -35,7 +35,7 @@ namespace BattlescapeLogic
             //once we have broke out of the first loop, we will not get back to it (we use yield return, not yield break)
 
             //while not above the target, fly towards it
-            while (!IsAbove(destination.transform.position))
+            while (!IsAbove(destination.center))
             {
                 FlyForward();
                 yield return null;
@@ -49,7 +49,7 @@ namespace BattlescapeLogic
             //HERE we need to pathfind, actually, to get distance etc. to know how many points we lost - I THINK. Or maybe fliers cannot move more that once per turn xD?
             myUnit.statistics.movementPoints = 0;
             myUnit.OnMove(myUnit.currentPosition, destination);
-            destination.SetMyUnitTo(myUnit);
+            destination.SetMyObjectTo(myUnit);
             PlayerInput.instance.isInputBlocked = false;
         }
 

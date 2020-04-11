@@ -18,7 +18,7 @@ namespace BattlescapeLogic
             missile.startingPoint = missile.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = owner;
-            missile.target = targetObstacle.currentPosition[0];
+            missile.target = targetObstacle.currentPosition.bottomLeftCorner;
             missile.myLauncher = this;
         }
 
@@ -27,7 +27,7 @@ namespace BattlescapeLogic
             if (base.IsLegalTarget(target))
             {
                 var targetObstacle = target as Obstacle;
-                return targetObstacle.currentPosition.Length == 1;
+                return targetObstacle.currentPosition.width == 1 && targetObstacle.currentPosition.height == 1;
             }
             else
             {
@@ -37,7 +37,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget(Tile target)
         {
-            Networking.instance.SendCommandToDestroyObstacle(owner, target.myObstacle);
+            Networking.instance.SendCommandToDestroyObstacle(owner, target.GetMyObject<Obstacle>());
         }
     }
 }
