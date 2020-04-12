@@ -273,7 +273,8 @@ namespace BattlescapeLogic
             Log.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
             attack.Attack(target);
-            NetworkingBaseClass.Instance.FinishRetaliation();
+            UIManager.SmoothlyTransitionActivity(GameObject.FindGameObjectWithTag("InfoRetal"), false, 0.001f);
+            GameRound.instance.ResetPhaseAfterEnemy();
         }
 
         //This is the attack on enemy exiting combat with us... Needed to separate it to a) change chances and b) calculate damage beforehand (to be able to know if I can or cannot quit combat)

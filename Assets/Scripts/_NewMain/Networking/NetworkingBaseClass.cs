@@ -45,13 +45,19 @@ namespace BattlescapeLogic
 
         public abstract void SendCommandToGiveChoiceOfRetaliation(Unit retaliatingUnit, Unit target);
 
-        public abstract void SendCommandToRetaliate(Unit retaliatingUnit, Unit retaliationTarget);
+        public abstract void SendCommandToRetaliate();
 
         public abstract void SendCommandToHit(Unit source, IDamageable target, int damage = -1);
 
         public abstract void SendCommandToNotRetaliate();
 
         public abstract void SendCommandToEndTurnPhase();
+
+        public abstract void SetHeroName(int playerTeamIndex, string heroName);
+
+        public abstract void SendInfoToOthersThatDisconnected();
+
+        public abstract void PlayerEndedPreGame();
         
         #endregion
     }

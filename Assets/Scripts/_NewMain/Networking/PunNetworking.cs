@@ -180,7 +180,7 @@ namespace BattlescapeLogic
 
         }
 
-        public override void SendCommandToRetaliate(Unit retaliatingUnit, Unit retaliationTarget)
+        public override void SendCommandToRetaliate()
         {
             //note also that AttackTarget is now the guy who retaliates, and AttackingUnit is getting hit.
 
@@ -244,6 +244,17 @@ namespace BattlescapeLogic
                 GameRound.instance.EndOfPhase();
             }
         }
+
+        public override void SetHeroName(int playerTeamIndex, string heroName)
+        {
+            photonView.RPC("RPCSetHeroName", RpcTarget.All, playerTeamIndex, heroName);
+        }
+
+        public override void SendInfoToOthersThatDisconnected()
+        {
+            photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
+        }
+
         #endregion
 
         #region private
@@ -255,7 +266,7 @@ namespace BattlescapeLogic
             retaliationTarget = _retaliationTarget;
         }
 
-        private void PlayerEndedPreGame()
+        public override void PlayerEndedPreGame()
         {
             photonView.RPC("RPCPlayerEndedPreGame", RpcTarget.All);
         }
@@ -292,12 +303,12 @@ namespace BattlescapeLogic
             playerTeam.AddNewPlayer(newPlayer);
         }
 
-        [PunRPC]
-        public void RPCConnectionLossScreen(string text)
-        {
-            StartCoroutine(TurnDisconnectionScreenVisible(text));
+        //[PunRPC]
+        //public void RPCConnectionLossScreen(string text)
+        //{
+        //    StartCoroutine(TurnDisconnectionScreenVisible(text));
 
-        }
+        //}
 
         [PunRPC]
         void RPCSetSeed(int s)
@@ -394,17 +405,17 @@ namespace BattlescapeLogic
         #endregion
 
         #region Coroutines
-        IEnumerator TurnDisconnectionScreenVisible(string text)
-        {
-            CanvasGroup screen = GameObject.FindGameObjectWithTag("DisconnectedScreen").GetComponent<CanvasGroup>();
-            GameObject.FindGameObjectWithTag("DisconnectedText").GetComponent<Text>().text = text;
-            while (screen.alpha < 1)
-            {
-                UIManager.SmoothlyTransitionActivity(screen.gameObject, true, 0.01f);
-                yield return null;
-            }
+        //IEnumerator TurnDisconnectionScreenVisible(string text)
+        //{
+        //    CanvasGroup screen = GameObject.FindGameObjectWithTag("DisconnectedScreen").GetComponent<CanvasGroup>();
+        //    GameObject.FindGameObjectWithTag("DisconnectedText").GetComponent<Text>().text = text;
+        //    while (screen.alpha < 1)
+        //    {
+        //        UIManager.SmoothlyTransitionActivity(screen.gameObject, true, 0.01f);
+        //        yield return null;
+        //    }
 
-        }
+        //}
         IEnumerator PutObstaclesWhenPossible(int s)
         {
             while (Global.instance.currentMap.mapVisuals == null)

@@ -16,7 +16,7 @@ public class RetaliationButtonsScript : MonoBehaviour
     public void Yes()
     {
         TurnOff();
-        NetworkingBaseClass.Instance.SendCommandToRetaliate(NetworkingBaseClass.Instance.retaliatingUnit, NetworkingBaseClass.Instance.retaliationTarget);
+        NetworkingBaseClass.Instance.SendCommandToRetaliate();
     }
 
     public void No()
@@ -40,7 +40,8 @@ public class RetaliationButtonsScript : MonoBehaviour
 
     public void MouseEnterYesButton()
     {
-        hitChanceInfo.TurnOnFor(NetworkingBaseClass.Instance.retaliatingUnit, NetworkingBaseClass.Instance.retaliationTarget);
+        Debug.LogError("Comment out by Pieta. Dont know what to do with this yet");
+        //hitChanceInfo.TurnOnFor(NetworkingBaseClass.Instance.retaliatingUnit, NetworkingBaseClass.Instance.retaliationTarget);
     }
     public void MouseExitYesButton()
     {

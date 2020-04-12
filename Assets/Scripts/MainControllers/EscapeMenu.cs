@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BattlescapeLogic;
-using Photon.Pun;
 
 public class EscapeMenu : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class EscapeMenu : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                NetworkingBaseClass.Instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
+                NetworkingBaseClass.Instance.SendInfoToOthersThatDisconnected();
             }
             NetworkingBaseClass.Instance.Disconnect();
         }
@@ -45,7 +44,7 @@ public class EscapeMenu : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                NetworkingBaseClass.Instance.photonView.RPC("RPCConnectionLossScreen", RpcTarget.Others, PhotonNetwork.LocalPlayer.NickName);
+                NetworkingBaseClass.Instance.SendInfoToOthersThatDisconnected();
             }
             NetworkingBaseClass.Instance.Disconnect();
         }

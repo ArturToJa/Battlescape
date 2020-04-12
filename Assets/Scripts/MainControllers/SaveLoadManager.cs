@@ -205,7 +205,7 @@ public class SaveLoadManager : MonoBehaviour
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            NetworkingBaseClass.Instance.photonView.RPC("RPCSetHeroName", Photon.Pun.RpcTarget.All, GameRound.instance.currentPlayer.team.index, heroName);
+            NetworkingBaseClass.Instance.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
         }
         else
         {
