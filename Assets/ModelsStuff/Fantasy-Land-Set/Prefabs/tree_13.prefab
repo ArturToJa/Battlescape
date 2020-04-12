@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 64329724347208398}
   - component: {fileID: 114066759898915188}
+  - component: {fileID: 6242406153481378419}
   m_Layer: 0
   m_Name: tree_13
   m_TagString: Dice

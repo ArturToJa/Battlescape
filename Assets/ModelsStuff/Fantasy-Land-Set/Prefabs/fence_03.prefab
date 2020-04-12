@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 64225424382746114}
   - component: {fileID: 114097733191459248}
+  - component: {fileID: 953204702662613954}
   m_Layer: 0
   m_Name: fence_03
   m_TagString: Dice

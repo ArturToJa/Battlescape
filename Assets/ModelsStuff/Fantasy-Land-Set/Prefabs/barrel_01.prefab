@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 64547741307905450}
   - component: {fileID: 114305811382496326}
+  - component: {fileID: 15620710733688376}
   m_Layer: 0
   m_Name: barrel_01
   m_TagString: Dice

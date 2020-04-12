@@ -7,18 +7,11 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractActiveAbility : AbstractAbility, IActiveEntity
     {
-        [SerializeField] string _abilityName;
-        public string abilityName
-        {
-            get
-            {
-                return _abilityName;
-            }
-            protected set
-            {
-                _abilityName = value;
-            }
-        }
+        [Header("Possible Targets")]
+        [SerializeField] bool targetUnit;
+        [SerializeField] bool targetObstacles;
+        [SerializeField] bool targetTiles;
+
 
         [SerializeField] string _description;
         public string description
@@ -74,11 +67,6 @@ namespace BattlescapeLogic
 
         [SerializeField] int _energyCost;
 
-        public virtual void OnAnimationEvent()
-        {
-            return;
-        }
-
         public int energyCost
         {
             get
@@ -90,6 +78,42 @@ namespace BattlescapeLogic
                 _energyCost = value;
             }
         }
+
+        [SerializeField] int _range;
+        protected int range
+        {
+            get
+            {
+                if (isRangeModified)
+                {
+                    return _range + rangeModifier;
+                }
+                else
+                {
+                    return _range;
+                }
+            }
+        }
+        [SerializeField] bool canBeBlockedByObstacles;
+        [SerializeField] bool isRangeModified;
+        [SerializeField] int _rangeModifier;
+        protected int rangeModifier
+        {
+            get
+            {
+                return _rangeModifier;
+            }
+            set
+            {
+                _rangeModifier = value;
+            }
+        }
+
+        public virtual void OnAnimationEvent()
+        {
+            return;
+        }
+
 
         [SerializeField] int _usesPerBattle;
         public int usesPerBattle
@@ -145,9 +169,7 @@ namespace BattlescapeLogic
         public static event Action OnAbilityClicked = delegate { };
 
         public static event Action OnAbilityFinished = delegate { };
-
-
-
+        
         public virtual bool IsUsableNow()
         {
             return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase();
@@ -166,6 +188,43 @@ namespace BattlescapeLogic
         protected bool HasEnoughEnergy()
         {
             return owner.statistics.currentEnergy >= energyCost;
+        }
+
+        protected bool IsInRange(Unit unit)
+        {
+            if (canBeBlockedByObstacles)
+            {
+                return HasClearView(unit.transform.position, 0.7f) 
+                && owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
+            }
+            else
+            {
+                return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
+            }
+        }
+        protected bool IsInRange(Obstacle obstacle)
+        {
+            if (canBeBlockedByObstacles)
+            {
+                return HasClearView(obstacle.transform.position, 0.7f)
+                && obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
+            }
+            else
+            {
+                return obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
+            }
+        }
+        protected bool IsInRange(Tile tile)
+        {
+            if (canBeBlockedByObstacles)
+            {
+                return HasClearView(tile.transform.position, 0.7f)
+                && owner.currentPosition.position.DistanceTo(tile.position) <= range;
+            }
+            else
+            {
+                return owner.currentPosition.position.DistanceTo(tile.position) <= range;
+            }
         }
 
         protected bool HasUsesLeft()
@@ -200,16 +259,102 @@ namespace BattlescapeLogic
             OnAbilityClicked();
         }
 
-        public abstract void ColourPossibleTargets();
+        public virtual void ColourPossibleTargets()
+        {
+            if (targetObstacles)
+            {
+                foreach (Tile tile in Global.instance.currentMap.board)
+                {
+                    if (IsLegalTarget(tile.myObstacle))
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
+                }
+            }
+            if (targetUnit)
+            {
+                foreach (Unit unit in Global.instance.GetAllUnits())
+                {
+                    if (IsLegalTarget(unit))
+                    {
+                        unit.currentPosition.highlighter.TurnOn(targetColouringColour);
+                    }
+                }
+            }
+            if (targetTiles)
+            {
+                foreach (Tile tile in Global.instance.currentMap.board)
+                {
+                    if (IsLegalTarget(tile))
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
+                }
+            }
+        }
 
         //NO IDEA if we even need this - in old code it coloured e.g. possible targets when hovering over ability, especially if ability is no target (used on click and not on activation
         public virtual void OnMouseHovered()
         {
             return;
         }
-        
-        public abstract bool IsLegalTarget(IMouseTargetable target);
 
+        public virtual bool IsLegalTarget(IMouseTargetable target)
+        {
+            bool UnitTest = false;
+            bool ObstacleTest = false;
+            bool TilesTest = false;
+
+            if (targetUnit)
+            {
+                if ((target is Unit) == false)
+                {
+                    UnitTest = false;
+                }
+                else
+                {
+                    Unit targetUnit = target as Unit;
+                    UnitTest = IsInRange(targetUnit) && filter.FilterUnit(targetUnit);
+                }
+            }
+            if (targetObstacles)
+            {
+                if (target is Obstacle == false)
+                {
+                    ObstacleTest = false;
+                }
+                else
+                {
+                    Obstacle targetObstacle = target as Obstacle;
+                    ObstacleTest = IsInRange(targetObstacle) && filter.FilterObstacle(targetObstacle);
+                }
+            }
+            if (targetTiles)
+            {
+                if (target is Tile == false)
+                {
+                    TilesTest = false;
+                }
+                else
+                {
+                    Tile targetTile = target as Tile;
+                    TilesTest = IsInRange(targetTile);
+                }
+            }
+            
+
+            if (UnitTest || ObstacleTest || TilesTest)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+
+        protected virtual void DoBeforeFinish() { }
 
         protected virtual void Activate()
         {
@@ -228,6 +373,7 @@ namespace BattlescapeLogic
             Animate();
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
+            DoBeforeFinish();
             OnFinish();
             //the thing below is necessary, but no idea WHEN and WHERE to turn it off.
             //PlayerInput.instance.isInputBlocked = true;
@@ -294,10 +440,29 @@ namespace BattlescapeLogic
         {
             PlayerInput.instance.isInputBlocked = false;
         }
-        protected void Update()
+
+
+        public bool HasClearView(Vector3 defender, float heightMultiplier, string isBlockedBy = "tall")
         {
-            //if(abilityIsActive)
-            //{OnUpdate();
+            foreach (var targetable in Global.FindAllObjectsInLine(transform.position, defender, heightMultiplier))
+            {
+                if (targetable.GetComponent<Obstacle>() != null)
+                {
+                    switch (isBlockedBy)
+                    {
+                        case "tall":  if (targetable.GetComponent<Obstacle>().isTall) return false;
+                            break;
+
+                        case "small": if (targetable.GetComponent<Obstacle>().isTall == false) return false;
+                            break;
+                        case "all": return false;
+
+                        default: Debug.Log("Unknown HasClearView() argument: " + isBlockedBy); break;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

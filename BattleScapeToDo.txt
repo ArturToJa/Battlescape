@@ -1,0 +1,77 @@
+
+meld - marge brancha
+
+GIT:
+git status - pokazuje które pliki się zmieniły
+git add - dodaje do kolejki commita - "." dodaje wszytskie zmiany - git add .
+git commit -m "commit message"- commitujesz i wpisujesz od razu komentarz
+git branch - powie na jakim branchu jesteś
+git checkout nazwa_brancza - zmiana brancha
+git checkout -b nazwa_brancza - dodaje brancza i zrobi kopie brancha na którym jesteś
+git push origin nazwa_brancza - udostępnia branch dla gita
+git log - pokazuje commity danego brancha
+git pull - ściąga zmiany z origina
+git merge nazwa_brancza- merdżuje brancz z branczem na którym się jest
+git merfe --continue - kontynuuje mergowanie 
+
+onstart,update,finished w abstact active ability i zinheritować to w tych co dziedziczą
+w update dać if(isactive){dosmth}   dorobić boola isactive
+
+pomysły:
+Jak nie ma żadnego targetu, niech umiejka pokazuje się jako nieaktywna
+wywalić wszystkie abstract abilitki bo różnią się tylko legalTargetem
+
+Co zrobiłem?
+Dałem abilityName do AbstractAbility
+Przeniosłem animEvent na dół w AbstractActiveAbility
+range/rangemod/israngemod w AbstractActiveAbility
+naprawa animacjii archera
+inRange w abstractability
+hasClearView w inRange
+dodałem filtry - smallObstacle/tallObstacle
+kilka rock_? ma teraz tag isTall = false bo nie są za duże
+ActiveAbility z czego biorą abilitki : jump, shadow cover.
+nowa klasa ActiveCastBuffAbility
+Zmiana IsLegal w AbstractActiveAbility
+Usunięcie pozostałych 5 Abstractów
+
+half terminmator w mapvisualsgeneration, bar cośtam na komentarz
+
+
+ActiveApplyBuffAbility
+{
+Guardian's support
+Bullseye
+Unbreakable
+Charge
+Strenous March
+ShieldBash
+Crushing Blow
+Battlecry
+}
+
+Buffy/Dubuffy statystyk:
+G's support
+Perfect shot
+BattleCry
+
+zmiana w zachowaniu:
+human wall
+shield bash
+crushing blow
+
+skok jest w innej klasie target na obstacle podświetla się pole na którym się ląduje
+Islegal ma mieć override w każdym nonabstractcie
+w teleport jeszcze boole gdzie kończy - czy musi obok przeciwników czy nie musi.
+
+
+
+Dziwne:
+Charge
+Strenous March
+
+
+
+
+
+

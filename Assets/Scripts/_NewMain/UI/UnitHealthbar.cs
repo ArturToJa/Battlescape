@@ -35,7 +35,7 @@ namespace BattlescapeUI
 
         void UpdateText()
         {
-            healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.maxHealthPoints;
+           //healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.maxHealthPoints;
         }
 
         void SetColour()

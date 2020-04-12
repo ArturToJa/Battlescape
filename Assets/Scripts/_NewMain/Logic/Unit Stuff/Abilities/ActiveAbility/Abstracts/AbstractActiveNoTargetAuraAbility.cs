@@ -9,7 +9,6 @@ namespace BattlescapeLogic
         //This class represents an ability, that generates an aura - like a PassiveAuraAbility - around the owner of the ability, but actively, on cast, not all the time.
         //Great example of this type of ability is an ability of the hero Knight - Battlecry. It gives an attack buff to all allies in range, so is an auto-cast on click (no target per se), but is an active.
 
-        [SerializeField] int range;
         [SerializeField] List<GameObject> auraBuffs;        
 
         protected override void Activate()
@@ -35,10 +34,7 @@ namespace BattlescapeLogic
             return IsInRange(targetUnit) && filter.FilterTeam(targetUnit.GetMyOwner().team) && filter.FilterPlayer(targetUnit.GetMyOwner()) && filter.FilterUnit(targetUnit); 
         }
 
-        public bool IsInRange(Unit unit)
-        {
-            return owner.currentPosition.bottomLeftCorner.position.DistanceTo(unit.currentPosition.bottomLeftCorner.position) <= range;
-        }
+        
 
     }
 }

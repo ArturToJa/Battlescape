@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 64476423875013732}
   - component: {fileID: 114900323315493586}
+  - component: {fileID: 1400589726208051442}
   m_Layer: 0
   m_Name: tree_01
   m_TagString: BigObstacle

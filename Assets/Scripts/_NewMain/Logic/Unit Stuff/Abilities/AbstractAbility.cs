@@ -19,12 +19,15 @@ namespace BattlescapeLogic
         [SerializeField] private bool melee;
         [SerializeField] private bool ground;
         [SerializeField] private bool flying;
+        [SerializeField] private bool smallObstacle; 
+        [SerializeField] private bool tallObstacle; 
 
         public void SetAbility(AbstractAbility ability)
         {
             thisAbility = ability;
         }
 
+        
 
         public bool FilterTeam(PlayerTeam team)
         {
@@ -41,9 +44,17 @@ namespace BattlescapeLogic
             return FilterSelf(unit) && (FilterHero(unit) || FilterRegular(unit)) && (FilterRanged(unit) || FilterMelee(unit)) && (FilterGround(unit) || FilterFlying(unit));
         }
 
-
-
-
+        public bool FilterObstacle(Obstacle obstacle)
+        {
+            if (obstacle.isTall)
+            {
+                return tallObstacle && obstacle.isTall == true || smallObstacle;
+            }
+            else
+            {
+                return smallObstacle && obstacle.isTall == false || tallObstacle;
+            }
+        }
 
         bool FilterAlly(PlayerTeam team)
         {
@@ -112,6 +123,15 @@ namespace BattlescapeLogic
     {
         protected TurnChanger turnChanger;
         public Unit owner { get; set; }
+
+        [SerializeField] string _abilityName;
+        public string abilityName
+        {
+            get
+            {
+                return _abilityName;
+            }
+        }
 
         [SerializeField] AbilityFilter _filter;
         public AbilityFilter filter

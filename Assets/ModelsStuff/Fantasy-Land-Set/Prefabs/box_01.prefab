@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 64750772008215598}
   - component: {fileID: 114442681755970086}
+  - component: {fileID: 3189616741852263222}
   m_Layer: 0
   m_Name: box_01
   m_TagString: Dice
@@ -92,7 +93,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 5bf94b9bf5212b340bfa15f19d123af2, type: 3}

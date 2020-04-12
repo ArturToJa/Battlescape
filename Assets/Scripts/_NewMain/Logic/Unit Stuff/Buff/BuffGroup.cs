@@ -69,7 +69,8 @@ namespace BattlescapeLogic
 
         public BuffGroup FindAllBuffsOfType(string buffType)
         {
-            return FindAll(
+            return FindAll
+            (
                 delegate(AbstractBuff buff)
                 {
                     if(buff.buffName.Equals(buffType))
@@ -80,7 +81,8 @@ namespace BattlescapeLogic
                     {
                         return false;
                     }
-                });
+                }
+            );
         }
     }
 }

@@ -430,16 +430,15 @@ namespace BattlescapeLogic
 
         public bool HasClearView(Vector3 defender)
         {
-            foreach (var targetable in Global.FindAllTargetablesInLine(transform.position, defender))
+            foreach (var targetable in Global.FindAllObjectsInLine(transform.position, defender, 0.5f))
             {
-                var obstacle = targetable as Obstacle;
-
-                if (obstacle != null && obstacle.isTall)
+                if (targetable.GetComponent<Obstacle>()!= null && targetable.transform.GetComponent<Obstacle>().isTall)
                 {
+                    Debug.Log(targetable.gameObject.name + " is blocking line of sight.");
                     return false;
                 }
             }
-
+           
             return true;
         }
 
