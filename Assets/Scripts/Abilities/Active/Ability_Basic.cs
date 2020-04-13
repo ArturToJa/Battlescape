@@ -55,7 +55,7 @@ public abstract class Ability_Basic : MonoBehaviour
     {
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            NetworkingApiBaseClass.Instance.GetComponent<PhotonView>().RPC
+            NetworkMessageSender.Instance.GetComponent<PhotonView>().RPC
                 (
                 "RPCActivateAbility",
                 RpcTarget.All,

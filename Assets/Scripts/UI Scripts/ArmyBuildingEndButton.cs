@@ -49,7 +49,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
         }
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            NetworkingApiBaseClass.Instance.PlayerEndedPreGame();
+            NetworkMessageSender.Instance.PlayerEndedPreGame();
 
         }
     }

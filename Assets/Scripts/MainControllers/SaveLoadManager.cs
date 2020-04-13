@@ -205,7 +205,7 @@ public class SaveLoadManager : MonoBehaviour
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
         if (Global.instance.matchType == MatchTypes.Online)
         {
-            NetworkingApiBaseClass.Instance.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
+            NetworkMessageSender.Instance.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
         }
         else
         {

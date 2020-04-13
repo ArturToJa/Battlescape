@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BattlescapeLogic
 {
     [RequireComponent(typeof(PhotonView))]
-    public class PunNetworkingApi : NetworkingApiBaseClass, IOnEventCallback
+    public class PunNetworkingApi : NetworkMessageSender
     {
         private enum PhotonEventCode
         {

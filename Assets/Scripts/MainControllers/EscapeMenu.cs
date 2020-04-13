@@ -26,13 +26,13 @@ public class EscapeMenu : MonoBehaviour
     }
     public void MainMenu()
     {
-        if (NetworkingApiBaseClass.Instance.IsConnected())
+        if (NetworkMessageSender.Instance.IsConnected())
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                NetworkingApiBaseClass.Instance.SendInfoToOthersThatDisconnected();
+                NetworkMessageSender.Instance.SendInfoToOthersThatDisconnected();
             }
-            NetworkingApiBaseClass.Instance.Disconnect();
+            NetworkMessageSender.Instance.Disconnect();
         }
 
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
@@ -40,13 +40,13 @@ public class EscapeMenu : MonoBehaviour
 
     public void Quit()
     {
-        if (NetworkingApiBaseClass.Instance.IsConnected())
+        if (NetworkMessageSender.Instance.IsConnected())
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_"))
             {
-                NetworkingApiBaseClass.Instance.SendInfoToOthersThatDisconnected();
+                NetworkMessageSender.Instance.SendInfoToOthersThatDisconnected();
             }
-            NetworkingApiBaseClass.Instance.Disconnect();
+            NetworkMessageSender.Instance.Disconnect();
         }
         Application.Quit();
     }

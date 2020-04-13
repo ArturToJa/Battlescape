@@ -40,7 +40,7 @@ public class AI_Attack : AI_Base_Attack
         {
             Unit attackTarget = theTile.myUnit;
             currentUnit.statistics.numberOfAttacks = 0;
-            NetworkingApiBaseClass.Instance.SendCommandToStartAttack(currentUnit, attackTarget);
+            NetworkMessageSender.Instance.SendCommandToStartAttack(currentUnit, attackTarget);
         }
         else
         {

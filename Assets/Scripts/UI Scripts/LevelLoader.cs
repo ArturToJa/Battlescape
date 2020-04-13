@@ -56,7 +56,7 @@ public class LevelLoader : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
         if (scene == "_MENU")
         {
-            Destroy(BattlescapeLogic.NetworkingApiBaseClass.Instance.gameObject);
+            Destroy(BattlescapeLogic.NetworkMessageSender.Instance.gameObject);
             Destroy(BattlescapeLogic.Global.instance.gameObject);
         }
         while (operation.isDone == false)

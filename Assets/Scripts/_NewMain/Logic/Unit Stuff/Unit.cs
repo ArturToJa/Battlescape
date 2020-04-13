@@ -322,7 +322,7 @@ namespace BattlescapeLogic
                 var targetUnit = target as Unit;
                 if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
                 {
-                    NetworkingApiBaseClass.Instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
+                    NetworkMessageSender.Instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
                 }
             }
 
@@ -472,7 +472,7 @@ namespace BattlescapeLogic
                 var targetObject = target as IDamageable;
                 if (attack.CanAttack(targetObject))
                 {
-                    NetworkingApiBaseClass.Instance.SendCommandToStartAttack(this, targetObject);
+                    NetworkMessageSender.Instance.SendCommandToStartAttack(this, targetObject);
                     statistics.numberOfAttacks--;
                 }
             }
@@ -494,7 +494,7 @@ namespace BattlescapeLogic
                 var targetTile = target as Tile;
                 if (CanMoveTo(targetTile))
                 {
-                    NetworkingApiBaseClass.Instance.SendCommandToMove(this, targetTile);
+                    NetworkMessageSender.Instance.SendCommandToMove(this, targetTile);
                 }
 
             }

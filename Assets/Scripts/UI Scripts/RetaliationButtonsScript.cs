@@ -16,13 +16,13 @@ public class RetaliationButtonsScript : MonoBehaviour
     public void Yes()
     {
         TurnOff();
-        NetworkingApiBaseClass.Instance.SendCommandToRetaliate();
+        NetworkMessageSender.Instance.SendCommandToRetaliate();
     }
 
     public void No()
     {
         TurnOff();
-        NetworkingApiBaseClass.Instance.SendCommandToNotRetaliate();
+        NetworkMessageSender.Instance.SendCommandToNotRetaliate();
     }
 
     public void TurnOn()
