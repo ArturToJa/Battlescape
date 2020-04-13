@@ -29,7 +29,7 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         deploymentPanel.parent.gameObject.SetActive(true);
         //CreateAllUnits();
         PreGameAI temp = new PreGameAI();
-        NetworkingBaseClass.Instance.SendCommandToAddPlayer(currentPlayer.team, currentPlayer);
+        NetworkingApiBaseClass.Instance.SendCommandToAddPlayer(currentPlayer.team, currentPlayer);
         temp.PositionUnits();
     }
 }

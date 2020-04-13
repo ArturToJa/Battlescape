@@ -73,7 +73,7 @@ namespace BattlescapeLogic
         {
             if (manualObstacles == false)
             {
-                NetworkingBaseClass.Instance.SendCommandToAddObstacles();
+                NetworkingApiBaseClass.Instance.SendCommandToAddObstacles();
             }
         }
 

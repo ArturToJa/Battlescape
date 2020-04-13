@@ -56,7 +56,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget(Tile target)
         {
-            NetworkingBaseClass.Instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject());
+            NetworkingApiBaseClass.Instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject());
         }
     }
 }

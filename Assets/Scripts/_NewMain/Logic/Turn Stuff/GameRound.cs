@@ -140,7 +140,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                NetworkingBaseClass.Instance.SendCommandToEndTurnPhase();
+                NetworkingApiBaseClass.Instance.SendCommandToEndTurnPhase();
             }
 
         }

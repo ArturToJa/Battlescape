@@ -89,7 +89,7 @@ public class AI_Shooting : AI_Base_Attack
             Debug.Log("Chosen tile is: " + target.Key);
             Unit attackTarget = target.Key.myUnit;
             currentUnit.statistics.numberOfAttacks = 0;
-            NetworkingBaseClass.Instance.SendCommandToStartAttack(currentUnit, attackTarget);
+            NetworkingApiBaseClass.Instance.SendCommandToStartAttack(currentUnit, attackTarget);
         }
         else
         {

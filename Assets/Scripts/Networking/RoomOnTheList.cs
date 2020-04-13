@@ -23,7 +23,7 @@ public class RoomOnTheList : MonoBehaviour
     void Start()
     {
         Button button = GetComponent<Button>();
-        button.onClick.AddListener(() => NetworkingBaseClass.Instance.JoinRoom(RoomNameText.text));
+        button.onClick.AddListener(() => NetworkingApiBaseClass.Instance.JoinRoom(RoomNameText.text));
     }
 
     private void OnDestroy()

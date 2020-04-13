@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +8,13 @@ using UnityEngine;
 namespace BattlescapeLogic
 {
     [RequireComponent(typeof(PhotonView))]
-    public class PunNetworking : NetworkingBaseClass
+    public class PunNetworkingApi : NetworkingApiBaseClass, IOnEventCallback
     {
+        private enum PhotonEventCode
+        {
+
+        }
+
         private PhotonView photonView;
 
         #region fieldsToRemoveAsap
@@ -48,6 +55,18 @@ namespace BattlescapeLogic
         {
             base.Start();
             photonView = GetComponent<PhotonView>();
+            PhotonNetwork.AddCallbackTarget(this);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            PhotonNetwork.RemoveCallbackTarget(this);
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            PhotonNetwork.RemoveCallbackTarget(this);
         }
 
         public override void Connect()
@@ -278,6 +297,14 @@ namespace BattlescapeLogic
         }
         #endregion
 
+
+        #region IOnEventCallback
+        public void OnEvent(EventData photonEvent)
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
+
         #region RPCs
         [PunRPC]
         void RPCSetHeroName(int ID, string name)
@@ -424,6 +451,7 @@ namespace BattlescapeLogic
             }
             Global.instance.currentMap.mapVisuals.GenerateObjects(s);
         }
+
         #endregion
     }
 }

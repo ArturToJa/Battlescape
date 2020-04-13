@@ -25,9 +25,9 @@ public class WindowSetter : MonoBehaviour
         SaveLoadManager.instance.currentSaveName = null;
         currentScreen = startingScreen;
         FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
-        if (BattlescapeLogic.NetworkingBaseClass.Instance.IsConnected())
+        if (BattlescapeLogic.NetworkingApiBaseClass.Instance.IsConnected())
         {
-            BattlescapeLogic.NetworkingBaseClass.Instance.Disconnect();
+            BattlescapeLogic.NetworkingApiBaseClass.Instance.Disconnect();
         }
     }
 }

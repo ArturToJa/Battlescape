@@ -8,10 +8,10 @@ namespace BattlescapeLogic
     //Maybe this class requires SOME refactors :D it's mostly copy-pasted from old classes being deleted. COntains ALL RPCs and their Commands.
     //Also - if this class stays as is, it is NOT used only for networked games, but for ALL
 
-    public abstract class NetworkingBaseClass : MonoBehaviour
+    public abstract class NetworkingApiBaseClass : MonoBehaviour
     {
         #region static
-        public static NetworkingBaseClass Instance { get; set; }
+        public static NetworkingApiBaseClass Instance { get; set; }
         #endregion
 
         #region Unity Methods
@@ -22,6 +22,14 @@ namespace BattlescapeLogic
                 Instance = this;
             }
             DontDestroyOnLoad(gameObject);
+        }
+        protected virtual void OnDisable()
+        {
+
+        }
+        protected virtual void OnDestroy()
+        {
+
         }
         #endregion
 

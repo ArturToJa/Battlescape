@@ -29,7 +29,7 @@ namespace BattlescapeLogic
         {
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                NetworkingBaseClass.Instance.SendCommandToHit(sourceUnit, targetObject, damage);
+                NetworkingApiBaseClass.Instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.attack = normalAttackType;                
             }
         }
