@@ -36,7 +36,7 @@ namespace BattlescapeLogic
         {
             foreach (Tile tile in Global.instance.currentMap.board)
             {
-                if (IsLegalTarget(tile.myObstacle))
+                if (IsLegalTarget(tile.GetMyObject<Obstacle>()))
                 {
                     tile.highlighter.TurnOn(targetColouringColour);
                 }
@@ -55,7 +55,7 @@ namespace BattlescapeLogic
 
         protected bool IsInRange(Obstacle obstacle)
         {
-            return obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
+            return obstacle.GetDistanceTo(owner.currentPosition.bottomLeftCorner.position) <= range;
         }
     }
 }

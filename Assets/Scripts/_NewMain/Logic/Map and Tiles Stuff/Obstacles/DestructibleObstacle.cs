@@ -32,7 +32,7 @@ namespace BattlescapeLogic
 
 
 
-        public override void Start()
+        protected override void Start()
         {
             base.Start();
             buffs = new BuffGroup(this);
@@ -50,7 +50,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnMouseHoverEnter()
+        public override void OnMouseHoverEnter(Vector3 exactMousePosition)
         {
             myHealthBar.TurnOn();
         }

@@ -150,12 +150,12 @@ namespace BattlescapeLogic
             if(Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(
-                    "RPCDestroyObstacle",
+                    "RPCDestroyObstacle", 
                     RpcTarget.All, 
-                    sourceUnit.currentPosition.position.x, 
-                    sourceUnit.currentPosition.position.z,
-                    myObstacle.currentPosition[0].position.x,
-                    myObstacle.currentPosition[0].position.z);
+                    sourceUnit.currentPosition.bottomLeftCorner.position.x, 
+                    sourceUnit.currentPosition.bottomLeftCorner.position.z,
+                    myObstacle.currentPosition.bottomLeftCorner.position.x,
+                    myObstacle.currentPosition.bottomLeftCorner.position.z);
             }
             else if (Global.instance.matchType != MatchTypes.Online)
             {
@@ -166,8 +166,8 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCDestroyObstacle(int sourceX, int sourceZ, int obstacleX, int obstacleZ)
         {
-            Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].myObstacle;
-            Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].myUnit;
+            Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Obstacle>();
+            Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Unit>();
             obstacle.Destruct(unit);
         }
 
@@ -176,16 +176,16 @@ namespace BattlescapeLogic
         /// Used to either perform movement in offline modes or send an RPC in online mode.
         /// </summary>
         /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
-        public void SendCommandToMove(Unit unit, Tile destination)
+        public void SendCommandToMove(Unit unit, MultiTile destination)
         {
             PlayerInput.instance.isInputBlocked = true; //this makes sense only on the 'active' PC' that's why I put it here ;)
 
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                int startX = Mathf.RoundToInt(unit.transform.position.x);
-                int startZ = Mathf.RoundToInt(unit.transform.position.z);
-                int endX = Mathf.RoundToInt(destination.transform.position.x);
-                int endZ = Mathf.RoundToInt(destination.transform.position.z);
+                int startX = unit.currentPosition.bottomLeftCorner.position.x;
+                int startZ = unit.currentPosition.bottomLeftCorner.position.z;
+                int endX = destination.bottomLeftCorner.position.x;
+                int endZ = destination.bottomLeftCorner.position.z;
 
                 photonView.RPC(
                     "RPCDoMovement",
@@ -204,15 +204,15 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCDoMovement(int startX, int startZ, int endX, int endZ)
         {
-            Tile startTile = Global.instance.currentMap.board[startX, startZ];
-            Unit unit = startTile.myUnit;
+            Tile bottomLeftCorner = Global.instance.currentMap.board[startX, startZ];
+            Unit unit = bottomLeftCorner.GetMyObject<Unit>();
             if (unit == null)
             {
                 Debug.LogError("NoUnit!");
                 Log.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
-            Tile destination = Global.instance.currentMap.board[endX, endZ];
+            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.width, unit.currentPosition.height);
             unit.Move(destination);
         }
 
@@ -230,8 +230,8 @@ namespace BattlescapeLogic
             {
                 photonView.RPC(
                     "RPCAttack", RpcTarget.All,
-                    attackingUnit.currentPosition.position.x,
-                    attackingUnit.currentPosition.position.z,
+                    attackingUnit.currentPosition.bottomLeftCorner.position.x,
+                    attackingUnit.currentPosition.bottomLeftCorner.position.z,
                     targetPosition.x,
                     targetPosition.z);
             }
@@ -245,7 +245,7 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCAttack(int sourceX, int sourceZ, int targetX, int targetZ)
         {
-            Unit attackingUnit = Global.instance.currentMap.board[sourceX, sourceZ].myUnit;
+            Unit attackingUnit = Global.instance.currentMap.board[sourceX, sourceZ].GetMyObject<Unit>();
             IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();                   
             attackingUnit.Attack(target);
         }
@@ -255,7 +255,13 @@ namespace BattlescapeLogic
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                GetComponent<PhotonView>().RPC("RPCRetaliation", RpcTarget.All, retaliatingUnit.currentPosition.position.x, retaliatingUnit.currentPosition.position.z, target.currentPosition.position.x, target.currentPosition.position.z);
+                GetComponent<PhotonView>().RPC
+                    ("RPCRetaliation", 
+                    RpcTarget.All, 
+                    retaliatingUnit.currentPosition.bottomLeftCorner.position.x, 
+                    retaliatingUnit.currentPosition.bottomLeftCorner.position.z,
+                    target.currentPosition.bottomLeftCorner.position.x, 
+                    target.currentPosition.bottomLeftCorner.position.z);
             }
             else
             {
@@ -267,14 +273,14 @@ namespace BattlescapeLogic
         void RPCRetaliation(int attackerX, int attackerZ, int targetX, int targetZ)
         {
 
-            Unit retaliatingUnit = Global.instance.currentMap.board[attackerX, attackerZ].myUnit;
+            Unit retaliatingUnit = Global.instance.currentMap.board[attackerX, attackerZ].GetMyObject<Unit>();
             if (retaliatingUnit.GetMyOwner().type != PlayerType.Local)
             {
                 UIManager.InstantlyTransitionActivity(waitingForRetaliationUI, true);
                 GameRound.instance.SetPhaseToEnemy();
                 return;
             }
-            Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
+            Unit target = Global.instance.currentMap.board[targetX, targetZ].GetMyObject<Unit>();
             RetaliationChoice(retaliatingUnit, target);
 
         }
@@ -297,8 +303,8 @@ namespace BattlescapeLogic
 
             if (Global.instance.matchType == MatchTypes.Online)
             {
-                int unitX = retaliatingUnit.currentPosition.position.x;
-                int unitZ = retaliatingUnit.currentPosition.position.z;
+                int unitX = retaliatingUnit.currentPosition.bottomLeftCorner.position.x;
+                int unitZ = retaliatingUnit.currentPosition.bottomLeftCorner.position.z;
                 photonView.RPC("RPCRetaliate", RpcTarget.All, unitX, unitZ);
             }
             else
@@ -310,8 +316,8 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCRetaliate(int attackerX, int attackerZ, int targetX, int targetZ)
         {
-            Unit attacker = Global.instance.currentMap.board[attackerX, attackerZ].myUnit;
-            Unit target = Global.instance.currentMap.board[targetX, targetZ].myUnit;
+            Unit attacker = Global.instance.currentMap.board[attackerX, attackerZ].GetMyObject<Unit>();
+            Unit target = Global.instance.currentMap.board[targetX, targetZ].GetMyObject<Unit>();
             attacker.RetaliateTo(target);
         }       
 
@@ -328,8 +334,8 @@ namespace BattlescapeLogic
                 photonView.RPC
                     ("RPCHitTarget",
                     RpcTarget.All,
-                    source.currentPosition.position.x,
-                    source.currentPosition.position.z,
+                    source.currentPosition.bottomLeftCorner.position.x,
+                    source.currentPosition.bottomLeftCorner.position.z,
                     targetX,
                     targetZ,
                     damage);
@@ -343,7 +349,7 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage)
         {
-            Unit source = Global.instance.currentMap.board[sourceX, sourceZ].myUnit;
+            Unit source = Global.instance.currentMap.board[sourceX, sourceZ].GetMyObject<Unit>();
             IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();
             source.HitTarget(target, damage);
         }

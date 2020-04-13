@@ -13,43 +13,34 @@ public class PreGameAI
     {
         foreach (Unit unit in GameRound.instance.currentPlayer.playerUnits)
         {
-            Tile newTile = ChooseTheTile();
-            DropZone.Instance.SendCommandToSetUnitPosition(unit, newTile);
+            MultiTile newPosition = ChooseThePosition(unit.currentPosition.width, unit.currentPosition.height);
+            DropZone.instance.SendCommandToSetUnitPosition(unit, newPosition);
         }
     }
 
-    public void PositionUnits()
+    public void CreateUnits()
     {
-        Position(SaveLoadManager.instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
+        DropZone.instance.CommandInstantiateUnit(SaveLoadManager.instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index);
         foreach (int index in SaveLoadManager.instance.playerArmy.unitIndecies)
         {
-            Position(index, GameRound.instance.currentPlayer.team.index, ChooseTheTile());
+            DropZone.instance.CommandInstantiateUnit(index, GameRound.instance.currentPlayer.team.index);
         }
-    }
+    }   
 
-    public void Position(int index, int playerID, Tile tile)
+
+    public MultiTile ChooseThePosition(int width, int height)
     {
-
-        if (tile == null)
-        {
-            return;
-        }
-        DropZone.Instance.CommandInstantiateUnit(index, playerID, tile.transform.position);
-    }
-
-
-    public Tile ChooseTheTile()
-    {
-        List<Tile> possibleTiles = new List<Tile>();
+        List<MultiTile> possibleTiles = new List<MultiTile>();
         foreach (Tile tile in Global.instance.currentMap.board)
         {
-            if (tile.IsWalkable() && (tile.dropzoneOfTeam == GameRound.instance.currentPlayer.team.index))
+            MultiTile position = MultiTile.Create(tile, width, height);
+            if (position != null && position.IsWalkable() && (position.IsDropzoneOfTeam(GameRound.instance.currentPlayer.team.index)))
             {
-                possibleTiles.Add(tile);
+                possibleTiles.Add(position);
             }
         }
 
-        Tile chosenTile = ChooseRandomTileFromList(possibleTiles);
+        MultiTile chosenTile = Tools.GetRandomElementFromList<MultiTile>(possibleTiles);
 
         if (chosenTile == null)
         {
@@ -59,22 +50,5 @@ public class PreGameAI
         return chosenTile;
     }
 
-    static Tile ChooseRandomTileFromList(List<Tile> tileList)
-    {
-        Tile chosenTile = null;
-        while (tileList.Count > 0)
-        {
-            chosenTile = tileList[Random.Range(0, tileList.Count)];
-            if (chosenTile.IsWalkable() == false || chosenTile.hasObstacle)
-            {
-                tileList.Remove(chosenTile);
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return chosenTile;
-    }
+      
 }

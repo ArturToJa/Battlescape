@@ -55,7 +55,7 @@ namespace BattlescapeLogic
 
         protected bool IsInRange(Tile tile)
         {
-            return owner.currentPosition.position.DistanceTo(tile.position) <= range;
+            return owner.currentPosition.bottomLeftCorner.position.DistanceTo(tile.position) <= range;
         }        
        
     }

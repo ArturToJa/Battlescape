@@ -9,7 +9,7 @@ public class Ability_Hero_Warrior_TheWall : Ability_Basic
     // This ability should NOT have cancel use - it should happen imidiately
     protected override void OnStart()
     {
-        Target = myUnit.currentPosition;
+        //Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()

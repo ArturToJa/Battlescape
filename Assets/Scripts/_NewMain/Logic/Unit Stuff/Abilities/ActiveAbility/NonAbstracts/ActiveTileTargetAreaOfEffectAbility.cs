@@ -55,9 +55,9 @@ namespace BattlescapeLogic
             DoVisualEffectsFor(vfxOnTargetArea, targetTile.gameObject);
             foreach (Tile tile in GetTargetsForTile(targetTile))
             {
-                if (tile.myUnit != null)
+                if (tile.GetMyObject<Unit>() != null)
                 {
-                    ApplyBuffsToUnit(buffs, tile.myUnit);
+                    ApplyBuffsToUnit(buffs, tile.GetMyObject<Unit>());
                 }
             }
 
@@ -71,7 +71,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnCursorOver(IMouseTargetable target)
+        public override void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
             if (target is Tile)
             {

@@ -818,6 +818,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb061af0cfb31e044a032c612142d11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentPosition:
+    _width: 2
+    _height: 2
+  _type: 0
   _missilePrefab: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d,
     type: 3}
   attackType: 1
@@ -872,7 +876,7 @@ MonoBehaviour:
     _baseAttack: 4
     _baseDefence: 0
     _maxHealthPoints: 25
-    _baseMaxMovementPoints: 1
+    _baseMaxMovementPoints: 5
     _baseAttackRange: 9
     _minimalAttackRange: 3
     _maxNumberOfAttacks: 1

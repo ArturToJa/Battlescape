@@ -28,8 +28,9 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         CameraController.Instance.correctCamera = true;
         deploymentPanel.parent.gameObject.SetActive(true);
         //CreateAllUnits();
-        PreGameAI temp = new PreGameAI();
+        PreGameAI preGameAi = new PreGameAI();
         Networking.instance.SendCommandToAddPlayer(currentPlayer.team, currentPlayer);
-        temp.PositionUnits();
+        preGameAi.CreateUnits();
+        preGameAi.RepositionUnits();
     }
 }

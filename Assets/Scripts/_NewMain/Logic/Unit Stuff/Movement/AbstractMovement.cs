@@ -14,7 +14,7 @@ namespace BattlescapeLogic
     {
         protected Unit myUnit;
         protected float visualSpeed;
-        protected Tile finalTile;
+        protected MultiTile finalPosition;
 
 
         //This is ONLY about finishing the WHOLE movement!
@@ -22,7 +22,7 @@ namespace BattlescapeLogic
         {
             get
             {
-                return myUnit != null && myUnit.currentPosition != null && finalTile != null && myUnit.currentPosition != finalTile;
+                return myUnit != null && myUnit.currentPosition != null && finalPosition != null && myUnit.currentPosition.Equals(finalPosition);
             }
 
         }
@@ -31,7 +31,7 @@ namespace BattlescapeLogic
         {
         }
 
-        public abstract IEnumerator MoveTo(Tile destination);
+        public abstract IEnumerator MoveTo(MultiTile destination);
 
         protected void TurnTowards(Vector3 target)
         {
@@ -45,12 +45,8 @@ namespace BattlescapeLogic
             myUnit = unit;
         }
 
-        public bool CanMoveTo(Tile destination)
-        {
-            if (destination == null)
-            {
-                Debug.LogError("Destination is null!");
-            }
+        public bool CanMoveTo(MultiTile destination)
+        {            
             return
                 destination != null
                 && myUnit.GetMyOwner().IsCurrentLocalPlayer()

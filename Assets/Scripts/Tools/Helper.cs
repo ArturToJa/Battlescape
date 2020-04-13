@@ -60,31 +60,7 @@ public static class Helper
         EventSystem.current.RaycastAll(pointerData, results);
         return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit"));
     }
-   
 
-    /// <summary>
-    /// Returns the position of the object 'snapped' to closest full integer position
-    /// </summary>
-    /// <param name="thing">Object to be 'snapped'</param>
-    /// <returns></returns>
-    public static Vector3 RoundPosition(GameObject thing)
-    {
-        return new Vector3((int)(thing.transform.position.x + 0.5f), (int)(thing.transform.position.y + 0.5f), (int)(thing.transform.position.z + 0.5f));
-        
-    }
 
-    //No fricking idea where to put this so it goes to Helper ;<
-    public static bool WouldBeInAttackRange(Unit unit, Tile where, Vector3 target)
-    {
-        Bounds FullRange = new Bounds(where.transform.position, new Vector3(2 * unit.statistics.GetCurrentAttackRange() + 0.25f, 5, 2 * unit.statistics.GetCurrentAttackRange() + 0.25f));
-        if (unit.statistics.minimalAttackRange > 0)
-        {
-            Bounds miniRange = new Bounds(where.transform.position, new Vector3(2 * unit.statistics.minimalAttackRange + 0.25f, 5, 2 * unit.statistics.minimalAttackRange + 0.25f));
-            return miniRange.Contains(target) == false && FullRange.Contains(target);
-        }
-        else
-        {
-            return FullRange.Contains(target);
-        }
-    }
+    
 }

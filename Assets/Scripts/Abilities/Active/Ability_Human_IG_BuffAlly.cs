@@ -19,13 +19,13 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override bool IsUsableNow()
     {
-        foreach (Tile tile in myUnit.currentPosition.neighbours)
-        {
-            if (tile.myUnit != null && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner())
-            {
-                return true;
-            }
-        }
+        //foreach (Tile tile in myUnit.currentPosition.neighbours)
+        //{
+        //    if (tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().GetMyOwner() == myUnit.GetMyOwner())
+        //    {
+        //        return true;
+        //    }
+        //}
         return false;
     }
 
@@ -47,7 +47,7 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     public override void Activate()
     {        
-        StartCoroutine(BuffAlly(Target.myUnit));
+        StartCoroutine(BuffAlly(Target.GetMyObject<Unit>()));
     }
 
     public override bool ActivationRequirements()
@@ -57,18 +57,19 @@ public class Ability_Human_IG_BuffAlly : Ability_Basic
 
     protected override void ColourTiles()
     {
-        foreach (Tile tile in myUnit.currentPosition.neighbours)
-        {
-            if (IsLegalTarget(tile))
-            {
-                tile.highlighter.TurnOn(Color.green);
-            }
-        }
+        //foreach (Tile tile in myUnit.currentPosition.neighbours)
+        //{
+        //    if (IsLegalTarget(tile))
+        //    {
+        //        tile.highlighter.TurnOn(Color.green);
+        //    }
+        //}
     }
 
     bool IsLegalTarget(Tile tile)
-    {       
-        return tile.myUnit != null && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner() && myUnit.currentPosition.neighbours.Contains(tile);
+    {
+        //return tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().GetMyOwner() == myUnit.GetMyOwner() && myUnit.currentPosition.neighbours.Contains(tile);
+        return false;
     }
 
     IEnumerator BuffAlly(BattlescapeLogic.Unit ally)

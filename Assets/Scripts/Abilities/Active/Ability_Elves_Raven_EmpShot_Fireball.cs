@@ -30,13 +30,13 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
     IEnumerator Fireball()
     {
 
-        Log.SpawnLog("Raven empowers his shot with 'Fireball' spell, hitting " + Target.myUnit.name + " and all it's neighbours.");
+        Log.SpawnLog("Raven empowers his shot with 'Fireball' spell, hitting " + Target.GetMyObject<Unit>().name + " and all it's neighbours.");
         foreach (Tile neighbour in Target.neighbours)
         {
-            if (neighbour.myUnit != null)
+            if (neighbour.GetMyObject<Unit>() != null)
             {
-                //neighbour.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence(), true, false, true);
-                PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - neighbour.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
+                //neighbour.GetMyObject<Unit>().DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - neighbour.GetMyObject<Unit>().statistics.GetCurrentDefence(), true, false, true);
+                PopupTextController.AddParalelPopupText("-" + (Damage + myUnit.statistics.GetCurrentAttack() - neighbour.GetMyObject<Unit>().statistics.GetCurrentDefence()), PopupTypes.Damage);
             }
         }
         yield return null;
@@ -47,14 +47,14 @@ public class Ability_Elves_Raven_EmpShot_Fireball : Ability_Elves_Raven_Empowere
     {
         Tile targeto = //MouseManager.Instance.MouseoveredUnit.currentPosition; 
             null;
-        PaintObject(targeto.myUnit.gameObject, Color.red);
-        colouredUnits.Add(targeto.myUnit.gameObject);
+        PaintObject(targeto.GetMyObject<Unit>().gameObject, Color.red);
+        colouredUnits.Add(targeto.GetMyObject<Unit>().gameObject);
         foreach (Tile neighbour in targeto.neighbours)
         {
-            if (neighbour.myUnit != null)
+            if (neighbour.GetMyObject<Unit>() != null)
             {
-                PaintObject(neighbour.myUnit.gameObject, Color.red);
-                colouredUnits.Add(neighbour.myUnit.gameObject);
+                PaintObject(neighbour.GetMyObject<Unit>().gameObject, Color.red);
+                colouredUnits.Add(neighbour.GetMyObject<Unit>().gameObject);
             }            
         }
     }

@@ -16,7 +16,7 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     protected override void OnStart()
     {
         HowlSource = gameObject.AddComponent<AudioSource>();
-        Target = myUnit.currentPosition;
+        //Target = myUnit.currentPosition;
     }
 
     protected override void OnUpdate()
@@ -32,14 +32,14 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
     {
         //foreach (BattlescapeLogic.Unit ally in Helper.GetAlliesInRange(myUnit, RangeBetweenWolves))
         //{
-        //    //if (ally.unitUnit.myUnitID == UnitID.Wolf)
+        //    //if (ally.unitUnit.GetMyObject<Unit>()ID == UnitID.Wolf)
         //    //{
         //    //    BattlescapeGraphics.ColouringTool.SetColour(ally.currentPosition,Color.green);
         //    //}
         //}
         //foreach (BattlescapeLogic.Unit enemy in Helper.GetEnemiesInRange(myUnit, RangeBetweenWolves))
         //{
-        //    //if (enemy.unitUnit.myUnitID == UnitID.Wolf)
+        //    //if (enemy.unitUnit.GetMyObject<Unit>()ID == UnitID.Wolf)
         //    //{
         //    //    BattlescapeGraphics.ColouringTool.SetColour(enemy.currentPosition, Color.green);                
         //    //}
@@ -79,20 +79,21 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         yield return new WaitForSeconds(TimeBetweenHowls);
         foreach (Tile tile in Global.instance.currentMap.board)
         {
-            if (
-                (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
-                &&
-                (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
-                && tile != myUnit.currentPosition
-                && tile.myUnit != null
-               // && tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
-                && CheckIfNoHowlYetOn(tile.myUnit)
-                )
-            {
+            //    if (
+            //        (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
+            //        &&
+            //        (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
+            //        && tile != myUnit.currentPosition
+            //        && tile.GetMyObject<Unit>() != null
+            //       // && tile.GetMyObject<Unit>().unitUnit.GetMyObject<Unit>()ID == UnitID.Wolf
+            //        && CheckIfNoHowlYetOn(tile.GetMyObject<Unit>())
+            //        )
+            //    {
 
-                StartCoroutine(DoOtherWolfStuff(tile.myUnit));
-                yield return new WaitForSeconds(TimeBetweenHowls);
-            }
+            //        StartCoroutine(DoOtherWolfStuff(tile.GetMyObject<Unit>()));
+            //        yield return new WaitForSeconds(TimeBetweenHowls);
+            //    }
+            //
         }
 
     }
@@ -149,18 +150,18 @@ public class Ability_Elves_Wolf_Howl : Ability_Basic
         int wolfCount = 0;
         foreach (Tile tile in Global.instance.currentMap.board)
         {
-            if (
-                (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
-                &&
-                (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
-                && tile != myUnit.currentPosition
-                && tile.myUnit != null
-                //&& tile.myUnit.unitUnit.myUnitID == UnitID.Wolf
-                && tile.myUnit.GetMyOwner() == myUnit.GetMyOwner()
-                )
-            {
-                wolfCount++;
-            }
+            //if (
+            //    (Mathf.Abs(tile.transform.position.x - myUnit.currentPosition.transform.position.x) <= RangeBetweenWolves)
+            //    &&
+            //    (Mathf.Abs(tile.transform.position.z - myUnit.currentPosition.transform.position.z) <= RangeBetweenWolves)
+            //    && tile != myUnit.currentPosition
+            //    && tile.GetMyObject<Unit>() != null
+            //    //&& tile.GetMyObject<Unit>().unitUnit.GetMyObject<Unit>()ID == UnitID.Wolf
+            //    && tile.GetMyObject<Unit>().GetMyOwner() == myUnit.GetMyOwner()
+            //    )
+            //{
+            //    wolfCount++;
+            //}
         }
         return wolfCount >= 2;
     }

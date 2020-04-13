@@ -49,13 +49,13 @@ public class PassiveAbility_Elves_Fencer_Duelist : PassiveAbility
     bool HasOneEnemy()
     {
         int count = 0;
-        foreach (Tile tile in myUnit.currentPosition.neighbours)
-        {
-            if (tile.myUnit != null && tile.myUnit.GetMyOwner() != myUnit.GetMyOwner())
-            {
-                count++;
-            }
-        }
+        //foreach (Tile tile in myUnit.currentPosition.neighbours)
+        //{
+        //    if (tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().GetMyOwner() != myUnit.GetMyOwner())
+        //    {
+        //        count++;
+        //    }
+        //}
         return count == 1;
     }
     

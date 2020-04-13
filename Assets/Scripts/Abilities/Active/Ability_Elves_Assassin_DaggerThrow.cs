@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
 {
@@ -46,8 +47,8 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
     {
         return
             //MouseManager.Instance.mouseoveredTile != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit != null &&
-            //MouseManager.Instance.mouseoveredTile.myUnit.GetMyOwner() != myUnit.GetMyOwner() &&
+            //MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>() != null &&
+            //MouseManager.Instance.mouseoveredtile.GetMyObject<Unit>().GetMyOwner() != myUnit.GetMyOwner() &&
             //Helper.AreTilesInRange(MouseManager.Instance.mouseoveredTile,myUnit.currentPosition, 2);
             true;
     }
@@ -64,10 +65,10 @@ public class Ability_Elves_Assassin_DaggerThrow : Ability_Basic
         /* var temp = Instantiate(Dagger, daggerSpawn.position, Dagger.transform.rotation);
          temp.GetComponent<ProjectileScript>().Target = Target.transform.position;*/
         //LaunchDagger(Target.transform.position, speed);
-        //Target.myUnit.DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.myUnit.statistics.GetCurrentDefence(), true, false, false);
-        PassiveAbility_Buff.AddBuff(Target.myUnit.gameObject, 2, 0, -2, -2, Target.myUnit.statistics.currentMaxNumberOfRetaliations, "AssassinDebuff", vfx, 0, false, true, false);
-        PopupTextController.AddParalelPopupText("-" + (Damage - Target.myUnit.statistics.GetCurrentDefence()), PopupTypes.Damage);
-        Log.SpawnLog("Assassin throws a deadly dagger at " + Target.myUnit.name + ", dealing " + (Damage - Target.myUnit.statistics.GetCurrentDefence()) + " damage.");
+        //Target.GetMyObject<Unit>().DealDamage(Damage + myUnit.statistics.GetCurrentAttack() - Target.GetMyObject<Unit>().statistics.GetCurrentDefence(), true, false, false);
+        PassiveAbility_Buff.AddBuff(Target.GetMyObject<Unit>().gameObject, 2, 0, -2, -2, Target.GetMyObject<Unit>().statistics.currentMaxNumberOfRetaliations, "AssassinDebuff", vfx, 0, false, true, false);
+        PopupTextController.AddParalelPopupText("-" + (Damage - Target.GetMyObject<Unit>().statistics.GetCurrentDefence()), PopupTypes.Damage);
+        Log.SpawnLog("Assassin throws a deadly dagger at " + Target.GetMyObject<Unit>().name + ", dealing " + (Damage - Target.GetMyObject<Unit>().statistics.GetCurrentDefence()) + " damage.");
         
         
         //Animate the shit

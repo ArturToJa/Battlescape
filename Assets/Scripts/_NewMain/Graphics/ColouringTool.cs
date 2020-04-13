@@ -8,6 +8,9 @@ namespace BattlescapeGraphics
 {
     public static class ColouringTool
     {
+        readonly static float hoveringTilesBrightnessFactor = 1.5f;
+
+
         static ColouringTool()
         {
             Unit.OnUnitSelected += ColourLegalTilesFor;
@@ -44,16 +47,19 @@ namespace BattlescapeGraphics
             UncolourAllTiles();
             if (GameRound.instance.currentPhase == TurnPhases.Movement)
             {
-                var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
-                foreach (Tile tile in temp)
+                var temp = Pathfinder.instance.GetAllLegalPositionsFor(unit);
+                foreach (MultiTile position in temp)
                 {
-                    if (tile.IsProtectedByEnemyOf(unit))
+                    foreach (Tile tile in position)
                     {
-                        tile.highlighter.TurnOn(Global.instance.colours.red);
-                    }
-                    else
-                    {
-                        tile.highlighter.TurnOn(Global.instance.colours.yellow);
+                        if (tile.IsProtectedByEnemyOf(unit))
+                        {
+                            tile.highlighter.TurnOn(Global.instance.colours.red);
+                        }
+                        else
+                        {
+                            tile.highlighter.TurnOn(Global.instance.colours.yellow);
+                        }
                     }
                 }
             }
@@ -67,7 +73,6 @@ namespace BattlescapeGraphics
                     }
                 }
             }
-
         }
 
         public static void UncolourAllTiles()
@@ -76,7 +81,6 @@ namespace BattlescapeGraphics
             {
                 tile.highlighter.TurnOff();
             }
-
         }
 
         public static void ColourUnitAsAllyOrEnemyOf(Unit unit, Player player)
@@ -104,6 +108,27 @@ namespace BattlescapeGraphics
                 Material m = r.material;
                 m.color = colour;
                 r.material = m;
+            }
+        }
+
+        static Color GetColourOfBrighteness(Color colour, float factor)
+        {
+            return new Color(colour.r * factor, colour.g * factor, colour.b * factor, colour.a);
+        }
+
+        public static void OnPositionHovered(MultiTile position)
+        {
+            foreach (Tile tile in position)
+            {
+                tile.highlighter.TurnOn(GetColourOfBrighteness(tile.highlighter.GetComponent<Renderer>().material.color, hoveringTilesBrightnessFactor));
+            }
+        }
+
+        public static void OnPositionUnhovered(MultiTile position)
+        {
+            foreach (Tile tile in position)
+            {
+                tile.highlighter.TurnOn(GetColourOfBrighteness(tile.highlighter.GetComponent<Renderer>().material.color, 1.0f / hoveringTilesBrightnessFactor));
             }
         }
     }
