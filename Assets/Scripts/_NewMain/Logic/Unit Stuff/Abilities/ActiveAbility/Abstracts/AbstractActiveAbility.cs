@@ -7,10 +7,6 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractActiveAbility : AbstractAbility, IActiveEntity
     {
-        [Header("Possible Targets")]
-        [SerializeField] bool targetUnit;
-        [SerializeField] bool targetObstacles;
-        [SerializeField] bool targetTiles;
 
 
         [SerializeField] string _description;
@@ -94,7 +90,6 @@ namespace BattlescapeLogic
                 }
             }
         }
-        [SerializeField] bool canBeBlockedByObstacles;
         [SerializeField] bool isRangeModified;
         [SerializeField] int _rangeModifier;
         protected int rangeModifier
@@ -192,39 +187,17 @@ namespace BattlescapeLogic
 
         protected bool IsInRange(Unit unit)
         {
-            if (canBeBlockedByObstacles)
-            {
-                return HasClearView(unit.transform.position, 0.7f) 
-                && owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
-            }
-            else
-            {
-                return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
-            }
+            return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
         }
+
         protected bool IsInRange(Obstacle obstacle)
         {
-            if (canBeBlockedByObstacles)
-            {
-                return HasClearView(obstacle.transform.position, 0.7f)
-                && obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
-            }
-            else
-            {
-                return obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
-            }
+            return obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
         }
+
         protected bool IsInRange(Tile tile)
         {
-            if (canBeBlockedByObstacles)
-            {
-                return HasClearView(tile.transform.position, 0.7f)
-                && owner.currentPosition.position.DistanceTo(tile.position) <= range;
-            }
-            else
-            {
-                return owner.currentPosition.position.DistanceTo(tile.position) <= range;
-            }
+            return owner.currentPosition.position.DistanceTo(tile.position) <= range;
         }
 
         protected bool HasUsesLeft()
@@ -259,39 +232,7 @@ namespace BattlescapeLogic
             OnAbilityClicked();
         }
 
-        public virtual void ColourPossibleTargets()
-        {
-            if (targetObstacles)
-            {
-                foreach (Tile tile in Global.instance.currentMap.board)
-                {
-                    if (IsLegalTarget(tile.myObstacle))
-                    {
-                        tile.highlighter.TurnOn(targetColouringColour);
-                    }
-                }
-            }
-            if (targetUnit)
-            {
-                foreach (Unit unit in Global.instance.GetAllUnits())
-                {
-                    if (IsLegalTarget(unit))
-                    {
-                        unit.currentPosition.highlighter.TurnOn(targetColouringColour);
-                    }
-                }
-            }
-            if (targetTiles)
-            {
-                foreach (Tile tile in Global.instance.currentMap.board)
-                {
-                    if (IsLegalTarget(tile))
-                    {
-                        tile.highlighter.TurnOn(targetColouringColour);
-                    }
-                }
-            }
-        }
+        public abstract void ColourPossibleTargets();
 
         //NO IDEA if we even need this - in old code it coloured e.g. possible targets when hovering over ability, especially if ability is no target (used on click and not on activation
         public virtual void OnMouseHovered()
@@ -299,59 +240,7 @@ namespace BattlescapeLogic
             return;
         }
 
-        public virtual bool IsLegalTarget(IMouseTargetable target)
-        {
-            bool UnitTest = false;
-            bool ObstacleTest = false;
-            bool TilesTest = false;
-
-            if (targetUnit)
-            {
-                if ((target is Unit) == false)
-                {
-                    UnitTest = false;
-                }
-                else
-                {
-                    Unit targetUnit = target as Unit;
-                    UnitTest = IsInRange(targetUnit) && filter.FilterUnit(targetUnit);
-                }
-            }
-            if (targetObstacles)
-            {
-                if (target is Obstacle == false)
-                {
-                    ObstacleTest = false;
-                }
-                else
-                {
-                    Obstacle targetObstacle = target as Obstacle;
-                    ObstacleTest = IsInRange(targetObstacle) && filter.FilterObstacle(targetObstacle);
-                }
-            }
-            if (targetTiles)
-            {
-                if (target is Tile == false)
-                {
-                    TilesTest = false;
-                }
-                else
-                {
-                    Tile targetTile = target as Tile;
-                    TilesTest = IsInRange(targetTile);
-                }
-            }
-            
-
-            if (UnitTest || ObstacleTest || TilesTest)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        public abstract bool IsLegalTarget(IMouseTargetable target);
         
 
         protected virtual void DoBeforeFinish() { }

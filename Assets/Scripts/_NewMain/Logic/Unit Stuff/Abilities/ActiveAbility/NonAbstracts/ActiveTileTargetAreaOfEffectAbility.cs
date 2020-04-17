@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ActiveTileTargetAreaOfEffectAbility : AbstractActiveTileTargetAbility
+    public class ActiveTileTargetAreaOfEffectAbility : AbstractActiveAbility
     {
         [SerializeField] int size;
 
@@ -78,6 +78,16 @@ namespace BattlescapeLogic
                 BattlescapeGraphics.ColouringTool.UncolourAllTiles();
                 ColourCurrentTargets(target as Tile);
             }           
+        }
+
+        public override bool IsLegalTarget(IMouseTargetable target)
+        {
+            if (target is Tile == false)
+            {
+                return false;
+            }
+            Tile targetTile = target as Tile;
+            return IsInRange(targetTile);
         }
     }
 }

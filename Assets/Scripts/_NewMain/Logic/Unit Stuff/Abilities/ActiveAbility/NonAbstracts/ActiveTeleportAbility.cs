@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ActiveTeleportAbility : AbstractActiveTileTargetAbility
+    public class ActiveTeleportAbility : AbstractActiveAbility
     {
         [Header("Teleportation Condictions")]
         [Space]
-        [SerializeField] bool HasToPassObtacle;
         [SerializeField] bool HasToBeInCombat;
         [SerializeField] bool CantBeInCombat;
+        [SerializeField] bool HasToLandInCombat;
+        [SerializeField] bool CantLandInCombat;
 
         protected override void DoBeforeFinish()
         {
@@ -19,52 +20,60 @@ namespace BattlescapeLogic
 
         public override bool IsLegalTarget(IMouseTargetable target)
         {
-
-            Tools.TypeComparizer<IMouseTargetable, Tile>(target);
-
-            if (base.IsLegalTarget(target))
-            {
-                var targetTile = target as Tile;
-                return FiltersTest(targetTile) && targetTile.myObstacle == null && targetTile.myUnit == null;
-            }
-            else
+            if (target is Tile == false)
             {
                 return false;
             }
+            var targetTile = target as Tile;
+            return ConditionsTest(targetTile) && targetTile.myObstacle == null && targetTile.myUnit == null && IsInRange(targetTile) && targetTile.IsWalkable();
         }
 
-        bool FiltersTest(Tile targetTile)
+        public override void ColourPossibleTargets()
         {
-            if (HasToPassObtacle && HasClearView(targetTile.transform.position ,0.05f, "small"))
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
-                return false;
-            }
-            else if (HasToBeInCombat && isInCombat() == false)
-            {
-                return false;
-            }
-            else if (CantBeInCombat && isInCombat())
-            {
-                return false;
-            }
-            else
-            {
-                return true;
+                if (IsLegalTarget(tile))
+                {
+                    tile.highlighter.TurnOn(targetColouringColour);
+                }
             }
         }
-
-        bool isInCombat()
+        
+        bool ConditionsTest(Tile targetTile)
         {
-            foreach (Tile tile in owner.GetMyTile().neighbours)
+            if (HasToBeInCombat && GetComponent<Unit>().IsInCombat() == false)
             {
-                if(tile.myUnit != null && tile.myUnit.GetMyOwner() != owner.GetMyOwner())
+                return false;
+            }
+            if (CantBeInCombat && GetComponent<Unit>().IsInCombat())
+            {
+                return false;
+            }
+            if(HasToLandInCombat && willLandInCombat(targetTile) == false)
+            {
+                return false;
+            }
+            if(CantLandInCombat && willLandInCombat(targetTile))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool willLandInCombat(Tile targetTile)
+        {
+            foreach(Tile tile in targetTile.neighbours)
+            {
+                if(tile.myUnit != null && tile.myUnit.GetMyOwner() != GetComponent<Unit>().GetMyOwner())
                 {
                     return true;
                 }
             }
-
             return false;
         }
-        
     }
+
+        
+    
 }

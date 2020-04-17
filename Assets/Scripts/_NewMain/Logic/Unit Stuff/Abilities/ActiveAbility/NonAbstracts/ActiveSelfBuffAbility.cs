@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ActiveSelfBuffAbility : AbstractActiveNoTargetAbility
+    public class ActiveSelfBuffAbility : AbstractActiveAbility
     {
         [SerializeField] List<GameObject> selfBuffs;
 
@@ -12,6 +12,11 @@ namespace BattlescapeLogic
         {
             base.Activate();
             ApplyBuffsToUnit(selfBuffs, owner);
+        }
+
+        public override void ColourPossibleTargets()
+        {
+            Debug.LogError("If you are asking this, most likely something went wrong?");
         }
 
         public override bool IsLegalTarget(IMouseTargetable target)

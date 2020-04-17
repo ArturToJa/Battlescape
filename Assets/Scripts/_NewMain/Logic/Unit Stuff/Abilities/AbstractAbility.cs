@@ -46,13 +46,17 @@ namespace BattlescapeLogic
 
         public bool FilterObstacle(Obstacle obstacle)
         {
-            if (obstacle.isTall)
+            if (tallObstacle && smallObstacle)
             {
-                return tallObstacle && obstacle.isTall == true || smallObstacle;
+                return true;
+            }
+            else if (obstacle.isTall)
+            {
+                return tallObstacle && obstacle.isTall == true;
             }
             else
             {
-                return smallObstacle && obstacle.isTall == false || tallObstacle;
+                return smallObstacle && obstacle.isTall == false;
             }
         }
 
