@@ -199,81 +199,17 @@ namespace BattlescapeLogic
 
         public MultiTile PositionRelatedToMouse(int width, int height, Vector3 exactClickPosition)
         {
-            int widthHelper = width % 2;
-            int heightHelper = height % 2;
-            int widthOffset = 0;
-            int heightOffset = 0;
+            // this variable is equal to 1 if width or height are even, otherwise 0
+            int widthEven = width % 2;
+            int heightEven = height % 2;
 
-            if (widthHelper == 1)
-            {
-                if (heightHelper == 1)
-                {
-                    // oba nieparzyste
-                    widthOffset = (width - 1) / 2;
-                    heightOffset = (height - 1) / 2;
+            // check which part of tile player clicked
+            int xGt = Convert.ToInt32(exactClickPosition.x > this.transform.position.x);
+            int zGt = Convert.ToInt32(exactClickPosition.z > this.transform.position.z);
 
-                }
-                else
-                {
-                    // width - nieparzysty, height - parzysty
-                    if (this.transform.position.z >= exactClickPosition.z)
-                    {
-                        heightOffset = height / 2;
-                        widthOffset = (width - 1) / 2;
-                    }
-                    else
-                    {
-                        heightOffset = (height / 2) - 1;
-                        widthOffset = (width - 1) / 2;
-                    }
-                }
-            }
-            else
-            {
-                if (heightHelper == 1)
-                {
-                    // width - parzysty, height - nieparzysty
-                    if (this.transform.position.x < exactClickPosition.x)
-                    {
-                        heightOffset = (height - 1) / 2;
-                        widthOffset = (width / 2) - 1;
-                    }
-                    else
-                    {
-                        heightOffset = (height - 1) / 2;
-                        widthOffset = (width / 2);
-                    }
-                }
-                else
-                {
-                    // oba parzyste
-                    if (this.transform.position.x < exactClickPosition.x && this.transform.position.z >= exactClickPosition.z)
-                    {
-                        //kliknęliśmy prawą dolną połowę tile'a
-                        heightOffset = height / 2;
-                        widthOffset = (width / 2) - 1;
-                    }
-                    if (this.transform.position.x >= exactClickPosition.x && this.transform.position.z >= exactClickPosition.z)
-                    {
-                        //kliknęliśmy lewy dolną połowę tile'a
-                        heightOffset = height / 2;
-                        widthOffset = (width / 2);
-                    }
-                    if (this.transform.position.x >= exactClickPosition.x && this.transform.position.z < exactClickPosition.z)
-                    {
-                        //kliknęliśmy lewą górną połowę tile'a
-                        heightOffset = (height / 2) - 1;
-                        widthOffset = width / 2;
-                    }
-                    if (this.transform.position.x < exactClickPosition.x && this.transform.position.z < exactClickPosition.z)
-                    {
-                        //kliknęliśmy prawą górna połowę tile'a
-                        heightOffset = (height / 2) - 1;
-                        widthOffset = (width / 2) - 1;
-                    }
-                }
-            }
-
+            // find new bottom left corner of Multitile
+            int widthOffset = (width - widthEven) / 2 - xGt;
+            int heightOffset = (height - heightEven) / 2 - zGt;
 
             return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(width, height)), width, height);
         }
