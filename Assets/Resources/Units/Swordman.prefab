@@ -1515,6 +1515,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb061af0cfb31e044a032c612142d11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentPosition:
+    _width: 1
+    _height: 1
+  _type: 0
   _missilePrefab: {fileID: 0}
   attackType: 0
   movementType: 0

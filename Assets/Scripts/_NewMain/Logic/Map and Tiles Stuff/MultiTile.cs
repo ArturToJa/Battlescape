@@ -9,7 +9,7 @@ namespace BattlescapeLogic
     public class MultiTile : IEnumerable
     {
         public Tile bottomLeftCorner { get; private set; }
-        [SerializeField] int _width;
+        [SerializeField] int _width = 1;
         public int width
         {
             get
@@ -21,7 +21,7 @@ namespace BattlescapeLogic
                 _width = value;
             }
         }
-        [SerializeField] int _height;
+        [SerializeField] int _height = 1;
         public int height
         {
             get
