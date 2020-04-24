@@ -27,7 +27,10 @@ namespace BattlescapeLogic
             thisAbility = ability;
         }
 
-        
+        public bool FilterUnitExtended(Unit unit)
+        {
+            return FilterUnit(unit) && FilterTeam(unit.GetMyOwner().team);
+        }
 
         public bool FilterTeam(PlayerTeam team)
         {

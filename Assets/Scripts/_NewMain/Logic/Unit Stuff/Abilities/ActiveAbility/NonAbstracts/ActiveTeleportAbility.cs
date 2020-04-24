@@ -13,9 +13,10 @@ namespace BattlescapeLogic
         [SerializeField] bool HasToLandInCombat;
         [SerializeField] bool CantLandInCombat;
 
-        protected override void DoBeforeFinish()
+        protected override void Activate()
         {
-            //Move Unit to the targetted location
+            base.Activate();
+            //Przenieś unita wraz z animacją
         }
 
         public override bool IsLegalTarget(IMouseTargetable target)

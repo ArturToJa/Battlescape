@@ -434,7 +434,6 @@ namespace BattlescapeLogic
             {
                 if (targetable.GetComponent<Obstacle>()!= null && targetable.transform.GetComponent<Obstacle>().isTall)
                 {
-                    Debug.Log(targetable.gameObject.name + " is blocking line of sight.");
                     return false;
                 }
             }

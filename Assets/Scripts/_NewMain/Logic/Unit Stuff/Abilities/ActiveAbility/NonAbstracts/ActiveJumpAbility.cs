@@ -11,6 +11,12 @@ namespace BattlescapeLogic
        [SerializeField] float JumpLenght;
        [SerializeField] Color possibleTileColour;
 
+        protected override void Activate()
+        {
+            base.Activate();
+            //teleport unit to targetted position with animation
+        }
+
         public override void OnCursorOver(IMouseTargetable target)
         {
             if (target is Obstacle && IsLegalTarget(target))

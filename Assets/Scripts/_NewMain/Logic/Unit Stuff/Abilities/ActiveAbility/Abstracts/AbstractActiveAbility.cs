@@ -140,6 +140,8 @@ namespace BattlescapeLogic
             }
         }
 
+        protected bool instantActive = false;
+
         [Header("Visuals and Sound")]
         [Space]
         [SerializeField]
@@ -229,7 +231,14 @@ namespace BattlescapeLogic
             Global.instance.currentEntity = this;
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             ColourPossibleTargets();
-            OnAbilityClicked();
+            if (instantActive)
+            {
+                Activate();
+            }
+            else
+            {
+                OnAbilityClicked();
+            }
         }
 
         public abstract void ColourPossibleTargets();
@@ -242,8 +251,7 @@ namespace BattlescapeLogic
 
         public abstract bool IsLegalTarget(IMouseTargetable target);
         
-
-        protected virtual void DoBeforeFinish() { }
+        
 
         protected virtual void Activate()
         {
@@ -262,7 +270,6 @@ namespace BattlescapeLogic
             Animate();
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
-            DoBeforeFinish();
             OnFinish();
             //the thing below is necessary, but no idea WHEN and WHERE to turn it off.
             //PlayerInput.instance.isInputBlocked = true;
