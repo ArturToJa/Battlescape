@@ -34,7 +34,7 @@ namespace BattlescapeLogic
             }
         }
 
-        List<MultiTile> _neighbours;
+        [NonSerialized] List<MultiTile> _neighbours;
         public List<MultiTile> neighbours
         {
             get
@@ -82,7 +82,7 @@ namespace BattlescapeLogic
         }
 
         //tiles literally next to this x by z tile group
-        List<Tile> _closeNeighbours;
+        [NonSerialized] List<Tile> _closeNeighbours;
         public List<Tile> closeNeighbours
         {
             get
