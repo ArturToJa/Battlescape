@@ -9,10 +9,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 //For custom inspector only
 #if UNITY_EDITOR
-	using UnityEditor;
+using UnityEditor;
 #endif
 
 namespace KevinIglesias {
@@ -68,7 +69,7 @@ namespace KevinIglesias {
 				int iID = EditorGUILayout.IntField("State IK ID:", SMBScript.id);
 				EditorStyles.label.fontStyle = FontStyle.Normal;
 				if(EditorGUI.EndChangeCheck()) {
-					Undo.RegisterUndo(target, "Changed ID");
+					Undo.RegisterCompleteObjectUndo(target, "Changed ID");
 					SMBScript.id = iID;
 				}
 				GUILayout.EndHorizontal();
@@ -78,7 +79,7 @@ namespace KevinIglesias {
 			EditorGUI.BeginChangeCheck();
 			bool iBool = EditorGUILayout.Toggle("Clear All IK States", SMBScript.clearAll);
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Clear All IK States");
+				Undo.RegisterCompleteObjectUndo(target, "Clear All IK States");
 				SMBScript.clearAll = iBool;
 			}
 			GUILayout.EndHorizontal();
@@ -87,7 +88,7 @@ namespace KevinIglesias {
 			EditorGUI.BeginChangeCheck();
 			float iFloat = EditorGUILayout.FloatField("Delay (seconds)", SMBScript.delay);
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Change Delay");
+				Undo.RegisterCompleteObjectUndo(target, "Change Delay");
 				SMBScript.delay = iFloat;
 			}
 			GUILayout.EndHorizontal();
@@ -96,7 +97,7 @@ namespace KevinIglesias {
 			EditorGUI.BeginChangeCheck();
 			iBool = EditorGUILayout.Toggle("Smooth Exit", SMBScript.smoothExit);
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Change Smooth Exit");
+				Undo.RegisterCompleteObjectUndo(target, "Change Smooth Exit");
 				SMBScript.smoothExit = iBool;
 			}
 			GUILayout.EndHorizontal();
@@ -117,7 +118,7 @@ namespace KevinIglesias {
 			EditorGUI.BeginChangeCheck();
 			iFloat = EditorGUILayout.FloatField("Speed (seconds):", SMBScript.speed);
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Change IK Speed");
+				Undo.RegisterCompleteObjectUndo(target, "Change IK Speed");
 				SMBScript.speed = iFloat;
 			}
 			GUILayout.EndHorizontal();
@@ -155,7 +156,7 @@ namespace KevinIglesias {
 					GUI.changed = true;
 					
 					if(EditorGUI.EndChangeCheck()) {
-						Undo.RegisterUndo(target, "Pasted variables");
+						Undo.RegisterCompleteObjectUndo(target, "Pasted variables");
 					}
 					
 					SMBScript.id = IKHelperUtils.savedRemoverSMB.id;
@@ -175,8 +176,8 @@ namespace KevinIglesias {
                 if(!EditorApplication.isPlaying)
 				{
 					EditorUtility.SetDirty(target);
-					EditorApplication.MarkSceneDirty();
-                }
+					EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+				}
             }
 		}
 	}

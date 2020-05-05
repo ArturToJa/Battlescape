@@ -9,10 +9,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 //For custom inspector only
 #if UNITY_EDITOR
-	using UnityEditor;
+using UnityEditor;
 #endif
 
 namespace KevinIglesias {
@@ -78,7 +79,7 @@ namespace KevinIglesias {
 			int iID = EditorGUILayout.IntField("State IK ID:", SMBScript.id);
 			EditorStyles.label.fontStyle = FontStyle.Normal;
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Changed ID");
+				Undo.RegisterCompleteObjectUndo(target, "Changed ID");
 				SMBScript.id = iID;
 			}
 			GUILayout.EndHorizontal();
@@ -87,7 +88,7 @@ namespace KevinIglesias {
 			EditorGUI.BeginChangeCheck();
 			iID = EditorGUILayout.Popup("IK Type:",  SMBScript.selectorIKType, IKHelperUtils.IKGoalNames, EditorStyles.popup);
 			if(EditorGUI.EndChangeCheck()) {
-				Undo.RegisterUndo(target, "Changed IK Goal");
+				Undo.RegisterCompleteObjectUndo(target, "Changed IK Goal");
 				SMBScript.selectorIKType = iID;
 				SMBScript.goal = (IKType)iID;
 			}
@@ -107,7 +108,7 @@ namespace KevinIglesias {
                         iID = EditorGUILayout.IntField("#"+i+"- Attachment ID: ", SMBScript.iKSequence[i].attachment);
                         EditorStyles.label.fontStyle = FontStyle.Normal;
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Changed ID");
+                            Undo.RegisterCompleteObjectUndo(target, "Changed ID");
                             SMBScript.iKSequence[i].attachment = iID;
                         }
                         GUILayout.EndHorizontal();
@@ -123,7 +124,7 @@ namespace KevinIglesias {
                     EditorGUI.BeginChangeCheck();
                     bool iDefault = EditorGUILayout.Toggle("Use default animation:", SMBScript.iKSequence[i].useDefault);
                     if(EditorGUI.EndChangeCheck()) {
-                        Undo.RegisterUndo(target, "Change Use Default Animation");
+                        Undo.RegisterCompleteObjectUndo(target, "Change Use Default Animation");
                         SMBScript.iKSequence[i].useDefault = iDefault;
                     }
                     GUILayout.EndHorizontal();
@@ -134,7 +135,7 @@ namespace KevinIglesias {
                         EditorGUI.BeginChangeCheck();
                         bool iBool = EditorGUILayout.Toggle("Smooth Entry:", SMBScript.smoothEntry);
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Change Smooth Entry");
+                            Undo.RegisterCompleteObjectUndo(target, "Change Smooth Entry");
                             SMBScript.smoothEntry = iBool;
                         }
                         GUILayout.EndHorizontal();
@@ -150,7 +151,7 @@ namespace KevinIglesias {
                         EditorGUI.BeginChangeCheck();
                         float iFloat = EditorGUILayout.FloatField("Speed (seconds):", SMBScript.iKSequence[i].speed);
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Change IK Speed");
+                            Undo.RegisterCompleteObjectUndo(target, "Change IK Speed");
                             SMBScript.iKSequence[i].speed = iFloat;
                         }
                         GUILayout.EndHorizontal();
@@ -159,7 +160,7 @@ namespace KevinIglesias {
                         EditorGUI.BeginChangeCheck();
                         iBool = EditorGUILayout.Toggle("Skip First Time:", SMBScript.defaultState);
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Change Skip First Time");
+                            Undo.RegisterCompleteObjectUndo(target, "Change Skip First Time");
                             SMBScript.defaultState = iBool;
                         }
                         GUILayout.EndHorizontal();
@@ -176,7 +177,7 @@ namespace KevinIglesias {
                         EditorGUI.BeginChangeCheck();
                         float iFloat = EditorGUILayout.FloatField("Delay (seconds):", SMBScript.iKSequence[i].time);
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Change IK Delay");
+                            Undo.RegisterCompleteObjectUndo(target, "Change IK Delay");
                             SMBScript.iKSequence[i].time = iFloat;
                         }
                         GUILayout.EndHorizontal();
@@ -185,7 +186,7 @@ namespace KevinIglesias {
                         EditorGUI.BeginChangeCheck();
                         iFloat = EditorGUILayout.FloatField("Speed (seconds):", SMBScript.iKSequence[i].speed);
                         if(EditorGUI.EndChangeCheck()) {
-                            Undo.RegisterUndo(target, "Change IK Speed");
+                            Undo.RegisterCompleteObjectUndo(target, "Change IK Speed");
                             SMBScript.iKSequence[i].speed = iFloat;
                         }
                         GUILayout.EndHorizontal();
@@ -198,7 +199,7 @@ namespace KevinIglesias {
                             GUI.changed = true;
                             if(EditorGUI.EndChangeCheck()) 
                             {
-                                Undo.RegisterUndo(target, "Removed IK Entry");
+                                Undo.RegisterCompleteObjectUndo(target, "Removed IK Entry");
                             }
                             SMBScript.iKSequence.RemoveAt(i);
                             break;
@@ -213,7 +214,7 @@ namespace KevinIglesias {
             EditorGUI.BeginChangeCheck();
             bool clearExit = EditorGUILayout.Toggle("Clear IK on Exit:", SMBScript.clearOnExit);
             if(EditorGUI.EndChangeCheck()) {
-                Undo.RegisterUndo(target, "Change Clear IK on Exit");
+                Undo.RegisterCompleteObjectUndo(target, "Change Clear IK on Exit");
                 SMBScript.clearOnExit = clearExit;
             }
             GUILayout.EndHorizontal();
@@ -230,7 +231,7 @@ namespace KevinIglesias {
 				
 				if(EditorGUI.EndChangeCheck()) 
 				{
-					Undo.RegisterUndo(target, "Added IK Entry");
+					Undo.RegisterCompleteObjectUndo(target, "Added IK Entry");
 				}
 				
 				SMBScript.iKSequence.Add(new IKSequence());
@@ -270,7 +271,7 @@ namespace KevinIglesias {
 					GUI.changed = true;
 					
 					if(EditorGUI.EndChangeCheck()) {
-						Undo.RegisterUndo(target, "Pasted variables");
+						Undo.RegisterCompleteObjectUndo(target, "Pasted variables");
 					}
 					
 					SMBScript.id = IKHelperUtils.savedSequenceSMB.id;
@@ -292,7 +293,7 @@ namespace KevinIglesias {
                 if(!EditorApplication.isPlaying)
 				{
 					EditorUtility.SetDirty(target);
-					EditorApplication.MarkSceneDirty();
+                    EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                 }
             }
 		}

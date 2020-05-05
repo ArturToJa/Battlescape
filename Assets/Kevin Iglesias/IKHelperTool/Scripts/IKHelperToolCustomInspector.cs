@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
 
@@ -77,7 +78,7 @@ namespace KevinIglesias {
 					GUI.changed = true;
 					if(EditorGUI.EndChangeCheck()) 
 					{
-						Undo.RegisterUndo(target, "Removed State IK");
+						Undo.RegisterCompleteObjectUndo(target, "Removed State IK");
 					}
 					iKScript.stateIKs.RemoveAt(i);
 					break;
@@ -116,7 +117,7 @@ namespace KevinIglesias {
 					EditorGUI.BeginChangeCheck();
 					string iName = EditorGUILayout.TextField("", iKScript.stateIKs[i].iKName);
 					if(EditorGUI.EndChangeCheck()) {
-						Undo.RegisterUndo(target, "IK State rename");
+						Undo.RegisterCompleteObjectUndo(target, "IK State rename");
 						iKScript.stateIKs[i].iKName = iName;
 					}  
 					GUILayout.EndHorizontal();
@@ -180,7 +181,7 @@ namespace KevinIglesias {
 									GUI.changed = true;
 									if(EditorGUI.EndChangeCheck()) 
 									{
-										Undo.RegisterUndo(target, "Removed IK Attachment");
+										Undo.RegisterCompleteObjectUndo(target, "Removed IK Attachment");
 									}
 									iKScript.stateIKs[i].IKs.RemoveAt(k);
 									break;
@@ -196,9 +197,9 @@ namespace KevinIglesias {
                                 
 						//IK Attachment Transform field (Game Object)
 						EditorGUI.BeginChangeCheck();
-						Transform iIKAttachment = EditorGUILayout.ObjectField("", iKScript.stateIKs[i].IKs[k].iKAttachment, typeof(Transform)) as Transform;
+						Transform iIKAttachment = EditorGUILayout.ObjectField("", iKScript.stateIKs[i].IKs[k].iKAttachment, typeof(Transform), false) as Transform;
                         if(EditorGUI.EndChangeCheck()) {
-							Undo.RegisterUndo(target, "Change IK Attachment");
+							Undo.RegisterCompleteObjectUndo(target, "Change IK Attachment");
 							iKScript.stateIKs[i].IKs[k].iKAttachment = iIKAttachment;
 						}
 						GUILayout.EndHorizontal();
@@ -219,7 +220,7 @@ namespace KevinIglesias {
 						EditorGUI.BeginChangeCheck();
 						bool iUseLocation = EditorGUILayout.Toggle("Use Location", iKScript.stateIKs[i].IKs[k].useLocation);
 						if(EditorGUI.EndChangeCheck()) {
-							Undo.RegisterUndo(target, "Change IK Use Location");
+							Undo.RegisterCompleteObjectUndo(target, "Change IK Use Location");
 							iKScript.stateIKs[i].IKs[k].useLocation = iUseLocation;
 						}
 						GUILayout.EndHorizontal();
@@ -241,7 +242,7 @@ namespace KevinIglesias {
 						EditorGUI.BeginChangeCheck();
 						bool iUseRotation = EditorGUILayout.Toggle("Use Rotation", iKScript.stateIKs[i].IKs[k].useRotation);
 						if(EditorGUI.EndChangeCheck()) {
-							Undo.RegisterUndo(target, "Change IK Use Rotation");
+							Undo.RegisterCompleteObjectUndo(target, "Change IK Use Rotation");
 							iKScript.stateIKs[i].IKs[k].useRotation = iUseRotation;
 						}
 						GUILayout.EndHorizontal();
@@ -286,7 +287,7 @@ namespace KevinIglesias {
 								GUI.changed = true;
 								
 								if(EditorGUI.EndChangeCheck()) {
-									Undo.RegisterUndo(target, "Pasted "+k.ToString("00")+" IK Pos/Rot");
+									Undo.RegisterCompleteObjectUndo(target, "Pasted "+k.ToString("00")+" IK Pos/Rot");
 								}
 								
 								iKScript.stateIKs[i].IKs[k].iKAttachment.localPosition = IKHelperUtils.copiedPos;
@@ -324,7 +325,7 @@ namespace KevinIglesias {
 							
 							if(EditorGUI.EndChangeCheck()) 
 							{
-								Undo.RegisterUndo(target, "Added IK Attachment");
+								Undo.RegisterCompleteObjectUndo(target, "Added IK Attachment");
 							}
 							
 							iKScript.stateIKs[i].IKs.Add(new IKAttachment());
@@ -359,7 +360,7 @@ namespace KevinIglesias {
 				
 				if(EditorGUI.EndChangeCheck()) 
 				{
-					Undo.RegisterUndo(target, "Added State IK");
+					Undo.RegisterCompleteObjectUndo(target, "Added State IK");
 				}
 				
 				iKScript.stateIKs.Add(new StateIK());
@@ -371,8 +372,8 @@ namespace KevinIglesias {
                 if(!EditorApplication.isPlaying)
 				{
 					EditorUtility.SetDirty(target);
-					EditorApplication.MarkSceneDirty();
-                }
+					EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+				}
             }
         }
     }
