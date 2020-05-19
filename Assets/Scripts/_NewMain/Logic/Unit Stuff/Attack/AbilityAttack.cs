@@ -53,11 +53,9 @@ namespace BattlescapeLogic
         void SpawnMissile(Tile target, int damage)
         {
             Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
-            missile.startingPoint = missile.transform.position;
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
             missile.target = target;
-            missile.damage = damage;
             missile.myLauncher = this;
         }
 
