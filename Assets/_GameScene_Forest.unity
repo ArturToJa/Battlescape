@@ -13857,8 +13857,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: UsePreGameAIForHuman
+      - m_Target: {fileID: 175314751}
+        m_MethodName: PositionUnits
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20718,7 +20718,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1097955737}
   m_HandleRect: {fileID: 1097955736}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

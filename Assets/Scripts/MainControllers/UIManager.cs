@@ -113,4 +113,12 @@ public class UIManager : MonoBehaviour
         fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.currentEnergy / (float)Statistics.maxEnergy), ref velocity, barAnimationTime);
         amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString() + "               +" + unit.statistics.energyRegen;
     }
+
+
+    //IDK it should be somewhere in the new code i guess, i dont care;
+    public void PositionUnits()
+    {
+        PreGameAI positioner = new PreGameAI();
+        positioner.RepositionUnits();
+    }
 }

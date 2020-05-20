@@ -301,9 +301,13 @@ namespace BattlescapeLogic
         //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
         public void HitTarget(IDamageable target, int damage)
         {
-            foreach (AbstractAttackModifierBuff modifierBuff in buffs)
+            foreach (AbstractBuff buff in buffs)
             {
-                modifierBuff.ModifyAttack(target, damage);
+                if(buff is AbstractAttackModifierBuff)
+                {
+                    AbstractAttackModifierBuff modifierBuff = buff as AbstractAttackModifierBuff;
+                    modifierBuff.ModifyAttack(target, damage);
+                }
             }
             PlayerInput.instance.isInputBlocked = false;
             if (damage == 0)
@@ -327,7 +331,7 @@ namespace BattlescapeLogic
             }
             if (target is Unit)
             {
-                var targetUnit = target as Unit;
+                var targetUnit = target as Unit;                
                 if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
                 {
                     Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
@@ -339,7 +343,7 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit retaliatingUnit)
         {
-            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer == retaliatingUnit.GetMyOwner())
+            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner())
             {
                 return false;
             }
