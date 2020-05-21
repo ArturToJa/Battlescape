@@ -208,8 +208,8 @@ namespace BattlescapeLogic
             int zGt = Convert.ToInt32(exactClickPosition.z > this.transform.position.z);
 
             // find new bottom left corner of Multitile
-            int widthOffset = (width - widthEven) / 2 - xGt;
-            int heightOffset = (height - heightEven) / 2 - zGt;
+            int widthOffset = (width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
+            int heightOffset = (height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
 
             return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(width, height)), width, height);
         }
