@@ -39,8 +39,8 @@ namespace BattlescapeLogic
         private Vector2 targetPosition;
         private float distanceToTravel = 0.0f;
         private float distanceTraveled = 0.0f;
-        private bool directionX = false;
-        private bool directionZ = false;
+
+        private Vector3 newPosition;
 
         void Start()
         {
@@ -49,12 +49,10 @@ namespace BattlescapeLogic
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
             targetPosition = new Vector2(target.transform.position.x, target.transform.position.z);
             distanceToTravel = Vector2.Distance(myPosition, targetPosition);
-
-            directionX = myPosition.x <= targetPosition.x;
-            directionZ = myPosition.y <= targetPosition.y;
         }
         void Update()
         {
+            CalculatePosition();
             UpdatePosition();
             if (Vector3.Distance(this.transform.position, target.transform.position) < minDistance)
             {
@@ -67,24 +65,23 @@ namespace BattlescapeLogic
             }
         }
 
-        private void UpdatePosition()
+        private void CalculatePosition()
         {
-            float distanceDelta = CalculateNew2DPosition();
-            float heightDelta = CalculateNewHeight();
-            CalculateNewPitch(distanceDelta, heightDelta);
+            CalculateNew2DPosition();
+            CalculateNewHeight();
+            CalculateNewAngle();
         }
 
-        private float CalculateNew2DPosition()
+        private void CalculateNew2DPosition()
         {
             float distanceToMove = speedPerFrame * Time.deltaTime;
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
-            Vector2 newPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
-            this.transform.position = new Vector3(newPosition.x, this.transform.position.y, newPosition.y);
+            Vector2 new2DPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
+            newPosition = new Vector3(new2DPosition.x, this.transform.position.y, new2DPosition.y);
             distanceTraveled += distanceToMove;
-            return distanceToMove;
         }
 
-        private float CalculateNewHeight()
+        private void CalculateNewHeight()
         {
             float x = distanceTraveled;
             float x1 = 0.0f;
@@ -93,24 +90,17 @@ namespace BattlescapeLogic
             float q = maxHeight;
             float a = (0.0f - q) / Mathf.Pow((x1 - p), 2.0f);
             float newHeight = a * Mathf.Pow((x - p), 2.0f) + q;
-            float oldHeight = this.transform.position.y;
-            this.transform.position = new Vector3(this.transform.position.x, newHeight, this.transform.position.z);
-            return newHeight - oldHeight;
+            newPosition.y = newHeight;
         }
 
-        private void CalculateNewPitch(float distanceDelta, float heightDelta)
+        private void CalculateNewAngle()
         {
-            float angle = -90 + Mathf.Atan2(heightDelta, distanceDelta) * Mathf.Rad2Deg;
-            
-            if(directionX)
-            {
-                angle = -angle;
-            }
-            if(directionZ)
-            {
-                angle += 270;
-            }
-            Maths.SetObjectYaw(this.gameObject, angle);
+            this.transform.LookAt(newPosition);
+        }
+
+        private void UpdatePosition()
+        {
+            this.transform.position = new Vector3(newPosition.x, newPosition.y, newPosition.z);
         }
     }
 }
