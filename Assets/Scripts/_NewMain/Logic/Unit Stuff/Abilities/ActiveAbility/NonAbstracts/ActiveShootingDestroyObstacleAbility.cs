@@ -17,7 +17,7 @@ namespace BattlescapeLogic
             Missile missile = GameObject.Instantiate(owner.myMissile, owner.transform.position, owner.transform.rotation).GetComponent<Missile>();
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = owner;
-            missile.target = targetObstacle.currentPosition.bottomLeftCorner;
+            missile.target = targetObstacle.currentPosition.center;
             missile.myLauncher = this;
         }
 
@@ -34,9 +34,9 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnMissileHitTarget(Tile target)
+        public void OnMissileHitTarget()
         {
-            Networking.instance.SendCommandToDestroyObstacle(owner, target.GetMyObject<Obstacle>());
+            Networking.instance.SendCommandToDestroyObstacle(owner, target as Obstacle);
         }
     }
 }

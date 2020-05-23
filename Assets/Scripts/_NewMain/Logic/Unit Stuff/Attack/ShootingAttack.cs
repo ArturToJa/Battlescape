@@ -31,13 +31,13 @@ namespace BattlescapeLogic
         }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
-        public void SpawnMissile(Tile target)
+        public void SpawnMissile()
         {
             Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
 
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
-            missile.target = target;
+            missile.target = targetObject.GetMyPosition();
             missile.myLauncher = this;
         }
 
@@ -48,15 +48,12 @@ namespace BattlescapeLogic
 
         public override void OnRangedAttackAnimation()
         {
-            int targetX = Mathf.RoundToInt(targetObject.GetMyPosition().x);
-            int targetZ = Mathf.RoundToInt(targetObject.GetMyPosition().z);
-            Tile targetTile = Global.instance.currentMap.board[targetX, targetZ];
-            SpawnMissile(targetTile);
+            SpawnMissile();
         }
 
-        public void OnMissileHitTarget(Tile target)
+        public void OnMissileHitTarget()
         {
-            Networking.instance.SendCommandToHit(sourceUnit, target.GetMyDamagableObject());
+            Networking.instance.SendCommandToHit(sourceUnit, targetObject);
         }
     }
 }

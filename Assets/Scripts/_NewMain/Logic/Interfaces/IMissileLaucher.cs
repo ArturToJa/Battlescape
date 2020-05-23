@@ -6,6 +6,6 @@ namespace BattlescapeLogic
 {
     public interface IMissileLaucher
     {
-        void OnMissileHitTarget(Tile target);
+        void OnMissileHitTarget();
     }
 }

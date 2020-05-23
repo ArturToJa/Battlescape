@@ -9,7 +9,7 @@ namespace BattlescapeLogic
         public IMissileLaucher myLauncher { get; set; }
         static readonly float minDistance = 0.2f;
         public Unit sourceUnit { get; set; }
-        public Tile target { get; set; }
+        public Vector3 target { get; set; }
         [SerializeField] Sound onHitSound;
         [SerializeField] float _speedPerFrame;
         public float speedPerFrame
@@ -40,25 +40,25 @@ namespace BattlescapeLogic
         private float distanceToTravel = 0.0f;
         private float distanceTraveled = 0.0f;
 
-        private Vector3 newPosition;
+        private Vector3 newPosition = new Vector3();
 
         void Start()
         {
             maxHeight += this.transform.position.y;
 
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
-            targetPosition = new Vector2(target.transform.position.x, target.transform.position.z);
+            targetPosition = new Vector2(target.x, target.z);
             distanceToTravel = Vector2.Distance(myPosition, targetPosition);
         }
         void Update()
         {
             CalculatePosition();
             UpdatePosition();
-            if (Vector3.Distance(this.transform.position, target.transform.position) < minDistance)
+            if (Vector3.Distance(this.transform.position, target) < minDistance)
             {
                 if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
-                    myLauncher.OnMissileHitTarget(target);                   
+                    myLauncher.OnMissileHitTarget();                   
                 }
                 BattlescapeSound.SoundManager.instance.PlaySound(gameObject, onHitSound);
                 Destroy(gameObject);
@@ -77,7 +77,8 @@ namespace BattlescapeLogic
             float distanceToMove = speedPerFrame * Time.deltaTime;
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
             Vector2 new2DPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
-            newPosition = new Vector3(new2DPosition.x, this.transform.position.y, new2DPosition.y);
+            newPosition.x = new2DPosition.x;
+            newPosition.z = new2DPosition.y;
             distanceTraveled += distanceToMove;
         }
 
