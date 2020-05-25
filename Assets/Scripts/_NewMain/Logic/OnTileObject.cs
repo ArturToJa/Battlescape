@@ -34,6 +34,11 @@ namespace BattlescapeLogic
             SetMyPositionTo(CalibrateToFitInBoard(bottomLeftCorner));
         }
 
+        public void TryToSetMyPositionAndMoveTo(Tile bottomLeftCorner)
+        {
+            SetMyPositionAndMoveTo(CalibrateToFitInBoard(bottomLeftCorner));
+        }
+
         void SetMyPositionTo(Tile newBottomLeftCorner)
         {            
             foreach (Tile tile in currentPosition)
@@ -41,11 +46,16 @@ namespace BattlescapeLogic
                 tile.SetMyObjectTo(null);
             }
             currentPosition = MultiTile.Create(newBottomLeftCorner, currentPosition.width, currentPosition.height);
-            this.transform.position = currentPosition.center;
             foreach (Tile tile in currentPosition)
             {
                 tile.SetMyObjectTo(this);
             }
+        }
+
+        void SetMyPositionAndMoveTo(Tile newBottomLeftCorner)
+        {
+            SetMyPositionTo(newBottomLeftCorner);
+            this.transform.position = currentPosition.center;
         }
 
         Tile CalibrateToFitInBoard(Tile bottomLeftCorner)
@@ -65,7 +75,7 @@ namespace BattlescapeLogic
 
         public void OnSpawn(Tile spawningTile)
         {
-            TryToSetMyPositionTo(spawningTile);
+            TryToSetMyPositionAndMoveTo(spawningTile);
         }
     }
 

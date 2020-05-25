@@ -39,10 +39,8 @@ public class DragableUnit : MonoBehaviour
         Unit unit = UnitFactory.GetUnitByIndex(index);        
 
         Tile tile = Global.instance.currentMap.board[endPosX, endPosZ];
-        MultiTile position = MultiTile.Create(tile, unit.currentPosition.width, unit.currentPosition.height);
 
-        unit.transform.position = position.center;
-        unit.TryToSetMyPositionTo(tile);
+        unit.TryToSetMyPositionAndMoveTo(tile);
         unit.FaceMiddleOfMap();
     }
 }
