@@ -109,9 +109,12 @@ namespace BattlescapeLogic
         {
             foreach (Tile neighbour in position.closeNeighbours)
             {
-                if (neighbour.IsWalkable() == false)
+                foreach (Tile closeNeighbour in neighbour.neighbours)
                 {
-                    return false;
+                    if(closeNeighbour.IsWalkable() == false)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
