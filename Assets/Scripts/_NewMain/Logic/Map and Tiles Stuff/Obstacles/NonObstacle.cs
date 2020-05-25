@@ -4,8 +4,17 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class OnTileObject : TurnChangeMonoBehaviour, IOnTilePlaceable
-    {    
+    public class NonObstacle : MonoBehaviour, IOnTilePlaceable
+    {
+        [SerializeField] TileObjectType _type;
+        public TileObjectType type
+        {
+            get
+            {
+                return _type;
+            }
+        }
+
         [SerializeField] protected MultiTile _currentPosition;
         public MultiTile currentPosition
         {
@@ -19,33 +28,15 @@ namespace BattlescapeLogic
             }
         }
 
-
-        [SerializeField] TileObjectType _type;
-        public TileObjectType type
-        {
-            get
-            {
-                return _type;
-            }
-        }
-
         public void TryToSetMyPositionTo(Tile bottomLeftCorner)
         {
             SetMyPositionTo(CalibrateToFitInBoard(bottomLeftCorner));
         }
 
         void SetMyPositionTo(Tile newBottomLeftCorner)
-        {            
-            foreach (Tile tile in currentPosition)
-            {
-                tile.SetMyObjectTo(null);
-            }
+        {
             currentPosition = MultiTile.Create(newBottomLeftCorner, currentPosition.width, currentPosition.height);
-            this.transform.position = currentPosition.center;
-            foreach (Tile tile in currentPosition)
-            {
-                tile.SetMyObjectTo(this);
-            }
+            this.transform.position = currentPosition.center;            
         }
 
         Tile CalibrateToFitInBoard(Tile bottomLeftCorner)
@@ -68,6 +59,4 @@ namespace BattlescapeLogic
             TryToSetMyPositionTo(spawningTile);
         }
     }
-
-
 }

@@ -7,8 +7,14 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class MapVisualsGenerator
     {
+        [System.Serializable]
+        class GameobjectList
+        {
+            [SerializeField] public List<GameObject> elements;
+        }
+
         [SerializeField] List<MapVisualsSpecification> specs;
-        [SerializeField] List<IOnTilePlaceable> allLegalObjects;
+        [SerializeField] List<GameobjectList> allLegalObjects;
         [SerializeField] float allowedPercentage = 0.25f;
         List<Tile> tilesWithObstacle;
 
@@ -22,92 +28,88 @@ namespace BattlescapeLogic
                 int amountOfType = Random.Range(spec.minAmount, spec.maxAmount + 1);
                 for (int i = 0; i < amountOfType; i++)
                 {
-                    GenerateObject(GetRandomObject(spec.type, amountOfType), GetRandomTile(spec.minDistanceToShortSide, spec.minDistanceToLongSide, spec), spec.canRotate);
+                    GameObject placeableObject = GenerateObject(GetRandomObject(spec.type, amountOfType), spec.canRotate);
+                    IOnTilePlaceable placeable = placeableObject.GetComponent<IOnTilePlaceable>();
+                    PlaceObject(placeableObject, GetRandomMultiTile(placeable.currentPosition.width, placeable.currentPosition.height, spec));
                 }
             }
         }
 
-        void GenerateObject(IOnTilePlaceable prefab, Tile tile, bool canRotate)
+        void PlaceObject(GameObject objectToPlace, MultiTile position)
         {
-            if (tile == null)
+            if (position == null)
             {
-                Debug.Log("Didn't spawn: " + prefab.name + " cause of lack of space");
+                Debug.Log("Terminated: " + objectToPlace.name);
+                GameObject.Destroy(objectToPlace);
                 return;
             }
-            var temp = prefab as MonoBehaviour;
-            Quaternion rotation = temp.transform.rotation;
+            objectToPlace.GetComponent<IOnTilePlaceable>().OnSpawn(position.bottomLeftCorner);
+            Vector3 oldScale = objectToPlace.transform.localScale;
+            objectToPlace.transform.SetParent(position.bottomLeftCorner.transform);
+            objectToPlace.transform.localScale = oldScale;
+        }
+
+        GameObject GenerateObject(GameObject prefab, bool canRotate)
+        {
+            Quaternion rotation = prefab.transform.rotation;
             if (canRotate)
             {
                 rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
-            IOnTilePlaceable spawnedObject = Object.Instantiate(temp, tile.transform.position, rotation, tile.transform).GetComponent<IOnTilePlaceable>();
-            spawnedObject.OnSpawn(tile);
+            GameObject spawnedObject = Object.Instantiate(prefab);
+            IOnTilePlaceable placeable = spawnedObject.GetComponent<IOnTilePlaceable>();
             AddToDictionary(prefab.name);
+            return spawnedObject;
         }
 
-        IOnTilePlaceable GetRandomObject(TileObjectType type, int amountOfType)
+        GameObject GetRandomObject(TileObjectType type, int amountOfType)
         {
-            List<IOnTilePlaceable> returnList = GetAllObjectsOfType(type);
-            IOnTilePlaceable answer = returnList[Random.Range(0, returnList.Count - 1)];
+            List<GameObject> returnList = GetAllObjectsOfType(type);
+            GameObject answer = returnList[Random.Range(0, returnList.Count - 1)];
             int terminator = 0;
-            while (IsObjectAllowed(answer, amountOfType) == false)
+            while (IsObjectAllowed(answer, amountOfType, type) == false)
             {
                 terminator++;
                 returnList.Remove(answer);
                 answer = returnList[Random.Range(0, returnList.Count - 1)];
                 if (terminator == 100)
-                {                    
+                {
                     return returnList[Random.Range(0, returnList.Count - 1)]; ;
                 }
             }
             return answer;
         }
 
-        Tile GetRandomTile(int minDistanceShort, int minDistanceLong, MapVisualsSpecification spec)
+        MultiTile GetRandomMultiTile(int width, int height, MapVisualsSpecification spec)
         {
             int terminator = 0;
-            Tile tile = Global.instance.currentMap.board[Random.Range(minDistanceShort, Global.instance.currentMap.mapWidth - minDistanceShort), Random.Range(minDistanceLong, Global.instance.currentMap.mapHeight - minDistanceLong)];
-            while (IsTileFullyLegal(tile, spec) == false)
+            Tile tile = Global.instance.currentMap.board[Random.Range(spec.minDistanceToShortSide, Global.instance.currentMap.mapWidth - spec.minDistanceToShortSide), Random.Range(spec.minDistanceToLongSide, Global.instance.currentMap.mapHeight - spec.minDistanceToLongSide)];
+            MultiTile position = MultiTile.Create(tile, width, height);
+            while (IsMultiTileLegal(position, spec) == false)
             {
                 terminator++;
-                tile = Global.instance.currentMap.board[Random.Range(minDistanceShort, Global.instance.currentMap.mapWidth - minDistanceShort), Random.Range(minDistanceLong, Global.instance.currentMap.mapHeight - minDistanceLong)];
+                tile = Global.instance.currentMap.board[Random.Range(spec.minDistanceToShortSide, Global.instance.currentMap.mapWidth - spec.minDistanceToShortSide), Random.Range(spec.minDistanceToLongSide, Global.instance.currentMap.mapHeight - spec.minDistanceToLongSide)];
+                position = MultiTile.Create(tile, width, height);
                 if (terminator == 100)
                 {
-                    Debug.Log("half-terminator");
-                    break;
+                    Debug.Log("terminated");
+                    return null;
                 }
             }
-            if (terminator == 100)
-            {
-                terminator = 0;
-                while (IsTileBarelyLegal(tile, spec) == false)
-                {
-                    terminator++;
-                    tile = Global.instance.currentMap.board[Random.Range(0, Global.instance.currentMap.mapWidth), Random.Range(0, Global.instance.currentMap.mapHeight)];
-                    if (terminator == 100)
-                    {
-                        Debug.Log("Terminated.");
-                        return null;
-                    }
-                }
-            }
-            return tile;
+
+            return position;
         }
 
-        bool IsTileFullyLegal(Tile tile, MapVisualsSpecification spec)
+        bool IsMultiTileLegal(MultiTile position, MapVisualsSpecification spec)
         {
-            return tile.IsWalkable() && (HasExtraSpace(tile));
-        }
-        bool IsTileBarelyLegal(Tile tile, MapVisualsSpecification spec)
-        {
-            return tile.IsWalkable() && (spec.needsExtraSpace == false || HasExtraSpace(tile));
+            return position.IsWalkable() && (spec.needsExtraSpace == false || HasExtraSpace(position));
         }
 
-        bool HasExtraSpace(Tile tile)
+        bool HasExtraSpace(MultiTile position)
         {
-            foreach (Tile neighbour in tile.neighbours)
+            foreach (Tile neighbour in position.closeNeighbours)
             {
-                if (neighbour.IsWalkable())
+                if (neighbour.IsWalkable() == false)
                 {
                     return false;
                 }
@@ -115,20 +117,12 @@ namespace BattlescapeLogic
             return true;
         }
 
-        List<IOnTilePlaceable> GetAllObjectsOfType(TileObjectType type)
+        List<GameObject> GetAllObjectsOfType(TileObjectType type)
         {
-            List<IOnTilePlaceable> returnList = new List<IOnTilePlaceable>();
-            foreach (IOnTilePlaceable prefab in allLegalObjects)
-            {
-                if (prefab.type == type)
-                {
-                    returnList.Add(prefab);
-                }
-            }
-            return returnList;
+            return allLegalObjects[(int)type].elements;
         }
 
-        bool IsObjectAllowed(IOnTilePlaceable prefab, int amountOfType)
+        bool IsObjectAllowed(GameObject prefab, int amountOfType, TileObjectType type)
         {
             if (alreadyGeneratedStuff.ContainsKey(prefab.name) == false)
             {
@@ -136,7 +130,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                return alreadyGeneratedStuff[prefab.name] <= CalculateAllowedAmount(amountOfType, GetAllObjectsOfType(prefab.type).Count);
+                return alreadyGeneratedStuff[prefab.name] <= CalculateAllowedAmount(amountOfType, GetAllObjectsOfType(type).Count);
             }
         }
 
@@ -181,7 +175,7 @@ namespace BattlescapeLogic
             get
             {
                 return _minAmount;
-            }        
+            }
         }
         [SerializeField] int _maxAmount;
         public int maxAmount
@@ -189,7 +183,7 @@ namespace BattlescapeLogic
             get
             {
                 return _maxAmount;
-            }           
+            }
         }
         [SerializeField] int _minDistanceToShortSide;
         public int minDistanceToShortSide
@@ -214,7 +208,7 @@ namespace BattlescapeLogic
             get
             {
                 return _needsExtraSpace;
-            }            
+            }
         }
 
         [SerializeField] bool _canRotate;

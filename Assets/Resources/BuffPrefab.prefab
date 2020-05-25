@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 222411184153051986}
   - component: {fileID: 114327489311845910}
   - component: {fileID: 114839562099430530}
-  - component: {fileID: 1418211804253166708}
+  - component: {fileID: -5086339806708749283}
   m_Layer: 5
   m_Name: BuffPrefab
   m_TagString: Untagged
@@ -219,7 +219,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1418211804253166708
+--- !u!114 &-5086339806708749283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
