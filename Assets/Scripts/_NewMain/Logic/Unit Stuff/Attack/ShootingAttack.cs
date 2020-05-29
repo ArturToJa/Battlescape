@@ -44,10 +44,6 @@ namespace BattlescapeLogic
         // Ranged unit does nothing on it's attack animation
         public override void OnAttackAnimation()
         {
-        }
-
-        public override void OnRangedAttackAnimation()
-        {
             SpawnMissile();
         }
 

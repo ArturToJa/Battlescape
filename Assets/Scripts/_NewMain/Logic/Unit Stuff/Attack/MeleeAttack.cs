@@ -35,12 +35,5 @@ namespace BattlescapeLogic
                 Networking.instance.SendCommandToHit(sourceUnit, targetObject);
             }
         }
-
-        // Virtual function for Ranged Attack animations
-        // It does nothing for basic attack
-        public override void OnRangedAttackAnimation()
-        {
-            return;
-        }
     }
 }

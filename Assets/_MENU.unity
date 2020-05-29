@@ -23187,6 +23187,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: abd43d637f0202142951efc05e22c2a6, type: 2}
   - {fileID: 11400000, guid: b758f4088adee9d449d10dd0d6fd9f1e, type: 2}
   - {fileID: 11400000, guid: 1478db11418a63240bb3d6268a4388e3, type: 2}
+  - {fileID: 11400000, guid: d16f9b6f3cbaf8d479d3b7ee5a3d2196, type: 2}
+  - {fileID: 11400000, guid: a3d5d04cbd175734ba72f36efb097812, type: 2}
+  - {fileID: 11400000, guid: 171a0164a79e6fa4c82a781a71ed7fe6, type: 2}
+  - {fileID: 11400000, guid: ed1da09a3c737b247967ad62807237ef, type: 2}
+  - {fileID: 11400000, guid: 68717d7d58d314a4eb656ea1f8f4a6ec, type: 2}
 --- !u!4 &1859684904
 Transform:
   m_ObjectHideFlags: 0
@@ -23507,24 +23512,24 @@ MonoBehaviour:
     _mapVisuals:
       specs:
       - _type: 5
-        _minAmount: 100
-        _maxAmount: 100
+        _minAmount: 2
+        _maxAmount: 2
         _minDistanceToShortSide: 5
         _minDistanceToLongSide: 3
         _needsExtraSpace: 1
         _canRotate: 0
       - _type: 4
-        _minAmount: 5
-        _maxAmount: 7
+        _minAmount: 4
+        _maxAmount: 5
         _minDistanceToShortSide: 3
         _minDistanceToLongSide: 1
         _needsExtraSpace: 1
         _canRotate: 1
       - _type: 3
         _minAmount: 3
-        _maxAmount: 6
+        _maxAmount: 5
         _minDistanceToShortSide: 3
-        _minDistanceToLongSide: 2
+        _minDistanceToLongSide: 0
         _needsExtraSpace: 1
         _canRotate: 1
       - _type: 7

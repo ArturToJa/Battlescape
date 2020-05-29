@@ -43,8 +43,6 @@ namespace BattlescapeLogic
 
         public abstract void OnAttackAnimation();
 
-        public abstract void OnRangedAttackAnimation();
-
         public bool CanAttack(IDamageable targetObject)
         {
             return

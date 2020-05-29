@@ -32,12 +32,7 @@ namespace BattlescapeLogic
                 Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.attack = normalAttackType;                
             }
-        }
-
-        public override void OnRangedAttackAnimation()
-        {
-            return;
-        }
+        }      
 
         protected override void PlayAttackAnimation()
         {

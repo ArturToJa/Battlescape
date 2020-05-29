@@ -24,7 +24,7 @@ namespace BattlescapeLogic
 
         void Shoot()
         {
-            myUnit.attack.OnRangedAttackAnimation();
+            myUnit.attack.OnAttackAnimation();
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.shootSound);
         }
 

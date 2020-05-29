@@ -343,6 +343,7 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit retaliatingUnit)
         {
+            Debug.Log(retaliatingUnit.CanStillRetaliate());
             if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner())
             {
                 return false;
