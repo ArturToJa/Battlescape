@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 114608254406367336}
   - component: {fileID: 114562131478885718}
   - component: {fileID: 114580500508975460}
-  - component: {fileID: -6674772159148188552}
+  - component: {fileID: 2866624082441160996}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDeletable: 0
---- !u!114 &-6674772159148188552
+--- !u!114 &2866624082441160996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

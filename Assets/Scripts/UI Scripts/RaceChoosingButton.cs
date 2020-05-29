@@ -31,7 +31,6 @@ public class RaceChoosingButton : MonoBehaviour
         SaveLoadManager.instance.race = race;
         foreach (Transform child in ArmyBuilder.instance.HeroesChoice.transform)
         {
-            ArmyBuilder.instance.SetHeroPortrait(child.gameObject, 1);
             ArmyBuilder.instance.raceOK.SetActive(true);
         }
     }

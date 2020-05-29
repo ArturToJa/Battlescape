@@ -17,7 +17,20 @@ public class SaveLoadManager : MonoBehaviour
     public string currentSaveName { get; set; }
     public int currentSaveValue { get; set; }
     public UnitCreator hero { get; set; }
-    public Race race { get; set; }
+    public event System.Action OnRaceChosenAction = delegate { };
+    Race _race;
+    public Race race
+    {
+        get
+        {
+            return _race;
+        }
+        set
+        {
+            _race = value;
+            OnRaceChosenAction();
+        }
+    }
     public string heroName { get; set; }
     //public Race[] ChosenRaces = new Race[2];
     public List<UnitCreator> allUnitCreators;
@@ -185,7 +198,7 @@ public class SaveLoadManager : MonoBehaviour
         if (Directory.Exists(Application.persistentDataPath + "/Armies/AI/" + currentSaveValue.ToString() + "points"))
         {
             var files = Directory.GetFiles(Application.persistentDataPath + "/Armies/AI/" + currentSaveValue.ToString() + "points", "*.lemur");
-            string fileName = files[Random.Range(0, files.Length)];
+            string fileName = files[UnityEngine.Random.Range(0, files.Length)];
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(fileName, FileMode.Open);
             playerArmy = bf.Deserialize(file) as PlayerArmy;

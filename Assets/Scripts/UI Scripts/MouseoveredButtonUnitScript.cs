@@ -7,18 +7,28 @@ using BattlescapeLogic;
 public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField] UnitStatShower myUSS;
-    
+    Pedestal pedestal;
+    UnitCreator myUnit;
 
-    public void OnPointerEnter(PointerEventData eventData)
+
+    void Start()
     {
+        pedestal = FindObjectOfType<Pedestal>();
         if (this.GetComponent<UnitButtonScript>() != null)
         {
-            myUSS.currUnit = this.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>();
+            myUnit = this.GetComponent<UnitButtonScript>().unitCreator;
         }
         else if (this.GetComponent<ClickableHeroUIScript>() != null)
         {
-            myUSS.currUnit = this.GetComponent<ClickableHeroUIScript>().myHero.prefab.GetComponent<Hero>();
+            myUnit = this.GetComponent<ClickableHeroUIScript>().myHero;
         }
+    }
+
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        myUSS.currUnit = myUnit.prefab.GetComponent<Unit>();
         myUSS.UpdateInfos();
+        pedestal.ShowUnit(myUnit.prefab);
     }
 }

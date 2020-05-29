@@ -195,9 +195,9 @@ public class ArmyBuilder : MonoBehaviour
     {
         return heroCreator != null;
     }
-    public void LoadArmy(List<Unit> army)
+    public void LoadArmy(List<UnitCreator> army)
     {
-        foreach (Unit item in army)
+        foreach (UnitCreator item in army)
         {
             for (int i = 1; i < leftUnits.childCount; i++)
             {
@@ -208,13 +208,4 @@ public class ArmyBuilder : MonoBehaviour
             }
         }
     }    
-
-    public void SetHeroPortrait(GameObject portraitFrame, int raceID)
-    {
-        foreach (Transform child in portraitFrame.transform)
-        {
-            child.gameObject.SetActive(false);
-        }
-        portraitFrame.transform.GetChild(raceID).gameObject.SetActive(true);
-    }
 }

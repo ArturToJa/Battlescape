@@ -29,16 +29,16 @@ public class HeroChoiceScreenScript : MonoBehaviour
         amIActive = false;
         StartCoroutine(ABFadeIn());
         chosenHero.theHero = null;
-        ArmyBuilder.instance.LoadArmy(GetUnitsFromCreators(SaveLoadManager.instance.playerArmy.unitIndecies));
+        ArmyBuilder.instance.LoadArmy(GetUnitCreatorsFromIndecies(SaveLoadManager.instance.playerArmy.unitIndecies));
 
     }
 
-    List<Unit> GetUnitsFromCreators(List<int> unitCreators)
+    List<UnitCreator> GetUnitCreatorsFromIndecies(List<int> unitCreators)
     {
-        List<Unit> returnList = new List<Unit>();
+        List<UnitCreator> returnList = new List<UnitCreator>();
         foreach (int unitCreator in unitCreators)
         {            
-            returnList.Add(SaveLoadManager.instance.GetUnitCreatorFromIndex(unitCreator).prefab.GetComponent<Unit>());
+            returnList.Add(SaveLoadManager.instance.GetUnitCreatorFromIndex(unitCreator));
         }    
         return returnList;
     }
