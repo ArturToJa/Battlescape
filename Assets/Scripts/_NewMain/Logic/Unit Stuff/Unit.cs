@@ -279,6 +279,7 @@ namespace BattlescapeLogic
 
         public void RetaliateTo(Unit target)
         {
+            Debug.Log(owner.colour + " retals.");
             Log.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
             attack.Attack(target);
@@ -341,16 +342,15 @@ namespace BattlescapeLogic
 
         }
 
-        public bool CanRetaliate(Unit retaliatingUnit)
+        public bool CanRetaliate(Unit target)
         {
-            Debug.Log(retaliatingUnit.CanStillRetaliate());
-            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner())
+            if (this.IsAlive() && this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner())
             {
                 return false;
             }
             foreach (Tile myTile in currentPosition)
             {
-                if (retaliatingUnit.GetDistanceTo(myTile.position) == 1)
+                if (target.GetDistanceTo(myTile.position) == 1)
                 {
                     return true;
                 }
@@ -452,7 +452,7 @@ namespace BattlescapeLogic
         public override void OnNewRound()
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
-            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
+            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;                    
             statistics.numberOfRetaliations = statistics.currentMaxNumberOfRetaliations;
             statistics.currentEnergy += statistics.energyRegen;
             if (statistics.currentEnergy >= Statistics.maxEnergy)
@@ -524,7 +524,7 @@ namespace BattlescapeLogic
 
         public bool CanBeSelected()
         {
-            return PlayerInput.instance.isInputBlocked == false && owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None;
+            return PlayerInput.instance.isInputBlocked == false && owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None && IsAlive();
         }
 
         public void OnSelection()
