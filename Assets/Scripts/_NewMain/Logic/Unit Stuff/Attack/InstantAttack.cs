@@ -11,7 +11,7 @@ namespace BattlescapeLogic
         {
         }
 
-        public override void Attack(IDamageable target)
+        public override void Attack(IDamageable target, bool minusAttackNumber = true)
         {
             base.Attack(target);
             PlayAttackAnimation();

@@ -35,17 +35,17 @@ namespace BattlescapeUI
 
         void UpdateText()
         {
-           //healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.maxHealthPoints;
+           healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.maxHealthPoints;
         }
 
         void SetColour()
         {
-            //Debug.Log(healthBarFill);
-            //Debug.Log(healthBarFill.sprite);
-            //Debug.Log(barColours);
-            //Debug.Log(myUnit);
-            //Debug.Log(myUnit.GetMyOwner());
-            //Debug.Log(myUnit.GetMyOwner().colour);
+            Debug.Log(healthBarFill);
+            Debug.Log(healthBarFill.sprite);
+            Debug.Log(barColours);
+            Debug.Log(myUnit);
+            Debug.Log(myUnit.GetMyOwner());
+            Debug.Log(myUnit.GetMyOwner().colour);
             healthBarFill.sprite = barColours[(int)myUnit.GetMyOwner().colour];
         }
     }

@@ -18,7 +18,7 @@ namespace BattlescapeLogic
             _myUnit.equipment.EquipMainRangedWeapon();
         }
 
-        public override void Attack(IDamageable target)
+        public override void Attack(IDamageable target, bool minusAttackNumber = true)
         {
             base.Attack(target);
             TurnTowardsTarget();
@@ -34,7 +34,7 @@ namespace BattlescapeLogic
         public void SpawnMissile()
         {
             Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
-
+      
             //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
             missile.sourceUnit = sourceUnit;
             missile.target = targetObject.GetMyPosition();

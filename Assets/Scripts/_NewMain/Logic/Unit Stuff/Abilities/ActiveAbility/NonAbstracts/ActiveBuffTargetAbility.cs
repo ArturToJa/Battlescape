@@ -7,11 +7,17 @@ namespace BattlescapeLogic
 {
     class ActiveBuffTargetAbility : AbstractActiveAbility
     {
-        [SerializeField] List<GameObject> buffs;
+        [Header("Buffs")]
+        [Space]
+        [SerializeField] protected List<GameObject> selfBuffs;
+        [SerializeField] protected List<GameObject> targetBuffs;
+        [Space]
+        [SerializeField] GameObject onTargetCastVisualEffect;
         [SerializeField] bool isSelfBuff;
 
         protected override void Start()
         {
+            base.Start();
             if (isSelfBuff)
             {
                 instantActive = true;
@@ -21,13 +27,17 @@ namespace BattlescapeLogic
         protected override void Activate()
         {
             base.Activate();
+
             if (isSelfBuff)
             {
-                ApplyBuffsToUnit(buffs, owner);
+                ApplyBuffsToUnit(selfBuffs, owner);
             }
             else
             {
-                ApplyBuffsToUnit(buffs, target as Unit);
+                Unit targettedUnit = target as Unit;
+                ApplyBuffsToUnit(selfBuffs, owner);
+                ApplyBuffsToUnit(targetBuffs, target as Unit);
+                DoVisualEffectFor(onTargetCastVisualEffect, targettedUnit.gameObject);
             }
         }
 
@@ -51,7 +61,7 @@ namespace BattlescapeLogic
             else if (target is Unit)
             {
                 var targettetUnit = target as Unit;
-                return filter.FilterTeam(targettetUnit.GetMyOwner().team);
+                return filter.FilterTeam(targettetUnit.GetMyOwner().team) && filter.FilterUnit(targettetUnit);
             }
             else
             {

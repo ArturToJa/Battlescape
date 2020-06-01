@@ -33,7 +33,7 @@ namespace BattlescapeLogic
             {
                 _icon = value;
             }
-        }        
+        }
 
         public IMouseTargetable target { get; set; }
 
@@ -61,19 +61,32 @@ namespace BattlescapeLogic
 
 
 
-        [SerializeField] int _energyCost;
+        [SerializeField] int _baseEnergyCost;
+        public int baseEnergyCost
+        {
+            get
+            {
+                return _baseEnergyCost;
+            }
+            protected set
+            {
+                _baseEnergyCost = value;
+            }
+        }
 
+        public int _energyCost;
         public int energyCost
         {
             get
             {
                 return _energyCost;
             }
-            protected set
+            set
             {
                 _energyCost = value;
             }
         }
+
 
         [SerializeField] int _range;
         protected int range
@@ -88,6 +101,10 @@ namespace BattlescapeLogic
                 {
                     return _range;
                 }
+            }
+            set
+            {
+                _range = value;
             }
         }
         [SerializeField] bool isRangeModified;
@@ -104,11 +121,23 @@ namespace BattlescapeLogic
             }
         }
 
+        [SerializeField] int _increaseCostIfSpammed;
+        protected int increaseCostIfSpammed
+        {
+            get
+            {
+                return _increaseCostIfSpammed;
+            }
+            set
+            {
+                _increaseCostIfSpammed = value;
+            }
+        }
+
         public virtual void OnAnimationEvent()
         {
             return;
         }
-
 
         [SerializeField] int _usesPerBattle;
         public int usesPerBattle
@@ -141,6 +170,10 @@ namespace BattlescapeLogic
         }
 
         protected bool instantActive = false;
+        protected bool doAnimate = false;
+
+        private bool wasUsedLastRound = false;
+
 
         [Header("Visuals and Sound")]
         [Space]
@@ -169,7 +202,7 @@ namespace BattlescapeLogic
         
         public virtual bool IsUsableNow()
         {
-            return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase();
+            return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase() && owner.behaviors.isSilenced == false;
         }
 
         protected bool CheckMovementCost()
@@ -221,10 +254,7 @@ namespace BattlescapeLogic
             }
         }
 
-
-
-
-
+        
 
         public virtual void OnClickIcon()
         {
@@ -250,8 +280,12 @@ namespace BattlescapeLogic
         }
 
         public abstract bool IsLegalTarget(IMouseTargetable target);
-        
-        
+
+        protected override void Start()
+        {
+            base.Start();
+            energyCost = baseEnergyCost;
+        }
 
         protected virtual void Activate()
         {
@@ -266,8 +300,12 @@ namespace BattlescapeLogic
                 owner.statistics.movementPoints = 0;
             }
             roundsTillOffCooldown = cooldown;
+            wasUsedLastRound = true;
             Log.SpawnLog(log);
-            Animate();
+            if (doAnimate)
+            {
+                Animate();
+            }
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
             OnFinish();
@@ -283,11 +321,24 @@ namespace BattlescapeLogic
 
         public override void OnNewRound()
         {
-            base.OnNewRound();
+            if (wasUsedLastRound)
+            {
+                energyCost += increaseCostIfSpammed;
+            }
+            else
+            {
+                energyCost = baseEnergyCost;
+            }
+
+            wasUsedLastRound = false;
+
             if (roundsTillOffCooldown > 0)
             {
                 roundsTillOffCooldown--;
             }
+
+            
+
         }
 
         protected void Animate()
@@ -336,7 +387,6 @@ namespace BattlescapeLogic
         {
             PlayerInput.instance.isInputBlocked = false;
         }
-
 
         public bool HasClearView(Vector3 defender, float heightMultiplier, string isBlockedBy = "tall")
         {

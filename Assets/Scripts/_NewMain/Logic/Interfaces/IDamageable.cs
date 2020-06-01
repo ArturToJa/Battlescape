@@ -13,6 +13,8 @@ namespace BattlescapeLogic
 
         Player GetMyOwner();
 
+        Transform GetMyTransform();
+
         Vector3 GetMyPosition();
 
         void TakeDamage(Unit source, int dmg);

@@ -14,6 +14,8 @@ namespace BattlescapeLogic
 
         [SerializeField] GameObject _missilePrefab;
 
+        
+
         Missile _myMissile;
         public Missile myMissile
         {
@@ -53,6 +55,7 @@ namespace BattlescapeLogic
         public List<AbstractAbility> abilities { get; private set; }
         public BuffGroup buffs { get; private set; }
         public List<AbstractAttackModifier> modifiers { get; private set; }
+        public Behaviors behaviors { get; private set; }
         public GameObject visuals { get; private set; }
         [SerializeField] Equipment _equipment;
         public Equipment equipment
@@ -91,7 +94,9 @@ namespace BattlescapeLogic
             visuals = Helper.FindChildWithTag(gameObject, "Body");           
             buffs = new BuffGroup(this);
             modifiers = new List<AbstractAttackModifier>();
+            behaviors = new Behaviors(this);
             abilities = new List<AbstractAbility>();
+            UpdateAbilities();
             movement = GetMovementType();
             if (movement == null)
             {
@@ -109,6 +114,7 @@ namespace BattlescapeLogic
             statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
             FaceMiddleOfMap();
             UpdateAbilities();
+            Tile.OnMouseHoverTileEnter += OnTileHovered;
         }
 
         private void UpdateAbilities()
@@ -310,6 +316,17 @@ namespace BattlescapeLogic
                 modifier.ModifyAttack(target, damage);
             }
             PlayerInput.instance.isInputBlocked = false;
+            
+            if(target is Unit)
+            {
+                var targettedUnit = target as Unit;
+                if (targettedUnit.behaviors.isUndamageable)
+                {
+                    Log.SpawnLog(this.info.unitName + " deals 0 damage because " + target.GetMyName() + " is undamagable!");
+                    PopupTextController.AddPopupText("-0", PopupTypes.Damage);
+                    return;
+                }
+            }
             if (damage == 0)
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
@@ -329,13 +346,15 @@ namespace BattlescapeLogic
                     buff.RemoveFromTargetInstantly();
                 }
             }
-            if (target is Unit)
+            if(target is Unit)
             {
                 var targetUnit = target as Unit;                
                 if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
                 {
                     Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
+                    Debug.Log("request sent");
                 }
+
             }
 
 
@@ -343,7 +362,7 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit retaliatingUnit)
         {
-            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner())
+            if (retaliatingUnit.CanStillRetaliate() == false || GameRound.instance.currentPlayer != retaliatingUnit.GetMyOwner() || behaviors.cantRetaliate == true)
             {
                 return false;
             }
@@ -365,15 +384,15 @@ namespace BattlescapeLogic
 
         private void ReceiveDamage(Unit source, int damage)
         {
-            statistics.healthPoints -= damage;
-            if (IsAlive())
-            {
-                PlayWoundAnimation();
-            }
-            else
-            {
-                Die(source);
-            }
+                statistics.healthPoints -= damage;
+                if (IsAlive())
+                {
+                    PlayWoundAnimation();
+                }
+                else
+                {
+                    Die(source);
+                }
         }
 
         void PlayWoundAnimation()
@@ -675,9 +694,10 @@ namespace BattlescapeLogic
             return Maths.Sigmoid(DamageCalculator.GetStatisticsDifference(source, this), DamageCalculator.sigmoidGrowthRate);
         }
 
-
-
-
+        public Transform GetMyTransform()
+        {
+            return transform;
+        }
     }
 }
 

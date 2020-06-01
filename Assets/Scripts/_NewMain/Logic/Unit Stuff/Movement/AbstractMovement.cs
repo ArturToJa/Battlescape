@@ -54,7 +54,8 @@ namespace BattlescapeLogic
                 && GameRound.instance.currentPhase == TurnPhases.Movement
                 && myUnit.CanStillMove()
                 && Pathfinder.instance.IsLegalTileForUnit(destination, myUnit)
-                && PlayerInput.instance.isInputBlocked == false;
+                && PlayerInput.instance.isInputBlocked == false
+                && myUnit.behaviors.isGrounded == false;
         }
 
     }

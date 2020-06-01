@@ -36,6 +36,7 @@ namespace BattlescapeLogic
         protected override void RemoveChange()
         {
             return;
+            
         }
     }
 }

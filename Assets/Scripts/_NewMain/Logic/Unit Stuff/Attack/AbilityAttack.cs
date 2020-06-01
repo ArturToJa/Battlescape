@@ -6,23 +6,28 @@ namespace BattlescapeLogic
 {
     public class AbilityAttack : AbstractAttack, IMissileLaucher
     {
-        ActiveAttackAbility myAbility;
+        AbstractAttackAbility myAbility;
         int damage;
 
 
-        public AbilityAttack(ActiveAttackAbility _myAbility) : base(_myAbility.owner)
+        public AbilityAttack(AbstractAttackAbility _myAbility) : base(_myAbility.owner)
         {
             sourceUnit = _myAbility.owner;
             myAbility = _myAbility;
         }
 
 
-        public override void Attack(IDamageable target)
+
+        public override void Attack(IDamageable target, bool minusAttackNumber = true)
         {
             base.Attack(target);
             damage = myAbility.damage + sourceUnit.statistics.GetCurrentAttack() - targetObject.GetCurrentDefence();
-            sourceUnit.statistics.numberOfAttacks--;
+            if (minusAttackNumber)
+            {
+                sourceUnit.statistics.numberOfAttacks--;
+            }
             TurnTowardsTarget();
+
             PlayAttackAnimation();
         }
 
@@ -32,6 +37,7 @@ namespace BattlescapeLogic
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
                 Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
+                myAbility.ApplyBuffsOnTarget();
                 sourceUnit.SetAttackToDefault();
             }
         }
@@ -63,6 +69,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget()
         {
+            myAbility.ApplyBuffsOnTarget();
             Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
         }
     }

@@ -89,6 +89,8 @@ namespace BattlescapeLogic
             RemoveChange();
             this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
+            OnDestruction();
+            RemoveChange();
         }
 
         protected abstract bool IsAcceptableTargetType(IDamageable target);
@@ -111,7 +113,7 @@ namespace BattlescapeLogic
                 {
                     if (visualEffectPrefab != null)
                     {
-                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
+                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation,target.GetMyTransform());
                     }
                     buffGroup = target.buffs;
                     target.buffs.AddBuff(this);

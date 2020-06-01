@@ -23,7 +23,7 @@ namespace BattlescapeLogic
             sourceUnit = _myUnit;
         }
 
-        public virtual void Attack(IDamageable target)
+        public virtual void Attack(IDamageable target, bool minusAttackNumber = true)
         {
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             targetObject = target;
@@ -54,7 +54,9 @@ namespace BattlescapeLogic
                 && sourceUnit.CanStillAttack()
                 && sourceUnit.IsInAttackRange(targetObject.GetDistanceTo(sourceUnit.currentPosition.bottomLeftCorner.position))
                 && sourceUnit.HasClearView(targetObject.GetMyPosition())
-                && sourceUnit.IsEnemyOf(targetObject);
+                && sourceUnit.IsInAttackRange(targetObject.GetDistanceTo(sourceUnit.currentPosition.position))
+                && sourceUnit.IsEnemyOf(targetObject)
+                && sourceUnit.behaviors.isDisarmed == false;
         }        
     }
 }

@@ -184,11 +184,29 @@ namespace BattlescapeLogic
         {
             gameRoundCount++;
             LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> previousElement = null;
+
             while (element != null)
             {
                 element.Value.OnNewRound();
-                element = element.Next;
+                if (element.Next == null && element.Previous == null && newRoundObjects.Count != 1)
+                {
+                    if (previousElement == null)
+                    {
+                        element = newRoundObjects.First;
+                    }
+                    else
+                    {
+                        element = previousElement.Next;
+                    }
+                }
+                else
+                {
+                    previousElement = element;
+                    element = element.Next;
+                }
             }
+
             SetNextPlayer();
             NewPlayerTurn();
         }
@@ -197,10 +215,27 @@ namespace BattlescapeLogic
         {
             Global.instance.currentEntity = currentPlayer;
             LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> previousElement = null;
+
             while (element != null)
             {
                 element.Value.OnNewTurn();
-                element = element.Next;
+                if (element.Next == null && element.Previous == null && newRoundObjects.Count != 1)
+                {
+                    if (previousElement == null)
+                    {
+                        element = newRoundObjects.First;
+                    }
+                    else
+                    {
+                        element = previousElement.Next;
+                    }
+                }
+                else
+                {
+                    previousElement = element;
+                    element = element.Next;
+                }
             }
             NextPhase();
             NewPlayerRound();
@@ -217,11 +252,29 @@ namespace BattlescapeLogic
                 currentPhase = TurnPhases.Movement;
             }
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
+
             LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> previousElement = null;
+
             while (element != null)
             {
                 element.Value.OnNewPhase();
-                element = element.Next;
+                if (element.Next == null && element.Previous == null && newRoundObjects.Count != 1)
+                {
+                    if (previousElement == null)
+                    {
+                        element = newRoundObjects.First;
+                    }
+                    else
+                    {
+                        element = previousElement.Next;
+                    }
+                }
+                else
+                {
+                    previousElement = element;
+                    element = element.Next;
+                }
             }
         }
 
@@ -305,11 +358,14 @@ namespace BattlescapeLogic
             Setup();
             NewRound();
         }
+
     }
 
     public enum TurnPhases
     {
         None, Movement, Attack, Enemy, All
     }
+
+    
 
 }

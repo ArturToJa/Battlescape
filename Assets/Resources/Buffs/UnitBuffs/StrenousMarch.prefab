@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1296656290732373317}
   - component: {fileID: 1454815809749673745}
   m_Layer: 0
-  m_Name: Guardian's Support
+  m_Name: StrenousMarch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,18 +44,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isHidden: 0
-  _buffName: Guardian's Support
-  _description: Unit has +2 attack and +2 defence
+  _buffName: Haste
+  _description: Unit has +2 movement points
   _image: {fileID: 21300000, guid: 8d148ab6cdcd0d04c87ffca88a46b150, type: 3}
   _duration: 1
   _isStackable: 0
   visualEffectPrefab: {fileID: 1402965160264764, guid: 7429ce74c29a12c4295ea768e998a6d0,
     type: 3}
   statistics:
-    _bonusAttack: 2
-    _bonusDefence: 2
+    _bonusAttack: 0
+    _bonusDefence: 0
     _bonusHealth: 0
-    _bonusMovementPoints: 0
+    _bonusMovementPoints: 2
     _bonusAttackRange: 0
     _bonusNumberOfAttacks: 0
     _bonusNumberOfRetaliations: 0

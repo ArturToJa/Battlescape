@@ -14,7 +14,7 @@ namespace BattlescapeLogic
             _myUnit.equipment.EquipMainMeleeWeapon();
         }
 
-        public override void Attack(IDamageable target)
+        public override void Attack(IDamageable target, bool minusAttackNumber = true)
         {
             base.Attack(target);
             TurnTowardsTarget();

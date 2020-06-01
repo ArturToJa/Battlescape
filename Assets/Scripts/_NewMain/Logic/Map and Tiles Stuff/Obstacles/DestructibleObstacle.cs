@@ -85,5 +85,10 @@ namespace BattlescapeLogic
         {
             return 1;
         }
+
+        public Transform GetMyTransform()
+        {
+            return transform;
+        }
     }
 }

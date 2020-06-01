@@ -7,7 +7,7 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class AbilityFilter
     {
-        AbstractAbility thisAbility;
+        [HideInInspector] public AbstractAbility thisAbility;
         [SerializeField] private bool ally;
         [SerializeField] private bool enemy;
         [SerializeField] private bool selfPlayer;
@@ -20,17 +20,8 @@ namespace BattlescapeLogic
         [SerializeField] private bool ground;
         [SerializeField] private bool flying;
         [SerializeField] private bool smallObstacle; 
-        [SerializeField] private bool tallObstacle; 
-
-        public void SetAbility(AbstractAbility ability)
-        {
-            thisAbility = ability;
-        }
-
-        public bool FilterUnitExtended(Unit unit)
-        {
-            return FilterUnit(unit) && FilterTeam(unit.GetMyOwner().team);
-        }
+        [SerializeField] private bool tallObstacle;
+        
 
         public bool FilterTeam(PlayerTeam team)
         {
@@ -90,6 +81,15 @@ namespace BattlescapeLogic
         //This only disallows self-targetting if self is checked off.
         bool FilterSelf(Unit unit)
         {
+            if (unit == null)
+                Debug.Log("Unit is null");
+
+            if (thisAbility == null)
+                Debug.Log("Ability is null");
+
+            if (thisAbility.owner == null)
+                Debug.Log("Owner is null");
+
             return canSelf || thisAbility.owner != unit;
         }
 
@@ -140,7 +140,14 @@ namespace BattlescapeLogic
             }
         }
 
-        [SerializeField] AbilityFilter _filter;
+        [SerializeField] AbilityFilter _filter = new AbilityFilter();
+
+        protected override void Start()
+        {
+            base.Start();
+            _filter.thisAbility = this;
+        }
+
         public AbilityFilter filter
         {
             get
@@ -162,11 +169,9 @@ namespace BattlescapeLogic
 
         public virtual void OnNewRound()
         {
-            return;
         }
         public virtual void OnNewTurn()
         {
-            return;
         }
         public virtual void OnNewPhase()
         {
@@ -174,7 +179,6 @@ namespace BattlescapeLogic
         }
         public virtual void OnNewPlayerRound()
         {
-            return;
         }
 
         protected void ApplyBuffsToUnit(List<GameObject> buffs, Unit target)

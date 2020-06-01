@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 namespace BattlescapeLogic
 {
-   public class ActiveJumpAbility : AbstractActiveAbility
-   {
-       [Header("Jump Configuration")]
-       [Space]
-       [SerializeField] bool Units;
-       [SerializeField] bool Obstacles;
-       [SerializeField] float JumpLenght;
-       [SerializeField] Color possibleTileColour;
+    public class ActiveJumpAbility : AbstractActiveAbility
+    {
+        [Header("Unit can jump through:")]
+        [Space]
+        [SerializeField] float JumpLenght;
+        [SerializeField] Color possibleTileColour;
 
         protected override void Activate()
         {
@@ -28,17 +26,6 @@ namespace BattlescapeLogic
                 if (possibleTile(targettedObstacle.transform.position) != null)
                 {
                     possibleTile(targettedObstacle.transform.position).highlighter.TurnOn(possibleTileColour);
-                }
-            }
-            else if (target is Unit && IsLegalTarget(target))
-            {
-                var targettedUnit = target as Unit;
-
-                BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-                ColourPossibleTargets();
-                if (possibleTile(targettedUnit.transform.position) != null)
-                {
-                    possibleTile(targettedUnit.transform.position).highlighter.TurnOn(possibleTileColour);
                 }
             }
             else
@@ -60,7 +47,11 @@ namespace BattlescapeLogic
 
             foreach (var hit in hits)
             {
-                if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle == null && hit.transform.GetComponent<Tile>().myUnit == null)
+                if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle != null && hit.transform.GetComponent<Tile>().myObstacle.isTall)
+                {
+                    break;
+                }
+                else if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle == null && hit.transform.GetComponent<Tile>().myUnit == null)
                 {
                     list.Add(hit.transform.GetComponent<Tile>());
                 }
@@ -70,21 +61,18 @@ namespace BattlescapeLogic
             {
                 return list[list.Count - 1];
             }
-            else return null;
-
+            else
+            {
+                return null;
+            }
         }
 
         public override bool IsLegalTarget(IMouseTargetable target)
         {
-            if (target is Obstacle && Obstacles)
+            if (target is Obstacle)
             {
                 Obstacle targetObstacle = target as Obstacle;
                 return IsInRange(targetObstacle) && filter.FilterObstacle(targetObstacle);
-            }
-            if(target is Unit && Units)
-            {
-                Unit targetUnit = target as Unit;
-                return IsInRange(targetUnit) && filter.FilterUnit(targetUnit);
             }
             return false;
         }
@@ -93,7 +81,7 @@ namespace BattlescapeLogic
         {
             foreach (Tile tile in Global.instance.currentMap.board)
             {
-                if (IsLegalTarget(tile.myObstacle) || IsLegalTarget(tile.myUnit))
+                if (tile.myObstacle!=null && IsLegalTarget(tile.myObstacle))
                 {
                     tile.highlighter.TurnOn(targetColouringColour);
                 }
