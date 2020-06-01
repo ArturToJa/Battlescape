@@ -118,16 +118,16 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
-                if (visualEffectPrefab != null)
-                {
-                    visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
-                }
                 if (!isStackable && IsAlreadyOnTarget(target))
                 {
                     OnDestruction();
                 }
                 else
                 {
+                    if (visualEffectPrefab != null)
+                    {
+                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
+                    }
                     buffGroup = target.buffs;
                     target.buffs.AddBuff(this);
                     ApplyChange();
