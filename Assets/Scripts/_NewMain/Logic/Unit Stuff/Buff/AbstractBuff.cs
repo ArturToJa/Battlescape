@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class AbstractBuff : TurnChangeMonoBehaviour
+    public abstract class AbstractBuff : Expirable
     {
         [SerializeField] bool _isHidden = false;
         public bool isHidden
@@ -53,23 +53,6 @@ namespace BattlescapeLogic
             }
         }
 
-        [SerializeField] int _duration;
-        public int duration
-        {
-            get
-            {
-                return _duration;
-            }
-            private set
-            {
-                _duration = value;
-                //if(IsExpired())
-                //{
-                //    OnExpire();
-                //}
-            }
-        }
-
         [SerializeField] bool _isStackable;
         public bool isStackable
         {
@@ -95,49 +78,23 @@ namespace BattlescapeLogic
         [SerializeField] GameObject visualEffectPrefab;
         GameObject visualEffect;
 
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        public override void OnNewRound()
-        {
-            if(!IsExpired())
-            {
-                duration--;
-            }
-        }
-
         public override void OnNewTurn()
         {
+            base.OnNewTurn();
             if (IsExpired() && GameRound.instance.currentPlayer == source.owner.GetMyOwner())
             {
                 OnExpire();
             }
         }
-        public override void OnNewPhase()
-        {
-            return;
-        }
 
-        public bool IsExpired()
-        {
-            return !HasInfiniteDuration() && (duration == 0);
-        }
-
-        public bool HasInfiniteDuration()
-        {
-            return duration < 0;
-        }
-
-        protected virtual void OnExpire()
+        protected override void OnExpire()
         {
             if (visualEffect != null)
             {
                 Destroy(visualEffect);
             }
             RemoveChange();
-            OnDestruction();
+            base.OnExpire();
             this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
         }
