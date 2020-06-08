@@ -55,6 +55,7 @@ namespace BattlescapeLogic
             playerTeams.Add(teamRight);
             matchType = MatchTypes.None;
             playerCount = 2;
+            GameRound.instance.Setup();
         }
 
         public PlayerBuilder GetCurrentPlayerBuilder()

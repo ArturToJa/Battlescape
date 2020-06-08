@@ -52,6 +52,7 @@ namespace BattlescapeLogic
 
         public List<AbstractAbility> abilities { get; private set; }
         public BuffGroup buffs { get; private set; }
+        public List<AbstractAttackModifier> modifiers { get; private set; }
         public GameObject visuals { get; private set; }
         [SerializeField] Equipment _equipment;
         public Equipment equipment
@@ -83,13 +84,13 @@ namespace BattlescapeLogic
         public static event Action<Unit> OnUnitSelected = delegate { };
         public static event Action OnUnitDeselected = delegate { };
 
-        protected override void Start()
+        protected void Start()
         {
             equipment.EquipPrimaryWeapon();
-            base.Start();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");           
             buffs = new BuffGroup(this);
+            modifiers = new List<AbstractAttackModifier>();
             abilities = new List<AbstractAbility>();
             movement = GetMovementType();
             if (movement == null)
@@ -115,7 +116,6 @@ namespace BattlescapeLogic
             foreach (AbstractAbility ability in GetComponents<AbstractAbility>())
             {
                 abilities.Add(ability);
-                ability.owner = this;
             }
         }
 
@@ -299,15 +299,15 @@ namespace BattlescapeLogic
 
 
         //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
-        public void HitTarget(IDamageable target, int damage)
+        public void HitTarget(IDamageable target, Damage damage)
         {
-            foreach (AbstractBuff buff in buffs)
+            foreach (AbstractAttackModifier modifier in modifiers)
             {
-                if(buff is AbstractAttackModifierBuff)
-                {
-                    AbstractAttackModifierBuff modifierBuff = buff as AbstractAttackModifierBuff;
-                    modifierBuff.ModifyAttack(target, damage);
-                }
+                modifier.ModifyDamage(damage);
+            }
+            foreach (AbstractAttackModifier modifier in modifiers)
+            {
+                modifier.ModifyAttack(target, damage);
             }
             PlayerInput.instance.isInputBlocked = false;
             if (damage == 0)
@@ -413,7 +413,7 @@ namespace BattlescapeLogic
             killer.owner.AddPoints(statistics.cost);
             HideHealthUI();
             PlayDeathAnimation();
-            OnDestruction();
+            turnChanger.OnDestruction();
             //whatever else we need to do on death, i guess?
             //definitely a log to log window
         }
@@ -448,7 +448,12 @@ namespace BattlescapeLogic
             return other.GetMyOwner() == null || owner.team != other.GetMyOwner().team;
         }
 
-        public override void OnNewRound()
+        public void OnNewRound()
+        {
+            return;
+        }
+
+        public void OnNewPlayerRound()
         {
             statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
             statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
@@ -460,12 +465,12 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnNewTurn()
+        public void OnNewTurn()
         {
             return;
         }
 
-        public override void OnNewPhase()
+        public void OnNewPhase()
         {
             if (owner.selectedUnit == this)
             {
@@ -649,6 +654,7 @@ namespace BattlescapeLogic
         public void SetMyOwner(Player player)
         {
             owner = player;
+            turnChanger = new TurnChanger(owner, OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
         }
 
         public Vector3 GetMyPosition()

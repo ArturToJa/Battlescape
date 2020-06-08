@@ -39,7 +39,7 @@ namespace BattlescapeLogic
         {
             if (position == null)
             {
-                Debug.Log("Terminated: " + objectToPlace.name);
+                //Debug.Log("Terminated: " + objectToPlace.name);
                 GameObject.Destroy(objectToPlace);
                 return;
             }
@@ -92,7 +92,7 @@ namespace BattlescapeLogic
                 position = MultiTile.Create(tile, width, height);
                 if (terminator == 100)
                 {
-                    Debug.Log("terminated");
+                    //Debug.Log("terminated");
                     return null;
                 }
             }

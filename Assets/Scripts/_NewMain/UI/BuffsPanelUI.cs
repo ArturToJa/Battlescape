@@ -79,9 +79,9 @@ namespace BattlescapeUI
                 MouseHoverInfoCursor hoverInfo = buffIcon.GetComponentInChildren<MouseHoverInfoCursor>();
                 hoverInfo.tooltipName = buff.buffName;
                 hoverInfo.tooltipText = buff.description;
-                if (buff.HasInfiniteDuration() == false)
+                if (buff.expirable.HasInfiniteDuration() == false)
                 {
-                    hoverInfo.tooltipText += " Remaining turns: " + buff.duration;
+                    hoverInfo.tooltipText += " Remaining turns: " + buff.expirable.duration;
                 }
             }
         }

@@ -108,8 +108,9 @@ namespace BattlescapeLogic
 
     };
 
-    public abstract class AbstractAbility : TurnChangeMonoBehaviour
+    public abstract class AbstractAbility : MonoBehaviour
     {
+        protected TurnChanger turnChanger;
         public Unit owner { get; set; }
 
         [SerializeField] AbilityFilter _filter;
@@ -125,21 +126,26 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnCreation()
+        public void Start()
         {
-            base.OnCreation();
+            owner = this.GetComponent<Unit>();
+            turnChanger = new TurnChanger(owner.GetMyOwner(), OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
             filter.SetAbility(this);
         }
 
-        public override void OnNewRound()
+        public virtual void OnNewRound()
         {
             return;
         }
-        public override void OnNewTurn()
+        public virtual void OnNewTurn()
         {
             return;
         }
-        public override void OnNewPhase()
+        public virtual void OnNewPhase()
+        {
+            return;
+        }
+        public virtual void OnNewPlayerRound()
         {
             return;
         }

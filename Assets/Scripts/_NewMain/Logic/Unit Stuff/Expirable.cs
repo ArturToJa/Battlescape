@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Expirable : TurnChangeMonoBehaviour
+    public class Expirable
 {
+        TurnChanger turnChanger;
+        Action OnExpire_ = null;
         [SerializeField] int _duration;
         public int duration
         {
@@ -16,43 +19,61 @@ namespace BattlescapeLogic
             private set
             {
                 _duration = value;
+                if(IsExpired())
+                {
+                    OnExpire();
+                }
             }
         }
 
-        protected override void Start()
+        public Expirable(Player owner, Action onExpire)
         {
-            base.Start();
+            turnChanger = new TurnChanger(owner, OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
+            OnExpire_ = onExpire;
         }
 
-        public virtual bool IsExpired()
+        public bool IsExpired()
         {
             return !HasInfiniteDuration() && (duration == 0);
         }
 
-        public virtual bool HasInfiniteDuration()
+        public bool HasInfiniteDuration()
         {
             return duration < 0;
         }
 
-        protected virtual void OnExpire()
+        private void OnExpire()
         {
-            OnDestruction();
+            if(OnExpire_ != null)
+            {
+                OnExpire_();
+            }
+            turnChanger.OnDestruction();
         }
 
-        public override void OnNewRound()
+        public void ExpireNow()
+        {
+            OnExpire();
+        }
+
+        public void OnNewRound()
+        {
+        }
+
+        public void OnNewTurn()
+        {
+        }
+
+        public void OnNewPhase()
+        {
+        }
+
+        public void OnNewPlayerRound()
         {
             if (!IsExpired())
             {
                 duration--;
             }
-        }
-
-        public override void OnNewTurn()
-        {
-        }
-
-        public override void OnNewPhase()
-        {
         }
     }
 }

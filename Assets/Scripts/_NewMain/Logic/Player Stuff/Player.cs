@@ -183,6 +183,11 @@ namespace BattlescapeLogic
             }
         }
 
+        public static implicit operator int(Player player)
+        {
+            return player.index;
+        }
+
     }
 }
 

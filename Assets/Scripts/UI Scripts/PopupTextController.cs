@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-public class PopupTextController : TurnChangeMonoBehaviour
+public class PopupTextController : MonoBehaviour
 {
-
+    TurnChanger turnChanger;
     PopupDmgScript _popupText;
     static PopupDmgScript popupText;
     static GameObject canvas;
@@ -13,9 +13,9 @@ public class PopupTextController : TurnChangeMonoBehaviour
     [SerializeField] float timeBetweenPopups;
     float timeFromLastPopup;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         popupsToShow = new Queue<PopupInformation>();
     }
 
@@ -67,7 +67,7 @@ public class PopupTextController : TurnChangeMonoBehaviour
         popupsToShow.Clear();
     }
 
-    public override void OnNewRound()
+    public void OnNewRound()
     {
         ClearPopups();
         if (GameRound.instance.gameRoundCount == 1)
@@ -96,13 +96,13 @@ public class PopupTextController : TurnChangeMonoBehaviour
         }
     }
 
-    public override void OnNewTurn()
+    public void OnNewTurn()
     {
         AddPopupText("New Turn!", PopupTypes.Info);
         Log.SpawnLog("New turn of player: " + GameRound.instance.currentPlayer.playerName + ".");
     }
 
-    public override void OnNewPhase()
+    public void OnNewPhase()
     {
         AddPopupText("Next Phase!", PopupTypes.Info);
         Log.SpawnLog(GameRound.instance.currentPhase.ToString() + " begins.");

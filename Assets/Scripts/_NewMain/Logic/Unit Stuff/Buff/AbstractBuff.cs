@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class AbstractBuff : Expirable
+    public abstract class AbstractBuff : MonoBehaviour
     {
+        public Expirable expirable { get; private set; }
+
         [SerializeField] bool _isHidden = false;
         public bool isHidden
         {
@@ -78,23 +80,13 @@ namespace BattlescapeLogic
         [SerializeField] GameObject visualEffectPrefab;
         GameObject visualEffect;
 
-        public override void OnNewTurn()
-        {
-            base.OnNewTurn();
-            if (IsExpired() && GameRound.instance.currentPlayer == source.owner.GetMyOwner())
-            {
-                OnExpire();
-            }
-        }
-
-        protected override void OnExpire()
+        protected void OnExpire()
         {
             if (visualEffect != null)
             {
                 Destroy(visualEffect);
             }
             RemoveChange();
-            base.OnExpire();
             this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
         }
@@ -105,12 +97,9 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
+                expirable = new Expirable(target.GetMyOwner(), OnExpire);
                 this.source = source;
                 ApplyOnTarget(target);
-            }
-            else
-            {
-                OnDestruction();
             }
         }
 
@@ -118,11 +107,7 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
-                if (!isStackable && IsAlreadyOnTarget(target))
-                {
-                    OnDestruction();
-                }
-                else
+                if(isStackable || !IsAlreadyOnTarget(target))
                 {
                     if (visualEffectPrefab != null)
                     {
@@ -134,14 +119,11 @@ namespace BattlescapeLogic
                 }
                 OnBuffCreation(this);
             }
-            else
-            {
-                OnDestruction();
-            }
         }
 
         public void RemoveFromTargetInstantly()
         {
+            expirable.ExpireNow();
             OnExpire();
         }
 

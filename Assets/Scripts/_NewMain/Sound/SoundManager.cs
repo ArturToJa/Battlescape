@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 namespace BattlescapeSound
 {
-    public class SoundManager : BattlescapeLogic.TurnChangeMonoBehaviour
+    public class SoundManager : MonoBehaviour
     {
-
+        private BattlescapeLogic.TurnChanger turnChanger;
         public static SoundManager instance;
 
         bool isAudioMute;
@@ -23,11 +23,11 @@ namespace BattlescapeSound
         Dictionary<GameObject, Queue<string>> SoundQueues = new Dictionary<GameObject, Queue<string>>();
 
 
-        protected override void Start()
+        protected void Start()
         {
             if (instance == null)
             {
-                base.Start();
+                turnChanger = new BattlescapeLogic.TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
                 newTurnSound = new Sound();
                 newTurnSound.clip = Resources.Load<AudioClip>("NewTurnSound");
                 newTurnSound.volume = 0.02f;
@@ -152,17 +152,17 @@ namespace BattlescapeSound
             return source;
         }
 
-        public override void OnNewRound()
+        public void OnNewRound()
         {
             return;
         }
 
-        public override void OnNewTurn()
+        public void OnNewTurn()
         {
             PlaySound(Camera.main.gameObject, newTurnSound);
         }
 
-        public override void OnNewPhase()
+        public void OnNewPhase()
         {
             return;
         }

@@ -23,7 +23,12 @@ namespace BattlescapeLogic
             {
                 _isTall = value;
             }
-        }                 
+        }
+
+        public void Start()
+        {
+            turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
+        }
 
         public void Destruct(Unit source)
         {
@@ -73,17 +78,17 @@ namespace BattlescapeLogic
             return distance;
         }
         
-        public override void OnNewRound()
+        public void OnNewRound()
         {
             return;
         }
 
-        public override void OnNewTurn()
+        public void OnNewTurn()
         {
             return;
         }
 
-        public override void OnNewPhase()
+        public void OnNewPhase()
         {
             return;
         }

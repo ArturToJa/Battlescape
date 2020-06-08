@@ -13,12 +13,8 @@ namespace BattlescapeLogic
 
 
 
-        public static int CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
+        public static Damage CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
         {
-            if (IsMiss(source, target))
-            {
-                return 0;
-            }
             int averageDamage = Mathf.RoundToInt((Statistics.baseDamage + GetStatisticsDifference(source, target)) * multiplier);
             int damageRange = averageDamage / 5;
             int finalDamage = UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
@@ -26,7 +22,7 @@ namespace BattlescapeLogic
             {
                 finalDamage = minimalDamageInGame;
             }
-            return finalDamage;
+            return new Damage(finalDamage, IsMiss(source, target));
         }
 
         public static bool IsMiss(Unit source, IDamageable target)

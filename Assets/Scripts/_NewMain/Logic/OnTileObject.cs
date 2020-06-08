@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class OnTileObject : TurnChangeMonoBehaviour, IOnTilePlaceable
-    {    
+    public abstract class OnTileObject : MonoBehaviour, IOnTilePlaceable
+    {
+        protected TurnChanger turnChanger;
         [SerializeField] protected MultiTile _currentPosition;
         public MultiTile currentPosition
         {
@@ -18,7 +19,6 @@ namespace BattlescapeLogic
                 _currentPosition = value;
             }
         }
-
 
         [SerializeField] TileObjectType _type;
         public TileObjectType type

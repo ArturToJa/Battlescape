@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public class NewTurnButton : TurnChangeMonoBehaviour
+public class NewTurnButton : MonoBehaviour
 {
+    private TurnChanger turnChanger;
     Button thisButton;
     Text text;
     
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         thisButton = GetComponent<Button>();
         text = GetComponentInChildren<Text>();
         thisButton.onClick.AddListener(GameRound.instance.OnClick);
@@ -33,12 +34,12 @@ public class NewTurnButton : TurnChangeMonoBehaviour
         UIManager.InstantlyTransitionActivity(this.gameObject, false);
     }
 
-    public override void OnNewRound()
+    public void OnNewRound()
     {
         return;
     }
 
-    public override void OnNewTurn()
+    public void OnNewTurn()
     {
         return;
     }
@@ -55,7 +56,7 @@ public class NewTurnButton : TurnChangeMonoBehaviour
         }
     }
 
-    public override void OnNewPhase()
+    public void OnNewPhase()
     {
         switch (GameRound.instance.currentPhase)
         {

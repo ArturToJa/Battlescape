@@ -32,7 +32,7 @@ namespace BattlescapeLogic
 
 
 
-        protected override void Start()
+        protected new void Start()
         {
             base.Start();
             buffs = new BuffGroup(this);

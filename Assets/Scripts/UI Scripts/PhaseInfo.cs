@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public class PhaseInfo : TurnChangeMonoBehaviour
+public class PhaseInfo : MonoBehaviour
 {
-
+    TurnChanger turnChanger;
     [SerializeField] Text phaseInfoText;
 
-    public override void OnCreation()
+    public void OnCreation()
     {
-        base.OnCreation();    
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         phaseInfoText.text = "Positioning Phase";        
     }
 
@@ -20,7 +20,7 @@ public class PhaseInfo : TurnChangeMonoBehaviour
         phaseInfoText.text = enemy.playerName.ToString() + "'s Responding!";
     }
 
-    public override void OnNewPhase()
+    public void OnNewPhase()
     {
         switch (GameRound.instance.currentPhase)
         {
@@ -40,15 +40,14 @@ public class PhaseInfo : TurnChangeMonoBehaviour
             default:
                 break;
         }
-       
     }
 
-    public override void OnNewRound()
+    public void OnNewRound()
     {
         return;
     }
 
-    public override void OnNewTurn()
+    public void OnNewTurn()
     {
         return;
     }

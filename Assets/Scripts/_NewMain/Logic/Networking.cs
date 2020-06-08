@@ -323,9 +323,10 @@ namespace BattlescapeLogic
 
         public void SendCommandToHit(Unit source, IDamageable target, int damage = -1)
         {
+            Damage _damage = new Damage(damage, true);
             if (damage == -1)
             {
-                damage = DamageCalculator.CalculateDamage(source, target);
+                _damage = DamageCalculator.CalculateDamage(source, target);
             }
             if (Global.instance.matchType == MatchTypes.Online)
             {
@@ -338,20 +339,22 @@ namespace BattlescapeLogic
                     source.currentPosition.bottomLeftCorner.position.z,
                     targetX,
                     targetZ,
-                    damage);
+                    _damage.baseDamage,
+                    _damage.isHit);
             }
             else
             {
-                source.HitTarget(target, damage);
+                source.HitTarget(target, _damage);
             }
         }
 
         [PunRPC]
-        void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage)
+        void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage, bool isHit)
         {
             Unit source = Global.instance.currentMap.board[sourceX, sourceZ].GetMyObject<Unit>();
             IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();
-            source.HitTarget(target, damage);
+            Damage _damage = new Damage(damage, isHit);
+            source.HitTarget(target, _damage);
         }
 
         public void SendCommandToNotRetaliate()

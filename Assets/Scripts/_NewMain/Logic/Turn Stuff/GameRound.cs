@@ -12,6 +12,7 @@ namespace BattlescapeLogic
 
 
         public LinkedList<ITurnInteractable> newRoundObjects = new LinkedList<ITurnInteractable>();
+        public List<LinkedList<TurnChanger>> turnChangerObjects;
 
         public int gameRoundCount { get; private set; }
         public int countdown { get; private set; }
@@ -202,6 +203,7 @@ namespace BattlescapeLogic
                 element = element.Next;
             }
             NextPhase();
+            NewPlayerRound();
         }
 
         void NextPhase()
@@ -220,6 +222,33 @@ namespace BattlescapeLogic
             {
                 element.Value.OnNewPhase();
                 element = element.Next;
+            }
+        }
+
+        void NewPlayerRound()
+        {
+            LinkedListNode<TurnChanger> element = turnChangerObjects[currentPlayer].First;
+            LinkedListNode<TurnChanger> previousElement = null;
+
+            while (element != null)
+            {
+                element.Value.OnNewPlayerRound();
+                if (element.Next == null && element.Previous == null && turnChangerObjects[currentPlayer].Count != 1)
+                {
+                    if (previousElement == null)
+                    {
+                        element = turnChangerObjects[currentPlayer].First;
+                    }
+                    else
+                    {
+                        element = previousElement.Next;
+                    }
+                }
+                else
+                {
+                    previousElement = element;
+                    element = element.Next;
+                }
             }
         }
 
@@ -260,10 +289,20 @@ namespace BattlescapeLogic
             return gameRoundCount > 0 && gameRoundCount <= maximumRounds;
         }
 
+        public void Setup()
+        {
+            turnChangerObjects = new List<LinkedList<TurnChanger>>();
+            for (int i = 0; i < Global.instance.playerCount; i++)
+            {
+                turnChangerObjects.Add(new LinkedList<TurnChanger>());
+            }
+        }
+
         public void StartGame()
         {
             //MAYBE we want something 'extra' on a new game idk
             //Its AFTER the positioning phase
+            Setup();
             NewRound();
         }
     }

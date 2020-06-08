@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbstractAttackModifier : MonoBehaviour
+namespace BattlescapeLogic
 {
-    // Start is called before the first frame update
-    void Start()
+    public abstract class AbstractAttackModifier : AbstractAbility
     {
-        
-    }
+        public Expirable expirable { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public abstract void ModifyDamage(Damage damage);
+
+        public abstract void ModifyAttack(IDamageable target, Damage damage);
+
+        public virtual void ApplyToUnit(Unit unit)
+        {
+            owner = unit;
+            owner.modifiers.Add(this);
+            expirable = new Expirable(owner.GetMyOwner(), OnExpire);
+        }
+
+        protected void OnExpire()
+        {
+            owner.modifiers.Remove(this);
+        }
     }
 }
