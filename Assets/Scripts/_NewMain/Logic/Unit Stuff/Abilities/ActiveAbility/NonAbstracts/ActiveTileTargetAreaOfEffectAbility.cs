@@ -20,7 +20,7 @@ namespace BattlescapeLogic
 
         public void ColourCurrentTargets(Tile hoveredTile)
         {
-            if (IsLegalTarget(hoveredTile) == false)
+            if (IsLegalTarget(hoveredTile, Vector3.zero) == false)
             {
                 return;
             }
@@ -80,7 +80,7 @@ namespace BattlescapeLogic
             }           
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is Tile == false)
             {

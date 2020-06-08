@@ -64,15 +64,29 @@ namespace BattlescapeLogic
             return;
         }        
 
-        public int GetDistanceTo(Position target)
+        public int GetDistanceTo(MultiTile target)
         {
             int distance = 9999;
+            Tile targetClosestTile = target.bottomLeftCorner;
+            Tile thisClosestTile = currentPosition.bottomLeftCorner;
+
             foreach (Tile tile in currentPosition)
             {
-                int possibleDistance = tile.position.DistanceTo(target);
+                int possibleDistance = tile.position.DistanceTo(targetClosestTile.position);
                 if (possibleDistance < distance)
                 {
                     distance = possibleDistance;
+                    thisClosestTile = tile;
+                }
+            }
+
+            foreach (Tile tile in target)
+            {
+                int possibleDistance = tile.position.DistanceTo(thisClosestTile.position);
+                if (possibleDistance < distance)
+                {
+                    distance = possibleDistance;
+                    targetClosestTile = tile;
                 }
             }
             return distance;

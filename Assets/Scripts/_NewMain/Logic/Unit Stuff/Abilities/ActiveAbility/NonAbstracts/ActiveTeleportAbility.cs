@@ -12,6 +12,8 @@ namespace BattlescapeLogic
         [SerializeField] bool CantBeInCombat;
         [SerializeField] bool HasToLandInCombat;
         [SerializeField] bool CantLandInCombat;
+        Vector3 exactMousePosition;
+
 
         protected override void Activate()
         {
@@ -19,28 +21,33 @@ namespace BattlescapeLogic
             //Przenieś unita wraz z animacją
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
+
             if (target is Tile == false)
             {
                 return false;
             }
             var targetTile = target as Tile;
-            return ConditionsTest(targetTile) && targetTile.myObstacle == null && targetTile.myUnit == null && IsInRange(targetTile) && targetTile.IsWalkable();
+            MultiTile position = targetTile.PositionRelatedToMouse(owner.currentPosition.width,owner.currentPosition.height,exactClickPosition);
+            return ConditionsTest(position) && IsInRange(position) && position.IsWalkable();
         }
 
         public override void ColourPossibleTargets()
         {
-            foreach (Tile tile in Global.instance.currentMap.board)
+            foreach(MultiTile position in Pathfinder.instance.GetAllLegalPositionsFor(owner))
             {
-                if (IsLegalTarget(tile))
+                if (Pathfinder.instance.IsLegalTileForUnit(position, owner, range))
                 {
-                    tile.highlighter.TurnOn(targetColouringColour);
+                    foreach(Tile tile in position)
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
                 }
             }
         }
         
-        bool ConditionsTest(Tile targetTile)
+        bool ConditionsTest(MultiTile position)
         {
             if (HasToBeInCombat && GetComponent<Unit>().IsInCombat() == false)
             {
@@ -50,11 +57,11 @@ namespace BattlescapeLogic
             {
                 return false;
             }
-            if(HasToLandInCombat && willLandInCombat(targetTile) == false)
+            if(HasToLandInCombat && willLandInCombat(position) == false)
             {
                 return false;
             }
-            if(CantLandInCombat && willLandInCombat(targetTile))
+            if(CantLandInCombat && willLandInCombat(position))
             {
                 return false;
             }
@@ -62,11 +69,11 @@ namespace BattlescapeLogic
             return true;
         }
 
-        bool willLandInCombat(Tile targetTile)
+        bool willLandInCombat(MultiTile targetTile)
         {
-            foreach(Tile tile in targetTile.neighbours)
+            foreach(MultiTile posiotion in targetTile.neighbours)
             {
-                if(tile.myUnit != null && tile.myUnit.GetMyOwner() != GetComponent<Unit>().GetMyOwner())
+                if(posiotion.IsProtectedByEnemyOf(owner))
                 {
                     return true;
                 }

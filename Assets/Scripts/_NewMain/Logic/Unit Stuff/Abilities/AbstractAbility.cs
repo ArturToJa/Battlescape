@@ -141,13 +141,6 @@ namespace BattlescapeLogic
         }
 
         [SerializeField] AbilityFilter _filter = new AbilityFilter();
-
-        protected override void Start()
-        {
-            base.Start();
-            _filter.thisAbility = this;
-        }
-
         public AbilityFilter filter
         {
             get
@@ -160,11 +153,12 @@ namespace BattlescapeLogic
             }
         }
 
-        public void Start()
+        public virtual void Start()
         {
-            owner = this.GetComponent<Unit>();
+            owner = GetComponent<Unit>();
             turnChanger = new TurnChanger(owner.GetMyOwner(), OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
-            filter.SetAbility(this);
+
+            _filter.thisAbility = this;
         }
 
         public virtual void OnNewRound()

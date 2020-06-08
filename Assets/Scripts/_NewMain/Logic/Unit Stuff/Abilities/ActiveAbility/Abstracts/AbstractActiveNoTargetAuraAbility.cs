@@ -16,14 +16,14 @@ namespace BattlescapeLogic
             base.Activate();
             foreach (Unit unit in Global.instance.GetAllUnits())
             {
-                if (IsLegalTarget(unit))
+                if (IsLegalTarget(unit, Vector3.zero))
                 {
                     ApplyBuffsToUnit(auraBuffs, unit);
                 }
             }
         }       
 
-       public override bool IsLegalTarget(IMouseTargetable target)
+       public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
        {
            if ((target is Unit) == false)
            {

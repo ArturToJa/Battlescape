@@ -15,7 +15,7 @@ namespace BattlescapeLogic
         [SerializeField] GameObject onTargetCastVisualEffect;
         [SerializeField] bool isSelfBuff;
 
-        protected override void Start()
+        public override void Start()
         {
             base.Start();
             if (isSelfBuff)
@@ -43,16 +43,19 @@ namespace BattlescapeLogic
 
         public override void ColourPossibleTargets()
         {
-            foreach (Tile tile in Global.instance.currentMap.board)
+            foreach (Unit unit in Global.instance.GetAllUnits())
             {
-                if (tile.myUnit != null && IsLegalTarget(tile.myUnit))
+                if (IsLegalTarget(unit))
                 {
-                    tile.highlighter.TurnOn(targetColouringColour);
+                    foreach (Tile tile in unit.currentPosition)
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
                 }
             }
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (isSelfBuff)
             {

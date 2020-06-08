@@ -66,7 +66,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is Tile)
             {

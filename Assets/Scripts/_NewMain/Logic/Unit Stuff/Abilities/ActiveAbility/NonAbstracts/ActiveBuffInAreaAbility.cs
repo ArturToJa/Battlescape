@@ -91,7 +91,7 @@ namespace BattlescapeLogic
             return list;
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             return true;
         }

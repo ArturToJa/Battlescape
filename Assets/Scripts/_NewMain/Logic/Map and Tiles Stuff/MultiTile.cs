@@ -227,6 +227,11 @@ namespace BattlescapeLogic
 
         }
 
+        public int Size()
+        {
+            return width * height;
+        }
+
         public bool IsWalkable()
         {
             foreach (Tile tile in this)

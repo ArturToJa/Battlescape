@@ -29,7 +29,7 @@ namespace BattlescapeLogic
             bonusDamage -= Convert.ToInt32(Math.Ceiling((Vector3.Distance(owner.transform.position, targetUnit.transform.position) * damageLoweredEveryMeter)));
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if ((target is Unit) == false)
             {
@@ -47,9 +47,12 @@ namespace BattlescapeLogic
         {
             foreach (Unit unit in Global.instance.GetAllUnits())
             {
-                if (IsLegalTarget(unit))
+                if (IsLegalTarget(unit,Vector3.zero))
                 {
-                    unit.currentPosition.highlighter.TurnOn(targetColouringColour);
+                    foreach(Tile tile in unit.currentPosition)
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
                 }
             }
         }

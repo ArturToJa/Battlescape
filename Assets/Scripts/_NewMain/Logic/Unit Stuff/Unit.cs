@@ -114,7 +114,6 @@ namespace BattlescapeLogic
             statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
             FaceMiddleOfMap();
             UpdateAbilities();
-            Tile.OnMouseHoverTileEnter += OnTileHovered;
         }
 
         private void UpdateAbilities()
@@ -366,13 +365,11 @@ namespace BattlescapeLogic
             {
                 return false;
             }
-            foreach (Tile myTile in currentPosition)
+            if (retaliatingUnit.GetDistanceTo(currentPosition) == 1)
             {
-                if (retaliatingUnit.GetDistanceTo(myTile.position) == 1)
-                {
-                    return true;
-                }
+                return true;
             }
+
             return false;
         }
 
@@ -576,11 +573,12 @@ namespace BattlescapeLogic
 
         public void OnTileHovered(Tile hoveredTile, Vector3 exactMousePosition)
         {
-            if (CanMoveTo(hoveredTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition)))
+            MultiTile position = hoveredTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition);
+            if (CanMoveTo(position))
             {
                 foreach (Unit otherUnit in Global.instance.GetAllUnits())
                 {
-                    if (IsEnemyOf(otherUnit) && CouldAttackEnemyFromTile(otherUnit, hoveredTile))
+                    if (IsEnemyOf(otherUnit) && CouldAttackEnemyFromMultiTile(otherUnit, position))
                     {
                         BattlescapeGraphics.ColouringTool.ColourObject(otherUnit, Color.red);
                     }
@@ -599,9 +597,9 @@ namespace BattlescapeLogic
             UIHitChanceInformation.instance.TurnOff();
         }
 
-        bool CouldAttackEnemyFromTile(Unit enemy, Tile tile)
+        bool CouldAttackEnemyFromMultiTile(Unit enemy, MultiTile position)
         {
-            return IsInAttackRange(enemy.GetDistanceTo(tile.position));
+            return IsInAttackRange(enemy.GetDistanceTo(position));
         }
 
         public void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
@@ -650,15 +648,29 @@ namespace BattlescapeLogic
             }
         }
 
-        public int GetDistanceTo(Position target)
+        public int GetDistanceTo(MultiTile target)
         {
             int distance = 9999;
+            Tile targetClosestTile = target.bottomLeftCorner;
+            Tile thisClosestTile = currentPosition.bottomLeftCorner;
+
             foreach (Tile tile in currentPosition)
             {
-                int possibleDistance = tile.position.DistanceTo(target);
+                int possibleDistance = tile.position.DistanceTo(targetClosestTile.position);
                 if (possibleDistance < distance)
                 {
                     distance = possibleDistance;
+                    thisClosestTile = tile;
+                }
+            }
+
+            foreach (Tile tile in target)
+            {
+                int possibleDistance = tile.position.DistanceTo(thisClosestTile.position);
+                if (possibleDistance < distance)
+                {
+                    distance = possibleDistance;
+                    targetClosestTile = tile;
                 }
             }
             return distance;

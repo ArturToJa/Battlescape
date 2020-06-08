@@ -222,17 +222,17 @@ namespace BattlescapeLogic
 
         protected bool IsInRange(Unit unit)
         {
-            return owner.currentPosition.position.DistanceTo(unit.currentPosition.position) <= range;
+            return owner.GetDistanceTo(unit.currentPosition) <= range;
         }
 
         protected bool IsInRange(Obstacle obstacle)
         {
-            return obstacle.GetDistanceTo(owner.currentPosition.position) <= range;
+            return obstacle.GetDistanceTo(owner.currentPosition) <= range;
         }
 
-        protected bool IsInRange(Tile tile)
+        protected bool IsInRange(MultiTile position)
         {
-            return owner.currentPosition.position.DistanceTo(tile.position) <= range;
+            return owner.GetDistanceTo(position) <= range;
         }
 
         protected bool HasUsesLeft()
@@ -279,9 +279,9 @@ namespace BattlescapeLogic
             return;
         }
 
-        public abstract bool IsLegalTarget(IMouseTargetable target);
+        public abstract bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition);
 
-        protected override void Start()
+        public override void Start()
         {
             base.Start();
             energyCost = baseEnergyCost;
@@ -359,7 +359,7 @@ namespace BattlescapeLogic
 
         public void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition)
         {
-            if (IsLegalTarget(clickedObject))
+            if (IsLegalTarget(clickedObject,exactClickPosition))
             {
                 target = clickedObject;
                 Activate();
@@ -373,7 +373,7 @@ namespace BattlescapeLogic
 
         public virtual void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
-            if (IsLegalTarget(target))
+            if (IsLegalTarget(target,exactMousePosition))
             {
                 Cursor.instance.OnLegalTargetHovered();
             }

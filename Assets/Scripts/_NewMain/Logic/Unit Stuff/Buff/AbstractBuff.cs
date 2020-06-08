@@ -89,7 +89,6 @@ namespace BattlescapeLogic
             RemoveChange();
             this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
-            OnDestruction();
             RemoveChange();
         }
 

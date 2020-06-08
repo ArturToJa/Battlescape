@@ -9,7 +9,7 @@ namespace BattlescapeLogic
 
         string GetMyName();
 
-        int GetDistanceTo(Position postion);
+        int GetDistanceTo(MultiTile postion);
 
         Player GetMyOwner();
 

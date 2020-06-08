@@ -6,6 +6,12 @@ namespace BattlescapeLogic
 {
     public class ActiveTileSpawnObstacle : AbstractActiveAbility
     {
+        /// <summary>
+        /// Fix needed - isLegalTarget creates MultiTile based on height and with of owner, 
+        /// should do it based on Obstacle height and width
+        /// </summary>
+
+
         [SerializeField] GameObject obstaclePrefab;
 
 
@@ -27,21 +33,22 @@ namespace BattlescapeLogic
         }
 
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is Tile == false)
             {
                 return false;
             }
             Tile targetTile = target as Tile;
-            return IsInRange(targetTile) && targetTile.IsWalkable();
+            MultiTile position = targetTile.PositionRelatedToMouse(owner.currentPosition.width, owner.currentPosition.height, exactClickPosition);
+            return IsInRange(position) && targetTile.IsWalkable();
         }
 
         public override void ColourPossibleTargets()
         {
             foreach (Tile tile in Global.instance.currentMap.board)
             {
-                if (IsLegalTarget(tile))
+                if (IsLegalTarget(tile, Vector3.zero))
                 {
                     tile.highlighter.TurnOn(targetColouringColour);
                 }

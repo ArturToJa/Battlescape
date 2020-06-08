@@ -15,7 +15,7 @@ namespace BattlescapeLogic
             //teleport unit to targetted position with animation
         }
 
-        public override void OnCursorOver(IMouseTargetable target)
+        public override void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
             if (target is Obstacle && IsLegalTarget(target))
             {
@@ -25,7 +25,10 @@ namespace BattlescapeLogic
 
                 if (possibleTile(targettedObstacle.transform.position) != null)
                 {
-                    possibleTile(targettedObstacle.transform.position).highlighter.TurnOn(possibleTileColour);
+                    foreach(Tile tile in possibleTile(targettedObstacle.transform.position))
+                    {
+                        tile.highlighter.TurnOn(possibleTileColour);
+                    }
                 }
             }
             else
@@ -35,27 +38,43 @@ namespace BattlescapeLogic
             }
         }
 
-        Tile possibleTile(Vector3 targetPos)
+        MultiTile possibleTile(Vector3 targetPos)
         {
 
-            var VectorToTarget = -transform.position + targetPos;
+            //var VectorToTarget = -transform.position + targetPos;
+            //
+            //Ray ray = new Ray(targetPos, VectorToTarget);
+            //RaycastHit[] hits = Physics.RaycastAll(ray, JumpLenght);
+            //
+            //
+            //
+            //foreach (var hit in hits)
+            //{
+            //    if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle != null && hit.transform.GetComponent<Tile>().myObstacle.isTall)
+            //    {
+            //        break;
+            //    }
+            //    else if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle == null && hit.transform.GetComponent<Tile>().myUnit == null)
+            //    {
+            //        list.Add(hit.transform.GetComponent<Tile>());
+            //    }
+            //}
 
-            Ray ray = new Ray(targetPos, VectorToTarget);
-            RaycastHit[] hits = Physics.RaycastAll(ray, JumpLenght);
+            var list = new List<MultiTile>();
 
-            var list = new List<Tile>();
+            Obstacle targetedObstacle = target as Obstacle;
 
-            foreach (var hit in hits)
+            Vector3 dest = owner.currentPosition.center - targetedObstacle.currentPosition.center;
+            dest.Normalize();
+
+            for(int i = 1; i <= JumpLenght; i++)
             {
-                if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle != null && hit.transform.GetComponent<Tile>().myObstacle.isTall)
+                if(owner.currentPosition.Offset((int)dest.x * i, (int)dest.z * i).IsWalkable() == true)
                 {
-                    break;
-                }
-                else if (hit.transform.GetComponent<Tile>() != null && hit.transform.GetComponent<Tile>().myObstacle == null && hit.transform.GetComponent<Tile>().myUnit == null)
-                {
-                    list.Add(hit.transform.GetComponent<Tile>());
+                    list.Add(owner.currentPosition.Offset((int)dest.x * i, (int)dest.z * i));
                 }
             }
+
 
             if (list.Count != 0)
             {
@@ -67,7 +86,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override bool IsLegalTarget(IMouseTargetable target)
+        public override bool IsLegalTarget(IMouseTargetable target, Vector3 exactClickPosition)
         {
             if (target is Obstacle)
             {
@@ -79,11 +98,14 @@ namespace BattlescapeLogic
 
         public override void ColourPossibleTargets()
         {
-            foreach (Tile tile in Global.instance.currentMap.board)
+            foreach (Obstacle obstalce in Global.instance.currentMap.obstacles)
             {
-                if (tile.myObstacle!=null && IsLegalTarget(tile.myObstacle))
+                if (IsLegalTarget(obstalce))
                 {
-                    tile.highlighter.TurnOn(targetColouringColour);
+                    foreach (Tile tile in obstalce.currentPosition)
+                    {
+                        tile.highlighter.TurnOn(targetColouringColour);
+                    }
                 }
             }
         }

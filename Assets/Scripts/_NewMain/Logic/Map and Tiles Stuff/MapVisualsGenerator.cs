@@ -47,6 +47,10 @@ namespace BattlescapeLogic
             Vector3 oldScale = objectToPlace.transform.localScale;
             objectToPlace.transform.SetParent(position.bottomLeftCorner.transform);
             objectToPlace.transform.localScale = oldScale;
+            if (objectToPlace.GetComponent<Obstacle>() != null)
+            {
+                Global.instance.currentMap.obstacles.Add(objectToPlace.GetComponent<Obstacle>());
+            }
         }
 
         GameObject GenerateObject(GameObject prefab, bool canRotate)

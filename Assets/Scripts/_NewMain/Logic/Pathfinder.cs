@@ -54,17 +54,17 @@ namespace BattlescapeLogic
             return returnList;
         }
 
-        public bool IsLegalTileForUnit(MultiTile position, Unit unit)
+        public bool IsLegalTileForUnit(MultiTile position, Unit unit, int range)
         {
             BFS(unit);
             int legalDistance = 0;
-            if (unit.IsInCombat() && unit.statistics.movementPoints > 0)
+            if (unit.IsInCombat() && range > 0)
             {
                 legalDistance = 1;
             }
             else if (unit.IsInCombat() == false)
             {
-                legalDistance = unit.statistics.movementPoints;
+                legalDistance = range;
             }
             return distances[position.bottomLeftCorner.position.x, position.bottomLeftCorner.position.z] <= legalDistance && distances[position.bottomLeftCorner.position.x, position.bottomLeftCorner.position.z] > 0;
         }

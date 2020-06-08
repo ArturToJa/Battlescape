@@ -46,6 +46,7 @@ namespace BattlescapeLogic
         }
 
         public Tile[,] board { get; private set; }
+        public List<Obstacle> obstacles { get; private set; }
 
         [SerializeField] MapVisualsGenerator _mapVisuals;
         public MapVisualsGenerator mapVisuals
@@ -64,6 +65,7 @@ namespace BattlescapeLogic
 
         public void OnSetup()
         {
+            obstacles = new List<Obstacle>();
             GenerateBoard();
 
             GenerateMapVisuals();
@@ -96,5 +98,7 @@ namespace BattlescapeLogic
                 tileGraphics.ToggleGrid();
             }
         }
+
+
     }
 }
