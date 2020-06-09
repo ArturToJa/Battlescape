@@ -7,47 +7,36 @@ using BattlescapeLogic;
 public class UnitButtonScript : MonoBehaviour
 {
 
-    public UnitCreator unitCreator;
+    public UnitCreator unitCreator { get; set; }
     Unit myUnit;
     Text theName;
     Text value;
     Text limit;
     int amount = 1;
-    [SerializeField] bool isVisual;
 
-    private void Start()
+
+
+    public void OnCreation(UnitCreator _unitCreator)
     {
-        if (isVisual)
+        unitCreator = _unitCreator;
+        myUnit = unitCreator.prefab.GetComponent<Unit>();
+        limit = GetComponentsInChildren<Text>()[2];
+        limit.fontSize = 20;
+        theName = GetComponentsInChildren<Text>()[0];
+        value = GetComponentsInChildren<Text>()[1];
+        theName.text = myUnit.info.unitName;
+        this.GetComponent<Button>().onClick.AddListener(() => SetPressedButton());
+        limit.color = Color.white;
+        theName.color = Color.white;
+        value.color = Color.white;
+        value.text = myUnit.statistics.cost.ToString();
+        if (this.transform.parent.parent.name == "PossibleUnits")
         {
-            limit = GetComponentsInChildren<Text>()[2];
-            limit.fontSize = 20;
-            theName = GetComponentsInChildren<Text>()[0];
-            value = GetComponentsInChildren<Text>()[1];
-            myUnit = unitCreator.prefab.GetComponent<Unit>();
-            theName.text = myUnit.info.unitName;
-            this.GetComponent<Button>().onClick.AddListener(() => SetPressedButton());
-            limit.color = Color.white;
-            theName.color = Color.white;
-            value.color = Color.white;
+            limit.text = myUnit.statistics.limit.ToString();
         }
-
-    }
-
-    private void Update()
-    {
-        if (isVisual)
+        else
         {
-            value.text = myUnit.statistics.cost.ToString();
-
-
-            if (this.transform.parent.parent.name == "PossibleUnits")
-            {
-                limit.text = myUnit.statistics.limit.ToString();
-            }
-            else
-            {
-                limit.text = amount.ToString();
-            }
+            limit.text = amount.ToString();
         }
     }
 

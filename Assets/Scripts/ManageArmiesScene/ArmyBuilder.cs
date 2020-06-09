@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
+using BattlescapeUI;
 
 public class ArmyBuilder : MonoBehaviour
 {
@@ -21,13 +22,14 @@ public class ArmyBuilder : MonoBehaviour
     int currentMoney;
     [SerializeField] Text remainingGoldText;
     public List<UnitCreator> UnitsList;
-
-    [SerializeField] Renderer heroPedestal;
     [SerializeField] GameObject heroChoiceScreen;
     public GameObject raceOK;
     public Text RaceNameText;
     public Text RaceDescriptionText;
     WindowSetter windowSetter;
+    [SerializeField] LeftUnitsList leftUnitsList;
+    public UnitStatShower unitStatShower;
+    public UnitStatShower heroStatShower;
 
     void Awake()
     {
@@ -103,8 +105,9 @@ public class ArmyBuilder : MonoBehaviour
                 }
                 else
                 {
-                    var temp = Instantiate(pressedButton, RightUnits);
+                    GameObject temp = Instantiate(pressedButton.gameObject, RightUnits);
                     temp.name = pressedButton.name;
+                    temp.GetComponent<UnitButtonScript>().OnCreation(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
                     currentMoney -= pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost;
                     AddPressedButtonToUnitList();
                     if (isReal)
@@ -149,6 +152,12 @@ public class ArmyBuilder : MonoBehaviour
 
         }
 
+
+    }
+
+    //In general this should probably take the 
+    public void OnButtonPressed()
+    {
 
     }
 
@@ -207,5 +216,6 @@ public class ArmyBuilder : MonoBehaviour
                 }
             }
         }
+        leftUnitsList.CreateButtons();
     }    
 }

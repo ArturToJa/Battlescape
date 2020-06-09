@@ -51,7 +51,7 @@ MonoBehaviour:
   _currentPosition:
     _width: 1
     _height: 1
-  _type: 0
+  _type: 9
   _missilePrefab: {fileID: 1279082748247048, guid: 8ea980f2981502045aacfdcab33b2a05,
     type: 3}
   attackType: 1

@@ -23180,19 +23180,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b641ac2088f42db439aecf85ebaaf56d, type: 3}
   - {fileID: 0}
   savePrefab: {fileID: 1651261313338776, guid: f253785d8f50573468fe63fc43eba076, type: 3}
-  allUnitCreators:
-  - {fileID: 11400000, guid: 924a6747bf22315479fba91bf8dc45aa, type: 2}
-  - {fileID: 11400000, guid: 4515ecaf9605b164c8c6edb5159cb257, type: 2}
-  - {fileID: 11400000, guid: 552d88a26962b534bb0733d6c2d958aa, type: 2}
-  - {fileID: 11400000, guid: abd43d637f0202142951efc05e22c2a6, type: 2}
-  - {fileID: 11400000, guid: b758f4088adee9d449d10dd0d6fd9f1e, type: 2}
-  - {fileID: 11400000, guid: 1478db11418a63240bb3d6268a4388e3, type: 2}
-  - {fileID: 11400000, guid: d16f9b6f3cbaf8d479d3b7ee5a3d2196, type: 2}
-  - {fileID: 11400000, guid: a3d5d04cbd175734ba72f36efb097812, type: 2}
-  - {fileID: 11400000, guid: 171a0164a79e6fa4c82a781a71ed7fe6, type: 2}
-  - {fileID: 11400000, guid: ed1da09a3c737b247967ad62807237ef, type: 2}
-  - {fileID: 11400000, guid: 68717d7d58d314a4eb656ea1f8f4a6ec, type: 2}
-  - {fileID: 11400000, guid: 780eff7eb838b58488f6140736d62f93, type: 2}
+  allUnitCreators: []
 --- !u!4 &1859684904
 Transform:
   m_ObjectHideFlags: 0

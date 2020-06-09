@@ -70,6 +70,7 @@ public class SaveLoadManager : MonoBehaviour
 
     void Awake()
     {
+        allUnitCreators = new List<UnitCreator>(Resources.LoadAll<UnitCreator>("UnitCreator"));
         currentSaveValue = 25;
         race = Race.Neutral;
         //ChosenRaces[0] = Race.Neutral;
@@ -145,7 +146,7 @@ public class SaveLoadManager : MonoBehaviour
         playerArmy = new PlayerArmy();
         if (race != Race.Neutral)
         {
-            playerArmy.Race = race;
+            playerArmy.race = race;
         }
         if (heroName != null && heroName != string.Empty)
         {
@@ -252,7 +253,7 @@ public class SaveLoadManager : MonoBehaviour
             ArmyBuilder.instance.heroCreator = hero;
         }
         heroName = playerArmy.HeroName;
-        race = playerArmy.Race;
+        race = playerArmy.race;
     }
 
     public UnitCreator GetUnitCreatorFromIndex(int index)
@@ -292,13 +293,13 @@ public class SaveLoadManager : MonoBehaviour
             foreach (var item in list)
             {
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.Race == Race.Neutral)
+                if (armyInfo.race == Race.Neutral)
                 {
                     Debug.Log("deleted");
                     File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
                     continue;
                 }
-                if (armyInfo.Race == race)
+                if (armyInfo.race == race)
                 {
                     return true;
                 }
@@ -362,20 +363,20 @@ public class SaveLoadManager : MonoBehaviour
                 temp.GetComponent<SaveLoadButton>().isDeletable = true;
                 temp.GetComponentInChildren<Text>().text = item.Key;
                 PlayerArmy armyInfo = GetInsidesOfASave(item.Value);
-                if (armyInfo.Race == Race.Neutral)
+                if (armyInfo.race == Race.Neutral)
                 {
                     Debug.Log("deleted");
                     File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + item.Key + ".lemur");
                     Destroy(temp);
                     continue;
                 }
-                if (Global.instance.matchType == MatchTypes.Online && armyInfo.Race != localRace)
+                if (Global.instance.matchType == MatchTypes.Online && armyInfo.race != localRace)
                 {
                     Debug.Log("Skipped");
                     Destroy(temp);
                     continue;
                 }
-                temp.GetComponentsInChildren<Image>()[1].sprite = GetRaceSprite((Race)armyInfo.Race);
+                temp.GetComponentsInChildren<Image>()[1].sprite = GetRaceSprite((Race)armyInfo.race);
                 //temp.GetComponentsInChildren<Image>()[2].sprite = RaceSymbols[(int)armyInfo.heroID];
                 temp.name = item.Key;
             }
@@ -442,7 +443,7 @@ public class PlayerArmy
     public string HeroName;
     public List<int> unitIndecies;
     public int heroIndex;
-    public Race Race;
+    public Race race;
 }
 
 [System.Serializable]

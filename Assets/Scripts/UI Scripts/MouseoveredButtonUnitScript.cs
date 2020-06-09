@@ -6,7 +6,7 @@ using BattlescapeLogic;
 
 public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
 {
-    [SerializeField] UnitStatShower myUSS;
+    UnitStatShower myUSS;
     Pedestal pedestal;
     UnitCreator myUnit;
 
@@ -17,10 +17,14 @@ public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
         if (this.GetComponent<UnitButtonScript>() != null)
         {
             myUnit = this.GetComponent<UnitButtonScript>().unitCreator;
+            Debug.Log(GetComponent<UnitButtonScript>());
+            Debug.Log(myUnit);
+            myUSS = ArmyBuilder.instance.unitStatShower;
         }
-        else if (this.GetComponent<ClickableHeroUIScript>() != null)
+        else
         {
-            myUnit = this.GetComponent<ClickableHeroUIScript>().myHero;
+            myUnit = this.GetComponent<ClickableHeroUIScript>().unitCreator;
+            myUSS = ArmyBuilder.instance.heroStatShower;
         }
     }
 

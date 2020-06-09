@@ -29,8 +29,7 @@ public class HeroChoiceScreenScript : MonoBehaviour
         amIActive = false;
         StartCoroutine(ABFadeIn());
         chosenHero.theHero = null;
-        ArmyBuilder.instance.LoadArmy(GetUnitCreatorsFromIndecies(SaveLoadManager.instance.playerArmy.unitIndecies));
-
+        ArmyBuilder.instance.LoadArmy(GetUnitCreatorsFromIndecies(SaveLoadManager.instance.playerArmy.unitIndecies));        
     }
 
     List<UnitCreator> GetUnitCreatorsFromIndecies(List<int> unitCreators)
@@ -65,7 +64,7 @@ public void LoadHero(int heroIndex)
 {
     foreach (var item in FindObjectsOfType<ClickableHeroUIScript>())
     {
-        if (item.myHero.index == heroIndex)
+        if (item.unitCreator.index == heroIndex)
         {
             item.TaskOnClick();
         }

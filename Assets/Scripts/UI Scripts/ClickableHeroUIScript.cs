@@ -3,45 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
+using System;
 
 public class ClickableHeroUIScript : MonoBehaviour
 {
 
     [SerializeField] ChosenHero CH;
     [SerializeField] ArmyBuilder ab;
-    public UnitCreator myHero;
-    public List<Sprite> BasicSprites;
-    public List<Sprite> HighlightSprites;
+    Image myImage;
+    public UnitCreator unitCreator;
 
-
-    private void Start()
+    public void OnCreation(UnitCreator creator)
     {
-        SaveLoadManager.instance.OnRaceChosenAction += OnRaceChosen;
-        if (ab == null)
-        {
-            ab = FindObjectOfType<ArmyBuilder>();
-        }
+        myImage = GetComponent<Image>();
+        myImage.sprite = creator.prefab.GetComponent<Hero>().avatarTransparent;
+        SpriteState ss = new SpriteState();
+        ss.highlightedSprite = creator.prefab.GetComponent<Hero>().avatarHighlightedTransparent;
+        GetComponentInChildren<Button>().spriteState = ss;        
+        unitCreator = creator;
+        ab = FindObjectOfType<ArmyBuilder>();
         CH = FindObjectOfType<ChosenHero>();
-        GetComponent<Button>().onClick.AddListener(TaskOnClick);        
+        GetComponent<Button>().onClick.AddListener(TaskOnClick);
+    }
+
+
+    void Start()
+    {
+        
     }
 
     public void TaskOnClick()
     {
         ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
-        ArmyBuilder.instance.AddHero(myHero);
+        ArmyBuilder.instance.AddHero(unitCreator);
         CH.ChoseHero(GetComponent<Image>().sprite);
-    }
-
-    public void OnRaceChosen()
-    {
-        if (myHero == null || SaveLoadManager.instance.race != myHero.prefab.GetComponent<Unit>().race)
-        {
-            transform.parent.gameObject.SetActive(false);
-        }
-    }
-
-    void OnDestroy()
-    {
-        SaveLoadManager.instance.OnRaceChosenAction -= OnRaceChosen;
     }
 }

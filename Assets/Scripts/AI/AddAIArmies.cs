@@ -50,7 +50,7 @@ public class AddAIArmies : MonoBehaviour
         {
             unitIndecies = new List<int>(),
             heroIndex = army.Hero.index,
-            Race = army.Race
+            race = army.Race
 
         };
         foreach (var unit in army.Units)

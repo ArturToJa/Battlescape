@@ -122,7 +122,9 @@ MonoBehaviour:
       itemHidden: {fileID: 0}
       _isRanged: 0
   _race: 0
-  _avatar: {fileID: 21300000, guid: ddcea1758215b144e823d04c38c00be9, type: 3}
+  _avatarHighlightedTransparent: {fileID: 21300000, guid: 9180b68a8edb4f2489aba74dc3862588,
+    type: 3}
+  _avatarTransparent: {fileID: 21300000, guid: ddcea1758215b144e823d04c38c00be9, type: 3}
 --- !u!114 &114191808647025294
 MonoBehaviour:
   m_ObjectHideFlags: 0
