@@ -115,6 +115,20 @@ public class SaveLoadManager : MonoBehaviour
     }
 
 
+    public int GetNumberOfUnits(UnitCreator unit)
+    {
+        int returnInt = 0;
+        foreach (UnitCreator possible in unitsList)
+        {
+            if (unit.index == possible.index)
+            {
+                returnInt++;
+            }
+        }
+        return returnInt;
+    }
+
+
     public void GetInput(string input)
     {
         currentSaveName = input;

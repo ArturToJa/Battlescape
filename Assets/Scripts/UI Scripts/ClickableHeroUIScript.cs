@@ -34,7 +34,6 @@ public class ClickableHeroUIScript : MonoBehaviour
 
     public void TaskOnClick()
     {
-        ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
         ArmyBuilder.instance.AddHero(unitCreator);
         CH.ChoseHero(GetComponent<Image>().sprite);
     }

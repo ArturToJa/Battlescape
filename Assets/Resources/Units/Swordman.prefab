@@ -197,7 +197,6 @@ MonoBehaviour:
     type: 3}
   targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
   selfBuffs:
-  - {fileID: 1234158636466810, guid: b178f101e1ae9cf45baa3561c09da5ce, type: 3}
   - {fileID: 1234158636466810, guid: 03c98184ca72d2949aff388fa2dc7e0b, type: 3}
 --- !u!65 &4534952749216605733
 BoxCollider:

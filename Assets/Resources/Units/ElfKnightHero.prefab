@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4710610988996904}
   - component: {fileID: 65506976880818610}
-  - component: {fileID: 114332874213010496}
   - component: {fileID: 114033133693163718}
   m_Layer: 8
   m_Name: BodyVisuals
@@ -47,18 +46,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.33, z: 2.27}
   m_Center: {x: 0, y: 1.02, z: 0}
---- !u!114 &114332874213010496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054375403961002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b07e3a37e04bff4d8784f0595f173dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114033133693163718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +339,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6836475433378380169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538106460753254660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b07e3a37e04bff4d8784f0595f173dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6011639536731572998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1136,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 81476c9035d79324d9acb8246c08f602, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cdee9ec67dc9e24c8070b6f880a8b83, type: 3}
+--- !u!1 &8538106460753254660 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6773842308276486277, guid: 0cdee9ec67dc9e24c8070b6f880a8b83,
+    type: 3}
+  m_PrefabInstance: {fileID: 2917478403139393921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8538106460753478884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6773842308276329829, guid: 0cdee9ec67dc9e24c8070b6f880a8b83,

@@ -12,7 +12,7 @@ public class OnlyOnWhenArmyNotNull : MonoBehaviour
     }
     private void Update()
     {
-        UIManager.SmoothlyTransitionActivity(this.gameObject, ArmyBuilder.instance.RightUnits.childCount > 0, 0.1f);
+        UIManager.SmoothlyTransitionActivity(this.gameObject, ArmyBuilder.instance.ownedUnitsTransform.childCount > 0, 0.1f);
     }
 
 }

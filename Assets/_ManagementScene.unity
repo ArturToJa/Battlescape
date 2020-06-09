@@ -10859,10 +10859,9 @@ MonoBehaviour:
   HeroesChoice: {fileID: 215334882}
   raceScreen: {fileID: 1373970054}
   armyBuildingScreen: {fileID: 155761096}
-  leftUnits: {fileID: 1692062254}
-  RightUnits: {fileID: 456918962}
+  possibleUnits: {fileID: 1692062254}
+  ownedUnitsTransform: {fileID: 456918962}
   remainingGoldText: {fileID: 1463571493}
-  UnitsList: []
   heroChoiceScreen: {fileID: 1592443983}
   raceOK: {fileID: 1718316048}
   RaceNameText: {fileID: 1187210596}
@@ -17170,7 +17169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8568cc37d6403004d99cf9f2b3a93db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonBrefab: {fileID: 6003720113590981664, guid: daa68f6a741e221478dd47b316e2d873,
+  _buttonPrefab: {fileID: 6003720113590981664, guid: daa68f6a741e221478dd47b316e2d873,
     type: 3}
 --- !u!1 &1699932879
 GameObject:

@@ -7,7 +7,18 @@ namespace BattlescapeUI
 {
     public class LeftUnitsList : MonoBehaviour
     {
-        [SerializeField] GameObject buttonBrefab;        
+        [SerializeField] GameObject _buttonPrefab;  
+        public GameObject buttonPrefab
+        {
+            get
+            {
+                return _buttonPrefab;
+            }
+            private set
+            {
+                _buttonPrefab = value;
+            }
+        }
 
         public void CreateButtons()
         {
@@ -22,7 +33,7 @@ namespace BattlescapeUI
 
         void CreateButton(UnitCreator creator)
         {
-            GameObject buttonObject = Instantiate<GameObject>(buttonBrefab, this.transform);
+            GameObject buttonObject = Instantiate<GameObject>(buttonPrefab, this.transform);
             UnitButtonScript button = buttonObject.GetComponent<UnitButtonScript>();
             button.OnCreation(creator);
         }

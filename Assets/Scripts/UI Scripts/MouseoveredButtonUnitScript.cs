@@ -17,8 +17,6 @@ public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
         if (this.GetComponent<UnitButtonScript>() != null)
         {
             myUnit = this.GetComponent<UnitButtonScript>().unitCreator;
-            Debug.Log(GetComponent<UnitButtonScript>());
-            Debug.Log(myUnit);
             myUSS = ArmyBuilder.instance.unitStatShower;
         }
         else

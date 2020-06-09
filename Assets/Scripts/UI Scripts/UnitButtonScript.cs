@@ -12,7 +12,26 @@ public class UnitButtonScript : MonoBehaviour
     Text theName;
     Text value;
     Text limit;
-    int amount = 1;
+    int _amount;
+    public int amount
+    {
+        get
+        {
+            return _amount;
+        }
+        set
+        {
+            _amount = value;
+            if (this.transform.parent.parent.name == "PossibleUnits")
+            {
+                limit.text = myUnit.statistics.limit.ToString();
+            }
+            else
+            {
+                limit.text = _amount.ToString();
+            }
+        }
+    }
 
 
 
@@ -30,37 +49,15 @@ public class UnitButtonScript : MonoBehaviour
         theName.color = Color.white;
         value.color = Color.white;
         value.text = myUnit.statistics.cost.ToString();
-        if (this.transform.parent.parent.name == "PossibleUnits")
-        {
-            limit.text = myUnit.statistics.limit.ToString();
-        }
-        else
-        {
-            limit.text = amount.ToString();
-        }
+        amount = 0;
     }
 
     public void SetPressedButton()
     {
-        ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
-        ArmyBuilder.instance.AddOrRemoveUnit(true);
+        ArmyBuilder.instance.OnButtonPressed(this.GetComponent<Button>());
     }
     public void AddButtonToRightList()
     {
-        ArmyBuilder.instance.pressedButton = this.GetComponent<Button>();
-        ArmyBuilder.instance.AddOrRemoveUnit(false);
-    }
-
-    public void IncrementAmount()
-    { amount++; }
-
-    public void DecrementAmount()
-    { amount--; }
-
-    public int GetAmount()
-    {
-        return amount;
-    }
-
-
+        ArmyBuilder.instance.AddUnit(unitCreator);
+    }   
 }

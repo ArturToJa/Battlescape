@@ -34,4 +34,13 @@ public class UnitCreator : ScriptableObject
     {
         return prefab.GetComponent<Hero>() != null;
     }
+
+    public int GetCost()
+    {
+        return prefab.GetComponent<Unit>().statistics.cost;
+    }
+    public int GetLimit()
+    {
+        return prefab.GetComponent<Unit>().statistics.limit;
+    }
 }

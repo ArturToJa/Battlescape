@@ -14,14 +14,13 @@ public class ArmyBuilder : MonoBehaviour
     public GameObject HeroesChoice;
     [SerializeField] GameObject raceScreen;
     [SerializeField] GameObject armyBuildingScreen;
-    [SerializeField] Transform leftUnits;
-    public Transform RightUnits;
+    [SerializeField] Transform possibleUnits;
+    public Transform ownedUnitsTransform;
+    Dictionary<UnitCreator,UnitButtonScript> ownedUnits;
     public UnitCreator heroCreator { get; set; }
-    public Button pressedButton { get; set; }
     int startingMoney;
     int currentMoney;
     [SerializeField] Text remainingGoldText;
-    public List<UnitCreator> UnitsList;
     [SerializeField] GameObject heroChoiceScreen;
     public GameObject raceOK;
     public Text RaceNameText;
@@ -30,6 +29,9 @@ public class ArmyBuilder : MonoBehaviour
     [SerializeField] LeftUnitsList leftUnitsList;
     public UnitStatShower unitStatShower;
     public UnitStatShower heroStatShower;
+
+    //THIS shouldnt need to exist but i would have to redo everything to change that so.... i guess it stays?
+    Dictionary<string, int> unitsAlreadyInArmy;
 
     void Awake()
     {
@@ -43,8 +45,8 @@ public class ArmyBuilder : MonoBehaviour
         }
         startingMoney = SaveLoadManager.instance.currentSaveValue;
         currentMoney = startingMoney;
-        UnitsList = new List<UnitCreator>();
         windowSetter = FindObjectOfType<WindowSetter>();
+        ownedUnits = new Dictionary<UnitCreator, UnitButtonScript>();
     }
 
     void Update()
@@ -61,7 +63,7 @@ public class ArmyBuilder : MonoBehaviour
         raceOK.SetActive(SaveLoadManager.instance.race != Race.Neutral);
         if (armyBuildingScreen.activeSelf)
         {
-            foreach (Transform unitButton in leftUnits)
+            foreach (Transform unitButton in possibleUnits)
             {
                 if (unitButton.GetSiblingIndex() > 0)
                 {
@@ -81,101 +83,69 @@ public class ArmyBuilder : MonoBehaviour
         SaveLoadManager.instance.heroName = text;
     }
 
-    public void AddOrRemoveUnit(bool isReal)
+    public void OnButtonPressed(Button button)
     {
-        if (pressedButton.transform.parent == leftUnits)
+        UnitCreator unit = button.GetComponent<UnitButtonScript>().unitCreator;
+        if (button.transform.parent == possibleUnits)
         {
-
-            if (currentMoney >= pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost)
+            if (CanBeLegallyAdded(unit))
             {
-
-                if (RightUnits.Find(pressedButton.name) != null)
-                {
-                    if (RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().GetAmount() < RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.limit)
-                    {
-                        RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().IncrementAmount();
-                        currentMoney -= pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost;
-                        AddPressedButtonToUnitList();
-                        if (isReal)
-                        {
-                            SaveLoadManager.instance.unitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-                        }
-                    }
-
-                }
-                else
-                {
-                    GameObject temp = Instantiate(pressedButton.gameObject, RightUnits);
-                    temp.name = pressedButton.name;
-                    temp.GetComponent<UnitButtonScript>().OnCreation(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-                    currentMoney -= pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost;
-                    AddPressedButtonToUnitList();
-                    if (isReal)
-                    {
-                        SaveLoadManager.instance.unitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-                    }
-                }
-            }
-            else
-            {
-                return;
+                //This has to be manually these two cause you dont want the second one done on each AddUnit (not when loading army).
+                AddUnit(unit);
+                SaveLoadManager.instance.unitsList.Add(unit);
             }
         }
-
         else
         {
-            currentMoney += pressedButton.GetComponent<UnitButtonScript>().unitCreator.prefab.GetComponent<Unit>().statistics.cost;
+            RemoveUnit(unit);
+        }
+    }
 
-            if (RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().GetAmount() > 1)
+    bool CanBeLegallyAdded(UnitCreator unitCreator)
+    {
+        return currentMoney >= unitCreator.GetCost() && SaveLoadManager.instance.GetNumberOfUnits(unitCreator) < unitCreator.GetLimit();
+    }
+
+    public void AddUnit(UnitCreator unit)
+    {
+        Debug.Log(ownedUnits.ContainsKey(unit));
+        if (ownedUnits.ContainsKey(unit) == false)
+        {
+            GameObject temp = Instantiate(leftUnitsList.buttonPrefab, ownedUnitsTransform);
+            temp.name = unit.name;
+            temp.GetComponent<UnitButtonScript>().OnCreation(unit);
+            ownedUnits.Add(unit, temp.GetComponent<UnitButtonScript>()); 
+        }
+        ownedUnits[unit].amount++;
+        currentMoney -= unit.GetCost();            
+    }
+    void RemoveUnit(UnitCreator unit)
+    {       
+        if (ownedUnits[unit].amount > 1)
+        {
+            ownedUnits[unit].amount--;            
+        }
+        else
+        {
+            if (Application.isEditor)
             {
-                RightUnits.Find(pressedButton.name).GetComponent<UnitButtonScript>().DecrementAmount();
-                RemovePressedButtonToUnitList();
-                SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+                DestroyImmediate(ownedUnits[unit].gameObject);
             }
             else
             {
-                if (Application.isEditor)
-                {
-                    SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-                    RemovePressedButtonToUnitList();
-                    DestroyImmediate(pressedButton.gameObject);
-
-
-                }
-                else
-                {
-                    SaveLoadManager.instance.unitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-                    RemovePressedButtonToUnitList();
-                    Destroy(pressedButton.gameObject);
-                }
+                Destroy(ownedUnits[unit].gameObject);
             }
-
+            ownedUnits.Remove(unit);
         }
-
-
-    }
-
-    //In general this should probably take the 
-    public void OnButtonPressed()
-    {
-
-    }
-
-    void RemovePressedButtonToUnitList()
-    {
-        UnitsList.Remove(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
-    }
-
-    void AddPressedButtonToUnitList()
-    {
-        UnitsList.Add(pressedButton.GetComponent<UnitButtonScript>().unitCreator);
+        currentMoney += unit.GetCost();
+        SaveLoadManager.instance.unitsList.Remove(unit);
     }
 
     public void AddHero(UnitCreator hero)
     {
         heroCreator = hero;
     }
-    
+
     public void GoBackToHeroScreen()
     {
         windowSetter.currentScreen = heroChoiceScreen;
@@ -190,7 +160,7 @@ public class ArmyBuilder : MonoBehaviour
             UIManager.SmoothlyTransitionActivity(gameObject, false, 0.1f);
             yield return null;
         }
-        foreach (Transform item in RightUnits)
+        foreach (Transform item in ownedUnitsTransform)
         {
             Destroy(item.gameObject, 0.1f);
         }
@@ -206,16 +176,16 @@ public class ArmyBuilder : MonoBehaviour
     }
     public void LoadArmy(List<UnitCreator> army)
     {
+        leftUnitsList.CreateButtons();
         foreach (UnitCreator item in army)
         {
-            for (int i = 1; i < leftUnits.childCount; i++)
+            for (int i = 1; i < possibleUnits.childCount; i++)
             {
-                if (leftUnits.GetChild(i).GetComponent<UnitButtonScript>().unitCreator == item)
-                {
-                    leftUnits.GetChild(i).GetComponent<UnitButtonScript>().AddButtonToRightList();
+                if (possibleUnits.GetChild(i).GetComponent<UnitButtonScript>().unitCreator == item)
+                {                    
+                    possibleUnits.GetChild(i).GetComponent<UnitButtonScript>().AddButtonToRightList();
                 }
             }
         }
-        leftUnitsList.CreateButtons();
-    }    
+    }
 }
