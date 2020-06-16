@@ -28,5 +28,6 @@ public class Pedestal : MonoBehaviour
             heroName.text = myUnit.GetComponent<Unit>().info.unitName;
         }
 
+
      }
 }

@@ -11,7 +11,7 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
     [SerializeField] Transform deploymentPanel;
     // I mean.. I warned you!
 
-    public void LoadPlayerToGame()
+    public Player LoadPlayerToGame()
     {
         PlayerBuilder currentPlayerBuilder = Global.instance.GetCurrentPlayerBuilder();
         Player currentPlayer = new Player(currentPlayerBuilder);
@@ -32,5 +32,6 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         Networking.instance.SendCommandToAddPlayer(currentPlayer.team, currentPlayer);
         preGameAi.CreateUnits();
         preGameAi.RepositionUnits();
+        return currentPlayer;
     }
 }

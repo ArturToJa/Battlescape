@@ -63,7 +63,7 @@ namespace BattlescapeLogic
         [PunRPC]
         void RPCSetHeroName(int ID, string name)
         {
-            HeroNames.SetHeroName(ID, name);
+            SaveLoadManager.instance.SetHeroName(name, Global.instance.playerTeams[ID].players[0]);
         }
 
         public void SendCommandToAddPlayer(PlayerTeam playerTeam, Player player)

@@ -168,7 +168,7 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            playerArmy.HeroName = HeroNames.GetRandomHeroName();
+            playerArmy.HeroName = HeroNames.instance.GetRandomHeroName();
             heroName = playerArmy.HeroName;
         }
         if (ArmyBuilder.instance != null && ArmyBuilder.instance.heroCreator != null)
@@ -229,7 +229,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         LoadPlayerArmy();
         RecreateUnitsList();
-        FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().LoadPlayerToGame();
+        Player currentPlayer = FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().LoadPlayerToGame();
         StartCoroutine(CloseWindow(GameObject.Find("LoadWindowPanel")));
         if (Global.instance.matchType == MatchTypes.Online)
         {
@@ -237,7 +237,18 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
+            SetHeroName(heroName, currentPlayer);
+        }
+    }
+
+    public void SetHeroName(string name, Player player)
+    {
+        foreach (Unit unit in player.playerUnits)
+        {
+            if (unit is Hero)
+            {
+                (unit as Hero).heroName = name;
+            }
         }
     }
     public void LoadAIArmyToGame(PlayerBuilder currentPlayerBuilder, int points)
@@ -245,7 +256,7 @@ public class SaveLoadManager : MonoBehaviour
         LoadAIArmy(points);
         RecreateUnitsList();
         FindObjectOfType<VERY_POORLY_WRITTEN_CLASS>().LoadPlayerToGame();
-        HeroNames.SetHeroName(GameRound.instance.currentPlayer.team.index, heroName);
+        SetHeroName(heroName, GameRound.instance.currentPlayer);
         currentPlayerBuilder.race = (Race)race;
     }
 

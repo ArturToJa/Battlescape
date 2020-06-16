@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroNameText : MonoBehaviour {
+public class HeroNameText : MonoBehaviour
+{
 
     InputField field;
 
     private void OnEnable()
     {
         field = GetComponentInParent<InputField>();
-        StartCoroutine(SetItLater());      
+        StartCoroutine(SetItLater());
     }
 
     private IEnumerator SetItLater()

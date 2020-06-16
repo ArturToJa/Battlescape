@@ -108,7 +108,6 @@ public class ArmyBuilder : MonoBehaviour
 
     public void AddUnit(UnitCreator unit)
     {
-        Debug.Log(ownedUnits.ContainsKey(unit));
         if (ownedUnits.ContainsKey(unit) == false)
         {
             GameObject temp = Instantiate(leftUnitsList.buttonPrefab, ownedUnitsTransform);
