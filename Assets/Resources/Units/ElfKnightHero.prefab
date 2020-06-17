@@ -164,8 +164,8 @@ MonoBehaviour:
   statistics:
     _cost: 0
     _limit: 0
-    _baseAttack: 5
-    _baseDefence: 4
+    _baseAttack: 50
+    _baseDefence: 40
     _maxHealthPoints: 60
     _baseMaxMovementPoints: 8
     _baseAttackRange: 1
@@ -339,18 +339,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6836475433378380169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538106460753254660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b07e3a37e04bff4d8784f0595f173dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6011639536731572998
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +390,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6836475433378380169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538106460753254660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b07e3a37e04bff4d8784f0595f173dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2917478403139393921
 PrefabInstance:
   m_ObjectHideFlags: 0

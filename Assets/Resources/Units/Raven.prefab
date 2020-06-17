@@ -197,8 +197,8 @@ MonoBehaviour:
   statistics:
     _cost: 8
     _limit: 1
-    _baseAttack: 5
-    _baseDefence: 3
+    _baseAttack: 60
+    _baseDefence: 20
     _maxHealthPoints: 30
     _baseMaxMovementPoints: 5
     _baseAttackRange: 8

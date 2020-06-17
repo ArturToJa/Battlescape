@@ -279,7 +279,6 @@ namespace BattlescapeLogic
 
         public void RetaliateTo(Unit target)
         {
-            Debug.Log(owner.colour + " retals.");
             Log.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
             attack.Attack(target);
