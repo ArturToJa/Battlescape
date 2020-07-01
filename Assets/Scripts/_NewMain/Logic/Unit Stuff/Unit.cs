@@ -53,6 +53,14 @@ namespace BattlescapeLogic
         public List<AbstractAbility> abilities { get; private set; }
         public BuffGroup buffs { get; private set; }
         public GameObject visuals { get; private set; }
+        [SerializeField] float _attackRotation;
+        public float attackRotation
+        {
+            get
+            {
+                return _attackRotation;
+            }
+        }
         [SerializeField] Equipment _equipment;
         public Equipment equipment
         {
@@ -343,7 +351,7 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit target)
         {
-            if (this.IsAlive() && this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner())
+            if (this.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner())
             {
                 return false;
             }

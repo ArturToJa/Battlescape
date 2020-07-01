@@ -554,7 +554,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WK_archer_07_attack_A
-  m_Speed: 1
+  m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101586417480762302}
@@ -866,7 +866,7 @@ AnimatorStateMachine:
     m_Position: {x: 528, y: 24, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102304681832892704}
-    m_Position: {x: 432, y: 348, z: 0}
+    m_Position: {x: 430, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102214765927321074}
     m_Position: {x: 216, y: -120, z: 0}
@@ -882,7 +882,7 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107668143260910796}
-    m_Position: {x: 792, y: 396, z: 0}
+    m_Position: {x: 790, y: 400, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 1107108404280806426}
     m_Position: {x: 790.27783, y: -258.47223, z: 0}

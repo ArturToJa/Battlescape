@@ -64,7 +64,7 @@ MonoBehaviour:
   unitSounds:
     _movementSound:
       name: MovementHumanWarriorSound
-      clip: {fileID: 8300000, guid: abfcd7e840ad36349b82d82976b777fd, type: 3}
+      clip: {fileID: 8300000, guid: cc5abf2ec9f90734c939822b75c3f3ce, type: 3}
       volume: 0.3
       pitch: 1
       oldSource: {fileID: 0}
@@ -124,9 +124,9 @@ MonoBehaviour:
       itemHidden: {fileID: 5552707079593983533}
       _isRanged: 0
   _race: 1
-  _avatarHighlightedTransparent: {fileID: 21300000, guid: 70f2f8b9daa2b2544ac96d56a17b9463,
+  _avatarHighlightedTransparent: {fileID: 21300000, guid: 3ef36be562be7ac4c8d707adb2de8a1d,
     type: 3}
-  _avatarTransparent: {fileID: 21300000, guid: 5223442618cb3104f9561045147a815c, type: 3}
+  _avatarTransparent: {fileID: 21300000, guid: d8883af36ae1b144f8c1483d4221125d, type: 3}
 --- !u!114 &114191808647025294
 MonoBehaviour:
   m_ObjectHideFlags: 0

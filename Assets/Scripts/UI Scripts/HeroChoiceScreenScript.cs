@@ -32,12 +32,12 @@ public class HeroChoiceScreenScript : MonoBehaviour
         ArmyBuilder.instance.LoadArmy(GetUnitCreatorsFromIndecies(SaveLoadManager.instance.playerArmy.unitIndecies));        
     }
 
-    List<UnitCreator> GetUnitCreatorsFromIndecies(List<int> unitCreators)
+    List<UnitCreator> GetUnitCreatorsFromIndecies(List<string> unitCreators)
     {
         List<UnitCreator> returnList = new List<UnitCreator>();
-        foreach (int unitCreator in unitCreators)
+        foreach (string unitCreator in unitCreators)
         {            
-            returnList.Add(SaveLoadManager.instance.GetUnitCreatorFromIndex(unitCreator));
+            returnList.Add(SaveLoadManager.instance.GetUnitCreatorFromName(unitCreator));
         }    
         return returnList;
     }
@@ -60,11 +60,11 @@ public IEnumerator ABFadeIn()
     }
 }
 
-public void LoadHero(int heroIndex)
+public void LoadHero(string heroIndex)
 {
     foreach (var item in FindObjectsOfType<ClickableHeroUIScript>())
     {
-        if (item.unitCreator.index == heroIndex)
+        if (item.unitCreator.name == heroIndex)
         {
             item.TaskOnClick();
         }

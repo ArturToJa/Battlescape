@@ -48,14 +48,14 @@ public class AddAIArmies : MonoBehaviour
     {
         playerArmy = new PlayerArmy
         {
-            unitIndecies = new List<int>(),
-            heroIndex = army.Hero.index,
+            unitIndecies = new List<string>(),
+            heroIndex = army.Hero.name,
             race = army.Race
 
         };
         foreach (var unit in army.Units)
         {
-            playerArmy.unitIndecies.Add(unit.index);
+            playerArmy.unitIndecies.Add(unit.name);
         }
     }
 }

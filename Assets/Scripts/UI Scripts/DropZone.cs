@@ -18,7 +18,7 @@ public class DropZone : MonoBehaviour//, IDropHandler
         photonView = GetComponent<PhotonView>();
     }
 
-    public void CommandInstantiateUnit(int UnitID, int PlayerID)
+    public void CommandInstantiateUnit(string UnitID, int PlayerID)
     {
         tEMPORARY_INDEX_DELETE_THIS_PLEASE++;
         int index = tEMPORARY_INDEX_DELETE_THIS_PLEASE;
@@ -34,15 +34,15 @@ public class DropZone : MonoBehaviour//, IDropHandler
     }
 
     [PunRPC]
-    void RPCInstantiateUnit(int unitID, int PlayerID, int index)
+    void RPCInstantiateUnit(string unitID, int PlayerID, int index)
     {
         InstantiateUnit(unitID, PlayerID, index);
 
     }
 
-    void InstantiateUnit(int unitID, int playerID, int index)
+    void InstantiateUnit(string unitID, int playerID, int index)
     {
-        GameObject UnitObject = UnitCreator.FindUnitPrefabByIndex(unitID);
+        GameObject UnitObject = UnitCreator.FindUnitPrefabByName(unitID);
         GameObject InstantiatedUnit = Instantiate(UnitObject, Vector3.zero, UnitObject.transform.rotation);
         Unit myUnit = InstantiatedUnit.GetComponent<Unit>();
         myUnit.index = index;

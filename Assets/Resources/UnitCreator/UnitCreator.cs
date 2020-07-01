@@ -8,14 +8,14 @@ using BattlescapeLogic;
 
 public class UnitCreator : ScriptableObject
 {
-    public GameObject prefab;    
-    public int index;
+    public GameObject prefab;
 
-    public static GameObject FindUnitPrefabByIndex(int index)
+    public static GameObject FindUnitPrefabByName(string _name)
     {
         foreach (UnitCreator unitCreator in SaveLoadManager.instance.allUnitCreators)
         {
-            if (unitCreator.index == index)
+            
+            if (unitCreator.name == _name)
             {
                 return unitCreator.prefab;
             }

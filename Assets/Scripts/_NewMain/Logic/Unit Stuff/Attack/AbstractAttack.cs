@@ -39,6 +39,7 @@ namespace BattlescapeLogic
         protected void TurnTowardsTarget()
         {
             sourceUnit.visuals.transform.LookAt(new Vector3(targetObject.GetMyPosition().x, sourceUnit.visuals.transform.position.y, targetObject.GetMyPosition().z));
+            sourceUnit.visuals.transform.Rotate(new Vector3(0, sourceUnit.attackRotation, 0));
         }
 
         public abstract void OnAttackAnimation();

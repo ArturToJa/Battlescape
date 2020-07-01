@@ -120,7 +120,7 @@ public class SaveLoadManager : MonoBehaviour
         int returnInt = 0;
         foreach (UnitCreator possible in unitsList)
         {
-            if (unit.index == possible.index)
+            if (unit.name == possible.name)
             {
                 returnInt++;
             }
@@ -173,17 +173,17 @@ public class SaveLoadManager : MonoBehaviour
         }
         if (ArmyBuilder.instance != null && ArmyBuilder.instance.heroCreator != null)
         {
-            playerArmy.heroIndex = ArmyBuilder.instance.heroCreator.index;
+            playerArmy.heroIndex = ArmyBuilder.instance.heroCreator.name;
         }
         else
         {
-            playerArmy.heroIndex = -1;
+            playerArmy.heroIndex = "Empty";
         }
 
-        playerArmy.unitIndecies = new List<int>();
+        playerArmy.unitIndecies = new List<string>();
         foreach (UnitCreator unitCreator in unitsList)
         {
-            playerArmy.unitIndecies.Add(unitCreator.index);
+            playerArmy.unitIndecies.Add(unitCreator.name);
         }
     }
     public void LoadPlayerArmy()
@@ -263,16 +263,16 @@ public class SaveLoadManager : MonoBehaviour
     public void RecreateUnitsList()
     {
         unitsList.Clear();
-        foreach (int index in playerArmy.unitIndecies)
+        foreach (string index in playerArmy.unitIndecies)
         {
-            unitsList.Add(GetUnitCreatorFromIndex(index));
+            unitsList.Add(GetUnitCreatorFromName(index));
         }
-        if (playerArmy.heroIndex == -1)
+        if (playerArmy.heroIndex == "Empty")
         {
             Debug.LogError("EmptyArmy!");
             return;
         }
-        hero = GetUnitCreatorFromIndex(playerArmy.heroIndex);
+        hero = GetUnitCreatorFromName(playerArmy.heroIndex);
         if (ArmyBuilder.instance != null)
         {
             ArmyBuilder.instance.heroCreator = hero;
@@ -281,11 +281,11 @@ public class SaveLoadManager : MonoBehaviour
         race = playerArmy.race;
     }
 
-    public UnitCreator GetUnitCreatorFromIndex(int index)
+    public UnitCreator GetUnitCreatorFromName(string _name)
     {
         foreach (UnitCreator unitCreator in allUnitCreators)
         {
-            if (unitCreator.index == index)
+            if (unitCreator.name == _name)
             {
                 return unitCreator;
             }
@@ -466,8 +466,8 @@ public class SaveLoadManager : MonoBehaviour
 public class PlayerArmy
 {
     public string HeroName;
-    public List<int> unitIndecies;
-    public int heroIndex;
+    public List<string> unitIndecies;
+    public string heroIndex;
     public Race race;
 }
 
