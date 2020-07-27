@@ -21,6 +21,21 @@ ModelImporter:
   - first:
       74: 7627091623737252869
     second: Body|Victory
+  - first:
+      74: -6210004752852553087
+    second: Body|Flying Death
+  - first:
+      74: -6351988482111388041
+    second: Body|Flying Idle
+  - first:
+      74: 7304649114149106709
+    second: Body|Flying Taking Damage
+  - first:
+      74: 3889634814954103615
+    second: Body|Idle
+  - first:
+      74: -1848054865425631134
+    second: Body|Walking
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -107,7 +122,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
