@@ -12,7 +12,7 @@ public class UnitCreator : ScriptableObject
 
     public static GameObject FindUnitPrefabByName(string _name)
     {
-        foreach (UnitCreator unitCreator in SaveLoadManager.instance.allUnitCreators)
+        foreach (UnitCreator unitCreator in Resources.LoadAll<UnitCreator>("UnitCreator"))
         {
             
             if (unitCreator.name == _name)

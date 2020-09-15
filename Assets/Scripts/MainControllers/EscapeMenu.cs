@@ -21,6 +21,7 @@ public class EscapeMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && (FindObjectOfType<EnemyTooltipHandler>() == null || (FindObjectOfType<EnemyTooltipHandler>() != null)))
         {
+            Debug.Log("ooo");
             EscapeMenuWindow.SetActive(!EscapeMenuWindow.activeSelf);
             source.Play();
         }
@@ -36,7 +37,7 @@ public class EscapeMenu : MonoBehaviour
             MyNetworkManager.Instance.Disconnect();
         }
 
-        FindObjectOfType<LevelLoader>().CommandLoadScene("_MENU");
+        Networking.instance.SendCommandToLoadScene("_MENU");
     }
 
     public void Quit()

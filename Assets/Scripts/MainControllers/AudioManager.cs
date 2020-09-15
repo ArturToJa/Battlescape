@@ -5,6 +5,7 @@ using UnityEngine.Audio;
 using System;
 using UnityEngine.SceneManagement;
 using BattlescapeLogic;
+using BattlescapeSound;
 
 public class AudioManager : MonoBehaviour
 {

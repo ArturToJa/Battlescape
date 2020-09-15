@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
+using BattlescapeUI;
 
 public class UnitButtonScript : MonoBehaviour
 {
-
+    AMScreen_UnitsChoice screen;
     public UnitCreator unitCreator { get; set; }
     Unit myUnit;
     Text theName;
@@ -37,6 +38,7 @@ public class UnitButtonScript : MonoBehaviour
 
     public void OnCreation(UnitCreator _unitCreator)
     {
+        screen = FindObjectOfType<AMScreen_UnitsChoice>();
         unitCreator = _unitCreator;
         myUnit = unitCreator.prefab.GetComponent<Unit>();
         limit = GetComponentsInChildren<Text>()[2];
@@ -44,7 +46,7 @@ public class UnitButtonScript : MonoBehaviour
         theName = GetComponentsInChildren<Text>()[0];
         value = GetComponentsInChildren<Text>()[1];
         theName.text = myUnit.info.unitName;
-        this.GetComponent<Button>().onClick.AddListener(() => SetPressedButton());
+        this.GetComponent<Button>().onClick.AddListener(() => OnButtonPressed());
         limit.color = Color.white;
         theName.color = Color.white;
         value.color = Color.white;
@@ -52,12 +54,8 @@ public class UnitButtonScript : MonoBehaviour
         amount = 0;
     }
 
-    public void SetPressedButton()
+    public void OnButtonPressed()
     {
-        ArmyBuilder.instance.OnButtonPressed(this.GetComponent<Button>());
+        screen.OnUnitButtonPressed(this.GetComponent<Button>());
     }
-    public void AddButtonToRightList()
-    {
-        ArmyBuilder.instance.AddUnit(unitCreator);
-    }   
 }

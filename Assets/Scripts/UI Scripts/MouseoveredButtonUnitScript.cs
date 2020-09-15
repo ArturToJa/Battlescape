@@ -3,34 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
+using BattlescapeUI;
 
 public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
 {
-    UnitStatShower myUSS;
     Pedestal pedestal;
     UnitCreator myUnit;
 
 
     void Start()
     {
-        pedestal = FindObjectOfType<Pedestal>();
-        if (this.GetComponent<UnitButtonScript>() != null)
+        if (GetComponent<UnitButtonScript>() != null)
         {
-            myUnit = this.GetComponent<UnitButtonScript>().unitCreator;
-            myUSS = ArmyBuilder.instance.unitStatShower;
+            myUnit = GetComponent<UnitButtonScript>().unitCreator;
         }
         else
         {
-            myUnit = this.GetComponent<ClickableHeroUIScript>().unitCreator;
-            myUSS = ArmyBuilder.instance.heroStatShower;
+            myUnit = GetComponent<ClickableHeroUIScript>().unitCreator;
         }
+        pedestal = FindObjectOfType<Pedestal>();        
     }
 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        myUSS.currUnit = myUnit.prefab.GetComponent<Unit>();
-        myUSS.UpdateInfos();
+        UnitStatShower.UpdateUnitInfo(myUnit.prefab.GetComponent<Unit>());
         pedestal.ShowUnit(myUnit.prefab);
     }
 }

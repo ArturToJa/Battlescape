@@ -20,8 +20,8 @@ public class PreGameAI
 
     public void CreateUnits()
     {
-        DropZone.instance.CommandInstantiateUnit(SaveLoadManager.instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index);
-        foreach (string index in SaveLoadManager.instance.playerArmy.unitIndecies)
+        DropZone.instance.CommandInstantiateUnit(Global.instance.armySavingManager.currentSave.heroPrefabPath, GameRound.instance.currentPlayer.team.index);
+        foreach (string index in Global.instance.armySavingManager.currentSave.unitPrefabPaths)
         {
             DropZone.instance.CommandInstantiateUnit(index, GameRound.instance.currentPlayer.team.index);
         }

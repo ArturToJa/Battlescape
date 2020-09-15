@@ -12,7 +12,7 @@ public class DisallowUnownedRaces : MonoBehaviour
     {
         for (int i = 0; i < RaceGrid.childCount; i++)
         {
-            if (SaveLoadManager.instance.HasRaceSaved((Race)i) == false)
+            if (Global.instance.armySavingManager.HasArmyOfRace((Race)i) == false)
             {
                 RaceGrid.GetChild(i).gameObject.SetActive(false);
             }

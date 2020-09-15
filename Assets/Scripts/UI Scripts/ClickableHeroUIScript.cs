@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
-using System;
+using BattlescapeUI;
 
 public class ClickableHeroUIScript : MonoBehaviour
 {
-
-    [SerializeField] ChosenHero CH;
-    [SerializeField] ArmyBuilder ab;
     Image myImage;
     public UnitCreator unitCreator;
 
@@ -21,20 +18,13 @@ public class ClickableHeroUIScript : MonoBehaviour
         ss.highlightedSprite = creator.prefab.GetComponent<Hero>().avatarHighlightedTransparent;
         GetComponentInChildren<Button>().spriteState = ss;        
         unitCreator = creator;
-        ab = FindObjectOfType<ArmyBuilder>();
-        CH = FindObjectOfType<ChosenHero>();
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
     }
 
 
-    void Start()
-    {
-        
-    }
-
     public void TaskOnClick()
     {
-        ArmyBuilder.instance.AddHero(unitCreator);
-        CH.ChoseHero(GetComponent<Image>().sprite);
+        Global.instance.armySavingManager.currentSave.SetHero(unitCreator);
+        FindObjectOfType<AMScreen_HeroChoice>().OnHeroChoice(myImage.sprite);
     }
 }

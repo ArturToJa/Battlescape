@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BattlescapeLogic
 {
@@ -10,7 +11,30 @@ namespace BattlescapeLogic
 
     public class Global : MonoBehaviour
     {
-        public static Global instance { get; private set; }
+        static Global _instance;
+        public static Global instance
+        {
+            get
+            {
+                return _instance;
+            }
+            private set
+            {
+                _instance = value;
+            }
+        }
+        [SerializeField] ArmySavingManager _armySavingManager;
+        public ArmySavingManager armySavingManager
+        {
+            get
+            {
+                return _armySavingManager;
+            }
+            private set
+            {
+                _armySavingManager = value;
+            }
+        }
         public Map currentMap { get; private set; }
         [SerializeField] List<Map> maps;
         public List<PlayerTeam> playerTeams { get; private set; }
@@ -25,7 +49,8 @@ namespace BattlescapeLogic
         public IActiveEntity currentEntity { get; set; }
         public int playerCount { get; set; }
 
-        [SerializeField] BattlescapeGraphics.Colours _colours;
+        [SerializeField] BattlescapeGraphics.Colours _colours;        
+
         public BattlescapeGraphics.Colours colours
         {
             get
@@ -36,14 +61,16 @@ namespace BattlescapeLogic
 
         void Awake()
         {
-            DontDestroyOnLoad(this.gameObject);
+            
             if (instance == null)
             {
                 instance = this;
+                DontDestroyOnLoad(this.gameObject);
             }
-            else if (instance != this)
+            else
             {
                 Destroy(this.gameObject);
+                return;
             }
             movementTypes[(int)MovementTypes.Ground] = new GroundMovement();
             movementTypes[(int)MovementTypes.Flying] = new FlyingMovement();
@@ -55,13 +82,26 @@ namespace BattlescapeLogic
             playerTeams.Add(teamRight);
             matchType = MatchTypes.None;
             playerCount = 2;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name.Contains("_GameScene_"))
+            {
+                SetMap(scene.name);
+            }
+            if (scene.name.Contains("_ManagementScene"))
+            {
+                BattlescapeUI.ArmyManagementScreens.instance.OnStart();
+            }
+        }
+      
         public PlayerBuilder GetCurrentPlayerBuilder()
         {
             return playerBuilders[0];
-        }  
-        
+        }
+
 
         public bool IsCurrentPlayerLocal()
         {
@@ -137,16 +177,45 @@ namespace BattlescapeLogic
             return list;
         }
 
-        public void SetMap(string mapName)
+        void SetMap(string mapName)
         {
             foreach (Map map in maps)
             {
                 if (map.mapName == mapName)
-                {
+                {                    
                     currentMap = map;
                     currentMap.OnSetup();
+                    
                 }
             }
+        }
+
+        public Race GetLocalRace()
+        {
+            foreach (PlayerTeam team in Global.instance.playerTeams)
+            {
+                foreach (Player player in team.players)
+                {
+                    if (player.type == PlayerType.Local)
+                    {
+                        return player.race;
+                    }
+                }
+            }
+            Debug.LogError("No local player found!");
+            return Race.Neutral;
+        }
+
+        public bool HaveAllPlayersChosenRace()
+        {
+            foreach (PlayerBuilder playerBuilder in playerBuilders)
+            {
+                if (playerBuilder.race == Race.Neutral)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

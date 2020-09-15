@@ -113,15 +113,15 @@ public class MainMenu : MonoBehaviour
     }
     public void ManageArmy()
     {
-        if (MAthe25toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 25;
-        }
-        if (MAthe50toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 50;
-        }
-        FindObjectOfType<LevelLoader>().CommandLoadScene("_ManagementScene");
+        //if (MAthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //if (MAthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+        Networking.instance.SendCommandToLoadScene("_ManagementScene");
     }
 
     public void SwitchAISide()
@@ -136,7 +136,7 @@ public class MainMenu : MonoBehaviour
     public void StartQuickMatch()
     {
         Global.instance.matchType = MatchTypes.Singleplayer;
-        if (SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
@@ -152,11 +152,11 @@ public class MainMenu : MonoBehaviour
         }
         if (the25toggle.isOn)
         {
-            SaveLoadManager.instance.currentSaveValue = 25;
+            Global.instance.armySavingManager.currentSave.armySize = 25;
         }
         else if (the50toggle.isOn)
         {
-            SaveLoadManager.instance.currentSaveValue = 50;
+            Global.instance.armySavingManager.currentSave.armySize = 50;
         }
         PlayGameScene();
     }
@@ -167,31 +167,31 @@ public class MainMenu : MonoBehaviour
         {
             gameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
         }
-        FindObjectOfType<LevelLoader>().CommandLoadScene(gameSceneName);
+        Networking.instance.SendCommandToLoadScene(gameSceneName);
     }
 
     public void StartHotSeat()
     {
         Global.instance.matchType = MatchTypes.HotSeat;
-        if (SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
         }
         CreatePlayerBuilders(PlayerType.Local);
-        if (MultiPlayerthe25toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 25;
-        }
-        else if (MultiPlayerthe50toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 50;
-        }
+        //if (MultiPlayerthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //else if (MultiPlayerthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
         if (gameSceneName == null)
         {
             gameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
         }
-        FindObjectOfType<LevelLoader>().CommandLoadScene(gameSceneName);
+        Networking.instance.SendCommandToLoadScene(gameSceneName);
     }
 
     void CreatePlayerBuilders(PlayerType type)
@@ -211,7 +211,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartOnlineMatch()
     {
-        if (SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
@@ -226,7 +226,7 @@ public class MainMenu : MonoBehaviour
                 {
                     continue;
                 }
-                if (SaveLoadManager.instance.HasRaceSaved(race) == false)
+                if (Global.instance.armySavingManager.HasArmyOfRace(race) == false)
                 {
                     showPopup = true;
                     racesLackingSaves.Add(race);
@@ -242,15 +242,15 @@ public class MainMenu : MonoBehaviour
         Global.instance.matchType = MatchTypes.Online;
         CreatePlayerBuilders(PlayerType.Network);           
 
-        if (MultiPlayerthe25toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 25;
-        }
-        else if (MultiPlayerthe50toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 50;
-        }
-        FindObjectOfType<LevelLoader>().CommandLoadScene("_LobbyScene");
+        //if (MultiPlayerthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //else if (MultiPlayerthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+        Networking.instance.SendCommandToLoadScene("_LobbyScene");
     }
 
     public void ToggleNextPhaseConfirmation()

@@ -3,45 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BackgroundMusic : Sound
+namespace BattlescapeSound
 {
-    [SerializeField] float swellSpeed;
-    public BackgroundMusic()
+    public class BackgroundMusic : Sound
     {
-        isAudioMute = (PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1);
-    }
-    public void ToggleMute()
-     {
-         isAudioMute = !isAudioMute;
-         int isAudioMuteInt = Convert.ToInt32(isAudioMute);
-         PlayerPrefs.SetInt("IsAudioMute", isAudioMuteInt);
-         audioSources.First.Value.volume = isAudioMuteInt*0.2f;
-     }
-
-    bool isAudioMute;
-
-    IEnumerator SwellUp(Sound sound, float maxVolume)
-    {
-        audioSources.First.Value.volume = 0;
-        while (audioSources.First.Value.volume < 0.9f * maxVolume && isAudioMute == false)
+        [SerializeField] float swellSpeed;
+        public BackgroundMusic()
         {
-            audioSources.First.Value.volume = Mathf.Lerp(audioSources.First.Value.volume, maxVolume, swellSpeed * Time.deltaTime);
-            yield return null;
+            isAudioMute = (PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1);
         }
-        if (isAudioMute == false)
+        public void ToggleMute()
         {
-            audioSources.First.Value.volume = maxVolume;
+            isAudioMute = !isAudioMute;
+            int isAudioMuteInt = Convert.ToInt32(isAudioMute);
+            PlayerPrefs.SetInt("IsAudioMute", isAudioMuteInt);
+            audioSources.First.Value.volume = isAudioMuteInt * 0.2f;
         }
 
-    }
-    public IEnumerator SwellDown(AudioSource source)
-    {        
-        while (source.volume > 0.001f)
+        bool isAudioMute;
+
+        IEnumerator SwellUp(Sound sound, float maxVolume)
         {
-            source.volume = Mathf.Lerp(source.volume, 0, swellSpeed * 20 * Time.deltaTime);
-            yield return null;
+            audioSources.First.Value.volume = 0;
+            while (audioSources.First.Value.volume < 0.9f * maxVolume && isAudioMute == false)
+            {
+                audioSources.First.Value.volume = Mathf.Lerp(audioSources.First.Value.volume, maxVolume, swellSpeed * Time.deltaTime);
+                yield return null;
+            }
+            if (isAudioMute == false)
+            {
+                audioSources.First.Value.volume = maxVolume;
+            }
+
         }
-        audioSources.First.Value.Stop();
-        audioSources.First.Value = null;        
+        public IEnumerator SwellDown(AudioSource source)
+        {
+            while (source.volume > 0.001f)
+            {
+                source.volume = Mathf.Lerp(source.volume, 0, swellSpeed * 20 * Time.deltaTime);
+                yield return null;
+            }
+            audioSources.First.Value.Stop();
+            audioSources.First.Value = null;
+        }
     }
 }

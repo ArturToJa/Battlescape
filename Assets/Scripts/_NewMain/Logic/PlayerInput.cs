@@ -49,6 +49,10 @@ namespace BattlescapeLogic
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_") == false)
             {
+                if (SceneManager.GetActiveScene().name.Contains("_ManagementScene"))
+                {
+                    DoKeyboardForManagementScene();
+                }
                 Cursor.instance.SetToDefault();
                 return;
             }
@@ -65,6 +69,14 @@ namespace BattlescapeLogic
                 DoCheats();
             }
             DoKeyboard();
+        }
+
+        void DoKeyboardForManagementScene()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                BattlescapeUI.ArmyManagementScreens.instance.GoBack();
+            }
         }
 
         void DoKeyboard()

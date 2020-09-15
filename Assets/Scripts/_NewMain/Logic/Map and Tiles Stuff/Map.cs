@@ -65,7 +65,6 @@ namespace BattlescapeLogic
         public void OnSetup()
         {
             GenerateBoard();
-
             GenerateMapVisuals();
         }
 

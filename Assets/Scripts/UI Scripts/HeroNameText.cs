@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
 
 public class HeroNameText : MonoBehaviour
 {
@@ -18,9 +19,9 @@ public class HeroNameText : MonoBehaviour
     private IEnumerator SetItLater()
     {
         yield return null;
-        if (string.IsNullOrEmpty(SaveLoadManager.instance.heroName) == false)
+        if (string.IsNullOrEmpty(Global.instance.armySavingManager.currentSave.heroName) == false)
         {
-            field.text = SaveLoadManager.instance.heroName;
+            field.text = Global.instance.armySavingManager.currentSave.heroName;
         }
     }
 }

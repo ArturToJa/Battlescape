@@ -2,47 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using BattlescapeLogic;
+using UnityEngine.UI;
+using BattlescapeUI;
 
 public class DeleteSaves : MonoBehaviour
 {
+    [SerializeField] AMScreen_ArmyChoice screen;
     [SerializeField] GameObject Window;
     [SerializeField] Transform ExistingSaves;
+    [SerializeField] Text questionText;
     public void CloseWindow()
     {
-        StartCoroutine(Closing());
-    }
-
-    IEnumerator Closing()
-    {
-        while (Window.GetComponent<CanvasGroup>().alpha > 0.1f)
-        {
-            UIManager.SmoothlyTransitionActivity(Window, false, 0.1f);
-        }
-        yield return null;
-        Window.GetComponent<CanvasGroup>().alpha = 0;
-    }
-
-    IEnumerator Opening()
-    {
-        while (Window.GetComponent<CanvasGroup>().alpha < 0.9f)
-        {
-            UIManager.SmoothlyTransitionActivity(Window, true, 0.1f);
-        }
-        yield return null;
-        Window.GetComponent<CanvasGroup>().alpha = 1;
+        UIManager.InstantlyTransitionActivity(Window, false);
     }
 
     public void Delete()
     {
-        if (FindObjectOfType<LoadWindowButtons>().canDelete == false)
-        {
-            return;
-        }
-        StartCoroutine(Closing());
-        File.Delete(Application.persistentDataPath + "/Armies/" + SaveLoadManager.instance.currentSaveValue.ToString() + "points/" + SaveLoadManager.instance.currentSaveName + ".lemur");
+        CloseWindow();
+        SerializationManager.instance.Delete(Global.instance.armySavingManager.armySavePath + "/" + screen.chosenSaveName + "." + Global.instance.armySavingManager.saveExtension);
         foreach (Transform child in ExistingSaves)
         {
-            if (child.gameObject.name == SaveLoadManager.instance.currentSaveName)
+            if (child.gameObject.name == screen.chosenSaveName)
             {
                 if (Application.isEditor)
                 {
@@ -54,11 +35,12 @@ public class DeleteSaves : MonoBehaviour
                 }
             }
         }
-        SaveLoadManager.instance.currentSaveName = null;
+        Global.instance.armySavingManager.ResetCurrentSaveToNull();
+        screen.chosenSaveName = null;
     }
 
     public void OpenWindow()
     {
-        StartCoroutine(Opening());
+        UIManager.InstantlyTransitionActivity(Window, true);
     }
 }

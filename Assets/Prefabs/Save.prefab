@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 114608254406367336}
   - component: {fileID: 114562131478885718}
   - component: {fileID: 114580500508975460}
-  - component: {fileID: -8653560239629839429}
+  - component: {fileID: 6676493739444562566}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -284,8 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b0e077af526264fbc0c59930602476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDeletable: 0
---- !u!114 &-8653560239629839429
+--- !u!114 &6676493739444562566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
