@@ -38,11 +38,7 @@ public class ArmyBuildingEndButton : MonoBehaviour
             else
             {
                 GameRound.instance.EndOfPhase();
-            }
-            foreach (Tile tile in FindObjectsOfType<Tile>())
-            {
-                tile.GetComponent<Renderer>().material.color = Color.white;
-            }
+            }            
             CameraController.Instance.StartCoroutine(CameraController.Instance.CheckIfPositionAndRotationMatchDesired());
             // UnitPanel.transform.parent.gameObject.SetActive(false);
         }

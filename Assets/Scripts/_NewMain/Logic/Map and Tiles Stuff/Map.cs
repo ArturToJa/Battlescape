@@ -91,8 +91,7 @@ namespace BattlescapeLogic
         {
             foreach (Tile tile in board)
             {
-                BattlescapeGraphics.TileGraphics tileGraphics = tile.GetComponent<BattlescapeGraphics.TileGraphics>();
-                tileGraphics.ToggleGrid();
+                tile.highlighter.ToggleGrid();
             }
         }
     }

@@ -67,6 +67,7 @@ namespace BattlescapeLogic
                 _dropzoneOfTeam = value;
             }
         }
+        // -1 means it is neutral, not a dropzone.
 
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
@@ -127,6 +128,15 @@ namespace BattlescapeLogic
             position = new Position((int)transform.position.x, (int)transform.position.z);
             Global.instance.currentMap.board[position.x, position.z] = this;
             highlighter = GetComponentInChildren<BattlescapeGraphics.TileHighlighter>();
+            highlighter.OnSetup();
+            if (dropzoneOfTeam != -1)
+            {
+                highlighter.TurnOn(Color.green);
+            }
+            else
+            {
+                highlighter.TurnOff();
+            }
         }
 
         public bool IsWalkable()
