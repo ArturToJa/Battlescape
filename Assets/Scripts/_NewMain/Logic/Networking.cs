@@ -252,7 +252,7 @@ namespace BattlescapeLogic
                 Log.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
-            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.width, unit.currentPosition.height);
+            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.size);
             unit.Move(destination);
         }
 

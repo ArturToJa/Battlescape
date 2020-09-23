@@ -207,21 +207,21 @@ namespace BattlescapeLogic
             return myObject as IDamageable;
         }
 
-        public MultiTile PositionRelatedToMouse(int width, int height, Vector3 exactClickPosition)
+        public MultiTile PositionRelatedToMouse(Size size, Vector3 exactClickPosition)
         {
             // this variable is equal to 1 if width or height are even, otherwise 0
-            int widthEven = width % 2;
-            int heightEven = height % 2;
+            int widthEven = size.width % 2;
+            int heightEven = size.height % 2;
 
             // check which part of tile player clicked
             int xGt = Convert.ToInt32(exactClickPosition.x > this.transform.position.x);
             int zGt = Convert.ToInt32(exactClickPosition.z > this.transform.position.z);
 
             // find new bottom left corner of Multitile
-            int widthOffset = (width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
-            int heightOffset = (height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
+            int widthOffset = (size.width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
+            int heightOffset = (size.height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
 
-            return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(width, height)), width, height);
+            return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(size.width, size.height)), size);
         }
     }
 }

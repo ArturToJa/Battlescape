@@ -20,7 +20,7 @@ namespace BattlescapeLogic
             {
                 myUnit.ExitCombat();
                 int health = myUnit.statistics.healthPoints;
-                foreach (Tile neighbour in myUnit.currentPosition.bottomLeftCorner.neighbours)
+                foreach (Tile neighbour in myUnit.currentPosition.closeNeighbours)
                 {
                     if (myUnit.IsAlive() && neighbour.GetMyObject<Unit>() != null && myUnit.IsEnemyOf(neighbour.GetMyObject<Unit>()))
                     {
@@ -47,7 +47,7 @@ namespace BattlescapeLogic
             {
                 MultiTile temporaryGoal = path.Dequeue();
                 myUnit.OnMove(myUnit.currentPosition, temporaryGoal);
-                myUnit.TryToSetMyPositionTo(temporaryGoal.bottomLeftCorner);
+                myUnit.TryToSetMyPositionTo(temporaryGoal);
                 //I am aware, that for now we are still just turning into a direction in one frame. If we ever want it any other way, it needs a bit of work to set it otherwise so im not doing it now :D.                
                 //if we want to slowly turn, we need to ask if we already turned, and if not we turn and if yes we move here.   
                 TurnTowards(temporaryGoal.center);

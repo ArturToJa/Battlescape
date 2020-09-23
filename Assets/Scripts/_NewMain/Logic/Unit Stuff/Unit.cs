@@ -520,7 +520,7 @@ namespace BattlescapeLogic
             }
             else if (target is Tile)
             {
-                MultiTile destination = (target as Tile).PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactClickPosition);
+                MultiTile destination = (target as Tile).PositionRelatedToMouse(currentPosition.size, exactClickPosition);
                 if (CanMoveTo(destination))
                 {
                     Networking.instance.SendCommandToMove(this, destination);
@@ -562,7 +562,7 @@ namespace BattlescapeLogic
 
         public void OnTileHovered(Tile hoveredTile, Vector3 exactMousePosition)
         {
-            if (CanMoveTo(hoveredTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition)))
+            if (CanMoveTo(hoveredTile.PositionRelatedToMouse(currentPosition.size, exactMousePosition)))
             {
                 foreach (Unit otherUnit in Global.instance.GetAllUnits())
                 {
@@ -617,13 +617,13 @@ namespace BattlescapeLogic
             if (target is Tile)
             {
                 var targetTile = target as Tile;
-                MultiTile position = targetTile.PositionRelatedToMouse(currentPosition.width, currentPosition.height, exactMousePosition);
+                MultiTile position = targetTile.PositionRelatedToMouse(currentPosition.size, exactMousePosition);
                 
                 if (CanMoveTo(position))
                 {
                     BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(this);
                     BattlescapeGraphics.ColouringTool.OnPositionHovered(position);
-                    Cursor.instance.OnTileToMoveHovered(this, targetTile);
+                    Cursor.instance.OnTileToMoveHovered(this, position);
                 }
                 else
                 {

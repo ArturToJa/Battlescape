@@ -16,9 +16,9 @@ namespace BattlescapeLogic
         public override void ModifyAttack(IDamageable target, int damageToTarget)
         {
             List<IDamageable> alreadyDamaged = new List<IDamageable>();
-            foreach (Tile tile in Global.instance.currentMap.board)
+            foreach (Tile tile in target.currentPosition.closeNeighbours)
             {
-                if (target.GetDistanceTo(tile.position) == 1 && tile.GetMyDamagableObject() != null && alreadyDamaged.Contains(tile.GetMyDamagableObject()))
+                if (tile.GetMyDamagableObject() != null && alreadyDamaged.Contains(tile.GetMyDamagableObject()) == false)
                 {
                     PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
                     Unit owner = buffGroup.owner as Unit;

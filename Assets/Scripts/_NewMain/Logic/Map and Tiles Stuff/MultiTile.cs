@@ -6,33 +6,52 @@ using UnityEngine;
 namespace BattlescapeLogic
 {
     [System.Serializable]
+    public struct Size
+    {
+        public int width;
+        public int height;
+
+        public Size(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
+        public static bool operator ==(Size s1, Size s2)
+        {
+            return s1.width == s2.width && s1.height == s2.height;
+        }
+
+        public static bool operator !=(Size s1, Size s2)
+        {
+            return s1.width != s2.width || s1.height != s2.height;
+        }
+    }
+
+
+
+
+
+
+
+
+    [System.Serializable]
     public class MultiTile : IEnumerable
     {
         public Tile bottomLeftCorner { get; private set; }
-        [SerializeField] int _width = 1;
-        public int width
+        [SerializeField] Size _size;
+        public Size size
         {
             get
             {
-                return _width;
+                return _size;
             }
             private set
             {
-                _width = value;
+                _size = value;
             }
         }
-        [SerializeField] int _height = 1;
-        public int height
-        {
-            get
-            {
-                return _height;
-            }
-            private set
-            {
-                _height = value;
-            }
-        }
+
 
         [NonSerialized] List<MultiTile> _neighbours;
         public List<MultiTile> neighbours
@@ -95,34 +114,34 @@ namespace BattlescapeLogic
                     {
                         _closeNeighbours.Add(bottomLeftNeighbour);
                     }
-                    for (int i = 0; i < width; ++i)
+                    for (int i = 0; i < size.width; ++i)
                     {
                         Tile toAdd = Tile.ToTile(bottomLeftCorner.Offset(-1, i));
                         if (toAdd != null)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
-                        toAdd = Tile.ToTile(bottomLeftCorner.Offset(width, i));
+                        toAdd = Tile.ToTile(bottomLeftCorner.Offset(size.width, i));
                         if (toAdd != null)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                     }
 
-                    for (int i = 0; i < height; ++i)
+                    for (int i = 0; i < size.height; ++i)
                     {
                         Tile toAdd = Tile.ToTile(bottomLeftCorner.Offset(i, -1));
                         if (toAdd != null)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
-                        toAdd = Tile.ToTile(bottomLeftCorner.Offset(i, height));
+                        toAdd = Tile.ToTile(bottomLeftCorner.Offset(i, size.height));
                         if (toAdd != null)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                     }
-                    Tile topRightNeighbour = Tile.ToTile(bottomLeftCorner.Offset(width, height));
+                    Tile topRightNeighbour = Tile.ToTile(bottomLeftCorner.Offset(size.width, size.height));
                     if (topRightNeighbour != null)
                     {
                         _closeNeighbours.Add(topRightNeighbour);
@@ -139,22 +158,21 @@ namespace BattlescapeLogic
         {
             get
             {
-                return bottomLeftCorner.transform.position + new Vector3((float)((width - 1.0f) / 2.0f), 0, (float)((height - 1.0f) / 2.0f));
+                return bottomLeftCorner.transform.position + new Vector3((float)((size.width - 1.0f) / 2.0f), 0, (float)((size.height - 1.0f) / 2.0f));
             }
         }
 
-        MultiTile(Tile _currentPosition, int _width, int _height)
+        MultiTile(Tile _currentPosition, Size _size)
         {
             bottomLeftCorner = _currentPosition;
-            width = _width;
-            height = _height;
+            size = _size;
         }
 
-        public static MultiTile Create(Tile _currentPosition, int _width, int _height)
+        public static MultiTile Create(Tile _currentPosition, Size _size)
         {
-            if (IsValidToCreate(_currentPosition, _width, _height))
+            if (IsValidToCreate(_currentPosition, _size))
             {
-                return new MultiTile(_currentPosition, _width, _height);
+                return new MultiTile(_currentPosition, _size);
             }
             else
             {
@@ -162,13 +180,13 @@ namespace BattlescapeLogic
             }
         }
 
-        static bool IsValidToCreate(Tile _currentPosition, int _width, int _height)
+        static bool IsValidToCreate(Tile _currentPosition, Size _size)
         {
             if (_currentPosition != null)
             {
-                for (int i = 0; i < _width; ++i)
+                for (int i = 0; i < _size.width; ++i)
                 {
-                    for (int j = 0; j < _height; ++j)
+                    for (int j = 0; j < _size.height; ++j)
                     {
                         if (Tile.ToTile(_currentPosition.Offset(i, j)) == null)
                         {
@@ -195,9 +213,9 @@ namespace BattlescapeLogic
         {
             if (bottomLeftCorner != null)
             {
-                for (int i = 0; i < width; ++i)
+                for (int i = 0; i < size.width; ++i)
                 {
-                    for (int j = 0; j < height; ++j)
+                    for (int j = 0; j < size.height; ++j)
                     {
                         yield return Global.instance.currentMap.board[bottomLeftCorner.position.x + i, bottomLeftCorner.position.z + j];
                     }
@@ -215,10 +233,10 @@ namespace BattlescapeLogic
         {
             int posX = bottomLeftCorner.position.x + offsetX;
             int posZ = bottomLeftCorner.position.z + offsetZ;
-            if (posX >= 0 && posZ >= 0 && posX + width <= Global.instance.currentMap.mapWidth && posZ + height <= Global.instance.currentMap.mapHeight)
+            if (posX >= 0 && posZ >= 0 && posX + size.width <= Global.instance.currentMap.mapWidth && posZ + size.height <= Global.instance.currentMap.mapHeight)
             {
                 Tile newBottomLeftCorner = Global.instance.currentMap.board[posX, posZ];
-                return Create(newBottomLeftCorner, width, height);
+                return Create(newBottomLeftCorner, size);
             }
             else
             {
@@ -241,7 +259,7 @@ namespace BattlescapeLogic
 
         public bool IsFreeFor(OnTileObject onTileObject)
         {
-            if (onTileObject.currentPosition.width != width || onTileObject.currentPosition.height != height)
+            if (onTileObject.currentPosition.size != size)
             {
                 Debug.LogError("This question should not be asked as this is not the right size of an OTP!");
                 return false;
@@ -278,6 +296,37 @@ namespace BattlescapeLogic
                 }
             }
             return true;
+        }
+
+        public int DistanceTo(MultiTile other)
+        {
+            int currentDistance = Int32.MaxValue;
+            foreach (Tile tile in this)
+            {
+                foreach (Tile otherTile in other)
+                {
+                    int newDistance = tile.position.DistanceTo(otherTile.position);
+                    if (newDistance < currentDistance)
+                    {
+                        currentDistance = newDistance;
+                    }
+                }
+            }
+            return currentDistance;
+        }
+
+        public int DistanceTo(Tile other)
+        {
+            int currentDistance = Int32.MaxValue;
+            foreach (Tile tile in this)
+            {
+                int newDistance = tile.position.DistanceTo(other.position);
+                if (newDistance < currentDistance)
+                {
+                    currentDistance = newDistance;
+                }
+            }
+            return currentDistance;
         }
     }
 }

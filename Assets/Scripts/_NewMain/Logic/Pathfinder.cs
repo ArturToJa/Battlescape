@@ -40,11 +40,11 @@ namespace BattlescapeLogic
         {
             List<MultiTile> returnList = new List<MultiTile>();
             BFS(unitToMove);
-            for (int i = 0; i < Global.instance.currentMap.mapWidth - unitToMove.currentPosition.width + 1; i++)
+            for (int i = 0; i < Global.instance.currentMap.mapWidth - unitToMove.currentPosition.size.width + 1; i++)
             {
-                for (int j = 0; j < Global.instance.currentMap.mapHeight - unitToMove.currentPosition.height + 1; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight - unitToMove.currentPosition.size.height + 1; j++)
                 {
-                    MultiTile newPosition = MultiTile.Create(Global.instance.currentMap.board[i, j], unitToMove.currentPosition.width, unitToMove.currentPosition.height);
+                    MultiTile newPosition = MultiTile.Create(Global.instance.currentMap.board[i, j], unitToMove.currentPosition.size);
                     if (unitToMove.CanMoveTo(newPosition))
                     {
                         returnList.Add(newPosition);
@@ -103,7 +103,7 @@ namespace BattlescapeLogic
                 lastUnit = unitToMove;
             }
             MultiTile start = unitToMove.currentPosition;
-            parents = new MultiTile[Global.instance.currentMap.mapWidth - start.width + 1, Global.instance.currentMap.mapHeight - start.height + 1];
+            parents = new MultiTile[Global.instance.currentMap.mapWidth - start.size.width + 1, Global.instance.currentMap.mapHeight - start.size.height + 1];
             SetDistancesToMinus(start);
             SetProtectedByEnemy(unitToMove);
 
@@ -128,11 +128,7 @@ namespace BattlescapeLogic
                                 queue.Enqueue(neighbour);
                             }
                         }
-                    }
-                    //if(neighbour.bottomLeftCorner.position.DistanceTo(unitToMove.currentPosition.bottomLeftCorner.position) == 1)
-                    //{
-                    //    Debug.Log("x: " + neighbour.bottomLeftCorner.position.x + ", z:" + neighbour.bottomLeftCorner.position.z + " distances: " + distances[neighbour.bottomLeftCorner.position.x, neighbour.bottomLeftCorner.position.z]) ;
-                    //}
+                    }                    
                 }
             }
         }
@@ -145,10 +141,10 @@ namespace BattlescapeLogic
         #region BFS Subfunctions
         void SetDistancesToMinus(MultiTile start)
         {
-            distances = new int[Global.instance.currentMap.mapWidth - start.width + 1, Global.instance.currentMap.mapHeight - start.height + 1];
-            for (int i = 0; i < Global.instance.currentMap.mapWidth - start.width + 1; i++)
+            distances = new int[Global.instance.currentMap.mapWidth - start.size.width + 1, Global.instance.currentMap.mapHeight - start.size.height + 1];
+            for (int i = 0; i < Global.instance.currentMap.mapWidth - start.size.width + 1; i++)
             {
-                for (int j = 0; j < Global.instance.currentMap.mapHeight - start.height + 1; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight - start.size.height + 1; j++)
                 {
                     distances[i, j] = -1;
                 }

@@ -43,13 +43,14 @@ namespace BattlescapeUI
             {
                 foreach (var saveName in saveList)
                 {
-                    GameObject armySave = Instantiate(savePrefab, existingSaves);
-                    armySave.GetComponentInChildren<Text>().text = saveName;
+                   
                     ArmySave actualSaveData = (ArmySave)SerializationManager.instance.Load(Global.instance.armySavingManager.armySavePath + "/" + saveName + "." + Global.instance.armySavingManager.saveExtension);
-                    if (Global.instance.armySavingManager.DeleteIfNotComplete(actualSaveData))
+                    if (Global.instance.armySavingManager.IsCorrectSave(actualSaveData) == false)
                     {
                         continue;
                     }
+                    GameObject armySave = Instantiate(savePrefab, existingSaves);
+                    armySave.GetComponentInChildren<Text>().text = saveName;
                     armySave.GetComponentsInChildren<Image>()[1].sprite = Global.instance.armySavingManager.GetRaceSprite(actualSaveData.GetRace());
                     //temp.GetComponentsInChildren<Image>()[2].sprite = RaceSymbols[(int)armyInfo.heroID];
                     armySave.name = saveName;

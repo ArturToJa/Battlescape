@@ -24,7 +24,7 @@ namespace BattlescapeLogic
             if (Physics.Raycast(cameraRay, out hitInfo, Mathf.Infinity, tileMask))
             {
                 Tile tile = hitInfo.transform.gameObject.GetComponent<Tile>();
-                MultiTile position = tile.PositionRelatedToMouse(myUnit.currentPosition.width, myUnit.currentPosition.height, hitInfo.point);
+                MultiTile position = tile.PositionRelatedToMouse(myUnit.currentPosition.size, hitInfo.point);
                 if (position != null && (position.IsDropzoneOfTeam(GameRound.instance.currentPlayer.team.index)) && position.IsFreeFor(myUnit))
                 {
                     DropZone.instance.SendCommandToSetUnitPosition(myUnit, position);
@@ -41,7 +41,7 @@ namespace BattlescapeLogic
 
             Tile tile = Global.instance.currentMap.board[endPosX, endPosZ];
 
-            unit.TryToSetMyPositionAndMoveTo(tile);
+            unit.TryToSetMyPositionAndMoveTo(MultiTile.Create(tile, unit.currentPosition.size));
             unit.FaceMiddleOfMap();
         }
     }

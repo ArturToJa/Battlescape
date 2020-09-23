@@ -87,21 +87,25 @@ namespace BattlescapeLogic
             return saveNames;
         }
 
-        public bool DeleteIfNotComplete(ArmySave save)
-        {            
+        public bool IsCorrectSave(ArmySave save)
+        {
+            if (save == null)
+            {
+                return false;
+            }
             if (save.GetRace() == Race.Neutral)
             {
-                Debug.Log("deleted - no Race!");
-                File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
-                return true;
+                Debug.LogError("deleted - no Race!");
+                //File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
+                return false;
             }
             if (save.GetHero() == null)
             {
-                Debug.Log("deleted - nonexistant hero path");
-                File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
-                return true;
+                Debug.LogError("deleted - nonexistant hero path");
+                //File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
+                return false;
             }
-            return false;
+            return true;
         }
 
         public Sprite GetRaceSprite(Race race)

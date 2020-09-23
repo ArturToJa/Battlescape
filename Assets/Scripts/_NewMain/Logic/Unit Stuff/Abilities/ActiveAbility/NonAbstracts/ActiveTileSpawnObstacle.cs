@@ -32,7 +32,7 @@ namespace BattlescapeLogic
         {
             Tile targetTile = target as Tile;
             Obstacle obstacle = Instantiate(obstaclePrefab, targetTile.transform.position, obstaclePrefab.transform.rotation).GetComponent<Obstacle>();
-            obstacle.OnSpawn(targetTile);
+            obstacle.OnSpawn(MultiTile.Create(targetTile, obstacle.currentPosition.size));
         }
 
     }
