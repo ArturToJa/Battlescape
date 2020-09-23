@@ -100,7 +100,7 @@ namespace BattlescapeLogic
 
         bool IsMultiTileLegal(MultiTile position, MapVisualsSpecification spec)
         {
-            return position.IsWalkable() && (spec.needsExtraSpace == false || HasExtraSpace(position));
+            return position.IsEmpty() && (spec.needsExtraSpace == false || HasExtraSpace(position));
         }
 
         bool HasExtraSpace(MultiTile position)

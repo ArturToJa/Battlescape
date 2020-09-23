@@ -51,6 +51,7 @@ namespace BattlescapeLogic
 
         public BattlescapeGraphics.TileHighlighter highlighter { get; private set; }
         OnTileObject myObject;
+        public NonObstacle myNonObstacle { get; set; }
 
         //this is not used as we, for some strange reason, dont show movement path!
         public bool isUnderMovementMarker { get; set; }

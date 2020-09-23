@@ -36,6 +36,7 @@ namespace BattlescapeLogic
         void SetMyPositionTo(MultiTile newPosition)
         {
             currentPosition = newPosition;
+            currentPosition.SetMyNonObstacleTo(this);
             this.transform.position = currentPosition.center;
         }
 

@@ -396,21 +396,18 @@ namespace BattlescapeLogic
 
         public virtual void Die(Unit killer)
         {
-            foreach (Tile myTile in currentPosition)
+            currentPosition.SetMyObjectTo(null);
+            if (currentPosition.IsProtectedByEnemyOf(this))
             {
-                myTile.SetMyObjectTo(null);
-                if (myTile.IsProtectedByEnemyOf(this))
+                foreach (Tile tile in currentPosition.closeNeighbours)
                 {
-                    foreach (Tile tile in myTile.neighbours)
+                    if (tile.GetMyObject<Unit>() != null && IsEnemyOf(tile.GetMyObject<Unit>()) && tile.IsProtectedByEnemyOf(tile.GetMyObject<Unit>()) == false)
                     {
-                        if (tile.GetMyObject<Unit>() != null && IsEnemyOf(tile.GetMyObject<Unit>()) && tile.IsProtectedByEnemyOf(tile.GetMyObject<Unit>()) == false)
-                        {
-                            //The enemy dude exists and just got free from combat by death of our Unit;
-                            tile.GetMyObject<Unit>().OnCombatExit();
-                        }
+                        //The enemy dude exists and just got free from combat by death of our Unit;
+                        tile.GetMyObject<Unit>().OnCombatExit();
                     }
                 }
-            }
+            }            
 
             //Note: this makes the Tile 'forget' about the unit, but the dead Unit 'remembers' its last Tile!
 

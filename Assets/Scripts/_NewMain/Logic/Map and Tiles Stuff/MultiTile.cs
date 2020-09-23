@@ -209,6 +209,14 @@ namespace BattlescapeLogic
             }
         }
 
+        public void SetMyNonObstacleTo(NonObstacle newObject)
+        {
+            foreach (Tile tile in this)
+            {
+                tile.myNonObstacle =newObject;
+            }
+        }
+
         public IEnumerator<Tile> GetEnumerator()
         {
             if (bottomLeftCorner != null)
@@ -250,6 +258,22 @@ namespace BattlescapeLogic
             foreach (Tile tile in this)
             {
                 if (tile.IsWalkable() == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+/// <summary>
+/// Use this function to find out if there is ANYTHING (either unit, obstacle or just e.g. mushroom) on this tile already. Mostly usefull for map generator (no duplicate objects on one tile). In most cases use IsWalkable instead.
+/// </summary>
+/// <returns></returns>
+        public bool IsEmpty()
+        {
+            foreach (Tile tile in this)
+            {
+                if (tile.IsWalkable() == false || tile.myNonObstacle != null)
                 {
                     return false;
                 }
