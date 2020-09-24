@@ -55,11 +55,6 @@ namespace BattlescapeLogic
         {
             return;
         }        
-
-        public int GetDistanceTo(Position target)
-        {
-            return currentPosition.DistanceTo(Global.instance.currentMap.board[target.x, target.z]);
-        }
         
         public override void OnNewRound()
         {

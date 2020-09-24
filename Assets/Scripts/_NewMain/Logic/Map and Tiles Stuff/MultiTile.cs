@@ -8,8 +8,8 @@ namespace BattlescapeLogic
     [System.Serializable]
     public struct Size
     {
-        public int width;
-        public int height;
+        public int width { get; private set; }
+        public int height { get; private set; }
 
         public Size(int width, int height)
         {
@@ -273,7 +273,7 @@ namespace BattlescapeLogic
         {
             foreach (Tile tile in this)
             {
-                if (tile.IsWalkable() == false || tile.myNonObstacle != null)
+                if (tile.IsEmpty() == false)
                 {
                     return false;
                 }

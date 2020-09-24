@@ -51,7 +51,7 @@ namespace BattlescapeLogic
                 && sourceUnit.GetMyOwner().IsCurrentLocalPlayer()
                 && sourceUnit.GetMyOwner() == GameRound.instance.currentPlayer
                 && sourceUnit.CanStillAttack()
-                && sourceUnit.IsInAttackRange(targetObject.GetDistanceTo(sourceUnit.currentPosition.bottomLeftCorner.position))
+                && sourceUnit.IsInAttackRange(targetObject.currentPosition.DistanceTo(sourceUnit.currentPosition))
                 && sourceUnit.IsEnemyOf(targetObject);
         }        
     }

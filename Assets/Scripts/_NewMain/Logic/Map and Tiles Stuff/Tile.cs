@@ -145,6 +145,12 @@ namespace BattlescapeLogic
             return myObject == null;
         }
 
+
+        public bool IsEmpty()
+        {
+            return IsWalkable() && myNonObstacle == null;
+        }
+
         public T GetMyObject<T>() where T : OnTileObject
         {
             return myObject as T;

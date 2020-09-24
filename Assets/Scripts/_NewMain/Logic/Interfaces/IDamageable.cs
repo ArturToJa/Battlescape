@@ -9,8 +9,6 @@ namespace BattlescapeLogic
 
         string GetMyName();
 
-        int GetDistanceTo(Position postion);
-
         Player GetMyOwner();
 
         Vector3 GetMyPosition();
