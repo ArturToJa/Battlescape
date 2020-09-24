@@ -63,6 +63,7 @@ namespace BattlescapeUI
             {
                 currentScreenIndex--;
                 currentScreen.OnChoice();
+                Debug.Log("Woof");
             }
             else
             {

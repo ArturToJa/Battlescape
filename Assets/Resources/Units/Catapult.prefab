@@ -627,8 +627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPosition:
-    _width: 2
-    _height: 2
+    _size:
+      _width: 2
+      _height: 2
   _type: 0
   _missilePrefab: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d,
     type: 3}

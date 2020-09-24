@@ -8,13 +8,35 @@ namespace BattlescapeLogic
     [System.Serializable]
     public struct Size
     {
-        public int width { get; private set; }
-        public int height { get; private set; }
-
-        public Size(int width, int height)
+        [SerializeField] int _width;
+        public int width
         {
-            this.width = width;
-            this.height = height;
+            get
+            {
+                return _width;
+            }
+            private set
+            {
+                _width = value;
+            }
+        }
+        [SerializeField] int _height;
+        public int height
+        {
+            get
+            {
+                return _height;
+            }
+            private set
+            {
+                _height = value;
+            }
+        }
+
+        public Size(int newWidth, int newHeight)
+        {
+            _width = newWidth;
+            _height = newHeight;
         }
 
         public static bool operator ==(Size s1, Size s2)

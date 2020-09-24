@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1
   _type: 9
   _missilePrefab: {fileID: 1279082748247048, guid: 8ea980f2981502045aacfdcab33b2a05,
     type: 3}
@@ -112,6 +113,7 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
+  _attackRotation: 0
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 3149135831221179970}

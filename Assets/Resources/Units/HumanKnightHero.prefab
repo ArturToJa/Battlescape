@@ -265,8 +265,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1
   _type: 9
   _missilePrefab: {fileID: 0}
   attackType: 0
@@ -328,6 +329,7 @@ MonoBehaviour:
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 1
     _energyRegen: 10
+  _attackRotation: 0
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 0}
