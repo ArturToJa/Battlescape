@@ -108,5 +108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 0
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1
