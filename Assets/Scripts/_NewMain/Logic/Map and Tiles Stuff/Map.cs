@@ -47,6 +47,8 @@ namespace BattlescapeLogic
 
         public Tile[,] board { get; private set; }
 
+        [SerializeField] BattlescapeSound.Sound[] ambientSounds;
+
         [SerializeField] MapVisualsGenerator _mapVisuals;
         public MapVisualsGenerator mapVisuals
         {
@@ -66,9 +68,18 @@ namespace BattlescapeLogic
         {
             GenerateBoard();
             GenerateMapVisuals();
+            PlayAmbientSounds();
         }
 
-        private void GenerateMapVisuals()
+        void PlayAmbientSounds()
+        {
+            foreach (BattlescapeSound.Sound sound in ambientSounds)
+            {
+                BattlescapeSound.SoundManager.instance.PlaySoundInLoop(Global.instance.gameObject, sound);
+            }
+        }
+
+        void GenerateMapVisuals()
         {
             if (manualObstacles == false)
             {
@@ -76,7 +87,7 @@ namespace BattlescapeLogic
             }
         }
 
-        private void GenerateBoard()
+        void GenerateBoard()
         {
             board = new Tile[mapWidth, mapHeight];
 

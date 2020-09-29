@@ -143,12 +143,13 @@ namespace BattlescapeLogic
         }
 
         void DoCheats()
-        {
+        {          
             if (Input.GetKeyDown(KeyCode.F))
             {
                 // selected unit gets 1000 damage (dies xD)
                 GameRound.instance.currentPlayer.selectedUnit.TakeDamage(GameRound.instance.currentPlayer.selectedUnit, 1000);
             }
+
             if (Input.GetKeyDown(KeyCode.X))
             {
                 if (GameRound.instance.currentPlayer.selectedUnit != null && !GameRound.instance.currentPlayer.selectedUnit.buffs.IsEmpty())

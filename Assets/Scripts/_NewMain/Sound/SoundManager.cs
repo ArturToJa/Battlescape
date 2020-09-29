@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System;
 using UnityEngine.SceneManagement;
+using BattlescapeLogic;
 
 namespace BattlescapeSound
 {
@@ -12,25 +13,67 @@ namespace BattlescapeSound
 
         public static SoundManager instance;
 
-        bool isAudioMute;
-        public Sound[] sounds;
+        public bool isAudioMute
+        {
+            get
+            {
+                return PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1;
+            }
+        }
         public Sound selectionSound;
         [SerializeField] Sound newTurnSound;
+        [SerializeField] BackgroundMusic[] sceneThemes;
+        public BackgroundMusic currentlyPlayedTheme { get; private set; }
+        [SerializeField] Sound _logSound;
+        public Sound logSound
+        {
+            get
+            {
+                return _logSound;
+            }
+            private set
+            {
+                _logSound = value;
+            }
+        }
+
+        
 
         //its here cause too hard to add it where it should be (no MBs there).
         Dictionary<GameObject, AudioSource> objectsPlayingSounds;
 
-        Dictionary<GameObject, Queue<string>> SoundQueues = new Dictionary<GameObject, Queue<string>>();
+        Dictionary<GameObject, Queue<string>> soundQueues = new Dictionary<GameObject, Queue<string>>();
+        [SerializeField] Sound _lobbySound;
+        public Sound lobbySound
+        {
+            get
+            {
+                return _lobbySound;            
+            }
+            private set
+            {
+                _lobbySound = value;
+            }
+        }
 
+        [SerializeField] float _swellSpeed;
+        public float swellSpeed
+        {
+            get
+            {
+                return _swellSpeed;
+            }
+            private set
+            {
+                _swellSpeed = value;
+            }
+        }
 
         protected override void Start()
         {
             if (instance == null)
             {
                 base.Start();
-                newTurnSound = new Sound();
-                newTurnSound.clip = Resources.Load<AudioClip>("NewTurnSound");
-                newTurnSound.volume = 0.02f;
                 instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -38,7 +81,27 @@ namespace BattlescapeSound
             {
                 Debug.LogError("Second instance of singleton - Sound Manager!");
             }
-        }        
+        }
+
+        public void PlayThemeFor(string scene)
+        {
+            List<BackgroundMusic> soundList = GetAllThemesFor(scene);
+            BackgroundMusic theme = soundList[UnityEngine.Random.Range(0, soundList.Count)];
+            PlayTheme(theme);          
+        }
+
+        List<BackgroundMusic> GetAllThemesFor(string scene)
+        {
+            List<BackgroundMusic> returnList = new List<BackgroundMusic>();
+            foreach (BackgroundMusic theme in sceneThemes)
+            {
+                if (theme.IsThemeOf(scene))
+                {
+                    returnList.Add(theme);
+                }         
+            }
+            return returnList;
+        }
 
 
         public void PlaySound(GameObject target, Sound sound)
@@ -51,8 +114,24 @@ namespace BattlescapeSound
             Play(target, sound, true);
         }
 
+        void PlayTheme(BackgroundMusic theme)
+        {
+            if (currentlyPlayedTheme != null)
+            {
+                StartCoroutine(currentlyPlayedTheme.SwellDown());
+            }
+            Play(this.gameObject, theme, false);            
+            theme.myRoutine = StartCoroutine(theme.SwellUp());
+            currentlyPlayedTheme = theme;
+            Invoke("PlayTheme", theme.clip.length - swellSpeed);
+        }
+
         void Play(GameObject target, Sound sound, bool isLoop)
         {
+            if (isAudioMute)
+            {
+                return;
+            }
             AudioSource source = null;
             source = GetFreeAudioSource(target, source);
             sound.audioSources.AddLast(source);
@@ -66,72 +145,45 @@ namespace BattlescapeSound
             source.Stop();
             sound.audioSources.Remove(source);
             Destroy(source);
-        }
-
-        public float GetSoundDuration(string sound)
-        {
-            Sound s = GetSound(sound);
-            AudioClip clip = s.clip;
-            return clip.length;
-        }
-        // THIESE functions are not needed RN but someone on the team wanted them so here you are:
-
-        /*public float GetCurrentSoundRemainingTime(GameObject target, string sound)
-        {
-
-        }*/
-
+        }        
+        
         void AddSoundToQueue(GameObject target, string sound)
         {
-            if (SoundQueues.ContainsKey(target))
+            if (soundQueues.ContainsKey(target))
             {
-                SoundQueues[target].Enqueue(sound);
+                soundQueues[target].Enqueue(sound);
             }
             else
             {
                 Queue<string> q = new Queue<string>();
-                SoundQueues.Add(target, q);
+                soundQueues.Add(target, q);
                 q.Enqueue(sound);
             }
         }
 
         void ClearQueue(GameObject target)
         {
-            if (SoundQueues.ContainsKey(target))
+            if (soundQueues.ContainsKey(target))
             {
-                SoundQueues[target].Clear();
+                soundQueues[target].Clear();
             }
-        }
-
-        Sound GetNextSoundFromObject(GameObject target)
-        {
-            return GetSound(SoundQueues[target].Dequeue());
-        }
-
-
-
-
-        Sound GetSound(string soundName)
-        {
-            if (soundName == null)
-            {
-                Debug.LogError("Sound called: " + soundName + " does not exist!");
-                return null;
-            }
-            Sound s = Array.Find(sounds, sound => sound.name == soundName);
-            return s;
         }
 
         void SetSoundSettingsToSource(AudioSource audioSource, Sound s)
         {
             audioSource.clip = s.clip;
             audioSource.volume = s.volume;
-            audioSource.pitch = s.pitch;
-            audioSource.loop = s.loop;
         }
 
-        
 
+        public void ToggleMute()
+        {
+            PlayerPrefs.SetInt("IsAudioMute", Convert.ToInt32(!isAudioMute));
+            if (isAudioMute == false)
+            {
+                PlayThemeFor(SceneManager.GetActiveScene().name);
+            }
+        }
 
 
         //Finds unused audio source or creates new if there are none.

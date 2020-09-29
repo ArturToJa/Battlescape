@@ -87,6 +87,8 @@ namespace BattlescapeLogic
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            BattlescapeSound.SoundManager.instance.PlayThemeFor(scene.name);
+
             if (scene.name.Contains("_GameScene_"))
             {
                 SetMap(scene.name);

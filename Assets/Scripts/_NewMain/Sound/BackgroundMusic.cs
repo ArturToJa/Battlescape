@@ -5,46 +5,68 @@ using UnityEngine;
 
 namespace BattlescapeSound
 {
+    [System.Serializable]
     public class BackgroundMusic : Sound
-    {
-        [SerializeField] float swellSpeed;
+    {        
+        [SerializeField] string[] _scenesToPlayOn;
+        public string[] scenesToPlayOn
+        {
+            get
+            {
+                return _scenesToPlayOn;
+            }
+            private set
+            {
+                scenesToPlayOn = value;
+            }
+        }
+        public Coroutine myRoutine;
+
         public BackgroundMusic()
-        {
-            isAudioMute = (PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1);
-        }
-        public void ToggleMute()
-        {
-            isAudioMute = !isAudioMute;
-            int isAudioMuteInt = Convert.ToInt32(isAudioMute);
-            PlayerPrefs.SetInt("IsAudioMute", isAudioMuteInt);
-            audioSources.First.Value.volume = isAudioMuteInt * 0.2f;
+        {          
         }
 
-        bool isAudioMute;
+        
 
-        IEnumerator SwellUp(Sound sound, float maxVolume)
+        public IEnumerator SwellUp()
         {
-            audioSources.First.Value.volume = 0;
-            while (audioSources.First.Value.volume < 0.9f * maxVolume && isAudioMute == false)
+            audioSources.Last.Value.volume = 0;
+            while (audioSources.Last.Value.volume < 0.9f * volume && SoundManager.instance.isAudioMute == false)
             {
-                audioSources.First.Value.volume = Mathf.Lerp(audioSources.First.Value.volume, maxVolume, swellSpeed * Time.deltaTime);
+                audioSources.Last.Value.volume = Mathf.Lerp(audioSources.Last.Value.volume, volume, SoundManager.instance.swellSpeed * Time.deltaTime);
                 yield return null;
             }
-            if (isAudioMute == false)
+            if (SoundManager.instance.isAudioMute == false)
             {
-                audioSources.First.Value.volume = maxVolume;
+                audioSources.Last.Value.volume = volume;
             }
 
         }
-        public IEnumerator SwellDown(AudioSource source)
+        public IEnumerator SwellDown()
         {
-            while (source.volume > 0.001f)
+            if (myRoutine != null)
             {
-                source.volume = Mathf.Lerp(source.volume, 0, swellSpeed * 20 * Time.deltaTime);
+                SoundManager.instance.StopCoroutine(myRoutine);
+            }
+            while (audioSources.Last.Value.volume > 0.001f)
+            {
+                audioSources.Last.Value.volume = Mathf.Lerp(audioSources.Last.Value.volume, 0, SoundManager.instance.swellSpeed * 20 * Time.deltaTime);
                 yield return null;
             }
-            audioSources.First.Value.Stop();
-            audioSources.First.Value = null;
+            audioSources.Last.Value.Stop();
+            audioSources.Last.Value = null;
+        }
+
+        public bool IsThemeOf(string scene)
+        {
+            foreach (string myScene in scenesToPlayOn)
+            {
+                if (myScene == scene)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

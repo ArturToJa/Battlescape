@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeSound;
 
 public class Log : MonoBehaviour
 {
@@ -44,20 +45,13 @@ public class Log : MonoBehaviour
     {
         var temp = Instantiate(logPrefab, theConsole);
         temp.GetComponentInChildren<Text>().text = log;
-        FindObjectOfType<AudioManager>().Play("LogSound");
-    }
+        SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.logSound);
+    }    
     [PunRPC]
     public void RPCLobbySpawnLog(string log)
     {
         var temp = Instantiate(networkLogPrefab, theConsole);
         temp.GetComponentInChildren<Text>().text = log;
-        FindObjectOfType<AudioManager>().Play("LogSound");
-    }
-    [PunRPC]
-    public void RPCLobbySpawnLog(string log, string sound)
-    {
-        var temp = Instantiate(networkLogPrefab, theConsole);
-        temp.GetComponentInChildren<Text>().text = log;
-        FindObjectOfType<AudioManager>().Play(sound);
+        SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.lobbySound);
     }
 }

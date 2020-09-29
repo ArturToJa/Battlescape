@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using Photon.Pun;
+using BattlescapeSound;
 
 
 namespace BattlescapeLogic
@@ -23,7 +24,6 @@ namespace BattlescapeLogic
 
         public void LoadScene(string scene)
         {
-            AudioManager.isPlayingGameOverMusic = false;
             StartCoroutine(LoadAsync(scene));
         }
 
@@ -33,9 +33,9 @@ namespace BattlescapeLogic
             isLoading = true;
             GameObject.Find("DisablingClicksPanel").GetComponent<Image>().raycastTarget = true;
 
-            if (IsChangingSceneType(scene, SceneManager.GetActiveScene().name) && AudioManager.Instance != null && AudioManager.Instance.currentMusic != null)
+            if (IsChangingSceneType(scene, SceneManager.GetActiveScene().name) && SoundManager.instance.currentlyPlayedTheme != null)
             {
-                AudioManager.Instance.StartCoroutine(AudioManager.Instance.SwellDown(AudioManager.Instance.currentMusic));
+                StartCoroutine(SoundManager.instance.currentlyPlayedTheme.SwellDown());
             }
             slider.gameObject.SetActive(true);
             AsyncOperation operation = SceneManager.LoadSceneAsync(scene);

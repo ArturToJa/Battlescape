@@ -2977,7 +2977,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1751871121}
+      - m_Target: {fileID: 0}
         m_MethodName: ToggleMute
         m_Mode: 1
         m_Arguments:
@@ -8804,6 +8804,9 @@ MonoBehaviour:
   - _mapName: _GameScene_Forest
     _mapWidth: 16
     _mapHeight: 11
+    ambientSounds:
+    - clip: {fileID: 8300000, guid: d6b0ed01109ffbc488e577a9ef81ef52, type: 3}
+      volume: 0.1
     _mapVisuals:
       specs:
       - _type: 5
@@ -21665,7 +21668,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1751871122}
-  - component: {fileID: 1751871121}
   - component: {fileID: 1751871123}
   - component: {fileID: 1751871124}
   m_Layer: 0
@@ -21675,106 +21677,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1751871121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751871120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 514c2a58157ca024ca4367ce6e136744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPlayingWind: 1
-  sounds:
-  - name: Game_Music_01
-    clip: {fileID: 8300000, guid: 8d87a71e43a441747914899c420b4826, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 1
-  - name: Game_Music_02
-    clip: {fileID: 8300000, guid: 3fc0fc27ebf04834baa4edb20a405aef, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 1
-  - name: Game_Music_03
-    clip: {fileID: 8300000, guid: bead0199fb2cd8d40832fcf68aeefc5f, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 1
-  - name: Game_Music_04
-    clip: {fileID: 8300000, guid: 0a1069c923eaad143aa6eda2873c21d5, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 1
-  - name: Game_Music_05
-    clip: {fileID: 8300000, guid: 0643908ea2a90c341a1f488fb302af76, type: 3}
-    volume: 0.2
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 1
-  - name: Menu_Theme_01
-    clip: {fileID: 8300000, guid: a72be6dbb33ae1d48b44895f4943bee6, type: 3}
-    volume: 0.4
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 0
-  - name: End_Loose_01
-    clip: {fileID: 8300000, guid: f5df88227c97c1a40b82c54b711f4f86, type: 3}
-    volume: 1
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 4
-  - name: End_Win_01
-    clip: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
-    volume: 1
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 3
-  - name: LogSound
-    clip: {fileID: 8300000, guid: 0147be79b3f52419ca9f4711423b967c, type: 3}
-    volume: 1
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: PlayerJoinedSound
-    clip: {fileID: 8300000, guid: b8861ea818bb742fba4e47f2a5a12667, type: 3}
-    volume: 1
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  - name: Wind
-    clip: {fileID: 8300000, guid: d6b0ed01109ffbc488e577a9ef81ef52, type: 3}
-    volume: 0.15
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 1
-    soundType: 7
-  - name: SystemSound
-    clip: {fileID: 8300000, guid: fa3d79a0f413e4e3fb48ab3fa2805ad4, type: 3}
-    volume: 0.15
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  currentMusic: {fileID: 0}
-  swellSpeed: 0.05
 --- !u!4 &1751871122
 Transform:
   m_ObjectHideFlags: 0
@@ -21814,23 +21716,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc7de029995fbc4593f19ebe98ddf4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
   selectionSound:
-    name: Selection Sound
     clip: {fileID: 8300000, guid: def86643acecf4bda8b1afaa9275072b, type: 3}
     volume: 0.4
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 5
   newTurnSound:
-    name: 
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 0
+    clip: {fileID: 8300000, guid: baf54cc78407125419dd7b488158ebf5, type: 3}
+    volume: 0.3
+  sceneThemes:
+  - clip: {fileID: 8300000, guid: a72be6dbb33ae1d48b44895f4943bee6, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _MENU
+    - _ManagementScene
+    - _LobbyScene
+  - clip: {fileID: 8300000, guid: 8d87a71e43a441747914899c420b4826, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _GameScene_Forest
+  - clip: {fileID: 8300000, guid: 3fc0fc27ebf04834baa4edb20a405aef, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _GameScene_Forest
+  - clip: {fileID: 8300000, guid: bead0199fb2cd8d40832fcf68aeefc5f, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _GameScene_Forest
+  - clip: {fileID: 8300000, guid: 0643908ea2a90c341a1f488fb302af76, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _GameScene_Forest
+  - clip: {fileID: 8300000, guid: 0a1069c923eaad143aa6eda2873c21d5, type: 3}
+    volume: 0.2
+    _scenesToPlayOn:
+    - _GameScene_Forest
+  _logSound:
+    clip: {fileID: 8300000, guid: b8861ea818bb742fba4e47f2a5a12667, type: 3}
+    volume: 0.3
+  _lobbySound:
+    clip: {fileID: 8300000, guid: fa3d79a0f413e4e3fb48ab3fa2805ad4, type: 3}
+    volume: 0.15
+  _swellSpeed: 0.1
 --- !u!1 &1753001196
 GameObject:
   m_ObjectHideFlags: 0

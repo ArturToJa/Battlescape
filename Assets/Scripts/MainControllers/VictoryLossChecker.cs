@@ -25,6 +25,10 @@ public class VictoryLossChecker : MonoBehaviour
     [SerializeField] Text RedPoints;
     public static bool isAnyHeroDead = false;
 
+    [SerializeField] BattlescapeSound.Sound winSound;
+    [SerializeField] BattlescapeSound.Sound drawSound;
+    [SerializeField] BattlescapeSound.Sound loseSound;
+
     void Start()
     {
         gameResult = GameResult.Unfinished;    
@@ -42,29 +46,42 @@ public class VictoryLossChecker : MonoBehaviour
             }
         }
         UIManager.SmoothlyTransitionActivity(WinScreen, isGameOver, 0.2f);
+        if (isGameOver)
+        {
+            BattlescapeSound.SoundManager.instance.currentlyPlayedTheme.audioSources.Last.Value.Stop();
+            BattlescapeSound.SoundManager.instance.PlaySound(this.gameObject, GetCorrectEndgameSound());
+        }
         
     }
 
-    /*static void UpdateUnitLists()
+    BattlescapeSound.Sound GetCorrectEndgameSound()
     {
-        Global.instance.playerTeams[0].players[0].playerUnits.Clear();
-        Global.instance.playerTeams[1].players[0].playerUnits.Clear();
-        foreach (BattlescapeLogic.Unit unit in FindObjectsOfType<BattlescapeLogic.Unit>())
-        {
-            if (unit.isRealUnit == false)
-            {
-                continue;
-            }
-            if (unit.statistics.healthPoints > 0)
-            {
-                Global.instance.playerTeams[unit.PlayerID].players[0].playerUnits.Add(unit);
-
-            }
+        if ((Global.instance.playerTeams[0].players[0].type == PlayerType.AI && gameResult == GameResult.GreenWon) || (Global.instance.playerTeams[1].players[0].type == PlayerType.AI && gameResult == GameResult.RedWon))
+        {            
+            return loseSound;
         }
 
-
-
-    }*/
+        if (Global.instance.playerTeams[0].players[0].type == PlayerType.AI || Global.instance.playerTeams[1].players[0].type == PlayerType.AI)
+        {
+            return winSound;
+        }
+        else
+        {
+            if (gameResult == GameResult.Draw)
+            {
+                return drawSound;
+                // draw - in the future change this to a new track
+            }
+            else if ((GameRound.instance.currentPlayer.team.index == 0 && gameResult == GameResult.GreenWon) || (GameRound.instance.currentPlayer.team.index == 1 && gameResult == GameResult.RedWon))
+            {
+                return winSound;
+            }
+            else
+            {
+                return loseSound;
+            }
+        }
+    }
 
     private void CalculateWinner()
     {

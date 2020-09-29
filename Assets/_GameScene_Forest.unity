@@ -21241,7 +21241,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1097955737}
   m_HandleRect: {fileID: 1097955736}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -35323,6 +35323,18 @@ MonoBehaviour:
   WinScreen: {fileID: 318377644}
   GreenPoints: {fileID: 1024041796}
   RedPoints: {fileID: 97399387}
+  winSound:
+    name: Win Sound
+    clip: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
+    volume: 0.3
+  drawSound:
+    name: Draw Sound
+    clip: {fileID: 8300000, guid: f5df88227c97c1a40b82c54b711f4f86, type: 3}
+    volume: 0.3
+  loseSound:
+    name: Loss Sound
+    clip: {fileID: 8300000, guid: f5df88227c97c1a40b82c54b711f4f86, type: 3}
+    volume: 0.3
 --- !u!1 &1961785395
 GameObject:
   m_ObjectHideFlags: 0
