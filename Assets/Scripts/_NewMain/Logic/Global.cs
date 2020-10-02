@@ -23,6 +23,7 @@ namespace BattlescapeLogic
                 _instance = value;
             }
         }
+        [SerializeField] BattlescapeGraphics.Skybox skybox;
         [SerializeField] ArmySavingManager _armySavingManager;
         public ArmySavingManager armySavingManager
         {
@@ -92,6 +93,7 @@ namespace BattlescapeLogic
             if (scene.name.Contains("_GameScene_"))
             {
                 SetMap(scene.name);
+                skybox.SetSkyboxToRandom();
             }
             if (scene.name.Contains("_ManagementScene"))
             {

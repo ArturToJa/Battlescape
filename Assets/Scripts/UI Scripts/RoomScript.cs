@@ -30,7 +30,7 @@ public class RoomScript : MonoBehaviour
         }        
         if (Input.GetKeyDown(KeyCode.Return) && string.IsNullOrEmpty(message) == false)
         {
-            Log.LobbySpawnLog(PlayerPrefs.GetString("MyPlayerName") + ": " + message);
+            LogConsole.instance.LobbySpawnLog(PlayerPrefs.GetString("MyPlayerName") + ": " + message);
             inputField.text = string.Empty;
             inputField.ActivateInputField();
         }
@@ -72,7 +72,7 @@ public class RoomScript : MonoBehaviour
     {
         // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
         photonView.RPC("RPCSetGameSceneName", RpcTarget.All, EventSystem.current.currentSelectedGameObject.name);
-        Log.LobbySpawnLog("MapChosen: " + gameSceneName);
+        LogConsole.instance.LobbySpawnLog("MapChosen: " + gameSceneName);
         transform.SetAsLastSibling();
 
     }

@@ -89,7 +89,7 @@ public class EndGameText : MonoBehaviour
         }
         else
         {
-            Log.SpawnLog("No way!");
+            LogConsole.instance.SpawnLog("No way!");
             Debug.LogError("no way");
         }
     }
@@ -107,7 +107,7 @@ public class EndGameText : MonoBehaviour
         }
         else
         {
-            Log.SpawnLog("No way!");
+            LogConsole.instance.SpawnLog("No way!");
             Debug.LogError("no way");
         }
     }

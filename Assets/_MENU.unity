@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: c1ee4a5da08d7a24696fdf53ab94430e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.50531507, g: 0.49322337, b: 0.48247647, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8794,6 +8794,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ab3a35c4905f64e9e984fd8c0bdeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skybox:
+    skyOptions:
+    - {fileID: 2100000, guid: c1ee4a5da08d7a24696fdf53ab94430e, type: 2}
+    - {fileID: 2100000, guid: f36c0c9e1840e6142907e365aaba006a, type: 2}
+    - {fileID: 2100000, guid: a5f34ed6a71382948a24dd8fc97f7797, type: 2}
+    - {fileID: 2100000, guid: a98673afc7ae689418ce8fc0d23d41a4, type: 2}
+    - {fileID: 2100000, guid: ab0ac1805681a4c42af099950b20dd2e, type: 2}
+    - {fileID: 2100000, guid: 9f8e3bc9b419fd549afb1614f3e1f834, type: 2}
+    - {fileID: 2100000, guid: 2eea5c2432a3fb140b4f4fe9802f3ebb, type: 2}
+    - {fileID: 2100000, guid: ff2f63fb31281584787b10400f29d9e4, type: 2}
+    - {fileID: 2100000, guid: 443db56bd2c06984cbb66ab2a1dfc4c3, type: 2}
+    - {fileID: 2100000, guid: 023767a4808b5ac4ab194903636cac0a, type: 2}
+    - {fileID: 2100000, guid: 766e6bec4fd76e54ebe552a5ff65e233, type: 2}
   _armySavingManager:
     _saveExtension: bssave
     _armySavePath: Army Saves
@@ -8962,7 +8975,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &688773317
 GameObject:
@@ -11736,22 +11749,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 982457044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c0593b10cf85854883ba77effb54cb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f8368c376b4eb84a8a63ded5a5ba2a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  middleHotspotCursors:
-  - {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
-  - {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18, type: 3}
-  - {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9, type: 3}
-  - {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae, type: 3}
-  - {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
-  - {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
-  - {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
-  - {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
-  - {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222, type: 3}
-  - {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
-  - {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1, type: 3}
-  - {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
+  middleHotspotCursors: []
   defaultCursor: {fileID: 2800000, guid: c0a8d3df75dd6ef4097d3e7761e5ba0c, type: 3}
   clickingDefaultCursor: {fileID: 2800000, guid: b7e57c903086a5b40976fce8953dc509,
     type: 3}
@@ -11759,17 +11760,13 @@ MonoBehaviour:
   shootingCursor: {fileID: 2800000, guid: 3dbf1f571a2a5e44aae172fcdd9fb863, type: 3}
   clickingShootingCursor: {fileID: 2800000, guid: 206bc905e9ddaa74182b28e607313dac,
     type: 3}
-  badRangeShootingCursor: {fileID: 2800000, guid: 435a37661d6de7a428594a9b4c3d62d4,
-    type: 3}
-  clickingBadRangeShootingCursor: {fileID: 2800000, guid: 6ad38a182b2ec834385c282d8a3ee86b,
-    type: 3}
   attackCursor: {fileID: 2800000, guid: 06999c45015f60445a68eacd280c4ccb, type: 3}
   clickingAttackCursor: {fileID: 2800000, guid: cda0d9c61377ede41b29982bd4394e9c,
     type: 3}
   walkingCursor: {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
-  clickingWalkingCursor: {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9,
+  clickingWalkingCursor: {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18,
     type: 3}
-  validTargetCursor: {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
+  validTargetCursor: {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
   clickingTargetCursor: {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222,
     type: 3}
   infoCursor: {fileID: 2800000, guid: d6c255cd4a632b043b788ec2e419aca9, type: 3}
@@ -11779,8 +11776,8 @@ MonoBehaviour:
   blockedCursor: {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
   clickingBlockedCursor: {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1,
     type: 3}
-  enterCombatCursor: {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
-  clickingEnterCombatCursor: {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8,
+  enterCombatCursor: {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
+  clickingEnterCombatCursor: {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be,
     type: 3}
   combatExitingMovementCursor: {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18,
     type: 3}
@@ -17605,7 +17602,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1437733874
 MonoBehaviour:
@@ -18628,7 +18625,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1544901961
 GameObject:
@@ -24643,55 +24640,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952664139}
   m_CullTransparentMesh: 0
---- !u!1 &1960365702
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1960365704}
-  - component: {fileID: 1960365703}
-  m_Layer: 0
-  m_Name: HeroNames
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1960365703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960365702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81028639196a98248a678a188ddb170c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  theHeroNames:
-  - Lorel
-  - Sven
-  - Khellidun
-  - Imgwar
-  - Orwin
---- !u!4 &1960365704
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960365702}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974510070
 GameObject:
   m_ObjectHideFlags: 0

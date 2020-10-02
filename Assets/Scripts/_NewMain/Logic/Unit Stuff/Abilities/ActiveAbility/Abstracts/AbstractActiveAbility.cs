@@ -225,7 +225,7 @@ namespace BattlescapeLogic
                 owner.statistics.movementPoints = 0;
             }
             roundsTillOffCooldown = cooldown;
-            Log.SpawnLog(log);
+            LogConsole.instance.SpawnLog(log);
             Animate();
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);

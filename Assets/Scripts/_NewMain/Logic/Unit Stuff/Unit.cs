@@ -284,7 +284,7 @@ namespace BattlescapeLogic
 
         public void RetaliateTo(Unit target)
         {
-            Log.SpawnLog(this.name + " strikes back!");
+            LogConsole.instance.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
             attack.Attack(target);
             Networking.instance.FinishRetaliation();
@@ -319,14 +319,14 @@ namespace BattlescapeLogic
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
                 defenceDebuff.ApplyOnTarget(target);
-                Log.SpawnLog(this.info.unitName + " attacks " + target.GetMyName() + ", but misses completely!");
-                Log.SpawnLog(target.GetMyName() + " loses 1 point of Defence temporarily.");
+                LogConsole.instance.SpawnLog(this.info.unitName + " attacks " + target.GetMyName() + ", but misses completely!");
+                LogConsole.instance.SpawnLog(target.GetMyName() + " loses 1 point of Defence temporarily.");
                 PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
 
             }
             else if (damage > 0)
             {
-                Log.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.GetMyName() + "!");
+                LogConsole.instance.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.GetMyName() + "!");
                 PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
                 target.TakeDamage(this, damage);
                 foreach (AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))

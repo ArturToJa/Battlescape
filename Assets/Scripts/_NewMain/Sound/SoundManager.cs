@@ -11,7 +11,19 @@ namespace BattlescapeSound
     public class SoundManager : BattlescapeLogic.TurnChangeMonoBehaviour
     {
 
-        public static SoundManager instance;
+        static SoundManager _instance;
+        public static SoundManager instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<SoundManager>();
+                }
+                return _instance;
+            }
+        }
+
 
         public bool isAudioMute
         {
@@ -71,10 +83,9 @@ namespace BattlescapeSound
 
         protected override void Start()
         {
-            if (instance == null)
+            if (instance == this)
             {
-                base.Start();
-                instance = this;
+                base.Start(); 
                 DontDestroyOnLoad(this.gameObject);
             }
             else
@@ -116,6 +127,10 @@ namespace BattlescapeSound
 
         void PlayTheme(BackgroundMusic theme)
         {
+            if (isAudioMute)
+            {
+                return;
+            }
             if (currentlyPlayedTheme != null)
             {
                 StartCoroutine(currentlyPlayedTheme.SwellDown());
@@ -132,9 +147,9 @@ namespace BattlescapeSound
             {
                 return;
             }
-            AudioSource source = null;
-            source = GetFreeAudioSource(target, source);
+            AudioSource source = GetFreeAudioSource(target);
             sound.audioSources.AddLast(source);
+            Debug.Log(sound.audioSources.Count);
             SetSoundSettingsToSource(source, sound);
             source.loop = isLoop;
             source.Play();
@@ -187,8 +202,9 @@ namespace BattlescapeSound
 
 
         //Finds unused audio source or creates new if there are none.
-        AudioSource GetFreeAudioSource(GameObject target, AudioSource source)
+        AudioSource GetFreeAudioSource(GameObject target)
         {
+            AudioSource source = null;
             foreach (AudioSource existingSource in target.GetComponents<AudioSource>())
             {
                 if (existingSource.isPlaying == false)

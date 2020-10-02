@@ -249,7 +249,7 @@ namespace BattlescapeLogic
             if (unit == null)
             {
                 Debug.LogError("NoUnit!");
-                Log.SpawnLog("NO UNIT TO MOVE!");
+                LogConsole.instance.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
             MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.size);
