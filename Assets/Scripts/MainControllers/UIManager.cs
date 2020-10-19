@@ -53,7 +53,11 @@ public class UIManager : MonoBehaviour
             if (unitWeShowStatsOf != null)
             {
                 FillTheBar();
-                unitName.text = unitWeShowStatsOf.name;
+                unitName.text = unitWeShowStatsOf.info.unitName;
+                if (unitWeShowStatsOf is Hero)
+                {
+                    unitName.text += " " + (unitWeShowStatsOf as Hero).heroName;
+                }
             }
         }
     }

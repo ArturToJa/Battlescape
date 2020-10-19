@@ -33,10 +33,6 @@ namespace BattlescapeLogic
             {
                 Networking.instance.SendCommandToHit(sourceUnit, targetObject);
             }
-        }
-
-        public override void OnRangedAttackAnimation()
-        {
-        }
+        }       
     }
 }

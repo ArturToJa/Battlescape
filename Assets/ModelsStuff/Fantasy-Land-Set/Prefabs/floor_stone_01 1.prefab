@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 2
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1
 --- !u!1 &1110530129556486
 GameObject:
   m_ObjectHideFlags: 0

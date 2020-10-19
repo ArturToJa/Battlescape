@@ -11,12 +11,12 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
     [SerializeField] Transform deploymentPanel;
     // I mean.. I warned you!
 
-    public void LoadPlayerToGame()
+    public Player LoadPlayerToGame()
     {
         PlayerBuilder currentPlayerBuilder = Global.instance.GetCurrentPlayerBuilder();
         Player currentPlayer = new Player(currentPlayerBuilder);
         GameRound.instance.currentPlayer = currentPlayer;
-        currentPlayer.race = SaveLoadManager.instance.race;
+        currentPlayer.race = Global.instance.armySavingManager.currentSave.GetRace();
 
         if (SkyboxChanger.instance.isSkyboxRandom)
         {
@@ -32,5 +32,7 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         Networking.instance.SendCommandToAddPlayer(currentPlayer.team, currentPlayer);
         preGameAi.CreateUnits();
         preGameAi.RepositionUnits();
+        Networking.instance.SendCommandToSetHeroName(GameRound.instance.currentPlayer.team.index, GameRound.instance.currentPlayer.index, Global.instance.armySavingManager.currentSave.heroName);
+        return currentPlayer;
     }
 }

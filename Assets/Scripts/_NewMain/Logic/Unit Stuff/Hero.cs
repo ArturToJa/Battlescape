@@ -5,17 +5,30 @@ using UnityEngine;
 namespace BattlescapeLogic
 {
     public class Hero : Unit
-    {
-        [SerializeField] Sprite _avatar;
-        public Sprite avatar
+    {      
+        [SerializeField] Sprite _avatarHighlightedTransparent;
+        public Sprite avatarHighlightedTransparent
         {
             get
             {
-                return _avatar;
+                return _avatarHighlightedTransparent;
             }
             private set
             {
-                _avatar = value;
+                _avatarHighlightedTransparent = value;
+            }
+        }
+
+        [SerializeField] Sprite _avatarTransparent;
+        public Sprite avatarTransparent
+        {
+            get
+            {
+                return _avatarTransparent;
+            }
+            private set
+            {
+                _avatarTransparent = value;
             }
         }
 

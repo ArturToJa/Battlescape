@@ -627,8 +627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPosition:
-    _width: 2
-    _height: 2
+    _size:
+      _width: 2
+      _height: 2
   _type: 0
   _missilePrefab: {fileID: 1000357107973312, guid: 9781819d317d8e547a956e9904bdc49d,
     type: 3}
@@ -681,15 +682,16 @@ MonoBehaviour:
   statistics:
     _cost: 5
     _limit: 2
-    _baseAttack: 4
+    _baseAttack: 40
     _baseDefence: 0
     _maxHealthPoints: 25
-    _baseMaxMovementPoints: 5
+    _baseMaxMovementPoints: 1
     _baseAttackRange: 9
     _minimalAttackRange: 3
     _maxNumberOfAttacks: 1
     _defaultMaxNumberOfRetaliations: 0
     _energyRegen: 10
+  _attackRotation: 0
   _equipment:
     primaryWeapon:
       itemEquipped: {fileID: 0}
@@ -850,7 +852,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f24d011a453b2d844956f9d487ac176d, type: 2}
+  - {fileID: 2100000, guid: 5070db5067422e041a6bb8c1681020b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

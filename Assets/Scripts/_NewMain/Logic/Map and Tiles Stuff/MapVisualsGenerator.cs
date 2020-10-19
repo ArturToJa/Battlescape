@@ -1,3 +1,4 @@
+==== BASE ====
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,8 +30,8 @@ namespace BattlescapeLogic
                 for (int i = 0; i < amountOfType; i++)
                 {
                     GameObject placeableObject = GenerateObject(GetRandomObject(spec.type, amountOfType), spec.canRotate);
-                    IOnTilePlaceable placeable = placeableObject.GetComponent<IOnTilePlaceable>();
-                    PlaceObject(placeableObject, GetRandomMultiTile(placeable.currentPosition.width, placeable.currentPosition.height, spec));
+                    IVisuals placeable = placeableObject.GetComponent<IVisuals>();
+                    PlaceObject(placeableObject, GetRandomMultiTile(placeable.currentPosition.size, spec));
                 }
             }
         }
@@ -39,11 +40,10 @@ namespace BattlescapeLogic
         {
             if (position == null)
             {
-                //Debug.Log("Terminated: " + objectToPlace.name);
                 GameObject.Destroy(objectToPlace);
                 return;
             }
-            objectToPlace.GetComponent<IOnTilePlaceable>().OnSpawn(position.bottomLeftCorner);
+            objectToPlace.GetComponent<IVisuals>().OnSpawn(position);
             Vector3 oldScale = objectToPlace.transform.localScale;
             objectToPlace.transform.SetParent(position.bottomLeftCorner.transform);
             objectToPlace.transform.localScale = oldScale;
@@ -57,7 +57,7 @@ namespace BattlescapeLogic
                 rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
             GameObject spawnedObject = Object.Instantiate(prefab);
-            IOnTilePlaceable placeable = spawnedObject.GetComponent<IOnTilePlaceable>();
+            IVisuals placeable = spawnedObject.GetComponent<IVisuals>();
             AddToDictionary(prefab.name);
             return spawnedObject;
         }
@@ -80,19 +80,18 @@ namespace BattlescapeLogic
             return answer;
         }
 
-        MultiTile GetRandomMultiTile(int width, int height, MapVisualsSpecification spec)
+        MultiTile GetRandomMultiTile(Size size, MapVisualsSpecification spec)
         {
             int terminator = 0;
             Tile tile = Global.instance.currentMap.board[Random.Range(spec.minDistanceToShortSide, Global.instance.currentMap.mapWidth - spec.minDistanceToShortSide), Random.Range(spec.minDistanceToLongSide, Global.instance.currentMap.mapHeight - spec.minDistanceToLongSide)];
-            MultiTile position = MultiTile.Create(tile, width, height);
+            MultiTile position = MultiTile.Create(tile, size);
             while (IsMultiTileLegal(position, spec) == false)
             {
                 terminator++;
                 tile = Global.instance.currentMap.board[Random.Range(spec.minDistanceToShortSide, Global.instance.currentMap.mapWidth - spec.minDistanceToShortSide), Random.Range(spec.minDistanceToLongSide, Global.instance.currentMap.mapHeight - spec.minDistanceToLongSide)];
-                position = MultiTile.Create(tile, width, height);
+                position = MultiTile.Create(tile, size);
                 if (terminator == 100)
                 {
-                    //Debug.Log("terminated");
                     return null;
                 }
             }
@@ -102,19 +101,16 @@ namespace BattlescapeLogic
 
         bool IsMultiTileLegal(MultiTile position, MapVisualsSpecification spec)
         {
-            return position.IsWalkable() && (spec.needsExtraSpace == false || HasExtraSpace(position));
+            return position.IsEmpty() && (spec.needsExtraSpace == false || HasExtraSpace(position));
         }
 
         bool HasExtraSpace(MultiTile position)
         {
             foreach (Tile neighbour in position.closeNeighbours)
             {
-                foreach (Tile closeNeighbour in neighbour.neighbours)
+                if (neighbour.IsEmpty() == false)
                 {
-                    if(closeNeighbour.IsWalkable() == false)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             return true;

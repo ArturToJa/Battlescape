@@ -55,7 +55,7 @@ namespace BattlescapeLogic
 
         protected bool IsInRange(Obstacle obstacle)
         {
-            return obstacle.GetDistanceTo(owner.currentPosition.bottomLeftCorner.position) <= range;
+            return obstacle.currentPosition.DistanceTo(owner.currentPosition) <= range;
         }
     }
 }

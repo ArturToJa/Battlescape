@@ -39,11 +39,10 @@ namespace BattlescapeLogic
         protected void TurnTowardsTarget()
         {
             sourceUnit.visuals.transform.LookAt(new Vector3(targetObject.GetMyPosition().x, sourceUnit.visuals.transform.position.y, targetObject.GetMyPosition().z));
+            sourceUnit.visuals.transform.Rotate(new Vector3(0, sourceUnit.attackRotation, 0));
         }
 
         public abstract void OnAttackAnimation();
-
-        public abstract void OnRangedAttackAnimation();
 
         public bool CanAttack(IDamageable targetObject)
         {
@@ -52,7 +51,7 @@ namespace BattlescapeLogic
                 && sourceUnit.GetMyOwner().IsCurrentLocalPlayer()
                 && sourceUnit.GetMyOwner() == GameRound.instance.currentPlayer
                 && sourceUnit.CanStillAttack()
-                && sourceUnit.IsInAttackRange(targetObject.GetDistanceTo(sourceUnit.currentPosition.bottomLeftCorner.position))
+                && sourceUnit.IsInAttackRange(targetObject.currentPosition.DistanceTo(sourceUnit.currentPosition))
                 && sourceUnit.IsEnemyOf(targetObject);
         }        
     }

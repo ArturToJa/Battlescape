@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class NonObstacle : MonoBehaviour, IOnTilePlaceable
+    public class NonObstacle : MonoBehaviour, IVisuals
     {
         [SerializeField] TileObjectType _type;
         public TileObjectType type
@@ -28,33 +28,34 @@ namespace BattlescapeLogic
             }
         }
 
-        public void TryToSetMyPositionTo(Tile bottomLeftCorner)
+        public void TryToSetMyPositionTo(MultiTile position)
         {
-            SetMyPositionTo(CalibrateToFitInBoard(bottomLeftCorner));
+            SetMyPositionTo(CalibrateToFitInBoard(position));
         }
 
-        void SetMyPositionTo(Tile newBottomLeftCorner)
+        void SetMyPositionTo(MultiTile newPosition)
         {
-            currentPosition = MultiTile.Create(newBottomLeftCorner, currentPosition.width, currentPosition.height);
-            this.transform.position = currentPosition.center;            
+            currentPosition = newPosition;
+            currentPosition.SetMyNonObstacleTo(this);
+            this.transform.position = currentPosition.center;
         }
 
-        Tile CalibrateToFitInBoard(Tile bottomLeftCorner)
+        MultiTile CalibrateToFitInBoard(MultiTile position)
         {
-            int posX = bottomLeftCorner.position.x;
-            int posZ = bottomLeftCorner.position.z;
-            if (posX + currentPosition.width > Global.instance.currentMap.mapWidth)
+            int posX = position.bottomLeftCorner.position.x;
+            int posZ = position.bottomLeftCorner.position.z;
+            if (posX + position.size.width > Global.instance.currentMap.mapWidth)
             {
-                posX = Global.instance.currentMap.mapWidth - currentPosition.width;
+                posX = Global.instance.currentMap.mapWidth - position.size.width;
             }
-            if (posZ + currentPosition.height > Global.instance.currentMap.mapHeight)
+            if (posZ + position.size.height > Global.instance.currentMap.mapHeight)
             {
-                posZ = Global.instance.currentMap.mapHeight - currentPosition.height;
+                posZ = Global.instance.currentMap.mapHeight - position.size.height;
             }
-            return Global.instance.currentMap.board[posX, posZ];
+            return MultiTile.Create(Global.instance.currentMap.board[posX, posZ], position.size);
         }
 
-        public void OnSpawn(Tile spawningTile)
+        public void OnSpawn(MultiTile spawningTile)
         {
             TryToSetMyPositionTo(spawningTile);
         }

@@ -122,7 +122,7 @@ namespace BattlescapeLogic
             SetCursorTo(infoCursor, infoCursor);
         }
 
-        public void OnTileToMoveHovered(Unit unitToMove, Tile targetTile)
+        public void OnTileToMoveHovered(Unit unitToMove, MultiTile targetTile)
         {
             if (targetTile.IsProtectedByEnemyOf(unitToMove))
             {

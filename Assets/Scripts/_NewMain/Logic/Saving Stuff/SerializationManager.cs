@@ -7,7 +7,7 @@ using System.IO;
 namespace BattlescapeLogic
 {
     public class SerializationManager
-    {
+    {        
         static SerializationManager _instance;
         public static SerializationManager instance
         {
@@ -21,14 +21,14 @@ namespace BattlescapeLogic
             }
         }
 
-        public bool Save(string name, string directory, object saveData)
+        public bool Save(string name, string directory, object saveData, string extension)
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             if (Directory.Exists(directory) == false)
             {
                 Directory.CreateDirectory(directory);
             }
-            string path = directory + "/" + name + ".save";
+            string path = directory + "/" + name + "." + extension;
             FileStream file = File.Create(path);
             binaryFormatter.Serialize(file, saveData);
             file.Close();
@@ -55,6 +55,11 @@ namespace BattlescapeLogic
                 file.Close();
                 return null;
             }
+        }
+
+        public void Delete (string path)
+        {
+            File.Delete(path);
         }
 
     }

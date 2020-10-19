@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Obstacle : OnTileObject, IMouseTargetable
+    public class Obstacle : OnTileObject, IMouseTargetable, IVisuals
     {
         float deathSpeed = .5f;
 
@@ -33,10 +33,7 @@ namespace BattlescapeLogic
         public void Destruct(Unit source)
         {
             //Tu mna być animacja destrukcji.
-            foreach (Tile myTile in currentPosition)
-            {
-                myTile.SetMyObjectTo(null);
-            }
+            currentPosition.SetMyObjectTo(null);
             StartCoroutine(DestructionRoutine());
         }
 
@@ -63,20 +60,6 @@ namespace BattlescapeLogic
         {
             return;
         }        
-
-        public int GetDistanceTo(Position target)
-        {
-            int distance = 9999;
-            foreach (Tile tile in currentPosition)
-            {
-                int possibleDistance = tile.position.DistanceTo(target);
-                if (possibleDistance < distance)
-                {
-                    distance = possibleDistance;
-                }
-            }
-            return distance;
-        }
         
         public void OnNewRound()
         {

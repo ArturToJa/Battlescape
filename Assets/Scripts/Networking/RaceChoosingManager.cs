@@ -32,8 +32,8 @@ public class RaceChoosingManager : MonoBehaviour
 
     private void Update()
     {
-        chooseRaceButton.SetActive(SaveLoadManager.instance.haveAllPlayersChosenRace == false && PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount == 2);
-        if (SaveLoadManager.instance.haveAllPlayersChosenRace && didRevealEnemyRace == false)
+        chooseRaceButton.SetActive(Global.instance.HaveAllPlayersChosenRace() == false && PhotonNetwork.IsConnected && PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount == 2);
+        if (Global.instance.HaveAllPlayersChosenRace() && didRevealEnemyRace == false)
         {
             photonView.RPC("RPCSetEnemyRace", RpcTarget.Others, chosenRace, PlayerPrefs.GetString("MyPlayerName"));
             didRevealEnemyRace = true;
@@ -62,7 +62,7 @@ public class RaceChoosingManager : MonoBehaviour
                 }
             }
         }      
-        myArmy.sprite = SaveLoadManager.instance.GetRaceSprite(chosenRace);
+        myArmy.sprite = Global.instance.armySavingManager.GetRaceSprite(chosenRace);
     }
 
     public void AcceptRace()
@@ -102,7 +102,7 @@ public class RaceChoosingManager : MonoBehaviour
         {
             photonView.RPC("RpcSetRaceAndName", RpcTarget.All, Race, playerName, 0, 0);
         }
-        enemyArmy.sprite = SaveLoadManager.instance.GetRaceSprite(Race);
+        enemyArmy.sprite = Global.instance.armySavingManager.GetRaceSprite(Race);
         Log.LobbySpawnLog("--SYSTEM-- Player: " + playerName + " chose race: " + Race.ToString(), "SystemSound");
     }
 

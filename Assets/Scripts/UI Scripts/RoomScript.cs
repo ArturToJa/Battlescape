@@ -41,7 +41,7 @@ public class RoomScript : MonoBehaviour
         StartGameButton.SetActive
             (PhotonNetwork.IsMasterClient 
             && (PhotonNetwork.CurrentRoom.PlayerCount == 2)
-            && SaveLoadManager.instance.haveAllPlayersChosenRace);
+            && Global.instance.HaveAllPlayersChosenRace());
         ChooseMapButton.SetActive
             (PhotonNetwork.IsMasterClient
             && PhotonNetwork.CurrentRoom.PlayerCount == 2
@@ -58,7 +58,7 @@ public class RoomScript : MonoBehaviour
         if (isMatchStarted == false)
         {
             isMatchStarted = true;
-            FindObjectOfType<LevelLoader>().CommandLoadScene(gameSceneName);
+            Networking.instance.SendCommandToLoadScene(gameSceneName);
         }
         
     }

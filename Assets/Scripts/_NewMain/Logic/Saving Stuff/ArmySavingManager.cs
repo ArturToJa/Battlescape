@@ -6,45 +6,69 @@ using System;
 
 namespace BattlescapeLogic
 {
+    [System.Serializable]
     public class ArmySavingManager
     {
+        [SerializeField] string _saveExtension;
+        public string saveExtension
+        {
+            get
+            {
+                return _saveExtension;
+            }
+            private set
+            {
+                _saveExtension = value;
+            }
+        }
         [SerializeField] string _armySavePath;
         public string armySavePath
         {
             get
-            {
-                return _armySavePath;
+            {               
+                return Application.persistentDataPath + "/" + _armySavePath;
             }
             private set
             {
                 _armySavePath = value;
             }
         }
-        [SerializeField] Sprite[] RaceSymbols;
-        ArmySave currentSave;
+        [SerializeField] Sprite[] raceSymbols;
+        public ArmySave currentSave { get; private set; } 
 
-
-        static ArmySavingManager _instance;
-        public static ArmySavingManager instance
+        public void CreateNewArmy(string name)
         {
-            get
+            currentSave = new ArmySave
             {
-                if (_instance == null)
-                {
-                    _instance = new ArmySavingManager();
-                }
-                return _instance;
-            }
+                saveName = name,
+                
+            };            
+        }
+
+        public void ResetCurrentSaveToNull()
+        {
+            currentSave = null;
+        }
+
+        public void OnClickNewArmy()
+        {
+            currentSave = null;
         }
 
         public void OnClickSaveArmy()
         {
-            SerializationManager.instance.Save(currentSave.saveName, armySavePath, currentSave);
+            SerializationManager.instance.Save(currentSave.saveName, armySavePath, currentSave, saveExtension);
+            currentSave = null;
         }
 
-        public void OnClickLoadArmy(string path)
+        public void LoadArmy(string path)
         {
-            currentSave = (ArmySave)SerializationManager.instance.Load(path);
+            currentSave = GetArmy(path);
+        }
+
+        public ArmySave GetArmy(string path)
+        {
+            return (ArmySave)SerializationManager.instance.Load(path);
         }
 
         public List<string> GetAllSaveNames(string path)
@@ -55,7 +79,7 @@ namespace BattlescapeLogic
             {
                 return null;
             }
-            FileInfo[] info = dir.GetFiles("*.lemur");
+            FileInfo[] info = dir.GetFiles("*." + saveExtension);
             foreach (FileInfo f in info)
             {
                 saveNames.Add(Path.GetFileNameWithoutExtension(f.FullName));
@@ -63,39 +87,53 @@ namespace BattlescapeLogic
             return saveNames;
         }
 
-        public bool DeleteIfNotComplete(ArmySave save)
-        {            
+        public bool IsCorrectSave(ArmySave save)
+        {
+            if (save == null)
+            {
+                return false;
+            }
             if (save.GetRace() == Race.Neutral)
             {
-                Debug.Log("deleted - no Race!");
-                File.Delete(armySavePath + "/" + save.saveName + ".save");
-                return true;
+                Debug.LogError("deleted - no Race!");
+                //File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
+                return false;
             }
             if (save.GetHero() == null)
             {
-                Debug.Log("deleted - nonexistant hero path");
-                File.Delete(armySavePath + "/" + save.saveName + ".save");
-                return true;
+                Debug.LogError("deleted - nonexistant hero path");
+                //File.Delete(armySavePath + "/" + save.saveName + "." + saveExtension);
+                return false;
             }
-            return false;
+            return true;
         }
-
-        //public bool IsWrongRace(ArmySave save)
-        //{            
-        //    if (save.GetRace() != Global.instance.GetLocalPlayer().race)                
-        //    {
-        //        Debug.Log("Skipped");
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
 
         public Sprite GetRaceSprite(Race race)
         {
-            return RaceSymbols[(int)race];
+            return raceSymbols[(int)race];
+        }
+
+        public bool HasArmyOfRace(Race race)
+        {
+            var allSaves = GetAllSaveNames(armySavePath);
+            if (allSaves != null)
+            {
+                foreach (var saveName in allSaves)
+                {
+                    ArmySave save = GetArmy(saveName);
+                    if (save.GetRace() == Race.Neutral)
+                    {
+                        Debug.Log("deleted");
+                        SerializationManager.instance.Delete(armySavePath + "/" + saveName + "." + Global.instance.armySavingManager.saveExtension);
+                        continue;
+                    }
+                    if (save.GetRace() == race)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
     }

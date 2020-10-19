@@ -2,34 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
+using BattlescapeUI;
 
 public class NewArmyScript : MonoBehaviour
 {
     [SerializeField] Toggle the25toggle;
     [SerializeField] Toggle the50toggle;
     [SerializeField] Button OKbutton;
-    [SerializeField] GameObject HeroChoicer;
     string tempName;
 
     void Update()
     {
-        OKbutton.interactable = (tempName != null && tempName != "");    
+        OKbutton.interactable = (string.IsNullOrEmpty(tempName) == false);
+        //if (string.IsNullOrEmpty(tempName) == false)
+        //{
+        //    Debug.LogError("WOOF");
+        //}
     }
 
     public void OK()
     {
-        if (the25toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 25;
-        }
-        if (the50toggle.isOn)
-        {
-            SaveLoadManager.instance.currentSaveValue = 50;
-        }
-        SaveLoadManager.instance.currentSaveName = tempName;
-        SaveLoadManager.instance.Save();
-        HeroChoicer.SetActive(true);
+        Global.instance.armySavingManager.CreateNewArmy(tempName);
+
+        //if (the25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //if (the50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+
         this.gameObject.SetActive(false);
+        ArmyManagementScreens.instance.GoForward();
     }
 
     public void InputText(string text)

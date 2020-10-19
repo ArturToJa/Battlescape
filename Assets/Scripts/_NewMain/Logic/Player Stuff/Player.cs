@@ -188,6 +188,22 @@ namespace BattlescapeLogic
             return player.index;
         }
 
+
+
+        public void SetHeroName(string name)
+        {
+            foreach (Unit unit in playerUnits)
+            {
+                if (unit is Hero)
+                {
+                    (unit as Hero).heroName = name;
+
+                }
+            }
+        }
+
+
+
     }
 }
 

@@ -13,27 +13,27 @@ public class PreGameAI
     {
         foreach (Unit unit in GameRound.instance.currentPlayer.playerUnits)
         {
-            MultiTile newPosition = ChooseThePosition(unit.currentPosition.width, unit.currentPosition.height);
+            MultiTile newPosition = ChooseThePosition(unit.currentPosition.size);
             DropZone.instance.SendCommandToSetUnitPosition(unit, newPosition);
         }
     }
 
     public void CreateUnits()
     {
-        DropZone.instance.CommandInstantiateUnit(SaveLoadManager.instance.playerArmy.heroIndex, GameRound.instance.currentPlayer.team.index);
-        foreach (int index in SaveLoadManager.instance.playerArmy.unitIndecies)
+        DropZone.instance.CommandInstantiateUnit(Global.instance.armySavingManager.currentSave.heroPrefabPath, GameRound.instance.currentPlayer.team.index);
+        foreach (string index in Global.instance.armySavingManager.currentSave.unitPrefabPaths)
         {
             DropZone.instance.CommandInstantiateUnit(index, GameRound.instance.currentPlayer.team.index);
         }
     }   
 
 
-    public MultiTile ChooseThePosition(int width, int height)
+    public MultiTile ChooseThePosition(Size size)
     {
         List<MultiTile> possibleTiles = new List<MultiTile>();
         foreach (Tile tile in Global.instance.currentMap.board)
         {
-            MultiTile position = MultiTile.Create(tile, width, height);
+            MultiTile position = MultiTile.Create(tile, size);
             if (position != null && position.IsWalkable() && (position.IsDropzoneOfTeam(GameRound.instance.currentPlayer.team.index)))
             {
                 possibleTiles.Add(position);

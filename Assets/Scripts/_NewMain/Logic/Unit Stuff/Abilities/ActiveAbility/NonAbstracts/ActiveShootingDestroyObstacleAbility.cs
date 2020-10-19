@@ -26,7 +26,7 @@ namespace BattlescapeLogic
             if (base.IsLegalTarget(target))
             {
                 var targetObstacle = target as Obstacle;
-                return targetObstacle.currentPosition.width == 1 && targetObstacle.currentPosition.height == 1;
+                return targetObstacle.currentPosition.size.width == 1 && targetObstacle.currentPosition.size.height == 1;
             }
             else
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
+using BattlescapeUI;
 
 public class RaceChoosingButton : MonoBehaviour
 {
@@ -9,30 +10,32 @@ public class RaceChoosingButton : MonoBehaviour
     [SerializeField] string raceName;
     [SerializeField] Race race;
     [SerializeField] string raceDescription;
+    AMScreen_RaceChoice screen;
+
+    void Start()
+    {
+        screen = FindObjectOfType<AMScreen_RaceChoice>();
+    }
 
 
     public void OnHover()
     {
-        if (ArmyBuilder.instance == null)
+        if (screen == null)
         {
             RaceChoosingManager.instance.raceDescriptionText.text = raceDescription;
             RaceChoosingManager.instance.raceNameText.text = raceName;
         }
         else
         {
-            ArmyBuilder.instance.RaceDescriptionText.text = raceDescription;
-            ArmyBuilder.instance.RaceNameText.text = raceName;
+            screen.raceDescriptionText.text = raceDescription;
+            screen.raceNameText.text = raceName;
         }
 
     }
 
     public void ChooseRace()
     {
-        SaveLoadManager.instance.race = race;
-        foreach (Transform child in ArmyBuilder.instance.HeroesChoice.transform)
-        {
-            ArmyBuilder.instance.SetHeroPortrait(child.gameObject, 1);
-            ArmyBuilder.instance.raceOK.SetActive(true);
-        }
+        Global.instance.armySavingManager.currentSave.SetRace(race);
+        screen.forwardButton.gameObject.SetActive(true);
     }
 }

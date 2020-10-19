@@ -31,20 +31,18 @@ namespace BattlescapeLogic
         {
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
+                if (/*idk*/true)
+                {
+                    SpawnMissile();
+                }
+                else
+                {
+                    Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
+                }
                 sourceUnit.SetAttackToDefault();
             }
         }
 
-        //IF the ability makes the guy shoot, this will trigger
-        public override void OnRangedAttackAnimation()
-        {
-            if (sourceUnit.GetMyOwner().type != PlayerType.Network)
-            {
-                SpawnMissile();
-                sourceUnit.SetAttackToDefault();
-            }
-        }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
         void SpawnMissile()

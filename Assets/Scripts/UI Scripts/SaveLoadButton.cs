@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeLogic;
+using BattlescapeUI;
 
 public class SaveLoadButton : MonoBehaviour
 {
-    public bool isDeletable = false;
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
@@ -13,7 +14,6 @@ public class SaveLoadButton : MonoBehaviour
 
     void TaskOnClick()
     {
-        SaveLoadManager.instance.currentSaveName = this.gameObject.name;
-        FindObjectOfType<LoadWindowButtons>().canDelete = isDeletable;
+        FindObjectOfType<AMScreen_ArmyChoice>().chosenSaveName = this.gameObject.name;
     }
 }

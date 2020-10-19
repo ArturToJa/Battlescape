@@ -109,8 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1
   _type: 8
   _isTall: 1
   obstacleName: Barell

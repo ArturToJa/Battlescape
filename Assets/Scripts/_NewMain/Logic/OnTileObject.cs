@@ -1,12 +1,12 @@
+==== BASE ====
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class OnTileObject : MonoBehaviour, IOnTilePlaceable
-    {
-        protected TurnChanger turnChanger;
+    public abstract class OnTileObject : TurnChangeMonoBehaviour, IOnTilePlaceable
+    {    
         [SerializeField] protected MultiTile _currentPosition;
         public MultiTile currentPosition
         {
@@ -20,6 +20,7 @@ namespace BattlescapeLogic
             }
         }
 
+
         [SerializeField] TileObjectType _type;
         public TileObjectType type
         {
@@ -29,51 +30,45 @@ namespace BattlescapeLogic
             }
         }
 
-        public void TryToSetMyPositionTo(Tile bottomLeftCorner)
+        public void TryToSetMyPositionTo(MultiTile position)
         {
-            SetMyPositionTo(CalibrateToFitInBoard(bottomLeftCorner));
+            SetMyPositionTo(CalibrateToFitInBoard(position));
         }
 
-        public void TryToSetMyPositionAndMoveTo(Tile bottomLeftCorner)
+        public void TryToSetMyPositionAndMoveTo(MultiTile newPosition)
         {
-            SetMyPositionAndMoveTo(CalibrateToFitInBoard(bottomLeftCorner));
+            SetMyPositionAndMoveTo(CalibrateToFitInBoard(newPosition));
         }
 
-        void SetMyPositionTo(Tile newBottomLeftCorner)
-        {            
-            foreach (Tile tile in currentPosition)
-            {
-                tile.SetMyObjectTo(null);
-            }
-            currentPosition = MultiTile.Create(newBottomLeftCorner, currentPosition.width, currentPosition.height);
-            foreach (Tile tile in currentPosition)
-            {
-                tile.SetMyObjectTo(this);
-            }
+        void SetMyPositionTo(MultiTile newPosition)
+        {
+            currentPosition.SetMyObjectTo(null);
+            currentPosition = newPosition;
+            currentPosition.SetMyObjectTo(this);
         }
 
-        void SetMyPositionAndMoveTo(Tile newBottomLeftCorner)
+        void SetMyPositionAndMoveTo(MultiTile newPosition)
         {
-            SetMyPositionTo(newBottomLeftCorner);
+            SetMyPositionTo(newPosition);
             this.transform.position = currentPosition.center;
         }
 
-        Tile CalibrateToFitInBoard(Tile bottomLeftCorner)
+        MultiTile CalibrateToFitInBoard(MultiTile position)
         {
-            int posX = bottomLeftCorner.position.x;
-            int posZ = bottomLeftCorner.position.z;
-            if (posX + currentPosition.width > Global.instance.currentMap.mapWidth)
+            int posX = position.bottomLeftCorner.position.x;
+            int posZ = position.bottomLeftCorner.position.z;
+            if (posX + position.size.width > Global.instance.currentMap.mapWidth)
             {
-                posX = Global.instance.currentMap.mapWidth - currentPosition.width;
+                posX = Global.instance.currentMap.mapWidth - position.size.width;
             }
-            if (posZ + currentPosition.height > Global.instance.currentMap.mapHeight)
+            if (posZ + position.size.height > Global.instance.currentMap.mapHeight)
             {
-                posZ = Global.instance.currentMap.mapHeight - currentPosition.height;
+                posZ = Global.instance.currentMap.mapHeight - position.size.height;
             }
-            return Global.instance.currentMap.board[posX, posZ];
+            return MultiTile.Create(Global.instance.currentMap.board[posX, posZ], position.size);
         }
 
-        public void OnSpawn(Tile spawningTile)
+        public void OnSpawn(MultiTile spawningTile)
         {
             TryToSetMyPositionAndMoveTo(spawningTile);
         }

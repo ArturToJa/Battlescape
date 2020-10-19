@@ -56,14 +56,54 @@ namespace BattlescapeLogic
             {
                 instance = this;
             }
+            else
+            {
+                Destroy(gameObject);
+            }
             photonView = GetComponent<PhotonView>();
         }
 
-        //Some STUPID stuff in old code, somewhere, IDK
-        [PunRPC]
-        void RPCSetHeroName(int ID, string name)
+        public void SendCommandToLoadScene(string scene)
         {
-            HeroNames.SetHeroName(ID, name);
+            if (PhotonNetwork.IsConnected)
+            {
+                GetComponent<PhotonView>().RPC("RPCLoadScene", RpcTarget.All, scene);
+            }
+            else
+            {
+                FindObjectOfType<LevelLoader>().LoadScene(scene);
+            }
+        }
+
+        [PunRPC]
+        void RPCLoadScene(string scene)
+        {
+            FindObjectOfType<LevelLoader>().LoadScene(scene);
+        }
+
+
+        public void SendCommandToSetHeroName(int teamIndex, int playerIndex, string heroName)
+        {
+            if (Global.instance.matchType == MatchTypes.Online)
+            {
+                photonView.RPC("RPCSetHeroName", Photon.Pun.RpcTarget.All, teamIndex, playerIndex, heroName);
+            }
+            else
+            {
+                SetHeroName(teamIndex, playerIndex, heroName);
+            }
+        }
+
+        [PunRPC]
+        void RPCSetHeroName(int team, int indexInTeam, string heroName)
+        {
+            SetHeroName(team, indexInTeam, heroName);
+        }
+
+        void SetHeroName(int team, int indexInTeam, string heroName)
+        {
+            Player player = Global.instance.playerTeams[team].players[indexInTeam];
+            player.SetHeroName(heroName);
         }
 
         public void SendCommandToAddPlayer(PlayerTeam playerTeam, Player player)
@@ -212,7 +252,7 @@ namespace BattlescapeLogic
                 Log.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
-            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.width, unit.currentPosition.height);
+            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.size);
             unit.Move(destination);
         }
 

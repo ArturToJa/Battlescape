@@ -51,6 +51,7 @@ namespace BattlescapeLogic
 
         public BattlescapeGraphics.TileHighlighter highlighter { get; private set; }
         OnTileObject myObject;
+        public NonObstacle myNonObstacle { get; set; }
 
         //this is not used as we, for some strange reason, dont show movement path!
         public bool isUnderMovementMarker { get; set; }
@@ -67,6 +68,7 @@ namespace BattlescapeLogic
                 _dropzoneOfTeam = value;
             }
         }
+        // -1 means it is neutral, not a dropzone.
 
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
@@ -127,11 +129,26 @@ namespace BattlescapeLogic
             position = new Position((int)transform.position.x, (int)transform.position.z);
             Global.instance.currentMap.board[position.x, position.z] = this;
             highlighter = GetComponentInChildren<BattlescapeGraphics.TileHighlighter>();
+            highlighter.OnSetup();
+            if (dropzoneOfTeam != -1)
+            {
+                highlighter.TurnOn(Color.green);
+            }
+            else
+            {
+                highlighter.TurnOff();
+            }
         }
 
         public bool IsWalkable()
         {
             return myObject == null;
+        }
+
+
+        public bool IsEmpty()
+        {
+            return IsWalkable() && myNonObstacle == null;
         }
 
         public T GetMyObject<T>() where T : OnTileObject
@@ -197,21 +214,21 @@ namespace BattlescapeLogic
             return myObject as IDamageable;
         }
 
-        public MultiTile PositionRelatedToMouse(int width, int height, Vector3 exactClickPosition)
+        public MultiTile PositionRelatedToMouse(Size size, Vector3 exactClickPosition)
         {
             // this variable is equal to 1 if width or height are even, otherwise 0
-            int widthEven = width % 2;
-            int heightEven = height % 2;
+            int widthEven = size.width % 2;
+            int heightEven = size.height % 2;
 
             // check which part of tile player clicked
             int xGt = Convert.ToInt32(exactClickPosition.x > this.transform.position.x);
             int zGt = Convert.ToInt32(exactClickPosition.z > this.transform.position.z);
 
             // find new bottom left corner of Multitile
-            int widthOffset = (width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
-            int heightOffset = (height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
+            int widthOffset = (size.width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
+            int heightOffset = (size.height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
 
-            return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(width, height)), width, height);
+            return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(size.width, size.height)), size);
         }
     }
 }

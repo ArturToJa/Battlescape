@@ -8,14 +8,15 @@ namespace BattlescapeLogic
 {
     public class DamageCalculator
     {
-        public static readonly float sigmoidGrowthRate = 0.5f;
+        public static readonly float sigmoidGrowthRate = 0.05f;
         public static readonly int minimalDamageInGame = 1;
 
 
 
         public static Damage CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
         {
-            int averageDamage = Mathf.RoundToInt((Statistics.baseDamage + GetStatisticsDifference(source, target)) * multiplier);
+
+            int averageDamage = GetAvarageDamage(source,target,multiplier);
             int damageRange = averageDamage / 5;
             int finalDamage = UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
             if (finalDamage < minimalDamageInGame)
@@ -32,7 +33,12 @@ namespace BattlescapeLogic
 
         public static int GetStatisticsDifference(Unit source, IDamageable target)
         {            
-            return source.statistics.GetCurrentAttack() - target.GetCurrentDefence();
+            return (source.statistics.GetCurrentAttack() - target.GetCurrentDefence());
+        }
+
+        public static int GetAvarageDamage(Unit source, IDamageable target, float multiplier = 1)
+        {
+            return Mathf.RoundToInt((Statistics.baseDamage + ((float)GetStatisticsDifference(source, target)/10)) * multiplier);
         }
     }
 }

@@ -26,7 +26,12 @@ public class EnemyTooltipHandler : MonoBehaviour
         UIManager.InstantlyTransitionActivity(this.gameObject, true);
         transform.SetPositionAndRotation(Input.mousePosition + new Vector3(-90, 40, 0), Quaternion.identity);
         Helper.CheckIfInBoundries(transform);
+
         title.text = unit.info.unitName;
+        if (unit is Hero)
+        {
+            title.text += " " + (unit as Hero).heroName;
+        }
     }
     
     public void TurnOff()
