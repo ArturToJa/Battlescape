@@ -1,13 +1,13 @@
-==== BASE ====
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class OnTileObject : TurnChangeMonoBehaviour, IOnTilePlaceable
+    public abstract class OnTileObject : MonoBehaviour, IOnTilePlaceable
     {    
         [SerializeField] protected MultiTile _currentPosition;
+        protected TurnChanger turnChanger;
         public MultiTile currentPosition
         {
             get
