@@ -7,7 +7,7 @@ using BattlescapeUI;
 
 namespace BattlescapeLogic
 {
-    public class GameScore : TurnChangeMonoBehaviour
+    public class GameScore : MonoBehaviour
     {
         [SerializeField] EndGameScreen winScreen;
         [SerializeField] Text scoreText;
@@ -16,11 +16,14 @@ namespace BattlescapeLogic
         [SerializeField] BattlescapeSound.Sound drawSound;
         [SerializeField] BattlescapeSound.Sound loseSound;
 
+        TurnChanger turnChanger;
+
         void Awake()
         {
             GameRound.instance.OnGameStarted += UpdateScoreText;            
             Player.OnScoreChanged += UpdateScoreText;
             Hero.OnHeroDeath += OnHeroDeath;
+            turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         }
 
         void UpdateScoreText()
@@ -197,7 +200,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnNewRound()
+        public void OnNewRound()
         {
             if (GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
             {
@@ -205,12 +208,12 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void OnNewTurn()
+        public void OnNewTurn()
         {
             return;
         }
 
-        public override void OnNewPhase()
+        public void OnNewPhase()
         {
             return;
         }

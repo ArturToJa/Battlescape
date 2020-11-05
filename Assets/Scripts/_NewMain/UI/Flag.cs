@@ -6,22 +6,23 @@ using BattlescapeLogic;
 
 namespace BattlescapeUI
 {
-    public class Flag : TurnChangeMonoBehaviour
+    public class Flag : MonoBehaviour
     {
         Image flag;
-        Image emblem;        
+        Image emblem;
+        TurnChanger turnChanger;
 
-        public override void OnNewPhase()
+        public void OnNewPhase()
         {
             return;
         }
 
-        public override void OnNewRound()
+        public void OnNewRound()
         {
             return;
         }
 
-        public override void OnNewTurn()
+        public void OnNewTurn()
         {
             SetFlagToCurrentPlayer();
         }
@@ -30,6 +31,7 @@ namespace BattlescapeUI
         {
             flag = GetComponent<Image>();
             emblem = GetComponentsInChildren<Image>()[1];
+            turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         }
 
         public void SetFlagToCurrentPlayer()

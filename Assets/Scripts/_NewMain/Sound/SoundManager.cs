@@ -16,10 +16,6 @@ namespace BattlescapeSound
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<SoundManager>();
-                }
                 return _instance;
             }
         }
@@ -114,13 +110,15 @@ namespace BattlescapeSound
 
         void Start()
         {
-            if (instance == this)
+            if (_instance == null)
             {
+                _instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
             else
             {
-                Debug.LogError("Second instance of singleton - Sound Manager!");
+                Destroy(this.gameObject);
+                return;
             }
         }
 

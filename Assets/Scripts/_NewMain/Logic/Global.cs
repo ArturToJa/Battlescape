@@ -100,7 +100,7 @@ namespace BattlescapeLogic
             matchType = MatchTypes.None;
             playerCount = 2;
             SceneManager.sceneLoaded += OnSceneLoaded;
-	    GameRound.instance.Setup();
+	        GameRound.instance.Setup();
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
