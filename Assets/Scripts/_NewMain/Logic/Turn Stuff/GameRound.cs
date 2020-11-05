@@ -12,7 +12,7 @@ namespace BattlescapeLogic
 
 
         public LinkedList<ITurnInteractable> newRoundObjects = new LinkedList<ITurnInteractable>();
-
+        public event Action OnGameStarted = delegate { };
         public int gameRoundCount { get; private set; }
         public int countdown { get; private set; }
         public int maximumRounds { get; private set; }
@@ -121,7 +121,7 @@ namespace BattlescapeLogic
              (currentPlayer.type == PlayerType.Local) &&
              PlayerInput.instance.isInputBlocked == false &&
              //Some check for ability not being used here 
-             gameRoundCount > 0 &&
+             IsGameGoing() &&
              InGameInputField.IsNotTypingInChat())
             {
                 OnClick();
@@ -182,18 +182,23 @@ namespace BattlescapeLogic
         void NewRound()
         {
             gameRoundCount++;
+            if (gameRoundCount == 1)
+            {
+                OnGameStarted();
+            }
             LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
             while (element != null)
             {
                 element.Value.OnNewRound();
                 element = element.Next;
-            }
+            }            
             SetNextPlayer();
             NewPlayerTurn();
         }
 
         void NewPlayerTurn()
         {
+            BattlescapeSound.SoundManager.instance.PlaySound(Camera.main.gameObject, BattlescapeSound.SoundManager.instance.newTurnSound);
             Global.instance.currentEntity = currentPlayer;
             LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
             while (element != null)
@@ -257,7 +262,7 @@ namespace BattlescapeLogic
 
         public bool IsGameGoing()
         {
-            return gameRoundCount > 0 && gameRoundCount <= maximumRounds;
+            return gameRoundCount > 0 && gameRoundCount < maximumRounds + 1;
         }
 
         public void StartGame()

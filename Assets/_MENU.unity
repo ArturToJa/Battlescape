@@ -2907,7 +2907,7 @@ GameObject:
   - component: {fileID: 246094621}
   - component: {fileID: 246094620}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Mute/Unmute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2977,7 +2977,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1751871124}
         m_MethodName: ToggleMute
         m_Mode: 1
         m_Arguments:
@@ -8819,7 +8819,7 @@ MonoBehaviour:
     _mapHeight: 11
     ambientSounds:
     - clip: {fileID: 8300000, guid: d6b0ed01109ffbc488e577a9ef81ef52, type: 3}
-      volume: 0.1
+      volume: 0.05
     _mapVisuals:
       specs:
       - _type: 5
@@ -8958,6 +8958,13 @@ MonoBehaviour:
         - {fileID: 100000, guid: 25909fe074dde18439c56ed1777761cd, type: 3}
       allowedPercentage: 0.3
     manualObstacles: 0
+  _flags:
+  - {fileID: 21300000, guid: 5626a8c5ea653c74fbefdcc630584037, type: 3}
+  - {fileID: 21300000, guid: 571e0266a4729c94f8abf3d75de0bd98, type: 3}
+  _emblems:
+  - {fileID: 21300000, guid: 724b3c49c726665449e7c29231aee3bb, type: 3}
+  - {fileID: 21300000, guid: b641ac2088f42db439aecf85ebaaf56d, type: 3}
+  - {fileID: 0}
   _colours:
     _red: {r: 0.58823526, g: 0.025951546, b: 0.025951546, a: 0.5}
     _green: {r: 0.290279, g: 0.6691177, b: 0.3869481, a: 0.5019608}
@@ -21713,12 +21720,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc7de029995fbc4593f19ebe98ddf4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionSound:
-    clip: {fileID: 8300000, guid: def86643acecf4bda8b1afaa9275072b, type: 3}
-    volume: 0.4
-  newTurnSound:
+  _selectionSound:
+    clip: {fileID: 0}
+    volume: 0
+  _clickSound:
+    clip: {fileID: 8300000, guid: ce1752203acce5b4e9f5432dbccfc537, type: 3}
+    volume: 0.1
+  _hoverSound:
+    clip: {fileID: 8300000, guid: 3e2a4eb11d8568f4d9a9a4c46a7e925a, type: 3}
+    volume: 0.05
+  _newTurnSound:
     clip: {fileID: 8300000, guid: baf54cc78407125419dd7b488158ebf5, type: 3}
-    volume: 0.3
+    volume: 0.1
   sceneThemes:
   - clip: {fileID: 8300000, guid: a72be6dbb33ae1d48b44895f4943bee6, type: 3}
     volume: 0.2
@@ -21748,11 +21761,11 @@ MonoBehaviour:
     - _GameScene_Forest
   _logSound:
     clip: {fileID: 8300000, guid: b8861ea818bb742fba4e47f2a5a12667, type: 3}
-    volume: 0.3
+    volume: 0.15
   _lobbySound:
     clip: {fileID: 8300000, guid: fa3d79a0f413e4e3fb48ab3fa2805ad4, type: 3}
     volume: 0.15
-  _swellSpeed: 0.1
+  _swellSpeed: 0.05
 --- !u!1 &1753001196
 GameObject:
   m_ObjectHideFlags: 0

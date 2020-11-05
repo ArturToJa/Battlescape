@@ -8,7 +8,7 @@ using BattlescapeLogic;
 
 namespace BattlescapeSound
 {
-    public class SoundManager : BattlescapeLogic.TurnChangeMonoBehaviour
+    public class SoundManager : MonoBehaviour
     {
 
         static SoundManager _instance;
@@ -32,8 +32,38 @@ namespace BattlescapeSound
                 return PlayerPrefs.HasKey("IsAudioMute") && PlayerPrefs.GetInt("IsAudioMute") == 1;
             }
         }
-        public Sound selectionSound;
-        [SerializeField] Sound newTurnSound;
+        [SerializeField] Sound _selectionSound;
+        public Sound selectionSound
+        {
+            get
+            {
+                return _selectionSound;
+            }
+        }
+        [SerializeField] Sound _clickSound;
+        public Sound clickSound
+        {
+            get
+            {
+                return _clickSound;
+            }
+        }
+        [SerializeField] Sound _hoverSound;
+        public Sound hoverSound
+        {
+            get
+            {
+                return _hoverSound;
+            }
+        }
+        [SerializeField] Sound _newTurnSound;
+        public Sound newTurnSound
+        {
+            get
+            {
+                return _newTurnSound;
+            }
+        }
         [SerializeField] BackgroundMusic[] sceneThemes;
         public BackgroundMusic currentlyPlayedTheme { get; private set; }
         [SerializeField] Sound _logSound;
@@ -69,6 +99,7 @@ namespace BattlescapeSound
         }
 
         [SerializeField] float _swellSpeed;
+
         public float swellSpeed
         {
             get
@@ -81,11 +112,10 @@ namespace BattlescapeSound
             }
         }
 
-        protected override void Start()
+        void Start()
         {
             if (instance == this)
             {
-                base.Start(); 
                 DontDestroyOnLoad(this.gameObject);
             }
             else
@@ -94,12 +124,7 @@ namespace BattlescapeSound
             }
         }
 
-        public void PlayThemeFor(string scene)
-        {
-            List<BackgroundMusic> soundList = GetAllThemesFor(scene);
-            BackgroundMusic theme = soundList[UnityEngine.Random.Range(0, soundList.Count)];
-            PlayTheme(theme);          
-        }
+        
 
         List<BackgroundMusic> GetAllThemesFor(string scene)
         {
@@ -125,6 +150,18 @@ namespace BattlescapeSound
             Play(target, sound, true);
         }
 
+        public void PlayTheme()
+        {
+            PlayTheme(ChooseTheme());
+        }
+
+        BackgroundMusic ChooseTheme()
+        {
+            List<BackgroundMusic> soundList = GetAllThemesFor(SceneManager.GetActiveScene().name);
+            BackgroundMusic theme = soundList[UnityEngine.Random.Range(0, soundList.Count)];
+            return theme;
+        }
+
         void PlayTheme(BackgroundMusic theme)
         {
             if (isAudioMute)
@@ -135,10 +172,9 @@ namespace BattlescapeSound
             {
                 StartCoroutine(currentlyPlayedTheme.SwellDown());
             }
-            Play(this.gameObject, theme, false);            
+            Play(this.gameObject, theme, true);            
             theme.myRoutine = StartCoroutine(theme.SwellUp());
             currentlyPlayedTheme = theme;
-            Invoke("PlayTheme", theme.clip.length - swellSpeed);
         }
 
         void Play(GameObject target, Sound sound, bool isLoop)
@@ -149,7 +185,6 @@ namespace BattlescapeSound
             }
             AudioSource source = GetFreeAudioSource(target);
             sound.audioSources.AddLast(source);
-            Debug.Log(sound.audioSources.Count);
             SetSoundSettingsToSource(source, sound);
             source.loop = isLoop;
             source.Play();
@@ -196,7 +231,7 @@ namespace BattlescapeSound
             PlayerPrefs.SetInt("IsAudioMute", Convert.ToInt32(!isAudioMute));
             if (isAudioMute == false)
             {
-                PlayThemeFor(SceneManager.GetActiveScene().name);
+                PlayTheme();
             }
         }
 
@@ -218,21 +253,6 @@ namespace BattlescapeSound
             }
 
             return source;
-        }
-
-        public override void OnNewRound()
-        {
-            return;
-        }
-
-        public override void OnNewTurn()
-        {
-            PlaySound(Camera.main.gameObject, newTurnSound);
-        }
-
-        public override void OnNewPhase()
-        {
-            return;
         }
     }
 }

@@ -32,5 +32,41 @@ namespace BattlescapeLogic
                 }
             }          
         }
+
+        public bool HasHumanPlayer()
+        {
+            foreach (Player player in players)
+            {
+                if (player.type != PlayerType.AI)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasCurrentLocalPlayer()
+        {
+            foreach (Player player in players)
+            {
+                if (player.IsCurrentLocalPlayer())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasLost()
+        {
+            foreach (Player player in players)
+            {
+                if (player.hasLost == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

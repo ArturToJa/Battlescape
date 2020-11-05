@@ -10,6 +10,7 @@ namespace BattlescapeLogic
     public enum PlayerColour { Green, Red }
 
     public enum Race { Human, Elves, Neutral }
+    
 
     public class Player : IActiveEntity
     {
@@ -33,9 +34,24 @@ namespace BattlescapeLogic
         public readonly PlayerType type;
         public readonly PlayerColour colour;
         public readonly List<Unit> playerUnits;
-        public int playerScore { get; private set; }
+        int _playerScore;
+        public int playerScore
+        {
+            get
+            {
+                return _playerScore;
+            }
+            private set
+            {
+                _playerScore = value;                
+            }
+        }
         public bool isObserver { get; private set; }
         public Unit selectedUnit { get; private set; }
+
+        public bool hasLost { get; private set; }
+
+        public static event Action OnScoreChanged = delegate { };
 
         void AddNewUnit(Unit newUnit)
         {
@@ -44,6 +60,7 @@ namespace BattlescapeLogic
         public void AddPoints(int points)
         {
             playerScore += points;
+            OnScoreChanged();
         }
         public Unit GetUnitByIndex(int index)
         {
@@ -190,6 +207,18 @@ namespace BattlescapeLogic
                 if (unit is Hero)
                 {
                     (unit as Hero).heroName = name;
+
+                }
+            }
+        }
+
+        public void Lose()
+        {
+            hasLost = true;
+            foreach (Player ally in this.team.players)
+            {
+                if (ally.hasLost == false)
+                {
 
                 }
             }

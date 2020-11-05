@@ -410,7 +410,10 @@ namespace BattlescapeLogic
             {
                 owner.DeselectUnit();
             }
-            killer.owner.AddPoints(statistics.cost);
+            if (killer.owner != owner)
+            {
+                killer.owner.AddPoints(statistics.cost);
+            }
             HideHealthUI();
             PlayDeathAnimation();
             OnDestruction();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 using System;
+using BattlescapeUI;
 
 public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         unitPositioningTool.CreateUnits();
         unitPositioningTool.RepositionUnits();
         Networking.instance.SendCommandToSetHeroName(GameRound.instance.currentPlayer.team.index, GameRound.instance.currentPlayer.index, Global.instance.armySavingManager.currentSave.heroName);
+        foreach (Flag flag in FindObjectsOfType<Flag>())
+        {
+            flag.SetFlagToCurrentPlayer();
+        }
         return currentPlayer;
     }
 }
