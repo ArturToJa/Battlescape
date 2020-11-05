@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
+using BattlescapeSound;
 
 public class PlayerLayoutGroup : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PlayerLayoutGroup : MonoBehaviour
 
 
     List<PlayerOnTheList> PlayerList = new List<PlayerOnTheList>();
+
+    [SerializeField] Sound playerJoinedSound;
 
     void OnJoinedRoom()
     {
@@ -53,7 +56,7 @@ public class PlayerLayoutGroup : MonoBehaviour
         PlayerList.Add(potl);
         if (photonPlayer != PhotonNetwork.LocalPlayer)
         {
-            FindObjectOfType<AudioManager>().Play("PlayerJoinedSound");
+            SoundManager.instance.PlaySound(this.gameObject, playerJoinedSound);
         }
     }
 

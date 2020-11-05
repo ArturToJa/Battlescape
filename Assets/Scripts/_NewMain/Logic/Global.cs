@@ -22,7 +22,8 @@ namespace BattlescapeLogic
             {
                 _instance = value;
             }
-        }
+        }       
+        [SerializeField] BattlescapeGraphics.Skybox skybox;
         [SerializeField] ArmySavingManager _armySavingManager;
         public ArmySavingManager armySavingManager
         {
@@ -49,6 +50,22 @@ namespace BattlescapeLogic
         public IActiveEntity currentEntity { get; set; }
         public int playerCount { get; set; }
 
+        [SerializeField] List<Sprite> _flags;
+        public List<Sprite> flags
+        {
+            get
+            {
+                return _flags;
+            }
+        }
+        [SerializeField] List<Sprite> _emblems;
+        public List<Sprite> emblems
+        {
+            get
+            {
+                return _emblems;
+            }
+        }
         [SerializeField] BattlescapeGraphics.Colours _colours;        
 
         public BattlescapeGraphics.Colours colours
@@ -88,15 +105,20 @@ namespace BattlescapeLogic
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            BattlescapeSound.SoundManager.instance.PlayTheme();
+
             if (scene.name.Contains("_GameScene_"))
             {
                 SetMap(scene.name);
+                skybox.SetSkyboxToRandom();
             }
             if (scene.name.Contains("_ManagementScene"))
             {
                 BattlescapeUI.ArmyManagementScreens.instance.OnStart();
             }
         }
+
+
       
         public PlayerBuilder GetCurrentPlayerBuilder()
         {
@@ -217,6 +239,19 @@ namespace BattlescapeLogic
                 }
             }
             return true;
+        }
+
+        public int GetStillPlayingTeamsCount()
+        {
+            int returnInt = 0;
+            foreach (PlayerTeam team in playerTeams)
+            {
+                if (team.HasLost() == false)
+                {
+                    returnInt++;
+                }
+            }
+            return returnInt;
         }
     }
 }

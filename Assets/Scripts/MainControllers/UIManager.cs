@@ -122,7 +122,7 @@ public class UIManager : MonoBehaviour
     //IDK it should be somewhere in the new code i guess, i dont care;
     public void PositionUnits()
     {
-        PreGameAI positioner = new PreGameAI();
+        UnitPositioningTool positioner = new UnitPositioningTool();
         positioner.RepositionUnits();
     }
 }

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using BattlescapeSound;
 
 [DisallowMultipleComponent]
 public class ButtonHover : MonoBehaviour, IPointerEnterHandler
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        FindObjectOfType<ButtonSounds>().PlaySound(FindObjectOfType<ButtonSounds>().HoverSource);
+        SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.hoverSound);
     }
 
     

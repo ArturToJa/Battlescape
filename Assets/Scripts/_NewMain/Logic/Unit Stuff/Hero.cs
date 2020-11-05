@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace BattlescapeLogic
 {
@@ -34,23 +35,13 @@ namespace BattlescapeLogic
 
         public string heroName { get; set; }
 
+        public static event Action<Hero> OnHeroDeath = delegate { };
+
         public override void Die(Unit killer)
         {
             base.Die(killer);
-
-            //lose game
-            //for now:
-            VictoryLossChecker.isAnyHeroDead = true;
-            if (GetMyOwner() == Global.instance.playerTeams[0].players[0])
-            {
-                //we, Green player, lost
-                VictoryLossChecker.gameResult = GameResult.RedWon;
-            }
-            else
-            {
-                VictoryLossChecker.gameResult = GameResult.GreenWon;
-            }
-
+            GetMyOwner().Lose();
+            OnHeroDeath(this);
         }
     }
 

@@ -46,7 +46,7 @@ public class NewTurnButton : MonoBehaviour
 
     void SetActivity()
     {
-        if (GameRound.instance.currentPlayer.IsCurrentLocalPlayer())
+        if (GameRound.instance.currentPlayer.IsCurrentLocalPlayer() && GameRound.instance.IsGameGoing())
         {
             TurnOn();
         }

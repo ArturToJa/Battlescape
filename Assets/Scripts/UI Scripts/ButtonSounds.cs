@@ -3,13 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BattlescapeSound;
 
 public class ButtonSounds : MonoBehaviour
-{
-    AudioClip ClickSound;
-    AudioClip HoverSound;
-    AudioSource ClickSource;
-    public AudioSource HoverSource { get; private set; }
+{       
     public bool isReal = false;
     void Start()
     {
@@ -17,17 +14,7 @@ public class ButtonSounds : MonoBehaviour
         {
             Destroy(this);
             return;
-        }
-        ClickSound = Resources.Load<AudioClip>("ClickSound");
-        HoverSound = Resources.Load<AudioClip>("HoverSound");
-        ClickSource = gameObject.AddComponent<AudioSource>();
-        ClickSource.clip = ClickSound;
-        ClickSource.playOnAwake = false;
-        ClickSource.volume = 0.1f;
-        HoverSource = gameObject.AddComponent<AudioSource>();
-        HoverSource.clip = HoverSound;
-        HoverSource.playOnAwake = false;
-        HoverSource.volume = 0.05f;
+        }               
         foreach (Button b in Resources.FindObjectsOfTypeAll<Button>())
         {
             for (int i = 0; i < b.GetComponents<ButtonHover>().Length; i++)
@@ -41,7 +28,7 @@ public class ButtonSounds : MonoBehaviour
             {
                 b.gameObject.AddComponent<ButtonHover>();
             }
-            b.onClick.AddListener(() => PlaySound(ClickSource));
+            b.onClick.AddListener(() => SoundManager.instance.PlaySound(this.gameObject,SoundManager.instance.clickSound));
         }
         foreach (Toggle t in Resources.FindObjectsOfTypeAll<Toggle>())
         {
@@ -60,16 +47,12 @@ public class ButtonSounds : MonoBehaviour
 
     private void ToggleValueChanged()
     {
-        PlaySound(ClickSource);
+        SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.clickSound);
     }
 
-    public void PlaySound(AudioSource s)
-    {
-        s.Play();
-    }
+    
     void OnMouseEnter()
     {
-        Debug.Log("ok");
-        PlaySound(HoverSource);
+        SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.hoverSound);
     }
 }

@@ -23,7 +23,7 @@ public class InGameInputField : MonoBehaviour
     {
         if (string.IsNullOrEmpty(msg) == false && Input.GetKeyDown(KeyCode.Return))
         {
-            Log.NetworkSpawnLog(PhotonNetwork.NickName + ": " + msg);
+            LogConsole.instance.NetworkSpawnLog(PhotonNetwork.NickName + ": " + msg);
             this.GetComponent<InputField>().text = string.Empty;
             this.GetComponent<InputField>().ActivateInputField();
         }

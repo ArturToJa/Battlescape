@@ -103,7 +103,7 @@ public class RaceChoosingManager : MonoBehaviour
             photonView.RPC("RpcSetRaceAndName", RpcTarget.All, Race, playerName, 0, 0);
         }
         enemyArmy.sprite = Global.instance.armySavingManager.GetRaceSprite(Race);
-        Log.LobbySpawnLog("--SYSTEM-- Player: " + playerName + " chose race: " + Race.ToString(), "SystemSound");
+        LogConsole.instance.LobbySpawnLog("--SYSTEM-- Player: " + playerName + " chose race: " + Race.ToString());
     }
 
 
