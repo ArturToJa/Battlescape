@@ -4,84 +4,70 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-
-public class LevelLoader : MonoBehaviour
-{  
-    [SerializeField] Slider slider;
-    public static bool isLoading = false;
+using Photon.Pun;
+using BattlescapeSound;
 
 
-
-    void Start()
+namespace BattlescapeLogic
+{
+    public class LevelLoader : MonoBehaviour
     {
-        SceneManager.sceneLoaded += SceneIsLoaded;
-    }
+        [SerializeField] Slider slider;
+        public static bool isLoading = false;
 
-    public void CommandLoadScene(string scene)
-    {
-        if (PhotonNetwork.connected)
+
+
+        void Start()
         {
-            GetComponent<PhotonView>().RPC("RPCLoadScene", PhotonTargets.All, scene);
-        }
-        else
-        {
-            LoadScene(scene);
+            SceneManager.sceneLoaded += SceneIsLoaded;
         }        
-    }
 
-    [PunRPC]
-    void RPCLoadScene(string scene)
-    {
-        LoadScene(scene);
-    }
-
-    void LoadScene(string scene)
-    {        
-        AudioManager.isPlayingGameOverMusic = false;
-        StartCoroutine(LoadAsync(scene));        
-    }
-
-
-    IEnumerator LoadAsync(string scene)
-    {        
-        isLoading = true;
-        GameObject.Find("DisablingClicksPanel").GetComponent<Image>().raycastTarget = true;
-
-        if (IsChangingSceneType(scene, SceneManager.GetActiveScene().name) && AudioManager.Instance != null && AudioManager.Instance.currentMusic != null)
+        public void LoadScene(string scene)
         {
-            AudioManager.Instance.StartCoroutine(AudioManager.Instance.SwellDown(AudioManager.Instance.currentMusic));
+            StartCoroutine(LoadAsync(scene));
         }
-        slider.gameObject.SetActive(true);
-        AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
-        if (scene == "_MENU")
-        {
-            Destroy(BattlescapeLogic.Networking.instance.gameObject);
-            Destroy(BattlescapeLogic.Global.instance.gameObject);
-        }
-        while (operation.isDone == false)
-        {
 
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            slider.value = progress;
-            yield return null;
-        }
-        
 
-    }
+        IEnumerator LoadAsync(string scene)
+        {
+            isLoading = true;
+            GameObject.Find("DisablingClicksPanel").GetComponent<Image>().raycastTarget = true;
 
-    bool IsChangingSceneType(string oldScene, string newScene)
-    {
-        if (oldScene.Contains("_GameScene_") || newScene.Contains("_GameScene_"))
-        {
-            return true;
+            if (IsChangingSceneType(scene, SceneManager.GetActiveScene().name) && SoundManager.instance.currentlyPlayedTheme != null)
+            {
+                StartCoroutine(SoundManager.instance.currentlyPlayedTheme.SwellDown());
+            }
+            slider.gameObject.SetActive(true);
+            AsyncOperation operation = SceneManager.LoadSceneAsync(scene);
+            if (scene == "_MENU")
+            {
+                Destroy(BattlescapeLogic.Networking.instance.gameObject);
+            }
+            while (operation.isDone == false)
+            {
+
+                float progress = Mathf.Clamp01(operation.progress / 0.9f);
+                slider.value = progress;
+                yield return null;
+            }
+
+
         }
-        else
+
+        bool IsChangingSceneType(string oldScene, string newScene)
         {
-            return false;
+            if (oldScene.Contains("_GameScene_") || newScene.Contains("_GameScene_"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-    }
-    void SceneIsLoaded(Scene scene, LoadSceneMode mode)
-    {
-        isLoading = false;        
+        void SceneIsLoaded(Scene scene, LoadSceneMode mode)
+        {
+            isLoading = false;
+        }
     }
 }

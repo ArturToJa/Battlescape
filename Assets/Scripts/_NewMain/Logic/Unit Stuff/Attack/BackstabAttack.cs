@@ -8,19 +8,17 @@ namespace BattlescapeLogic
     {
         AbstractAttack normalAttackType;
         int damage;
+
         public BackstabAttack(AbstractAttack _normalAttackType, int _damage, Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
             damage = _damage;
             normalAttackType = _normalAttackType;
 
-            if (_myUnit.meleeWeaponVisual != null)
-            {
-                _myUnit.meleeWeaponVisual.SetActive(true);
-            }
+            _myUnit.equipment.EquipMainMeleeWeapon();           
         }
 
-        public override void Attack(Unit target)
+        public override void Attack(IDamageable target)
         {
             base.Attack(target);
             TurnTowardsTarget();
@@ -29,26 +27,16 @@ namespace BattlescapeLogic
 
         public override void OnAttackAnimation()
         {
-            if (sourceUnit.owner.type != PlayerType.Network)
+            if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetUnit, damage);
+                Networking.instance.SendCommandToHit(sourceUnit, targetObject, damage);
                 sourceUnit.attack = normalAttackType;                
             }
-        }
-
-        public override void OnRangedAttackAnimation()
-        {
-            return;
-        }
+        }      
 
         protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger("Attack");
-        }
-
-        protected override void TurnTowardsTarget()
-        {
-            sourceUnit.visuals.transform.LookAt(new Vector3(targetUnit.transform.position.x, sourceUnit.visuals.transform.position.y, targetUnit.transform.position.z));
-        }
+        }       
     }
 }

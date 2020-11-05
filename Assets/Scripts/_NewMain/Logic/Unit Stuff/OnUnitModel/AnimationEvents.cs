@@ -13,7 +13,7 @@ namespace BattlescapeLogic
 
         void Start()
         {
-            myUnit = transform.parent.GetComponent<Unit>();
+            myUnit = transform.root.GetComponent<Unit>();
         }
        
         void Hit()
@@ -24,7 +24,12 @@ namespace BattlescapeLogic
 
         void Shoot()
         {
-            myUnit.attack.OnRangedAttackAnimation();
+            myUnit.attack.OnAttackAnimation();
+            SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.shootSound);
+        }
+
+        void FakeShoot()
+        {
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.shootSound);
         }
         void Step()
@@ -40,6 +45,19 @@ namespace BattlescapeLogic
         void Death()
         {
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.deathSound);
+        }
+
+        void OnAbilityAnimationEvent()
+        {
+            foreach (AbstractActiveAbility ability in myUnit.abilities)
+            {
+                ability.OnAnimationEvent();
+            }
+        }
+
+        void EquipPrimaryWeapon()
+        {
+            myUnit.equipment.EquipPrimaryWeapon();
         }
     }
 }

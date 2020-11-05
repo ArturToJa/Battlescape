@@ -6,16 +6,8 @@ using BattlescapeLogic;
 
 public class ArmyBuildingEndButton : MonoBehaviour
 {
-    [SerializeField] GameObject UnitPanel;
-    //HeroChoiceScreenScript heroChoicer;    
 
-    //[SerializeField] Renderer Pedestal;
-    [SerializeField] GameObject LoadWindow;
-
-    private void Update()
-    {
-        UIManager.SmoothlyTransitionActivity(this.gameObject, UnitPanel.transform.childCount == 0, 0.01f);
-    }
+    [SerializeField] GameObject loadWindow;
 
     public void OK()
     {
@@ -24,46 +16,29 @@ public class ArmyBuildingEndButton : MonoBehaviour
         this.transform.parent.parent.gameObject.SetActive(false);
         if (GameRound.instance.currentPlayer.team.index == 0 && Global.instance.matchType != MatchTypes.Online)
         {
-            SkyboxChanger.Instance.SetSkyboxTo(SkyboxChanger.Instance.PregameSkyboxDefault);
-            SaveLoadManager.Instance.UnitsList.Clear();
-            foreach (Transform child in UnitPanel.transform)
+            if(Global.instance.GetCurrentPlayerBuilder().type == PlayerType.AI)
             {
-                if (Application.isEditor)
-                {
-                    DestroyImmediate(child.gameObject);
-                }
-                else
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            if (Global.instance.playerBuilders[1,0].type == PlayerType.AI)
-            {
-                SaveLoadManager.Instance.LoadAIArmyToGame(Global.instance.playerBuilders[1,0], SaveLoadManager.Instance.currentSaveValue);
-                Global.instance.playerBuilders[1,0].race = (Faction)SaveLoadManager.Instance.Race;
+                //Global.instance.armySavingManager.LoadArmy(somePathOfAIArmies);
+                Global.instance.GetCurrentPlayerBuilder().race = Global.instance.armySavingManager.currentSave.GetRace();
             }
             else
             {
-                LoadWindow.SetActive(true);
-                LoadWindow.GetComponent<CanvasGroup>().alpha = 1f;
-                LoadWindow.GetComponent<CanvasGroup>().interactable = true;
-                LoadWindow.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                loadWindow.SetActive(true);
+                loadWindow.GetComponent<CanvasGroup>().alpha = 1f;
+                loadWindow.GetComponent<CanvasGroup>().interactable = true;
+                loadWindow.GetComponent<CanvasGroup>().blocksRaycasts = true;
             }
         }
         else
         {
             if (Global.instance.matchType == MatchTypes.Online)
             {
-               
+
             }
             else
             {
                 GameRound.instance.EndOfPhase();
-            }
-            foreach (Tile tile in FindObjectsOfType<Tile>())
-            {
-                tile.GetComponent<Renderer>().material.color = Color.white;
-            }
+            }            
             CameraController.Instance.StartCoroutine(CameraController.Instance.CheckIfPositionAndRotationMatchDesired());
             // UnitPanel.transform.parent.gameObject.SetActive(false);
         }

@@ -4,8 +4,18 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public abstract class AbstractBuff : TurnChangeMonoBehaviour
+    public abstract class AbstractBuff : MonoBehaviour
     {
+        public Expirable expirable { get; private set; }
+
+        [SerializeField] bool _isHidden = false;
+        public bool isHidden
+        {
+            get
+            {
+                return _isHidden;
+            }
+        }
         [SerializeField] string _buffName;
         public string buffName
         {
@@ -45,23 +55,6 @@ namespace BattlescapeLogic
             }
         }
 
-        [SerializeField] int _duration;
-        public int duration
-        {
-            get
-            {
-                return _duration;
-            }
-            private set
-            {
-                _duration = value;
-                if(IsExpired())
-                {
-                    OnExpire();
-                }
-            }
-        }
-
         [SerializeField] bool _isStackable;
         public bool isStackable
         {
@@ -75,7 +68,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public Unit owner { get; private set; }
+        public BuffGroup buffGroup { get; private set; }
         public AbstractAbility source { get; private set; }
 
         public int index { get; private set; }
@@ -84,76 +77,59 @@ namespace BattlescapeLogic
         public static event System.Action<AbstractBuff> OnBuffCreation;
         public static event System.Action<AbstractBuff> OnBuffDestruction;
 
-        protected override void Start()
-        {
-            base.Start();
-        }
+        [SerializeField] GameObject visualEffectPrefab;
+        GameObject visualEffect;
 
-        public override void OnNewRound()
+        protected void OnExpire()
         {
-            if(!IsExpired())
+            if (visualEffect != null)
             {
-                duration--;
+                Destroy(visualEffect);
             }
-        }
-
-        public override void OnNewTurn()
-        {
-            return;
-        }
-        public override void OnNewPhase()
-        {
-            return;
-        }
-
-        public bool IsExpired()
-        {
-            return !HasInfiniteDuration() && (duration == 0);
-        }
-
-        public bool HasInfiniteDuration()
-        {
-            return duration < 0;
-        }
-
-        protected virtual void OnExpire()
-        {           
-            OnDestruction();
-            this.owner.buffs.Remove(this);
             RemoveChange();
+            this.buffGroup.RemoveBuff(this);
             OnBuffDestruction(this);
         }
 
-        public void ApplyOnUnit(Unit unit, AbstractAbility source)
+        protected abstract bool IsAcceptableTargetType(IDamageable target);
+
+        public void ApplyOnTarget(IDamageable target, AbstractAbility source)
         {
-            this.source = source;
-            ApplyOnUnit(unit);
+            if(IsAcceptableTargetType(target))
+            {
+                expirable = new Expirable(target.GetMyOwner(), OnExpire);
+                this.source = source;
+                ApplyOnTarget(target);
+            }
         }
 
-        public void ApplyOnUnit(Unit unit)
+        public void ApplyOnTarget(IDamageable target)
         {
-            
-            if(!isStackable && IsAlreadyOnUnit(unit))
+            if(IsAcceptableTargetType(target))
             {
-                OnDestruction();
+                if(isStackable || !IsAlreadyOnTarget(target))
+                {
+                    if (visualEffectPrefab != null)
+                    {
+                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
+                    }
+                    buffGroup = target.buffs;
+                    target.buffs.AddBuff(this);
+                    ApplyChange();
+                }
+                OnBuffCreation(this);
             }
-            else
-            {
-                this.owner = unit;
-                unit.buffs.Add(this);
-                ApplyChange();
-            }
-            OnBuffCreation(this);
         }
 
-        public void RemoveFromUnitInstantly()
+        public void RemoveFromTargetInstantly()
         {
+            expirable.ExpireNow();
             OnExpire();
         }
 
-        protected bool IsAlreadyOnUnit(Unit unit)
+        protected bool IsAlreadyOnTarget(IDamageable target)
         {
-            return unit.FindAllBuffsOfType(this.name).Count > 0;
+            return !target.buffs.FindAllBuffsOfType(this.name).IsEmpty();
         }
         public abstract void ApplyChange();
         protected abstract void RemoveChange();

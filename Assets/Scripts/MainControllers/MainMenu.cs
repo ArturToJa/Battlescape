@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject NoArmyPopupWindow;
     [SerializeField] GameObject LackingRaceSavesPopupWindow;
     [SerializeField] Text LackingRacesText;
-    string GameSceneName;
+    string gameSceneName;
     [SerializeField] List<string> GameScenes;
 
     void Start()
@@ -113,15 +113,15 @@ public class MainMenu : MonoBehaviour
     }
     public void ManageArmy()
     {
-        if (MAthe25toggle.isOn)
-        {
-            SaveLoadManager.Instance.currentSaveValue = 25;
-        }
-        if (MAthe50toggle.isOn)
-        {
-            SaveLoadManager.Instance.currentSaveValue = 50;
-        }
-        FindObjectOfType<LevelLoader>().CommandLoadScene("_ManagementScene");
+        //if (MAthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //if (MAthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+        Networking.instance.SendCommandToLoadScene("_ManagementScene");
     }
 
     public void SwitchAISide()
@@ -136,25 +136,15 @@ public class MainMenu : MonoBehaviour
     public void StartQuickMatch()
     {
         Global.instance.matchType = MatchTypes.Singleplayer;
-        if (SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
         }
         if (singlePlayer)
         {
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI),0].index = 0;
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI),0].colour = PlayerColour.Green;
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI), 0].playerName = "Green Player";
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI), 0].race = Faction.Neutral;
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI), 0].type = (PlayerType)System.Convert.ToInt32(isGreenAI);
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI), 0].team = Global.instance.playerTeams[System.Convert.ToInt32(!isGreenAI)];
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].index = 0;
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].colour = PlayerColour.Red;
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].playerName = "Red Player";
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].race = Faction.Neutral;
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].type = (PlayerType)System.Convert.ToInt32(!isGreenAI);
-            Global.instance.playerBuilders[System.Convert.ToInt32(isGreenAI), 0].team = Global.instance.playerTeams[System.Convert.ToInt32(isGreenAI)];
+            CreatePlayerBuilders(PlayerType.Local);
+            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].type = PlayerType.AI;
         }        
         else
         {
@@ -162,77 +152,81 @@ public class MainMenu : MonoBehaviour
         }
         if (the25toggle.isOn)
         {
-            SaveLoadManager.Instance.currentSaveValue = 25;
+            Global.instance.armySavingManager.currentSave.armySize = 25;
         }
         else if (the50toggle.isOn)
         {
-            SaveLoadManager.Instance.currentSaveValue = 50;
+            Global.instance.armySavingManager.currentSave.armySize = 50;
         }
         PlayGameScene();
     }
 
     private void PlayGameScene()
     {
-        if (GameScenes.Contains(GameSceneName) == false)
+        if (GameScenes.Contains(gameSceneName) == false)
         {
-            GameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
+            gameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
         }
-        FindObjectOfType<LevelLoader>().CommandLoadScene(GameSceneName);
+        Networking.instance.SendCommandToLoadScene(gameSceneName);
     }
 
     public void StartHotSeat()
     {
         Global.instance.matchType = MatchTypes.HotSeat;
-        if (SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
         }
-        Global.instance.playerBuilders[0,0].index = 0;
-        Global.instance.playerBuilders[0,0].colour = PlayerColour.Green;
-        Global.instance.playerBuilders[0,0].playerName = "Green Player";
-        Global.instance.playerBuilders[0,0].race = Faction.Neutral;
-        Global.instance.playerBuilders[0,0].type = PlayerType.Local;
-        Global.instance.playerBuilders[0,0].team = Global.instance.playerTeams[0];
-        Global.instance.playerBuilders[1,0].index = 0;
-        Global.instance.playerBuilders[1,0].colour = PlayerColour.Red;
-        Global.instance.playerBuilders[1,0].playerName = "Red Player";
-        Global.instance.playerBuilders[1,0].race = Faction.Neutral;
-        Global.instance.playerBuilders[1,0].type = PlayerType.Local;
-        Global.instance.playerBuilders[1,0].team = Global.instance.playerTeams[1];
-        if (MultiPlayerthe25toggle.isOn)
+        CreatePlayerBuilders(PlayerType.Local);
+        //if (MultiPlayerthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //else if (MultiPlayerthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+        if (gameSceneName == null)
         {
-            SaveLoadManager.Instance.currentSaveValue = 25;
+            gameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
         }
-        else if (MultiPlayerthe50toggle.isOn)
+        Networking.instance.SendCommandToLoadScene(gameSceneName);
+    }
+
+    void CreatePlayerBuilders(PlayerType type)
+    {
+        for (int i = 0; i < Global.instance.playerCount; i++)
         {
-            SaveLoadManager.Instance.currentSaveValue = 50;
+            PlayerBuilder playerBuilder = new PlayerBuilder();
+            playerBuilder.index = i;
+            playerBuilder.colour = (PlayerColour)i;
+            playerBuilder.playerName = playerBuilder.colour.ToString() + " Player";
+            playerBuilder.race = Race.Neutral;
+            playerBuilder.type = type;
+            playerBuilder.team = Global.instance.playerTeams[i];
+            Global.instance.playerBuilders.Add(playerBuilder);
         }
-        if (GameSceneName == null)
-        {
-            GameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
-        }
-        FindObjectOfType<LevelLoader>().CommandLoadScene(GameSceneName);
     }
 
     public void StartOnlineMatch()
     {
-        if (SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/") == null || SaveLoadManager.Instance.GetSaveNames(Application.persistentDataPath + "/Armies/").Count == 0)
+        if (Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath) == null || Global.instance.armySavingManager.GetAllSaveNames(Global.instance.armySavingManager.armySavePath).Count == 0)
         {
             NoArmyPopupWindow.SetActive(true);
             return;
         }
         if (forceOnlineGameEvenThoughNoRace == false)
         {
-            List<Faction> racesLackingSaves = new List<Faction>();
+            List<Race> racesLackingSaves = new List<Race>();
             bool showPopup = false;
-            foreach (Faction race in System.Enum.GetValues(typeof(Faction)))
+            foreach (Race race in System.Enum.GetValues(typeof(Race)))
             {
-                if (race == Faction.Neutral)
+                if (race == Race.Neutral)
                 {
                     continue;
                 }
-                if (SaveLoadManager.Instance.HasRaceSaved(race) == false)
+                if (Global.instance.armySavingManager.HasArmyOfRace(race) == false)
                 {
                     showPopup = true;
                     racesLackingSaves.Add(race);
@@ -246,30 +240,17 @@ public class MainMenu : MonoBehaviour
         }
         MyNetworkManager.Instance.Connect();
         Global.instance.matchType = MatchTypes.Online;
-        Global.instance.playerBuilders[0,0].index = 0;
-        Global.instance.playerBuilders[0,0].colour = PlayerColour.Green;
-        Global.instance.playerBuilders[0,0].playerName = "Green Player";
-        Global.instance.playerBuilders[0,0].race = Faction.Neutral;
-        Global.instance.playerBuilders[0,0].type = PlayerType.Network;
-        Global.instance.playerBuilders[0,0].team = Global.instance.playerTeams[0];
-        Global.instance.playerBuilders[1,0].index = 0;
-        Global.instance.playerBuilders[1,0].colour = PlayerColour.Red;
-        Global.instance.playerBuilders[1,0].playerName = "Red Player";
-        Global.instance.playerBuilders[1,0].race = Faction.Neutral;
-        Global.instance.playerBuilders[1,0].type = PlayerType.Network;
-        Global.instance.playerBuilders[1,0].team = Global.instance.playerTeams[1];
+        CreatePlayerBuilders(PlayerType.Network);           
 
-
-
-        if (MultiPlayerthe25toggle.isOn)
-        {
-            SaveLoadManager.Instance.currentSaveValue = 25;
-        }
-        else if (MultiPlayerthe50toggle.isOn)
-        {
-            SaveLoadManager.Instance.currentSaveValue = 50;
-        }
-        FindObjectOfType<LevelLoader>().CommandLoadScene("_LobbyScene");
+        //if (MultiPlayerthe25toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 25;
+        //}
+        //else if (MultiPlayerthe50toggle.isOn)
+        //{
+        //    Global.instance.armySavingManager.currentSave.armySize = 50;
+        //}
+        Networking.instance.SendCommandToLoadScene("_LobbyScene");
     }
 
     public void ToggleNextPhaseConfirmation()
@@ -285,10 +266,10 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    void ShowNoParticularRacePopupWindow(List<Faction> races)
+    void ShowNoParticularRacePopupWindow(List<Race> races)
     {
         LackingRaceSavesPopupWindow.SetActive(true);
-        LackingRacesText.text = "You do not have saves for these Factions: ";
+        LackingRacesText.text = "You do not have saves for these Races: ";
         if (races.Count > 1)
         {
             for (int i = 0; i < races.Count - 1; i++)
@@ -307,6 +288,6 @@ public class MainMenu : MonoBehaviour
     public void SetMapToCurrentNumber()
     {
         // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
-        GameSceneName = EventSystem.current.currentSelectedGameObject.name;
+        gameSceneName = EventSystem.current.currentSelectedGameObject.name;
     }
 }

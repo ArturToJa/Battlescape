@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeLogic;
 
 public class HeroIconVisualChooser : MonoBehaviour
 {   
     void Update()
     {
-        if (SaveLoadManager.Instance.Race != BattlescapeLogic.Faction.Neutral)
+        if (Global.instance.armySavingManager.currentSave.GetRace() != BattlescapeLogic.Race.Neutral)
         {
             SetCorrectVisual();
         }
@@ -18,6 +19,6 @@ public class HeroIconVisualChooser : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        transform.GetChild((int)SaveLoadManager.Instance.Race).gameObject.SetActive(true);
+        transform.GetChild((int)Global.instance.armySavingManager.currentSave.GetRace()).gameObject.SetActive(true);
     }
 }

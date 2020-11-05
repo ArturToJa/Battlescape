@@ -301,7 +301,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.54903245
-        functionName: SpearToss
+        functionName: OnAbilityAnimationEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

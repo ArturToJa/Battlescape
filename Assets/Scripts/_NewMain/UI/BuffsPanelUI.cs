@@ -33,7 +33,7 @@ namespace BattlescapeUI
             AbstractBuff.OnBuffCreation += OnBuffCreatedOrDestroyed;
             if (isRightClickTooltip == false)
             {
-                MouseManager.instance.OnUnitSelection += UpdateBuffPanel;
+                Unit.OnUnitSelected += UpdateBuffPanel;
             }
             else
             {
@@ -53,9 +53,13 @@ namespace BattlescapeUI
             alreadyRepresentedBuffs = new Dictionary<string, int>();
             foreach (AbstractBuff buff in unit.buffs)
             {
+                if (buff.isHidden)
+                {
+                    continue;
+                }
                 AddBuff(buff);
             }
-            
+
         }
 
         void AddBuff(AbstractBuff buff)
@@ -75,15 +79,20 @@ namespace BattlescapeUI
                 MouseHoverInfoCursor hoverInfo = buffIcon.GetComponentInChildren<MouseHoverInfoCursor>();
                 hoverInfo.tooltipName = buff.buffName;
                 hoverInfo.tooltipText = buff.description;
+                if (buff.expirable.HasInfiniteDuration() == false)
+                {
+                    hoverInfo.tooltipText += " Remaining turns: " + buff.expirable.duration;
+                }
             }
         }
 
         void OnBuffCreatedOrDestroyed(AbstractBuff buff)
         {
-            if (buff.owner == myUnit)
+            Unit owner = buff.buffGroup.owner as Unit;
+            if (owner != null && owner == myUnit)
             {
                 UpdateBuffPanel(myUnit);
             }
-        }       
+        }
     }
 }

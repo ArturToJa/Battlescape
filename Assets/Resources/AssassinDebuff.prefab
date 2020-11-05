@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222844207742869898}
   - component: {fileID: 114745828377872904}
   - component: {fileID: 114981388437407826}
-  - component: {fileID: 114762706260892612}
+  - component: {fileID: 114746537533787210}
   m_Layer: 5
   m_Name: AssassinDebuff
   m_TagString: Untagged
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114762706260892612
+--- !u!114 &114746537533787210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -97,10 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Dagger Wound
-  TooltipText: This unit got hit by a dagger. It has lowered Defence and Movement
-    Speed and cannot retaliate this turn.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &114939720579602124
 MonoBehaviour:
   m_ObjectHideFlags: 1

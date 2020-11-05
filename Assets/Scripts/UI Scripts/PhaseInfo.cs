@@ -4,33 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public class PhaseInfo : MonoBehaviour {
+public class PhaseInfo : MonoBehaviour
+{
+    TurnChanger turnChanger;
+    [SerializeField] Text phaseInfoText;
 
-    public Text PhaseInfoText;
-
-    void Update()
+    public void OnCreation()
     {
-        if (GameRound.instance.gameRoundCount <= 0)
-        {
-            PhaseInfoText.text = "Positioning Phase";
-            return;
-        }
-        if (GameRound.instance.currentPhase == TurnPhases.Enemy)
-        {
-            PhaseInfoText.text = Global.instance.GetNextPlayer(GameRound.instance.currentPlayer).playerName.ToString() + "'s Responding!";
-        }
-        else
-        {
-            if (GameRound.instance.currentPhase == TurnPhases.Movement)
-            {
-                PhaseInfoText.text = "Movement Phase";
-            }
-            if (GameRound.instance.currentPhase == TurnPhases.Attack)
-            {
-                PhaseInfoText.text = "Attack Phase";
-            }
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
+        phaseInfoText.text = "Positioning Phase";        
+    }
 
-        }
+    public void OnEnemyPhase(Player enemy)
+    {
+        phaseInfoText.text = enemy.playerName.ToString() + "'s Responding!";
+    }
 
+    public void OnNewPhase()
+    {
+        switch (GameRound.instance.currentPhase)
+        {
+            case TurnPhases.None:
+                break;
+            case TurnPhases.Movement:
+                phaseInfoText.text = "Movement Phase";
+                break;
+            case TurnPhases.Attack:
+                phaseInfoText.text = "Attack Phase";
+                break;
+            case TurnPhases.Enemy:
+                phaseInfoText.text = "Enemy is Responding!";
+                break;
+            case TurnPhases.All:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnNewRound()
+    {
+        return;
+    }
+
+    public void OnNewTurn()
+    {
+        return;
     }
 }

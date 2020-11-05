@@ -22,9 +22,9 @@ namespace BattlescapeLogic
         }
 
         int[,] distances;
-        Tile[,] parents;
+        MultiTile[,] parents;
         bool[,] enemyProtection;
-        
+
         //These are for us to always know if we BFSed from this tile standing in this position
         //So that we only BFS if we have new unit or unit moved.
         Unit lastUnit;
@@ -32,43 +32,29 @@ namespace BattlescapeLogic
 
         bool HaveToBFSFor(Unit unitToMove)
         {
-            return (lastUnit == unitToMove && lastTile == unitToMove.currentPosition) == false;
+            return (lastUnit == unitToMove && lastTile == unitToMove.currentPosition.bottomLeftCorner) == false;
         }
-
-        //Some old ability wants this ;D
-        public int GetDistanceFromTo(Unit unit, Tile tile)
-        {
-            int distance = distances[tile.position.x, tile.position.z];
-            BFS(unit);
-            if (distance == -1)
-            {
-                //THIS should never occur I THINK but maybe will.
-                Debug.LogWarning("Not sure if legal");
-                return 9999;
-            }
-            return distance;
-        }
-        
-        
 
         //This function gives the list of possible tiles a Unit could get to.
-        public List<Tile> GetAllLegalTilesFor(Unit unitToMove)
+        public List<MultiTile> GetAllLegalPositionsFor(Unit unitToMove)
         {
-            List<Tile> returnList = new List<Tile>();
-            // DOES NOT NEED TO  BFS HERE as it does BFS in each IsLegalTileForUnit but maybe one day it will not so remember it has to BFS Somewhere!
-            //Also it has to BFS there as it is also used elsewhere;
+            List<MultiTile> returnList = new List<MultiTile>();
             BFS(unitToMove);
-            foreach (Tile tile in Map.Board)
+            for (int i = 0; i < Global.instance.currentMap.mapWidth - unitToMove.currentPosition.size.width + 1; i++)
             {
-                if (IsLegalTileForUnit(tile, unitToMove))
+                for (int j = 0; j < Global.instance.currentMap.mapHeight - unitToMove.currentPosition.size.height + 1; j++)
                 {
-                    returnList.Add(tile);
+                    MultiTile newPosition = MultiTile.Create(Global.instance.currentMap.board[i, j], unitToMove.currentPosition.size);
+                    if (unitToMove.CanMoveTo(newPosition))
+                    {
+                        returnList.Add(newPosition);
+                    }
                 }
             }
             return returnList;
         }
 
-        public bool IsLegalTileForUnit(Tile tile, Unit unit)
+        public bool IsLegalTileForUnit(MultiTile position, Unit unit)
         {
             BFS(unit);
             int legalDistance = 0;
@@ -76,24 +62,24 @@ namespace BattlescapeLogic
             {
                 legalDistance = 1;
             }
-            if (unit.IsInCombat() == false)
+            else if (unit.IsInCombat() == false)
             {
                 legalDistance = unit.statistics.movementPoints;
             }
-            return distances[tile.position.x, tile.position.z] <= legalDistance && distances[tile.position.x, tile.position.z] > 0;
+            return distances[position.bottomLeftCorner.position.x, position.bottomLeftCorner.position.z] <= legalDistance && distances[position.bottomLeftCorner.position.x, position.bottomLeftCorner.position.z] > 0;
         }
 
-        public Queue<Tile> GetPathFromTo(Unit unitToMove, Tile finalTile)
+        public Queue<MultiTile> GetPathFromTo(Unit unitToMove, MultiTile destination)
         {
             BFS(unitToMove);
-            Stack<Tile> tileStack = new Stack<Tile>();
-            tileStack.Push(finalTile);
+            Stack<MultiTile> tileStack = new Stack<MultiTile>();
+            tileStack.Push(destination);
             while (!tileStack.Contains(unitToMove.currentPosition))
             {
-                Tile tileOnTheStack = tileStack.Peek();
-                tileStack.Push(parents[tileOnTheStack.position.x, tileOnTheStack.position.z]);
+                MultiTile positionOnTheStack = tileStack.Peek();
+                tileStack.Push(parents[positionOnTheStack.bottomLeftCorner.position.x, positionOnTheStack.bottomLeftCorner.position.z]);
             }
-            Queue<Tile> path = new Queue<Tile>();
+            Queue<MultiTile> path = new Queue<MultiTile>();
             while (tileStack.Count > 0)
             {
                 path.Enqueue(tileStack.Pop());
@@ -113,49 +99,52 @@ namespace BattlescapeLogic
             }
             else
             {
-                lastTile = unitToMove.currentPosition;
+                lastTile = unitToMove.currentPosition.bottomLeftCorner;
                 lastUnit = unitToMove;
             }
-            parents = new Tile[Map.mapWidth, Map.mapHeight];
-            SetDistancesToMinus();
-            SetOccupations(unitToMove);
+            MultiTile start = unitToMove.currentPosition;
+            parents = new MultiTile[Global.instance.currentMap.mapWidth - start.size.width + 1, Global.instance.currentMap.mapHeight - start.size.height + 1];
+            SetDistancesToMinus(start);
+            SetProtectedByEnemy(unitToMove);
 
-            Queue<Tile> queue = new Queue<Tile>();
-            Tile start = unitToMove.currentPosition;
-            distances[start.position.x, start.position.z] = 0;
+            Queue<MultiTile> queue = new Queue<MultiTile>();
+            distances[start.bottomLeftCorner.position.x, start.bottomLeftCorner.position.z] = 0;
             queue.Enqueue(start);
 
             while (queue.Count > 0)
             {
-                Tile current = queue.Peek();
+                MultiTile current = queue.Peek();
                 queue.Dequeue();
-                List<Tile> orderedNeighbours = OrderNeighbours(current);
-                foreach (Tile neighbour in orderedNeighbours)
-                {                    
-                    if (distances[neighbour.position.x, neighbour.position.z] == -1 && neighbour.IsWalkable() && IsQuittingCombatIntoCombat(unitToMove, neighbour) == false)
+                foreach (MultiTile neighbour in current.neighbours)
+                {
+                    if (distances[neighbour.bottomLeftCorner.position.x, neighbour.bottomLeftCorner.position.z] == -1 && neighbour.IsFreeFor(unitToMove) && IsQuittingCombatIntoCombat(unitToMove, neighbour) == false)
                     {
-                        distances[neighbour.position.x, neighbour.position.z] = distances[current.position.x, current.position.z] + 1;
-                        parents[neighbour.position.x, neighbour.position.z] = current;
-                        if (!enemyProtection[neighbour.position.x, neighbour.position.z])
+                        distances[neighbour.bottomLeftCorner.position.x, neighbour.bottomLeftCorner.position.z] = distances[current.bottomLeftCorner.position.x, current.bottomLeftCorner.position.z] + 1;
+                        parents[neighbour.bottomLeftCorner.position.x, neighbour.bottomLeftCorner.position.z] = current;
+                        foreach (Tile tile in neighbour)
                         {
-                            queue.Enqueue(neighbour);
+                            if (!enemyProtection[tile.position.x, tile.position.z])
+                            {
+                                queue.Enqueue(neighbour);
+                            }
                         }
-                    }
+                    }                    
                 }
             }
         }
 
-        bool IsQuittingCombatIntoCombat(Unit unitToMove, Tile tile)
+        bool IsQuittingCombatIntoCombat(Unit unitToMove, MultiTile position)
         {
-            return unitToMove.IsInCombat() && tile.IsProtectedByEnemyOf(unitToMove);
+
+            return unitToMove.IsInCombat() && position.IsProtectedByEnemyOf(unitToMove);
         }
         #region BFS Subfunctions
-        void SetDistancesToMinus()
+        void SetDistancesToMinus(MultiTile start)
         {
-            distances = new int[Map.mapWidth, Map.mapHeight];
-            for (int i = 0; i < Map.mapWidth; i++)
+            distances = new int[Global.instance.currentMap.mapWidth - start.size.width + 1, Global.instance.currentMap.mapHeight - start.size.height + 1];
+            for (int i = 0; i < Global.instance.currentMap.mapWidth - start.size.width + 1; i++)
             {
-                for (int j = 0; j < Map.mapHeight; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight - start.size.height + 1; j++)
                 {
                     distances[i, j] = -1;
                 }
@@ -163,38 +152,17 @@ namespace BattlescapeLogic
             }
         }
         //Tile is considered Occupied, if there is an enemy on its neighbour.
-        void SetOccupations(BattlescapeLogic.Unit unitToMove)
+        void SetProtectedByEnemy(Unit unitToMove)
         {
-            enemyProtection = new bool[Map.mapWidth, Map.mapHeight];
-            for (int i = 0; i < Map.mapWidth; i++)
+            enemyProtection = new bool[Global.instance.currentMap.mapWidth, Global.instance.currentMap.mapHeight];
+            for (int i = 0; i < Global.instance.currentMap.mapWidth; i++)
             {
-                for (int j = 0; j < Map.mapHeight; j++)
+                for (int j = 0; j < Global.instance.currentMap.mapHeight; j++)
                 {
-                    enemyProtection[i, j] = Map.Board[i, j].IsProtectedByEnemyOf(unitToMove);
+                    enemyProtection[i, j] = Global.instance.currentMap.board[i, j].IsProtectedByEnemyOf(unitToMove);
                 }
             }
         }
-
-        List<Tile> OrderNeighbours(Tile tile)
-        {
-            //Basically sorts the neighbours tile in the way that the vertical/horizontal have prio over diagonal. Allows for more natural-looking paths.
-            List<Tile> returnList = new List<Tile>();
-            foreach (Tile neighbour in tile.neighbours)
-            {
-                if (neighbour.position.x == tile.position.x || neighbour.position.z == tile.position.z)
-                {
-                    returnList.Add(neighbour);
-                }
-            }
-            foreach (Tile neighbour in tile.neighbours)
-            {
-                if (returnList.Contains(neighbour) == false)
-                {
-                    returnList.Add(neighbour);
-                }
-            }
-            return returnList;
-        }
-        #endregion        
+        #endregion
     }
 }

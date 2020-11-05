@@ -4,13 +4,25 @@ using UnityEngine;
 using BattlescapeGraphics;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System;
 
 namespace BattlescapeLogic
 {
     public class PlayerInput : MonoBehaviour
     {
-
-        public bool isInputBlocked { get; set; }
+        bool _isInputBlocked;
+        public bool isInputBlocked
+        {
+            get
+            {
+                return _isInputBlocked;
+            }
+            set
+            {
+                _isInputBlocked = value;
+                ResetCursor();
+            }
+        }
         //this is the old AnimatingState - it's being set to true when someone is moving or attacking or so on.
         public static PlayerInput instance { get; private set; }
         IMouseTargetable hoveredObject;
@@ -30,21 +42,23 @@ namespace BattlescapeLogic
             {
                 Destroy(this);
             }
+            AbstractActiveAbility.OnAbilityFinished += ResetCursor;
         }
 
         void Update()
         {
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_") == false)
             {
-                CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                if (SceneManager.GetActiveScene().name.Contains("_ManagementScene"))
+                {
+                    DoKeyboardForManagementScene();
+                }
+                Cursor.instance.SetToDefault();
                 return;
             }
             if (Helper.IsOverNonHealthBarUI())
             {
-                if (CursorController.instance.isInfoByUI == false)
-                {
-                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
-                }
+                Cursor.instance.SetToDefault();
             }
             else
             {
@@ -55,6 +69,14 @@ namespace BattlescapeLogic
                 DoCheats();
             }
             DoKeyboard();
+        }
+
+        void DoKeyboardForManagementScene()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                BattlescapeUI.ArmyManagementScreens.instance.GoBack();
+            }
         }
 
         void DoKeyboard()
@@ -71,12 +93,12 @@ namespace BattlescapeLogic
             {
                 // toggle grid
                 //I dont know if Map is the perfect guy to toggle grid, but I had to put it somewhere?
-                Map.ToggleGrid();
+                Global.instance.currentMap.ToggleGrid();
             }
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 //Here there sould be some check if it's OUR turn or stuff?
-                MouseManager.instance.unitSelector.SelectNextAvailableUnit();
+                GameRound.instance.currentPlayer.SelectRandomUnit();
             }
 
             //On click PERSISTING (as long as the mouse button is being pressed)
@@ -121,80 +143,105 @@ namespace BattlescapeLogic
         }
 
         void DoCheats()
-        {
+        {          
             if (Input.GetKeyDown(KeyCode.F))
             {
                 // selected unit gets 1000 damage (dies xD)
-                MouseManager.instance.selectedUnit.OnHit(MouseManager.instance.selectedUnit, 1000);
+                GameRound.instance.currentPlayer.selectedUnit.TakeDamage(GameRound.instance.currentPlayer.selectedUnit, 1000);
             }
+
             if (Input.GetKeyDown(KeyCode.X))
             {
-                if (MouseManager.instance.selectedUnit != null && MouseManager.instance.selectedUnit.buffs.Count > 0)
+                if (GameRound.instance.currentPlayer.selectedUnit != null && !GameRound.instance.currentPlayer.selectedUnit.buffs.IsEmpty())
                 {
-                    MouseManager.instance.selectedUnit.buffs[0].RemoveFromUnitInstantly();
+                    GameRound.instance.currentPlayer.selectedUnit.buffs[0].RemoveFromTargetInstantly();
                 }
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnUnit(MouseManager.instance.selectedUnit);
+                defenceDebuff.ApplyOnTarget(GameRound.instance.currentPlayer.selectedUnit);
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log(Global.instance.currentEntity);
             }
         }
 
         void DoMouse()
         {
+            if (GameRound.instance.currentPlayer == null)
+            {
+                Cursor.instance.SetToDefault();
+                return;
+            }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
             {
-                IMouseTargetable newHoveredObject = hitInfo.collider.transform.root.GetComponentInChildren<IMouseTargetable>();
+                IMouseTargetable newHoveredObject = hitInfo.collider.transform.GetComponentInParent<IMouseTargetable>();
                 //just caching.
                 if (newHoveredObject != hoveredObject)
                 {
-                    //Old hovered object existed so we  de-hover it with On Exit
-                    MouseManager.instance.OnMouseHoverExit(hoveredObject);
+                    if (hoveredObject != null)
+                    {
+                        //Old hovered object existed so we  de-hover it with On Exit
+                        hoveredObject.OnMouseHoverExit();
+                    }
+
                     //Change hovered object to new
                     hoveredObject = newHoveredObject;
                     // New object is hovered, so play On Enter.
-                    MouseManager.instance.OnMouseHoverEnter(hoveredObject);
+                    hoveredObject.OnMouseHoverEnter(hitInfo.point);
+                    if (hoveredObject is IDamageable)
+                    {
+                        UIHitChanceInformation.instance.OnMouseHoverEnter(hoveredObject as IDamageable);
+                    }
+                    if (Global.instance.currentEntity != null)
+                    {
+                        Global.instance.currentEntity.OnCursorOver(hoveredObject, hitInfo.point);
+                    }
+                }
 
-                }
-                MouseManager.instance.OnMouseHoverContinue(hoveredObject);
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && isInputBlocked == false)
                 {
-                    MouseManager.instance.OnMouseLeftClick(hoveredObject);
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    MouseManager.instance.OnMouseRightClick(hoveredObject);
+                    Global.instance.currentEntity.OnLeftClick(hoveredObject, hitInfo.point);
                 }
             }
             else
             {
-                if (MouseManager.instance.selectedUnit == null)
+                if (GameRound.instance.currentPlayer.selectedUnit == null && Cursor.instance.isInfoByUI == false)
                 {
-                    CursorController.instance.SetCursorTo(CursorController.instance.defaultCursor, CursorController.instance.clickingDefaultCursor);
+                    Cursor.instance.SetToDefault();
                 }
                 else
                 {
-                    CursorController.instance.SetCursorTo(CursorController.instance.blockedCursor, CursorController.instance.clickingBlockedCursor);
+                    Cursor.instance.OnInvalidTargetHovered();
                 }
                 if (hoveredObject != null)
                 {
                     //We HAD an object and now we don't so lets play On Exit.
-                    MouseManager.instance.OnMouseHoverExit(hoveredObject);
+                    hoveredObject.OnMouseHoverExit();
                     hoveredObject = null;
                 }
 
             }
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButtonDown(1))
             {
-                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
-                {
-                    CameraController.Instance.RotateCamera();
-                }
+                Global.instance.currentEntity.OnRightClick(hoveredObject);
+                //This can be also null - its ok! Ability will cancel and other IActiveEntitys will do nothing ;)
+
             }
+            if (Input.GetMouseButton(1) && (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
+            {
+                CameraController.Instance.RotateCamera();
+            }
+        }
+
+        void ResetCursor()
+        {
+            hoveredObject = null;
         }
     }
 }

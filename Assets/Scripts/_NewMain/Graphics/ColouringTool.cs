@@ -8,6 +8,14 @@ namespace BattlescapeGraphics
 {
     public static class ColouringTool
     {
+        readonly static float hoveringTilesBrightnessFactor = 1.5f;
+
+
+        static ColouringTool()
+        {
+            Unit.OnUnitSelected += ColourLegalTilesFor;
+            Unit.OnUnitDeselected += UncolourAllTiles;
+        }
         public static void ColourUnitsThatStillCanMoveOrAttack()
         {
             Player currentPlayer = GameRound.instance.currentPlayer;
@@ -39,44 +47,45 @@ namespace BattlescapeGraphics
             UncolourAllTiles();
             if (GameRound.instance.currentPhase == TurnPhases.Movement)
             {
-                var temp = Pathfinder.instance.GetAllLegalTilesFor(unit);
-                foreach (Tile tile in temp)
+                var temp = Pathfinder.instance.GetAllLegalPositionsFor(unit);
+                foreach (MultiTile position in temp)
                 {
-                    if (tile.IsProtectedByEnemyOf(unit))
+                    foreach (Tile tile in position)
                     {
-                        ColourObject(tile, Color.red);
-                    }
-                    else
-                    {
-                        ColourObject(tile, Color.cyan);
+                        if (tile.IsProtectedByEnemyOf(unit))
+                        {
+                            tile.highlighter.TurnOn(Global.instance.colours.red);
+                        }
+                        else
+                        {
+                            tile.highlighter.TurnOn(Global.instance.colours.yellow);
+                        }
                     }
                 }
             }
             else if (GameRound.instance.currentPhase == TurnPhases.Attack)
             {
-                foreach (Tile tile in Map.Board)
+                foreach (Tile tile in Global.instance.currentMap.board)
                 {
-                    if (tile.myUnit != null && tile.myUnit.owner.team != unit.currentPosition.myUnit.owner.team && unit.IsInAttackRange(tile.transform.position) && unit.CanStillAttack())
+                    if (tile.GetMyDamagableObject() != null && unit.attack.CanAttack(tile.GetMyDamagableObject()))
                     {
-                        ColourObject(tile, Color.red);
+                        tile.highlighter.TurnOn(Global.instance.colours.red);
                     }
                 }
             }
-
         }
 
         public static void UncolourAllTiles()
         {
-            foreach (Tile tile in Map.Board)
+            foreach (Tile tile in Global.instance.currentMap.board)
             {
-                ColourObject(tile, Color.white);
+                tile.highlighter.TurnOff();
             }
-
         }
 
-        public static void ColourUnitAsAllyOrEnemy(Unit unit)
+        public static void ColourUnitAsAllyOrEnemyOf(Unit unit, Player player)
         {
-            if (unit.owner.IsCurrentLocalPlayer())
+            if (unit.GetMyOwner().team == player.team)
             {
                 ColourObject(unit, Color.green);
             }
@@ -86,26 +95,41 @@ namespace BattlescapeGraphics
             }
         }
 
-        public static void ColourObject(MonoBehaviour target, Color color)
+        public static void ColourObject(MonoBehaviour target, Color colour)
         {
             if (target is Tile)
             {
-                Renderer r = target.GetComponentInChildren<Renderer>();
+                Debug.LogWarning("thats not how you colour tiles. Try tile.highlighter.TurnOn(Color colour)");
+            }
+
+            Renderer[] rs = target.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in rs)
+            {
                 Material m = r.material;
-                m.color = color;
+                m.color = colour;
                 r.material = m;
             }
-            else
+        }
+
+        static Color GetColourOfBrighteness(Color colour, float factor)
+        {
+            return new Color(colour.r * factor, colour.g * factor, colour.b * factor, colour.a);
+        }
+
+        public static void OnPositionHovered(MultiTile position)
+        {
+            foreach (Tile tile in position)
             {
-                Renderer[] rs = target.GetComponentsInChildren<Renderer>();
-                foreach (Renderer r in rs)
-                {
-                    Material m = r.material;
-                    m.color = color;
-                    r.material = m;
-                }
+                tile.highlighter.TurnOn(GetColourOfBrighteness(tile.highlighter.GetComponent<Renderer>().material.color, hoveringTilesBrightnessFactor));
             }
-            
+        }
+
+        public static void OnPositionUnhovered(MultiTile position)
+        {
+            foreach (Tile tile in position)
+            {
+                tile.highlighter.TurnOn(GetColourOfBrighteness(tile.highlighter.GetComponent<Renderer>().material.color, 1.0f / hoveringTilesBrightnessFactor));
+            }
         }
     }
 }

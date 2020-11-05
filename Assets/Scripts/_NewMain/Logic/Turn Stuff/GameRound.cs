@@ -12,6 +12,11 @@ namespace BattlescapeLogic
 
 
         public LinkedList<ITurnInteractable> newRoundObjects = new LinkedList<ITurnInteractable>();
+        public List<LinkedList<TurnChanger>> turnChangerObjects;
+        public event Action OnGameStarted = delegate { };
+
+
+
 
         public int gameRoundCount { get; private set; }
         public int countdown { get; private set; }
@@ -36,7 +41,7 @@ namespace BattlescapeLogic
 
         public TurnPhases currentPhase { get; private set; }
         //Phase to return to after EnemyPhase - Movement or Attack? Most likely Attack, but MAYBE there will be a way to (by ability) get into Enemy Phase from Movement Phase.
-        public TurnPhases previousPhase { get; private set; }          
+        public TurnPhases previousPhase { get; private set; }
 
         static GameRound _instance;
         public static GameRound instance
@@ -71,18 +76,18 @@ namespace BattlescapeLogic
             int playerCount = Global.instance.GetActivePlayerCount();
             Player[] newPlayerOrder = new Player[playerCount];
             Queue<Player> allPlayers = new Queue<Player>();
-            int index = 0;
+            int playerIndex = 0;
             while (allPlayers.Count < newPlayerOrder.Length)
             {
-                for (int i = 0; i < Global.instance.playerTeams.Count; i++)
+                for (int teamIndex = 0; teamIndex < Global.instance.playerTeams.Count; teamIndex++)
                 {
-                    if (Global.instance.playerTeams[i].players[index].isObserver == false)
+                    if (Global.instance.playerTeams[teamIndex].players[playerIndex].isObserver == false)
                     {
-                        allPlayers.Enqueue(Global.instance.playerTeams[i].players[index]);
+                        allPlayers.Enqueue(Global.instance.playerTeams[teamIndex].players[playerIndex]);
                     }
 
                 }
-                index++;
+                playerIndex++;
             }
             for (int i = 0; i < newPlayerOrder.Length; i++)
             {
@@ -96,17 +101,22 @@ namespace BattlescapeLogic
         {
             previousPhase = currentPhase;
             currentPhase = TurnPhases.Enemy;
-            foreach (ITurnInteractable roundObject in newRoundObjects)
+            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            while (element != null)
             {
-                roundObject.OnNewPhase();
+                element.Value.OnNewPhase();
+                element = element.Next;
             }
+
         }
         public void ResetPhaseAfterEnemy()
         {
             currentPhase = previousPhase;
-            foreach (ITurnInteractable roundObject in newRoundObjects)
+            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            while (element != null)
             {
-                roundObject.OnNewPhase();
+                element.Value.OnNewPhase();
+                element = element.Next;
             }
         }
 
@@ -116,7 +126,7 @@ namespace BattlescapeLogic
              (currentPlayer.type == PlayerType.Local) &&
              PlayerInput.instance.isInputBlocked == false &&
              //Some check for ability not being used here 
-             gameRoundCount > 0 &&
+             IsGameGoing() &&
              InGameInputField.IsNotTypingInChat())
             {
                 OnClick();
@@ -169,29 +179,40 @@ namespace BattlescapeLogic
             }
             else
             {
-                TurnOfPlayer(GetNextPlayer());
+                SetNextPlayer();
+                NewPlayerTurn();
             }
         }
 
         void NewRound()
         {
             gameRoundCount++;
-            foreach (ITurnInteractable roundObject in newRoundObjects)
+            if (gameRoundCount == 1)
             {
-                roundObject.OnNewRound();
+                OnGameStarted();
             }
-            TurnOfPlayer(GetNextPlayer());
+            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            while (element != null)
+            {
+                element.Value.OnNewRound();
+                element = element.Next;
+            }
+            SetNextPlayer();
+            NewPlayerTurn();
         }
 
-        void TurnOfPlayer(Player player)
+        void NewPlayerTurn()
         {
-            currentPlayer = player;
-
-            foreach (ITurnInteractable roundObject in newRoundObjects)
+            BattlescapeSound.SoundManager.instance.PlaySound(Camera.main.gameObject, BattlescapeSound.SoundManager.instance.newTurnSound);
+            Global.instance.currentEntity = currentPlayer;
+            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            while (element != null)
             {
-                roundObject.OnNewTurn();
+                element.Value.OnNewTurn();
+                element = element.Next;
             }
             NextPhase();
+            NewPlayerRound();
         }
 
         void NextPhase()
@@ -205,27 +226,66 @@ namespace BattlescapeLogic
                 currentPhase = TurnPhases.Movement;
             }
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            foreach (ITurnInteractable roundObject in newRoundObjects)
+            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            while (element != null)
             {
-                roundObject.OnNewPhase();
+                element.Value.OnNewPhase();
+                element = element.Next;
             }
         }
 
-        Player GetNextPlayer()
+        void NewPlayerRound()
         {
+            LinkedListNode<TurnChanger> element = turnChangerObjects[currentPlayer].First;
+            LinkedListNode<TurnChanger> previousElement = null;
+
+            while (element != null)
+            {
+                element.Value.OnNewPlayerRound();
+                if (element.Next == null && element.Previous == null && turnChangerObjects[currentPlayer].Count != 1)
+                {
+                    if (previousElement == null)
+                    {
+                        element = turnChangerObjects[currentPlayer].First;
+                    }
+                    else
+                    {
+                        element = previousElement.Next;
+                    }
+                }
+                else
+                {
+                    previousElement = element;
+                    element = element.Next;
+                }
+            }
+        }
+
+        void SetNextPlayer()
+        {
+            turnOfPlayerNumber++;
+            currentPlayer = GetNextPlayer();
+
+        }
+
+        public Player GetNextPlayer()
+        {
+            
+            //If additional turns are added, use first one of them now.
             if (additionalTurns.Count > 0)
             {
                 return additionalTurns.Pop();
             }
-            else
+
+            //If its the ned of player list, start from beginning (new round case)
+
+            if (turnOfPlayerNumber == playerOrder.Length)
             {
-                turnOfPlayerNumber++;
-                if (turnOfPlayerNumber == playerOrder.Length)
-                {
-                    turnOfPlayerNumber = 0;
-                }
-                return playerOrder[turnOfPlayerNumber];
+                turnOfPlayerNumber = 0;
             }
+
+            return playerOrder[turnOfPlayerNumber];
+
         }
 
         void AddTurnFor(Player player)
@@ -235,20 +295,30 @@ namespace BattlescapeLogic
 
         public bool IsGameGoing()
         {
-            return gameRoundCount > 0 && gameRoundCount <= maximumRounds;
+            return gameRoundCount > 0 && gameRoundCount < maximumRounds + 1;
         }
-       
+
+        public void Setup()
+        {
+            turnChangerObjects = new List<LinkedList<TurnChanger>>();
+            for (int i = 0; i < Global.instance.playerCount; i++)
+            {
+                turnChangerObjects.Add(new LinkedList<TurnChanger>());
+            }
+        }
+
         public void StartGame()
         {
             //MAYBE we want something 'extra' on a new game idk
             //Its AFTER the positioning phase
+            Setup();
             NewRound();
         }
     }
 
     public enum TurnPhases
     {
-        None, Movement, Attack, Enemy
+        None, Movement, Attack, Enemy, All
     }
 
 }

@@ -34,7 +34,7 @@ public class UIStatsValues : MonoBehaviour
         AbstractBuff.OnBuffCreation += OnBuffCreatedOrDestroyed;
         if (isRightClickTooltip == false)
         {
-            MouseManager.instance.OnUnitSelection += AdjustTextValuesFor;
+            Unit.OnUnitSelected += AdjustTextValuesFor;
         }
         else
         {
@@ -66,17 +66,18 @@ public class UIStatsValues : MonoBehaviour
         t.text = baseValue.ToString();
         if (bonusValue > 0)
         {
-            t.text += "<size=15>  </size><color=green>" + bonusValue + "</color>";
+            t.text += "<size=15> + </size><color=green>" + bonusValue + "</color>";
         }
         if (bonusValue < 0)
         {
-            t.text += "<size=15>  </size><color=red>" + bonusValue + "</color>";
+            t.text += "<size=15> - </size><color=red>" + -bonusValue + "</color>";
         }
     }
 
     void OnBuffCreatedOrDestroyed(AbstractBuff buff)
     {
-        if (buff.owner == myUnit)
+        Unit owner = buff.buffGroup.owner as Unit;
+        if (owner != null && owner == myUnit)
         {
             AdjustTextValuesFor(myUnit);
         }

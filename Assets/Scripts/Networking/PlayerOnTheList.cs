@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
 
 public class PlayerOnTheList : MonoBehaviour
 {
 
-    public PhotonPlayer PhotonPlayer { get; private set; }
+    public Player PhotonPlayer { get; private set; }
 
     public Text PlayerName;
 
-    public void ApplyPhotonPlayer(PhotonPlayer photonPlayer)
+    public void ApplyPhotonPlayer(Player photonPlayer)
     {
         PlayerName.text = photonPlayer.NickName;
         PhotonPlayer = photonPlayer;

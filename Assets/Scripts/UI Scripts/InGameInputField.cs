@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public class InGameInputField : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class InGameInputField : MonoBehaviour
     {
         if (string.IsNullOrEmpty(msg) == false && Input.GetKeyDown(KeyCode.Return))
         {
-            Log.NetworkSpawnLog(PhotonNetwork.playerName +": " + msg);
+            LogConsole.instance.NetworkSpawnLog(PhotonNetwork.NickName + ": " + msg);
             this.GetComponent<InputField>().text = string.Empty;
             this.GetComponent<InputField>().ActivateInputField();
         }

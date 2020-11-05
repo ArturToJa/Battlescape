@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattlescapeLogic;
 
-public class TurnNumberText : TurnChangeMonoBehaviour
+public class TurnNumberText : MonoBehaviour
 {
-
+    private TurnChanger turnChanger;
     public Text TurnMumber;
     [SerializeField] float speed = 1;
     bool isRaisingColour = true;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         TurnMumber.text = "Drag units to position them!";
         TurnMumber.color = Color.green;
     }
@@ -84,17 +84,17 @@ public class TurnNumberText : TurnChangeMonoBehaviour
 
     }
 
-    public override void OnNewRound()
+    public void OnNewRound()
     {
         SetTurnNumberText();
     }
 
-    public override void OnNewTurn()
+    public void OnNewTurn()
     {
         return;
     }
 
-    public override void OnNewPhase()
+    public void OnNewPhase()
     {
         return;
     }

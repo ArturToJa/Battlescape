@@ -10,11 +10,11 @@ public class GoToFormationStarter : MonoBehaviour
     [SerializeField] 
     public void GoTo()
     {
-        SaveLoadManager.Instance.Save();
+        SaveLoadManager.instance.Save();
         FindObjectOfType<SaveLoadManager>().CopyDataToSave();
         CreateAllUnits();
-        SaveLoadManager.Instance.LoadPlayerArmy();
-        SaveLoadManager.Instance.RecreateUnitsList();
+        SaveLoadManager.instance.LoadPlayerArmy();
+        SaveLoadManager.instance.RecreateUnitsList();
         if (SaveLoadManager.unitPositions != null && SaveLoadManager.unitPositions.Keys.Count != 0)
         {
             LoadFormation(SaveLoadManager.unitPositions);
@@ -22,7 +22,7 @@ public class GoToFormationStarter : MonoBehaviour
     }
     void CreateAllUnits()
     {
-        foreach (Unit theUnit in SaveLoadManager.Instance.UnitsList)
+        foreach (Unit theUnit in SaveLoadManager.instance.UnitsList)
         {
             CreateUnit(theUnit.thisBox, theUnit.thisSprite, theUnit);
         }

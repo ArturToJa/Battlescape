@@ -23,7 +23,7 @@ namespace BattlescapeUI
         }
 
         [SerializeField] GameObject abilityIconPrefab;
-        [SerializeField] GameObject CancelButton;
+        [SerializeField] GameObject cancelButton;
 
         //THESE two and their functions probably dont belong here idk
         [SerializeField] Sprite unclickedFrameAbility;
@@ -37,8 +37,12 @@ namespace BattlescapeUI
         {
             if (isRightClickTooltip == false)
             {
-                MouseManager.instance.OnUnitSelection += SetAbilitiesInPanel;
-                AbstractActiveAbility.OnCurrentlyUsedAbilityChanged += SetAbilityFrame;
+                Unit.OnUnitSelected += SetAbilitiesInPanel;
+                AbstractActiveAbility.OnAbilityClicked += SetAbilityFrame;
+                AbstractActiveAbility.OnAbilityClicked += CancelButtonOn;
+                AbstractActiveAbility.OnAbilityFinished += CancelButtonOff;
+
+                CancelButtonOff();
             }
             else
             {
@@ -55,9 +59,18 @@ namespace BattlescapeUI
                 if (myUnit != null)
                 {
                     UpdateActivity();
-                }
-                CancelButton.SetActive(AbstractActiveAbility.currentlyUsedAbility != null);
+                }                
             }
+        }
+
+        public void CancelButtonOn()
+        {
+            cancelButton.SetActive(true);
+        }
+
+        public void CancelButtonOff()
+        {
+            cancelButton.SetActive(false);
         }
 
 
@@ -75,9 +88,12 @@ namespace BattlescapeUI
                 child.gameObject.SetActive(false);
                 Destroy(child.gameObject);
             }
-            foreach (AbstractActiveAbility ability in unit.abilities)
+            foreach (AbstractAbility ability in unit.abilities)
             {
-                AddAbility(ability);
+                if (ability is AbstractActiveAbility)
+                {
+                    AddAbility((AbstractActiveAbility)ability);
+                }               
             }
         }
 
@@ -113,20 +129,22 @@ namespace BattlescapeUI
         {
             foreach (var thing in iconDictionary)
             {
-                thing.Value.GetComponentInChildren<Button>().interactable = (thing.Key.IsUsableNowBase());
+                thing.Value.GetComponentInChildren<Button>().interactable = (thing.Key.IsUsableNow());
             }
         }
 
         public void CancelAbility()
         {
-            AbstractActiveAbility.currentlyUsedAbility.Cancel();
+            AbstractActiveAbility currentAbility = Global.instance.currentEntity as AbstractActiveAbility;
+            currentAbility.OnFinish();
+
         }
 
         void SetAbilityFrame()
         {
             foreach (var thing in iconDictionary)
             {
-                if (thing.Key == AbstractActiveAbility.currentlyUsedAbility)
+                if (thing.Key == (Global.instance.currentEntity as AbstractActiveAbility))
                 {
                     thing.Value.GetComponent<Image>().sprite = clickedFrameAbility;
                 }

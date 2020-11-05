@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using BattlescapeLogic;
+using Photon.Pun;
 
 public class RoomScript : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class RoomScript : MonoBehaviour
     [SerializeField] GameObject StartGameButton;
     [SerializeField] GameObject ChooseMapButton;
     bool isMatchStarted = false;
-    string GameSceneName;
+    string gameSceneName;
     [SerializeField] GameObject MapChoiceWindow;
 
     void Start()
@@ -23,13 +24,13 @@ public class RoomScript : MonoBehaviour
     }
     void Update()
     {
-        if (PhotonNetwork.room != null)
+        if (PhotonNetwork.CurrentRoom != null)
         {
-            RoomName.text = PhotonNetwork.room.Name;
+            RoomName.text = PhotonNetwork.CurrentRoom.Name;
         }        
         if (Input.GetKeyDown(KeyCode.Return) && string.IsNullOrEmpty(message) == false)
         {
-            Log.LobbySpawnLog(PlayerPrefs.GetString("MyPlayerName") + ": " + message);
+            LogConsole.instance.LobbySpawnLog(PlayerPrefs.GetString("MyPlayerName") + ": " + message);
             inputField.text = string.Empty;
             inputField.ActivateInputField();
         }
@@ -38,12 +39,12 @@ public class RoomScript : MonoBehaviour
            inputField.ActivateInputField();
         }
         StartGameButton.SetActive
-            (PhotonNetwork.isMasterClient 
-            && (PhotonNetwork.room.PlayerCount == 2)
-            && SaveLoadManager.Instance.AreBothFactionsChosen);
+            (PhotonNetwork.IsMasterClient 
+            && (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            && Global.instance.HaveAllPlayersChosenRace());
         ChooseMapButton.SetActive
-            (PhotonNetwork.isMasterClient
-            && PhotonNetwork.room.PlayerCount == 2
+            (PhotonNetwork.IsMasterClient
+            && PhotonNetwork.CurrentRoom.PlayerCount == 2
             );
     }
 
@@ -57,8 +58,7 @@ public class RoomScript : MonoBehaviour
         if (isMatchStarted == false)
         {
             isMatchStarted = true;
-            photonView.RPC("RPCSetPlayerTypes", PhotonTargets.All);
-            FindObjectOfType<LevelLoader>().CommandLoadScene(GameSceneName);
+            Networking.instance.SendCommandToLoadScene(gameSceneName);
         }
         
     }
@@ -71,30 +71,15 @@ public class RoomScript : MonoBehaviour
     public void SetMapToCurrentNumber()
     {
         // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
-        photonView.RPC("RPCSetGameSceneName", PhotonTargets.All, EventSystem.current.currentSelectedGameObject.name);
-        Log.LobbySpawnLog("MapChosen: " + GameSceneName);
+        photonView.RPC("RPCSetGameSceneName", RpcTarget.All, EventSystem.current.currentSelectedGameObject.name);
+        LogConsole.instance.LobbySpawnLog("MapChosen: " + gameSceneName);
         transform.SetAsLastSibling();
 
     }
 
     [PunRPC]
-    void RPCSetPlayerTypes()
-    {
-        //this function sets playertypes, so tells us who is "mylocalplayer" ;) If we are the MasterClient, then we are player 0 (so players[0] is Local) and if not then we are player 1. 
-        if (PhotonNetwork.isMasterClient)
-        {
-            Global.instance.playerBuilders[0,0].type = PlayerType.Local;
-
-        }
-        else
-        {
-            Global.instance.playerBuilders[1,0].type = PlayerType.Local;
-        }
-    }
-
-    [PunRPC]
     void RPCSetGameSceneName(string name)
     {
-        GameSceneName = name;
+        gameSceneName = name;
     }
 }

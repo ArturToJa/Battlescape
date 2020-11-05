@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattlescapeSound;
 
 namespace BattlescapeLogic
 {
     public class Missile : MonoBehaviour
     {
+        public IMissileLaucher myLauncher { get; set; }
         static readonly float minDistance = 0.2f;
-        public Vector3 startingPoint { get; set; }
         public Unit sourceUnit { get; set; }
-        public Unit target { get; set; }
+        public Vector3 target { get; set; }
+        [SerializeField] Sound onHitSound;
         [SerializeField] float _speedPerFrame;
         public float speedPerFrame
         {
@@ -35,60 +37,72 @@ namespace BattlescapeLogic
             }
         }
 
+        private Vector2 targetPosition;
+        private float distanceToTravel = 0.0f;
+        private float distanceTraveled = 0.0f;
+
+        private Vector3 newPosition = new Vector3();
+
         void Start()
         {
-            startingPoint = this.transform.position;
-            maxHeight += startingPoint.y;
+            maxHeight += this.transform.position.y;
+
+            Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
+            targetPosition = new Vector2(target.x, target.z);
+            distanceToTravel = Vector2.Distance(myPosition, targetPosition);
         }
         void Update()
         {
+            CalculatePosition();
             UpdatePosition();
-            if (Vector2.Distance(this.transform.position, target.transform.position) < minDistance)
+            if (Vector3.Distance(this.transform.position, target) < minDistance)
             {
-                if (sourceUnit.owner.type != PlayerType.Network)
+                if (sourceUnit.GetMyOwner().type != PlayerType.Network)
                 {
-                    Networking.instance.SendCommandToHit(sourceUnit, target);
+                    myLauncher.OnMissileHitTarget();                   
                 }
-                Destroy(this);
+                BattlescapeSound.SoundManager.instance.PlaySound(gameObject, onHitSound);
+                Destroy(gameObject);
             }
         }
 
-        private void UpdatePosition()
+        private void CalculatePosition()
         {
-            
-            float distanceDelta = CalculateNew2DPosition();
-            float heightDelta = CalculateNewHeight();
-            CalculateNewPitch(distanceDelta, heightDelta);
+            CalculateNew2DPosition();
+            CalculateNewHeight();
+            CalculateNewAngle();
         }
 
-        private float CalculateNew2DPosition()
+        private void CalculateNew2DPosition()
         {
             float distanceToMove = speedPerFrame * Time.deltaTime;
             Vector2 myPosition = new Vector2(this.transform.position.x, this.transform.position.z);
-            Vector2 targetPosition = new Vector2(target.transform.position.x, target.transform.position.z);
-            Vector2 newPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
-            this.transform.position = new Vector3(newPosition.x, this.transform.position.y, newPosition.y);
-            return distanceToMove;
+            Vector2 new2DPosition = Vector2.MoveTowards(myPosition, targetPosition, distanceToMove);
+            newPosition.x = new2DPosition.x;
+            newPosition.z = new2DPosition.y;
+            distanceTraveled += distanceToMove;
         }
 
-        private float CalculateNewHeight()
+        private void CalculateNewHeight()
         {
-            float x = Mathf.Sqrt(Mathf.Pow(this.transform.position.x, 2.0f) + Mathf.Pow(this.transform.position.z, 2.0f));
-            float x1 = Mathf.Sqrt(Mathf.Pow(startingPoint.x, 2.0f) + Mathf.Pow(startingPoint.z, 2.0f));
-            float x2 = Mathf.Sqrt(Mathf.Pow(target.transform.position.x, 2.0f) + Mathf.Pow(target.transform.position.z, 2.0f));
+            float x = distanceTraveled;
+            float x1 = 0.0f;
+            float x2 = distanceToTravel;
             float p = x1 + ((x2 - x1) / 2.0f);
             float q = maxHeight;
             float a = (0.0f - q) / Mathf.Pow((x1 - p), 2.0f);
             float newHeight = a * Mathf.Pow((x - p), 2.0f) + q;
-            float oldHeight = this.transform.position.y;
-            this.transform.position = new Vector3(this.transform.position.x, newHeight, this.transform.position.z);
-            return newHeight - oldHeight;
+            newPosition.y = newHeight;
         }
 
-        private void CalculateNewPitch(float distanceDelta, float heightDelta)
+        private void CalculateNewAngle()
         {
-            float angle = -90 + Mathf.Atan2(heightDelta, distanceDelta) * Mathf.Rad2Deg;
-            Maths.SetObjectYaw(this.gameObject, angle);
+            this.transform.LookAt(newPosition);
+        }
+
+        private void UpdatePosition()
+        {
+            this.transform.position = new Vector3(newPosition.x, newPosition.y, newPosition.z);
         }
     }
 }

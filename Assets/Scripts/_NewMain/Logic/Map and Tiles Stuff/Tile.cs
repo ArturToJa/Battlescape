@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattlescapeLogic
 {
     //IDK if we need it or not but i didn't like forcing my physical transform.position (which is a float) into int all the time
+    [System.Serializable]
     public struct Position
     {
         public Position(int _x, int _z)
@@ -14,67 +16,156 @@ namespace BattlescapeLogic
         }
         public int x;
         public int z;
+
+        public int DistanceTo(Position other)
+        {
+            return Mathf.Max(Mathf.Abs(this.x - other.x), Mathf.Abs(this.z - other.z));
+        }
+
+        public Position CalibrateTo(int width, int height)
+        {
+            if (x < 0)
+            {
+                x = 0;
+            }
+            if (x >= Global.instance.currentMap.mapWidth - width + 1)
+            {
+                x = Global.instance.currentMap.mapWidth - width;
+            }
+            if (z < 0)
+            {
+                z = 0;
+            }
+            if (z >= Global.instance.currentMap.mapHeight - height + 1)
+            {
+                z = Global.instance.currentMap.mapHeight - height;
+            }
+            return this;
+        }
     }
 
-    //WE USE THIS! This is our TILE! Old "TILE" is no longer a thing!
-    //Temporarily(!) uses BattlescapeLogic.Unit, not Unit. :< NEEDS CHANGING ASAP!
     public class Tile : MonoBehaviour, IMouseTargetable
     {
-        // put correct width and height here
-        public static float tileWidth = 0;
-        public static float tileHeight = 0;
-        public BattlescapeLogic.Unit myUnit { get; private set; }
-        public GameObject myObstacle { get; set; }
-        public bool hasObstacle
-        {
-            get
-            {
-                return myObstacle != null;
-            }
-        }
+        public static readonly float width = 1.0f;
+        public static readonly float height = 1.0f;
+
+        public BattlescapeGraphics.TileHighlighter highlighter { get; private set; }
+        OnTileObject myObject;
+        public NonObstacle myNonObstacle { get; set; }
+
         //this is not used as we, for some strange reason, dont show movement path!
         public bool isUnderMovementMarker { get; set; }
         public Position position { get; set; }
-        public int DropzoneOfPlayer { get; set; }
+        [SerializeField] int _dropzoneOfTeam = -1;
+        public int dropzoneOfTeam
+        {
+            get
+            {
+                return _dropzoneOfTeam;
+            }
+            set
+            {
+                _dropzoneOfTeam = value;
+            }
+        }
+        // -1 means it is neutral, not a dropzone.
+
         //this needs changing to a) support more players b) support our Player class etc. Not for now i guess?
         //initialized in Map on line 42;
 
+
+        List<Tile> _neighbours;
         public List<Tile> neighbours
         {
             get
             {
-                List<Tile> returnList = new List<Tile>();
-
-                for (int i = 0; i < Map.mapWidth; i++)
-                    for (int j = 0; j < Map.mapHeight; j++)
+                if (_neighbours == null)
+                {
+                    _neighbours = new List<Tile>();
+                    for (int i = -1; i <= 1; i++)
                     {
-                        //next line means: all 8 neighbours, literally (and prevents OUR tile to be inside the scope), NOTE THAT unwalkable/obstacled tiles are STILL neighbours.
-                        if (Mathf.Abs(i - position.x) <= 1 && Mathf.Abs(j - position.z) <= 1 && !(position.x == i && position.z == j))
+                        for (int j = -1; j <= 1; j++)
                         {
-                            returnList.Add(Map.Board[i, j]);
+                            if (!(i == 0 && j == 0))
+                            {
+                                Tile neighbour = ToTile(Offset(i, j));
+                                if (neighbour != null)
+                                {
+                                    _neighbours.Add(neighbour);
+                                }
+                            }
                         }
                     }
-                return returnList;
+                }
+                return _neighbours;
+            }
+        }
+        public Position Offset(int offsetX, int offsetZ)
+        {
+            int posX = this.position.x + offsetX;
+            int posZ = this.position.z + offsetZ;
+            //if (posX >= 0 && posZ >= 0 && posX < Global.instance.currentMap.mapWidth && posZ < Global.instance.currentMap.mapHeight)
+            {
+                return new Position(posX, posZ);
+            }
+
+
+        }
+
+        public static Tile ToTile(Position pos)
+        {
+            if (pos.x >= 0 && pos.z >= 0 && pos.x < Global.instance.currentMap.mapWidth && pos.z < Global.instance.currentMap.mapHeight)
+            {
+                return Global.instance.currentMap.board[pos.x, pos.z];
+            }
+            else
+            {
+                return null;
             }
         }
 
-
-        private void Start()
+        public void OnSetup()
         {
             position = new Position((int)transform.position.x, (int)transform.position.z);
+            Global.instance.currentMap.board[position.x, position.z] = this;
+            highlighter = GetComponentInChildren<BattlescapeGraphics.TileHighlighter>();
+            highlighter.OnSetup();
+            if (dropzoneOfTeam != -1)
+            {
+                highlighter.TurnOn(Color.green);
+            }
+            else
+            {
+                highlighter.TurnOff();
+            }
         }
 
-        //this should JUST give info, if there is ANY CHANCE that ANY unit (does not care about who the owner is) can finish movement here/walk through it without abilities/flying.
-        //at least thats what i think...    
         public bool IsWalkable()
         {
-            return myUnit == null && hasObstacle == false;
+            return myObject == null;
         }
+
+
+        public bool IsEmpty()
+        {
+            return IsWalkable() && myNonObstacle == null;
+        }
+
+        public T GetMyObject<T>() where T : OnTileObject
+        {
+            return myObject as T;
+        }
+
+        public void SetMyObjectTo(OnTileObject anObject)
+        {
+            myObject = anObject;
+        }
+
 
 
         // This means 'Is this tile or a neighbour under enemy unit?'. It matters for movement (you cannot walk through tiles protected by enemy).
         // I just 'invented' the term 'protected' for that, I used 'occupied' earlier but it was VERY misleading.
-        public bool IsProtectedByEnemyOf(BattlescapeLogic.Unit unit)
+        public bool IsProtectedByEnemyOf(Unit unit)
         {
             if (IsTileUnderEnemyOfUnit(this, unit))
             {
@@ -90,38 +181,55 @@ namespace BattlescapeLogic
             return false;
         }
 
-        //TEMPORARY function, I think?
-
-        //I don't know if this function should exist HERE or if it should even exist at all, but it just makes stuff easier to read.
-        bool IsTileUnderEnemyOfUnit(Tile tile, BattlescapeLogic.Unit unit)
+        bool IsTileUnderEnemyOfUnit(Tile tile, Unit unit)
         {
-            return tile.myUnit != null && tile.myUnit.owner != unit.owner;
-            //return tile.myUnit != null && tile.myUnit.owner.team != unit.owner.team;
+            return tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().IsEnemyOf(unit);
+            //return tile.GetMyObject<Unit>() != null && tile.GetMyObject<Unit>().GetMyOwner().team != unit.GetMyOwner().team;
             //^ this is correct for Unit;
         }
 
-        //IDK how we want to do that but currently we do not deal with setting Units/Tiles in pairs AT ALL - we have no way to set those.
-        public void SetMyUnitTo(Unit unit)
+        public Tile GetMyTile()
         {
-            myUnit = unit;
-            Tile oldTile = null;
-            if (unit != null)
+            return this;
+        }
+
+        public void OnMouseHoverEnter(Vector3 exactMousePosition)
+        {
+            if (GameRound.instance.currentPlayer.selectedUnit != null)
             {
-                oldTile = myUnit.currentPosition;
-                myUnit.currentPosition = this;
-                if (oldTile != null && oldTile != this)
-                {
-                    oldTile.myUnit = null;
-                }
+                GameRound.instance.currentPlayer.selectedUnit.OnTileHovered(this, exactMousePosition);
             }
         }
 
-        public void DestroyObstacle()
+        public void OnMouseHoverExit()
         {
-            //Play some animations/sounds/stuff
-            myObstacle = null;
+            foreach (Unit unit in Global.instance.GetAllUnits())
+            {
+                BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.white);
+            }
         }
 
+        public IDamageable GetMyDamagableObject()
+        {
+            return myObject as IDamageable;
+        }
+
+        public MultiTile PositionRelatedToMouse(Size size, Vector3 exactClickPosition)
+        {
+            // this variable is equal to 1 if width or height are even, otherwise 0
+            int widthEven = size.width % 2;
+            int heightEven = size.height % 2;
+
+            // check which part of tile player clicked
+            int xGt = Convert.ToInt32(exactClickPosition.x > this.transform.position.x);
+            int zGt = Convert.ToInt32(exactClickPosition.z > this.transform.position.z);
+
+            // find new bottom left corner of Multitile
+            int widthOffset = (size.width - widthEven) / 2 - xGt * Convert.ToInt32(widthEven == 0);
+            int heightOffset = (size.height - heightEven) / 2 - zGt * Convert.ToInt32(heightEven == 0);
+
+            return MultiTile.Create(ToTile(this.Offset(-widthOffset, -heightOffset).CalibrateTo(size.width, size.height)), size);
+        }
     }
 }
 

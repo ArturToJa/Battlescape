@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class ShootingAttack : AbstractAttack
+    public class ShootingAttack : AbstractAttack, IMissileLaucher
     {
         //the prefab of missile shot by this unit
 
@@ -15,13 +15,10 @@ namespace BattlescapeLogic
 
         public ShootingAttack(Unit _myUnit) : base(_myUnit)
         {
-            if (_myUnit.meleeWeaponVisual != null)
-            {
-                _myUnit.meleeWeaponVisual.SetActive(false);
-            }
+            _myUnit.equipment.EquipMainRangedWeapon();
         }
 
-        public override void Attack(Unit target)
+        public override void Attack(IDamageable target)
         {
             base.Attack(target);
             TurnTowardsTarget();
@@ -34,29 +31,25 @@ namespace BattlescapeLogic
         }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
-        void SpawnMissile(Tile target)
+        public void SpawnMissile()
         {
-            GameObject missileObject = GameObject.Instantiate(sourceUnit.missilePrefab, sourceUnit.transform.position, sourceUnit.transform.rotation);
-            Missile missileScript = missileObject.GetComponent<Missile>();
-            //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
-            missileScript.sourceUnit = sourceUnit;
-            missileScript.target = targetUnit;
-        }
+            Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
 
-        IEnumerator FlyMissile(GameObject missile, Tile target)
-        {
-            //here we need some complex stuff! Someone smarter than me would be nice to have here ;D cause my missiles in the old BS... terrible!
-            yield return null;
+            //this should actually be SPAWNING POINT on shooter, not SHOOTER POSITION (not middle of a shooter lol)
+            missile.sourceUnit = sourceUnit;
+            missile.target = targetObject.GetMyPosition();
+            missile.myLauncher = this;
         }
 
         // Ranged unit does nothing on it's attack animation
         public override void OnAttackAnimation()
         {
+            SpawnMissile();
         }
 
-        public override void OnRangedAttackAnimation()
+        public void OnMissileHitTarget()
         {
-            SpawnMissile(targetUnit.currentPosition);
+            Networking.instance.SendCommandToHit(sourceUnit, targetObject);
         }
     }
 }

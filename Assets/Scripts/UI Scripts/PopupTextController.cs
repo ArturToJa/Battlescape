@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using BattlescapeLogic;
 
-public class PopupTextController : TurnChangeMonoBehaviour
+public class PopupTextController : MonoBehaviour
 {
-
+    TurnChanger turnChanger;
     PopupDmgScript _popupText;
     static PopupDmgScript popupText;
     static GameObject canvas;
@@ -13,9 +13,9 @@ public class PopupTextController : TurnChangeMonoBehaviour
     [SerializeField] float timeBetweenPopups;
     float timeFromLastPopup;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         popupsToShow = new Queue<PopupInformation>();
     }
 
@@ -67,28 +67,28 @@ public class PopupTextController : TurnChangeMonoBehaviour
         popupsToShow.Clear();
     }
 
-    public override void OnNewRound()
+    public void OnNewRound()
     {
         ClearPopups();
         if (GameRound.instance.gameRoundCount == 1)
         {
             AddPopupText("Press Escape to see Victory Conditions!", PopupTypes.Info);
-            Log.SpawnLog("Prepare for the Battle! Press Escape to see Victory Conditions!");
+            LogConsole.instance.SpawnLog("Prepare for the Battle! Press Escape to see Victory Conditions!");
         }
         else if (GameRound.instance.gameRoundCount < GameRound.instance.maximumRounds - GameRound.instance.countdown)
         {
             AddPopupText("New Round!", PopupTypes.Info);
-            Log.SpawnLog("New round");
+            LogConsole.instance.SpawnLog("New round");
         }
         else if (GameRound.instance.gameRoundCount < GameRound.instance.maximumRounds)
         {
             AddPopupText("Remaining rounds: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString() + "!", PopupTypes.Damage);
-            Log.SpawnLog("New round. Remaining rounds: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString() + ".");
+            LogConsole.instance.SpawnLog("New round. Remaining rounds: " + (GameRound.instance.maximumRounds - GameRound.instance.gameRoundCount).ToString() + ".");
         }
         else if (GameRound.instance.gameRoundCount == GameRound.instance.maximumRounds)
         {
             AddPopupText("Final Turn!", PopupTypes.Damage);
-            Log.SpawnLog("The last turn of the game has begun!");
+            LogConsole.instance.SpawnLog("The last turn of the game has begun!");
         }
         else
         {
@@ -96,16 +96,16 @@ public class PopupTextController : TurnChangeMonoBehaviour
         }
     }
 
-    public override void OnNewTurn()
+    public void OnNewTurn()
     {
         AddPopupText("New Turn!", PopupTypes.Info);
-        Log.SpawnLog("New turn of player: " + GameRound.instance.currentPlayer.playerName + ".");
+        LogConsole.instance.SpawnLog("New turn of player: " + GameRound.instance.currentPlayer.playerName + ".");
     }
 
-    public override void OnNewPhase()
+    public void OnNewPhase()
     {
         AddPopupText("Next Phase!", PopupTypes.Info);
-        Log.SpawnLog(GameRound.instance.currentPhase.ToString() + " begins.");
+        LogConsole.instance.SpawnLog(GameRound.instance.currentPhase.ToString() + " begins.");
     }
 }
 public enum PopupTypes

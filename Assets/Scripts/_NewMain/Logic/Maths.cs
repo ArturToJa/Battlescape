@@ -20,9 +20,7 @@ namespace BattlescapeLogic
 
         public static void SetObjectPitch(GameObject gameObject, float angle)
         {
-            Debug.Log("Inside before: " + gameObject.transform.rotation.eulerAngles);
             gameObject.transform.rotation *= Quaternion.AngleAxis(angle - gameObject.transform.rotation.eulerAngles.z, new Vector3(0, 0, 1));
-            Debug.Log("Inside after: " + gameObject.transform.rotation.eulerAngles);
         }
 
         public static void SetObjectRoll(GameObject gameObject, float angle)

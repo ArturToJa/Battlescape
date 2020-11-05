@@ -1,22 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+
 
 namespace BattlescapeLogic
 {
-    /// <summary>
-    ///     TO DO!!!      Create Spawn function, assign position to tiles
-    /// </summary>
-    
-    public class Obstacle : MonoBehaviour, IMouseTargetable
+    public class Obstacle : OnTileObject, IMouseTargetable, IVisuals
     {
+        float deathSpeed = .5f;
+
+        Animator animator;
+
         [SerializeField]
-        private bool _isTall;
-        [SerializeField]
-        private int _size;
-
-        public Tile[] position;
-
-        private Animator animator;
-
+        private bool _isTall = false;
         public bool isTall
         {
             get
@@ -28,33 +24,56 @@ namespace BattlescapeLogic
                 _isTall = value;
             }
         }
-        public int size
-        {
-            get
-            {
-                return _size;
-            }
-        }
 
-        void Start()
+        public void Start()
         {
-            position = new Tile[_size];
-            animator = GetComponent<Animator>();
-            
+            turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         }
 
         public void Destruct(Unit source)
         {
-            animator.SetTrigger("Destruct");
+            //Tu mna być animacja destrukcji.
+            currentPosition.SetMyObjectTo(null);
+            StartCoroutine(DestructionRoutine());
         }
 
-        public void Spawn()
+        IEnumerator DestructionRoutine()
         {
-            Debug.Log("'Spawn' function for Obstacle is empty!");
+            Vector3 finalPosition = new Vector3(transform.position.x, -1, transform.position.z);
+            Renderer renderer = GetComponent<Renderer>();
+            Color finalColour = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 0);
+            while (transform.position.y > -1)
+            {
+                transform.position = (Vector3.Lerp(transform.position, finalPosition, deathSpeed * Time.deltaTime));
+                renderer.material.color = (Color.Lerp(renderer.material.color, finalColour, 5*deathSpeed * Time.deltaTime));
+                yield return null;
+            }
+            Destroy(gameObject);
         }
+
+        public virtual void OnMouseHoverEnter(Vector3 exactMousePosition)
+        {
+            return;
+        }
+
+        public virtual void OnMouseHoverExit()
+        {
+            return;
+        }        
         
+        public void OnNewRound()
+        {
+            return;
+        }
 
+        public void OnNewTurn()
+        {
+            return;
+        }
+
+        public void OnNewPhase()
+        {
+            return;
+        }
     }
-
-
 }

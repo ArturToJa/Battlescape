@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomLayoutGroup : MonoBehaviour
+public class RoomLayoutGroup : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject _roomPrefab;
@@ -25,10 +27,10 @@ public class RoomLayoutGroup : MonoBehaviour
         }
     }
 
-    void OnReceivedRoomListUpdate()
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-        foreach (RoomInfo room in rooms)
+        foreach (RoomInfo room in roomList)
         {
             RoomReceived(room);
         }
@@ -37,7 +39,7 @@ public class RoomLayoutGroup : MonoBehaviour
 
     void RoomReceived(RoomInfo room)
     {
-        int index = Rooms.FindIndex(x => x.RoomName == room.Name);
+        int index = _rooms.FindIndex(x => x.RoomName == room.Name);
         if (index == -1)
         {
             if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
@@ -45,8 +47,8 @@ public class RoomLayoutGroup : MonoBehaviour
                 GameObject r = Instantiate(RoomPrefab);
                 r.transform.SetParent(transform, false);
                 RoomOnTheList rotl = r.GetComponent<RoomOnTheList>();
-                Rooms.Add(rotl);
-                index = (Rooms.Count - 1);
+                _rooms.Add(rotl);
+                index = (_rooms.Count - 1);
                 rotl.IsUpdated = true;
             }
         }
@@ -60,7 +62,7 @@ public class RoomLayoutGroup : MonoBehaviour
     void RemoveOldRooms()
     {
         List<RoomOnTheList> removeRooms = new List<RoomOnTheList>();
-        foreach (RoomOnTheList r in Rooms)
+        foreach (RoomOnTheList r in _rooms)
         {
             if (r.IsUpdated == false)
             {
@@ -75,7 +77,7 @@ public class RoomLayoutGroup : MonoBehaviour
         {
             GameObject roomObject = r.gameObject;
             Debug.Log(r.GetComponent<RoomOnTheList>());
-            Rooms.Remove(r);
+            _rooms.Remove(r);
             Destroy(roomObject);
         }
     }

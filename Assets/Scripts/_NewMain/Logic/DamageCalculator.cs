@@ -8,52 +8,37 @@ namespace BattlescapeLogic
 {
     public class DamageCalculator
     {
-        public static readonly float sigmoidGrowthRate = 0.5f;
+        public static readonly float sigmoidGrowthRate = 0.05f;
+        public static readonly int minimalDamageInGame = 1;
 
-        public static int CalculateBasicDamage(Unit source, Unit target)
+
+
+        public static Damage CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
         {
-            if (IsMiss(source,target))
-            {
-                return 0;
-            }
-            int averageDamage = Statistics.baseDamage + GetStatisticsDifference(source, target);
+
+            int averageDamage = GetAvarageDamage(source,target,multiplier);
             int damageRange = averageDamage / 5;
-            return UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
-        }
-
-        public static int CalculateBackstabDamage(Unit source, Unit target)
-        {
-            float percentageChance = 0.2f * (source.CompareUnitClass(target) + 3);
-            //Classes compared give number from +2 (hero/special unit attacks cannonmeat) to -2 (opposite attack), so 5 different options including 0.
-            // If we add +3 to class, we have a number from 1 to 5. We multiply 20% times that number and we get a percentage chance of success from 20% to a 100% ;)
-            float random = UnityEngine.Random.Range(0, 1);
-            if (random <= percentageChance)
+            int finalDamage = UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
+            if (finalDamage < minimalDamageInGame)
             {
-                int averageDamage = Statistics.baseDamage + GetStatisticsDifference(source, target);
-                int damageRange = averageDamage / 5;
-                return UnityEngine.Random.Range(averageDamage - damageRange, averageDamage + damageRange + 1);
+                finalDamage = minimalDamageInGame;
             }
-            else
-            {
-                return 0;
-            }
+            return new Damage(finalDamage, IsMiss(source, target));
         }
 
-        public static bool IsMiss(Unit source, Unit target)
-        {
-            return UnityEngine.Random.Range(0.0f, 1.0f) > HitChance(source, target);
+        public static bool IsMiss(Unit source, IDamageable target)
+        {            
+            return UnityEngine.Random.value > target.ChanceOfBeingHitBy(source);
+        }                
+
+        public static int GetStatisticsDifference(Unit source, IDamageable target)
+        {            
+            return (source.statistics.GetCurrentAttack() - target.GetCurrentDefence());
         }
 
-        public static float HitChance(Unit source, Unit target)
+        public static int GetAvarageDamage(Unit source, IDamageable target, float multiplier = 1)
         {
-            return Maths.Sigmoid(GetStatisticsDifference(source, target), sigmoidGrowthRate);
-        }
-
-        public static int GetStatisticsDifference(Unit source, Unit target)
-        {
-            int totalAttack = source.statistics.baseAttack + source.statistics.bonusAttack;
-            int totalDefence = target.statistics.baseDefence + target.statistics.bonusDefence;
-            return totalAttack - totalDefence;
+            return Mathf.RoundToInt((Statistics.baseDamage + ((float)GetStatisticsDifference(source, target)/10)) * multiplier);
         }
     }
 }

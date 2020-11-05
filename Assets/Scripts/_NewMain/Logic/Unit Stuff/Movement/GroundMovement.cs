@@ -12,20 +12,20 @@ namespace BattlescapeLogic
             visualSpeed = 1.5f;
         }
 
-        public override IEnumerator MoveTo(Tile newPosition)
+        public override IEnumerator MoveTo(MultiTile newPosition)
         {
-            finalTile = newPosition;
-            Queue<Tile> path = Pathfinder.instance.GetPathFromTo(myUnit, newPosition);
+            finalPosition = newPosition;
+            Queue<MultiTile> path = Pathfinder.instance.GetPathFromTo(myUnit, newPosition);
             if (myUnit.IsExittingCombat(newPosition))
             {
                 myUnit.ExitCombat();
                 int health = myUnit.statistics.healthPoints;
-                foreach (Tile neighbour in myUnit.currentPosition.neighbours)
+                foreach (Tile neighbour in myUnit.currentPosition.closeNeighbours)
                 {
-                    if (myUnit.IsAlive() && neighbour.myUnit != null && myUnit.IsEnemyOf(neighbour.myUnit))
+                    if (myUnit.IsAlive() && neighbour.GetMyObject<Unit>() != null && myUnit.IsEnemyOf(neighbour.GetMyObject<Unit>()))
                     {
-                        int damage = DamageCalculator.CalculateBackstabDamage(neighbour.myUnit, myUnit);
-                        neighbour.myUnit.Backstab(myUnit,damage);
+                        int damage = DamageCalculator.CalculateDamage(neighbour.GetMyObject<Unit>(), myUnit, 1.5f);
+                        neighbour.GetMyObject<Unit>().Backstab(myUnit,damage);
                         health -= damage;
                     }
                 }
@@ -45,17 +45,18 @@ namespace BattlescapeLogic
             int tileCount = path.Count;
             for (int i = 0; i < tileCount; ++i)
             {
-                Tile temporaryGoal = path.Dequeue();
-                myUnit.OnMove(myUnit.currentPosition, temporaryGoal);                
+                MultiTile temporaryGoal = path.Dequeue();
+                myUnit.OnMove(myUnit.currentPosition, temporaryGoal);
+                myUnit.TryToSetMyPositionTo(temporaryGoal);
                 //I am aware, that for now we are still just turning into a direction in one frame. If we ever want it any other way, it needs a bit of work to set it otherwise so im not doing it now :D.                
                 //if we want to slowly turn, we need to ask if we already turned, and if not we turn and if yes we move here.   
-                TurnTowards(temporaryGoal.transform.position);
-                while (Vector3.Distance(myUnit.transform.position, temporaryGoal.transform.position) > 0.0001f)
+                TurnTowards(temporaryGoal.center);
+                while (Vector3.Distance(myUnit.transform.position, temporaryGoal.center) > 0.0001f)
                 {
-                    myUnit.transform.position = Vector3.MoveTowards(myUnit.transform.position, temporaryGoal.transform.position,visualSpeed * Time.deltaTime);
+                    myUnit.transform.position = Vector3.MoveTowards(myUnit.transform.position, temporaryGoal.center,visualSpeed * Time.deltaTime);
                     yield return null;
                 }                
-                temporaryGoal.SetMyUnitTo(myUnit);
+                temporaryGoal.SetMyObjectTo(myUnit);
              }
             StopMovementAnimation();
             PlayerInput.instance.isInputBlocked = false;

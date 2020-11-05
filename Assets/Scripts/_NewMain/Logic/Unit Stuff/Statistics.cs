@@ -233,7 +233,6 @@ namespace BattlescapeLogic
             numberOfAttacks += bonusStatistics.bonusNumberOfAttacks;
             currentMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
             numberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
-
             healthPoints += bonusStatistics.bonusHealth;
             movementPoints += bonusStatistics.bonusMovementPoints;
         }

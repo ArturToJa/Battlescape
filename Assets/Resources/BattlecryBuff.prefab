@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 222372885164003898}
   - component: {fileID: 114360323722960078}
   - component: {fileID: 114096374351534168}
-  - component: {fileID: 114090215025585590}
+  - component: {fileID: 114864537432422228}
   m_Layer: 5
   m_Name: BattlecryBuff
   m_TagString: Untagged
@@ -48,17 +48,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114090215025585590
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1579232712136578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114096374351534168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,9 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eddf5ef65f7a8240abafeb0eb829545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tooltip: {fileID: 0}
-  TooltipName: Battlecry
-  TooltipText: This unit has Attack increased by the Knight's Battlecry temporarily.
+  tooltipName: 
+  tooltipText: 
 --- !u!114 &114289814591171282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +167,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114864537432422228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1579232712136578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222372885164003898
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
+using BattlescapeSound;
 
 public class PlayerLayoutGroup : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class PlayerLayoutGroup : MonoBehaviour
 
     List<PlayerOnTheList> PlayerList = new List<PlayerOnTheList>();
 
+    [SerializeField] Sound playerJoinedSound;
+
     void OnJoinedRoom()
     {
         foreach (Transform child in transform)
@@ -20,24 +25,24 @@ public class PlayerLayoutGroup : MonoBehaviour
             Destroy(child.gameObject);
         }
         RoomObj.transform.SetAsLastSibling();
-        PhotonPlayer[] photonPlayers = PhotonNetwork.playerList;
+        Player[] photonPlayers = PhotonNetwork.PlayerList;
         for (int i = 0; i < photonPlayers.Length; i++)
         {
             PlayerJoinedRoom(photonPlayers[i]);
         }
     }
 
-    void OnPhotonPlayerConnected(PhotonPlayer photonPlayer)
+    void OnPhotonPlayerConnected(Player photonPlayer)
     {
         PlayerJoinedRoom(photonPlayer);
     }
 
-    void OnPhotonPlayerDisconnected(PhotonPlayer photonPlayer)
+    void OnPhotonPlayerDisconnected(Player photonPlayer)
     {
         PlayerLeftRoom(photonPlayer);
     }
 
-    void PlayerJoinedRoom(PhotonPlayer photonPlayer)
+    void PlayerJoinedRoom(Player photonPlayer)
     {
         if (photonPlayer == null)
         {
@@ -49,13 +54,13 @@ public class PlayerLayoutGroup : MonoBehaviour
         PlayerOnTheList potl = PlayerObj.GetComponent<PlayerOnTheList>();
         potl.ApplyPhotonPlayer(photonPlayer);
         PlayerList.Add(potl);
-        if (photonPlayer != PhotonNetwork.player)
+        if (photonPlayer != PhotonNetwork.LocalPlayer)
         {
-            FindObjectOfType<AudioManager>().Play("PlayerJoinedSound");
+            SoundManager.instance.PlaySound(this.gameObject, playerJoinedSound);
         }
     }
 
-    void PlayerLeftRoom(PhotonPlayer photonPlayer)
+    void PlayerLeftRoom(Photon.Realtime.Player photonPlayer)
     {
         int index = PlayerList.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if (index != -1)
