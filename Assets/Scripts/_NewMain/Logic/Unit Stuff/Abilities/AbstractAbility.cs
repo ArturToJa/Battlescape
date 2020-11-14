@@ -19,13 +19,35 @@ namespace BattlescapeLogic
         [SerializeField] private bool melee;
         [SerializeField] private bool ground;
         [SerializeField] private bool flying;
+        [SerializeField] private bool tile;
+        [SerializeField] private bool destructible;
 
         public void SetAbility(AbstractAbility ability)
         {
             thisAbility = ability;
         }
 
-
+        public bool FilterTarget(IMouseTargetable target)
+        {
+            Unit unit = target as Unit;
+            Tile tile = target as Tile;
+            DestructibleObstacle dest = target as DestructibleObstacle;
+            if(unit != null)
+            {
+                Player player = unit.GetMyOwner();
+                PlayerTeam team = player.team;
+                return FilterTeam(team) && FilterPlayer(player) && FilterUnit(unit);
+            }
+            if(tile != null)
+            {
+                return FilterTile();
+            }
+            if(dest != null)
+            {
+                return FilterDestructible();
+            }
+            return false;
+        }
         public bool FilterTeam(PlayerTeam team)
         {
             return FilterAlly(team) || FilterEnemy(team);
@@ -41,10 +63,6 @@ namespace BattlescapeLogic
             return FilterSelf(unit) && (FilterHero(unit) || FilterRegular(unit)) && (FilterRanged(unit) || FilterMelee(unit)) && (FilterGround(unit) || FilterFlying(unit));
         }
 
-
-
-
-
         bool FilterAlly(PlayerTeam team)
         {
             return ally && thisAbility.owner.GetMyOwner().team == team;
@@ -55,8 +73,6 @@ namespace BattlescapeLogic
             return enemy && thisAbility.owner.GetMyOwner().team != team;
         }
 
-
-
         bool FilterSelfPlayer(Player player)
         {
             return selfPlayer && thisAbility.owner.GetMyOwner() == player;
@@ -66,8 +82,6 @@ namespace BattlescapeLogic
         {
             return otherPlayer && thisAbility.owner.GetMyOwner() != player;
         }
-
-
 
         //This only disallows self-targetting if self is checked off.
         bool FilterSelf(Unit unit)
@@ -105,7 +119,15 @@ namespace BattlescapeLogic
             return flying && unit.movementType == MovementTypes.Flying;
         }
 
+        bool FilterTile()
+        {
+            return tile;
+        }
 
+        bool FilterDestructible()
+        {
+            return destructible;
+        }
     };
 
     public abstract class AbstractAbility : MonoBehaviour
@@ -123,6 +145,45 @@ namespace BattlescapeLogic
             protected set
             {
                 _filter = value;
+            }
+        }
+
+        [SerializeField] string _abilityName;
+        public string abilityName
+        {
+            get
+            {
+                return _abilityName;
+            }
+            protected set
+            {
+                _abilityName = value;
+            }
+        }
+
+        [SerializeField] string _description;
+        public string description
+        {
+            get
+            {
+                return _description;
+            }
+            protected set
+            {
+                _description = value;
+            }
+        }
+
+        [SerializeField] Sprite _icon;
+        public Sprite icon
+        {
+            get
+            {
+                return _icon;
+            }
+            protected set
+            {
+                _icon = value;
             }
         }
 
@@ -150,18 +211,23 @@ namespace BattlescapeLogic
             return;
         }
 
+        protected void ApplyBuffToUnit(GameObject buff, Unit target)
+        {
+            var buffObject = Instantiate(buff, target.transform);
+            var buffObjectBuffs = buffObject.GetComponents<AbstractBuff>();
+            if (buffObjectBuffs.Length != 1)
+            {
+                Debug.LogError("Wrong count of buffs on buff object: " + buffObject.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
+            }
+            AbstractBuff newBuff = buffObjectBuffs[0];
+            newBuff.ApplyOnTarget(target, this);
+        }
+
         protected void ApplyBuffsToUnit(List<GameObject> buffs, Unit target)
         {
             foreach (GameObject buffPrefab in buffs)
             {
-                var buffObject = Instantiate(buffPrefab, target.transform);
-                var buffObjectBuffs = buffObject.GetComponents<AbstractBuff>();
-                if (buffObjectBuffs.Length != 1)
-                {
-                    Debug.LogError("Wrong count of buffs on buff object: " + buffObject.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
-                }
-                AbstractBuff newBuff = buffObjectBuffs[0];
-                newBuff.ApplyOnTarget(target, this);
+                ApplyBuffToUnit(buffPrefab, target);
             }
         }
     }

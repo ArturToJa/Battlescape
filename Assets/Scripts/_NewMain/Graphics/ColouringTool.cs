@@ -28,6 +28,12 @@ namespace BattlescapeGraphics
             }
         }
 
+        public static void UncolourAllObjects()
+        {
+            UncolourAllTiles();
+            UncolourAllUnits();
+        }
+
         public static void UncolourAllUnits()
         {
             foreach (PlayerTeam team in Global.instance.playerTeams)
@@ -99,7 +105,8 @@ namespace BattlescapeGraphics
         {
             if (target is Tile)
             {
-                Debug.LogWarning("thats not how you colour tiles. Try tile.highlighter.TurnOn(Color colour)");
+                (target as Tile).highlighter.TurnOn(colour);
+                return;
             }
 
             Renderer[] rs = target.GetComponentsInChildren<Renderer>();

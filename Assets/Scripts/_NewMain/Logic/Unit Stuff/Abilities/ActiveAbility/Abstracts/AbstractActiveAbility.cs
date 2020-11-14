@@ -8,44 +8,7 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractActiveAbility : AbstractAbility, IActiveEntity
     {
-        [SerializeField] string _abilityName;
-        public string abilityName
-        {
-            get
-            {
-                return _abilityName;
-            }
-            protected set
-            {
-                _abilityName = value;
-            }
-        }
-
-        [SerializeField] string _description;
-        public string description
-        {
-            get
-            {
-                return _description;
-            }
-            protected set
-            {
-                _description = value;
-            }
-        }
-
-        [SerializeField] Sprite _icon;
-        public Sprite icon
-        {
-            get
-            {
-                return _icon;
-            }
-            protected set
-            {
-                _icon = value;
-            }
-        }        
+        
 
         public IMouseTargetable target { get; set; }
 
@@ -75,10 +38,7 @@ namespace BattlescapeLogic
 
         [SerializeField] int _energyCost;
 
-        public virtual void OnAnimationEvent()
-        {
-            return;
-        }
+        public abstract void OnAnimationEvent();
 
         public int energyCost
         {
@@ -188,16 +148,10 @@ namespace BattlescapeLogic
             }
         }
 
-
-
-
-
-
         public virtual void OnClickIcon()
         {
             Global.instance.currentEntity = this;
-            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            ColourPossibleTargets();
+            BattlescapeGraphics.ColouringTool.UncolourAllObjects();
             OnAbilityClicked();
         }
 
@@ -208,13 +162,17 @@ namespace BattlescapeLogic
         {
             return;
         }
-        
-        public abstract bool IsLegalTarget(IMouseTargetable target);
 
+        protected abstract bool IsLegalTarget(IMouseTargetable target);
+
+        protected bool CheckTarget(IMouseTargetable target)
+        {
+            return filter.FilterTarget(target) && IsLegalTarget(target);
+        }
 
         protected virtual void Activate()
         {
-            BattlescapeGraphics.ColouringTool.UncolourAllTiles();
+            BattlescapeGraphics.ColouringTool.UncolourAllObjects();
             owner.statistics.currentEnergy -= energyCost;
             if (usesPerBattle > 0)
             {
@@ -267,7 +225,7 @@ namespace BattlescapeLogic
 
         public void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition)
         {
-            if (IsLegalTarget(clickedObject))
+            if (CheckTarget(clickedObject))
             {
                 target = clickedObject;
                 Activate();
@@ -281,7 +239,7 @@ namespace BattlescapeLogic
 
         public virtual void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition)
         {
-            if (IsLegalTarget(target))
+            if (CheckTarget(target))
             {
                 Cursor.instance.OnLegalTargetHovered();
             }

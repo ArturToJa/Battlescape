@@ -8,14 +8,19 @@ namespace BattlescapeLogic
     {
         public override void OnClickIcon()
         {
-            //I think there is no need to set currentAbility to this as it will momentarily be un-done as a No-Target-Ability self-activates when clicked.
-            //Also that would possibly make us ask about legal target- while clearly there is no target.
+            base.OnClickIcon();
             Activate();
         }
 
         public override void ColourPossibleTargets()
+        {}
+
+        protected override bool IsLegalTarget(IMouseTargetable target)
         {
-            Debug.LogError("This kinda shouldnt happen? Or maybe im wrong");
+            return true;
         }
+
+        public override void OnAnimationEvent()
+        {}
     }
 }

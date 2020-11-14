@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 54147378901850522}
   - component: {fileID: 114314348284977456}
   - component: {fileID: 114129476627310188}
+  - component: {fileID: 8083802796878842536}
   m_Layer: 8
   m_Name: Royal Guard
   m_TagString: Unit
@@ -88,45 +89,20 @@ MonoBehaviour:
     _fluffText: The most powerful defensive unit of the Humans. Can buff allies.
   unitSounds:
     _movementSound:
-      name: RGMoveSound
       clip: {fileID: 8300000, guid: 78a3cd9db7d0f6c43b6b917161acd68a, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: PikemanDeathSound
       clip: {fileID: 8300000, guid: eb4117ee390dd674889cfadaf5431e2f, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: PikemanHitSound
       clip: {fileID: 8300000, guid: c4d058a2d00c5144fb404e065f328b61, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: 
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: PikemanSoundAttack
       clip: {fileID: 8300000, guid: 6f20b4633eb07a64a9363892571d0bf9, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 7
     _limit: 1
@@ -150,6 +126,50 @@ MonoBehaviour:
       itemHidden: {fileID: 0}
       _isRanged: 0
   _race: 0
+--- !u!114 &8083802796878842536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638792360579844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8de345bdfe236d47a19b8a3d0953885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 1
+    enemy: 0
+    selfPlayer: 1
+    otherPlayer: 0
+    canSelf: 1
+    hero: 1
+    regular: 1
+    ranged: 1
+    melee: 1
+    ground: 1
+    flying: 1
+    tile: 0
+    destructible: 0
+  _abilityName: Guardian's Support
+  _description: Grant your ally unit bonus stats.
+  _icon: {fileID: 21300000, guid: 724b3c49c726665449e7c29231aee3bb, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 1
+  _energyCost: 0
+  _usesPerBattle: 50
+  _animationTrigger: Ability1
+  sound:
+    clip: {fileID: 0}
+    volume: 0
+  log: 
+  castVisualEffect: {fileID: 0}
+  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
+  _range: 99
+  buffPrefab: {fileID: 3290089370329061677, guid: aeda487d023068a479ce66bb30532c06,
+    type: 3}
 --- !u!1 &1985089682246546
 GameObject:
   m_ObjectHideFlags: 0
