@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    [Serializable]
     public class Expirable
 {
         TurnChanger turnChanger;
@@ -27,10 +26,11 @@ namespace BattlescapeLogic
             }
         }
 
-        public Expirable(Player owner, Action onExpire)
+        public Expirable(Player owner, Action onExpire, int _duration)
         {
             turnChanger = new TurnChanger(owner, OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
             OnExpire_ = onExpire;
+            duration = _duration;
         }
 
         public bool IsExpired()

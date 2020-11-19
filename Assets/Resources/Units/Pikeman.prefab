@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 54147378901850522}
   - component: {fileID: 114314348284977456}
   - component: {fileID: 114129476627310188}
-  - component: {fileID: 114127821290305074}
   m_Layer: 8
   m_Name: Pikeman
   m_TagString: Unit
@@ -90,45 +89,20 @@ MonoBehaviour:
       in protecting Archers and dealing with enemy cavalry.
   unitSounds:
     _movementSound:
-      name: PikemanMoveSound
       clip: {fileID: 8300000, guid: 593282279a07b5a45a0d6022d72c8c32, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: PikemanDeathSound
       clip: {fileID: 8300000, guid: eb4117ee390dd674889cfadaf5431e2f, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: PikemanHitSound
       clip: {fileID: 8300000, guid: c4d058a2d00c5144fb404e065f328b61, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: 
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: PikemanSoundAttack
       clip: {fileID: 8300000, guid: 6f20b4633eb07a64a9363892571d0bf9, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 4
     _limit: 2
@@ -152,65 +126,6 @@ MonoBehaviour:
       itemHidden: {fileID: 0}
       _isRanged: 0
   _race: 0
---- !u!114 &114127821290305074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638792360579844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd68a56f1c32884fad3e438a6148204, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _filter:
-    ally: 0
-    enemy: 0
-    selfPlayer: 0
-    otherPlayer: 0
-    canSelf: 0
-    hero: 0
-    regular: 0
-    ranged: 0
-    melee: 0
-    ground: 0
-    flying: 0
-  _abilityName: Barricade
-  _description: Pikeman creates a destructible barricade on a neighbouring tile.
-    It can not be passed. Can be built more than once a turn.
-  _icon: {fileID: 21300000, guid: 866f8849b06ee3e43b14da96ce4299a0, type: 3}
-  legalPhases: 4
-  costsMovement: 0
-  _cooldown: 0
-  _energyCost: 20
-  _usesPerBattle: 0
-  _animationTrigger: Barricade
-  sound:
-    name: PikemanBarriicadeSound
-    clip: {fileID: 8300000, guid: 8ecf3e7ab8b6d1c4cb8c86e29c80570d, type: 3}
-    volume: 0.3
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  log: Pikeman builds a Barricade!
-  castVisualEffect: {fileID: 1884933212294534, guid: 0af5be3914fd2e54dab118360595c72b,
-    type: 3}
-  targetColouringColour: {r: 0, g: 0.8156863, b: 0.8901961, a: 0.5019608}
-  _range: 1
-  isRangeModified: 0
-  rangeModifier: 0
-  obstaclePrefab: {fileID: 1695538124464800, guid: 44a3891117063ed4f9cd26cfb3445a77,
-    type: 3}
-  onHitTheGroundSound:
-    name: PikemanSpearHitGroundSound
-    clip: {fileID: 8300000, guid: 89371f48456c92445b358a10deedd6b4, type: 3}
-    volume: 0.3
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
 --- !u!1 &1985089682246546
 GameObject:
   m_ObjectHideFlags: 0

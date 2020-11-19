@@ -220,9 +220,9 @@ namespace BattlescapeLogic
             OnAbilityFinished();
         }
 
-        public override void OnNewRound()
+        public override void OnNewPlayerRound()
         {
-            base.OnNewRound();
+            base.OnNewPlayerRound();
             if (roundsTillOffCooldown > 0)
             {
                 roundsTillOffCooldown--;

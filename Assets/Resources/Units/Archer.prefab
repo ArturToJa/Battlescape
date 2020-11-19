@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 114173816431765564}
   - component: {fileID: 114816784686270198}
   - component: {fileID: 54301261033011858}
-  - component: {fileID: 114913150164585950}
   m_Layer: 8
   m_Name: Archer
   m_TagString: Unit
@@ -63,45 +62,20 @@ MonoBehaviour:
       Arrows, is really usefull against groups of enemies.
   unitSounds:
     _movementSound:
-      name: ArcherMovementSound
       clip: {fileID: 8300000, guid: dc1c91200366f1f4289270a21853e623, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: ArcherDeathSound
       clip: {fileID: 8300000, guid: f97a372eb7441fe408dd1e6dbfaec7cd, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: ArcherWoundSound
       clip: {fileID: 8300000, guid: c8cc8ca7e4f674f4196c02429fe47895, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: ArcherShootSound
       clip: {fileID: 8300000, guid: b6ee38c23d384e54e86ddf0171e1d87c, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: ArcherAttackSound
       clip: {fileID: 8300000, guid: 88e252a79e29a304795465aaaae50c14, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 3
     _limit: 3
@@ -153,63 +127,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114913150164585950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361541935773806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 746bee4f0ee5fc540b9a6b20cc00820c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _filter:
-    ally: 0
-    enemy: 0
-    selfPlayer: 0
-    otherPlayer: 0
-    canSelf: 0
-    hero: 0
-    regular: 0
-    ranged: 0
-    melee: 0
-    ground: 0
-    flying: 0
-  _abilityName: Hail of Arrows
-  _description: Archer fires a hail of arrows, dealing 4 damage to every unit in
-    its range and decreasing their Defense skill by 1 permanently. The defense decrease
-    is non-stackable.
-  _icon: {fileID: 21300000, guid: 7d457bb241b8b5a4ea185b3e495f0d61, type: 3}
-  legalPhases: 2
-  costsMovement: 0
-  _cooldown: 1
-  _energyCost: 50
-  _usesPerBattle: 0
-  _animationTrigger: ShootHail
-  sound:
-    name: 
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 0
-  log: Archer fires a Hail of Arrows!
-  castVisualEffect: {fileID: 1884933212294534, guid: ba2e4cc5e763f7247b273ba0b54532b0,
-    type: 3}
-  targetColouringColour: {r: 0.5882353, g: 0.02745098, b: 0.02745098, a: 0.5019608}
-  _range: 0
-  isRangeModified: 1
-  rangeModifier: -1
-  size: 2
-  vfxOnTargetArea:
-  - {fileID: 1505100389049832, guid: fb206fc0100641743ab5cf224c17a534, type: 3}
-  - {fileID: 1848597579681154, guid: 3454cfbc1426b974c8ed782033773fbd, type: 3}
-  buffs:
-  - {fileID: 1234158636466810, guid: c9cef1489541c4c499433af08299e1cc, type: 3}
-  damage: 4
 --- !u!1 &1814057948970888
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,18 +43,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2dd906c5e37c44488ca913290a9e849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _expirable:
-    _duration: 1
+  duration: 1
   _isHidden: 0
   _buffName: Guardian's Support
   _description: This unit feels strong. it has +2 attack and +2 defence.
-  _image: {fileID: 21300000, guid: a4b36001bb2a9e242be36b09f2a0f4f1, type: 3}
+  _image: {fileID: 21300000, guid: 8d148ab6cdcd0d04c87ffca88a46b150, type: 3}
   _isStackable: 1
   visualEffectPrefab: {fileID: 1402965160264764, guid: 7429ce74c29a12c4295ea768e998a6d0,
     type: 3}
   statistics:
-    _bonusAttack: 2
-    _bonusDefence: 2
+    _bonusAttack: 20
+    _bonusDefence: 20
     _bonusHealth: 0
     _bonusMovementPoints: 0
     _bonusAttackRange: 0

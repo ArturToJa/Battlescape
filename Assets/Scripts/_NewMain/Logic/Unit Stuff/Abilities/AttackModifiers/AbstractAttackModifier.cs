@@ -6,6 +6,7 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractAttackModifier : AbstractAbility
     {
+        [SerializeField] int duration;
         public Expirable expirable { get; private set; }
 
         public abstract void ModifyDamage(Damage damage);
@@ -16,7 +17,7 @@ namespace BattlescapeLogic
         {
             owner = unit;
             owner.modifiers.Add(this);
-            expirable = new Expirable(owner.GetMyOwner(), OnExpire);
+            expirable = new Expirable(owner.GetMyOwner(), OnExpire, duration);
         }
 
         protected void OnExpire()

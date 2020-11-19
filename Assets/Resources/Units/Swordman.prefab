@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 114173816431765564}
   - component: {fileID: 114191808647025294}
   - component: {fileID: 54909076193140656}
-  - component: {fileID: 114202858621541608}
   m_Layer: 8
   m_Name: Swordman
   m_TagString: Unit
@@ -61,45 +60,20 @@ MonoBehaviour:
     _fluffText: Basic unit of Human army, usefull mostly in defense.
   unitSounds:
     _movementSound:
-      name: SwordmanMovementSound
       clip: {fileID: 8300000, guid: c3507ed7d0f5b834c9bd41d105ea863d, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: SwordmanDeathSound
       clip: {fileID: 8300000, guid: 9a1e16728303eae46907b1965b5f77ab, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: SwormanHitSound
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: NO_NEED_FOR_SWORDMAN_SHOOT_SOUND
       clip: {fileID: 0}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: SwordmanAttackSound
       clip: {fileID: 8300000, guid: bd79fe5c75938a249b12df9bc3009e58, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 2
     _limit: 4
@@ -151,55 +125,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114202858621541608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361541935773806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 344e4b50eb6b4674eb690aede74a5d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _filter:
-    ally: 0
-    enemy: 0
-    selfPlayer: 0
-    otherPlayer: 0
-    canSelf: 0
-    hero: 0
-    regular: 0
-    ranged: 0
-    melee: 0
-    ground: 0
-    flying: 0
-  _abilityName: Defensive Stance
-  _description: Swordman takes a defensive stance, losing the ability to attack or
-    move this turn. He gains +2 defense and an additional retaliation until his next
-    turn.
-  _icon: {fileID: 21300000, guid: a4b36001bb2a9e242be36b09f2a0f4f1, type: 3}
-  legalPhases: 1
-  costsMovement: 1
-  _cooldown: 1
-  _energyCost: 40
-  _usesPerBattle: 0
-  _animationTrigger: 
-  sound:
-    name: Defensive Stance Sound
-    clip: {fileID: 8300000, guid: ecbbef71d9786ad43be202bc59cb70d6, type: 3}
-    volume: 0.3
-    pitch: 1
-    oldSource: {fileID: 0}
-    loop: 0
-    soundType: 6
-  log: Swordman uses Defensive Stance, increasing his defensive potential!
-  castVisualEffect: {fileID: 1003680110655624, guid: b606b25bf44ca9641920d818bad3f026,
-    type: 3}
-  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
-  selfBuffs:
-  - {fileID: 1234158636466810, guid: 03c98184ca72d2949aff388fa2dc7e0b, type: 3}
 --- !u!65 &4534952749216605733
 BoxCollider:
   m_ObjectHideFlags: 0

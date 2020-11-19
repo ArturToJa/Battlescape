@@ -6,18 +6,8 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractBuff : MonoBehaviour
     {
-        [SerializeField] Expirable _expirable;
-        public Expirable expirable
-        {
-            get
-            {
-                return _expirable;
-            }
-            private set
-            {
-                _expirable = value;
-            }
-        }
+        [SerializeField] int duration;
+        public Expirable expirable { get; private set; }
 
 
         [SerializeField] bool _isHidden = false;
@@ -94,6 +84,7 @@ namespace BattlescapeLogic
 
         protected void OnExpire()
         {
+            Debug.Log("Buff expired");
             if (visualEffect != null)
             {
                 Destroy(visualEffect);
@@ -109,7 +100,7 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
-                expirable = new Expirable(target.GetMyOwner(), OnExpire);
+                expirable = new Expirable(target.GetMyOwner(), OnExpire, duration);
                 this.source = source;
                 ApplyOnTarget(target);
             }

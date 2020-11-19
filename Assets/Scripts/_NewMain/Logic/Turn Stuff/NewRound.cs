@@ -39,7 +39,7 @@ namespace BattlescapeLogic
         }
         public void OnNewRound()
         {
-            if(OnNewRound_ != null)
+            if (OnNewRound_ != null)
             {
                 OnNewRound_();
             }
@@ -47,7 +47,7 @@ namespace BattlescapeLogic
             {
                 Debug.Log("No OnNewRound method implemented!");
             }
-            
+
         }
         public void OnNewTurn()
         {
@@ -86,20 +86,26 @@ namespace BattlescapeLogic
 
         public void OnCreation()
         {
-            if(owner != null)
+            if (owner != null)
             {
                 GameRound.instance.turnChangerObjects[owner].AddLast(this);
             }
-            GameRound.instance.newRoundObjects.AddLast(this);
+            else
+            {
+                GameRound.instance.newRoundObjects.AddLast(this);
+            }
         }
 
         public void OnDestruction()
         {
-            if(owner != null)
+            if (owner != null)
             {
                 GameRound.instance.turnChangerObjects[owner].Remove(GameRound.instance.turnChangerObjects[owner].Find(this));
             }
-            GameRound.instance.newRoundObjects.Remove(GameRound.instance.newRoundObjects.Find(this));
+            else
+            {
+                GameRound.instance.newRoundObjects.Remove(GameRound.instance.newRoundObjects.Find(this));
+            }
         }
     }
 }

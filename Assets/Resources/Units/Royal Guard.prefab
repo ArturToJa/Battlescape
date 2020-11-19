@@ -143,7 +143,7 @@ MonoBehaviour:
     enemy: 0
     selfPlayer: 1
     otherPlayer: 1
-    canSelf: 1
+    canSelf: 0
     hero: 1
     regular: 1
     ranged: 1
@@ -152,13 +152,13 @@ MonoBehaviour:
     flying: 1
   _abilityName: Guardian's Support
   _description: Grant your ally unit bonus stats.
-  _icon: {fileID: 21300000, guid: 724b3c49c726665449e7c29231aee3bb, type: 3}
+  _icon: {fileID: 21300000, guid: 8d148ab6cdcd0d04c87ffca88a46b150, type: 3}
   legalPhases: 4
   costsMovement: 0
   _cooldown: 1
-  _range: 99
-  _energyCost: 0
-  _usesPerBattle: 50
+  _range: 1
+  _energyCost: 40
+  _usesPerBattle: 0
   _animationTrigger: Ability1
   sound:
     clip: {fileID: 0}

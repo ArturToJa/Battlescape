@@ -31,6 +31,6 @@ namespace BattlescapeLogic
         protected override bool IsLegalTarget(IMouseTargetable target)
         {
             return base.IsLegalTarget(target) && target as Unit != null;
-        }
+        } 
     }
 }

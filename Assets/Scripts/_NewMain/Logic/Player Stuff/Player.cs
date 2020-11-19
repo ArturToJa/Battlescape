@@ -202,7 +202,19 @@ namespace BattlescapeLogic
 
         public static implicit operator int(Player player)
         {
-            return player.index;
+            int globalIndex = 0;
+            for (int i = 0; i <= player.team.index; i++)
+            {
+                if (!Global.instance.playerTeams[i].Equals(player.team))
+                {
+                    globalIndex += Global.instance.playerTeams[i].players.Count;
+                }
+                else
+                {
+                    globalIndex += player.index;
+                }
+            }
+            return globalIndex;
         }
 
 
