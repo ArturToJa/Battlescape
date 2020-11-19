@@ -199,7 +199,7 @@ public class MainMenu : MonoBehaviour
         for (int i = 0; i < Global.instance.playerCount; i++)
         {
             PlayerBuilder playerBuilder = new PlayerBuilder();
-            playerBuilder.index = i;
+            playerBuilder.index = 0;
             playerBuilder.colour = (PlayerColour)i;
             playerBuilder.playerName = playerBuilder.colour.ToString() + " Player";
             playerBuilder.race = Race.Neutral;

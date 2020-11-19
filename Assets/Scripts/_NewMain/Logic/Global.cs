@@ -146,13 +146,25 @@ namespace BattlescapeLogic
             {
                 foreach (Player player in team.players)
                 {
-                    foreach (Unit unit in player.playerUnits)
-                    {
-                        returnList.Add(unit);
-                    }
+                    returnList.AddRange(player.playerUnits);
                 }
             }
             return returnList;
+        }
+
+        public List<DestructibleObstacle> GetAllDestructibles()
+        {
+            List<DestructibleObstacle> destructibles = new List<DestructibleObstacle>();
+            foreach (Tile tile in currentMap.board)
+            {
+                DestructibleObstacle destructible = tile.GetMyObject<DestructibleObstacle>();
+
+                if (destructible != null)
+                {
+                    destructibles.Add(destructible);
+                }
+            }
+            return destructibles;
         }
 
         //Doesn't count the observers

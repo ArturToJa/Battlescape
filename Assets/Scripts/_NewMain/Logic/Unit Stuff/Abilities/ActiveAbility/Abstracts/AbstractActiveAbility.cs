@@ -8,10 +8,6 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractActiveAbility : AbstractAbility, IActiveEntity
     {
-        
-
-        public IMouseTargetable target { get; set; }
-
         [Header("Limitations")]
 
         [SerializeField]
@@ -32,13 +28,36 @@ namespace BattlescapeLogic
                 _cooldown = value;
             }
         }
+
+        [SerializeField] int _range;
+        public int range
+        {
+            get
+            {
+                return _range;
+            }
+            protected set
+            {
+                _range = value;
+            }
+        }
+
         int roundsTillOffCooldown = 0;
 
 
 
         [SerializeField] int _energyCost;
 
-        public abstract void OnAnimationEvent();
+        public abstract void DoAbility();
+
+        public void OnAnimationEvent()
+        {
+            if(Global.instance.currentEntity.Equals(this))
+            {
+                DoAbility();
+                OnFinish();
+            }
+        }
 
         public int energyCost
         {
@@ -157,13 +176,17 @@ namespace BattlescapeLogic
 
         public abstract void ColourPossibleTargets();
 
-        //NO IDEA if we even need this - in old code it coloured e.g. possible targets when hovering over ability, especially if ability is no target (used on click and not on activation
-        public virtual void OnMouseHovered()
-        {
-            return;
-        }
+        public abstract void OnMouseHovered();
+        public abstract void OnMouseUnHovered();
 
-        protected abstract bool IsLegalTarget(IMouseTargetable target);
+        protected virtual bool IsLegalTarget(IMouseTargetable target)
+        {
+            MonoBehaviour tar = target as MonoBehaviour;
+            int x = (int)tar.transform.position.x;
+            int y = (int)tar.transform.position.z;
+            Tile targetTile = Tile.ToTile(new Position(x, y));
+            return this.owner.currentPosition.DistanceTo(targetTile) <= range;
+        }
 
         protected bool CheckTarget(IMouseTargetable target)
         {
@@ -187,13 +210,12 @@ namespace BattlescapeLogic
             Animate();
             DoVisualEffectFor(castVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
-            OnFinish();
-            //the thing below is necessary, but no idea WHEN and WHERE to turn it off.
-            //PlayerInput.instance.isInputBlocked = true;
+            PlayerInput.instance.isInputBlocked = true;
         }
 
         public void OnFinish()
         {
+            PlayerInput.instance.isInputBlocked = false;
             owner.GetMyOwner().SelectUnit(owner);
             OnAbilityFinished();
         }
@@ -223,14 +245,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition)
-        {
-            if (CheckTarget(clickedObject))
-            {
-                target = clickedObject;
-                Activate();
-            }
-        }
+        public abstract void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition);
 
         public void OnRightClick(IMouseTargetable target)
         {

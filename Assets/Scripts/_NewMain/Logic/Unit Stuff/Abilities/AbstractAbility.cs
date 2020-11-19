@@ -19,8 +19,6 @@ namespace BattlescapeLogic
         [SerializeField] private bool melee;
         [SerializeField] private bool ground;
         [SerializeField] private bool flying;
-        [SerializeField] private bool tile;
-        [SerializeField] private bool destructible;
 
         public void SetAbility(AbstractAbility ability)
         {
@@ -37,14 +35,6 @@ namespace BattlescapeLogic
                 Player player = unit.GetMyOwner();
                 PlayerTeam team = player.team;
                 return FilterTeam(team) && FilterPlayer(player) && FilterUnit(unit);
-            }
-            if(tile != null)
-            {
-                return FilterTile();
-            }
-            if(dest != null)
-            {
-                return FilterDestructible();
             }
             return false;
         }
@@ -117,16 +107,6 @@ namespace BattlescapeLogic
         bool FilterFlying(Unit unit)
         {
             return flying && unit.movementType == MovementTypes.Flying;
-        }
-
-        bool FilterTile()
-        {
-            return tile;
-        }
-
-        bool FilterDestructible()
-        {
-            return destructible;
         }
     };
 

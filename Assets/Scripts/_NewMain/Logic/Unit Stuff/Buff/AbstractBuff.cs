@@ -6,7 +6,19 @@ namespace BattlescapeLogic
 {
     public abstract class AbstractBuff : MonoBehaviour
     {
-        public Expirable expirable { get; private set; }
+        [SerializeField] Expirable _expirable;
+        public Expirable expirable
+        {
+            get
+            {
+                return _expirable;
+            }
+            private set
+            {
+                _expirable = value;
+            }
+        }
+
 
         [SerializeField] bool _isHidden = false;
         public bool isHidden

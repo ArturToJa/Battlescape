@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
+    [Serializable]
     public class Expirable
 {
         TurnChanger turnChanger;

@@ -108,7 +108,7 @@ namespace BattlescapeSound
             }
         }
 
-        void Start()
+        void Awake()
         {
             if (_instance == null)
             {

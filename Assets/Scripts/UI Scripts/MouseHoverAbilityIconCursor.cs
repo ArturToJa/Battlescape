@@ -57,6 +57,10 @@ public class MouseHoverAbilityIconCursor : MouseHoverInfoCursor
     public void NotHover()
     {
         increaseHover = false;
+        if (SceneManager.GetActiveScene().name != "_ManagementScene")
+        {
+            myAbility.OnMouseUnHovered();
+        }
     }
 
 

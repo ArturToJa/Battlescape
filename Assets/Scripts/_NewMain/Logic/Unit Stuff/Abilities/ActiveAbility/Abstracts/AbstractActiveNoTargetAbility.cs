@@ -12,15 +12,24 @@ namespace BattlescapeLogic
             Activate();
         }
 
-        public override void ColourPossibleTargets()
-        {}
-
-        protected override bool IsLegalTarget(IMouseTargetable target)
+        public override void OnMouseHovered()
         {
-            return true;
+            ColourPossibleTargets();
+        }
+        public override void OnMouseUnHovered()
+        {
+            BattlescapeGraphics.ColouringTool.UncolourAllObjects();
         }
 
-        public override void OnAnimationEvent()
-        {}
+        public override void ColourPossibleTargets()
+        {
+            foreach (Unit unit in Global.instance.GetAllUnits())
+            {
+                if (CheckTarget(unit))
+                {
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.green);
+                }
+            }
+        }
     }
 }

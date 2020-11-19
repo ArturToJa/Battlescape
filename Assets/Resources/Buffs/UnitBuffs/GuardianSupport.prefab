@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2dd906c5e37c44488ca913290a9e849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _expirable:
+    _duration: 1
   _isHidden: 0
   _buffName: Guardian's Support
   _description: This unit feels strong. it has +2 attack and +2 defence.

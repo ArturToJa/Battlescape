@@ -32,6 +32,7 @@ namespace BattlescapeGraphics
         {
             UncolourAllTiles();
             UncolourAllUnits();
+            UncolourAllDestructibles();
         }
 
         public static void UncolourAllUnits()
@@ -45,6 +46,14 @@ namespace BattlescapeGraphics
                         ColourObject(unit, Color.white);
                     }
                 }
+            }
+        }
+
+        public static void UncolourAllDestructibles()
+        {
+            foreach (DestructibleObstacle destructible in Global.instance.GetAllDestructibles())
+            {
+                ColourObject(destructible, Color.white);
             }
         }
 

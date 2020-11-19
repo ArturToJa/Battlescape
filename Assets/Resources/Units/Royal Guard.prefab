@@ -142,7 +142,7 @@ MonoBehaviour:
     ally: 1
     enemy: 0
     selfPlayer: 1
-    otherPlayer: 0
+    otherPlayer: 1
     canSelf: 1
     hero: 1
     regular: 1
@@ -150,14 +150,13 @@ MonoBehaviour:
     melee: 1
     ground: 1
     flying: 1
-    tile: 0
-    destructible: 0
   _abilityName: Guardian's Support
   _description: Grant your ally unit bonus stats.
   _icon: {fileID: 21300000, guid: 724b3c49c726665449e7c29231aee3bb, type: 3}
   legalPhases: 4
   costsMovement: 0
   _cooldown: 1
+  _range: 99
   _energyCost: 0
   _usesPerBattle: 50
   _animationTrigger: Ability1
@@ -167,7 +166,6 @@ MonoBehaviour:
   log: 
   castVisualEffect: {fileID: 0}
   targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
-  _range: 99
   buffPrefab: {fileID: 3290089370329061677, guid: aeda487d023068a479ce66bb30532c06,
     type: 3}
 --- !u!1 &1985089682246546

@@ -9,7 +9,7 @@ public class PhaseInfo : MonoBehaviour
     TurnChanger turnChanger;
     [SerializeField] Text phaseInfoText;
 
-    public void OnCreation()
+    public void Start()
     {
         turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         phaseInfoText.text = "Positioning Phase";        
