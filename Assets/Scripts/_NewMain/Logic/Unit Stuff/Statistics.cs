@@ -243,10 +243,20 @@ namespace BattlescapeLogic
             bonusDefence -= bonusStatistics.bonusDefence;
             bonusAttackRange -= bonusStatistics.bonusAttackRange;
             maxHealthPoints -= bonusStatistics.bonusHealth;
-
-            if(healthPoints > maxHealthPoints)
+            bonusMaxMovementPoints -= bonusStatistics.bonusMovementPoints;
+            numberOfAttacks -= bonusStatistics.bonusNumberOfAttacks;
+            currentMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
+            if (numberOfRetaliations > currentMaxNumberOfRetaliations)
+            {
+                numberOfRetaliations = currentMaxNumberOfRetaliations;
+            }
+            if (healthPoints > maxHealthPoints)
             {
                 healthPoints = maxHealthPoints;
+            }
+            if (movementPoints > GetCurrentMaxMovementPoints())
+            {
+                movementPoints = GetCurrentMaxMovementPoints();
             }
         }
 

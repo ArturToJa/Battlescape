@@ -84,7 +84,6 @@ namespace BattlescapeLogic
 
         protected void OnExpire()
         {
-            Debug.Log("Buff expired");
             if (visualEffect != null)
             {
                 Destroy(visualEffect);

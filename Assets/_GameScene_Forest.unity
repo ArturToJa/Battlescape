@@ -21729,7 +21729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basic: {fileID: 21300000, guid: 369c5b285ee05b44486e958c844cf6fa, type: 3}
-  hero: {fileID: 21300000, guid: 4b520738d056dc64094219230b5b89c0, type: 3}
+  hero: {fileID: 21300000, guid: 631def5fc01eed5449707b3f446d16c7, type: 3}
 --- !u!4 &1216498324
 Transform:
   m_ObjectHideFlags: 0

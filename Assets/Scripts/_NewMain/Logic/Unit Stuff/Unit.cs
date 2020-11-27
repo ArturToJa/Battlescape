@@ -546,7 +546,10 @@ namespace BattlescapeLogic
         public void OnDeselection()
         {
             OnUnitDeselected();
-            Global.instance.currentEntity = GameRound.instance.currentPlayer;
+            if (Global.instance.currentEntity == this as IActiveEntity)
+            {
+                Global.instance.currentEntity = GameRound.instance.currentPlayer;
+            }
         }
 
         void PlaySelectionSound()

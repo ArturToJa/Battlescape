@@ -46,7 +46,8 @@ MonoBehaviour:
   duration: 1
   _isHidden: 0
   _buffName: Guardian's Support
-  _description: This unit feels strong. it has +2 attack and +2 defence.
+  _description: This unit has Royal Guard's support. It has +20 attack and +20 defence
+    and no penalty for leaving combat.
   _image: {fileID: 21300000, guid: 8d148ab6cdcd0d04c87ffca88a46b150, type: 3}
   _isStackable: 1
   visualEffectPrefab: {fileID: 1402965160264764, guid: 7429ce74c29a12c4295ea768e998a6d0,

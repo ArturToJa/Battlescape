@@ -195,17 +195,20 @@ namespace BattlescapeLogic
 
         public void OnMouseHoverEnter(Vector3 exactMousePosition)
         {
-            if (GameRound.instance.currentPlayer.selectedUnit != null)
+            if (Global.instance.currentEntity != null && (Global.instance.currentEntity is Unit))
             {
-                GameRound.instance.currentPlayer.selectedUnit.OnTileHovered(this, exactMousePosition);
+                (Global.instance.currentEntity as Unit).OnTileHovered(this, exactMousePosition);
             }
         }
 
         public void OnMouseHoverExit()
         {
-            foreach (Unit unit in Global.instance.GetAllUnits())
+            if (Global.instance.currentEntity != null && (Global.instance.currentEntity is Unit))
             {
-                BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.white);
+                foreach (Unit unit in Global.instance.GetAllUnits())
+                {
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.white);
+                }
             }
         }
 

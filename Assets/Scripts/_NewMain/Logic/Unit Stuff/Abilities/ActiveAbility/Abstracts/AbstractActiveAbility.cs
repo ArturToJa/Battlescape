@@ -54,6 +54,7 @@ namespace BattlescapeLogic
         {
             if(Global.instance.currentEntity.Equals(this))
             {
+                BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onEventSound);
                 DoAbility();
                 OnFinish();
             }
@@ -116,9 +117,10 @@ namespace BattlescapeLogic
                 _animationTrigger = value;
             }
         }
-        [SerializeField] Sound sound;
-        [SerializeField] string log;
-        [SerializeField] GameObject castVisualEffect;
+        [SerializeField] Sound onStartSound;
+        [SerializeField] Sound onEventSound;
+
+        [SerializeField] GameObject selfVisualEffect;
         [SerializeField] protected Color targetColouringColour;
 
 
@@ -206,10 +208,10 @@ namespace BattlescapeLogic
                 owner.statistics.movementPoints = 0;
             }
             roundsTillOffCooldown = cooldown;
-            LogConsole.instance.SpawnLog(log);
+            LogConsole.instance.SpawnLog(GetLogMessage());
             Animate();
-            DoVisualEffectFor(castVisualEffect, owner.gameObject);
-            BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, sound);
+            DoVisualEffectFor(selfVisualEffect, owner.gameObject);
+            BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onStartSound);
             PlayerInput.instance.isInputBlocked = true;
         }
 
@@ -268,10 +270,9 @@ namespace BattlescapeLogic
         {
             PlayerInput.instance.isInputBlocked = false;
         }
-        protected void Update()
+       virtual protected string GetLogMessage()
         {
-            //if(abilityIsActive)
-            //{OnUpdate();
+            return owner.name + " uses " + abilityName + "!";
         }
     }
 }

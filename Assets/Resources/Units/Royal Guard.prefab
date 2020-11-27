@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114314348284977456}
   - component: {fileID: 114129476627310188}
   - component: {fileID: 8083802796878842536}
+  - component: {fileID: 2266371304547444207}
   m_Layer: 8
   m_Name: Royal Guard
   m_TagString: Unit
@@ -151,23 +152,73 @@ MonoBehaviour:
     ground: 1
     flying: 1
   _abilityName: Guardian's Support
-  _description: Grant your ally unit bonus stats.
+  _description: Adjacent ally gets bonus attack and defence for one round and can
+    leave combat safely.
   _icon: {fileID: 21300000, guid: 8d148ab6cdcd0d04c87ffca88a46b150, type: 3}
   legalPhases: 4
   costsMovement: 0
   _cooldown: 1
   _range: 1
-  _energyCost: 40
+  _energyCost: 30
   _usesPerBattle: 0
   _animationTrigger: Ability1
-  sound:
+  onStartSound:
+    clip: {fileID: 8300000, guid: 73a40e71957a2c94ca8076c4e4818524, type: 3}
+    volume: 0.2
+  onEventSound:
     clip: {fileID: 0}
     volume: 0
-  log: 
-  castVisualEffect: {fileID: 0}
-  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
+  selfVisualEffect: {fileID: 1604655146465802, guid: d2463d4579775ef4a8d7b4becd723d99,
+    type: 3}
+  targetColouringColour: {r: 0.08235294, g: 0.89411765, b: 0.12261503, a: 0}
   buffPrefab: {fileID: 3290089370329061677, guid: aeda487d023068a479ce66bb30532c06,
     type: 3}
+--- !u!114 &2266371304547444207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638792360579844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8995c380fb20d79459a2c7a2753f8adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 0
+    enemy: 1
+    selfPlayer: 0
+    otherPlayer: 1
+    canSelf: 0
+    hero: 1
+    regular: 1
+    ranged: 1
+    melee: 1
+    ground: 1
+    flying: 0
+  _abilityName: Shield Bash
+  _description: Royal Guard attacks an enemy with his shield, doing very little damage
+    but stunning his opponent.
+  _icon: {fileID: 21300000, guid: 42a524018014d85419dc5e18f46f8568, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 3
+  _range: 1
+  _energyCost: 60
+  _usesPerBattle: 0
+  _animationTrigger: Ability2
+  onStartSound:
+    clip: {fileID: 0}
+    volume: 0
+  onEventSound:
+    clip: {fileID: 8300000, guid: 78b2db4a965e0154294f55082660d90e, type: 3}
+    volume: 0.2
+  selfVisualEffect: {fileID: 0}
+  targetColouringColour: {r: 0.7372549, g: 0.022249907, b: 0.074187025, a: 0}
+  buffPrefab: {fileID: 3290089370329061677, guid: ec02fcd34ba61904388736ca9ab09dae,
+    type: 3}
+  baseDamage: 5
 --- !u!1 &1985089682246546
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +264,7 @@ Animator:
   m_GameObject: {fileID: 1985089682246546}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 635180035812f964db1d9529cbb170f2, type: 3}
-  m_Controller: {fileID: 9100000, guid: 89b1192509aff1244af04903e00fccc3, type: 2}
+  m_Controller: {fileID: 9100000, guid: aad87e6651ba3fa4d88cab91cab19d4d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

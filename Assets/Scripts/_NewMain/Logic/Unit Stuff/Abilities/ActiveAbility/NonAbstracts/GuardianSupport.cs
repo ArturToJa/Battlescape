@@ -11,7 +11,12 @@ namespace BattlescapeLogic
 
         public override void DoAbility()
         {
-            ApplyBuffToUnit(buffPrefab, target as Unit);
+            ApplyBuffToUnit(buffPrefab, target);
+        }
+
+        protected override string GetLogMessage()
+        {
+            return base.GetLogMessage() + "on allied " + target + ", making him stronger!";
         }
     }
 }

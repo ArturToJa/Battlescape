@@ -14,7 +14,7 @@ namespace BattlescapeLogic
             {
                 if (CheckTarget(unit))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.green);
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit, targetColouringColour);
                 }
             }
         }
