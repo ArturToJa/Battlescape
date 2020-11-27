@@ -132,7 +132,12 @@ namespace BattlescapeLogic
 
         public virtual bool IsUsableNow()
         {
-            return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase();
+            return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase() && IsFreeFromWrongStates();
+        }
+
+        virtual protected bool IsFreeFromWrongStates()
+        {
+            return owner.states.isSilenced() == false && owner.states.isStunned() == false;
         }
 
         protected bool CheckMovementCost()

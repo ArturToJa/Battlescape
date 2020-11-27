@@ -12,6 +12,7 @@ namespace BattlescapeLogic
         public override void DoAbility()
         {
             ApplyBuffToUnit(buffPrefab, target);
+            owner.statistics.numberOfAttacks--;
 
             //this possibly should be in DamageCalculator;
             int damage = baseDamage + DamageCalculator.GetStatisticsDifference(owner, target);

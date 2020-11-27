@@ -26,5 +26,10 @@ namespace BattlescapeLogic
         {
             return damage.isHit ? damage.GetTotalDamage() : 0;
         }
+
+        public static implicit operator string(Damage damage)
+        {
+            return (damage.isHit ? damage.GetTotalDamage() : 0).ToString();
+        }
     }
 }

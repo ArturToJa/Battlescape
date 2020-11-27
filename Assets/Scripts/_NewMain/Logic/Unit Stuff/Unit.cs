@@ -53,6 +53,7 @@ namespace BattlescapeLogic
         public List<AbstractAbility> abilities { get; private set; }
         public BuffGroup buffs { get; private set; }
         public List<AbstractAttackModifier> modifiers { get; private set; }
+        public States states { get; private set; }
         public GameObject visuals { get; private set; }
         [SerializeField] float _attackRotation;
         public float attackRotation
@@ -100,6 +101,7 @@ namespace BattlescapeLogic
             buffs = new BuffGroup(this);
             modifiers = new List<AbstractAttackModifier>();
             abilities = new List<AbstractAbility>();
+            states = new States(this);
             movement = GetMovementType();
             if (movement == null)
             {
@@ -190,17 +192,17 @@ namespace BattlescapeLogic
 
         public bool CanStillAttack()
         {
-            return (statistics.numberOfAttacks > 0);
+            return statistics.numberOfAttacks > 0 && states.isDisarmed() == false && states.isStunned() == false;
         }
 
         public bool CanStillMove()
         {
-            return (statistics.movementPoints > 0);
+            return statistics.movementPoints > 0 && states.isImmobile() == false && states.isStunned() == false;
         }
 
         public bool CanStillRetaliate()
         {
-            return (statistics.numberOfRetaliations > 0);
+            return statistics.numberOfRetaliations > 0 && states.isOverwhelmed() == false && states.isStunned() == false;
         }
 
         //Played BEFORE the first step in the whole movement. Check for ExitCombat here cause it only makes sense here.
@@ -306,6 +308,21 @@ namespace BattlescapeLogic
         //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
         public void HitTarget(IDamageable target, Damage damage)
         {
+            if (target is Unit)
+            {
+                var targetUnit = target as Unit;
+                if (targetUnit.states.isInvulnerable())
+                {
+                    LogConsole.instance.SpawnLog(this.info.unitName + "'s attack has no effect - " + target.GetMyName() + " is invulnerable!");
+                    PopupTextController.AddPopupText("Invulnerable!", PopupTypes.Info);
+                    if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
+                    {
+                        Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
+                    }
+                    return;
+                }
+            }
+
             foreach (AbstractAttackModifier modifier in modifiers)
             {
                 modifier.ModifyDamage(damage);
@@ -348,16 +365,11 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit target)
         {
-            if (this.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner())
+            if (this.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner() || currentPosition.DistanceTo(target.currentPosition) != 1)
             {
                 return false;
             }
-            if (currentPosition.DistanceTo(target.currentPosition) == 1)
-            {
-                return true;
-            }
-            
-            return false;
+            return true;
         }
 
         //this should play on attacked unit when it is time it should receive DMG

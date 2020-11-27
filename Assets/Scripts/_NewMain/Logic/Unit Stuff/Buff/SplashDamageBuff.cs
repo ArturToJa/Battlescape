@@ -30,7 +30,7 @@ namespace BattlescapeLogic
 
         protected override bool IsAcceptableTargetType(IDamageable target)
         {
-            return Tools.TypeComparizer<IDamageable, Unit>(target);
+            return true;
         }
 
         protected override void RemoveChange()
