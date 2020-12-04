@@ -50,6 +50,10 @@ namespace BattlescapeLogic
                 instance = this;
                 DontDestroyOnLoad(gameObject);
             }
+            else
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         void Update()
