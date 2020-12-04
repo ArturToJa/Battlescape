@@ -679,6 +679,10 @@ namespace BattlescapeLogic
 
         public float ChanceOfBeingHitBy(Unit source)
         {
+            if (states.isInvulnerable())
+            {
+                return 0;
+            }
             return Maths.Sigmoid(DamageCalculator.GetStatisticsDifference(source, this), DamageCalculator.sigmoidGrowthRate);
         }
 

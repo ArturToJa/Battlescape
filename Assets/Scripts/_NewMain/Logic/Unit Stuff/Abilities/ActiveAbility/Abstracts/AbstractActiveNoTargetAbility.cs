@@ -31,5 +31,11 @@ namespace BattlescapeLogic
                 }
             }
         }
+
+        public override void OnLeftClick(IMouseTargetable clickedObject, Vector3 exactClickPosition)
+        {
+            //worth mentionning that this will literally never occur (you would have to click something between clicking this ability icon AND this ability resolving but it resolves immidiately on clicking its icon)
+            return;
+        }
     }
 }
