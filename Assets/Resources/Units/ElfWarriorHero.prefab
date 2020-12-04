@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1041480974806271080}
   - component: {fileID: 114191808647025294}
   - component: {fileID: 54909076193140656}
+  - component: {fileID: 2825556922208515495}
   m_Layer: 8
   m_Name: ElfWarriorHero
   m_TagString: Unit
@@ -62,45 +63,20 @@ MonoBehaviour:
       mighty general and fighter.
   unitSounds:
     _movementSound:
-      name: MovementHumanWarriorSound
       clip: {fileID: 8300000, guid: abfcd7e840ad36349b82d82976b777fd, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: DeathHumanWarriorSound
       clip: {fileID: 8300000, guid: 64f8fa366b57a0244b2a4733c20f7241, type: 3}
       volume: 0.4
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: WoundSoundHeroKnight
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _shootSound:
-      name: NoNeedForShootingHumanKnight
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: HumanKnightAttackSound
       clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 0
     _limit: 0
@@ -155,6 +131,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2825556922208515495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361541935773806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020cb4b4e7b17cd46b75f4480b27f6d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 0
+    enemy: 0
+    selfPlayer: 0
+    otherPlayer: 0
+    canSelf: 0
+    hero: 0
+    regular: 0
+    ranged: 0
+    melee: 0
+    ground: 0
+    flying: 0
+  _abilityName: Living Wall
+  _description: Warrior becomes a living wall and is invulnerable to any damage for
+    one turn.
+  _icon: {fileID: 21300000, guid: ba1f484207ab7d74ba19b382a0cbc621, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 5
+  _range: 0
+  _energyCost: 50
+  _usesPerBattle: 0
+  _animationTrigger: Ability1
+  onStartSound:
+    clip: {fileID: 0}
+    volume: 0
+  onEventSound:
+    clip: {fileID: 8300000, guid: 3dcfc05f6ce29c84c920bde707a4ba91, type: 3}
+    volume: 0.2
+  selfVisualEffect: {fileID: 0}
+  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
+  buffPrefab: {fileID: 3290089370329061677, guid: 295125b89eb077240ac070ced1491ad1,
+    type: 3}
 --- !u!1 &1303878942954001790
 GameObject:
   m_ObjectHideFlags: 0
