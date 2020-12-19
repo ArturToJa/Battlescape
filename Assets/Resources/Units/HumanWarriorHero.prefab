@@ -172,7 +172,8 @@ MonoBehaviour:
   onEventSound:
     clip: {fileID: 8300000, guid: 3dcfc05f6ce29c84c920bde707a4ba91, type: 3}
     volume: 0.2
-  selfVisualEffect: {fileID: 0}
+  selfVisualEffect: {fileID: 1842412442849700, guid: 8f2182074b3b25541bd376b9a4cd6296,
+    type: 3}
   targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
   buffPrefab: {fileID: 3290089370329061677, guid: 295125b89eb077240ac070ced1491ad1,
     type: 3}

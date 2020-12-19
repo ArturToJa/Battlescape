@@ -61,7 +61,7 @@ namespace BattlescapeLogic
             pointerData.position = Input.mousePosition;
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
-            return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit"));
+            return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit") && (results[0].gameObject.tag != "Ignored"));
         }
 
 

@@ -14,11 +14,7 @@ public class NewArmyScript : MonoBehaviour
 
     void Update()
     {
-        OKbutton.interactable = (string.IsNullOrEmpty(tempName) == false);
-        //if (string.IsNullOrEmpty(tempName) == false)
-        //{
-        //    Debug.LogError("WOOF");
-        //}
+        OKbutton.interactable = (string.IsNullOrEmpty(tempName) == false);       
     }
 
     public void OK()

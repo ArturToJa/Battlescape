@@ -177,7 +177,7 @@ namespace BattlescapeLogic
             }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity,~LayerMask.GetMask("Ignore Raycast")))
             {
                 IMouseTargetable newHoveredObject = hitInfo.collider.transform.GetComponentInParent<IMouseTargetable>();
                 //just caching.

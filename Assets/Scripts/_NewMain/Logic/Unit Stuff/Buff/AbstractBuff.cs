@@ -98,8 +98,7 @@ namespace BattlescapeLogic
         public void ApplyOnTarget(IDamageable target, AbstractAbility source)
         {
             if(IsAcceptableTargetType(target))
-            {
-                expirable = new Expirable(target.GetMyOwner(), OnExpire, duration);
+            {                
                 this.source = source;
                 ApplyOnTarget(target);
             }
@@ -109,16 +108,17 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
-                if(isStackable || !IsAlreadyOnTarget(target))
+                expirable = new Expirable(target.GetMyOwner(), OnExpire, duration);
+                if (isStackable || !IsAlreadyOnTarget(target))
                 {
                     if (visualEffectPrefab != null)
                     {
-                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation);
+                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation,transform);
                     }
                     buffGroup = target.buffs;
                     target.buffs.AddBuff(this);
                     ApplyChange();
-                }
+                }               
                 OnBuffCreation(this);
             }
         }

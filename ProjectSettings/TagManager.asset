@@ -39,6 +39,7 @@ TagManager:
   - Grid
   - Coloured
   - EndPhaseWindow
+  - Ignored
   layers:
   - Default
   - TransparentFX
