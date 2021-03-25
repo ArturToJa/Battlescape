@@ -11,8 +11,8 @@ namespace BattlescapeLogic
         //THere is ONE AND ONLY ONE GameRound!
 
 
-        public LinkedList<ITurnInteractable> newRoundObjects = new LinkedList<ITurnInteractable>();
-        public List<LinkedList<TurnChanger>> turnChangerObjects;
+        public LinkedList<ITurnInteractable> objectsToUpdateOnRoundsTurnsAndPhases = new LinkedList<ITurnInteractable>();
+        public List<LinkedList<TurnChanger>> objectsToUpdateOnOwnerTurn;
         public event Action OnGameStarted = delegate { };
 
 
@@ -101,7 +101,7 @@ namespace BattlescapeLogic
         {
             previousPhase = currentPhase;
             currentPhase = TurnPhases.Enemy;
-            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> element = objectsToUpdateOnRoundsTurnsAndPhases.First;
             while (element != null)
             {
                 element.Value.OnNewPhase();
@@ -112,7 +112,7 @@ namespace BattlescapeLogic
         public void ResetPhaseAfterEnemy()
         {
             currentPhase = previousPhase;
-            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> element = objectsToUpdateOnRoundsTurnsAndPhases.First;
             while (element != null)
             {
                 element.Value.OnNewPhase();
@@ -191,7 +191,7 @@ namespace BattlescapeLogic
             {
                 OnGameStarted();
             }
-            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> element = objectsToUpdateOnRoundsTurnsAndPhases.First;
             while (element != null)
             {
                 element.Value.OnNewRound();
@@ -205,14 +205,14 @@ namespace BattlescapeLogic
         {
             BattlescapeSound.SoundManager.instance.PlaySound(Camera.main.gameObject, BattlescapeSound.SoundManager.instance.newTurnSound);
             Global.instance.currentEntity = currentPlayer;
-            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> element = objectsToUpdateOnRoundsTurnsAndPhases.First;
             while (element != null)
             {
                 element.Value.OnNewTurn();
                 element = element.Next;
             }
             NextPhase();
-            NewPlayerRound();
+            OnOwnerTurnEvents();
         }
 
         void NextPhase()
@@ -226,7 +226,7 @@ namespace BattlescapeLogic
                 currentPhase = TurnPhases.Movement;
             }
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
-            LinkedListNode<ITurnInteractable> element = newRoundObjects.First;
+            LinkedListNode<ITurnInteractable> element = objectsToUpdateOnRoundsTurnsAndPhases.First;
             while (element != null)
             {
                 element.Value.OnNewPhase();
@@ -234,19 +234,19 @@ namespace BattlescapeLogic
             }
         }
 
-        void NewPlayerRound()
+        void OnOwnerTurnEvents()
         {
-            LinkedListNode<TurnChanger> element = turnChangerObjects[currentPlayer].First;
+            LinkedListNode<TurnChanger> element = objectsToUpdateOnOwnerTurn[currentPlayer].First;
             LinkedListNode<TurnChanger> previousElement = null;
 
             while (element != null)
             {
-                element.Value.OnNewPlayerRound();
-                if (element.Next == null && element.Previous == null && turnChangerObjects[currentPlayer].Count != 1)
+                element.Value.OnOwnerTurn();
+                if (element.Next == null && element.Previous == null && objectsToUpdateOnOwnerTurn[currentPlayer].Count != 1)
                 {
                     if (previousElement == null)
                     {
-                        element = turnChangerObjects[currentPlayer].First;
+                        element = objectsToUpdateOnOwnerTurn[currentPlayer].First;
                     }
                     else
                     {
@@ -300,10 +300,10 @@ namespace BattlescapeLogic
 
         public void Setup()
         {
-            turnChangerObjects = new List<LinkedList<TurnChanger>>();
+            objectsToUpdateOnOwnerTurn = new List<LinkedList<TurnChanger>>();
             for (int i = 0; i < Global.instance.playerCount; i++)
             {
-                turnChangerObjects.Add(new LinkedList<TurnChanger>());
+                objectsToUpdateOnOwnerTurn.Add(new LinkedList<TurnChanger>());
             }
         }
 

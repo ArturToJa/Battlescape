@@ -108,7 +108,9 @@ namespace BattlescapeLogic
         {
             if(IsAcceptableTargetType(target))
             {
-                expirable = new Expirable(target.GetMyOwner(), OnExpire, duration);
+                Player owner = source != null ? source.owner.GetMyOwner() : target.GetMyOwner();  
+                //in 99% cases we make OUR owner the owner of expirable; in case he doesn't exist (non-ability source of buff) we chose target's owner (someone has to be the owner);
+                expirable = new Expirable(owner, OnExpire, duration);
                 if (isStackable || !IsAlreadyOnTarget(target))
                 {
                     if (visualEffectPrefab != null)

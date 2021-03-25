@@ -192,11 +192,18 @@ namespace BattlescapeLogic
                 if (targetUnit.CanBeSelected())
                 {
                     Cursor.instance.OnSelectableHovered();
+                    return;
+                }
+                else
+                {
+                    Cursor.instance.ShowInfoCursor();
+                    return;
                 }
             }
             if (target is Tile)
             {
                 Cursor.instance.SetToDefault();
+                return;
             }
         }
 

@@ -13,7 +13,7 @@ namespace BattlescapeLogic
 
 
 
-        public static Damage CalculateDamage(Unit source, IDamageable target, float multiplier = 1)
+        public static Damage CalculateDamage(Unit source, IDamageable target, bool stopsRetaliation, float multiplier = 1)
         {
 
             int averageDamage = GetAvarageDamage(source,target,multiplier);
@@ -23,7 +23,7 @@ namespace BattlescapeLogic
             {
                 finalDamage = minimalDamageInGame;
             }
-            return new Damage(finalDamage, IsMiss(source, target));
+            return new Damage(finalDamage, IsMiss(source, target), stopsRetaliation);
         }
 
         public static bool IsMiss(Unit source, IDamageable target)

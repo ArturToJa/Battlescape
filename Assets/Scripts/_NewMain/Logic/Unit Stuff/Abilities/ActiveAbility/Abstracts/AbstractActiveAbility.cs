@@ -46,19 +46,7 @@ namespace BattlescapeLogic
 
 
 
-        [SerializeField] int _energyCost;
-
-        public abstract void DoAbility();
-
-        public void OnAnimationEvent()
-        {
-            if(Global.instance.currentEntity.Equals(this))
-            {
-                BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onEventSound);
-                DoAbility();
-                OnFinish();
-            }
-        }
+        [SerializeField] int _energyCost;       
 
         public int energyCost
         {
@@ -128,10 +116,21 @@ namespace BattlescapeLogic
 
         public static event Action OnAbilityFinished = delegate { };
 
+        public abstract void DoAbility();
 
+        public void OnAnimationEvent()
+        {
+            if (Global.instance.currentEntity.Equals(this))
+            {
+                BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onEventSound);
+                DoAbility();
+                OnFinish();
+            }
+        }
 
         public virtual bool IsUsableNow()
         {
+            //Debug.Log("Is movement cost req. fulfilled: " + CheckMovementCost() + ", check uses left: " + HasUsesLeft() + ", has energy: " + HasEnoughEnergy() + ", is off cooldown: " + IsOffCooldown() + ", is correct phase: " + IsCorrectPhase() + ", is free from states: " + IsFreeFromWrongStates());
             return CheckMovementCost() && HasUsesLeft() && HasEnoughEnergy() && IsOffCooldown() && IsCorrectPhase() && IsFreeFromWrongStates();
         }
 
@@ -186,13 +185,10 @@ namespace BattlescapeLogic
         public abstract void OnMouseHovered();
         public abstract void OnMouseUnHovered();
 
-        protected virtual bool IsLegalTarget(IMouseTargetable target)
+        protected virtual bool IsLegalTarget(IMouseTargetable _target)
         {
-            MonoBehaviour tar = target as MonoBehaviour;
-            int x = (int)tar.transform.position.x;
-            int y = (int)tar.transform.position.z;
-            Tile targetTile = Tile.ToTile(new Position(x, y));
-            return this.owner.currentPosition.DistanceTo(targetTile) <= range;
+            IOnTilePlaceable target = _target as IOnTilePlaceable;
+            return this.owner.currentPosition.DistanceTo(target.currentPosition) <= range;
         }
 
         protected bool CheckTarget(IMouseTargetable target)
@@ -227,9 +223,8 @@ namespace BattlescapeLogic
             OnAbilityFinished();
         }
 
-        public override void OnNewPlayerRound()
+        public override void OnNewOwnerTurn()
         {
-            base.OnNewPlayerRound();
             if (roundsTillOffCooldown > 0)
             {
                 roundsTillOffCooldown--;

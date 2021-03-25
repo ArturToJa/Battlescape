@@ -6,11 +6,15 @@ namespace BattlescapeLogic
 {
     public class PassiveSelfAbility : AbstractPassiveAbility
     {
-       
+        protected override void Start()
+        {
+            base.Start();
+            ApplyBuffsToUnit(placeableBuffs, owner);
+        }
 
         public override void OnNewRound()
         {
-            ApplyBuffsToUnit(placeableBuffs, owner);
+            return;
         }
 
         public override void OnNewTurn()
@@ -21,5 +25,10 @@ namespace BattlescapeLogic
         {
             return;
         }
+        public override void OnNewOwnerTurn()
+        {
+            return;
+        }
+
     }
 }

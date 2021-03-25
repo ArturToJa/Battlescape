@@ -58,7 +58,14 @@ namespace BattlescapeLogic
             }
             if (Helper.IsOverNonHealthBarUI())
             {
-                Cursor.instance.SetToDefault();
+                if (false) //this should say 'if over right objects'
+                {
+                    Cursor.instance.ShowInfoCursor();
+                }
+                else
+                {
+                    Cursor.instance.SetToDefault();
+                }
             }
             else
             {
@@ -69,7 +76,7 @@ namespace BattlescapeLogic
                 DoCheats();
             }
             DoKeyboard();
-        }
+        }        
 
         void DoKeyboardForManagementScene()
         {
@@ -143,7 +150,7 @@ namespace BattlescapeLogic
         }
 
         void DoCheats()
-        {          
+        {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 // selected unit gets 1000 damage (dies xD)
@@ -177,7 +184,7 @@ namespace BattlescapeLogic
             }
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity,~LayerMask.GetMask("Ignore Raycast")))
+            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, ~LayerMask.GetMask("Ignore Raycast")))
             {
                 IMouseTargetable newHoveredObject = hitInfo.collider.transform.GetComponentInParent<IMouseTargetable>();
                 //just caching.
@@ -210,7 +217,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                if (GameRound.instance.currentPlayer.selectedUnit == null && Cursor.instance.isInfoByUI == false)
+                if (GameRound.instance.currentPlayer.selectedUnit == null)
                 {
                     Cursor.instance.SetToDefault();
                 }

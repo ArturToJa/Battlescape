@@ -41,18 +41,12 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
 
 
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (this is MouseHoverAbilityIconCursor == false)
-        {
-            BattlescapeLogic.Cursor.instance.ShowInfoCursor();
-            BattlescapeLogic.Cursor.instance.isInfoByUI = true;
-        }
+    {       
         hoveredIcon = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         hoveredIcon = null;
-        BattlescapeLogic.Cursor.instance.isInfoByUI = false;
     }
 }

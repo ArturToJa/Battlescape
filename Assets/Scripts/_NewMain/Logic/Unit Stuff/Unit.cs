@@ -305,7 +305,7 @@ namespace BattlescapeLogic
         //public event Action<Unit, Unit, int> AttackEvent;       
 
 
-        //if damage is 0, it's a miss, if it's somehow TOTALLY blocked it could be negative maybe or just not send this.
+        //if damage is 0, it's a miss. invulnerable has its own flag!
         public void HitTarget(IDamageable target, Damage damage)
         {
             if (target is Unit)
@@ -365,7 +365,7 @@ namespace BattlescapeLogic
 
         public bool CanRetaliate(Unit target)
         {
-            if (this.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner() || currentPosition.DistanceTo(target.currentPosition) != 1)
+            if (this.IsAlive() == false || target.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner() || currentPosition.DistanceTo(target.currentPosition) != 1)
             {
                 return false;
             }
@@ -628,6 +628,7 @@ namespace BattlescapeLogic
                 else
                 {
                     Cursor.instance.ShowInfoCursor();
+                    return;
                 }
             }
             if (target is Tile)
@@ -640,15 +641,18 @@ namespace BattlescapeLogic
                     BattlescapeGraphics.ColouringTool.ColourLegalTilesFor(this);
                     BattlescapeGraphics.ColouringTool.OnPositionHovered(position);
                     Cursor.instance.OnTileToMoveHovered(this, position);
+                    return;
                 }
                 else
                 {
                     Cursor.instance.OnInvalidTargetHovered();
+                    return;
                 }
             }
             else
             {
                 Cursor.instance.OnInvalidTargetHovered();
+                return;
             }
         }
 

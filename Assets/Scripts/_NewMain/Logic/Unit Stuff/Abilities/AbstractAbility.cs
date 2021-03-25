@@ -167,10 +167,10 @@ namespace BattlescapeLogic
             }
         }
 
-        public void Start()
+        protected virtual void Start()
         {
             owner = this.GetComponent<Unit>();
-            turnChanger = new TurnChanger(owner.GetMyOwner(), OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
+            turnChanger = new TurnChanger(owner.GetMyOwner(), OnNewRound, OnNewTurn, OnNewPhase, OnNewOwnerTurn);
             filter.SetAbility(this);
         }
 
@@ -186,7 +186,7 @@ namespace BattlescapeLogic
         {
             return;
         }
-        public virtual void OnNewPlayerRound()
+        public virtual void OnNewOwnerTurn()
         {
             return;
         }

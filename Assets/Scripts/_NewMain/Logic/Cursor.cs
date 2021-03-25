@@ -40,11 +40,9 @@ namespace BattlescapeLogic
 
         Vector2 basicHotspot = Vector2.zero;
         Vector2 middleHotspot = new Vector2(32, 32);
-        public bool isInfoByUI { get; set; }
 
         private void Start()
         {
-            isInfoByUI = false;
             if (instance == null)
             {
                 instance = this;

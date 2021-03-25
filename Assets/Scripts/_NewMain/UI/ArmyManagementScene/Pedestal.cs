@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Pedestal : MonoBehaviour
 {
     [SerializeField] GameObject capsule;
-    
+
     GameObject myUnit;
 
     public void ShowUnit(GameObject prefab)
@@ -24,9 +24,13 @@ public class Pedestal : MonoBehaviour
         myUnit.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
         if (myUnit.GetComponent<Hero>() != null)
         {
-            myUnit.GetComponentInChildren<Spinner>().gameObject.SetActive(false);            
+            myUnit.GetComponentInChildren<Spinner>().gameObject.SetActive(false);
+        }
+        foreach (AbstractAbility ability in myUnit.GetComponents<AbstractAbility>())
+        {
+            ability.enabled = false;
         }
 
 
-     }
+    }
 }

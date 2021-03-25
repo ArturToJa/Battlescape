@@ -25,6 +25,7 @@ namespace BattlescapeLogic
             return owner.buffs.FindAllBuffsOfType("Stunned").IsEmpty() == false;
         }
 
+        //means cannot autoattack?
         public bool isDisarmed()
         {
             return owner.buffs.FindAllBuffsOfType("Disarmed").IsEmpty() == false;
