@@ -15,6 +15,7 @@ namespace BattlescapeGraphics
         {
             Unit.OnUnitSelected += ColourLegalTilesFor;
             Unit.OnUnitDeselected += UncolourAllTiles;
+            AbstractActiveAbility.OnAbilityFinished += UncolourAllObjects;
         }
         public static void ColourUnitsThatStillCanMoveOrAttack()
         {
@@ -124,6 +125,14 @@ namespace BattlescapeGraphics
                 Material m = r.material;
                 m.color = colour;
                 r.material = m;
+            }
+        }
+
+        public static void ColourObject(MultiTile target, Color colour)
+        {
+            foreach (Tile tile in target)
+            {
+                ColourObject(tile, colour);
             }
         }
 

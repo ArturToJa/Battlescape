@@ -40,7 +40,7 @@ public class RetaliationButtonsScript : MonoBehaviour
 
     public void MouseEnterYesButton()
     {
-        hitChanceInfo.TurnOnFor(Networking.instance.retaliatingUnit, Networking.instance.retaliationTarget);
+        hitChanceInfo.TurnOnFor(Networking.instance.retaliatingUnit.attack, Networking.instance.retaliationTarget);
     }
     public void MouseExitYesButton()
     {

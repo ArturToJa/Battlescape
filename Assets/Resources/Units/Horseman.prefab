@@ -61,57 +61,31 @@ MonoBehaviour:
       backline.
   unitSounds:
     _movementSound:
-      name: HorsemanMovementSound
       clip: {fileID: 8300000, guid: 1b74ab9ce28609c4eb47c130bbbbb1c6, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: HorsemanDeathSound
       clip: {fileID: 8300000, guid: 34da85c2af1a611468ec1f1c46f71c25, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: HorsemanHitSound
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: NO_NEED_FOR_SWORDMAN_SHOOT_SOUND
       clip: {fileID: 0}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: HorsemanAttackSound
       clip: {fileID: 8300000, guid: 52b3b4b266cf79741b455a1c1cb7b9a6, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 4
     _limit: 3
     _baseAttack: 50
     _baseDefence: 30
-    _maxHealthPoints: 40
+    _baseMaxHealthPoints: 40
     _baseMaxMovementPoints: 8
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

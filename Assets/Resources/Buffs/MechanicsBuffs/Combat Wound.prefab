@@ -52,7 +52,7 @@ MonoBehaviour:
   visualEffectPrefab: {fileID: 0}
   statistics:
     _bonusAttack: 0
-    _bonusDefence: -1
+    _bonusDefence: -10
     _bonusHealth: 0
     _bonusMovementPoints: 0
     _bonusAttackRange: 0

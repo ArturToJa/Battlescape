@@ -19,7 +19,7 @@ public class UnitStatShower : MonoBehaviour
     {
         attackSpot.text = currUnit.statistics.GetCurrentAttack().ToString();
         defenceSpot.text = currUnit.statistics.GetCurrentDefence().ToString();
-        healthSpot.text = currUnit.statistics.maxHealthPoints.ToString();
+        healthSpot.text = currUnit.statistics.GetCurrentMaxHealtPoints().ToString();
         moveSpeedSpot.text = currUnit.statistics.GetCurrentMaxMovementPoints().ToString();
         fluffBio.text = currUnit.info.fluffText;
         

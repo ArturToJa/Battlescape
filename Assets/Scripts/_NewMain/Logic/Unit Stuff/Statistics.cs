@@ -8,191 +8,81 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class Statistics
     {
-        public static readonly int baseDamage = 10;
-        public static readonly int maxEnergy = 100;        
+        public const int baseDamage = 10;
+        
+        int _cost;
+        public int cost => _cost;
+        
+        int _limit;
+        public int limit => _limit;        
 
-        [SerializeField] int _cost;
-        public int cost
-        {
-            get
-            {
-                return _cost;
-            }
-            set
-            {
-                _cost = value;
-            }
-        }
-
-        [SerializeField] int _limit;
-        public int limit
-        {
-            get
-            {
-                return _limit;
-            }
-            private set
-            {
-                _limit = value;
-            }
-        }
-
-        [SerializeField] int _baseAttack;
-        public int baseAttack
-        {
-            get
-            {
-                return _baseAttack;
-            }
-            private set
-            {
-                _baseAttack = value;
-            }
-        }
+        int _baseAttack;
+        public int baseAttack => _baseAttack;
+        
         public int bonusAttack { get; set; }
 
-        [SerializeField] int _baseDefence;
-        public int baseDefence
-        {
-            get
-            {
-                return _baseDefence;
-            }
-            private set
-            {
-                _baseDefence = value;
-            }
-        }
+        int _baseDefence;
+        public int baseDefence => _baseDefence;        
+        
         public int bonusDefence { get; set; }
-        [SerializeField] int _maxHealthPoints;
-        public int maxHealthPoints
-        {
-            get
-            {
-                return _maxHealthPoints;
-            }
-            private set
-            {
-                _maxHealthPoints = value;
-            }
-        }
+
+        int _baseMaxHealthPoints;
+        public int baseMaxHealthPoints => _baseMaxHealthPoints;
+        
+        public int bonusMaxHealthPoints { get; set; }
+
         public int healthPoints { get; set; }
-        [SerializeField] int _baseMaxMovementPoints;
-        public int baseMaxMovementPoints
-        {
-            get
-            {
-                return _baseMaxMovementPoints;
-            }
-            private set
-            {
-                _baseMaxMovementPoints = value;
-            }
-        }
+
+        int _baseMaxMovementPoints;
+        public int baseMaxMovementPoints => _baseMaxMovementPoints;        
         public int bonusMaxMovementPoints { get; set; }
         public int movementPoints { get; set; }
 
-        [SerializeField] int _baseAttackRange = 1;
-        public int baseAttackRange
-        {
-            get
-            {
-                return _baseAttackRange;
-            }
-            private set
-            {
-                _baseAttackRange = value;
-            }
-        }
+        int _baseAttackRange;
+        public int baseAttackRange => _baseAttackRange;
+        
         public int bonusAttackRange { get; set; }
 
-        [SerializeField] int _minimalAttackRange = 0;
-        public int minimalAttackRange
-        {
-            get
-            {
-                return _minimalAttackRange;
-            }
-            private set
-            {
-                _minimalAttackRange = value;
-            }
-        }
+        int _minimalAttackRange;
+        public int minimalAttackRange => _minimalAttackRange;
+       
 
-        [SerializeField] int _maxNumberOfAttacks = 1;
-        public int maxNumberOfAttacks
-        {
-            get
-            {
-                return _maxNumberOfAttacks;
-            }
-            private set
-            {
-                _maxNumberOfAttacks = value;
-            }
-        }
+        int _baseMaxNumberOfAttacks;
+        public int baseMaxNumberOfAttacks => _baseMaxNumberOfAttacks;        
+
+        public int bonusMaxNumberOfAttacks { get; set; }
+
         public int numberOfAttacks { get; set; }
 
-        [SerializeField] int _defaultMaxNumberOfRetaliations;
+        int _baseMaxNumberOfRetaliations;
+        public int baseMaxNumberOfRetaliations => _baseMaxNumberOfRetaliations;
 
-        public int defaultMaxNumberOfRetaliations
+        public int bonusMaxNumberOfRetaliations { get; set; }
+
+        public int numberOfRetaliations { get; set; }  
+        
+        public Energy energy { get; set; }
+
+        public Statistics(CSVData _data, string _name)
         {
-            get
-            {
-                return _defaultMaxNumberOfRetaliations;
-            }
-            private set
-            {
-                _defaultMaxNumberOfRetaliations = value;
-            }
+            string[] data = _data.GetRightRow(_name);
+            Dictionary<string, int> names = _data.names;
+            
+            int.TryParse(data[names["Attack"]], out _baseAttack);
+            int.TryParse(data[names["Defence"]], out _baseDefence);
+            int.TryParse(data[names["HP"]], out _baseMaxHealthPoints);
+            int.TryParse(data[names["MS"]], out _baseMaxMovementPoints);
+            int.TryParse(data[names["Max Range"]], out _baseAttackRange);
+            int.TryParse(data[names["Min Range"]], out _minimalAttackRange);
+            int.TryParse(data[names["Attacks/Turn"]], out _baseMaxNumberOfAttacks);
+            int.TryParse(data[names["Retaliations/Turn"]], out _baseMaxNumberOfRetaliations);
+            int.TryParse(data[names["Cost"]], out _cost);
+            int.TryParse(data[names["Limitation"]], out _limit);
         }
-
-        public int currentMaxNumberOfRetaliations { get; set; }
-
-        public int numberOfRetaliations { get; set; }
-
-        int _currentEnergy;
-        public int currentEnergy
-        {
-            get
-            {
-                return _currentEnergy;
-            }
-            set
-            {
-                if (value > maxEnergy)
-                {
-                    _currentEnergy = maxEnergy;
-                }
-                else if (value < 0)
-                {
-                    _currentEnergy = 0;
-                }
-                else
-                {
-                    _currentEnergy = value;
-                }
-                OnEnergyChanged(this);
-            }
-        }
-        [SerializeField] int _energyRegen;
-        public int energyRegen
-        {
-            get
-            {
-                return _energyRegen;
-            }
-            private set
-            {
-                _energyRegen = value;
-            }
-        }
-
-        public static event Action<Statistics> OnEnergyChanged = delegate { };
 
         public void NullMaxNumberOfAttacks()
         {
-            maxNumberOfAttacks = 0;
+            _baseMaxNumberOfAttacks = 0;
         }
 
         public void NullMaxMovementPoints()
@@ -222,19 +112,36 @@ namespace BattlescapeLogic
             return baseMaxMovementPoints + bonusMaxMovementPoints;
         }
 
+        public int GetCurrentMaxNumberOfRetaliations()
+        {
+            return baseMaxNumberOfRetaliations + bonusMaxNumberOfRetaliations;
+        }
+
+        public int GetCurrentMaxHealtPoints()
+        {
+            return baseMaxHealthPoints + bonusMaxHealthPoints;
+        }
+
+        public int GetCurrentMaxNumberOfAttacks()
+        {
+            return baseMaxNumberOfAttacks + bonusMaxNumberOfAttacks;
+        }       
+
         public void ApplyBonusStatistics(ChangeableStatistics bonusStatistics)
         {
             // statistics increases in non-dumb way - we don't want to increase base statistics, only bonus ones
             bonusAttack += bonusStatistics.bonusAttack;
             bonusDefence += bonusStatistics.bonusDefence;
             bonusAttackRange += bonusStatistics.bonusAttackRange;
-            maxHealthPoints += bonusStatistics.bonusHealth;
-            bonusMaxMovementPoints += bonusStatistics.bonusMovementPoints;
-            numberOfAttacks += bonusStatistics.bonusNumberOfAttacks;
-            currentMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
-            numberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
+            bonusMaxHealthPoints += bonusStatistics.bonusHealth;
             healthPoints += bonusStatistics.bonusHealth;
+            bonusMaxMovementPoints += bonusStatistics.bonusMovementPoints;
             movementPoints += bonusStatistics.bonusMovementPoints;
+            bonusMaxNumberOfAttacks += bonusStatistics.bonusNumberOfAttacks;
+            numberOfAttacks += bonusStatistics.bonusNumberOfAttacks;
+            bonusMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
+            numberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
+            energy.bonusRegen += bonusStatistics.bonusEnergyRegen;
         }
 
         public void RemoveBonusStatistics(ChangeableStatistics bonusStatistics)
@@ -242,23 +149,35 @@ namespace BattlescapeLogic
             bonusAttack -= bonusStatistics.bonusAttack;
             bonusDefence -= bonusStatistics.bonusDefence;
             bonusAttackRange -= bonusStatistics.bonusAttackRange;
-            maxHealthPoints -= bonusStatistics.bonusHealth;
+            bonusMaxHealthPoints -= bonusStatistics.bonusHealth;
+            if (healthPoints > GetCurrentMaxHealtPoints())
+            {
+                healthPoints = GetCurrentMaxHealtPoints();
+            }
+            bonusMaxNumberOfAttacks -= bonusStatistics.bonusNumberOfAttacks;
+            if (numberOfAttacks > GetCurrentMaxNumberOfAttacks())
+            {
+                numberOfAttacks = GetCurrentMaxNumberOfAttacks();
+            }
+            bonusMaxNumberOfRetaliations -= bonusStatistics.bonusNumberOfRetaliations;
+            if (numberOfRetaliations > GetCurrentMaxNumberOfRetaliations())
+            {
+                numberOfRetaliations = GetCurrentMaxNumberOfRetaliations();
+            }           
             bonusMaxMovementPoints -= bonusStatistics.bonusMovementPoints;
-            numberOfAttacks -= bonusStatistics.bonusNumberOfAttacks;
-            currentMaxNumberOfRetaliations += bonusStatistics.bonusNumberOfRetaliations;
-            if (numberOfRetaliations > currentMaxNumberOfRetaliations)
-            {
-                numberOfRetaliations = currentMaxNumberOfRetaliations;
-            }
-            if (healthPoints > maxHealthPoints)
-            {
-                healthPoints = maxHealthPoints;
-            }
             if (movementPoints > GetCurrentMaxMovementPoints())
             {
                 movementPoints = GetCurrentMaxMovementPoints();
             }
+            energy.bonusRegen -= bonusStatistics.bonusEnergyRegen;
         }
 
+        public void OnOwnerTurn()
+        {
+            movementPoints = GetCurrentMaxMovementPoints();
+            numberOfAttacks = GetCurrentMaxNumberOfAttacks();
+            numberOfRetaliations = GetCurrentMaxNumberOfRetaliations();
+            energy.OnOwnerTurn();
+        }
     }
 }

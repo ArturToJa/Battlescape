@@ -2,10 +2,10 @@
 
 namespace BattlescapeLogic
 {
-    public interface IDamageable: IMouseTargetable, IOnTilePlaceable
+    public interface IDamageable : IMouseTargetable, IOnTilePlaceable
     {
 
-        BuffGroup buffs { get;}
+        BuffGroup buffs { get; }
 
         string GetMyName();
 
@@ -13,9 +13,15 @@ namespace BattlescapeLogic
 
         Vector3 GetMyPosition();
 
-        void TakeDamage(Unit source, int dmg);
+        void TakeDamage(Damage dmg);
 
         int GetCurrentDefence();
-        float ChanceOfBeingHitBy(Unit source);
+        float ChanceOfBeingHitBy(IDamageSource source);
+
+        bool IsInvulnerable();
+
+        void OnHitReceived(Damage damage);
+        void OnMissReceived(Damage damage);
+        void OnHitReceivedWhenInvulnerable(Damage damage);
     }
 }

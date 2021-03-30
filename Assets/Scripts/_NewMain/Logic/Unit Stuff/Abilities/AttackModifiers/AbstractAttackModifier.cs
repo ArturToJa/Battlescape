@@ -24,5 +24,10 @@ namespace BattlescapeLogic
         {
             owner.modifiers.Remove(this);
         }
+        public void RemoveInstantly()
+        {
+            expirable.ExpireNow();
+            OnExpire();
+        }
     }
 }

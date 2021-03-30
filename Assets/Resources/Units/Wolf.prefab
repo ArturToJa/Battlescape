@@ -60,57 +60,31 @@ MonoBehaviour:
     _fluffText: 'Very fast Elf unit, especially capable in packs. '
   unitSounds:
     _movementSound:
-      name: WolfMoveSound
       clip: {fileID: 8300000, guid: 9ccfadde9afcb9a4f93cb3e82fd00a1d, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: WolfDeathSound
       clip: {fileID: 8300000, guid: f97a372eb7441fe408dd1e6dbfaec7cd, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: WolfHitSound
       clip: {fileID: 8300000, guid: 942a28be1dd02954fa0107500b83e8b1, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: NO_NEED_FOR_SWORDMAN_SHOOT_SOUND
       clip: {fileID: 0}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: WolfAttack
       clip: {fileID: 8300000, guid: 7d52b50c1e05a944fb62ffda730e6a5a, type: 3}
       volume: 0.2
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 3
     _limit: 4
     _baseAttack: 30
-    _baseDefence: 10
-    _maxHealthPoints: 35
+    _baseDefence: 15
+    _baseMaxHealthPoints: 35
     _baseMaxMovementPoints: 6
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

@@ -30,12 +30,12 @@ namespace BattlescapeUI
 
         protected override float GetPercent()
         {
-            return (float)myUnit.statistics.healthPoints / (float)myUnit.statistics.maxHealthPoints;
+            return (float)myUnit.statistics.healthPoints / (float)myUnit.statistics.GetCurrentMaxHealtPoints();
         }
 
         void UpdateText()
         {
-            healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.maxHealthPoints;
+            healthText.text = myUnit.statistics.healthPoints + "/" + myUnit.statistics.GetCurrentMaxHealtPoints();
         }
 
         void SetColour()

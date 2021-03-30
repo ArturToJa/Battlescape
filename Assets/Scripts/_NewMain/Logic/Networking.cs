@@ -185,21 +185,21 @@ namespace BattlescapeLogic
             Global.instance.currentMap.mapVisuals.GenerateObjects(s);
         }
 
-        public void SendCommandToDestroyObstacle(Unit sourceUnit, Obstacle myObstacle)
+        public void SendCommandToDestroyObstacle(IDamageSource source, Obstacle myObstacle)
         {
-            if(Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
+            //if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
+            //{
+            //    photonView.RPC(
+            //        "RPCDestroyObstacle",
+            //        RpcTarget.All,
+            //        sourceUnit.currentPosition.bottomLeftCorner.position.x,
+            //        sourceUnit.currentPosition.bottomLeftCorner.position.z,
+            //        myObstacle.currentPosition.bottomLeftCorner.position.x,
+            //        myObstacle.currentPosition.bottomLeftCorner.position.z);
+            //}
+            /*else */if (Global.instance.matchType != MatchTypes.Online)
             {
-                photonView.RPC(
-                    "RPCDestroyObstacle", 
-                    RpcTarget.All, 
-                    sourceUnit.currentPosition.bottomLeftCorner.position.x, 
-                    sourceUnit.currentPosition.bottomLeftCorner.position.z,
-                    myObstacle.currentPosition.bottomLeftCorner.position.x,
-                    myObstacle.currentPosition.bottomLeftCorner.position.z);
-            }
-            else if (Global.instance.matchType != MatchTypes.Online)
-            {
-                myObstacle.Destruct(sourceUnit);
+                myObstacle.Destruct(source);
             }
         }
 
@@ -208,7 +208,8 @@ namespace BattlescapeLogic
         {
             Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Obstacle>();
             Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Unit>();
-            obstacle.Destruct(unit);
+            IDamageSource temp = new FakeDamageSource();
+            obstacle.Destruct(temp);
         }
 
 
@@ -218,7 +219,7 @@ namespace BattlescapeLogic
         /// <param name="unit"> Unit to be moved to the last tile in Path made by PathCreator</param>
         public void SendCommandToMove(Unit unit, MultiTile destination)
         {
-            PlayerInput.instance.isInputBlocked = true; //this makes sense only on the 'active' PC' that's why I put it here ;)
+            PlayerInput.instance.LockInput(); //this makes sense only on the 'active' PC' that's why I put it here ;)
 
             if (Global.instance.matchType == MatchTypes.Online)
             {
@@ -252,7 +253,7 @@ namespace BattlescapeLogic
                 LogConsole.instance.SpawnLog("NO UNIT TO MOVE!");
                 return;
             }
-            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ],unit.currentPosition.size);
+            MultiTile destination = MultiTile.Create(Global.instance.currentMap.board[endX, endZ], unit.currentPosition.size);
             unit.Move(destination);
         }
 
@@ -263,9 +264,9 @@ namespace BattlescapeLogic
         /// <param name="target"></param>
         public void SendCommandToStartAttack(Unit attackingUnit, IDamageable target)
         {
-            PlayerInput.instance.isInputBlocked = true;
+            PlayerInput.instance.LockInput();
             Position targetPosition = new Position(Mathf.RoundToInt(target.GetMyPosition().x), Mathf.RoundToInt(target.GetMyPosition().x));
-           
+
             if (Global.instance.matchType == MatchTypes.Online)
             {
                 photonView.RPC(
@@ -277,7 +278,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                attackingUnit.Attack(target);
+                attackingUnit.attack.BasicAttack(target);
             }
 
         }
@@ -286,8 +287,8 @@ namespace BattlescapeLogic
         void RPCAttack(int sourceX, int sourceZ, int targetX, int targetZ)
         {
             Unit attackingUnit = Global.instance.currentMap.board[sourceX, sourceZ].GetMyObject<Unit>();
-            IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();                   
-            attackingUnit.Attack(target);
+            IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();
+            attackingUnit.attack.BasicAttack(target);
         }
 
 
@@ -296,11 +297,11 @@ namespace BattlescapeLogic
             if (Global.instance.matchType == MatchTypes.Online)
             {
                 GetComponent<PhotonView>().RPC
-                    ("RPCRetaliation", 
-                    RpcTarget.All, 
-                    retaliatingUnit.currentPosition.bottomLeftCorner.position.x, 
+                    ("RPCRetaliation",
+                    RpcTarget.All,
+                    retaliatingUnit.currentPosition.bottomLeftCorner.position.x,
                     retaliatingUnit.currentPosition.bottomLeftCorner.position.z,
-                    target.currentPosition.bottomLeftCorner.position.x, 
+                    target.currentPosition.bottomLeftCorner.position.x,
                     target.currentPosition.bottomLeftCorner.position.z);
             }
             else
@@ -359,44 +360,38 @@ namespace BattlescapeLogic
             Unit attacker = Global.instance.currentMap.board[attackerX, attackerZ].GetMyObject<Unit>();
             Unit target = Global.instance.currentMap.board[targetX, targetZ].GetMyObject<Unit>();
             attacker.RetaliateTo(target);
-        }       
+        }
 
-        public void SendCommandToHit(Unit source, IDamageable target, int damage = -1)
+        public void SendCommandToHit(IDamageable target, Damage damage)
         {
-            Damage _damage = new Damage(damage, true, (damage != 1));
-            if (damage == -1)
+            //if (Global.instance.matchType == MatchTypes.Online)
+            //{
+            //    int targetX = Mathf.RoundToInt(target.GetMyPosition().x);
+            //    int targetZ = Mathf.RoundToInt(target.GetMyPosition().z);
+            //    photonView.RPC
+            //        ("RPCHitTarget",
+            //        RpcTarget.All,
+            //        source.currentPosition.bottomLeftCorner.position.x,
+            //        source.currentPosition.bottomLeftCorner.position.z,
+            //        targetX,
+            //        targetZ,
+            //        damage.baseDamage,
+            //        damage.isHit);
+            //}
+            //else
             {
-                _damage = DamageCalculator.CalculateDamage(source, target, false);
-            }
-            if (Global.instance.matchType == MatchTypes.Online)
-            {
-                int targetX = Mathf.RoundToInt(target.GetMyPosition().x);
-                int targetZ = Mathf.RoundToInt(target.GetMyPosition().z);
-                photonView.RPC
-                    ("RPCHitTarget",
-                    RpcTarget.All,
-                    source.currentPosition.bottomLeftCorner.position.x,
-                    source.currentPosition.bottomLeftCorner.position.z,
-                    targetX,
-                    targetZ,
-                    _damage.baseDamage,
-                    _damage.isHit,
-                    _damage.stopsRetaliation);
-            }
-            else
-            {
-                source.HitTarget(target, _damage);
+                damage.Deal(target);
             }
         }
 
-        [PunRPC]
-        void RPCHitTarget(int sourceX, int sourceZ, int targetX, int targetZ, int damage, bool isHit, bool stopsRetaliation)
-        {
-            Unit source = Global.instance.currentMap.board[sourceX, sourceZ].GetMyObject<Unit>();
-            IDamageable target = Global.instance.currentMap.board[targetX, targetZ].GetMyDamagableObject();
-            Damage _damage = new Damage(damage, isHit, stopsRetaliation);
-            source.HitTarget(target, _damage);
-        }
+        //[PunRPC]
+        //void RPCHitTarget(int _sourceX, int _sourceZ, int _targetX, int _targetZ, int _damage, bool _isHit)
+        //{
+        //    Unit source = Global.instance.currentMap.board[_sourceX, _sourceZ].GetMyObject<Unit>();
+        //    IDamageable target = Global.instance.currentMap.board[_targetX, _targetZ].GetMyDamagableObject();
+        //    Damage damage = new Damage(_damage, _isHit);
+        //    damage.Deal(target);
+        //}
 
         public void SendCommandToNotRetaliate()
         {

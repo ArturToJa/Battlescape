@@ -24,7 +24,7 @@ namespace BattlescapeLogic
                 {
                     if (myUnit.IsAlive() && neighbour.GetMyObject<Unit>() != null && myUnit.IsEnemyOf(neighbour.GetMyObject<Unit>()))
                     {
-                        int damage = DamageCalculator.CalculateDamage(neighbour.GetMyObject<Unit>(), myUnit, true, 1.5f);
+                        Damage damage = DamageCalculator.CalculateBasicAttackDamage(neighbour.GetMyObject<Unit>().attack, myUnit, 1.5f);
                         neighbour.GetMyObject<Unit>().Backstab(myUnit,damage);
                         health -= damage;
                     }
@@ -59,7 +59,7 @@ namespace BattlescapeLogic
                 temporaryGoal.SetMyObjectTo(myUnit);
              }
             StopMovementAnimation();
-            PlayerInput.instance.isInputBlocked = false;
+            PlayerInput.instance.UnlockInput();
             if (newPosition.IsProtectedByEnemyOf(myUnit))
             {
                 myUnit.statistics.movementPoints = 0;

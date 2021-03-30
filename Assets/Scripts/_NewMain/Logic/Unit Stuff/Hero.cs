@@ -37,7 +37,7 @@ namespace BattlescapeLogic
 
         public static event Action<Hero> OnHeroDeath = delegate { };
 
-        public override void Die(Unit killer)
+        public override void Die(IDamageSource killer)
         {
             base.Die(killer);
             GetMyOwner().Lose();

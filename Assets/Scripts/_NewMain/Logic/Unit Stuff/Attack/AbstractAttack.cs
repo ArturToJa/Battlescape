@@ -12,10 +12,10 @@ namespace BattlescapeLogic
         Ranged = 1,
         Instant = 2
     }
-    public abstract class AbstractAttack
+    public abstract class AbstractAttack : IDamageSource
     {
         public string name;
-        protected Unit sourceUnit;
+        public Unit sourceUnit { get; protected set; }
         protected IDamageable targetObject;
 
         public AbstractAttack(Unit _myUnit)
@@ -23,8 +23,9 @@ namespace BattlescapeLogic
             sourceUnit = _myUnit;
         }
 
-        public virtual void Attack(IDamageable target)
+        public virtual void BasicAttack(IDamageable target)
         {
+            sourceUnit.statistics.numberOfAttacks--;
             BattlescapeGraphics.ColouringTool.UncolourAllTiles();
             targetObject = target;
             if (sourceUnit.GetMyOwner().HasAttacksOrMovesLeft() == false)
@@ -53,6 +54,43 @@ namespace BattlescapeLogic
                 && sourceUnit.CanStillAttack()
                 && sourceUnit.IsInAttackRange(targetObject.currentPosition.DistanceTo(sourceUnit.currentPosition))
                 && sourceUnit.IsEnemyOf(targetObject);
-        }        
+        }
+
+        public PotentialDamage GetPotentialDamageAgainst(IDamageable target)
+        {
+            return DamageCalculator.GetPotentialDamage(Statistics.baseDamage, this, target);
+        }
+
+        public bool CanPotentiallyDamage(IDamageable target)
+        {
+            if (target is Unit && (target as Unit).IsEnemyOf(sourceUnit) == false) //no ally damage showing
+            {
+                return false;
+            }
+            return sourceUnit.statistics.GetCurrentMaxNumberOfAttacks() > 0;
+        }                         
+
+        public int GetAttackValue()
+        {
+            return sourceUnit.statistics.GetCurrentAttack();
+        }
+
+        public string GetOwnerName()
+        {
+            return sourceUnit.info.unitName;
+        }
+
+        public ModifierGroup GetMyDamageModifiers()
+        {
+            return sourceUnit.modifiers;
+        }
+
+        public void OnKillUnit(Unit unit)
+        {
+            if (sourceUnit.IsEnemyOf(unit))
+            {
+                sourceUnit.GetMyOwner().AddPoints(unit.statistics.cost);
+            }
+        }
     }
 }

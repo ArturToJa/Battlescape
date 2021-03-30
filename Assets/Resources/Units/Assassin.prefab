@@ -89,57 +89,31 @@ MonoBehaviour:
       Assassins are experts in eliminating single, difficult targets.
   unitSounds:
     _movementSound:
-      name: PikemanMoveSound
       clip: {fileID: 8300000, guid: 9b3dd4cdefed75c4e896cab55cfe21f3, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: PikemanDeathSound
       clip: {fileID: 8300000, guid: eb4117ee390dd674889cfadaf5431e2f, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: PikemanHitSound
       clip: {fileID: 8300000, guid: c4d058a2d00c5144fb404e065f328b61, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: 
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: PikemanSoundAttack
       clip: {fileID: 8300000, guid: 4f9dab83cd88d5f4687b9fac1797d1d0, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 7
     _limit: 1
     _baseAttack: 55
     _baseDefence: 40
-    _maxHealthPoints: 33
+    _baseMaxHealthPoints: 35
     _baseMaxMovementPoints: 5
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 3
   _attackRotation: -45
   _equipment:
     primaryWeapon:

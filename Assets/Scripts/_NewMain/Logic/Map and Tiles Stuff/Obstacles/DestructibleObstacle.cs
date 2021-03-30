@@ -40,13 +40,13 @@ namespace BattlescapeLogic
             currentHealthPoints = maxHealthPoints;
         }
 
-        public void TakeDamage(Unit source, int dmg)
+        public void TakeDamage(Damage damage)
         {
-            currentHealthPoints -= dmg;
+            currentHealthPoints -= damage;
 
             if (currentHealthPoints <= 0)
             {
-                this.Destruct(source);
+                this.Destruct(damage.source);
             }
         }
 
@@ -81,9 +81,30 @@ namespace BattlescapeLogic
             return obstacleName;
         }
 
-        public float ChanceOfBeingHitBy(Unit source)
+        public float ChanceOfBeingHitBy(IDamageSource source)
         {
             return 1;
+        }
+
+        public bool IsInvulnerable()
+        {
+            return false;
+        }
+
+        public void OnHitReceived(Damage damage)
+        {
+            StartCoroutine((myHealthBar as BattlescapeUI.DestructibleObstacleHealthbar).ShowOnDamageRoutine());
+            TakeDamage(damage);
+        }
+
+        public void OnMissReceived(Damage damage)
+        {
+            Debug.LogWarning("If missing on obstacles is now a thing, remove this warning; otherwise this is a bug.");
+        }
+
+        public void OnHitReceivedWhenInvulnerable(Damage damage)
+        {
+            Debug.LogWarning("If invulnerable obstacles are a thing now, please remove this warning. Else, this is a bug!");
         }
     }
 }

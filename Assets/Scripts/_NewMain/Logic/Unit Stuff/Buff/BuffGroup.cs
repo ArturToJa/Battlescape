@@ -82,5 +82,26 @@ namespace BattlescapeLogic
                     }
                 });
         }
-    }
+
+        public void RemoveDefenseDebuffsOnHit()
+        {
+            foreach (AbstractBuff buff in FindAllBuffsOfType("Combat Wound"))
+            {
+                buff.RemoveFromTargetInstantly();
+            }
+        }
+
+        public void AddDefenseDebuffOnMiss()
+        {
+            if (owner is Unit == false)
+            {
+                Debug.LogWarning("Adding defense debuff to non unit is not doable");
+                return;
+            }
+            StatisticChangeBuff defenceDebuff = Object.Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
+            defenceDebuff.ApplyOnTarget(owner);
+            PopupTextController.AddPopupText((-defenceDebuff.statistics.bonusDefence).ToString() + " Defence", PopupTypes.Stats);
+            LogConsole.instance.SpawnLog(owner.GetMyName() + " loses " + (-defenceDebuff.statistics.bonusDefence).ToString() + " points of Defence temporarily.");
+        }
+    }    
 }

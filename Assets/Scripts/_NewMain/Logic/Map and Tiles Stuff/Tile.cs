@@ -132,7 +132,7 @@ namespace BattlescapeLogic
             highlighter.OnSetup();
             if (dropzoneOfTeam != -1)
             {
-                highlighter.TurnOn(Color.green);
+                highlighter.TurnOn(Global.instance.colours.green);
             }
             else
             {

@@ -88,57 +88,31 @@ MonoBehaviour:
     _fluffText: A key infantry unit of Elves, incredibly usefull against enemy infantry.
   unitSounds:
     _movementSound:
-      name: PikemanMoveSound
       clip: {fileID: 8300000, guid: 9b3dd4cdefed75c4e896cab55cfe21f3, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: PikemanDeathSound
       clip: {fileID: 8300000, guid: eb4117ee390dd674889cfadaf5431e2f, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: PikemanHitSound
       clip: {fileID: 8300000, guid: c4d058a2d00c5144fb404e065f328b61, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: 
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: PikemanSoundAttack
       clip: {fileID: 8300000, guid: 4f9dab83cd88d5f4687b9fac1797d1d0, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 4
     _limit: 2
     _baseAttack: 20
     _baseDefence: 30
-    _maxHealthPoints: 37
+    _baseMaxHealthPoints: 37
     _baseMaxMovementPoints: 4
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 2
   _attackRotation: 60
   _equipment:
     primaryWeapon:
@@ -441,7 +415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100350, guid: cc0803b8a24ce844682bf64f27291074, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100350, guid: cc0803b8a24ce844682bf64f27291074, type: 3}
       propertyPath: m_TagString
@@ -465,7 +439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100356, guid: cc0803b8a24ce844682bf64f27291074, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100356, guid: cc0803b8a24ce844682bf64f27291074, type: 3}
       propertyPath: m_TagString

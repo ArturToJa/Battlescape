@@ -15,6 +15,7 @@ namespace BattlescapeLogic
                 if (CheckTarget(unit))
                 {
                     BattlescapeGraphics.ColouringTool.ColourObject(unit, targetColouringColour);
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit.currentPosition, targetColouringColour);
                 }
             }
         }

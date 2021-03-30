@@ -102,13 +102,8 @@ namespace BattlescapeUI
             GameObject abilityIcon = Instantiate(abilityIconPrefab, this.transform);
             iconDictionary.Add(ability, abilityIcon);
             abilityIcon.transform.GetChild(0).GetComponent<Image>().sprite = ability.icon;
-            abilityIcon.name = ability.abilityName;
-            if (ability.usesPerBattle > 0)
-            {
-                abilityIcon.transform.GetChild(1).GetComponent<Text>().text = ability.usesLeft.ToString();
-            }
-
-            abilityIcon.transform.GetChild(2).GetComponent<Text>().text = ability.energyCost.ToString();
+            abilityIcon.name = ability.abilityName;            
+            abilityIcon.transform.GetChild(1).GetComponent<Text>().text = ability.energyCost.ToString();
             MouseHoverInfoCursor iconInfo = abilityIcon.GetComponentInChildren<MouseHoverInfoCursor>();
             if (isRightClickTooltip == false)
             {

@@ -18,9 +18,9 @@ namespace BattlescapeLogic
             _myUnit.equipment.EquipMainRangedWeapon();
         }
 
-        public override void Attack(IDamageable target)
+        public override void BasicAttack(IDamageable target)
         {
-            base.Attack(target);
+            base.BasicAttack(target);
             TurnTowardsTarget();
             PlayAttackAnimation();
         }
@@ -49,7 +49,7 @@ namespace BattlescapeLogic
 
         public void OnMissileHitTarget()
         {
-            Networking.instance.SendCommandToHit(sourceUnit, targetObject);
+            Networking.instance.SendCommandToHit(targetObject, DamageCalculator.CalculateBasicAttackDamage(this, targetObject));
         }
     }
 }

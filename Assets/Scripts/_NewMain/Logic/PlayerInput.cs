@@ -17,15 +17,11 @@ namespace BattlescapeLogic
             {
                 return _isInputBlocked;
             }
-            set
-            {
-                _isInputBlocked = value;
-                ResetCursor();
-            }
         }
         //this is the old AnimatingState - it's being set to true when someone is moving or attacking or so on.
         public static PlayerInput instance { get; private set; }
         IMouseTargetable hoveredObject;
+
         //let's try to not make it public. It is mostly for un-hovering (OnMouseHoverExit).
         GameObject lastUI;
         //This is only to optimise stuff, when mouse is over UI, as GetComponent is heavy and no need to do it each frame.
@@ -36,13 +32,14 @@ namespace BattlescapeLogic
             {
                 instance = this;
                 DontDestroyOnLoad(this.gameObject);
-                isInputBlocked = false;
+                UnlockInput();
             }
             else
             {
                 Destroy(this);
             }
             AbstractActiveAbility.OnAbilityFinished += ResetCursor;
+            AbstractActiveAbility.OnAbilityFinished += UnlockInput;
         }
 
         void Update()
@@ -56,9 +53,30 @@ namespace BattlescapeLogic
                 Cursor.instance.SetToDefault();
                 return;
             }
-            if (Helper.IsOverNonHealthBarUI())
+            if (Helper.IsOverNonIgnoredUI())
             {
-                if (false) //this should say 'if over right objects'
+                SetUICursor();
+            }
+            else
+            {
+                lastUI = null;
+                DoMouse();
+            }
+            if (Application.isEditor)
+            {
+                DoCheats();
+            }
+            DoKeyboard();
+        }
+
+        private void SetUICursor()
+        {
+            GameObject newUI = Helper.GetFirstUI();
+            if (newUI != lastUI)
+            {
+                lastUI = newUI;
+                MouseHoverInfoCursor questionMarkComponent = newUI.GetComponentInParent<MouseHoverInfoCursor>();
+                if (questionMarkComponent != null && (questionMarkComponent is MouseHoverAbilityIconCursor) == false)
                 {
                     Cursor.instance.ShowInfoCursor();
                 }
@@ -67,16 +85,7 @@ namespace BattlescapeLogic
                     Cursor.instance.SetToDefault();
                 }
             }
-            else
-            {
-                DoMouse();
-            }
-            if (Application.isEditor)
-            {
-                DoCheats();
-            }
-            DoKeyboard();
-        }        
+        }
 
         void DoKeyboardForManagementScene()
         {
@@ -151,28 +160,32 @@ namespace BattlescapeLogic
 
         void DoCheats()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.D))
             {
+                if (GameRound.instance.currentPlayer.selectedUnit == null)
+                {
+                    return;
+                }
                 // selected unit gets 1000 damage (dies xD)
-                GameRound.instance.currentPlayer.selectedUnit.TakeDamage(GameRound.instance.currentPlayer.selectedUnit, 1000);
+                IDamageSource damageSource = new FakeDamageSource();
+                Damage damage = new Damage(1000, true, damageSource);
+                GameRound.instance.currentPlayer.selectedUnit.TakeDamage(damage);
             }
 
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                if (GameRound.instance.currentPlayer.selectedUnit != null && !GameRound.instance.currentPlayer.selectedUnit.buffs.IsEmpty())
-                {
-                    GameRound.instance.currentPlayer.selectedUnit.buffs[0].RemoveFromTargetInstantly();
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnTarget(GameRound.instance.currentPlayer.selectedUnit);
-            }
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log(Global.instance.currentEntity);
             }
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (GameRound.instance.currentPlayer.selectedUnit == null)
+                {
+                    return;
+                }
+
+                GameRound.instance.currentPlayer.selectedUnit.statistics.movementPoints = 100;
+            }
+
         }
 
         void DoMouse()
@@ -249,6 +262,18 @@ namespace BattlescapeLogic
         void ResetCursor()
         {
             hoveredObject = null;
+        }
+
+        public void LockInput()
+        {
+            _isInputBlocked = true;
+            ResetCursor();
+        }
+
+        public void UnlockInput()
+        {
+            _isInputBlocked = false;
+            ResetCursor();
         }
     }
 }

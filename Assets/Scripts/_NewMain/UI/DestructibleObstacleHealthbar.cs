@@ -10,6 +10,8 @@ namespace BattlescapeUI
     {
         BattlescapeLogic.DestructibleObstacle myObstacle;
 
+        static float showTimeOnDamage = 5f;
+
 
         protected override void OnStart()
         {
@@ -22,6 +24,13 @@ namespace BattlescapeUI
         protected override float GetPercent()
         {
             return (float)myObstacle.currentHealthPoints / (float)myObstacle.maxHealthPoints;
+        }
+
+        public IEnumerator ShowOnDamageRoutine()
+        {
+            TurnOn();
+            yield return new WaitForSeconds(showTimeOnDamage);
+            TurnOff();
         }
     }
 }

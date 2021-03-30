@@ -65,6 +65,6 @@ namespace BattlescapeLogic
             var temp = Instantiate(networkLogPrefab, theConsole);
             temp.GetComponentInChildren<Text>().text = log;
             SoundManager.instance.PlaySound(this.gameObject, SoundManager.instance.lobbySound);
-        }
+        }       
     }
 }

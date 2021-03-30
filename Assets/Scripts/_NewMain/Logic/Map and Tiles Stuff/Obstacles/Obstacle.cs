@@ -30,7 +30,7 @@ namespace BattlescapeLogic
             turnChanger = new TurnChanger(OnNewRound, OnNewTurn, OnNewPhase);
         }
 
-        public void Destruct(Unit source)
+        public void Destruct(IDamageSource source)
         {
             //Tu mna być animacja destrukcji.
             currentPosition.SetMyObjectTo(null);

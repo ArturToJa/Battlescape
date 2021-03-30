@@ -11,9 +11,9 @@ namespace BattlescapeLogic
         {
         }
 
-        public override void Attack(IDamageable target)
+        public override void BasicAttack(IDamageable target)
         {
-            base.Attack(target);
+            base.BasicAttack(target);
             PlayAttackAnimation();
         }
 
@@ -31,7 +31,7 @@ namespace BattlescapeLogic
             //IDK how much should be done here, and how much should be done on the unit's side (deal dmg vs get dmg)
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
-                Networking.instance.SendCommandToHit(sourceUnit, targetObject);
+                Networking.instance.SendCommandToHit(targetObject, DamageCalculator.CalculateBasicAttackDamage(this, targetObject));
             }
         }       
     }

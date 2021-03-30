@@ -61,57 +61,31 @@ MonoBehaviour:
       victory.
   unitSounds:
     _movementSound:
-      name: SwordmanMovementSound
       clip: {fileID: 8300000, guid: c3507ed7d0f5b834c9bd41d105ea863d, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: SwordmanDeathSound
       clip: {fileID: 8300000, guid: f0a4c76ab9bea0a4fa662a1172b4c8b9, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: SwormanHitSound
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: NO_NEED_FOR_SWORDMAN_SHOOT_SOUND
       clip: {fileID: 0}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: SwordmanAttackSound
       clip: {fileID: 8300000, guid: bd79fe5c75938a249b12df9bc3009e58, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 5
     _limit: 2
-    _baseAttack: 60
-    _baseDefence: 30
-    _maxHealthPoints: 50
+    _baseAttack: 55
+    _baseDefence: 35
+    _baseMaxHealthPoints: 38
     _baseMaxMovementPoints: 2
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

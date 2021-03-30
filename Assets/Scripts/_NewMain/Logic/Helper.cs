@@ -48,7 +48,7 @@ namespace BattlescapeLogic
             t.SetPositionAndRotation(new Vector3(x, t.position.y, z), Quaternion.identity);
         }
 
-        public static bool IsOverNonHealthBarUI()
+        public static bool IsOverNonIgnoredUI()
         {
             if (EventSystem.current.IsPointerOverGameObject() == false)
             {
@@ -60,8 +60,20 @@ namespace BattlescapeLogic
             };
             pointerData.position = Input.mousePosition;
             List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointerData, results);
+            EventSystem.current.RaycastAll(pointerData, results);                    
             return (results.Count > 0 && (results[0].gameObject.transform.root.tag != "Unit") && (results[0].gameObject.tag != "Ignored"));
+        }
+
+        public static GameObject GetFirstUI()
+        {
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                pointerId = -1,
+            };
+            pointerData.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+            return results[0].gameObject;
         }
 
 

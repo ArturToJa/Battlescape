@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 23031771839541850}
   - component: {fileID: 114805023837190132}
   m_Layer: 9
-  m_Name: TestQuad
+  m_Name: Highlighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 64129509277984568}
   - component: {fileID: 23635137504565932}
   m_Layer: 9
-  m_Name: Quad
+  m_Name: Grid
   m_TagString: Grid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

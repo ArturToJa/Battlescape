@@ -108,13 +108,12 @@ MonoBehaviour:
     _limit: 2
     _baseAttack: 20
     _baseDefence: 50
-    _maxHealthPoints: 40
+    _baseMaxHealthPoints: 40
     _baseMaxMovementPoints: 3
     _baseAttackRange: 2
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

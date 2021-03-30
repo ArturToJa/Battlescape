@@ -63,57 +63,31 @@ MonoBehaviour:
       battles.
   unitSounds:
     _movementSound:
-      name: MovementHumanWarriorSound
       clip: {fileID: 8300000, guid: abfcd7e840ad36349b82d82976b777fd, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: DeathHumanWarriorSound
       clip: {fileID: 8300000, guid: 64f8fa366b57a0244b2a4733c20f7241, type: 3}
       volume: 0.4
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: WoundSoundHeroKnight
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _shootSound:
-      name: RangerShootSound
       clip: {fileID: 8300000, guid: 987564a93e63989498e6857deb3641b6, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: HumanKnightAttackSound
       clip: {fileID: 8300000, guid: bd79fe5c75938a249b12df9bc3009e58, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 0
     _limit: 0
     _baseAttack: 50
     _baseDefence: 30
-    _maxHealthPoints: 50
+    _baseMaxHealthPoints: 50
     _baseMaxMovementPoints: 6
     _baseAttackRange: 5
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

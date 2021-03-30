@@ -42,7 +42,7 @@ namespace BattlescapeLogic
             }
         }
 
-        int roundsTillOffCooldown = 0;
+        public int roundsTillOffCooldown { get; private set; }
 
 
 
@@ -136,7 +136,7 @@ namespace BattlescapeLogic
 
         virtual protected bool IsFreeFromWrongStates()
         {
-            return owner.states.isSilenced() == false && owner.states.isStunned() == false;
+            return owner.states.IsSilenced() == false && owner.states.IsStunned() == false;
         }
 
         protected bool CheckMovementCost()
@@ -151,7 +151,7 @@ namespace BattlescapeLogic
 
         protected bool HasEnoughEnergy()
         {
-            return owner.statistics.currentEnergy >= energyCost;
+            return owner.statistics.energy.current >= energyCost;
         }
 
         protected bool HasUsesLeft()
@@ -193,13 +193,14 @@ namespace BattlescapeLogic
 
         protected bool CheckTarget(IMouseTargetable target)
         {
-            return filter.FilterTarget(target) && IsLegalTarget(target);
+            return filter.FilterTarget(target) && IsLegalTarget(target);            
         }
 
         protected virtual void Activate()
         {
+            //perhaps should also be an event?
             BattlescapeGraphics.ColouringTool.UncolourAllObjects();
-            owner.statistics.currentEnergy -= energyCost;
+            owner.statistics.energy.current -= energyCost;
             if (usesPerBattle > 0)
             {
                 usesLeft--;
@@ -213,14 +214,13 @@ namespace BattlescapeLogic
             Animate();
             DoVisualEffectFor(selfVisualEffect, owner.gameObject);
             BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onStartSound);
-            PlayerInput.instance.isInputBlocked = true;
+            PlayerInput.instance.LockInput();
         }
 
         public void OnFinish()
         {
-            PlayerInput.instance.isInputBlocked = false;
-            owner.GetMyOwner().SelectUnit(owner);
             OnAbilityFinished();
+            owner.GetMyOwner().SelectUnit(owner); //this would need to know what ability was used to determine what unit to select, and would complicate things. Easier to remain as a separate line :D     
         }
 
         public override void OnNewOwnerTurn()
@@ -266,10 +266,6 @@ namespace BattlescapeLogic
             }
         }
 
-        public void OnAbilityOver()
-        {
-            PlayerInput.instance.isInputBlocked = false;
-        }
        virtual protected string GetLogMessage()
         {
             return owner.name + " uses " + abilityName + "!";

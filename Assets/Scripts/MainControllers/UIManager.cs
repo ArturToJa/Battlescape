@@ -114,8 +114,8 @@ public class UIManager : MonoBehaviour
     {
         Unit unit = GameRound.instance.currentPlayer.selectedUnit;
         float velocity = 0;
-        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.currentEnergy / (float)Statistics.maxEnergy), ref velocity, barAnimationTime);
-        amount.text = "Energy: " + unit.statistics.currentEnergy.ToString() + "/" + Statistics.maxEnergy.ToString() + "               +" + unit.statistics.energyRegen;
+        fillOfABar.fillAmount = Mathf.SmoothDamp(fillOfABar.fillAmount, ((float)unit.statistics.energy.current / (float)Energy.max), ref velocity, barAnimationTime);
+        amount.text = "Energy: " + unit.statistics.energy.current.ToString() + "/" + Energy.max.ToString() + "               +" + unit.statistics.energy.GetCurrentRegen();
     }
 
 

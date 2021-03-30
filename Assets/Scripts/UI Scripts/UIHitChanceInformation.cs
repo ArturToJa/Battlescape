@@ -25,38 +25,49 @@ public class UIHitChanceInformation : MonoBehaviour
         TurnOff();
     } 
     
-    public void TurnOnFor(Unit attackingUnit, IDamageable target)
+    public void TurnOnFor(IDamageSource potentialDamageSource, IDamageable target)
     {
         UIManager.InstantlyTransitionActivity(gameObject, true);
-        ShowNewInformation(attackingUnit, target);
+        ShowNewInformation(potentialDamageSource, target);
     }
     public void TurnOff()
     {
         UIManager.InstantlyTransitionActivity(gameObject, false);
     }
     
-    void ShowNewInformation(Unit attackingUnit, IDamageable target)
+    void ShowNewInformation(IDamageSource aggressor, IDamageable target)
     {
-        float hitChance = target.ChanceOfBeingHitBy(attackingUnit);
-        theText.text = "Chances for:";
-        theText.text += "\n" + "Miss (reducing Defence): " + ((1-hitChance) * 100).ToString("F2") + "%";
-        theText.text += "\n" + "Hit (dealing Damage): " + (hitChance * 100).ToString("F2") + "%";
-        if (hitChance > 0)
-        {
-            int avgDmg = DamageCalculator.GetAvarageDamage(attackingUnit, target);
-            int dmgRange = avgDmg / 5;
-            theText.text += "\n" + "\n" + "Damage if hit: " + (avgDmg - dmgRange).ToString() + " - " + (avgDmg + dmgRange).ToString();
-        }
+        PotentialDamage potentialDamage = aggressor.GetPotentialDamageAgainst(target);
+        theText.text = potentialDamage.GetText();       
     }        
 
     public void OnMouseHoverEnter(IDamageable hoveredObject)
     {
-        if (GameRound.instance.currentPlayer.selectedUnit != null && GameRound.instance.currentPlayer.selectedUnit.attack.CanAttack(hoveredObject))
+        if (CouldDamageNow(hoveredObject))
         {
-            TurnOnFor(GameRound.instance.currentPlayer.selectedUnit, hoveredObject);
+            TurnOnFor((GetCurrentDamagingEntity()), hoveredObject);
         }
     }
 
+    bool CouldDamageNow(IDamageable hoveredObject)
+    {
+        IDamageSource source = GetCurrentDamagingEntity();
+        return source != null && source.CanPotentiallyDamage(hoveredObject) == true;
+    }
 
-   
+    IDamageSource GetCurrentDamagingEntity()
+    {
+        IDamageSource sourceOfDamage = null;
+        if (Global.instance.currentEntity is IDamageSource)
+        {
+            sourceOfDamage = Global.instance.currentEntity as IDamageSource;
+        }
+        else if (Global.instance.currentEntity is Unit)
+        {
+            sourceOfDamage = (Global.instance.currentEntity as Unit).attack;           
+        }
+        return sourceOfDamage;
+    }
+
+
 }

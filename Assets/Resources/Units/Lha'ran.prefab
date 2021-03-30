@@ -60,57 +60,31 @@ MonoBehaviour:
     _fluffText: These big and slow beasts become very angry very fast.
   unitSounds:
     _movementSound:
-      name: WolfMoveSound
       clip: {fileID: 8300000, guid: d50f80018df7fa144b68c0193174f485, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: WolfDeathSound
       clip: {fileID: 8300000, guid: 59e77df4f01f8464890bd52d5a4b501e, type: 3}
       volume: 0.5
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: WolfHitSound
       clip: {fileID: 8300000, guid: 728cb69e85fb0da41a6059f4dc05a935, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: NO_NEED_FOR_SWORDMAN_SHOOT_SOUND
       clip: {fileID: 0}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: WolfAttack
       clip: {fileID: 8300000, guid: 80001002a8bbfb04ca96156e53d0197e, type: 3}
       volume: 0.2
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 6
     _limit: 2
     _baseAttack: 30
     _baseDefence: 50
-    _maxHealthPoints: 45
+    _baseMaxHealthPoints: 55
     _baseMaxMovementPoints: 5
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

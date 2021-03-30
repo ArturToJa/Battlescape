@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 2383959474377352450}
   m_Layer: 2
   m_Name: PopupTextRoll
-  m_TagString: Untagged
+  m_TagString: Ignored
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

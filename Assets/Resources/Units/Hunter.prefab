@@ -156,57 +156,31 @@ MonoBehaviour:
       against enemy Beasts.
   unitSounds:
     _movementSound:
-      name: ArcherMovementSound
       clip: {fileID: 8300000, guid: dc1c91200366f1f4289270a21853e623, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: ArcherDeathSound
       clip: {fileID: 8300000, guid: f97a372eb7441fe408dd1e6dbfaec7cd, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: ArcherWoundSound
       clip: {fileID: 8300000, guid: c8cc8ca7e4f674f4196c02429fe47895, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _shootSound:
-      name: ArcherShootSound
       clip: {fileID: 8300000, guid: b6ee38c23d384e54e86ddf0171e1d87c, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _attackSound:
-      name: ArcherAttackSound
       clip: {fileID: 8300000, guid: 88e252a79e29a304795465aaaae50c14, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 2
     _limit: 3
     _baseAttack: 0
     _baseDefence: 0
-    _maxHealthPoints: 25
+    _baseMaxHealthPoints: 30
     _baseMaxMovementPoints: 5
     _baseAttackRange: 6
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

@@ -4,33 +4,73 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class SplashDamageBuff : AbstractAttackModifierBuff
+    public class SplashDamageBuff : AbstractAttackModifierBuff, IDamageSource
     {
         [SerializeField] int splashDamage;
+
+        //I assume this only works on Units. If not, then the structure needs a change lol. It was kinda necessary to extract important data.
+        Unit target
+        {
+            get
+            {
+                return (buffGroup.owner as Unit);
+            }
+        }
 
         public override void ApplyChange()
         {
             return;
         }
 
-        public override void ModifyAttack(IDamageable target, int damageToTarget)
+        public bool CanPotentiallyDamage(IDamageable target)
+        {
+            return true;
+        }
+
+        public int GetAttackValue()
+        {
+            return target.statistics.GetCurrentAttack();
+        }
+
+        public ModifierGroup GetMyDamageModifiers()
+        {
+            return target.modifiers;
+        }
+
+        public string GetOwnerName()
+        {
+            return target.info.unitName;
+        }
+
+        public PotentialDamage GetPotentialDamageAgainst(IDamageable target)
+        {
+            Debug.LogWarning("This should never happen.");
+            return null;
+        }
+
+        public override void ModifyAttack(IDamageable target)
         {
             List<IDamageable> alreadyDamaged = new List<IDamageable>();
             foreach (Tile tile in target.currentPosition.closeNeighbours)
             {
                 if (tile.GetMyDamagableObject() != null && alreadyDamaged.Contains(tile.GetMyDamagableObject()) == false)
                 {
-                    PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
-                    Unit owner = buffGroup.owner as Unit;
-                    tile.GetMyDamagableObject().TakeDamage(owner, splashDamage);
+                    Damage damage = DamageCalculator.CalculateAbilityDamage(splashDamage, this, target);                    
+                    tile.GetMyDamagableObject().TakeDamage(damage);
                     alreadyDamaged.Add(tile.GetMyDamagableObject());
+                    PopupTextController.AddPopupText("-" + splashDamage, PopupTypes.Damage);
                 }
-            }            
+            }
+        }
+
+        public void OnKillUnit(Unit unit)
+        {
+            target.GetMyOwner().AddPoints(unit.statistics.cost);
         }
 
         protected override bool IsAcceptableTargetType(IDamageable target)
         {
-            return true;
+            return (target is Unit);
         }
 
         protected override void RemoveChange()

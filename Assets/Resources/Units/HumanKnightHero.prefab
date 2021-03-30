@@ -278,57 +278,31 @@ MonoBehaviour:
       in direct combat, can still definitely fight the enemies very effectively.
   unitSounds:
     _movementSound:
-      name: MovementHumanKnightSound
       clip: {fileID: 8300000, guid: 54c78092ffdf2d04cb9528b8767f74ea, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _deathSound:
-      name: DeathHumanKnightSound
       clip: {fileID: 8300000, guid: 98f33dc4cd9607246b72c1bd1bddef60, type: 3}
       volume: 0.4
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
     _hitSound:
-      name: WoundSoundHeroKnight
       clip: {fileID: 8300000, guid: aa84abb9cec814946b51a126a54c99d5, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _shootSound:
-      name: NoNeedForShootingHumanKnight
       clip: {fileID: 0}
       volume: 0
-      pitch: 0
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 0
     _attackSound:
-      name: HumanKnightAttackSound
       clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
       volume: 0.3
-      pitch: 1
-      oldSource: {fileID: 0}
-      loop: 0
-      soundType: 6
   statistics:
     _cost: 0
     _limit: 0
     _baseAttack: 50
     _baseDefence: 40
-    _maxHealthPoints: 60
+    _baseMaxHealthPoints: 55
     _baseMaxMovementPoints: 8
     _baseAttackRange: 1
     _minimalAttackRange: 0
-    _maxNumberOfAttacks: 1
-    _defaultMaxNumberOfRetaliations: 1
-    _energyRegen: 10
+    _baseMaxNumberOfAttacks: 1
+    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:

@@ -52,7 +52,7 @@ namespace BattlescapeLogic
 
         public List<AbstractAbility> abilities { get; private set; }
         public BuffGroup buffs { get; private set; }
-        public List<AbstractAttackModifier> modifiers { get; private set; }
+        public ModifierGroup modifiers { get; private set; }
         public States states { get; private set; }
         public GameObject visuals { get; private set; }
         [SerializeField] float _attackRotation;
@@ -95,11 +95,13 @@ namespace BattlescapeLogic
 
         protected void Start()
         {
+            statistics = new Statistics(DataReader.Read(Resources.Load<TextAsset>("_Data_/Statistics")), info.unitName);
+            statistics.energy = new Energy();
             equipment.EquipPrimaryWeapon();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
             buffs = new BuffGroup(this);
-            modifiers = new List<AbstractAttackModifier>();
+            modifiers = new ModifierGroup(this);
             abilities = new List<AbstractAbility>();
             states = new States(this);
             movement = GetMovementType();
@@ -114,9 +116,9 @@ namespace BattlescapeLogic
                 statistics.NullBaseAttack();
                 statistics.NullMaxNumberOfAttacks();
             }
-            statistics.healthPoints = statistics.maxHealthPoints;
-            statistics.currentEnergy = Statistics.maxEnergy / 2;
-            statistics.currentMaxNumberOfRetaliations = statistics.defaultMaxNumberOfRetaliations;
+            statistics.healthPoints = statistics.baseMaxHealthPoints;
+            statistics.energy.current = Energy.starting;
+            statistics.numberOfRetaliations = statistics.baseMaxNumberOfRetaliations;
             FaceMiddleOfMap();
             UpdateAbilities();
         }
@@ -192,17 +194,17 @@ namespace BattlescapeLogic
 
         public bool CanStillAttack()
         {
-            return statistics.numberOfAttacks > 0 && states.isDisarmed() == false && states.isStunned() == false;
+            return statistics.numberOfAttacks > 0 && states.IsDisarmed() == false && states.IsStunned() == false;
         }
 
         public bool CanStillMove()
         {
-            return statistics.movementPoints > 0 && states.isImmobile() == false && states.isStunned() == false;
+            return statistics.movementPoints > 0 && states.IsImmobile() == false && states.IsStunned() == false;
         }
 
         public bool CanStillRetaliate()
         {
-            return statistics.numberOfRetaliations > 0 && states.isOverwhelmed() == false && states.isStunned() == false;
+            return statistics.numberOfRetaliations > 0 && states.IsOverwhelmed() == false && states.IsStunned() == false;
         }
 
         //Played BEFORE the first step in the whole movement. Check for ExitCombat here cause it only makes sense here.
@@ -277,26 +279,19 @@ namespace BattlescapeLogic
             StartCoroutine(movement.MoveTo(newPosition));
         }
 
-        //This should play when this Unit is selected and player clicks on enemy to attack him (and other situations like that)
-        public void Attack(IDamageable target)
-        {
-            statistics.numberOfAttacks--;
-            attack.Attack(target);
-        }
-
         public void RetaliateTo(Unit target)
         {
             LogConsole.instance.SpawnLog(this.name + " strikes back!");
             statistics.numberOfRetaliations--;
-            attack.Attack(target);
+            attack.BasicAttack(target);
             Networking.instance.FinishRetaliation();
         }
 
         //This is the attack on enemy exiting combat with us... Needed to separate it to a) change chances and b) calculate damage beforehand (to be able to know if I can or cannot quit combat)
-        public void Backstab(Unit target, int damage)
+        public void Backstab(Unit target, Damage damage)
         {
             attack = new BackstabAttack(attack, damage, this);
-            attack.Attack(target);
+            attack.BasicAttack(target);
         }
 
 
@@ -304,68 +299,20 @@ namespace BattlescapeLogic
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
 
-
-        //if damage is 0, it's a miss. invulnerable has its own flag!
-        public void HitTarget(IDamageable target, Damage damage)
+        public bool CanRetaliateTo(Damage damage)
         {
-            if (target is Unit)
+            if (damage.source is AbstractAttack == false)
             {
-                var targetUnit = target as Unit;
-                if (targetUnit.states.isInvulnerable())
-                {
-                    LogConsole.instance.SpawnLog(this.info.unitName + "'s attack has no effect - " + target.GetMyName() + " is invulnerable!");
-                    PopupTextController.AddPopupText("Invulnerable!", PopupTypes.Info);
-                    if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
-                    {
-                        Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
-                    }
-                    return;
-                }
+                return false;
             }
-
-            foreach (AbstractAttackModifier modifier in modifiers)
-            {
-                modifier.ModifyDamage(damage);
-            }
-            foreach (AbstractAttackModifier modifier in modifiers)
-            {
-                modifier.ModifyAttack(target, damage);
-            }
-            PlayerInput.instance.isInputBlocked = false;
-            if (damage == 0)
-            {
-                StatisticChangeBuff defenceDebuff = Instantiate(Resources.Load("Buffs/MechanicsBuffs/Combat Wound") as GameObject).GetComponent<StatisticChangeBuff>();
-                defenceDebuff.ApplyOnTarget(target);
-                LogConsole.instance.SpawnLog(this.info.unitName + " attacks " + target.GetMyName() + ", but misses completely!");
-                LogConsole.instance.SpawnLog(target.GetMyName() + " loses 1 point of Defence temporarily.");
-                PopupTextController.AddPopupText("-1 Defence", PopupTypes.Stats);
-
-            }
-            else if (damage > 0)
-            {
-                LogConsole.instance.SpawnLog(this.info.unitName + " deals " + damage + " damage to " + target.GetMyName() + "!");
-                PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
-                target.TakeDamage(this, damage);
-                foreach (AbstractBuff buff in target.buffs.FindAllBuffsOfType("Combat Wound"))
-                {
-                    buff.RemoveFromTargetInstantly();
-                }
-            }
-            if (target is Unit)
-            {
-                var targetUnit = target as Unit;
-                if (targetUnit.CanRetaliate(this) && owner.type != PlayerType.Network)
-                {
-                    Networking.instance.SendCommandToGiveChoiceOfRetaliation(targetUnit, this);
-                }
-            }
-
-
-        }
-
-        public bool CanRetaliate(Unit target)
-        {
-            if (this.IsAlive() == false || target.IsAlive() == false || this.CanStillRetaliate() == false || GameRound.instance.currentPlayer != target.GetMyOwner() || currentPosition.DistanceTo(target.currentPosition) != 1)
+            var target = (damage.source as AbstractAttack).sourceUnit;
+            if (
+                this.IsAlive() == false
+                || target.IsAlive() == false
+                || this.CanStillRetaliate() == false
+                || GameRound.instance.currentPlayer != target.GetMyOwner()
+                || currentPosition.DistanceTo(target.currentPosition) != 1
+                || target.states.IsPreventingRetaliation())
             {
                 return false;
             }
@@ -373,12 +320,7 @@ namespace BattlescapeLogic
         }
 
         //this should play on attacked unit when it is time it should receive DMG
-        public void TakeDamage(Unit source, int damage)
-        {
-            ReceiveDamage(source, damage);
-        }
-
-        private void ReceiveDamage(Unit source, int damage)
+        public void TakeDamage(Damage damage)
         {
             statistics.healthPoints -= damage;
             if (IsAlive())
@@ -387,7 +329,7 @@ namespace BattlescapeLogic
             }
             else
             {
-                Die(source);
+                Die(damage.source);
             }
         }
 
@@ -401,7 +343,7 @@ namespace BattlescapeLogic
             animator.SetTrigger("Death");
         }
 
-        public virtual void Die(Unit killer)
+        public virtual void Die(IDamageSource killer)
         {
             currentPosition.SetMyObjectTo(null);
             if (currentPosition.IsProtectedByEnemyOf(this))
@@ -422,10 +364,7 @@ namespace BattlescapeLogic
             {
                 owner.DeselectUnit();
             }
-            if (killer.owner != owner)
-            {
-                killer.owner.AddPoints(statistics.cost);
-            }
+            killer.OnKillUnit(this);
             HideHealthUI();
             PlayDeathAnimation();
             turnChanger.OnDestruction();
@@ -468,16 +407,9 @@ namespace BattlescapeLogic
             return;
         }
 
-        public void OnNewPlayerRound()
+        public void OnOwnerTurn()
         {
-            statistics.movementPoints = statistics.GetCurrentMaxMovementPoints();
-            statistics.numberOfAttacks = statistics.maxNumberOfAttacks;
-            statistics.numberOfRetaliations = statistics.currentMaxNumberOfRetaliations;
-            statistics.currentEnergy += statistics.energyRegen;
-            if (statistics.currentEnergy >= Statistics.maxEnergy)
-            {
-                statistics.currentEnergy = Statistics.maxEnergy;
-            }
+            statistics.OnOwnerTurn();
         }
 
         public void OnNewTurn()
@@ -592,12 +524,19 @@ namespace BattlescapeLogic
 
         public void OnMouseHoverEnter(Vector3 exactMousePosition)
         {
-            BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(this, GameRound.instance.currentPlayer);
+            if ((Global.instance.currentEntity is AbstractActiveAbility) == false)
+            {
+                BattlescapeGraphics.ColouringTool.ColourUnitAsAllyOrEnemyOf(this, GameRound.instance.currentPlayer);
+            }
+
         }
 
         public void OnMouseHoverExit()
         {
-            BattlescapeGraphics.ColouringTool.ColourObject(this, Color.white);
+            if ((Global.instance.currentEntity is AbstractActiveAbility) == false)
+            {
+                BattlescapeGraphics.ColouringTool.ColourObject(this, Color.white);
+            }
             UIHitChanceInformation.instance.TurnOff();
         }
 
@@ -663,7 +602,7 @@ namespace BattlescapeLogic
         public void SetMyOwner(Player player)
         {
             owner = player;
-            turnChanger = new TurnChanger(owner, OnNewRound, OnNewTurn, OnNewPhase, OnNewPlayerRound);
+            turnChanger = new TurnChanger(owner, OnNewRound, OnNewTurn, OnNewPhase, OnOwnerTurn);
         }
 
         public Vector3 GetMyPosition()
@@ -681,16 +620,54 @@ namespace BattlescapeLogic
             return info.unitName;
         }
 
-        public float ChanceOfBeingHitBy(Unit source)
+        public float ChanceOfBeingHitBy(IDamageSource source)
         {
-            if (states.isInvulnerable())
+            if (states.IsInvulnerable())
             {
                 return 0;
             }
             return Maths.Sigmoid(DamageCalculator.GetStatisticsDifference(source, this), DamageCalculator.sigmoidGrowthRate);
         }
 
+        public bool IsInvulnerable()
+        {
+            return states.IsInvulnerable();
+        }
 
+        public void OnHitReceived(Damage damage)
+        {
+            LogConsole.instance.SpawnLog(damage.source.GetOwnerName() + " deals " + damage + " damage to " + info.unitName + "!");
+            PopupTextController.AddPopupText("-" + damage, PopupTypes.Damage);
+            TakeDamage(damage);
+            buffs.RemoveDefenseDebuffsOnHit();
+            if (CanRetaliateTo(damage))
+            {
+                Networking.instance.SendCommandToGiveChoiceOfRetaliation(this, (damage.source as AbstractAttack).sourceUnit);
+            }
+        }
+
+        public void OnMissReceived(Damage damage)
+        {
+            LogConsole.instance.SpawnLog(damage.source.GetOwnerName() + " attacks " + info.unitName + ", but misses completely!");
+
+            buffs.AddDefenseDebuffOnMiss();
+
+            if (CanRetaliateTo(damage))
+            {
+                Networking.instance.SendCommandToGiveChoiceOfRetaliation(this, (damage.source as AbstractAttack).sourceUnit);
+            }
+        }
+
+        public void OnHitReceivedWhenInvulnerable(Damage damage)
+        {
+            LogConsole.instance.SpawnLog(damage.source.GetOwnerName() + "'s attack has no effect - " + info.unitName + " is invulnerable!");
+            PopupTextController.AddPopupText("Invulnerable!", PopupTypes.Info);
+
+            if (CanRetaliateTo(damage))
+            {
+                Networking.instance.SendCommandToGiveChoiceOfRetaliation(this, (damage.source as AbstractAttack).sourceUnit);
+            }
+        }
 
 
     }
