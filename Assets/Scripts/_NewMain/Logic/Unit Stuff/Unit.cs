@@ -286,16 +286,7 @@ namespace BattlescapeLogic
             attack.BasicAttack(target);
             Networking.instance.FinishRetaliation();
         }
-
-        //This is the attack on enemy exiting combat with us... Needed to separate it to a) change chances and b) calculate damage beforehand (to be able to know if I can or cannot quit combat)
-        public void Backstab(Unit target, Damage damage)
-        {
-            attack = new BackstabAttack(attack, damage, this);
-            attack.BasicAttack(target);
-        }
-
-
-
+       
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
 
@@ -668,8 +659,6 @@ namespace BattlescapeLogic
                 Networking.instance.SendCommandToGiveChoiceOfRetaliation(this, (damage.source as AbstractAttack).sourceUnit);
             }
         }
-
-
     }
 }
 

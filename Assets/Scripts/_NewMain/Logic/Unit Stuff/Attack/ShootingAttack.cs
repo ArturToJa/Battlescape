@@ -51,5 +51,10 @@ namespace BattlescapeLogic
         {
             Networking.instance.SendCommandToHit(targetObject, DamageCalculator.CalculateBasicAttackDamage(this, targetObject));
         }
+
+        public override void Backstab(IDamageable target, Damage damage)
+        {
+            Debug.LogWarning("I should not be doing this ever! Change me to melee!");
+        }
     }
 }

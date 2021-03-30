@@ -20,9 +20,7 @@ namespace BattlescapeLogic
 
         public override void BasicAttack(IDamageable target)
         {
-            base.BasicAttack(target);
-            TurnTowardsTarget();
-            PlayAttackAnimation();
+            Debug.LogWarning("Backstab attack is not supposed to exist and normally attack. It should only backstab and disappear immidiately!");
         }
 
         public override void OnAttackAnimation()
@@ -37,6 +35,12 @@ namespace BattlescapeLogic
         protected override void PlayAttackAnimation()
         {
             sourceUnit.animator.SetTrigger("Attack");
-        }       
+        }
+        public override void Backstab(IDamageable target, Damage damage)
+        {
+            base.BasicAttack(target);
+            TurnTowardsTarget();
+            PlayAttackAnimation();
+        }
     }
 }

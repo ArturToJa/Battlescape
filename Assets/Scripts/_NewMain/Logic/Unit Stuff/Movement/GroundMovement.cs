@@ -22,20 +22,17 @@ namespace BattlescapeLogic
                 int health = myUnit.statistics.healthPoints;
                 foreach (Tile neighbour in myUnit.currentPosition.closeNeighbours)
                 {
-                    if (myUnit.IsAlive() && neighbour.GetMyObject<Unit>() != null && myUnit.IsEnemyOf(neighbour.GetMyObject<Unit>()))
+                    Unit neighbourUnit = neighbour.GetMyObject<Unit>();
+                    if (neighbourUnit != null && myUnit.IsEnemyOf(neighbourUnit))
                     {
-                        Damage damage = DamageCalculator.CalculateBasicAttackDamage(neighbour.GetMyObject<Unit>().attack, myUnit, 1.5f);
-                        neighbour.GetMyObject<Unit>().Backstab(myUnit,damage);
+                        Damage damage = DamageCalculator.CalculateBasicAttackDamage(neighbour.GetMyObject<Unit>().attack, myUnit, DamageCalculator.damageMultiplierForBackstabs);
+                        neighbourUnit.attack.Backstab(myUnit, damage);
                         health -= damage;
                     }
                 }
-                if (health > 0)
-                {
-                    //THe attacks will not kill us, cause calculated :P
-                }
-                else
-                {
-                    //rip, abort.
+                if (health <=0) 
+                { 
+                    //rip, abort, we will die dont move.
                     yield break;                    
                 }
             }

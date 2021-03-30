@@ -35,5 +35,11 @@ namespace BattlescapeLogic
                 Networking.instance.SendCommandToHit(targetObject, DamageCalculator.CalculateBasicAttackDamage(this, targetObject));
             }
         }
+
+        public override void Backstab(IDamageable target, Damage damage)
+        {
+            sourceUnit.attack = new BackstabAttack(this, damage, sourceUnit);
+            sourceUnit.attack.Backstab(target, damage);
+        }
     }
 }

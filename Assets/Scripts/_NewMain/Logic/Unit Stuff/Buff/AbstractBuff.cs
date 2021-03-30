@@ -128,7 +128,6 @@ namespace BattlescapeLogic
         public void RemoveFromTargetInstantly()
         {
             expirable.ExpireNow();
-            OnExpire();
         }
 
         protected bool IsAlreadyOnTarget(IDamageable target)

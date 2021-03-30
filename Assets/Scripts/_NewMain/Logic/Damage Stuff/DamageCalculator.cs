@@ -11,6 +11,7 @@ namespace BattlescapeLogic
         public static readonly float sigmoidGrowthRate = 0.05f;
         public static readonly int minimalDamageInGame = 1;
         public static readonly int damageDivisorForRange = 5;
+        public static readonly float damageMultiplierForBackstabs = 1.5f;
 
 
 

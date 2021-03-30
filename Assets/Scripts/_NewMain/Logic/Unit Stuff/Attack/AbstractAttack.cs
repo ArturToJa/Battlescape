@@ -33,6 +33,8 @@ namespace BattlescapeLogic
                 PopupTextController.AddPopupText("No more units can attack!", PopupTypes.Info);
             }
         }
+
+        public abstract void Backstab(IDamageable target, Damage damage);
        
 
         protected abstract void PlayAttackAnimation();
