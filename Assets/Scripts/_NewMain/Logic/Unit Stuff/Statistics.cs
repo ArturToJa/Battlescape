@@ -145,7 +145,7 @@ namespace BattlescapeLogic
         }
 
         public void RemoveBonusStatistics(ChangeableStatistics bonusStatistics)
-        {
+        {           
             bonusAttack -= bonusStatistics.bonusAttack;
             bonusDefence -= bonusStatistics.bonusDefence;
             bonusAttackRange -= bonusStatistics.bonusAttackRange;

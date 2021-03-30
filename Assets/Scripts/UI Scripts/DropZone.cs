@@ -25,7 +25,6 @@ public class DropZone : MonoBehaviour//, IDropHandler
         if (Global.instance.matchType == MatchTypes.Online)
         {
             GetComponent<PhotonView>().RPC("RPCInstantiateUnit", RpcTarget.All, UnitID, PlayerID, index);
-            //UnitPositionKeeper.Instance.photonView.RPC("RPCAddUnit", PhotonTargets.All, Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
         else
         {

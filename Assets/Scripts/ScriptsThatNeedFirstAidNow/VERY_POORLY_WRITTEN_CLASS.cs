@@ -16,7 +16,7 @@ public class VERY_POORLY_WRITTEN_CLASS : MonoBehaviour
         PlayerBuilder currentPlayerBuilder = Global.instance.GetCurrentPlayerBuilder();
         Player currentPlayer = new Player(currentPlayerBuilder);
         GameRound.instance.currentPlayer = currentPlayer;
-        currentPlayer.race = Global.instance.armySavingManager.currentSave.GetRace();        
+        currentPlayer.race = Global.instance.armySavingManager.currentSave.GetRace();
         CameraController.Instance.SetCurrentViewTo(currentPlayer.team.index + 1);
         CameraController.Instance.manualCamera = false;
         CameraController.Instance.correctCamera = true;

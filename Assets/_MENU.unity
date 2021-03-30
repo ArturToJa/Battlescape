@@ -5590,12 +5590,6 @@ MonoBehaviour:
   animSpeed: {fileID: 1835334058}
   YRotCheckbox: {fileID: 1764025639}
   ToggleNextPhaseConfirmationCheckbox: {fileID: 1278264689}
-  the25toggle: {fileID: 1185436924}
-  the50toggle: {fileID: 1657462794}
-  MAthe25toggle: {fileID: 612675905}
-  MAthe50toggle: {fileID: 1750071195}
-  MultiPlayerthe25toggle: {fileID: 486858111}
-  MultiPlayerthe50toggle: {fileID: 678090699}
   AIArmies: []
   NoArmyPopupWindow: {fileID: 1428402396}
   LackingRaceSavesPopupWindow: {fileID: 166572313}
@@ -9399,7 +9393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -0}
+  m_AnchoredPosition: {x: 960, y: 0}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &714382819
@@ -10393,14 +10387,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 502386876}
-        m_MethodName: SetMapToCurrentNumber
-        m_Mode: 1
+        m_MethodName: SetMapTo
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: _GameScene_Town
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &834749344
@@ -24394,14 +24388,14 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 502386876}
-        m_MethodName: SetMapToCurrentNumber
-        m_Mode: 1
+        m_MethodName: SetMapTo
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: _GameScene_Forest
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1942485552

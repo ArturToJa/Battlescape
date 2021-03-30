@@ -67,7 +67,7 @@ namespace BattlescapeLogic
         {
             if (PhotonNetwork.IsConnected)
             {
-                GetComponent<PhotonView>().RPC("RPCLoadScene", RpcTarget.All, scene);
+                photonView.RPC("RPCLoadScene", RpcTarget.All, scene);
             }
             else
             {

@@ -24,12 +24,7 @@ public class MainMenu : MonoBehaviour
     //float timeTillTooltip;
     bool singlePlayer = false;
     bool isGreenAI = false;
-    [SerializeField] Toggle the25toggle;
-    [SerializeField] Toggle the50toggle;
-    [SerializeField] Toggle MAthe25toggle;
-    [SerializeField] Toggle MAthe50toggle;
-    [SerializeField] Toggle MultiPlayerthe25toggle;
-    [SerializeField] Toggle MultiPlayerthe50toggle;
+
     [SerializeField] List<AIArmy> AIArmies;
     [SerializeField] GameObject NoArmyPopupWindow;
     [SerializeField] GameObject LackingRaceSavesPopupWindow;
@@ -37,8 +32,19 @@ public class MainMenu : MonoBehaviour
     string gameSceneName;
     [SerializeField] List<string> GameScenes;
 
+    public static MainMenu instance;
+
     void Start()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         PlayerPrefs.SetFloat("TimeTillOpenTooltip", timeTillTooltip);
         ToggleNextPhaseConfirmationCheckbox.SetActive(PlayerPrefs.HasKey("SkipNextPhaseNotification") && PlayerPrefs.GetInt("SkipNextPhaseNotification") == 1);
         if (PlayerPrefs.HasKey("panSpeed") == false || PlayerPrefs.HasKey("moveSpeedAnimation") == false || PlayerPrefs.GetFloat("moveSpeedAnimation") <= 0)
@@ -112,15 +118,7 @@ public class MainMenu : MonoBehaviour
         OKOptions();
     }
     public void ManageArmy()
-    {
-        //if (MAthe25toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 25;
-        //}
-        //if (MAthe50toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 50;
-        //}
+    {        
         Networking.instance.SendCommandToLoadScene("_ManagementScene");
     }
 
@@ -132,7 +130,7 @@ public class MainMenu : MonoBehaviour
     {
         singlePlayer = single;
     }
-    
+
     public void StartQuickMatch()
     {
         Global.instance.matchType = MatchTypes.Singleplayer;
@@ -141,23 +139,10 @@ public class MainMenu : MonoBehaviour
             NoArmyPopupWindow.SetActive(true);
             return;
         }
-        if (singlePlayer)
-        {
-            CreatePlayerBuilders(PlayerType.Local);
-            Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].type = PlayerType.AI;
-        }        
-        else
-        {
-            Debug.LogError("are you sure?");
-        }
-        if (the25toggle.isOn)
-        {
-            Global.instance.armySavingManager.currentSave.armySize = 25;
-        }
-        else if (the50toggle.isOn)
-        {
-            Global.instance.armySavingManager.currentSave.armySize = 50;
-        }
+
+        CreatePlayerBuilders(PlayerType.Local);
+        Global.instance.playerBuilders[System.Convert.ToInt32(!isGreenAI)].type = PlayerType.AI;
+        
         PlayGameScene();
     }
 
@@ -179,14 +164,7 @@ public class MainMenu : MonoBehaviour
             return;
         }
         CreatePlayerBuilders(PlayerType.Local);
-        //if (MultiPlayerthe25toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 25;
-        //}
-        //else if (MultiPlayerthe50toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 50;
-        //}
+        
         if (gameSceneName == null)
         {
             gameSceneName = GameScenes[Random.Range(0, GameScenes.Count)];
@@ -240,16 +218,8 @@ public class MainMenu : MonoBehaviour
         }
         MyNetworkManager.Instance.Connect();
         Global.instance.matchType = MatchTypes.Online;
-        CreatePlayerBuilders(PlayerType.Network);           
-
-        //if (MultiPlayerthe25toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 25;
-        //}
-        //else if (MultiPlayerthe50toggle.isOn)
-        //{
-        //    Global.instance.armySavingManager.currentSave.armySize = 50;
-        //}
+        CreatePlayerBuilders(PlayerType.Network);
+       
         Networking.instance.SendCommandToLoadScene("_LobbyScene");
     }
 
@@ -285,9 +255,9 @@ public class MainMenu : MonoBehaviour
         forceOnlineGameEvenThoughNoRace = true;
         StartOnlineMatch();
     }
-    public void SetMapToCurrentNumber()
+
+    public void SetMapTo(string scene)
     {
-        // NOTE that names of the buttons currently need to correspond to the names of the scenes ;D bad code i know right
-        gameSceneName = EventSystem.current.currentSelectedGameObject.name;
+        gameSceneName = scene;
     }
 }

@@ -44,6 +44,10 @@ namespace BattlescapeLogic
 
         void Update()
         {
+            if (Application.isEditor)
+            {
+                DoCheats();
+            }
             if (SceneManager.GetActiveScene().name.Contains("_GameScene_") == false)
             {
                 if (SceneManager.GetActiveScene().name.Contains("_ManagementScene"))
@@ -62,10 +66,7 @@ namespace BattlescapeLogic
                 lastUI = null;
                 DoMouse();
             }
-            if (Application.isEditor)
-            {
-                DoCheats();
-            }
+           
             DoKeyboard();
         }
 
