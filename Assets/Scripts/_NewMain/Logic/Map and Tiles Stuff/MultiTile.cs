@@ -226,7 +226,7 @@ namespace BattlescapeLogic
         public void SetMyObjectTo(OnTileObject newObject)
         {
             foreach (Tile tile in this)
-            {
+            {              
                 tile.SetMyObjectTo(newObject);
             }
         }

@@ -208,7 +208,7 @@ namespace BattlescapeLogic
         {
             Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Obstacle>();
             Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Unit>();
-            IDamageSource temp = new FakeDamageSource();
+            IDamageSource temp = new FakeDamageSource(69);
             obstacle.Destruct(temp);
         }
 

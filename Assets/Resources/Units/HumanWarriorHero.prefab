@@ -77,17 +77,6 @@ MonoBehaviour:
     _attackSound:
       clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
       volume: 0.3
-  statistics:
-    _cost: 0
-    _limit: 0
-    _baseAttack: 50
-    _baseDefence: 50
-    _baseMaxHealthPoints: 65
-    _baseMaxMovementPoints: 4
-    _baseAttackRange: 1
-    _minimalAttackRange: 0
-    _baseMaxNumberOfAttacks: 1
-    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:
@@ -174,7 +163,7 @@ MonoBehaviour:
   selfVisualEffect: {fileID: 1842412442849700, guid: 8f2182074b3b25541bd376b9a4cd6296,
     type: 3}
   targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
-  buffPrefab: {fileID: 3290089370329061677, guid: 295125b89eb077240ac070ced1491ad1,
+  buffPrefab: {fileID: -5028821940653012937, guid: 295125b89eb077240ac070ced1491ad1,
     type: 3}
 --- !u!1 &2422463172657474150
 GameObject:

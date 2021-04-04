@@ -8,7 +8,7 @@ namespace BattlescapeGraphics
 {
     public static class ColouringTool
     {
-        readonly static float hoveringTilesBrightnessFactor = 1.5f;
+        readonly static float hoveringTilesBrightnessFactor = 2f;
 
 
         static ColouringTool()

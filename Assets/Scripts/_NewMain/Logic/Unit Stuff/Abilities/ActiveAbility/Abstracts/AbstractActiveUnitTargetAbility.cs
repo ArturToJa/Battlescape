@@ -14,8 +14,8 @@ namespace BattlescapeLogic
             {
                 if (CheckTarget(unit))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(unit, targetColouringColour);
-                    BattlescapeGraphics.ColouringTool.ColourObject(unit.currentPosition, targetColouringColour);
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit, GetColourForTargets());
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit.currentPosition, GetColourForTargets());
                 }
             }
         }
@@ -25,7 +25,7 @@ namespace BattlescapeLogic
             if (CheckTarget(clickedObject))
             {
                 target = clickedObject as Unit;
-                Activate();
+                Activate(clickedObject);
             }
         }
 

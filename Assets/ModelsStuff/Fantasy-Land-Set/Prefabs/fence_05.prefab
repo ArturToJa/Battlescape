@@ -116,7 +116,7 @@ MonoBehaviour:
   _type: 6
   _isTall: 0
   obstacleName: 
-  _maxHealthPoints: 5
+  _maxHealthPoints: 50
 --- !u!1 &1277289838728456
 GameObject:
   m_ObjectHideFlags: 0

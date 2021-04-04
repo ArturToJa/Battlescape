@@ -17,5 +17,12 @@ namespace BattlescapeLogic
             base.OnClickIcon();
             ColourPossibleTargets();
         }
+
+        protected override void Activate(IMouseTargetable target)
+        {
+            owner.movement.ApplyUnit(owner);
+            owner.movement.TurnTowards((target as MonoBehaviour).transform.position);
+            base.Activate(target);
+        }
     }
 }

@@ -15,6 +15,11 @@ public class UnitStatShower : MonoBehaviour
     [SerializeField] Text heroClass;
     [SerializeField] Text heroName;
 
+    void Awake()
+    {
+        MouseoveredButtonUnitScript.OnUnitHovered += UpdateUnitInfo;
+    }
+
     void UpdateInfo(Unit currUnit)
     {
         attackSpot.text = currUnit.statistics.GetCurrentAttack().ToString();
@@ -27,11 +32,11 @@ public class UnitStatShower : MonoBehaviour
         {
             heroClass.text = currUnit.info.unitName;
             heroName.text = Global.instance.armySavingManager.currentSave.heroName;
-        }        
+        }       
     }
 
-    public static void UpdateUnitInfo(BattlescapeLogic.Unit currUnit)
+    void UpdateUnitInfo(UnitCreator currUnit)
     {
-        currentInstance.UpdateInfo(currUnit);
+        currentInstance.UpdateInfo(currUnit.prefab.GetComponent<Unit>());
     }
 }

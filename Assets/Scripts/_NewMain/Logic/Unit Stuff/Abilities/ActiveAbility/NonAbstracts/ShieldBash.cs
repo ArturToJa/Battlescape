@@ -6,7 +6,7 @@ namespace BattlescapeLogic
 {
     public class ShieldBash : AbstractActiveUnitTargetAbility, IDamageSource
     {
-        [SerializeField] GameObject buffPrefab;
+        [SerializeField] StateBuff buffPrefab;
         [SerializeField] int baseDamage;
 
        
@@ -65,6 +65,16 @@ namespace BattlescapeLogic
             {
                 owner.GetMyOwner().AddPoints(unit.statistics.cost);
             }
+        }
+
+        public override Color GetColourForTargets()
+        {
+            return Global.instance.colours.red;
+        }
+
+        protected override string GetLogMessage()
+        {
+            return base.GetLogMessage() + "\n" + "Target is stunned for " + buffPrefab.GetDuration() + " rounds and receives damage!";
         }
     }
 }

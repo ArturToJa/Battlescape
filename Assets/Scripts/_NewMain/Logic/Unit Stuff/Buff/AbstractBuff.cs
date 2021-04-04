@@ -115,7 +115,7 @@ namespace BattlescapeLogic
                 {
                     if (visualEffectPrefab != null)
                     {
-                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation,transform);
+                        visualEffect = Instantiate(visualEffectPrefab, transform.position, visualEffectPrefab.transform.rotation, transform);
                     }
                     buffGroup = target.buffs;
                     target.buffs.AddBuff(this);
@@ -136,5 +136,10 @@ namespace BattlescapeLogic
         }
         public abstract void ApplyChange();
         protected abstract void RemoveChange();
+
+        public int GetDuration()
+        {
+            return duration;
+        }
     }
 }

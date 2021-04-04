@@ -51,4 +51,4 @@ MonoBehaviour:
   _image: {fileID: 21300000, guid: edf6c05a19ae8fc45a96daec4c821a9b, type: 3}
   _isStackable: 1
   visualEffectPrefab: {fileID: 0}
-  splashDamage: 4
+  splashDamage: 40

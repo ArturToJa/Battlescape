@@ -8,7 +8,7 @@ namespace BattlescapeLogic
     [System.Serializable]
     public class Statistics
     {
-        public const int baseDamage = 10;
+        public const int baseDamage = 100;
         
         int _cost;
         public int cost => _cost;

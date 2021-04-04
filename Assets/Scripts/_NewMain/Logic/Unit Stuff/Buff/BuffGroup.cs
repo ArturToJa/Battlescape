@@ -16,6 +16,10 @@ namespace BattlescapeLogic
                 return buffs[key];
             }
         }
+        public BuffGroup()
+        {
+            //for mocking only
+        }
 
         public BuffGroup(IDamageable owner)
         { 

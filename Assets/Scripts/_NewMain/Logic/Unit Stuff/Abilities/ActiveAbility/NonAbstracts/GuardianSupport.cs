@@ -7,16 +7,21 @@ namespace BattlescapeLogic
 {
     public class GuardianSupport : AbstractActiveUnitTargetAbility
     {
-        [SerializeField] GameObject buffPrefab;
+        [SerializeField] StatisticChangeBuff buffPrefab;
 
         public override void DoAbility()
         {
             ApplyBuffToUnit(buffPrefab, target);
         }
 
+        public override Color GetColourForTargets()
+        {
+            return Global.instance.colours.green;
+        }
+
         protected override string GetLogMessage()
         {
-            return base.GetLogMessage() + "on allied " + target + ", making him stronger!";
+            return base.GetLogMessage() + "\n" + "Allied " + target.info.unitName + " is stronger now (+" + buffPrefab.statistics.bonusAttack.ToString() + " attack, +" + buffPrefab.statistics.bonusDefence.ToString() + " defence)!";
         }
     }
 }

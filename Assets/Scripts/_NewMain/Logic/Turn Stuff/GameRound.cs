@@ -124,7 +124,7 @@ namespace BattlescapeLogic
         {
             if (
              (currentPlayer.type == PlayerType.Local) &&
-             PlayerInput.instance.isInputBlocked == false &&
+             PlayerInput.instance.isLocked == false &&
              //Some check for ability not being used here 
              IsGameGoing() &&
              InGameInputField.IsNotTypingInChat())
@@ -135,7 +135,7 @@ namespace BattlescapeLogic
 
         public void OnClick()
         {
-            if (PlayerInput.instance.isInputBlocked)
+            if (PlayerInput.instance.isLocked)
             {
                 return;
             }
@@ -217,6 +217,7 @@ namespace BattlescapeLogic
 
         void NextPhase()
         {
+            Global.instance.currentEntity.Deselect();
             if (currentPhase == TurnPhases.Movement)
             {
                 currentPhase = TurnPhases.Attack;

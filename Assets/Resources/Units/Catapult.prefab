@@ -487,7 +487,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9, y: 2.5, z: 3.04}
+  m_Size: {x: 1.9, y: 1.82, z: 3.04}
   m_Center: {x: 0, y: 0.75, z: -0.33}
 --- !u!114 &114691473001804180
 MonoBehaviour:
@@ -653,17 +653,6 @@ MonoBehaviour:
     _attackSound:
       clip: {fileID: 8300000, guid: 9297b1de99f3a5e41b2ef5d6bf762f95, type: 3}
       volume: 0.3
-  statistics:
-    _cost: 5
-    _limit: 2
-    _baseAttack: 40
-    _baseDefence: 0
-    _baseMaxHealthPoints: 25
-    _baseMaxMovementPoints: 1
-    _baseAttackRange: 9
-    _minimalAttackRange: 3
-    _baseMaxNumberOfAttacks: 1
-    _baseMaxNumberOfRetaliations: 0
   _attackRotation: 0
   _equipment:
     primaryWeapon:
@@ -727,11 +716,16 @@ MonoBehaviour:
     melee: 0
     ground: 0
     flying: 0
-  _abilityName: 
-  _description: 
-  _icon: {fileID: 0}
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
+  _abilityName: Splash Damage
+  _description: 'This unit deals splash damage (base: 4) to all units next to the
+    target.'
+  _icon: {fileID: 21300000, guid: edf6c05a19ae8fc45a96daec4c821a9b, type: 3}
   _placeableBuffs:
-  - {fileID: 1234158636466810, guid: a7933eef4f766b24cad879989ef4aece, type: 3}
+  - {fileID: 114496882667266650, guid: a7933eef4f766b24cad879989ef4aece, type: 3}
 --- !u!1 &1930731353717622
 GameObject:
   m_ObjectHideFlags: 0

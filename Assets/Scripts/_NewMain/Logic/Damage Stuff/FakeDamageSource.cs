@@ -2,6 +2,12 @@
 {
     public class FakeDamageSource : IDamageSource
     {
+        int attack;
+        public FakeDamageSource(int _attack)
+        {
+            attack = _attack;
+        }
+
         public bool CanPotentiallyDamage(IDamageable target)
         {
             return true;
@@ -9,7 +15,7 @@
 
         public int GetAttackValue()
         {
-            return 1000;
+            return attack;
         }
 
         public ModifierGroup GetMyDamageModifiers()

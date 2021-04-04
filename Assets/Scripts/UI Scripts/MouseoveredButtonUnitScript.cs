@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,8 +7,9 @@ using BattlescapeUI;
 
 public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
 {
-    Pedestal pedestal;
     UnitCreator myUnit;
+
+    public static event Action<UnitCreator> OnUnitHovered;
 
 
     void Start()
@@ -20,14 +21,12 @@ public class MouseoveredButtonUnitScript : MonoBehaviour, IPointerEnterHandler
         else
         {
             myUnit = GetComponent<ClickableHeroUIScript>().unitCreator;
-        }
-        pedestal = FindObjectOfType<Pedestal>();        
+        }      
     }
 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UnitStatShower.UpdateUnitInfo(myUnit.prefab.GetComponent<Unit>());
-        pedestal.ShowUnit(myUnit.prefab);
+        OnUnitHovered(myUnit);
     }
 }

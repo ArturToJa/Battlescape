@@ -48,9 +48,32 @@ namespace BattlescapeLogic
         }
 
         public UnitSounds unitSounds;
-        public Statistics statistics;
+        Statistics _statistics;
+        public Statistics statistics
+        {
+            get
+            {
+                if (_statistics == null)
+                {
+                    _statistics = new Statistics(DataReader.Read(Resources.Load<TextAsset>("_Data_/Statistics")), info.unitName);
+                }
+                return _statistics;
+            }
+        }
 
-        public List<AbstractAbility> abilities { get; private set; }
+        List<AbstractAbility> _abilities;
+        public List<AbstractAbility> abilities
+        {
+            get
+            {
+                if (_abilities == null)
+                {
+                    _abilities = new List<AbstractAbility>();
+                    UpdateAbilities();
+                }
+                return _abilities;
+            }
+        }
         public BuffGroup buffs { get; private set; }
         public ModifierGroup modifiers { get; private set; }
         public States states { get; private set; }
@@ -95,14 +118,12 @@ namespace BattlescapeLogic
 
         protected void Start()
         {
-            statistics = new Statistics(DataReader.Read(Resources.Load<TextAsset>("_Data_/Statistics")), info.unitName);
             statistics.energy = new Energy();
             equipment.EquipPrimaryWeapon();
             animator = GetComponentInChildren<Animator>();
             visuals = Helper.FindChildWithTag(gameObject, "Body");
             buffs = new BuffGroup(this);
             modifiers = new ModifierGroup(this);
-            abilities = new List<AbstractAbility>();
             states = new States(this);
             movement = GetMovementType();
             if (movement == null)
@@ -120,11 +141,11 @@ namespace BattlescapeLogic
             statistics.energy.current = Energy.starting;
             statistics.numberOfRetaliations = statistics.baseMaxNumberOfRetaliations;
             FaceMiddleOfMap();
-            UpdateAbilities();
         }
 
         private void UpdateAbilities()
         {
+            abilities.Clear();
             foreach (AbstractAbility ability in GetComponents<AbstractAbility>())
             {
                 abilities.Add(ability);
@@ -286,7 +307,7 @@ namespace BattlescapeLogic
             attack.BasicAttack(target);
             Networking.instance.FinishRetaliation();
         }
-       
+
         //in the future most likely more functions might want to do things OnAttack - abilities and so on
         //public event Action<Unit, Unit, int> AttackEvent;       
 
@@ -466,10 +487,10 @@ namespace BattlescapeLogic
 
         public bool CanBeSelected()
         {
-            return PlayerInput.instance.isInputBlocked == false && owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None && IsAlive();
+            return PlayerInput.instance.isLocked == false && owner.IsCurrentLocalPlayer() && GameRound.instance.currentPhase != TurnPhases.Enemy && GameRound.instance.currentPhase != TurnPhases.None && IsAlive();
         }
 
-        public void OnSelection()
+        public void Select()
         {
             OnUnitSelected(this);
             if (GameRound.instance.currentPlayer.type != PlayerType.AI)
@@ -477,16 +498,7 @@ namespace BattlescapeLogic
                 PlaySelectionSound();
             }
         }
-
-        public void OnDeselection()
-        {
-            OnUnitDeselected();
-            if (Global.instance.currentEntity == this as IActiveEntity)
-            {
-                Global.instance.currentEntity = GameRound.instance.currentPlayer;
-            }
-        }
-
+        
         void PlaySelectionSound()
         {
             BattlescapeSound.SoundManager.instance.PlaySound(GameRound.instance.currentPlayer.selectedUnit.gameObject, BattlescapeSound.SoundManager.instance.selectionSound);
@@ -554,12 +566,7 @@ namespace BattlescapeLogic
                 {
                     Cursor.instance.OnEnemyHovered(this, targetDamagableObject);
                     return;
-                }
-                else
-                {
-                    Cursor.instance.ShowInfoCursor();
-                    return;
-                }
+                }                
             }
             if (target is Tile)
             {
@@ -657,6 +664,15 @@ namespace BattlescapeLogic
             if (CanRetaliateTo(damage))
             {
                 Networking.instance.SendCommandToGiveChoiceOfRetaliation(this, (damage.source as AbstractAttack).sourceUnit);
+            }
+        }
+
+        public void Deselect()
+        {
+            OnUnitDeselected();
+            if (Global.instance.currentEntity == this as IActiveEntity)
+            {
+                Global.instance.currentEntity = GameRound.instance.currentPlayer;
             }
         }
     }

@@ -104,17 +104,6 @@ MonoBehaviour:
     _attackSound:
       clip: {fileID: 8300000, guid: 6f20b4633eb07a64a9363892571d0bf9, type: 3}
       volume: 0.3
-  statistics:
-    _cost: 7
-    _limit: 1
-    _baseAttack: 30
-    _baseDefence: 60
-    _baseMaxHealthPoints: 45
-    _baseMaxMovementPoints: 3
-    _baseAttackRange: 1
-    _minimalAttackRange: 0
-    _baseMaxNumberOfAttacks: 1
-    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:
@@ -150,6 +139,10 @@ MonoBehaviour:
     melee: 1
     ground: 1
     flying: 1
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
   _abilityName: Guardian's Support
   _description: Adjacent ally gets bonus attack and defence for one round and can
     leave combat safely.
@@ -170,7 +163,7 @@ MonoBehaviour:
   selfVisualEffect: {fileID: 1604655146465802, guid: d2463d4579775ef4a8d7b4becd723d99,
     type: 3}
   targetColouringColour: {r: 0.08235294, g: 0.89411765, b: 0.12261503, a: 0}
-  buffPrefab: {fileID: 3290089370329061677, guid: aeda487d023068a479ce66bb30532c06,
+  buffPrefab: {fileID: 3185356992591097703, guid: aeda487d023068a479ce66bb30532c06,
     type: 3}
 --- !u!114 &2266371304547444207
 MonoBehaviour:
@@ -196,6 +189,10 @@ MonoBehaviour:
     melee: 1
     ground: 1
     flying: 0
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
   _abilityName: Shield Bash
   _description: Royal Guard attacks an enemy with his shield, doing very little damage
     but stunning his opponent.
@@ -215,9 +212,9 @@ MonoBehaviour:
     volume: 0.2
   selfVisualEffect: {fileID: 0}
   targetColouringColour: {r: 0.7372549, g: 0.022249907, b: 0.074187025, a: 0}
-  buffPrefab: {fileID: 3290089370329061677, guid: ec02fcd34ba61904388736ca9ab09dae,
+  buffPrefab: {fileID: -5028821940653012937, guid: ec02fcd34ba61904388736ca9ab09dae,
     type: 3}
-  baseDamage: 5
+  baseDamage: 50
 --- !u!1 &1985089682246546
 GameObject:
   m_ObjectHideFlags: 0

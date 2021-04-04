@@ -56,7 +56,7 @@ namespace BattlescapeLogic
 
         void Update()
         {
-            if (PlayerInput.instance.isInputBlocked)
+            if (PlayerInput.instance.isLocked)
             {
                 UnityEngine.Cursor.SetCursor(waitingCursor, GetHotspotType(waitingCursor), CursorMode.Auto);
                 return;
@@ -99,7 +99,7 @@ namespace BattlescapeLogic
 
         public void OnInvalidTargetHovered()
         {
-            SetCursorTo(blockedCursor, blockedCursor);
+            SetCursorTo(blockedCursor, clickingBlockedCursor);
         }
 
         public void OnSelectableHovered()

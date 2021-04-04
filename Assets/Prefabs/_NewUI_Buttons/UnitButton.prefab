@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 6003720113590981671}
   - component: {fileID: 6003720113590981670}
   - component: {fileID: 6003720113590981691}
-  - component: {fileID: 6003720113590981688}
+  - component: {fileID: 6939315034170678170}
   m_Layer: 5
   m_Name: UnitButton
   m_TagString: Untagged
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70beb3e2a1677bb478aec4bcd2cc7d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6003720113590981688
+--- !u!114 &6939315034170678170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,10 +311,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6003720113590981664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 478653a4a0c113043803519ed0be28c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cbb8670361a60c4687d99f9c5e3d6fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isReal: 0
 --- !u!1 &6003720114004989314
 GameObject:
   m_ObjectHideFlags: 0

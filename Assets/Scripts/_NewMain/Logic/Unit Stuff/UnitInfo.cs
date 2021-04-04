@@ -17,7 +17,7 @@ public class UnitInfo
             _unitName = value;
         }
     }
-
+    [Multiline]
     [SerializeField] string _fluffText;
     public string fluffText
     {

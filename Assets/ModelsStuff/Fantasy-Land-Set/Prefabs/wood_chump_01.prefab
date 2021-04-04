@@ -94,5 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 9
   _currentPosition:
-    _width: 1
-    _height: 1
+    _size:
+      _width: 1
+      _height: 1

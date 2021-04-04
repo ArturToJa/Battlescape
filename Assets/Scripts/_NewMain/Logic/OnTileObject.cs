@@ -71,6 +71,7 @@ namespace BattlescapeLogic
         public void OnSpawn(MultiTile spawningTile)
         {
             TryToSetMyPositionAndMoveTo(spawningTile);
+            Pathfinder.instance.Reset();
         }
     }
 

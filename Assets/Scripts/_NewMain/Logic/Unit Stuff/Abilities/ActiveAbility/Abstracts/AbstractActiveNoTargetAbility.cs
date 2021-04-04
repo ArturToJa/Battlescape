@@ -9,7 +9,7 @@ namespace BattlescapeLogic
         public override void OnClickIcon()
         {
             base.OnClickIcon();
-            Activate();
+            Activate(null);
         }
 
         public override void OnMouseHovered()
@@ -36,6 +36,11 @@ namespace BattlescapeLogic
         {
             //worth mentionning that this will literally never occur (you would have to click something between clicking this ability icon AND this ability resolving but it resolves immidiately on clicking its icon)
             return;
+        }
+
+        public override Color GetColourForTargets()
+        {
+            return Color.white; //will never be used
         }
     }
 }

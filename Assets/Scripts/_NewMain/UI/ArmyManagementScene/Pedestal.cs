@@ -10,13 +10,18 @@ public class Pedestal : MonoBehaviour
 
     GameObject myUnit;
 
-    public void ShowUnit(GameObject prefab)
+    void Awake()
+    {
+        MouseoveredButtonUnitScript.OnUnitHovered += ShowUnit;
+    }
+
+    public void ShowUnit(UnitCreator unitCreator)
     {
         if (myUnit != null)
         {
             Destroy(myUnit);
         }
-        myUnit = Instantiate(prefab, capsule.transform.position, Quaternion.identity, capsule.transform);
+        myUnit = Instantiate(unitCreator.prefab, capsule.transform.position, Quaternion.identity, capsule.transform);
         myUnit.GetComponent<Unit>().enabled = false;
         myUnit.GetComponent<DragableUnit>().enabled = false;
         myUnit.GetComponentInChildren<UnitColours>().enabled = false;

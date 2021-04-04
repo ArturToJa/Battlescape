@@ -24,7 +24,7 @@ namespace BattlescapeLogic
             if (IsLegalTarget(clickedObject))
             {
                 target = clickedObject as DestructibleObstacle;
-                Activate();
+                Activate(clickedObject);
             }
         }
 

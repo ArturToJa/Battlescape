@@ -35,6 +35,15 @@ namespace BattlescapeLogic
             return (lastUnit == unitToMove && lastTile == unitToMove.currentPosition.bottomLeftCorner) == false;
         }
 
+
+        //THIS is so that the BFS re-runs without change of selecdted unit (on spawning things on map that would affect BFS i.e. 'BFS needed cause map changed')
+
+        public void Reset()
+        {
+            lastTile = null;
+            lastUnit = null;
+        }
+
         //This function gives the list of possible tiles a Unit could get to.
         public List<MultiTile> GetAllLegalPositionsFor(Unit unitToMove)
         {

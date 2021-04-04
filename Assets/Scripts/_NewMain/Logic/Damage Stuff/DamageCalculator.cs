@@ -42,12 +42,12 @@ namespace BattlescapeLogic
 
         public static int GetStatisticsDifference(IDamageSource source, IDamageable target)
         {
-            return (source.GetAttackValue() - target.GetCurrentDefence()) / 10;
+            return source.GetAttackValue() - target.GetCurrentDefence();
         }
 
         public static int GetAvarageDamage(int baseDamage, IDamageSource source, IDamageable target, float multiplier = 1)
         {
-            int damage = Mathf.RoundToInt((baseDamage + ((float)GetStatisticsDifference(source, target))) * multiplier);
+            int damage = Mathf.RoundToInt( (baseDamage + GetStatisticsDifference(source, target)) * multiplier);
             if (damage < minimalDamageInGame)
             {
                 damage = minimalDamageInGame;

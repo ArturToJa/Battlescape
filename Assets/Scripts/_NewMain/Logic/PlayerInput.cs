@@ -10,12 +10,12 @@ namespace BattlescapeLogic
 {
     public class PlayerInput : MonoBehaviour
     {
-        bool _isInputBlocked;
-        public bool isInputBlocked
+        bool _isLocked;
+        public bool isLocked
         {
             get
             {
-                return _isInputBlocked;
+                return _isLocked;
             }
         }
         //this is the old AnimatingState - it's being set to true when someone is moving or attacking or so on.
@@ -54,7 +54,10 @@ namespace BattlescapeLogic
                 {
                     DoKeyboardForManagementScene();
                 }
-                Cursor.instance.SetToDefault();
+                if (Helper.IsOverNonIgnoredUI())
+                {
+                    SetUICursor();
+                }
                 return;
             }
             if (Helper.IsOverNonIgnoredUI())
@@ -168,15 +171,12 @@ namespace BattlescapeLogic
                     return;
                 }
                 // selected unit gets 1000 damage (dies xD)
-                IDamageSource damageSource = new FakeDamageSource();
+                IDamageSource damageSource = new FakeDamageSource(1000);
                 Damage damage = new Damage(1000, true, damageSource);
                 GameRound.instance.currentPlayer.selectedUnit.TakeDamage(damage);
             }
 
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Debug.Log(Global.instance.currentEntity);
-            }
+            
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (GameRound.instance.currentPlayer.selectedUnit == null)
@@ -224,7 +224,7 @@ namespace BattlescapeLogic
                     }
                 }
 
-                if (Input.GetMouseButtonDown(0) && isInputBlocked == false)
+                if (Input.GetMouseButtonDown(0) && isLocked == false)
                 {
                     Global.instance.currentEntity.OnLeftClick(hoveredObject, hitInfo.point);
                 }
@@ -267,13 +267,13 @@ namespace BattlescapeLogic
 
         public void LockInput()
         {
-            _isInputBlocked = true;
+            _isLocked = true;
             ResetCursor();
         }
 
         public void UnlockInput()
         {
-            _isInputBlocked = false;
+            _isLocked = false;
             ResetCursor();
         }
     }

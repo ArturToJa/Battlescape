@@ -109,7 +109,6 @@ namespace BattlescapeLogic
         [SerializeField] Sound onEventSound;
 
         [SerializeField] GameObject selfVisualEffect;
-        [SerializeField] protected Color targetColouringColour;
 
 
         public static event Action OnAbilityClicked = delegate { };
@@ -180,6 +179,7 @@ namespace BattlescapeLogic
             OnAbilityClicked();
         }
 
+        public abstract Color GetColourForTargets();
         public abstract void ColourPossibleTargets();
 
         public abstract void OnMouseHovered();
@@ -196,7 +196,7 @@ namespace BattlescapeLogic
             return filter.FilterTarget(target) && IsLegalTarget(target);            
         }
 
-        protected virtual void Activate()
+        protected virtual void Activate(IMouseTargetable target)
         {
             //perhaps should also be an event?
             BattlescapeGraphics.ColouringTool.UncolourAllObjects();
@@ -213,7 +213,7 @@ namespace BattlescapeLogic
             LogConsole.instance.SpawnLog(GetLogMessage());
             Animate();
             DoVisualEffectFor(selfVisualEffect, owner.gameObject);
-            BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onStartSound);
+            SoundManager.instance.PlaySound(owner.gameObject, onStartSound);
             PlayerInput.instance.LockInput();
         }
 
@@ -269,6 +269,12 @@ namespace BattlescapeLogic
        virtual protected string GetLogMessage()
         {
             return owner.name + " uses " + abilityName + "!";
+        }
+
+        public void Deselect()
+        {
+            //cancel ability and reselect owner -> exactly the same effect as canceling/rightclicking
+            OnFinish();
         }
     }
 }

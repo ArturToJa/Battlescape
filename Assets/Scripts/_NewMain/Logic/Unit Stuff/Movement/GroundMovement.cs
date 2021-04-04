@@ -25,6 +25,7 @@ namespace BattlescapeLogic
                     Unit neighbourUnit = neighbour.GetMyObject<Unit>();
                     if (neighbourUnit != null && myUnit.IsEnemyOf(neighbourUnit))
                     {
+                        Debug.Log("Enemy spotted: " + neighbourUnit.transform.position);
                         Damage damage = DamageCalculator.CalculateBasicAttackDamage(neighbour.GetMyObject<Unit>().attack, myUnit, DamageCalculator.damageMultiplierForBackstabs);
                         neighbourUnit.attack.Backstab(myUnit, damage);
                         health -= damage;

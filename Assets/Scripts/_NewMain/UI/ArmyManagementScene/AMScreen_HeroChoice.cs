@@ -53,10 +53,7 @@ namespace BattlescapeUI
         void SetToChosenHero()
         {
             Hero hero = UnitCreator.FindUnitPrefabByName(Global.instance.armySavingManager.currentSave.heroPrefabPath).GetComponent<Hero>();
-            OnHeroChoice(hero.avatarTransparent);
-            UnitStatShower.UpdateUnitInfo(hero);
-            pedestal.ShowUnit(hero.gameObject);
-
+            OnHeroChoice(hero.avatarTransparent);            
         }
 
         private static bool IsClassAlreadyChosen()

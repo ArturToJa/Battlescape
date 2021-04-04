@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4564999239192482}
-  - component: {fileID: 114971407996023856}
+  - component: {fileID: 6471786364331834166}
   m_Layer: 0
-  m_Name: DefensiveStanceLogic
+  m_Name: DefensiveStance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114971407996023856
+--- !u!114 &6471786364331834166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,24 +40,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1234158636466810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2dd906c5e37c44488ca913290a9e849, type: 3}
+  m_Script: {fileID: 11500000, guid: 56c01de9de36a72449a535c798234812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
   _isHidden: 0
   _buffName: Defensive Stance
-  _description: This unit cannot attack or move, but has +1 defense bonus and an
-    additional retaliation
+  _description: This unit lost all attacks and movement this turn; it gained +5 defense
+    for each movement point saved. All attacks transfer to retaliations.
   _image: {fileID: 21300000, guid: a4b36001bb2a9e242be36b09f2a0f4f1, type: 3}
   _isStackable: 0
   visualEffectPrefab: {fileID: 1402965160264764, guid: 7429ce74c29a12c4295ea768e998a6d0,
     type: 3}
   statistics:
     _bonusAttack: 0
-    _bonusDefence: 1
+    _bonusDefence: 0
     _bonusHealth: 0
     _bonusMovementPoints: 0
     _bonusAttackRange: 0
-    _bonusNumberOfAttacks: -99
-    _bonusNumberOfRetaliations: 1
+    _bonusNumberOfAttacks: 0
+    _bonusNumberOfRetaliations: 0
     _bonusEnergyRegen: 0
+  defensePerMovePointLeft: 5

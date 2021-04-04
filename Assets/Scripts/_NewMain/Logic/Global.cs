@@ -22,7 +22,7 @@ namespace BattlescapeLogic
             {
                 _instance = value;
             }
-        }       
+        }
         [SerializeField] BattlescapeGraphics.Skybox skybox;
         [SerializeField] ArmySavingManager _armySavingManager;
         public ArmySavingManager armySavingManager
@@ -66,7 +66,7 @@ namespace BattlescapeLogic
                 return _emblems;
             }
         }
-        [SerializeField] BattlescapeGraphics.Colours _colours;        
+        [SerializeField] BattlescapeGraphics.Colours _colours;
 
         public BattlescapeGraphics.Colours colours
         {
@@ -77,8 +77,7 @@ namespace BattlescapeLogic
         }
 
         void Awake()
-        {
-            
+        {            
             if (instance == null)
             {
                 instance = this;
@@ -100,8 +99,10 @@ namespace BattlescapeLogic
             matchType = MatchTypes.None;
             playerCount = 2;
             SceneManager.sceneLoaded += OnSceneLoaded;
-	        GameRound.instance.Setup();
+            GameRound.instance.Setup();
         }
+
+        
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -119,7 +120,7 @@ namespace BattlescapeLogic
         }
 
 
-      
+
         public PlayerBuilder GetCurrentPlayerBuilder()
         {
             return playerBuilders[0];
@@ -150,6 +151,22 @@ namespace BattlescapeLogic
                 }
             }
             return returnList;
+        }
+
+        public List<Obstacle> GetAllObstacles()
+        {
+            List<Obstacle> obstacles = new List<Obstacle>();
+            foreach (Tile tile in currentMap.board)
+            {
+                Obstacle obstacle = tile.GetMyObject<Obstacle>();
+
+                if (obstacle != null)
+                {
+                    obstacles.Add(obstacle);
+                }
+            }
+            return obstacles;
+
         }
 
         public List<DestructibleObstacle> GetAllDestructibles()
@@ -217,10 +234,10 @@ namespace BattlescapeLogic
             foreach (Map map in maps)
             {
                 if (map.mapName == mapName)
-                {                    
+                {
                     currentMap = map;
                     currentMap.OnSetup();
-                    
+
                 }
             }
         }

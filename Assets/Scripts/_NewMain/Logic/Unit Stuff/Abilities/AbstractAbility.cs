@@ -8,6 +8,7 @@ namespace BattlescapeLogic
     public class AbilityFilter
     {
         AbstractAbility thisAbility;
+        [Header("Unit filters")]
         [SerializeField] private bool ally;
         [SerializeField] private bool enemy;
         [SerializeField] private bool selfPlayer;
@@ -19,6 +20,11 @@ namespace BattlescapeLogic
         [SerializeField] private bool melee;
         [SerializeField] private bool ground;
         [SerializeField] private bool flying;
+        [Header("TileFilters")]
+        [SerializeField] private bool empty;
+        [SerializeField] private bool withUnit;
+        [SerializeField] private bool withObstacle;
+        [SerializeField] private bool withDestructible;
 
         public void SetAbility(AbstractAbility ability)
         {
@@ -30,13 +36,18 @@ namespace BattlescapeLogic
             Unit unit = target as Unit;
             Tile tile = target as Tile;
             DestructibleObstacle dest = target as DestructibleObstacle;
-            if(unit != null)
+            if (unit != null)
             {
                 Player player = unit.GetMyOwner();
                 PlayerTeam team = player.team;
                 return FilterTeam(team) && FilterPlayer(player) && FilterUnit(unit);
             }
-            return false;
+            //TODO: filters for tiles and obstacles? like self etc?
+            if (tile != null)
+            {
+                return FilterTile(tile);
+            }
+            return true;
         }
         public bool FilterTeam(PlayerTeam team)
         {
@@ -108,7 +119,33 @@ namespace BattlescapeLogic
         {
             return flying && unit.movementType == MovementTypes.Flying;
         }
-    };
+
+        public bool FilterTile(Tile tile)
+        {
+            return FilterEmpty(tile) && FilterWithUnit(tile) && FilterWithObstacle(tile) && FilterWithDestructible(tile);
+        }
+
+        bool FilterEmpty(Tile tile)
+        {
+            return empty == tile.IsWalkable();
+        }
+
+        bool FilterWithUnit(Tile tile)
+        {
+            return withUnit == (tile.GetMyObject<Unit>() != null);
+        }
+
+        bool FilterWithObstacle(Tile tile)
+        {
+            return withObstacle == (tile.GetMyObject<Obstacle>() != null);
+        }
+
+        bool FilterWithDestructible(Tile tile)
+        {
+            return withDestructible == (tile.GetMyObject<DestructibleObstacle>() != null);
+        }
+
+    }
 
     public abstract class AbstractAbility : MonoBehaviour
     {
@@ -140,7 +177,7 @@ namespace BattlescapeLogic
                 _abilityName = value;
             }
         }
-
+        [Multiline]
         [SerializeField] string _description;
         public string description
         {
@@ -191,21 +228,20 @@ namespace BattlescapeLogic
             return;
         }
 
-        protected void ApplyBuffToUnit(GameObject buff, Unit target)
+        protected void ApplyBuffToUnit(AbstractBuff buffPrefab, Unit target)
         {
-            var buffObject = Instantiate(buff, target.transform);
-            var buffObjectBuffs = buffObject.GetComponents<AbstractBuff>();
+            AbstractBuff newBuff = Instantiate(buffPrefab, target.transform);
+            AbstractBuff[] buffObjectBuffs = newBuff.GetComponents<AbstractBuff>();
             if (buffObjectBuffs.Length != 1)
             {
-                Debug.LogError("Wrong count of buffs on buff object: " + buffObject.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
+                Debug.LogError("Wrong count of buffs on buff object: " + newBuff.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
             }
-            AbstractBuff newBuff = buffObjectBuffs[0];
             newBuff.ApplyOnTarget(target, this);
         }
 
-        protected void ApplyBuffsToUnit(List<GameObject> buffs, Unit target)
+        protected void ApplyBuffsToUnit(List<AbstractBuff> buffs, Unit target)
         {
-            foreach (GameObject buffPrefab in buffs)
+            foreach (AbstractBuff buffPrefab in buffs)
             {
                 ApplyBuffToUnit(buffPrefab, target);
             }

@@ -14,7 +14,7 @@ namespace BattlescapeLogic
             {
                 if (CheckTarget(tile))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(tile, Color.green);
+                    BattlescapeGraphics.ColouringTool.ColourObject(tile, GetColourForTargets());
                 }
             }
         }
@@ -24,13 +24,23 @@ namespace BattlescapeLogic
             if (IsLegalTarget(clickedObject))
             {
                 target = clickedObject as Tile;
-                Activate();
+                Activate(clickedObject);
             }
         }
 
         protected override bool IsLegalTarget(IMouseTargetable target)
         {
-            return base.IsLegalTarget(target) && target as Tile != null;
+            if (target is Tile == false)
+            {
+                return false;
+            }
+            var targetTile = target as Tile;
+            return this.owner.currentPosition.DistanceTo(targetTile) <= range;
+        }
+
+        public override Color GetColourForTargets()
+        {
+            return Global.instance.colours.blue;
         }
     }
 }

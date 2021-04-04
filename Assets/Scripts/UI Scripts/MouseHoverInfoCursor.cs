@@ -7,14 +7,25 @@ using BattlescapeLogic;
 
 public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject tooltip { get; private set; }
+    GameObject _tooltip;
+    public GameObject tooltip
+    {
+        get
+        {
+            if (_tooltip == null)
+            {
+                _tooltip = GameObject.FindGameObjectWithTag("Tooltip");                
+            }
+            return _tooltip;
+        }
+    }
     public string tooltipName;
     public string tooltipText;
     MouseHoverInfoCursor hoveredIcon;
 
     private void Awake()
     {
-        tooltip = GameObject.FindGameObjectWithTag("Tooltip");
+
         tooltip.GetComponent<CanvasGroup>().alpha = 0f;
         tooltip.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
@@ -41,7 +52,7 @@ public class MouseHoverInfoCursor : MonoBehaviour, IPointerEnterHandler, IPointe
 
 
     public void OnPointerEnter(PointerEventData eventData)
-    {       
+    {
         hoveredIcon = this;
     }
 

@@ -14,5 +14,7 @@ namespace BattlescapeLogic
         void OnLeftClick(IMouseTargetable target, Vector3 exactClickPoint);
         void OnRightClick(IMouseTargetable target);
         void OnCursorOver(IMouseTargetable target, Vector3 exactMousePosition);
+
+        void Deselect();
     }
 }

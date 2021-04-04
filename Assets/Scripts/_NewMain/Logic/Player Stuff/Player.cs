@@ -10,7 +10,7 @@ namespace BattlescapeLogic
     public enum PlayerColour { Green, Red }
 
     public enum Race { Human, Elves, Neutral }
-    
+
 
     public class Player : IActiveEntity
     {
@@ -43,7 +43,7 @@ namespace BattlescapeLogic
             }
             private set
             {
-                _playerScore = value;                
+                _playerScore = value;
             }
         }
         public bool isObserver { get; private set; }
@@ -174,13 +174,13 @@ namespace BattlescapeLogic
                 return;
             }
             selectedUnit = unit;
-            unit.OnSelection();
+            unit.Select();
             Global.instance.currentEntity = unit;
         }
 
         public void DeselectUnit()
         {
-            selectedUnit.OnDeselection();
+            selectedUnit.Deselect();
             selectedUnit = null;
         }
 
@@ -250,6 +250,11 @@ namespace BattlescapeLogic
             }
         }
 
+        public void Deselect()
+        {
+            //absolutely nothing happens :)
+            return;
+        }
     }
 }
 

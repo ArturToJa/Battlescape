@@ -33,7 +33,7 @@ namespace BattlescapeLogic
 
         public abstract IEnumerator MoveTo(MultiTile destination);
 
-        protected void TurnTowards(Vector3 target)
+        public void TurnTowards(Vector3 target)
         {
             Vector3 vector3 = new Vector3(target.x, myUnit.visuals.transform.position.y, target.z);
             //the following line does it in, i believe, one frame. If not, then forget what i said in comments in this file :D 
@@ -54,7 +54,7 @@ namespace BattlescapeLogic
                 && GameRound.instance.currentPhase == TurnPhases.Movement
                 && myUnit.CanStillMove()
                 && Pathfinder.instance.IsLegalTileForUnit(destination, myUnit)
-                && PlayerInput.instance.isInputBlocked == false;
+                && PlayerInput.instance.isLocked == false;
         }
 
     }

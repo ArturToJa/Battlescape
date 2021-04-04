@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 114173816431765564}
   - component: {fileID: 114191808647025294}
   - component: {fileID: 54909076193140656}
+  - component: {fileID: 1796106133531503280}
   m_Layer: 8
   m_Name: Swordman
   m_TagString: Unit
@@ -74,17 +75,6 @@ MonoBehaviour:
     _attackSound:
       clip: {fileID: 8300000, guid: bd79fe5c75938a249b12df9bc3009e58, type: 3}
       volume: 0.3
-  statistics:
-    _cost: 2
-    _limit: 4
-    _baseAttack: 10
-    _baseDefence: 20
-    _baseMaxHealthPoints: 27
-    _baseMaxMovementPoints: 3
-    _baseAttackRange: 1
-    _minimalAttackRange: 0
-    _baseMaxNumberOfAttacks: 1
-    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:
@@ -124,6 +114,56 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1796106133531503280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361541935773806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4773c67696826ec4bb9b3137a6cbd579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 1
+    enemy: 0
+    selfPlayer: 1
+    otherPlayer: 0
+    canSelf: 1
+    hero: 0
+    regular: 1
+    ranged: 0
+    melee: 1
+    ground: 1
+    flying: 0
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
+  _abilityName: Defensive Stance
+  _description: Lose all movement and attacks this turn. Get +5 defense for each
+    saved movement point. All unused attacks are transfered into retaliations.
+  _icon: {fileID: 21300000, guid: a4b36001bb2a9e242be36b09f2a0f4f1, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 1
+  _range: 0
+  _energyCost: 50
+  _usesPerBattle: 0
+  _animationTrigger: Ability1
+  onStartSound:
+    clip: {fileID: 8300000, guid: ecbbef71d9786ad43be202bc59cb70d6, type: 3}
+    volume: 0.3
+  onEventSound:
+    clip: {fileID: 0}
+    volume: 0
+  selfVisualEffect: {fileID: 1003680110655624, guid: b606b25bf44ca9641920d818bad3f026,
+    type: 3}
+  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
+  buffPrefab: {fileID: 6471786364331834166, guid: 03c98184ca72d2949aff388fa2dc7e0b,
+    type: 3}
 --- !u!65 &4534952749216605733
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -135,8 +175,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.33, z: 2.27}
-  m_Center: {x: 0, y: 1.02, z: 0}
+  m_Size: {x: 1, y: 1.78, z: 1.02}
+  m_Center: {x: 0, y: 0.77, z: 0}
 --- !u!114 &1392533591363025690
 MonoBehaviour:
   m_ObjectHideFlags: 0
