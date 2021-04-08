@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    public class Barricade : AbstractActiveTileTargetAbility
+    public class Barricade : AbstractActiveMultiTileTargetAbility
     {
         [SerializeField] DestructibleObstacle obstaclePrefab;
         
 
         public override void DoAbility()
         {
-            DestructibleObstacle newObstacle = Instantiate(obstaclePrefab, target.transform.position, target.transform.rotation, target.transform);
-            MultiTile position = MultiTile.Create(target, newObstacle.currentPosition.size);
-            newObstacle.OnSpawn(position);
+            DestructibleObstacle newObstacle = Instantiate(obstaclePrefab, target.bottomLeftCorner.transform.position, target.bottomLeftCorner.transform.rotation, target.bottomLeftCorner.transform);
+            newObstacle.OnSpawn(target);
         }
 
         protected override string GetLogMessage()

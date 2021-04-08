@@ -45,10 +45,11 @@ public class UIStatsValues : MonoBehaviour
     public void AdjustTextValuesFor(Unit unit)
     {
         myUnit = unit;
-        SetValuesAndColours(unit.statistics.bonusAttack, unit.statistics.baseAttack, attackText);
+        SetValuesAndColoursForCombatDependent(unit, unit.statistics.bonusAttack, unit.statistics.baseAttack, unit.statistics.GetCurrentMeleeAttack(), attackText);
         SetValuesAndColours(unit.statistics.bonusDefence, unit.statistics.baseDefence, defenceText);
         SetValuesAndColours(unit.statistics.bonusMaxMovementPoints, unit.statistics.baseMaxMovementPoints, movementText);
-        SetValuesAndColours(unit.statistics.bonusAttackRange, unit.statistics.baseAttackRange, shootingRangeText);
+        SetValuesAndColoursForCombatDependent(unit, unit.statistics.attackRange.bonusAttackRange, unit.statistics.attackRange.baseAttackRange, unit.statistics.attackRange.GetCurrentAttackRangeInCombat(), shootingRangeText);
+        
         healthText.text = unit.statistics.healthPoints.ToString();                
         if (unit.statistics.cost > 0)
         {
@@ -58,6 +59,35 @@ public class UIStatsValues : MonoBehaviour
         else
         {
             valueText.transform.parent.parent.gameObject.SetActive(false);
+        }
+    }
+
+    void SetValuesAndColoursForCombatDependent(Unit unit, int bonusRange, int baseRange, int melee, Text t)
+    {
+        if (unit.IsInCombat())
+        {
+            SetValuesAndColoursForMelee(melee, bonusRange, baseRange, t);
+        }
+        else
+        {
+            SetValuesAndColours(bonusRange, baseRange, t);
+        }
+    }
+
+    void SetValuesAndColoursForMelee(int melee, int bonusRange, int baseRange, Text t)
+    {
+        int range = bonusRange + baseRange;
+        if (melee < range)
+        {
+            t.text = "<color=red>" + melee + "</color> <size=15> (" + range + ")</size>";
+        }
+        if (melee > range)
+        {
+            t.text = "<color=red>" + melee + "</color> <size=15> (" + range + ")</size>";
+        }
+        if (melee == range)
+        {
+            SetValuesAndColours(bonusRange, baseRange, t);
         }
     }
 

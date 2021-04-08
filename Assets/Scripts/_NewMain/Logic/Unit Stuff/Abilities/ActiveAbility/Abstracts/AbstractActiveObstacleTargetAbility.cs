@@ -15,7 +15,7 @@ namespace BattlescapeLogic
             {
                 if (IsLegalTarget(obstacle))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(obstacle, GetColourForTargets());
+                    BattlescapeGraphics.ColouringTool.ColourObject(obstacle.currentPosition, GetColourForTargets());
                 }
             }
         }

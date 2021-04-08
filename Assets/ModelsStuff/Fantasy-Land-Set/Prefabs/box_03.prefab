@@ -113,7 +113,7 @@ MonoBehaviour:
       _width: 1
       _height: 1
   _type: 7
-  _isTall: 1
+  _isTall: 0
   obstacleName: Box
   _maxHealthPoints: 250
 --- !u!1 &1551357381436334

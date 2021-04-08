@@ -20,6 +20,8 @@ namespace BattlescapeLogic
         public IDamageSource source;
 
         public static event Action OnInvulnerableTargetHit = delegate { };
+        public static event Action<Damage, IDamageable> OnDamageDealt = delegate { };
+        //NOTE: this may be a miss too!!!!
 
         public int GetTotalDamage()
         {
@@ -55,19 +57,16 @@ namespace BattlescapeLogic
             {
                 target.OnMissReceived(this);                
             }
+            OnDamageDealt(this, target);
         }
 
         void ApplyDamageModifiers(IDamageable target)
-        {
-            if (source.GetMyDamageModifiers() == null)
-            {
-                return;
-            }
-            foreach (AbstractAttackModifier modifier in source.GetMyDamageModifiers())
+        {           
+            foreach (AbstractAttackModifier modifier in source.GetMyOwner().modifiers)
             {
                 modifier.ModifyDamage(this);
             }
-            foreach (AbstractAttackModifier modifier in source.GetMyDamageModifiers())
+            foreach (AbstractAttackModifier modifier in source.GetMyOwner().modifiers)
             {
                 modifier.ModifyAttack(target, this);
             }

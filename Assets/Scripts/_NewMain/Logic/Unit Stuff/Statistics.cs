@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace BattlescapeLogic
 {
-    [System.Serializable]
     public class Statistics
     {
         public const int baseDamage = 100;
@@ -20,6 +19,11 @@ namespace BattlescapeLogic
         public int baseAttack => _baseAttack;
         
         public int bonusAttack { get; set; }
+
+        int _baseMeleeProficiency;
+        public int baseMeleeProficiency => _baseMeleeProficiency;
+
+        public int bonusMeleeProficiency { get; set; }
 
         int _baseDefence;
         public int baseDefence => _baseDefence;        
@@ -36,16 +40,7 @@ namespace BattlescapeLogic
         int _baseMaxMovementPoints;
         public int baseMaxMovementPoints => _baseMaxMovementPoints;        
         public int bonusMaxMovementPoints { get; set; }
-        public int movementPoints { get; set; }
-
-        int _baseAttackRange;
-        public int baseAttackRange => _baseAttackRange;
-        
-        public int bonusAttackRange { get; set; }
-
-        int _minimalAttackRange;
-        public int minimalAttackRange => _minimalAttackRange;
-       
+        public int movementPoints { get; set; }              
 
         int _baseMaxNumberOfAttacks;
         public int baseMaxNumberOfAttacks => _baseMaxNumberOfAttacks;        
@@ -61,23 +56,26 @@ namespace BattlescapeLogic
 
         public int numberOfRetaliations { get; set; }  
         
-        public Energy energy { get; set; }
+        public Energy energy { get; private set; }
 
-        public Statistics(CSVData _data, string _name)
+        public AttackRange attackRange { get; set; }
+
+        public Statistics(CSVData _data, string _myUnitName)
         {
-            string[] data = _data.GetRightRow(_name);
+            string[] data = _data.GetRightRow(_myUnitName);
             Dictionary<string, int> names = _data.names;
             
             int.TryParse(data[names["Attack"]], out _baseAttack);
             int.TryParse(data[names["Defence"]], out _baseDefence);
             int.TryParse(data[names["HP"]], out _baseMaxHealthPoints);
             int.TryParse(data[names["MS"]], out _baseMaxMovementPoints);
-            int.TryParse(data[names["Max Range"]], out _baseAttackRange);
-            int.TryParse(data[names["Min Range"]], out _minimalAttackRange);
             int.TryParse(data[names["Attacks/Turn"]], out _baseMaxNumberOfAttacks);
             int.TryParse(data[names["Retaliations/Turn"]], out _baseMaxNumberOfRetaliations);
             int.TryParse(data[names["Cost"]], out _cost);
             int.TryParse(data[names["Limitation"]], out _limit);
+            int.TryParse(data[names["Melee Proficiency"]], out _baseMeleeProficiency);
+            energy = new Energy();
+            attackRange = new AttackRange(_data, _myUnitName);
         }
 
         public void NullMaxNumberOfAttacks()
@@ -95,18 +93,25 @@ namespace BattlescapeLogic
             _baseAttack = 0;
         }
 
-        public int GetCurrentAttack()
+        public int GetCurrentRangeAttack()
         {
             return baseAttack + bonusAttack;
+        }
+
+        public int GetCurrentMeleeAttack()
+        {
+            return Mathf.RoundToInt((baseAttack + bonusAttack) * GetCurrentMeleeProficiency() / 100);
+        }
+
+        public int GetCurrentMeleeProficiency()
+        {
+            return baseMeleeProficiency + bonusMeleeProficiency;
         }
         public int GetCurrentDefence()
         {
             return baseDefence + bonusDefence;
         }
-        public int GetCurrentAttackRange()
-        {
-            return baseAttackRange + bonusAttackRange;
-        }
+        
         public int GetCurrentMaxMovementPoints()
         {
             return baseMaxMovementPoints + bonusMaxMovementPoints;
@@ -129,10 +134,14 @@ namespace BattlescapeLogic
 
         public void ApplyBonusStatistics(ChangeableStatistics bonusStatistics)
         {
+            //FIrst set bonusStatistics to bigger values (depending on percentages) - NOTE it means that if bonusStatistics have BOTH flat and percent values, flats dont get percenteged.
+            bonusStatistics.SetPercentages(this);
             // statistics increases in non-dumb way - we don't want to increase base statistics, only bonus ones
             bonusAttack += bonusStatistics.bonusAttack;
+            bonusMeleeProficiency += bonusStatistics.bonusMeleeProficiency;
             bonusDefence += bonusStatistics.bonusDefence;
-            bonusAttackRange += bonusStatistics.bonusAttackRange;
+            attackRange.bonusAttackRange += bonusStatistics.bonusAttackRange;
+            attackRange.bonusCombatAttackRange += bonusStatistics.bonusCombatAttackRange;
             bonusMaxHealthPoints += bonusStatistics.bonusHealth;
             healthPoints += bonusStatistics.bonusHealth;
             bonusMaxMovementPoints += bonusStatistics.bonusMovementPoints;
@@ -147,8 +156,10 @@ namespace BattlescapeLogic
         public void RemoveBonusStatistics(ChangeableStatistics bonusStatistics)
         {           
             bonusAttack -= bonusStatistics.bonusAttack;
+            bonusMeleeProficiency -= bonusStatistics.bonusMeleeProficiency;
             bonusDefence -= bonusStatistics.bonusDefence;
-            bonusAttackRange -= bonusStatistics.bonusAttackRange;
+            attackRange.bonusAttackRange -= bonusStatistics.bonusAttackRange;
+            attackRange.bonusCombatAttackRange -= bonusStatistics.bonusCombatAttackRange;
             bonusMaxHealthPoints -= bonusStatistics.bonusHealth;
             if (healthPoints > GetCurrentMaxHealtPoints())
             {

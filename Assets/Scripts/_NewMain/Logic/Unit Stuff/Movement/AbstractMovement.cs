@@ -8,7 +8,8 @@ namespace BattlescapeLogic
     {
         Ground = 0,
         Flying = 1,
-        None = 2
+        None = 2,
+        Teleport = 3
     }
     public abstract class AbstractMovement
     {

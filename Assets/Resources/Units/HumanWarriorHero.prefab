@@ -132,17 +132,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _filter:
-    ally: 0
+    ally: 1
     enemy: 0
-    selfPlayer: 0
+    selfPlayer: 1
     otherPlayer: 0
-    canSelf: 0
-    hero: 0
-    regular: 0
-    ranged: 0
-    melee: 0
-    ground: 0
-    flying: 0
+    canSelf: 1
+    hero: 1
+    regular: 1
+    ranged: 1
+    melee: 1
+    ground: 1
+    flying: 1
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
   _abilityName: Living Wall
   _description: Warrior becomes a living wall and is invulnerable to any damage for
     one turn.
@@ -162,7 +166,6 @@ MonoBehaviour:
     volume: 0.2
   selfVisualEffect: {fileID: 1842412442849700, guid: 8f2182074b3b25541bd376b9a4cd6296,
     type: 3}
-  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
   buffPrefab: {fileID: -5028821940653012937, guid: 295125b89eb077240ac070ced1491ad1,
     type: 3}
 --- !u!1 &2422463172657474150

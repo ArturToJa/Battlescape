@@ -106,5 +106,10 @@ namespace BattlescapeLogic
         {
             Debug.LogWarning("If invulnerable obstacles are a thing now, please remove this warning. Else, this is a bug!");
         }
+
+        public bool IsAlive()
+        {
+            return currentHealthPoints > 0;
+        }
     }
 }

@@ -29854,15 +29854,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winScreen: {fileID: 318377649}
   scoreText: {fileID: 1024041796}
-  winSound:
-    clip: {fileID: 8300000, guid: f4d7e6f7a9a5dc94cae95f025ffc81e1, type: 3}
-    volume: 0.3
-  drawSound:
-    clip: {fileID: 8300000, guid: f5df88227c97c1a40b82c54b711f4f86, type: 3}
-    volume: 0.3
-  loseSound:
-    clip: {fileID: 8300000, guid: f5df88227c97c1a40b82c54b711f4f86, type: 3}
-    volume: 0.3
 --- !u!1 &1624485190
 GameObject:
   m_ObjectHideFlags: 0
@@ -33525,7 +33516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipName: Attack Range
-  tooltipText: Describes the range of this unit's attack in tiles.
+  tooltipText: Describes the current range of this unit's attack in tiles. Note -
+    it may depend on whether the unit is in combat!)
 --- !u!1 &1864058986
 GameObject:
   m_ObjectHideFlags: 0

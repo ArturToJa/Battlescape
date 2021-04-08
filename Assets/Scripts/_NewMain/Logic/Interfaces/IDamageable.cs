@@ -23,5 +23,6 @@ namespace BattlescapeLogic
         void OnHitReceived(Damage damage);
         void OnMissReceived(Damage damage);
         void OnHitReceivedWhenInvulnerable(Damage damage);
+        bool IsAlive();
     }
 }

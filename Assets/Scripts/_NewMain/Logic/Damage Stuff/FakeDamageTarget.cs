@@ -73,5 +73,10 @@ namespace BattlescapeLogic
         {
             throw new System.NotImplementedException();
         }
+
+        public bool IsAlive()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

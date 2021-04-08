@@ -124,6 +124,7 @@ namespace BattlescapeLogic
                 BattlescapeSound.SoundManager.instance.PlaySound(owner.gameObject, onEventSound);
                 DoAbility();
                 OnFinish();
+                DoVisualEffectFor(selfVisualEffect, owner.gameObject);
             }
         }
 
@@ -188,6 +189,11 @@ namespace BattlescapeLogic
         protected virtual bool IsLegalTarget(IMouseTargetable _target)
         {
             IOnTilePlaceable target = _target as IOnTilePlaceable;
+            return IsInRange(target);
+        }
+
+        protected bool IsInRange(IOnTilePlaceable target)
+        {
             return this.owner.currentPosition.DistanceTo(target.currentPosition) <= range;
         }
 
@@ -211,8 +217,7 @@ namespace BattlescapeLogic
             }
             roundsTillOffCooldown = cooldown;
             LogConsole.instance.SpawnLog(GetLogMessage());
-            Animate();
-            DoVisualEffectFor(selfVisualEffect, owner.gameObject);
+            Animate();            
             SoundManager.instance.PlaySound(owner.gameObject, onStartSound);
             PlayerInput.instance.LockInput();
         }

@@ -228,7 +228,7 @@ namespace BattlescapeLogic
             return;
         }
 
-        protected void ApplyBuffToUnit(AbstractBuff buffPrefab, Unit target)
+        protected AbstractBuff ApplyBuffToUnit(AbstractBuff buffPrefab, Unit target)
         {
             AbstractBuff newBuff = Instantiate(buffPrefab, target.transform);
             AbstractBuff[] buffObjectBuffs = newBuff.GetComponents<AbstractBuff>();
@@ -237,6 +237,7 @@ namespace BattlescapeLogic
                 Debug.LogError("Wrong count of buffs on buff object: " + newBuff.name + ". Number should be 1, is: " + buffObjectBuffs.Length);
             }
             newBuff.ApplyOnTarget(target, this);
+            return newBuff;
         }
 
         protected void ApplyBuffsToUnit(List<AbstractBuff> buffs, Unit target)

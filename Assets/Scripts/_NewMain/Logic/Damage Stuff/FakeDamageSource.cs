@@ -2,7 +2,7 @@
 {
     public class FakeDamageSource : IDamageSource
     {
-        int attack;
+        public int attack { get; }
         public FakeDamageSource(int _attack)
         {
             attack = _attack;
@@ -13,19 +13,9 @@
             return true;
         }
 
-        public int GetAttackValue()
-        {
-            return attack;
-        }
-
-        public ModifierGroup GetMyDamageModifiers()
+        public Unit GetMyOwner()
         {
             return null;
-        }
-
-        public string GetOwnerName()
-        {
-            return "God Himself";
         }
 
         public PotentialDamage GetPotentialDamageAgainst(IDamageable target)

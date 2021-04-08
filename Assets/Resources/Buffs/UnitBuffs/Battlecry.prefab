@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3290089370329061677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3295767943003133173}
+  - component: {fileID: 8267641375944283191}
+  m_Layer: 0
+  m_Name: Battlecry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3295767943003133173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290089370329061677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8267641375944283191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3290089370329061677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05ded20b315ab342a63319855fb859f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
+  _isHidden: 0
+  _buffName: Battlecry
+  _description: This unit's attack is increased by 10 and its movement speed is increased
+    by 1. As long as it has this effect and the unit that gave this effect deals
+    damage to an enemy, it gains +20% attack.
+  _image: {fileID: 21300000, guid: dd64a08536e46de459a5d09682a0dde6, type: 3}
+  _isStackable: 1
+  visualEffectPrefab: {fileID: 1402965160264764, guid: 5ae4851a44dba27448bbe23da2903629,
+    type: 3}
+  statistics:
+    _bonusAttack: 10
+    _bonusAttackPercent: 0
+    _bonusMeleeProficiency: 0
+    _bonusMeleeProficiencyPercent: 0
+    _bonusDefence: 0
+    _bonusDefencePercent: 0
+    _bonusHealth: 0
+    _bonusHealthPercent: 0
+    _bonusMovementPoints: 1
+    _bonusMovementPointsPercent: 0
+    _bonusAttackRange: 0
+    _bonusAttackRangePercent: 0
+    _bonusCombatAttackRange: 0
+    _bonusCombatAttackRangePercent: 0
+    _bonusNumberOfAttacks: 0
+    _bonusNumberOfAttacksPercent: 0
+    _bonusNumberOfRetaliations: 0
+    _bonusNumberOfRetaliationsPercent: 0
+    _bonusEnergyRegen: 0
+    _bonusEnergyRegenPercent: 0
+  onHitVisual: {fileID: 1154528282961834, guid: ae567adfdb2e637409c9f547312cbd01,
+    type: 3}
+  onHitStats:
+    _bonusAttack: 0
+    _bonusAttackPercent: 20
+    _bonusMeleeProficiency: 0
+    _bonusMeleeProficiencyPercent: 0
+    _bonusDefence: 0
+    _bonusDefencePercent: 0
+    _bonusHealth: 0
+    _bonusHealthPercent: 0
+    _bonusMovementPoints: 0
+    _bonusMovementPointsPercent: 0
+    _bonusAttackRange: 0
+    _bonusAttackRangePercent: 0
+    _bonusCombatAttackRange: 0
+    _bonusCombatAttackRangePercent: 0
+    _bonusNumberOfAttacks: 0
+    _bonusNumberOfAttacksPercent: 0
+    _bonusNumberOfRetaliations: 0
+    _bonusNumberOfRetaliationsPercent: 0
+    _bonusEnergyRegen: 0
+    _bonusEnergyRegenPercent: 0

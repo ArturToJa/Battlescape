@@ -19,6 +19,8 @@ namespace BattlescapeLogic
         [SerializeField] Texture2D waitingCursor;
         [SerializeField] Texture2D shootingCursor;
         [SerializeField] Texture2D clickingShootingCursor;
+        [SerializeField] Texture2D rangeAttackImpossibleCursor;
+        [SerializeField] Texture2D clickingRangeAttackImpossibleCursor;
         [SerializeField] Texture2D attackCursor;
         [SerializeField] Texture2D clickingAttackCursor;
         [SerializeField] Texture2D walkingCursor;
@@ -124,6 +126,11 @@ namespace BattlescapeLogic
                 SetCursorTo(shootingCursor, clickingShootingCursor);
                 return;
             }
+        }
+
+        public void OnRangeAttackImpossible()
+        {
+            SetCursorTo(rangeAttackImpossibleCursor, clickingRangeAttackImpossibleCursor);
         }
 
         public void ShowInfoCursor()

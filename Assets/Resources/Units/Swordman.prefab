@@ -132,12 +132,12 @@ MonoBehaviour:
     selfPlayer: 1
     otherPlayer: 0
     canSelf: 1
-    hero: 0
+    hero: 1
     regular: 1
-    ranged: 0
+    ranged: 1
     melee: 1
     ground: 1
-    flying: 0
+    flying: 1
     empty: 0
     withUnit: 0
     withObstacle: 0
@@ -161,7 +161,6 @@ MonoBehaviour:
     volume: 0
   selfVisualEffect: {fileID: 1003680110655624, guid: b606b25bf44ca9641920d818bad3f026,
     type: 3}
-  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
   buffPrefab: {fileID: 6471786364331834166, guid: 03c98184ca72d2949aff388fa2dc7e0b,
     type: 3}
 --- !u!65 &4534952749216605733

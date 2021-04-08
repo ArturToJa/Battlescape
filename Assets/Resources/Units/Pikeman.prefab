@@ -162,7 +162,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 2cd5464f4b3849d4f999bc90dee854c9, type: 3}
     volume: 0.2
   selfVisualEffect: {fileID: 0}
-  targetColouringColour: {r: 0, g: 0, b: 0, a: 0}
+  targetSize:
+    _width: 0
+    _height: 0
   obstaclePrefab: {fileID: 114773264265178760, guid: 44a3891117063ed4f9cd26cfb3445a77,
     type: 3}
 --- !u!1 &1985089682246546
@@ -768,7 +770,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 635180035812f964db1d9529cbb170f2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 635180035812f964db1d9529cbb170f2, type: 3}
 --- !u!4 &4996519545997095906 stripped
 Transform:

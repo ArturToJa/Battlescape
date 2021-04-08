@@ -7,12 +7,10 @@ namespace BattlescapeLogic
     public class BackstabAttack : AbstractAttack
     {
         AbstractAttack normalAttackType;
-        Damage damage;
 
-        public BackstabAttack(AbstractAttack _normalAttackType, Damage _damage, Unit _myUnit) : base(_myUnit)
+        public BackstabAttack(AbstractAttack _normalAttackType, Unit _myUnit) : base(_myUnit)
         {
             sourceUnit = _myUnit;
-            damage = _damage;
             normalAttackType = _normalAttackType;
 
             _myUnit.equipment.EquipMainMeleeWeapon();           
@@ -27,6 +25,7 @@ namespace BattlescapeLogic
         {
             if (sourceUnit.GetMyOwner().type != PlayerType.Network)
             {
+                Damage damage = DamageCalculator.CalculateBasicAttackDamage(sourceUnit.attack, targetObject, DamageCalculator.damageMultiplierForBackstabs);
                 Networking.instance.SendCommandToHit(targetObject, damage);
                 sourceUnit.attack = normalAttackType;                
             }
@@ -36,7 +35,7 @@ namespace BattlescapeLogic
         {
             sourceUnit.animator.SetTrigger("Attack");
         }
-        public override void Backstab(IDamageable target, Damage damage)
+        public override void Backstab(IDamageable target)
         {
             base.BasicAttack(target);
             TurnTowardsTarget();

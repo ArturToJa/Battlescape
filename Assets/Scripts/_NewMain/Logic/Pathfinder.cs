@@ -92,7 +92,7 @@ namespace BattlescapeLogic
             while (tileStack.Count > 0)
             {
                 path.Enqueue(tileStack.Pop());
-            }
+            }            
             return path;
         }
 

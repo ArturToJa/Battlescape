@@ -28,10 +28,6 @@ namespace BattlescapeLogic
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.shootSound);
         }
 
-        void FakeShoot()
-        {
-            SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.shootSound);
-        }
         void Step()
         {            
             SoundManager.instance.PlaySound(myUnit.gameObject, myUnit.unitSounds.movementSound);
@@ -49,25 +45,34 @@ namespace BattlescapeLogic
 
         void Ability1()
         {
-            foreach (AbstractActiveAbility ability in myUnit.abilities)
+            foreach (AbstractAbility ability in myUnit.abilities)
             {
-                ability.OnAnimationEvent();
+                if (ability is AbstractActiveAbility)
+                {
+                    (ability as AbstractActiveAbility).OnAnimationEvent();
+                }
             }
         }
 
         void Ability2()
         {
-            foreach (AbstractActiveAbility ability in myUnit.abilities)
+            foreach (AbstractAbility ability in myUnit.abilities)
             {
-                ability.OnAnimationEvent();
+                if (ability is AbstractActiveAbility)
+                {
+                    (ability as AbstractActiveAbility).OnAnimationEvent();
+                }
             }
         }
 
         void Ability3()
         {
-            foreach (AbstractActiveAbility ability in myUnit.abilities)
+            foreach (AbstractAbility ability in myUnit.abilities)
             {
-                ability.OnAnimationEvent();
+                if (ability is AbstractActiveAbility)
+                {
+                    (ability as AbstractActiveAbility).OnAnimationEvent();
+                }
             }
         }
 

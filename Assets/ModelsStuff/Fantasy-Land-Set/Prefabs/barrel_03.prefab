@@ -113,7 +113,7 @@ MonoBehaviour:
       _width: 1
       _height: 1
   _type: 8
-  _isTall: 1
+  _isTall: 0
   obstacleName: Barell
   _maxHealthPoints: 150
 --- !u!1 &1327370250127446

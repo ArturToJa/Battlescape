@@ -22,7 +22,11 @@ public class UnitStatShower : MonoBehaviour
 
     void UpdateInfo(Unit currUnit)
     {
-        attackSpot.text = currUnit.statistics.GetCurrentAttack().ToString();
+        attackSpot.text = currUnit.statistics.GetCurrentRangeAttack().ToString();
+        if (currUnit.statistics.GetCurrentMeleeProficiency() != 100)
+        {
+            attackSpot.text += " (" + currUnit.statistics.GetCurrentMeleeAttack() + ")";
+        }
         defenceSpot.text = currUnit.statistics.GetCurrentDefence().ToString();
         healthSpot.text = currUnit.statistics.GetCurrentMaxHealtPoints().ToString();
         moveSpeedSpot.text = currUnit.statistics.GetCurrentMaxMovementPoints().ToString();

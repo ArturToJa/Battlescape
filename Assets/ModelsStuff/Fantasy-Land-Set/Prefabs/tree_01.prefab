@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
   - component: {fileID: 2300000}
-  - component: {fileID: 64476423875013732}
   - component: {fileID: 114900323315493586}
+  - component: {fileID: 1349251503194920325}
   m_Layer: 0
   m_Name: tree_01
   m_TagString: BigObstacle
@@ -82,20 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &64476423875013732
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 7c17a1c1fe2e23143a8ba7cef87e5528, type: 3}
 --- !u!114 &114900323315493586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +100,20 @@ MonoBehaviour:
       _height: 2
   _type: 5
   _isTall: 1
+--- !u!64 &1349251503194920325
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 7c17a1c1fe2e23143a8ba7cef87e5528, type: 3}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

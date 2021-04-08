@@ -185,29 +185,28 @@ namespace BattlescapeLogic
             Global.instance.currentMap.mapVisuals.GenerateObjects(s);
         }
 
-        public void SendCommandToDestroyObstacle(IDamageSource source, Obstacle myObstacle)
+        public void SendCommandToDestroyObstacle(Obstacle myObstacle)
         {
-            //if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
-            //{
-            //    photonView.RPC(
-            //        "RPCDestroyObstacle",
-            //        RpcTarget.All,
-            //        sourceUnit.currentPosition.bottomLeftCorner.position.x,
-            //        sourceUnit.currentPosition.bottomLeftCorner.position.z,
-            //        myObstacle.currentPosition.bottomLeftCorner.position.x,
-            //        myObstacle.currentPosition.bottomLeftCorner.position.z);
-            //}
-            /*else */if (Global.instance.matchType != MatchTypes.Online)
+            if (Global.instance.matchType == MatchTypes.Online && PhotonNetwork.IsMasterClient)
             {
-                myObstacle.Destruct(source);
+                photonView.RPC(
+                    "RPCDestroyObstacle",
+                    RpcTarget.All,
+                    myObstacle.currentPosition.bottomLeftCorner.position.x,
+                    myObstacle.currentPosition.bottomLeftCorner.position.z);
+            }
+            /*else */
+            if (Global.instance.matchType != MatchTypes.Online)
+            {
+                IDamageSource temp = new FakeDamageSource(69);
+                myObstacle.Destruct(temp);
             }
         }
 
         [PunRPC]
-        void RPCDestroyObstacle(int sourceX, int sourceZ, int obstacleX, int obstacleZ)
+        void RPCDestroyObstacle(int obstacleX, int obstacleZ)
         {
             Obstacle obstacle = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Obstacle>();
-            Unit unit = Global.instance.currentMap.board[obstacleX, obstacleZ].GetMyObject<Unit>();
             IDamageSource temp = new FakeDamageSource(69);
             obstacle.Destruct(temp);
         }

@@ -70,7 +70,7 @@ Animator:
   m_GameObject: {fileID: 1054375403961002}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 26b0b465439dcd84cb4971737ab4b8ca, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0c873053921cc7f498ba13af4ef08864, type: 2}
+  m_Controller: {fileID: 9100000, guid: f4268038f34232849aa6b81d1d729286, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 114296547583537134}
   - component: {fileID: 114189816127802122}
   - component: {fileID: 54238942802960912}
+  - component: {fileID: 7717722884522153814}
   m_Layer: 8
   m_Name: HumanKnightHero
   m_TagString: Unit
@@ -292,17 +293,6 @@ MonoBehaviour:
     _attackSound:
       clip: {fileID: 8300000, guid: 0a74767384c921e42ac395eebce2f717, type: 3}
       volume: 0.3
-  statistics:
-    _cost: 0
-    _limit: 0
-    _baseAttack: 50
-    _baseDefence: 40
-    _baseMaxHealthPoints: 55
-    _baseMaxMovementPoints: 8
-    _baseAttackRange: 1
-    _minimalAttackRange: 0
-    _baseMaxNumberOfAttacks: 1
-    _baseMaxNumberOfRetaliations: 1
   _attackRotation: 0
   _equipment:
     primaryWeapon:
@@ -345,6 +335,57 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7717722884522153814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1361541935773806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0950b3f0a6b400b43a247a404183a9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 1
+    enemy: 0
+    selfPlayer: 1
+    otherPlayer: 1
+    canSelf: 0
+    hero: 1
+    regular: 1
+    ranged: 1
+    melee: 1
+    ground: 1
+    flying: 1
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
+  _abilityName: Battlecry
+  _description: This unit shouts at his allies in range of 2 tiles, increasing their
+    attack by 10 and their movement speed by 1 for next 2 rounds. In that time, if
+    this unit deals damage to an enemy, all those affected by this ability gain +20%
+    attack.
+  _icon: {fileID: 21300000, guid: dd64a08536e46de459a5d09682a0dde6, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 4
+  _range: 2
+  _energyCost: 40
+  _usesPerBattle: 0
+  _animationTrigger: Ability1
+  onStartSound:
+    clip: {fileID: 0}
+    volume: 0
+  onEventSound:
+    clip: {fileID: 8300000, guid: 979e44cea3496a940805b3705df2fa15, type: 3}
+    volume: 0.3
+  selfVisualEffect: {fileID: 1154528282961834, guid: 3345b01861beeb3479cf26034b67d19a,
+    type: 3}
+  buffPrefab: {fileID: 8267641375944283191, guid: 4f891e1527d24b749b06ab50e36b2f9b,
+    type: 3}
 --- !u!1 &1514580165367264
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +724,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519455540950399326}
-  m_LocalRotation: {x: 0.61767566, y: 0.71388996, z: 0.060704783, w: -0.32427275}
+  m_LocalRotation: {x: 0.6176757, y: 0.71389, z: 0.060704786, w: -0.32427278}
   m_LocalPosition: {x: -0.10147072, y: 0, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -1458,7 +1499,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1469657075493884999}
-  m_LocalRotation: {x: 0.069073506, y: 0.006086862, z: -0.12597784, w: 0.9896067}
+  m_LocalRotation: {x: 0.06907351, y: 0.006086862, z: -0.12597786, w: 0.9896067}
   m_LocalPosition: {x: -0.24324624, y: -0.000000072669984, z: 0}
   m_LocalScale: {x: 0.9999999, y: 1, z: 0.99999994}
   m_Children:
@@ -2710,7 +2751,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3236911429487623608}
-  m_LocalRotation: {x: 0.61767566, y: 0.71388996, z: -0.060704812, w: 0.32427278}
+  m_LocalRotation: {x: 0.6176757, y: 0.71388996, z: -0.060704816, w: 0.32427278}
   m_LocalPosition: {x: -0.10147072, y: -0.00000009689331, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

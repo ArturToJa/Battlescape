@@ -74,8 +74,11 @@ namespace BattlescapeSound
                 _logSound = value;
             }
         }
+        [SerializeField] Sound winSound;
+        [SerializeField] Sound drawSound;
+        [SerializeField] Sound loseSound;
 
-        
+
 
         //its here cause too hard to add it where it should be (no MBs there).
         Dictionary<GameObject, AudioSource> objectsPlayingSounds;
@@ -114,6 +117,7 @@ namespace BattlescapeSound
             {
                 _instance = this;
                 DontDestroyOnLoad(this.gameObject);
+                GameScore.OnGameEnded += OnGameEnded;
             }
             else
             {
@@ -251,6 +255,33 @@ namespace BattlescapeSound
             }
 
             return source;
+        }
+
+        Sound GetCorrectEndgameSound(string result)
+        {            
+
+            switch (result)
+            {
+                case "draw":
+                    return drawSound;
+                case "win":
+                    return winSound;
+                case "loss":
+                    return loseSound;
+                default:
+                    Debug.LogError("no such option!");
+                    return null;
+            }
+        }
+
+        public void OnGameEnded(string result)
+        {
+            if (isAudioMute)
+            {
+                return;
+            }
+            instance.currentlyPlayedTheme.audioSources.Last.Value.Stop();
+            PlaySound(this.gameObject, GetCorrectEndgameSound(result));
         }
     }
 }

@@ -11867,13 +11867,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8368c376b4eb84a8a63ded5a5ba2a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  middleHotspotCursors: []
+  middleHotspotCursors:
+  - {fileID: 2800000, guid: 360946bac4c38f5439b8f0cb311d9a89, type: 3}
+  - {fileID: 2800000, guid: ce61b7829ea865e4ead666a4f0fef8e1, type: 3}
+  - {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
+  - {fileID: 2800000, guid: 823fbf05e9b877a409c037f3bde8a07c, type: 3}
+  - {fileID: 2800000, guid: 8ce3d9b676260944281b044008930b18, type: 3}
+  - {fileID: 2800000, guid: e3e10b2ca2bc99e4ba94b2a65d1ad0b9, type: 3}
+  - {fileID: 2800000, guid: 40181dcf51277a048ab475e4345495ae, type: 3}
+  - {fileID: 2800000, guid: e9c8f1dbae1f5ba47bb47f330808b8be, type: 3}
+  - {fileID: 2800000, guid: c39c5bbebe62c41489bad69cf81d57b8, type: 3}
+  - {fileID: 2800000, guid: c60a52b5eb25e6548879053b88768169, type: 3}
+  - {fileID: 2800000, guid: 8c79d18069333694b9d55d3f930ebf9b, type: 3}
+  - {fileID: 2800000, guid: 9e96a8acc41f9fc4693f281809ef7222, type: 3}
   defaultCursor: {fileID: 2800000, guid: c0a8d3df75dd6ef4097d3e7761e5ba0c, type: 3}
   clickingDefaultCursor: {fileID: 2800000, guid: b7e57c903086a5b40976fce8953dc509,
     type: 3}
   waitingCursor: {fileID: 2800000, guid: cfa421260ed548f47b1f5ac0a260a38d, type: 3}
   shootingCursor: {fileID: 2800000, guid: 3dbf1f571a2a5e44aae172fcdd9fb863, type: 3}
   clickingShootingCursor: {fileID: 2800000, guid: 206bc905e9ddaa74182b28e607313dac,
+    type: 3}
+  rangeAttackImpossibleCursor: {fileID: 2800000, guid: 84e7182505349764ea2c5913a53f0101,
+    type: 3}
+  clickingRangeAttackImpossibleCursor: {fileID: 2800000, guid: b18e4e3e0405ce743bf9de8f0124735f,
     type: 3}
   attackCursor: {fileID: 2800000, guid: 06999c45015f60445a68eacd280c4ccb, type: 3}
   clickingAttackCursor: {fileID: 2800000, guid: cda0d9c61377ede41b29982bd4394e9c,
@@ -21904,6 +21920,15 @@ MonoBehaviour:
   _logSound:
     clip: {fileID: 8300000, guid: b8861ea818bb742fba4e47f2a5a12667, type: 3}
     volume: 0.15
+  winSound:
+    clip: {fileID: 0}
+    volume: 0
+  drawSound:
+    clip: {fileID: 0}
+    volume: 0
+  loseSound:
+    clip: {fileID: 0}
+    volume: 0
   _lobbySound:
     clip: {fileID: 8300000, guid: fa3d79a0f413e4e3fb48ab3fa2805ad4, type: 3}
     volume: 0.15

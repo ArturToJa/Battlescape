@@ -8,15 +8,15 @@ using BattlescapeUI;
 namespace BattlescapeLogic
 {
     public class GameScore : MonoBehaviour
+
+        //SUCKS! REFACTOR THIS!
     {
         [SerializeField] EndGameScreen winScreen;
-        [SerializeField] Text scoreText;
-
-        [SerializeField] BattlescapeSound.Sound winSound;
-        [SerializeField] BattlescapeSound.Sound drawSound;
-        [SerializeField] BattlescapeSound.Sound loseSound;
+        [SerializeField] Text scoreText;        
 
         TurnChanger turnChanger;
+
+        public static event Action<string> OnGameEnded;
 
         void Awake()
         {
@@ -79,23 +79,6 @@ namespace BattlescapeLogic
             }
         }
 
-        BattlescapeSound.Sound GetCorrectEndgameSound()
-        {
-            string result = GetCorrectResult();
-            switch (result)
-            {
-                case "draw":
-                    return drawSound;
-                case "win":
-                    return winSound;
-                case "loss":
-                    return loseSound;
-                default:
-                    Debug.LogError("no such option!");
-                    return null;
-            }            
-        }
-
         void ShowCorrectWinScreenText()
         {
             string result = GetCorrectResult();
@@ -116,14 +99,14 @@ namespace BattlescapeLogic
             }
         }        
 
-        public void OnGameEnd()
+        public void GameEnd(string result)
         {
-            BattlescapeSound.SoundManager.instance.currentlyPlayedTheme.audioSources.Last.Value.Stop();
-            GameResult.instance.isOver = true;
             FindWinner();
+            OnGameEnded(result);            
+            GameResult.instance.isOver = true;
             StartCoroutine(ShowWinScreen());
             ShowCorrectWinScreenText();
-            BattlescapeSound.SoundManager.instance.PlaySound(this.gameObject, GetCorrectEndgameSound());
+            
 
         }
        
@@ -174,7 +157,7 @@ namespace BattlescapeLogic
             UpdateScoreText();
             if (Global.instance.GetStillPlayingTeamsCount() <= 1)
             {
-                OnGameEnd();
+                GameEnd(GetCorrectResult());
             }
 
         }
@@ -204,7 +187,7 @@ namespace BattlescapeLogic
         {
             if (GameRound.instance.gameRoundCount > GameRound.instance.maximumRounds)
             {
-                OnGameEnd();
+                GameEnd(GetCorrectResult());
             }
         }
 

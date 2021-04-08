@@ -119,10 +119,7 @@ namespace BattlescapeLogic
             if (target is Unit)
             {
                 var targetUnit = target as Unit;
-                if (targetUnit.IsAlive())
-                {
-                    EnemyTooltipHandler.instance.SetOnFor(targetUnit);
-                }
+                EnemyTooltipHandler.instance.SetOnFor(targetUnit);
             }
         }
 

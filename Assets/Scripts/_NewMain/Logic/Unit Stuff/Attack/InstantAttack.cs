@@ -35,10 +35,9 @@ namespace BattlescapeLogic
             }
         }
 
-        public override void Backstab(IDamageable target, Damage damage)
+        public override void Backstab(IDamageable target)
         {
-            sourceUnit.attack = new BackstabAttack(this, damage, sourceUnit);
-            sourceUnit.attack.Backstab(target,damage);
+
         }
     }
 }

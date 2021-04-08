@@ -136,35 +136,35 @@ namespace BattlescapeLogic
                     {
                         _closeNeighbours.Add(bottomLeftNeighbour);
                     }
-                    for (int i = 0; i < size.width; ++i)
+                    for (int i = 0; i <= size.width; ++i)
                     {
                         Tile toAdd = Tile.ToTile(bottomLeftCorner.Offset(-1, i));
-                        if (toAdd != null)
+                        if (toAdd != null && _closeNeighbours.Contains(toAdd) == false)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                         toAdd = Tile.ToTile(bottomLeftCorner.Offset(size.width, i));
-                        if (toAdd != null)
+                        if (toAdd != null && _closeNeighbours.Contains(toAdd) == false)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                     }
 
-                    for (int i = 0; i < size.height; ++i)
+                    for (int i = 0; i <= size.height; ++i)
                     {
                         Tile toAdd = Tile.ToTile(bottomLeftCorner.Offset(i, -1));
-                        if (toAdd != null)
+                        if (toAdd != null && _closeNeighbours.Contains(toAdd) == false)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                         toAdd = Tile.ToTile(bottomLeftCorner.Offset(i, size.height));
-                        if (toAdd != null)
+                        if (toAdd != null && _closeNeighbours.Contains(toAdd) == false)
                         {
                             _closeNeighbours.Add(toAdd);
                         }
                     }
                     Tile topRightNeighbour = Tile.ToTile(bottomLeftCorner.Offset(size.width, size.height));
-                    if (topRightNeighbour != null)
+                    if (topRightNeighbour != null && _closeNeighbours.Contains(topRightNeighbour) == false)
                     {
                         _closeNeighbours.Add(topRightNeighbour);
                     }

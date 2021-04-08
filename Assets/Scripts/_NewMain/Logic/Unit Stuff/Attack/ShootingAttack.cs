@@ -31,7 +31,7 @@ namespace BattlescapeLogic
         }
 
         //Note, this has a Tile as a target and not a Unit - the reason being we might have AOE Abilities targetting 'empty' tiles (or e.g. Obstacles).
-        public void SpawnMissile()
+        void SpawnMissile()
         {
             Missile missile = GameObject.Instantiate(sourceUnit.myMissile, sourceUnit.transform.position, sourceUnit.transform.rotation);
 
@@ -52,7 +52,7 @@ namespace BattlescapeLogic
             Networking.instance.SendCommandToHit(targetObject, DamageCalculator.CalculateBasicAttackDamage(this, targetObject));
         }
 
-        public override void Backstab(IDamageable target, Damage damage)
+        public override void Backstab(IDamageable target)
         {
             Debug.LogWarning("I should not be doing this ever! Change me to melee!");
         }

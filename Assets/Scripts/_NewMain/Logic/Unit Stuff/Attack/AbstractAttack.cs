@@ -23,6 +23,11 @@ namespace BattlescapeLogic
             sourceUnit = _myUnit;
         }
 
+        public Unit GetMyOwner()
+        {
+            return sourceUnit;
+        }
+
         public virtual void BasicAttack(IDamageable target)
         {
             sourceUnit.statistics.numberOfAttacks--;
@@ -34,7 +39,7 @@ namespace BattlescapeLogic
             }
         }
 
-        public abstract void Backstab(IDamageable target, Damage damage);
+        public abstract void Backstab(IDamageable target);
        
 
         protected abstract void PlayAttackAnimation();
@@ -51,13 +56,14 @@ namespace BattlescapeLogic
         {
             return
                 GameRound.instance.currentPhase == TurnPhases.Attack
-                && sourceUnit.GetMyOwner().IsCurrentLocalPlayer()
                 && sourceUnit.GetMyOwner() == GameRound.instance.currentPlayer
                 && sourceUnit.CanStillAttack()
                 && sourceUnit.IsInAttackRange(targetObject.currentPosition.DistanceTo(sourceUnit.currentPosition))
-                && sourceUnit.IsEnemyOf(targetObject);
-        }
+                && sourceUnit.IsEnemyOf(targetObject)
+                && sourceUnit.HasClearView(targetObject.GetMyPosition());
 
+        }
+        
         public PotentialDamage GetPotentialDamageAgainst(IDamageable target)
         {
             return DamageCalculator.GetPotentialDamage(Statistics.baseDamage, this, target);
@@ -65,27 +71,16 @@ namespace BattlescapeLogic
 
         public bool CanPotentiallyDamage(IDamageable target)
         {
+            if (target.IsAlive() == false)
+            {
+                return false;
+            }
             if (target is Unit && (target as Unit).IsEnemyOf(sourceUnit) == false) //no ally damage showing
             {
                 return false;
             }
             return sourceUnit.statistics.GetCurrentMaxNumberOfAttacks() > 0;
-        }                         
-
-        public int GetAttackValue()
-        {
-            return sourceUnit.statistics.GetCurrentAttack();
-        }
-
-        public string GetOwnerName()
-        {
-            return sourceUnit.info.unitName;
-        }
-
-        public ModifierGroup GetMyDamageModifiers()
-        {
-            return sourceUnit.modifiers;
-        }
+        }                                 
 
         public void OnKillUnit(Unit unit)
         {

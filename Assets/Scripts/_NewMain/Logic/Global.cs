@@ -46,7 +46,7 @@ namespace BattlescapeLogic
 
 
 
-        public AbstractMovement[] movementTypes = new AbstractMovement[3];
+        public AbstractMovement[] movementTypes = new AbstractMovement[4];
         public IActiveEntity currentEntity { get; set; }
         public int playerCount { get; set; }
 
@@ -90,6 +90,7 @@ namespace BattlescapeLogic
             }
             movementTypes[(int)MovementTypes.Ground] = new GroundMovement();
             movementTypes[(int)MovementTypes.Flying] = new FlyingMovement();
+            movementTypes[(int)MovementTypes.Teleport] = new TeleportationMovement();
             movementTypes[(int)MovementTypes.None] = null;
             playerTeams = new List<PlayerTeam>();
             PlayerTeam teamLeft = new PlayerTeam(0, 1);
@@ -221,10 +222,10 @@ namespace BattlescapeLogic
 
             foreach (var hit in hits)
             {
-                if (hit.transform.GetComponent<IMouseTargetable>() != null)
+                foreach (IMouseTargetable item in hit.transform.GetComponentsInChildren<IMouseTargetable>())
                 {
-                    list.Add(hit.transform.GetComponent<IMouseTargetable>());
-                }
+                    list.Add(item);
+                }                
             }
             return list;
         }

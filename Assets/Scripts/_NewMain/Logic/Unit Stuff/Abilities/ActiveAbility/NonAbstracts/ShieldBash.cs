@@ -9,23 +9,26 @@ namespace BattlescapeLogic
         [SerializeField] StateBuff buffPrefab;
         [SerializeField] int baseDamage;
 
-       
+        public Unit GetMyOwner()
+        {
+            return owner;
+        }
 
         public override void DoAbility()
         {
             ApplyBuffToUnit(buffPrefab, target);
             owner.statistics.numberOfAttacks--;
-            Damage damage = DamageCalculator.CalculateAbilityDamage(baseDamage,this,target);
+            Damage damage = DamageCalculator.CalculateAbilityDamage(baseDamage, this, target);
 
             Networking.instance.SendCommandToHit(target, damage);
-        }       
+        }
 
         public PotentialDamage GetPotentialDamageAgainst(IDamageable target)
         {
             if ((target is Unit) == false)
             {
                 Debug.LogError("Wrong target type!");
-                return new PotentialDamage(0,0,0);
+                return new PotentialDamage(0, 0, 0);
             }
             else
             {
@@ -40,23 +43,7 @@ namespace BattlescapeLogic
         {
             //perhaps could be done better but hey
             //perhaps the 'acts on units' will be a part of filter in the future? idk.
-            return filter.FilterTarget(target) && target is Unit;
-        }
-       
-        public int GetAttackValue()
-        {
-            return owner.statistics.GetCurrentAttack();
-        }
-
-        public string GetOwnerName()
-        {
-            return owner.info.unitName;
-        }
-
-        public ModifierGroup GetMyDamageModifiers()
-        {
-            //I don't know if they apply to Abilities or not?? I really don't know much about them, I will assume they DO NOT for now?
-            return owner.modifiers;
+            return filter.FilterTarget(target) && target is Unit && target.IsAlive();
         }
 
         public void OnKillUnit(Unit unit)

@@ -9,12 +9,9 @@ namespace BattlescapeLogic
         [SerializeField] int splashDamage;
 
         //I assume this only works on Units. If not, then the structure needs a change lol. It was kinda necessary to extract important data.
-        Unit target
+        public Unit GetMyOwner()
         {
-            get
-            {
-                return (buffGroup.owner as Unit);
-            }
+            return source.owner; 
         }
 
         public override void ApplyChange()
@@ -25,22 +22,7 @@ namespace BattlescapeLogic
         public bool CanPotentiallyDamage(IDamageable target)
         {
             return true;
-        }
-
-        public int GetAttackValue()
-        {
-            return target.statistics.GetCurrentAttack();
-        }
-
-        public ModifierGroup GetMyDamageModifiers()
-        {
-            return target.modifiers;
-        }
-
-        public string GetOwnerName()
-        {
-            return target.info.unitName;
-        }
+        }      
 
         public PotentialDamage GetPotentialDamageAgainst(IDamageable target)
         {
@@ -65,7 +47,7 @@ namespace BattlescapeLogic
 
         public void OnKillUnit(Unit unit)
         {
-            target.GetMyOwner().AddPoints(unit.statistics.cost);
+            GetMyOwner().GetMyOwner().AddPoints(unit.statistics.cost);
         }
 
         protected override bool IsAcceptableTargetType(IDamageable target)

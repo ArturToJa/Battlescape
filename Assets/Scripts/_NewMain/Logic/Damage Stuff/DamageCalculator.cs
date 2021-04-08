@@ -42,7 +42,11 @@ namespace BattlescapeLogic
 
         public static int GetStatisticsDifference(IDamageSource source, IDamageable target)
         {
-            return source.GetAttackValue() - target.GetCurrentDefence();
+            if (source is FakeDamageSource)
+            {
+                return (source as FakeDamageSource).attack - target.GetCurrentDefence(); //this all should be written better but its just a shitty testing thing cause i cant really test xD
+            }
+            return source.GetMyOwner().GetCurrentAttack() - target.GetCurrentDefence();
         }
 
         public static int GetAvarageDamage(int baseDamage, IDamageSource source, IDamageable target, float multiplier = 1)

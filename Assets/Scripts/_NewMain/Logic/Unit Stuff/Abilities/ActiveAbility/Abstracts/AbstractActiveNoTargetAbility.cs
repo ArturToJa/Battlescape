@@ -14,6 +14,7 @@ namespace BattlescapeLogic
 
         public override void OnMouseHovered()
         {
+            BattlescapeGraphics.ColouringTool.UncolourAllObjects();
             ColourPossibleTargets();
         }
         public override void OnMouseUnHovered()
@@ -27,7 +28,8 @@ namespace BattlescapeLogic
             {
                 if (CheckTarget(unit))
                 {
-                    BattlescapeGraphics.ColouringTool.ColourObject(unit, Color.green);
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit, GetColourForTargets());
+                    BattlescapeGraphics.ColouringTool.ColourObject(unit.currentPosition, GetColourForTargets());
                 }
             }
         }
@@ -40,7 +42,7 @@ namespace BattlescapeLogic
 
         public override Color GetColourForTargets()
         {
-            return Color.white; //will never be used
+            return Global.instance.colours.green;
         }
     }
 }

@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 114747540933320742}
   - component: {fileID: 54728536769794198}
   - component: {fileID: 114199587095040600}
+  - component: {fileID: 207343999270912488}
   m_Layer: 8
   m_Name: Catapult
   m_TagString: Unit
@@ -726,6 +727,54 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: edf6c05a19ae8fc45a96daec4c821a9b, type: 3}
   _placeableBuffs:
   - {fileID: 114496882667266650, guid: a7933eef4f766b24cad879989ef4aece, type: 3}
+--- !u!114 &207343999270912488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815397335590040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b6eb2b832165f41a45d4a993f6cda1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filter:
+    ally: 0
+    enemy: 0
+    selfPlayer: 0
+    otherPlayer: 0
+    canSelf: 0
+    hero: 0
+    regular: 0
+    ranged: 0
+    melee: 0
+    ground: 0
+    flying: 0
+    empty: 0
+    withUnit: 0
+    withObstacle: 0
+    withDestructible: 0
+  _abilityName: Destroy Obstacle
+  _description: The unit attacks any single-tile obstacle (including e.g. trees),
+    destroying it momentarily. It uses up an attack.
+  _icon: {fileID: 21300000, guid: 840969ad707513346b57f9bc7e38f187, type: 3}
+  legalPhases: 4
+  costsMovement: 0
+  _cooldown: 3
+  _range: 9
+  _energyCost: 30
+  _usesPerBattle: 0
+  _animationTrigger: Ability1
+  onStartSound:
+    clip: {fileID: 0}
+    volume: 0
+  onEventSound:
+    clip: {fileID: 8300000, guid: 9297b1de99f3a5e41b2ef5d6bf762f95, type: 3}
+    volume: 0
+  selfVisualEffect: {fileID: 0}
+  maxLegalWidth: 1
+  maxLegalHeight: 1
 --- !u!1 &1930731353717622
 GameObject:
   m_ObjectHideFlags: 0
